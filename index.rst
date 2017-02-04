@@ -1,10 +1,10 @@
 .. GHC Users Guide documentation master file, created by
 
 
-Welcome to the GHC Users Guide
+GHC Users Guideにようこそ
 ==============================
 
-Contents:
+目次:
 
 .. toctree::
    :maxdepth: 4
@@ -30,8 +30,8 @@ Contents:
    editing-guide
 
 
-Indices and tables
-==================
+索引
+====
 
 * :ref:`genindex`
 * :ref:`search`
