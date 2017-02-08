@@ -835,28 +835,60 @@
 -  :ghc-flag:`-Wmissing-exported-sigs` は非推奨になりました．
    :ghc-flag:`-Wmissing-exported-signatures` を使ってください．
 
+..
+   GHCi
+   ~~~~
+
 GHCi
 ~~~~
 
--  ``Main`` with an explicit module header but without ``main`` is now
-   an error (:ghc-ticket:`7765`).
+..
+   -  ``Main`` with an explicit module header but without ``main`` is now
+      an error (:ghc-ticket:`7765`).
 
--  The :ghci-cmd:`:back` and :ghci-cmd:`:forward` commands now take an optional count
-   allowing the user to move forward or backward in history several
-   steps at a time.
+-  ``Main`` モジュールを明示的に宣言しているのに ``main`` が含まれていないとエラーになります
+   (:ghc-ticket:`7765`)．
 
--  Added commands :ghci-cmd:`:load! <:load>` and :ghci-cmd:`:reload! <:reload>`,
-   effectively setting :ghc-flag:`-fdefer-type-errors` before loading a module and
-   unsetting it after loading if it has not been set before (:ghc-ticket:`8353`).
+..
+   -  The :ghci-cmd:`:back` and :ghci-cmd:`:forward` commands now take an optional count
+      allowing the user to move forward or backward in history several
+      steps at a time.
 
--  ``ghci -e`` now behaves like :ghc-flag:`ghc -e <-e>` (:ghc-ticket:`9360`).
+-  :ghci-cmd:`:back` コマンドおよび :ghci-cmd:`:forward` コマンドでは，
+   ユーザが履歴を一度に複数ステップ移動できるように引数でカウントを渡せるようになりました．
 
--  Added support for top-level function declarations (:ghc-ticket:`7253`).
+..
+   -  Added commands :ghci-cmd:`:load! <:load>` and :ghci-cmd:`:reload! <:reload>`,
+      effectively setting :ghc-flag:`-fdefer-type-errors` before loading a module and
+      unsetting it after loading if it has not been set before (:ghc-ticket:`8353`).
 
--  The new commands :ghci-cmd:`:all-types`, :ghci-cmd:`:loc-at`, :ghci-cmd:`:type-at`, and
-   :ghci-cmd:`:uses` designed for editor-integration
-   (such as Emacs' ``haskell-mode``) originally premiered by ``ghci-ng``
-   have been integrated into GHCi (:ghc-ticket:`10874`).
+-  :ghci-cmd:`:load! <:load>` コマンドと :ghci-cmd:`:reload! <:reload>` コマンドを
+   追加しました．
+   これを使うと，モジュールをロードする前に :ghc-flag:`-fdefer-type-errors` フラグが有効になります．
+   このフラグをもともと有効にしていなければ，モジュールのロードが済みしだい，無効に戻ります
+   (:ghc-ticket:`8353`)．
+
+..
+   -  ``ghci -e`` now behaves like :ghc-flag:`ghc -e <-e>` (:ghc-ticket:`9360`).
+
+-  ``ghci -e`` は :ghc-flag:`ghc -e <-e>` と同じ振舞いになりました(:ghc-ticket:`9360`)．
+
+..
+   -  Added support for top-level function declarations (:ghc-ticket:`7253`).
+
+-  トップレベルの関数定義ができるようになりました(:ghc-ticket:`7253`)．
+
+..
+   -  The new commands :ghci-cmd:`:all-types`, :ghci-cmd:`:loc-at`, :ghci-cmd:`:type-at`, and
+      :ghci-cmd:`:uses` designed for editor-integration
+      (such as Emacs' ``haskell-mode``) originally premiered by ``ghci-ng``
+      have been integrated into GHCi (:ghc-ticket:`10874`).
+
+-  新しく :ghci-cmd:`:all-types` コマンド， :ghci-cmd:`:loc-at` コマンド，
+   :ghci-cmd:`:type-at` コマンド， :ghci-cmd:`:uses` コマンドが追加になりました．
+   エディタ（Emacs の ``haskell-mode`` など)との統合を進めるためののもで，
+   もともと ``ghci-ng`` としてデビューしたものが GHCi に統合されました
+   (:ghc-ticket:`10874`)．
 
 Template Haskell
 ~~~~~~~~~~~~~~~~
