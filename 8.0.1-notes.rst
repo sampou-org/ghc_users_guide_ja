@@ -942,7 +942,7 @@ Template Haskell
       pattern and expression counterparts.
 
 -  Template Haskell は，型の中で ``UInfixT`` を使って，型演算子の結合方向を解決できるようになりました．
-   同じような調子で ``UInfixP`` はパターン，``UInfixE`` は式と対応しています．
+   同じような調子で ``UInfixP`` はパターン， ``UInfixE`` は式と対応しています．
    ``ParensT`` および ``InfixT`` もパターンや式に対応する同様の機能として導入されました．
 
 ..
@@ -1053,7 +1053,7 @@ Template Haskell
    なるということです．
    この変更は意図的なものではなく，GHC にはカインドを型と分別するのは困難なので
    しかたなく，そうなっています．
-   この変更による影響は，カインド多層型の往復変換には :ghc-flag:`-XTypeInType` 拡張が
+   この変更による影響は，カインド多相型の往復変換には :ghc-flag:`-XTypeInType` 拡張が
    必要になったということです．
 
 ..
@@ -1192,87 +1192,188 @@ hsc2hs
       #let alignment t = "%lu", (unsigned long)offsetof(struct {char x__; t (y__); }, y__)
       #endif
 
-Libraries
----------
+..
+   Libraries
+   ---------
+
+ライブラリ
+----------
+
+..
+   array
+   ~~~~~
 
 array
 ~~~~~
 
--  Version number 0.5.1.1 (was 0.5.1.0)
+..
+   -  Version number 0.5.1.1 (was 0.5.1.0)
 
+-  バージョン 0.5.1.1 (従来 0.5.1.0)
 
 .. _lib-base:
+
+..
+   base
+   ~~~~
 
 base
 ~~~~
 
-See ``changelog.md`` in the ``base`` package for full release notes.
+..
+   See ``changelog.md`` in the ``base`` package for full release notes.
 
--  Version number 4.9.0.0 (was 4.8.2.0)
+完全なリリースノートは ``base`` パッケージになる ``changelog.md`` を参照してください．
 
--  :base-ref:`GHC.Stack <GHC-Stack.html>` exports two new types ``SrcLoc`` and ``CallStack``. A
-   ``SrcLoc`` contains package, module, and file names, as well as start
-   and end positions. A ``CallStack`` is essentially a ``[(String, SrcLoc)]``,
-   sorted by most-recent call.
+..
+   -  Version number 4.9.0.0 (was 4.8.2.0)
 
--  ``error`` and ``undefined`` will now report a partial stack-trace
-   using the new ``CallStack`` feature (and the :ghc-flag:`-prof` stack if
-   available).
+-  バージョン 4.9.0.0 (従来 4.8.2.0)
 
--  A new function, ``interruptible``, was added to ``GHC.IO`` allowing
-   an ``IO`` action to be run such that it can be interrupted by an
-   asynchronous exception, even if exceptions are masked (except if
-   masked with ``interruptibleMask``).
+..
+   -  :base-ref:`GHC.Stack <GHC-Stack.html>` exports two new types ``SrcLoc`` and ``CallStack``. A
+      ``SrcLoc`` contains package, module, and file names, as well as start
+      and end positions. A ``CallStack`` is essentially a ``[(String, SrcLoc)]``,
+      sorted by most-recent call.
 
-   This was introduced to fix the behavior of ``allowInterrupt``, which
-   would previously incorrectly allow exceptions in uninterruptible
-   regions (see :ghc-ticket:`9516`).
+-  :base-ref:`GHC.Stack <GHC-Stack.html>` モジュールがあらたに2つの型 ``SrcLoc`` と ``CallStack`` を
+   エクスポートするようになりました．
+   ``SrcLoc`` 開始点および終了点に加えて，パッケージ名，モジュール名，ファイル名が含まれています．
+   ``CallStack`` は本質的には ``[(String, SrcLoc)]`` と同じで，もっとも最近呼び出されたものが
+   先にくるようにソートしてあります．
 
--  Per-thread allocation counters (``setAllocationCounter`` and
-   ``getAllocationCounter``) and limits (``enableAllocationLimit``,
-   ``disableAllocationLimit`` are now available from ``System.Mem``. Previously
-   this functionality was only available from :base-ref:`GHC.Conc <GHC-Stack.html>`.
+..
+   -  ``error`` and ``undefined`` will now report a partial stack-trace
+      using the new ``CallStack`` feature (and the :ghc-flag:`-prof` stack if
+      available).
 
-- ``forever``, ``filterM``, ``mapAndUnzipM``, ``zipWithM``, ``zipWithM_``,
-  ``replicateM``, and ``replicateM`` were generalized from ``Monad`` to
-  ``Applicative``. If this causes performance regressions, try to make the
-  implementation of ``(*>)`` match that of ``(>>)`` (see :ghc-ticket:`10168`).
+-  ``error`` および ``undefined`` が，新しい ``CallStack`` 機能
+   (および有効であれば :ghc-flag:`-prof` スタック)を使って部分的なスタックトレースを
+   報告するようにしました．
 
-- Add ``URec``, ``UAddr``, ``UChar``, ``UDouble``, ``UFloat``, ``UInt``, and ``UWord`` to
-  :base-ref:`GHC.Generics <GHC-Generics.html>` as part of making GHC generics
-  capable of handling unlifted types (:ghc-ticket:`10868`)
+..
+   -  A new function, ``interruptible``, was added to ``GHC.IO`` allowing
+      an ``IO`` action to be run such that it can be interrupted by an
+      asynchronous exception, even if exceptions are masked (except if
+      masked with ``interruptibleMask``).
 
-- Expand ``Floating`` class to include operations that allow for better
-  precision: ``log1p``, ``expm1``, ``log1pexp`` and ``log1mexp``. These are not
-  available from ``Prelude``, but the full class is exported from ``Numeric``.
+      This was introduced to fix the behavior of ``allowInterrupt``, which
+      would previously incorrectly allow exceptions in uninterruptible
+      regions (see :ghc-ticket:`9516`).
 
-- Add ``Data.List.NonEmpty`` and ``Data.Semigroup`` (to become
-  super-class of ``Monoid`` in the future). These modules were
-  provided by the ``semigroups`` package previously. (:ghc-ticket:`10365`)
+-  あらたに ``interruptible`` 関数を ``GHC.IO`` に加えました．
+   この関数は ``IO`` アクションを非同期例外で割り込めるように走らせます．
+   例外がマスクされていても割り込めます．ただし ``interruptibleMask`` でマスクされていると
+   割り込めません．
 
-- Add ``GHC.TypeLits.TypeError`` and ``ErrorMessage`` to allow users
-  to define custom compile-time error messages. (see :ref:`custom-errors` and
-  the original :ghc-wiki:`proposal <Proposal/CustomTypeErrors>`).
+   この関数は ``allowInterrupt`` の振る舞いを修正するために導入したものです．
+   従来の ``allowInterrupt`` は割り込み不可範囲での不正な割り込みを許してしまっていました．
+   (:ghc-ticket:`9516` 参照)
 
-- The datatypes in ``GHC.Generics`` now have ``Enum``, ``Bounded``, ``Ix``,
-  ``Functor``, ``Applicative``, ``Monad``, ``MonadFix``, ``MonadPlus``, ``MonadZip``,
-  ``Foldable``, ``Foldable``, ``Traversable``, ``Generic1``, and ``Data`` instances
-  as appropriate. (:ghc-ticket:`9043`)
+..
+   -  Per-thread allocation counters (``setAllocationCounter`` and
+      ``getAllocationCounter``) and limits (``enableAllocationLimit``,
+      ``disableAllocationLimit`` are now available from ``System.Mem``. Previously
+      this functionality was only available from :base-ref:`GHC.Conc <GHC-Stack.html>`.
 
-- The ``Generic`` instance for ``Proxy`` is now poly-kinded (see :ghc-ticket:`10775`)
+-  スレッド毎のアロケーションカウンタ (``setAllocationCounter`` と
+   ``getAllocationCounter``) および上限 (``enableAllocationLimit`` ， 
+   ``disableAllocationLimit``) が ``System.Mem`` をインポートすれば使えるようになりました．
+   従来，この機能は :base-ref:`GHC.Conc <GHC-Stack.html>` をインポートしないと使えませんでした．
 
-- The ``IsString`` instance for ``[Char]`` has been modified to eliminate
-  ambiguity arising from overloaded strings and functions like ``(++)``.
+..
+   - ``forever``, ``filterM``, ``mapAndUnzipM``, ``zipWithM``, ``zipWithM_``,
+     ``replicateM``, and ``replicateM`` were generalized from ``Monad`` to
+     ``Applicative``. If this causes performance regressions, try to make the
+     implementation of ``(*>)`` match that of ``(>>)`` (see :ghc-ticket:`10168`).
 
-- Move ``Const`` from ``Control.Applicative`` to its own module in
-  ``Data.Functor.Const``. (see :ghc-ticket:`11135`)
+- ``forever``，``filterM``，``mapAndUnzipM``，``zipWithM``，``zipWithM_``，
+  ``replicateM`` および ``replicateM`` を ``Monad`` から ``Applicative`` へ一般化しました．
+  これらを使って性能が低下した場合は，``(>>)`` に対応する ``(*>)`` を実装してみてください
+  (:ghc-ticket:`10168` 参照)．
 
-- Enable ``PolyKinds`` in the ``Data.Functor.Const`` module to give ``Const``
-  the kind ``* -> k -> *`` (see :ghc-ticket:`10039`).
+..
+   - Add ``URec``, ``UAddr``, ``UChar``, ``UDouble``, ``UFloat``, ``UInt``, and ``UWord`` to
+     :base-ref:`GHC.Generics <GHC-Generics.html>` as part of making GHC generics
+     capable of handling unlifted types (:ghc-ticket:`10868`)
 
-- Add the ``TypeError`` datatype to ``Control.Exception``, which represents the
-  error that is thrown when an expression fails to typecheck when run using
-  :ghc-flag:`-fdefer-type-errors`. (see :ghc-ticket:`10284`)
+- ``URec``，``UAddr``，``UChar``，``UDouble``，``UFloat``，``UInt`` および ``UWord`` を
+  :base-ref:`GHC.Generics <GHC-Generics.html>` に追加しました．
+  GHC Generics で非リフト型を扱えるようにするための方策の一部です(:ghc-ticket:`10868`)．
+
+..
+   - Expand ``Floating`` class to include operations that allow for better
+     precision: ``log1p``, ``expm1``, ``log1pexp`` and ``log1mexp``. These are not
+     available from ``Prelude``, but the full class is exported from ``Numeric``.
+
+- ``Floating`` クラスを拡張して，より精度のよい，``log1p``，``expm1``，``log1pexp``，``log1mexp``
+  を使えるようにしました．
+  これらは ``Prelude`` をインポートしても使えません．``Numeric`` をインポートすれば
+  ``Floating`` クラスのすべての機能が使えます．
+
+..
+   - Add ``Data.List.NonEmpty`` and ``Data.Semigroup`` (to become
+     super-class of ``Monoid`` in the future). These modules were
+     provided by the ``semigroups`` package previously. (:ghc-ticket:`10365`)
+
+- ``Data.List.NonEmpty`` と ``Data.Semigroup`` (こちらは将来，
+  ``Monoid``のスーパークラスになる予定) を追加しました．
+  これらのモジュールは従来 ``semigroups`` パッケージで提供されていました(:ghc-ticket:`10365`)．
+
+..
+   - Add ``GHC.TypeLits.TypeError`` and ``ErrorMessage`` to allow users to define
+     custome compile-time error messages (see :ref:`custom-errors` and 
+     the original :ghc-wiki:`proposal <Proposal/CustomTypeErrors>`).
+
+- ``GHC.TypeLits.TypeError`` と ``ErrorMessage`` を追加しました．
+  これを使って独自のコンパイル時エラーメッセージを定義できます(:ref:`custom-errors` および
+  元の :ghc-wiki:`プロポーザル <Proposal/CustomTypeErrors>` を参照してください)．
+
+..
+   - The datatypes in ``GHC.Generics`` now have ``Enum``, ``Bounded``, ``Ix``,
+     ``Functor``, ``Applicative``, ``Monad``, ``MonadFix``, ``MonadPlus``, ``MonadZip``,
+     ``Foldable``, ``Foldable``, ``Traversable``, ``Generic1``, and ``Data`` instances
+     as appropriate. (:ghc-ticket:`9043`)
+
+- ``GHC.Generics`` 内のデータ型が正しく以下のクラスのインスタンスになるようにしました．
+  ``Enum``，``Bounded``，``Ix``，``Functor``，``Applicative``，``Monad``，``MonadFix``，
+  ``MonadPlus``，``MonadZip``，``Foldable``，``Foldable``，``Traversable``，``Generic1``，``Data``
+  (:ghc-ticket:`9043`)．
+
+..
+   - The ``Generic`` instance for ``Proxy`` is now poly-kinded (see :ghc-ticket:`10775`)
+
+- ``Proxy`` の ``Generic`` インスタンスはカインド多相になりました．(:ghc-ticket:`10775` 参照)
+
+..
+   - The ``IsString`` instance for ``[Char]`` has been modified to eliminate
+     ambiguity arising from overloaded strings and functions like ``(++)``.
+
+- ``[Char]`` の ``IsString`` インスタンスを変更して多重定義した文字列や ``(++)`` 関数
+  で曖昧性がでないようにしました．
+
+..
+   - Move ``Const`` from ``Control.Applicative`` to its own module in
+     ``Data.Functor.Const``. (see :ghc-ticket:`11135`)
+
+- ``Const`` を ``Control.Applicative`` から独自のモジュール ``Data.Functor.Const``
+  に移動しました(:ghc-ticket:`11135` 参照)．
+
+..
+   - Enable ``PolyKinds`` in the ``Data.Functor.Const`` module to give ``Const``
+     the kind ``* -> k -> *`` (see :ghc-ticket:`10039`).
+
+- ``Data.Functor.Const`` モジュール内では ``PolyKinds`` を有効にし，``Const`` の
+  カインドを ``* -> k -> *`` とできるようになりました(see :ghc-ticket:`10039`)．
+
+..
+   - Add the ``TypeError`` datatype to ``Control.Exception``, which represents the
+     error that is thrown when an expression fails to typecheck when run using
+     :ghc-flag:`-fdefer-type-errors`. (see :ghc-ticket:`10284`)
+
+- データ型 ``TypeError`` を ``Control.Exception`` に追加しました．
+  :ghc-flag:`-fdefer-type-errors` フラグで走っている場合，型検査に失敗したときに投げられます
+  (see :ghc-ticket:`10284`)．
 
 binary
 ~~~~~~
