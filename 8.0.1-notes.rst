@@ -1056,30 +1056,60 @@ Template Haskell
    この変更による影響は，カインド多層型の往復変換には :ghc-flag:`-XTypeInType` 拡張が
    必要になったということです．
 
-Runtime system
-~~~~~~~~~~~~~~
+..
+   Runtime system
+   ~~~~~~~~~~~~~~
 
-- We have a shiny new two-step memory allocator for 64-bit platforms (see
-  :ghc-ticket:`9706`). In addition to simplifying the runtime system's
-  implementation this may significantly improve garbage collector performance.
-  Note, however, that Haskell processes will have an apparent virtual memory
-  footprint of a terabyte or so. Don't worry though, most of this amount is merely
-  mapped but uncommitted address space which is not backed by physical memory.
+ランタイムシステム
+~~~~~~~~~~~~~~~~~~
 
-- Support for performance monitoring with PAPI has been dropped.
+..
+   - We have a shiny new two-step memory allocator for 64-bit platforms (see
+     :ghc-ticket:`9706`). In addition to simplifying the runtime system's
+     implementation this may significantly improve garbage collector performance.
+     Note, however, that Haskell processes will have an apparent virtual memory
+     footprint of a terabyte or so. Don't worry though, most of this amount is merely
+     mapped but uncommitted address space which is not backed by physical memory.
 
-- :rts-flag:`-maxN⟨x⟩ <-maxN>` flag added to complement :rts-flag:`-N`. It will
-  choose to use at most ⟨x⟩ capabilities, limited by the number of processors
-  as :rts-flag:`-N` is.
+- 64-bit プラットフォーム用にピカピカの2段階メモリアロケーションを備えました(:ghc-ticket:`9706` 参照)．
+  ランタイムシステムの実装を単純になったのに加えて，ガーベッジコレクタの性能が大幅に向上しました．
+  とはいうものの，Haskell のプロセスの仮想メモリのフットプリントが，
+  見掛け上テラバイト級になることもあります．
+  でも心配はいりません．
+  このような大きさでもほとんどの場合，単にマッピングがあるだけで，物理メモリの裏付けがないアドレス空間が
+  コミットされることはありません．
 
-- The runtime linker is no longer greedy and will load only the needed objects
-  from archives. This means particularly on Windows packages requiring e.g. C99
-  support will now function properly. As part of this the RTS on Windows
-  no longer re-exports deprecated POSIX functions under the undeprecated names
-  (see :ghc-ticket:`11223`).
+..
+   - Support for performance monitoring with PAPI has been dropped.
 
-- A number of subtle but serious issues in the runtime linker were resolved on
-  ARM (summarized in :ghc-ticket:`11206`).
+- PAPI を使ったパフォーマンス管理はサポートしなくなりました．
+
+..
+   - :rts-flag:`-maxN⟨x⟩ <-maxN>` flag added to complement :rts-flag:`-N`. It will
+     choose to use at most ⟨x⟩ capabilities, limited by the number of processors
+     as :rts-flag:`-N` is.
+
+- :rts-flag:`-N` を補うために :rts-flag:`-maxN⟨x⟩ <-maxN>` フラグを追加しました．
+  :rts-flag:`-N` を指定したときのプロセッサ数を高々 ⟨x⟩ に制限したいときに使ってください．
+
+..
+   - The runtime linker is no longer greedy and will load only the needed objects
+     from archives. This means particularly on Windows packages requiring e.g. C99
+     support will now function properly. As part of this the RTS on Windows
+     no longer re-exports deprecated POSIX functions under the undeprecated names
+     (see :ghc-ticket:`11223`).
+
+- ランタイムリンカは貪欲ではなくなり，アーカイブから必要なオブジェクトのみをロードするようになりました．
+  特に Windows で，たとえば C99 のサポートを要求するパッケージが正しく機能するようになりました．
+  その一環として Windows上の RTS は非推奨の POSIX 関数を非推奨になっていない名前で再エクスポート
+  するようなことはなくなりました(:ghc-ticket:`11223` 参照)．
+
+..
+   - A number of subtle but serious issues in the runtime linker were resolved on
+     ARM (summarized in :ghc-ticket:`11206`).
+
+- ARM 上のランタイムリンカの微妙ですが重大な問題を大量に解決しました
+  (要約が :ghc-ticket:`11206` にあります)．
 
 ..
    Build system
@@ -1112,26 +1142,51 @@ Runtime system
 hsc2hs
 ~~~~~~
 
-- :command:`hsc2hs` now supports the ``#alignment`` macro, which can be used to
-  calculate the alignment of a struct in bytes. Previously, ``#alignment``
-  had to be implemented manually via a ``#let`` directive, e.g., ::
+..
+   - :command:`hsc2hs` now supports the ``#alignment`` macro, which can be used to
+     calculate the alignment of a struct in bytes. Previously, ``#alignment``
+     had to be implemented manually via a ``#let`` directive, e.g., ::
+
+	 #let alignment t = "%lu", (unsigned long)offsetof(struct {char x__; t (y__); }, y__)
+
+     As a result, if you have the above directive in your code, it will now emit
+     a warning when compiled with GHC 8.0.
+
+     .. code-block:: none
+
+	 Module.hsc:24:0: warning: "hsc_alignment" redefined [enabled by default]
+	 In file included from dist/build/Module_hsc_make.c:1:0:
+	 /path/to/ghc/lib/template-hsc.h:88:0: note: this is the location of the previous definition
+	  #define hsc_alignment(t...) \
+	  ^
+
+     To make your code free of warnings on GHC 8.0 and still support earlier
+     versions, surround the directive with a pragma checking for the right GHC
+     version. ::
+
+	 #if __GLASGOW_HASKELL__ < 800
+	 #let alignment t = "%lu", (unsigned long)offsetof(struct {char x__; t (y__); }, y__)
+	 #endif
+
+- `hsc2hs` コマンドは ``#alignment`` マクロをサポートするようになりました．
+  このマクロを使ってバイト列中の構造のアライメントを計算できるようになりました．
+  従来 ``#alignment`` は ``#let`` ディレクティブを使って，
+  たとえば以下のように手で実装する必要がありました． ::
 
       #let alignment t = "%lu", (unsigned long)offsetof(struct {char x__; t (y__); }, y__)
 
-  As a result, if you have the above directive in your code, it will now emit
-  a warning when compiled with GHC 8.0.
+  いまは上のようなディレクティブがあるコードを GHC 8.0 でコンパイルすると以下のような警告がでます．
 
   .. code-block:: none
 
-      Module.hsc:24:0: warning: "hsc_alignment" redefined [enabled by default]
-      In file included from dist/build/Module_hsc_make.c:1:0:
-      /path/to/ghc/lib/template-hsc.h:88:0: note: this is the location of the previous definition
-       #define hsc_alignment(t...) \
-       ^
+   Module.hsc:24:0: warning: "hsc_alignment" redefined [enabled by default]
+   In file included from dist/build/Module_hsc_make.c:1:0:
+   /path/to/ghc/lib/template-hsc.h:88:0: note: this is the location of the previous definition
+    #define hsc_alignment(t...) \
+    ^
 
-  To make your code free of warnings on GHC 8.0 and still support earlier
-  versions, surround the directive with a pragma checking for the right GHC
-  version. ::
+  従来のバージョンではこの警告を出し，GHC 8.0 では出ないようにするには，
+  ディレクティブを GHC のバージョンをチェックするディレクティブで囲みます． ::
 
       #if __GLASGOW_HASKELL__ < 800
       #let alignment t = "%lu", (unsigned long)offsetof(struct {char x__; t (y__); }, y__)
