@@ -890,84 +890,171 @@ GHCi
    もともと ``ghci-ng`` としてデビューしたものが GHCi に統合されました
    (:ghc-ticket:`10874`)．
 
+..
+   Template Haskell
+   ~~~~~~~~~~~~~~~~
+
 Template Haskell
 ~~~~~~~~~~~~~~~~
 
--  The new :ghc-flag:`-XTemplateHaskellQuotes` flag allows to use the
-   quotes (not quasi-quotes) subset of ``TemplateHaskell``.  This is
-   particularly useful for use with a stage 1 compiler (i.e. GHC
-   without interpreter support). Also, :ghc-flag:`-XTemplateHaskellQuotes` is
-   considered safe under Safe Haskell.
+..
+   -  The new :ghc-flag:`-XTemplateHaskellQuotes` flag allows to use the
+      quotes (not quasi-quotes) subset of ``TemplateHaskell``.  This is
+      particularly useful for use with a stage 1 compiler (i.e. GHC
+      without interpreter support). Also, :ghc-flag:`-XTemplateHaskellQuotes` is
+      considered safe under Safe Haskell.
 
--  The ``__GLASGOW_HASKELL_TH__`` CPP constant denoting support for
-   :ghc-flag:`-XTemplateHaskell` introduced in GHC 7.10.1 has been changed to
-   use the values ``1``/``0`` instead of the previous ``YES``/``NO``
-   values.
+-  新しく :ghc-flag:`-XTemplateHaskellQuotes` フラグを追加し，
+   ``TemplateHaskell`` のクォート(準クォートではない)のサブセットが使えるようにしました．
+   ステージ１のコンパイラを使うとき(たとえばインタプリタをサポートしないGHCを使うとき)に便利です．
+   また :ghc-flag:`-XTemplateHaskellQuotes` は Safe Haskell でも安全だとみなせます．
 
--  Partial type signatures can now be used in splices, see
-   :ref:`pts-where`.
+..
+   -  The ``__GLASGOW_HASKELL_TH__`` CPP constant denoting support for
+      :ghc-flag:`-XTemplateHaskell` introduced in GHC 7.10.1 has been changed to
+      use the values ``1``/``0`` instead of the previous ``YES``/``NO``
+      values.
 
--  Template Haskell now fully supports typed holes and quoting unbound
-   variables.  This means it is now possible to use pattern splices nested
-   inside quotation brackets.
+-  GHC 7.10.1 で導入された :ghc-flag:`-XTemplateHaskell` のサポートあるかどうかを
+   示す CPP 定数 ``__GLASGOW_HASKELL_TH__`` の値は ``1``/``0`` に変更になりました．
+   従来は ``YES``/``NO`` でした．
 
--  Template Haskell now supports the use of ``UInfixT`` in types to
-   resolve infix operator fixities, in the same vein as ``UInfixP`` and
-   ``UInfixE`` in patterns and expressions. ``ParensT`` and ``InfixT``
-   have also been introduced, serving the same functions as their
-   pattern and expression counterparts.
+..
+   -  Partial type signatures can now be used in splices, see
+      :ref:`pts-where`.
 
-- Template Haskell has now explicit support for representing GADTs.  Until
-  now GADTs were encoded using ``NormalC``, ``RecC`` (record syntax) and
-  ``ForallC`` constructors.  Two new constructors - ``GadtC`` and ``RecGadtC`` -
-  are now supported during quoting, splicing and reification.
+-  部分型シグネチャがスプライスで使えるようになりました．
+   :ref:`pts-where` を参照してください．
 
--  Primitive chars (e.g., ``[| 'a'# |]``) and primitive strings (e.g.,
-   ``[| "abc"# |]``) can now be quoted with Template Haskell. The
-   ``Lit`` data type also has a new constructor, ``CharPrimL``, for
-   primitive char literals.
+..
+   -  Template Haskell now fully supports typed holes and quoting unbound
+      variables.  This means it is now possible to use pattern splices nested
+      inside quotation brackets.
 
--  ``addTopDecls`` now accepts annotation pragmas.
+-  Template Haskell は型付きホールと未束縛変数のクォートを完全にサポートするようになりました．
+   これにより，クォートブラケットの内部で，ネストしたパターンスプライスが使えるようになりました．
 
--  Internally, the implementation of quasi-quotes has been unified with
-   that of normal Template Haskell splices. Under the previous
-   implementation, top-level declaration quasi-quotes did not cause a
-   break in the declaration groups, unlike splices of the form
-   ``$(...)``. This behavior has been preserved under the new
-   implementation, and is now recognized and documented in
-   :ref:`th-syntax`.
+..
+   -  Template Haskell now supports the use of ``UInfixT`` in types to
+      resolve infix operator fixities, in the same vein as ``UInfixP`` and
+      ``UInfixE`` in patterns and expressions. ``ParensT`` and ``InfixT``
+      have also been introduced, serving the same functions as their
+      pattern and expression counterparts.
 
--  The ``Lift`` class is now derivable via the :ghc-flag:`-XDeriveLift` extension. See
-   :ref:`deriving-lift` for more information.
+-  Template Haskell は，型の中で ``UInfixT`` を使って，型演算子の結合方向を解決できるようになりました．
+   同じような調子で ``UInfixP`` はパターン，``UInfixE`` は式と対応しています．
+   ``ParensT`` および ``InfixT`` もパターンや式に対応する同様の機能として導入されました．
 
--  The ``FamilyD`` data constructor and ``FamFlavour`` data type have
-   been removed. Data families are now represented by ``DataFamilyD`` and
-   open type families are now represented by ``OpenTypeFamilyD`` instead
-   of ``FamilyD``. Common elements of ``OpenTypeFamilyD`` and
-   ``ClosedTypeFamilyD`` have been moved to ``TypeFamilyHead``.
+..
+   - Template Haskell has now explicit support for representing GADTs.  Until
+     now GADTs were encoded using ``NormalC``, ``RecC`` (record syntax) and
+     ``ForallC`` constructors.  Two new constructors - ``GadtC`` and ``RecGadtC`` -
+     are now supported during quoting, splicing and reification.
 
--  The representation of ``data``, ``newtype``, ``data instance``, and
-   ``newtype instance`` declarations has been changed to allow for
-   multi-parameter type classes in the ``deriving`` clause. In particular,
-   ``dataD`` and ``newtypeD`` now take a ``CxtQ`` instead of a ``[Name]``
-   for the list of derived classes.
+- Template Haskell がGADTを明示的にサポートするようにしました．
+  従来，GADT は ``NormalC`` と ``RecC`` (レコード構文) および
+  ``ForallC`` 構成子を使ってエンコードしていました．
+  クォート，スプライス，具体化中では，新しい構成子 ``GadtC`` と ``RecGadtC``
+  をサポートするようにしました．
 
--  ``isExtEnabled`` can now be used to determine whether a language extension
-   is enabled in the ``Q`` monad. Similarly, ``extsEnabled`` can be used to list
-   all enabled language extensions.
+..
+   -  Primitive chars (e.g., ``[| 'a'# |]``) and primitive strings (e.g.,
+      ``[| "abc"# |]``) can now be quoted with Template Haskell. The
+      ``Lit`` data type also has a new constructor, ``CharPrimL``, for
+      primitive char literals.
 
--  One can now reify the strictness information of a constructors' fields using
-   Template Haskell's ``reifyConStrictness`` function, which takes into account
-   whether flags such as :ghc-flag:`-XStrictData` or
-   :ghc-flag:`-funbox-strict-fields` are enabled.
+-  プリミティブ文字(たとえば ``[| 'a'# |]``)やプリミティブ文字列(たとえば，
+   ``[| "abc"# |]``) を Template Haskell でクォートできるようになりました．
+   ``Lit`` データ型もプリミティブ文字リテラル用にあらたに構成子 ``CharPrimL`` を備えるようになりました．
 
--  Previously, quoting a type signature like ``a -> a`` would produce the
-   abstract syntax for ``forall a. a -> a``. This behavior remains, but it
-   is extended to kinds, too, meaning that ``Proxy a -> Proxy a`` becomes
-   ``forall k (a :: k). Proxy a -> Proxy a``. This change is not intentional,
-   but is forced by the fact that GHC has a hard time telling kinds apart
-   from types. The effect of this change is that round-tripping kind-
-   polymorphic types will now require :ghc-flag:`-XTypeInType`.
+..
+   -  ``addTopDecls`` now accepts annotation pragmas.
+
+-  ``addTopDecls`` がアノテーションプラグマを受け入れるようにしました．
+
+..
+   -  Internally, the implementation of quasi-quotes has been unified with
+      that of normal Template Haskell splices. Under the previous
+      implementation, top-level declaration quasi-quotes did not cause a
+      break in the declaration groups, unlike splices of the form
+      ``$(...)``. This behavior has been preserved under the new
+      implementation, and is now recognized and documented in
+      :ref:`th-syntax`.
+
+-  準クォートの実装は内部的には通常の Template Haskell のスプライスに統合されました．
+   従来の実装では，トップレベル宣言の準クォートは，``$(...)``形式のスプライスとはちがって，
+   宣言グループを抜けることはありませんでした．
+   この振舞いは新しい実装でも維持してます．
+   これについては，:ref:`th-syntax` で説明してあります．
+
+..
+   -  The ``Lift`` class is now derivable via the :ghc-flag:`-XDeriveLift` extension. See
+      :ref:`deriving-lift` for more information.
+
+-  ``Lift`` クラスが :ghc-flag:`-XDeriveLift` 拡張により導出可能になりました．
+   詳しくは :ref:`deriving-lift` を参照してください．
+
+..
+   -  The ``FamilyD`` data constructor and ``FamFlavour`` data type have
+      been removed. Data families are now represented by ``DataFamilyD`` and
+      open type families are now represented by ``OpenTypeFamilyD`` instead
+      of ``FamilyD``. Common elements of ``OpenTypeFamilyD`` and
+      ``ClosedTypeFamilyD`` have been moved to ``TypeFamilyHead``.
+
+-  データ構成子 ``FamilyD`` と データ型 ``FamFlavour`` を廃止しました．
+   データ族は ``DataFamilyD`` で表現するようになりました．
+   またオープンな型族は ``OpenTypeFamilyD`` で表現し ``FamilyD`` では表現しなくなりました．
+   ``OpenTypeFamilyD`` と ``ClosedTypeFamilyD`` の共通の要素は ``TypeFamilyHead`` となりました．
+
+..
+   -  The representation of ``data``, ``newtype``, ``data instance``, and
+      ``newtype instance`` declarations has been changed to allow for
+      multi-parameter type classes in the ``deriving`` clause. In particular,
+      ``dataD`` and ``newtypeD`` now take a ``CxtQ`` instead of a ``[Name]``
+      for the list of derived classes.
+
+-  ``data``， ``newtype``， ``data instance`` と ``newtype instance`` の宣言は ``deriving``
+   節のマルチパラメータ型クラスに対して利用可能になりました．
+   たとえば，導出されたクラスのリストに対しては， ``dataD`` と ``newtypeD`` は ``[Name]`` ではなく
+   ``CxtQ`` を引数に取るようになりました．
+
+..
+   -  ``isExtEnabled`` can now be used to determine whether a language extension
+      is enabled in the ``Q`` monad. Similarly, ``extsEnabled`` can be used to list
+      all enabled language extensions.
+
+-  ``isExtEnabled`` を使って ``Q`` モナドで言語拡張が利用可能か決定できるようになりました．
+   同様に ``extsEnabled`` を使て利用可能な言語拡張を一覧できるようになりました．
+
+..
+   -  One can now reify the strictness information of a constructors' fields using
+      Template Haskell's ``reifyConStrictness`` function, which takes into account
+      whether flags such as :ghc-flag:`-XStrictData` or
+      :ghc-flag:`-funbox-strict-fields` are enabled.
+
+-  Template Haskell の ``reifyConStrictness`` 関数を使って，構成子の正格性を具体化
+   できるようになりました．
+   この関数は :ghc-flag:`-XStrictData` あるいは :ghc-flag:`-funbox-strict-fields` が
+   有効になっているかを確認します．
+
+..
+   -  Previously, quoting a type signature like ``a -> a`` would produce the
+      abstract syntax for ``forall a. a -> a``. This behavior remains, but it
+      is extended to kinds, too, meaning that ``Proxy a -> Proxy a`` becomes
+      ``forall k (a :: k). Proxy a -> Proxy a``. This change is not intentional,
+      but is forced by the fact that GHC has a hard time telling kinds apart
+      from types. The effect of this change is that round-tripping kind-
+      polymorphic types will now require :ghc-flag:`-XTypeInType`.
+
+-  従来は ``a -> a`` のような型シグネチャをクォートすると ``forall a. a -> a`` に対応する
+   抽象構文が生成されていました．
+   このふるまいは維持していますが，カインドにまで拡張されています．
+   すなわち ``Proxy a -> Proxy a`` が ``forall k (a :: k). Proxy a -> Proxy a`` に
+   なるということです．
+   この変更は意図的なものではなく，GHC にはカインドを型と分別するのは困難なので
+   しかたなく，そうなっています．
+   この変更による影響は，カインド多層型の往復変換には :ghc-flag:`-XTypeInType` 拡張が
+   必要になったということです．
 
 Runtime system
 ~~~~~~~~~~~~~~
