@@ -7,7 +7,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>7.11. Options related to a particular phase &#8212; Glasgow Haskell Compiler &lt;release&gt; Users Guide</title>
+    <title>7.11. Options related to a particular phase &mdash; Glasgow Haskell Compiler &lt;release&gt; Users Guide</title>
     
     <link rel="stylesheet" href="_static/ghc-theme.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -18,15 +18,14 @@
         VERSION:     '8.0.2',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
-        HAS_SOURCE:  true,
-        SOURCELINK_SUFFIX: '.txt'
+        HAS_SOURCE:  true
       };
     </script>
     <script type="text/javascript" src="_static/jquery.js"></script>
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
-    <link rel="index" title="Index" href="genindex.html" />
-    <link rel="search" title="Search" href="search.html" />
+    <link rel="top" title="Glasgow Haskell Compiler &lt;release&gt; Users Guide" href="index.html" />
+    <link rel="up" title="7. Using GHC" href="usage.html" />
     <link rel="next" title="7.12. Using shared libraries" href="shared_libs.html" />
     <link rel="prev" title="7.10. GHC Backends" href="codegens.html" /> 
   </head>
@@ -47,8 +46,8 @@
         <li class="right" >
           <a href="codegens.html" title="7.10. GHC Backends"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">GHC 8.0.2 Users Guide</a> &#187;</li>
-          <li class="nav-item nav-item-1"><a href="usage.html" accesskey="U">7. Using GHC</a> &#187;</li> 
+        <li class="nav-item nav-item-0"><a href="index.html">GHC 8.0.2 Users Guide</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="usage.html" accesskey="U">7. Using GHC</a> &raquo;</li> 
       </ul>
     </div>
 
@@ -80,18 +79,21 @@
   <div role="note" aria-label="source link">
     <h3>This Page</h3>
     <ul class="this-page-menu">
-      <li><a href="_sources/phases.rst.txt"
+      <li><a href="_sources/phases.txt"
             rel="nofollow">Show Source</a></li>
     </ul>
    </div>
 <div id="searchbox" style="display: none" role="search">
   <h3>Quick search</h3>
     <form class="search" action="search.html" method="get">
-      <div><input type="text" name="q" /></div>
-      <div><input type="submit" value="Go" /></div>
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
       <input type="hidden" name="check_keywords" value="yes" />
       <input type="hidden" name="area" value="default" />
     </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
 </div>
 <script type="text/javascript">$('#searchbox').show(0);</script>
         </div>
@@ -177,7 +179,7 @@ given compilation phase:</p>
 <dd><p>Use ⟨cmd⟩ as the program to use for embedding manifests on Windows.
 Normally this is the program <code class="docutils literal"><span class="pre">windres</span></code>, which is supplied with a
 GHC installation. See <code class="docutils literal"><span class="pre">-fno-embed-manifest</span></code> in
-<a class="reference internal" href="#options-linker"><span class="std std-ref">Options affecting linking</span></a>.</p>
+<a class="reference internal" href="#options-linker"><span>Options affecting linking</span></a>.</p>
 </dd></dl>
 
 <dl class="ghc-flag">
@@ -190,7 +192,7 @@ GHC installation. See <code class="docutils literal"><span class="pre">-fno-embe
 <dt id="ghc-flag--pgmi">
 <code class="descname">-pgmi</code><code class="descclassname"> ⟨cmd⟩</code><a class="headerlink" href="#ghc-flag--pgmi" title="Permalink to this definition">¶</a></dt>
 <dd><p>Use ⟨cmd⟩ as the external interpreter command (see:
-<a class="reference internal" href="ghci.html#external-interpreter"><span class="std std-ref">Running the interpreter in a separate process</span></a>).  Default: <code class="docutils literal"><span class="pre">ghc-iserv-prof</span></code> if
+<a class="reference internal" href="ghci.html#external-interpreter"><span>Running the interpreter in a separate process</span></a>).  Default: <code class="docutils literal"><span class="pre">ghc-iserv-prof</span></code> if
 <code class="docutils literal"><span class="pre">-prof</span></code> is enabled, <code class="docutils literal"><span class="pre">ghc-iserv-dyn</span></code> if <code class="docutils literal"><span class="pre">-dynamic</span></code> is
 enabled, or <code class="docutils literal"><span class="pre">ghc-iserv</span></code> otherwise.</p>
 </dd></dl>
@@ -216,7 +218,7 @@ the following flags:</p>
 <dt id="ghc-flag--optF">
 <code class="descname">-optF</code><code class="descclassname"> ⟨option⟩</code><a class="headerlink" href="#ghc-flag--optF" title="Permalink to this definition">¶</a></dt>
 <dd><p>Pass ⟨option⟩ to the custom pre-processor (see
-<a class="reference internal" href="#pre-processor"><span class="std std-ref">Options affecting a Haskell pre-processor</span></a>).</p>
+<a class="reference internal" href="#pre-processor"><span>Options affecting a Haskell pre-processor</span></a>).</p>
 </dd></dl>
 
 <dl class="ghc-flag">
@@ -259,14 +261,14 @@ the following flags:</p>
 <dt id="ghc-flag--optwindres">
 <code class="descname">-optwindres</code><code class="descclassname"> ⟨option⟩</code><a class="headerlink" href="#ghc-flag--optwindres" title="Permalink to this definition">¶</a></dt>
 <dd><p>Pass ⟨option⟩ to <code class="docutils literal"><span class="pre">windres</span></code> when embedding manifests on Windows.
-See <code class="docutils literal"><span class="pre">-fno-embed-manifest</span></code> in <a class="reference internal" href="#options-linker"><span class="std std-ref">Options affecting linking</span></a>.</p>
+See <code class="docutils literal"><span class="pre">-fno-embed-manifest</span></code> in <a class="reference internal" href="#options-linker"><span>Options affecting linking</span></a>.</p>
 </dd></dl>
 
 <dl class="ghc-flag">
 <dt id="ghc-flag--opti">
 <code class="descname">-opti</code><code class="descclassname"> ⟨option⟩</code><a class="headerlink" href="#ghc-flag--opti" title="Permalink to this definition">¶</a></dt>
 <dd><p>Pass ⟨option⟩ to the interpreter sub-process (see
-<a class="reference internal" href="ghci.html#external-interpreter"><span class="std std-ref">Running the interpreter in a separate process</span></a>).  A common use for this is to pass
+<a class="reference internal" href="ghci.html#external-interpreter"><span>Running the interpreter in a separate process</span></a>).  A common use for this is to pass
 RTS options e.g., <code class="docutils literal"><span class="pre">-opti+RTS</span> <span class="pre">-opti-A64m</span></code>, or to enable verbosity
 with <code class="docutils literal"><span class="pre">-opti-v</span></code> to see what messages are being exchanged by GHC
 and the interpreter.</p>
@@ -277,7 +279,7 @@ would tell the driver <code class="docutils literal"><span class="pre">-opta-Ewu
 required).</p>
 <p>GHC is itself a Haskell program, so if you need to pass options directly
 to GHC&#8217;s runtime system you can enclose them in <code class="docutils literal"><span class="pre">+RTS</span> <span class="pre">...</span> <span class="pre">-RTS</span></code> (see
-<a class="reference internal" href="runtime_control.html#runtime-control"><span class="std std-ref">Running a compiled program</span></a>).</p>
+<a class="reference internal" href="runtime_control.html#runtime-control"><span>Running a compiled program</span></a>).</p>
 </div>
 <div class="section" id="options-affecting-the-c-pre-processor">
 <span id="c-pre-processor"></span><h2>7.11.3. Options affecting the C pre-processor<a class="headerlink" href="#options-affecting-the-c-pre-processor" title="Permalink to this headline">¶</a></h2>
@@ -295,7 +297,7 @@ really shouldn&#8217;t need it.</p>
 <code class="descname">-D &lt;symbol&gt;[</code><code class="descclassname">=⟨value⟩]</code><a class="headerlink" href="#ghc-flag--D <symbol>[" title="Permalink to this definition">¶</a></dt>
 <dd><p>Define macro ⟨symbol⟩ in the usual way. NB: does <em>not</em> affect <code class="docutils literal"><span class="pre">-D</span></code>
 macros passed to the C&nbsp;compiler when compiling with <code class="xref std std-ghc-flag docutils literal"><span class="pre">-fvia-C</span></code>! For
-those, use the <code class="docutils literal"><span class="pre">-optc-Dfoo</span></code> hack… (see <a class="reference internal" href="#forcing-options-through"><span class="std std-ref">Forcing options to a particular phase</span></a>).</p>
+those, use the <code class="docutils literal"><span class="pre">-optc-Dfoo</span></code> hack… (see <a class="reference internal" href="#forcing-options-through"><span>Forcing options to a particular phase</span></a>).</p>
 <p>When no value is given, the value is taken to be <code class="docutils literal"><span class="pre">1</span></code>. For instance,
 <code class="docutils literal"><span class="pre">-DUSE_MYLIB</span></code> is equivalent to <code class="docutils literal"><span class="pre">-DUSE_MYLIB=1</span></code>.</p>
 </dd></dl>
@@ -319,7 +321,7 @@ code (<code class="docutils literal"><span class="pre">.hs</span></code> or <cod
 <span id="id1"></span><h3>7.11.3.1. Standard CPP macros<a class="headerlink" href="#standard-cpp-macros" title="Permalink to this headline">¶</a></h3>
 <p>The symbols defined by GHC are listed below. To check which symbols are
 defined by your local GHC installation, the following trick is useful:</p>
-<div class="highlight-sh"><div class="highlight"><pre><span></span>$ ghc -E -optP-dM -cpp foo.hs
+<div class="highlight-sh"><div class="highlight"><pre>$ ghc -E -optP-dM -cpp foo.hs
 $ cat foo.hspp
 </pre></div>
 </div>
@@ -373,7 +375,7 @@ later.</p>
 version 7.10.1) which do not define <code class="docutils literal"><span class="pre">MIN_VERSION_GLASGOW_HASKELL</span></code>
 is required, the presence of the <code class="docutils literal"><span class="pre">MIN_VERSION_GLASGOW_HASKELL</span></code>
 macro needs to be ensured before it is called, e.g.:</p>
-<div class="highlight-c"><div class="highlight"><pre><span></span><span class="cp">#ifdef MIN_VERSION_GLASGOW_HASKELL</span>
+<div class="highlight-c"><div class="highlight"><pre><span class="cp">#ifdef MIN_VERSION_GLASGOW_HASKELL</span>
 <span class="cp">#if MIN_VERSION_GLASGOW_HASKELL(7,10,2,0)</span>
 <span class="cm">/* code that applies only to GHC 7.10.2 or later */</span>
 <span class="cp">#endif</span>
@@ -431,7 +433,7 @@ macros that Cabal defines.</dd>
 <span id="cpp-string-gaps"></span><h3>7.11.3.2. CPP and string gaps<a class="headerlink" href="#cpp-and-string-gaps" title="Permalink to this headline">¶</a></h3>
 <p id="index-10">A small word of warning: <a class="reference internal" href="#ghc-flag--cpp"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-cpp</span></code></a> is not friendly to &#8220;string gaps&#8221;.
 In other words, strings such as the following:</p>
-<div class="highlight-haskell"><div class="highlight"><pre><span></span><span class="nf">strmod</span> <span class="ow">=</span> <span class="s">&quot;</span><span class="se">\</span>
+<div class="highlight-haskell"><div class="highlight"><pre><span class="nf">strmod</span> <span class="ow">=</span> <span class="s">&quot;</span><span class="se">\</span>
 <span class="se">\</span><span class="s"> p </span><span class="se">\</span>
 <span class="se">\</span><span class="s"> &quot;</span>
 </pre></div>
@@ -472,7 +474,7 @@ the three standard input and output arguments.</p>
 <p>An example of a pre-processor is to convert your source files to the
 input encoding that GHC expects, i.e. create a script <code class="docutils literal"><span class="pre">convert.sh</span></code>
 containing the lines:</p>
-<div class="highlight-sh"><div class="highlight"><pre><span></span><span class="ch">#!/bin/sh</span>
+<div class="highlight-sh"><div class="highlight"><pre><span class="ch">#!/bin/sh</span>
 <span class="o">(</span> <span class="nb">echo</span> <span class="s2">&quot;{-# LINE 1 \&quot;</span><span class="nv">$2</span><span class="s2">\&quot; #-}&quot;</span> <span class="p">;</span> iconv -f l1 -t utf-8 <span class="nv">$2</span> <span class="o">)</span> &gt; <span class="nv">$3</span>
 </pre></div>
 </div>
@@ -490,14 +492,14 @@ positions are reported as in the original source file.</p>
 <dl class="ghc-flag">
 <dt id="ghc-flag--fasm">
 <code class="descname">-fasm</code><code class="descclassname"> </code><a class="headerlink" href="#ghc-flag--fasm" title="Permalink to this definition">¶</a></dt>
-<dd><p>Use GHC&#8217;s <a class="reference internal" href="codegens.html#native-code-gen"><span class="std std-ref">native code generator</span></a> rather than
+<dd><p>Use GHC&#8217;s <a class="reference internal" href="codegens.html#native-code-gen"><span>native code generator</span></a> rather than
 compiling via LLVM. <code class="docutils literal"><span class="pre">-fasm</span></code> is the default.</p>
 </dd></dl>
 
 <dl class="ghc-flag">
 <dt id="ghc-flag--fllvm">
 <code class="descname">-fllvm</code><code class="descclassname"> </code><a class="headerlink" href="#ghc-flag--fllvm" title="Permalink to this definition">¶</a></dt>
-<dd><p>Compile via <a class="reference internal" href="codegens.html#llvm-code-gen"><span class="std std-ref">LLVM</span></a> instead of using the native
+<dd><p>Compile via <a class="reference internal" href="codegens.html#llvm-code-gen"><span>LLVM</span></a> instead of using the native
 code generator. This will generally take slightly longer than the
 native code generator to compile. Produced code is generally the
 same speed or faster than the other two code generators. Compiling
@@ -609,7 +611,7 @@ a <code class="docutils literal"><span class="pre">Main</span></code> module.</p
 <dl class="ghc-flag">
 <dt id="ghc-flag--package">
 <code class="descname">-package</code><code class="descclassname"> ⟨name⟩</code><a class="headerlink" href="#ghc-flag--package" title="Permalink to this definition">¶</a></dt>
-<dd><p>If you are using a Haskell &#8220;package&#8221; (see <a class="reference internal" href="packages.html#packages"><span class="std std-ref">Packages</span></a>), don&#8217;t
+<dd><p>If you are using a Haskell &#8220;package&#8221; (see <a class="reference internal" href="packages.html#packages"><span>Packages</span></a>), don&#8217;t
 forget to add the relevant <code class="docutils literal"><span class="pre">-package</span></code> option when linking the
 program too: it will cause the appropriate libraries to be linked in
 with the program. Forgetting the <code class="docutils literal"><span class="pre">-package</span></code> option will likely
@@ -692,7 +694,7 @@ is the default.</p>
 <code class="descname">-dynamic</code><code class="descclassname"> </code><a class="headerlink" href="#ghc-flag--dynamic" title="Permalink to this definition">¶</a></dt>
 <dd><p>This flag tells GHC to link against shared Haskell libraries. This
 flag only affects the selection of dependent libraries, not the form
-of the current target (see -shared). See <a class="reference internal" href="shared_libs.html#using-shared-libs"><span class="std std-ref">Using shared libraries</span></a> on
+of the current target (see -shared). See <a class="reference internal" href="shared_libs.html#using-shared-libs"><span>Using shared libraries</span></a> on
 how to create them.</p>
 <p>Note that this option also has an effect on code generation (see
 above).</p>
@@ -711,7 +713,7 @@ libraries given as <a class="reference internal" href="#ghc-flag--package"><code
 linked as gcc would regularly link it on your system, e.g. on most
 ELF system the linker uses the dynamic libraries when found.</p>
 <p>Object files linked into shared objects must be compiled with
-<a class="reference internal" href="#ghc-flag--fPIC"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-fPIC</span></code></a>, see <a class="reference internal" href="#options-codegen"><span class="std std-ref">Options affecting code generation</span></a></p>
+<a class="reference internal" href="#ghc-flag--fPIC"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-fPIC</span></code></a>, see <a class="reference internal" href="#options-codegen"><span>Options affecting code generation</span></a></p>
 <p>When creating shared objects for Haskell packages, the shared object
 must be named properly, so that GHC recognizes the shared object
 when linked against this package. See shared object name mangling.</p>
@@ -721,7 +723,7 @@ when linked against this package. See shared object name mangling.</p>
 <dt id="ghc-flag--dynload">
 <code class="descname">-dynload</code><code class="descclassname"> </code><a class="headerlink" href="#ghc-flag--dynload" title="Permalink to this definition">¶</a></dt>
 <dd><p>This flag selects one of a number of modes for finding shared
-libraries at runtime. See <a class="reference internal" href="shared_libs.html#finding-shared-libs"><span class="std std-ref">Finding shared libraries at runtime</span></a> for a
+libraries at runtime. See <a class="reference internal" href="shared_libs.html#finding-shared-libs"><span>Finding shared libraries at runtime</span></a> for a
 description of each mode.</p>
 </dd></dl>
 
@@ -760,7 +762,7 @@ can force recompilation by removing the object file, or by using the
 another (non-Haskell) program, the RTS will not be supplying its
 definition of <code class="docutils literal"><span class="pre">main()</span></code> at link-time, you will have to. To signal
 that to the compiler when linking, use <code class="docutils literal"><span class="pre">-no-hs-main</span></code>. See also
-<a class="reference internal" href="ffi-chap.html#using-own-main"><span class="std std-ref">Using your own main()</span></a>.</p>
+<a class="reference internal" href="ffi-chap.html#using-own-main"><span>Using your own main()</span></a>.</p>
 <p>Notice that since the command-line passed to the linker is rather
 involved, you probably want to use <code class="docutils literal"><span class="pre">ghc</span></code> to do the final link of
 your `mixed-language&#8217; application. This is not a requirement
@@ -773,7 +775,7 @@ linking when there is no <code class="docutils literal"><span class="pre">Main</
 <p>The flags <a class="reference internal" href="#ghc-flag--rtsopts"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-rtsopts</span></code></a> and <a class="reference internal" href="#ghc-flag--with-rtsopts"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-with-rtsopts</span></code></a> have no effect when
 used with <a class="reference internal" href="#ghc-flag--no-hs-main"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-no-hs-main</span></code></a>, because they are implemented by changing
 the definition of <code class="docutils literal"><span class="pre">main</span></code> that GHC generates. See
-<a class="reference internal" href="ffi-chap.html#using-own-main"><span class="std std-ref">Using your own main()</span></a> for how to get the effect of <a class="reference internal" href="#ghc-flag--rtsopts"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-rtsopts</span></code></a> and
+<a class="reference internal" href="ffi-chap.html#using-own-main"><span>Using your own main()</span></a> for how to get the effect of <a class="reference internal" href="#ghc-flag--rtsopts"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-rtsopts</span></code></a> and
 <a class="reference internal" href="#ghc-flag--with-rtsopts"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-with-rtsopts</span></code></a> when using your own <code class="docutils literal"><span class="pre">main</span></code>.</p>
 </dd></dl>
 
@@ -801,13 +803,13 @@ between Haskell threads just fine.</p>
 <li>It enables the <a class="reference internal" href="using-concurrent.html#rts-flag--N"><code class="xref std std-rts-flag docutils literal"><span class="pre">-N</span></code></a> RTS option to be used,
 which allows threads to run in parallelparallelism on a
 multiprocessormultiprocessorSMP or multicoremulticore machine.
-See <a class="reference internal" href="using-concurrent.html#using-smp"><span class="std std-ref">Using SMP parallelism</span></a>.</li>
+See <a class="reference internal" href="using-concurrent.html#using-smp"><span>Using SMP parallelism</span></a>.</li>
 <li>If a thread makes a foreign call (and the call is not marked
 <code class="docutils literal"><span class="pre">unsafe</span></code>), then other Haskell threads in the program will
 continue to run while the foreign call is in progress.
 Additionally, <code class="docutils literal"><span class="pre">foreign</span> <span class="pre">export</span></code>ed Haskell functions may be
 called from multiple OS threads simultaneously. See
-<a class="reference internal" href="ffi-chap.html#ffi-threads"><span class="std std-ref">Multi-threading and the FFI</span></a>.</li>
+<a class="reference internal" href="ffi-chap.html#ffi-threads"><span>Multi-threading and the FFI</span></a>.</li>
 </ul>
 </dd></dl>
 
@@ -818,7 +820,7 @@ called from multiple OS threads simultaneously. See
 A program linked in this way can generate a runtime trace of events
 (such as thread start/stop) to a binary file <code class="file docutils literal"><em><span class="pre">program</span></em><span class="pre">.eventlog</span></code>,
 which can then be interpreted later by various tools. See
-<a class="reference internal" href="runtime_control.html#rts-eventlog"><span class="std std-ref">Tracing</span></a> for more information.</p>
+<a class="reference internal" href="runtime_control.html#rts-eventlog"><span>Tracing</span></a> for more information.</p>
 <p><a class="reference internal" href="#ghc-flag--eventlog"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-eventlog</span></code></a> can be used with <a class="reference internal" href="#ghc-flag--threaded"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-threaded</span></code></a>. It is implied by
 <a class="reference internal" href="#ghc-flag--debug"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-debug</span></code></a>.</p>
 </dd></dl>
@@ -851,7 +853,7 @@ data to arbitrary files under the security context of the running
 program, there is a potential security problem. For this reason, GHC
 7.0.1 and later default to <code class="docutils literal"><span class="pre">-rtsopts=some</span></code>.</p>
 <p>Note that <code class="docutils literal"><span class="pre">-rtsopts</span></code> has no effect when used with <a class="reference internal" href="#ghc-flag--no-hs-main"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-no-hs-main</span></code></a>;
-see <a class="reference internal" href="ffi-chap.html#using-own-main"><span class="std std-ref">Using your own main()</span></a> for details.</p>
+see <a class="reference internal" href="ffi-chap.html#using-own-main"><span>Using your own main()</span></a> for details.</p>
 </dd></dl>
 
 <dl class="ghc-flag">
@@ -865,7 +867,7 @@ the <code class="docutils literal"><span class="pre">-rtsopts</span></code> opti
 change RTS options at run-time, in which case <code class="docutils literal"><span class="pre">-with-rtsopts</span></code>
 would be the <em>only</em> way to set them.)</p>
 <p>Note that <code class="docutils literal"><span class="pre">-with-rtsopts</span></code> has no effect when used with
-<code class="docutils literal"><span class="pre">-no-hs-main</span></code>; see <a class="reference internal" href="ffi-chap.html#using-own-main"><span class="std std-ref">Using your own main()</span></a> for details.</p>
+<code class="docutils literal"><span class="pre">-no-hs-main</span></code>; see <a class="reference internal" href="ffi-chap.html#using-own-main"><span>Using your own main()</span></a> for details.</p>
 </dd></dl>
 
 <dl class="ghc-flag">
@@ -918,8 +920,8 @@ the manifest file too. The embedding is done by running
 <strong class="command">windres</strong>; to see exactly what GHC does to embed the
 manifest, use the <a class="reference internal" href="using.html#ghc-flag--v"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-v</span></code></a> flag. A GHC installation comes with its own
 copy of <code class="docutils literal"><span class="pre">windres</span></code> for this reason.</p>
-<p>See also <a class="reference internal" href="#ghc-flag--pgmwindres"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-pgmwindres</span></code></a> (<a class="reference internal" href="#replacing-phases"><span class="std std-ref">Replacing the program for one or more phases</span></a>) and
-<a class="reference internal" href="#ghc-flag--optwindres"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-optwindres</span></code></a> (<a class="reference internal" href="#forcing-options-through"><span class="std std-ref">Forcing options to a particular phase</span></a>).</p>
+<p>See also <a class="reference internal" href="#ghc-flag--pgmwindres"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-pgmwindres</span></code></a> (<a class="reference internal" href="#replacing-phases"><span>Replacing the program for one or more phases</span></a>) and
+<a class="reference internal" href="#ghc-flag--optwindres"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-optwindres</span></code></a> (<a class="reference internal" href="#forcing-options-through"><span>Forcing options to a particular phase</span></a>).</p>
 </dd></dl>
 
 <dl class="ghc-flag">
@@ -981,13 +983,13 @@ This is equivalent to using <code class="docutils literal"><span class="pre">-op
         <li class="right" >
           <a href="codegens.html" title="7.10. GHC Backends"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">GHC 8.0.2 Users Guide</a> &#187;</li>
-          <li class="nav-item nav-item-1"><a href="usage.html" >7. Using GHC</a> &#187;</li> 
+        <li class="nav-item nav-item-0"><a href="index.html">GHC 8.0.2 Users Guide</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="usage.html" >7. Using GHC</a> &raquo;</li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">
-        &#169; Copyright 2015, GHC Team.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.5.2.
+        &copy; Copyright 2015, GHC Team.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.6.
     </div>
   </body>
 </html>

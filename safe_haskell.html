@@ -7,7 +7,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>10.39. Safe Haskell &#8212; Glasgow Haskell Compiler &lt;release&gt; Users Guide</title>
+    <title>10.39. Safe Haskell &mdash; Glasgow Haskell Compiler &lt;release&gt; Users Guide</title>
     
     <link rel="stylesheet" href="_static/ghc-theme.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -18,15 +18,14 @@
         VERSION:     '8.0.2',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
-        HAS_SOURCE:  true,
-        SOURCELINK_SUFFIX: '.txt'
+        HAS_SOURCE:  true
       };
     </script>
     <script type="text/javascript" src="_static/jquery.js"></script>
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
-    <link rel="index" title="Index" href="genindex.html" />
-    <link rel="search" title="Search" href="search.html" />
+    <link rel="top" title="Glasgow Haskell Compiler &lt;release&gt; Users Guide" href="index.html" />
+    <link rel="up" title="10. GHC Language Features" href="lang.html" />
     <link rel="next" title="11. Foreign function interface (FFI)" href="ffi-chap.html" />
     <link rel="prev" title="10.38. Concurrent and Parallel Haskell" href="parallel.html" /> 
   </head>
@@ -47,8 +46,8 @@
         <li class="right" >
           <a href="parallel.html" title="10.38. Concurrent and Parallel Haskell"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">GHC 8.0.2 Users Guide</a> &#187;</li>
-          <li class="nav-item nav-item-1"><a href="lang.html" accesskey="U">10. GHC Language Features</a> &#187;</li> 
+        <li class="nav-item nav-item-0"><a href="index.html">GHC 8.0.2 Users Guide</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="lang.html" accesskey="U">10. GHC Language Features</a> &raquo;</li> 
       </ul>
     </div>
 
@@ -91,18 +90,21 @@
   <div role="note" aria-label="source link">
     <h3>This Page</h3>
     <ul class="this-page-menu">
-      <li><a href="_sources/safe_haskell.rst.txt"
+      <li><a href="_sources/safe_haskell.txt"
             rel="nofollow">Show Source</a></li>
     </ul>
    </div>
 <div id="searchbox" style="display: none" role="search">
   <h3>Quick search</h3>
     <form class="search" action="search.html" method="get">
-      <div><input type="text" name="q" /></div>
-      <div><input type="submit" value="Go" /></div>
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
       <input type="hidden" name="check_keywords" value="yes" />
       <input type="hidden" name="area" value="default" />
     </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
 </div>
 <script type="text/javascript">$('#searchbox').show(0);</script>
         </div>
@@ -130,10 +132,10 @@ level sandbox mechanisms to run untrusted code.</p>
 for every compilation with GHC. It does this to track the type
 violations of modules to infer their safety, even when they aren&#8217;t
 explicitly using Safe Haskell. Please refer to section
-<a class="reference internal" href="#safe-inference"><span class="std std-ref">Safe Haskell Inference</span></a> for more details of this.</p>
+<a class="reference internal" href="#safe-inference"><span>Safe Haskell Inference</span></a> for more details of this.</p>
 <p>The design of Safe Haskell covers the following aspects:</p>
 <ul class="simple">
-<li>A <a class="reference internal" href="#safe-language"><span class="std std-ref">safe language</span></a> dialect of Haskell that provides
+<li>A <a class="reference internal" href="#safe-language"><span>safe language</span></a> dialect of Haskell that provides
 stricter guarantees about the code. It allows types and module boundaries to
 be trusted.</li>
 <li>A <em>safe import</em> extension that specifies that the module being imported must
@@ -143,11 +145,11 @@ defining and changing the trust of modules and packages.</li>
 </ul>
 <p>Safe Haskell, however, <em>does not offer</em> compilation safety. During
 compilation time it is possible for arbitrary processes to be launched,
-using for example the <a class="reference internal" href="phases.html#pre-processor"><span class="std std-ref">custom pre-processor</span></a> flag.
+using for example the <a class="reference internal" href="phases.html#pre-processor"><span>custom pre-processor</span></a> flag.
 This can be manipulated to either compromise a users system at
 compilation time, or to modify the source code just before compilation
 to try to alter Safe Haskell flags. This is discussed further in section
-<a class="reference internal" href="#safe-compilation"><span class="std std-ref">Safe Compilation</span></a>.</p>
+<a class="reference internal" href="#safe-compilation"><span>Safe Compilation</span></a>.</p>
 <div class="section" id="uses-of-safe-haskell">
 <span id="safe-use-cases"></span><h2>10.39.1. Uses of Safe Haskell<a class="headerlink" href="#uses-of-safe-haskell" title="Permalink to this headline">¶</a></h2>
 <p id="index-1">Safe Haskell has been designed with two use cases in mind:</p>
@@ -184,7 +186,7 @@ monad will only allow a safe subset of <code class="docutils literal"><span clas
 define the plugin interface so that it requires the plugin module,
 <code class="docutils literal"><span class="pre">Danger</span></code>, to export a single computation, <code class="docutils literal"><span class="pre">Danger.runMe</span></code>, of type
 <code class="docutils literal"><span class="pre">RIO</span> <span class="pre">()</span></code>, where <code class="docutils literal"><span class="pre">RIO</span></code> is a monad defined as follows:</p>
-<div class="highlight-haskell"><div class="highlight"><pre><span></span><span class="c1">-- While we use `Safe&#39;, the `Trustworthy&#39; pragma would also be</span>
+<div class="highlight-haskell"><div class="highlight"><pre><span class="c1">-- While we use `Safe&#39;, the `Trustworthy&#39; pragma would also be</span>
 <span class="c1">-- fine. We simply want to ensure that:</span>
 <span class="c1">-- 1) The module exports an interface that untrusted code can&#39;t</span>
 <span class="c1">--    abuse.</span>
@@ -218,7 +220,7 @@ define the plugin interface so that it requires the plugin module,
 </div>
 <p>We then compile the <code class="docutils literal"><span class="pre">Danger</span></code> plugin using the new Safe Haskell
 <code class="docutils literal"><span class="pre">-XSafe</span></code> flag:</p>
-<div class="highlight-haskell"><div class="highlight"><pre><span></span><span class="cm">{-# LANGUAGE Safe #-}</span>
+<div class="highlight-haskell"><div class="highlight"><pre><span class="cm">{-# LANGUAGE Safe #-}</span>
 <span class="kr">module</span> <span class="nn">Danger</span> <span class="p">(</span> <span class="nf">runMe</span> <span class="p">)</span> <span class="kr">where</span>
 
 <span class="nf">runMe</span> <span class="ow">::</span> <span class="kt">RIO</span> <span class="nb">()</span>
@@ -279,7 +281,7 @@ only expose a safe API. The trust of a package can be changed at any
 time, so if a vulnerability found in a package, C can declare that
 package untrusted so that any future compilation against that package
 would fail. For a more detailed overview of this mechanism see
-<a class="reference internal" href="#safe-trust"><span class="std std-ref">Trust and Safe Haskell Modes</span></a>.</p>
+<a class="reference internal" href="#safe-trust"><span>Trust and Safe Haskell Modes</span></a>.</p>
 <p>In the example, <code class="docutils literal"><span class="pre">Danger</span></code> can import module <code class="docutils literal"><span class="pre">RIO</span></code> because <code class="docutils literal"><span class="pre">RIO</span></code> is
 compiled with <a class="reference internal" href="#ghc-flag--XSafe"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-XSafe</span></code></a>. Thus, <code class="docutils literal"><span class="pre">Danger</span></code> can make use of the
 <code class="docutils literal"><span class="pre">rioReadFile</span></code> and <code class="docutils literal"><span class="pre">rioWriteFile</span></code> functions to access permitted file
@@ -310,7 +312,7 @@ safe language, expressions that compile both with and without the safe import
 have the same meaning in both cases. That is, importing a module written in
 the safe language cannot change the meaning of existing code that isn&#8217;t
 dependent on that module. So, for example, there are some restrictions placed
-on the use of <a class="reference internal" href="glasgow_exts.html#instance-overlap"><span class="std std-ref">OverlappingInstances</span></a>, as these can
+on the use of <a class="reference internal" href="glasgow_exts.html#instance-overlap"><span>OverlappingInstances</span></a>, as these can
 violate this property.</li>
 <li><em>Strict subset</em> — The safe language is strictly a subset of Haskell as
 implemented by GHC. Any expression that compiles in the safe language has the
@@ -335,7 +337,7 @@ dropped. Rules defined in Trustworthy modules that <code class="docutils literal
 valid and will fire as usual.</li>
 <li><code class="docutils literal"><span class="pre">OverlappingInstances</span></code> — There is no restriction on the creation of
 overlapping instances, but we do restrict their use at a particular call
-site. This is a detailed restriction, please refer to <a class="reference internal" href="#safe-overlapping-instances"><span class="std std-ref">Safe Overlapping
+site. This is a detailed restriction, please refer to <a class="reference internal" href="#safe-overlapping-instances"><span>Safe Overlapping
 Instances</span></a> for details.</li>
 <li><code class="docutils literal"><span class="pre">GeneralisedNewtypeDeriving</span></code> — GND is not allowed in the safe language. This
 is due to the ability of it to violate module boundaries when module authors
@@ -357,7 +359,7 @@ calls a function belonging to a type-class, we check that the instance
 resolution done is considered &#8216;safe&#8217;. This check is enforced for modules
 compiled with both <code class="docutils literal"><span class="pre">-XSafe</span></code> and <code class="docutils literal"><span class="pre">-XTrustworthy</span></code>.</p>
 <p>More specifically, consider the following modules:</p>
-<div class="highlight-haskell"><div class="highlight"><pre><span></span><span class="cm">{-# LANGUAGE Safe #-}</span>
+<div class="highlight-haskell"><div class="highlight"><pre><span class="cm">{-# LANGUAGE Safe #-}</span>
 <span class="kr">module</span> <span class="nn">Class</span> <span class="p">(</span><span class="kt">TC</span><span class="p">(</span><span class="o">..</span><span class="p">))</span> <span class="kr">where</span>
   <span class="kr">class</span> <span class="kt">TC</span> <span class="n">a</span> <span class="kr">where</span> <span class="p">{</span> <span class="n">op</span> <span class="ow">::</span> <span class="n">a</span> <span class="ow">-&gt;</span> <span class="kt">String</span> <span class="p">}</span>
 
@@ -420,7 +422,7 @@ be inferred unsafe.</p>
 <span id="id4"></span><h2>10.39.3. Safe Imports<a class="headerlink" href="#safe-imports" title="Permalink to this headline">¶</a></h2>
 <p id="index-4">Safe Haskell enables a small extension to the usual import syntax of
 Haskell, adding a <code class="docutils literal"><span class="pre">safe</span></code> keyword:</p>
-<div class="highlight-haskell"><div class="highlight"><pre><span></span>impdecl -&gt; import [safe] [qualified] modid [as modid] [impspec]
+<div class="highlight-haskell"><div class="highlight"><pre>impdecl -&gt; import [safe] [qualified] modid [as modid] [impspec]
 </pre></div>
 </div>
 <p>When used, the module being imported with the safe keyword must be a
@@ -437,11 +439,11 @@ allowed but meaningless, as every import is treated as a safe import.</p>
 The safe language dialect requires that all imports be trusted or a
 compilation error will occur. Safe Haskell will also infer this safety type
 for modules automatically when possible. Please refer to section
-<a class="reference internal" href="#safe-inference"><span class="std std-ref">Safe Haskell Inference</span></a> for more details of this.</li>
+<a class="reference internal" href="#safe-inference"><span>Safe Haskell Inference</span></a> for more details of this.</li>
 <li><a class="reference internal" href="#ghc-flag--XTrustworthy"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-XTrustworthy</span></code></a> — Means that while this module may invoke unsafe functions
 internally, the module&#8217;s author claims that it exports an API that can&#8217;t be
 used in an unsafe way. This doesn&#8217;t enable the safe language. It does however
-restrict the resolution of overlapping instances to only allow <a class="reference internal" href="#safe-overlapping-instances"><span class="std std-ref">safe
+restrict the resolution of overlapping instances to only allow <a class="reference internal" href="#safe-overlapping-instances"><span>safe
 overlapping instances</span></a>. The trust guarantee is
 provided by the module author, not GHC. An import statement with the <code class="docutils literal"><span class="pre">safe</span></code>
 keyword results in a compilation error if the imported module is not trusted.
@@ -456,7 +458,7 @@ violate invariants.</li>
 that a module can have. You can think of using these as declaring an
 explicit contract (or type) that a module must have. If it is invalid,
 then compilation will fail. GHC will also infer the correct type for
-Safe Haskell, please refer to section <a class="reference internal" href="#safe-inference"><span class="std std-ref">Safe Haskell Inference</span></a> for more
+Safe Haskell, please refer to section <a class="reference internal" href="#safe-inference"><span>Safe Haskell Inference</span></a> for more
 details.</p>
 <p>The procedure to check if a module is trusted or not depends on if the
 <a class="reference internal" href="#ghc-flag--fpackage-trust"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-fpackage-trust</span></code></a> flag is present. The check is similar in both cases
@@ -539,7 +541,7 @@ Haskell an opt-in extension rather than an always on feature.</p>
 </div>
 <div class="section" id="example">
 <span id="safe-trust-example"></span><h3>10.39.4.3. Example<a class="headerlink" href="#example" title="Permalink to this headline">¶</a></h3>
-<div class="highlight-haskell"><div class="highlight"><pre><span></span><span class="kt">Package</span> <span class="kt">Wuggle:</span>
+<div class="highlight-haskell"><div class="highlight"><pre><span class="kt">Package</span> <span class="kt">Wuggle:</span>
     <span class="cm">{-# LANGUAGE Safe #-}</span>
     <span class="kr">module</span> <span class="nn">Buggle</span> <span class="kr">where</span>
         <span class="kr">import</span> <span class="nn">Prelude</span>
@@ -610,7 +612,7 @@ explicitly set to be trusted by subsequent command-line options.</p>
 </dd></dl>
 
 <p>To set a package&#8217;s trust property in the package database please refer
-to <a class="reference internal" href="packages.html#packages"><span class="std std-ref">Packages</span></a>.</p>
+to <a class="reference internal" href="packages.html#packages"><span>Packages</span></a>.</p>
 </div>
 </div>
 <div class="section" id="safe-haskell-inference">
@@ -625,7 +627,7 @@ safe. Otherwise, it is marked as unsafe.</p>
 <p>When should you use Safe Haskell inference and when should you use an
 explicit <a class="reference internal" href="#ghc-flag--XSafe"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-XSafe</span></code></a> flag? The later case should be used when you have a
 hard requirement that the module be safe. This is most useful for the
-<a class="reference internal" href="#safe-use-cases"><span class="std std-ref">Uses of Safe Haskell</span></a> of Safe Haskell: running untrusted code. Safe
+<a class="reference internal" href="#safe-use-cases"><span>Uses of Safe Haskell</span></a> of Safe Haskell: running untrusted code. Safe
 inference is meant to be used by ordinary Haskell programmers. Users who
 probably don&#8217;t care about Safe Haskell.</p>
 <p>Haskell library authors have a choice. Most should just use Safe
@@ -636,7 +638,7 @@ following trade-offs:</p>
 <li><em>Inferred</em> — This works well and adds no dependencies on the Safe Haskell type
 of any modules in other packages. It does mean that the Safe Haskell type of
 your own modules could change without warning if a dependency changes. One
-way to deal with this is through the use of <a class="reference internal" href="#safe-flag-summary"><span class="std std-ref">Safe Haskell warning flags</span></a> that will warn if GHC infers a Safe Haskell type
+way to deal with this is through the use of <a class="reference internal" href="#safe-flag-summary"><span>Safe Haskell warning flags</span></a> that will warn if GHC infers a Safe Haskell type
 different from expected.</li>
 <li><em>Explicit</em> — This gives your library a stable Safe Haskell type that others
 can depend on. However, it will increase the chance of compilation failure
@@ -686,7 +688,7 @@ provided by the module&#8217;s author. A client of this module then
 specifies that they trust the module author by specifying they trust
 the package containing the module. <a class="reference internal" href="#ghc-flag--XTrustworthy"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-XTrustworthy</span></code></a> doesn&#8217;t restrict the
 module to the safe language. It does however restrict the resolution of
-overlapping instances to only allow <a class="reference internal" href="#safe-overlapping-instances"><span class="std std-ref">safe overlapping instances</span></a>. It also allows the use of the safe import
+overlapping instances to only allow <a class="reference internal" href="#safe-overlapping-instances"><span>safe overlapping instances</span></a>. It also allows the use of the safe import
 keyword.</p>
 <ul class="simple">
 <li><em>Module Trusted</em>  — Yes.</li>
@@ -775,7 +777,7 @@ trusted.</li>
 <span id="id5"></span><h2>10.39.7. Safe Compilation<a class="headerlink" href="#safe-compilation" title="Permalink to this headline">¶</a></h2>
 <p id="index-12">GHC includes a variety of flags that allow arbitrary processes to be run
 at compilation time. One such example is the
-<a class="reference internal" href="phases.html#pre-processor"><span class="std std-ref">custom pre-processor</span></a> flag. Another is the ability of
+<a class="reference internal" href="phases.html#pre-processor"><span>custom pre-processor</span></a> flag. Another is the ability of
 Template Haskell to execute Haskell code at compilation time, including
 IO actions. Safe Haskell <em>does not address this danger</em> (although,
 Template Haskell is a disallowed feature).</p>
@@ -791,14 +793,14 @@ modifications to the source being compiled can&#8217;t disable the use of
 the Safe Language as the command line flag takes precedence over a
 source level pragma.</li>
 <li>Ensure that all untrusted code is imported as a
-<a class="reference internal" href="#safe-imports"><span class="std std-ref">safe import</span></a> and that the <a class="reference internal" href="#ghc-flag--fpackage-trust"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-fpackage-trust</span></code></a>
-flag (see <a class="reference internal" href="#safe-package-trust"><span class="std std-ref">flag</span></a>) is used with packages from
+<a class="reference internal" href="#safe-imports"><span>safe import</span></a> and that the <a class="reference internal" href="#ghc-flag--fpackage-trust"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-fpackage-trust</span></code></a>
+flag (see <a class="reference internal" href="#safe-package-trust"><span>flag</span></a>) is used with packages from
 untrusted sources being marked as untrusted.</li>
 </ul>
 <p>There is a more detailed discussion of the issues involved in
 compilation safety and some potential solutions on the
 <a class="reference external" href="http://ghc.haskell.org/trac/ghc/wiki/SafeHaskell/SafeCompilation">GHC Wiki</a>.</p>
-<p>Additionally, the use of <a class="reference internal" href="extending_ghc.html#annotation-pragmas"><span class="std std-ref">annotations</span></a> is forbidden,
+<p>Additionally, the use of <a class="reference internal" href="extending_ghc.html#annotation-pragmas"><span>annotations</span></a> is forbidden,
 as that would allow bypassing Safe Haskell restrictions. See <a class="reference external" href="http://ghc.haskell.org/trac/ghc/ticket/10826">Trac #10826</a>
 for details.</p>
 </div>
@@ -822,13 +824,13 @@ for details.</p>
         <li class="right" >
           <a href="parallel.html" title="10.38. Concurrent and Parallel Haskell"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">GHC 8.0.2 Users Guide</a> &#187;</li>
-          <li class="nav-item nav-item-1"><a href="lang.html" >10. GHC Language Features</a> &#187;</li> 
+        <li class="nav-item nav-item-0"><a href="index.html">GHC 8.0.2 Users Guide</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="lang.html" >10. GHC Language Features</a> &raquo;</li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">
-        &#169; Copyright 2015, GHC Team.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.5.2.
+        &copy; Copyright 2015, GHC Team.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.6.
     </div>
   </body>
 </html>

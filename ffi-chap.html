@@ -7,7 +7,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>11. Foreign function interface (FFI) &#8212; Glasgow Haskell Compiler &lt;release&gt; Users Guide</title>
+    <title>11. Foreign function interface (FFI) &mdash; Glasgow Haskell Compiler &lt;release&gt; Users Guide</title>
     
     <link rel="stylesheet" href="_static/ghc-theme.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -18,15 +18,13 @@
         VERSION:     '8.0.2',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
-        HAS_SOURCE:  true,
-        SOURCELINK_SUFFIX: '.txt'
+        HAS_SOURCE:  true
       };
     </script>
     <script type="text/javascript" src="_static/jquery.js"></script>
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
-    <link rel="index" title="Index" href="genindex.html" />
-    <link rel="search" title="Search" href="search.html" />
+    <link rel="top" title="Glasgow Haskell Compiler &lt;release&gt; Users Guide" href="index.html" />
     <link rel="next" title="12. Extending and using GHC as a Library" href="extending_ghc.html" />
     <link rel="prev" title="10.39. Safe Haskell" href="safe_haskell.html" /> 
   </head>
@@ -47,7 +45,7 @@
         <li class="right" >
           <a href="safe_haskell.html" title="10.39. Safe Haskell"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">GHC 8.0.2 Users Guide</a> &#187;</li> 
+        <li class="nav-item nav-item-0"><a href="index.html">GHC 8.0.2 Users Guide</a> &raquo;</li> 
       </ul>
     </div>
 
@@ -96,18 +94,21 @@
   <div role="note" aria-label="source link">
     <h3>This Page</h3>
     <ul class="this-page-menu">
-      <li><a href="_sources/ffi-chap.rst.txt"
+      <li><a href="_sources/ffi-chap.txt"
             rel="nofollow">Show Source</a></li>
     </ul>
    </div>
 <div id="searchbox" style="display: none" role="search">
   <h3>Quick search</h3>
     <form class="search" action="search.html" method="get">
-      <div><input type="text" name="q" /></div>
-      <div><input type="submit" value="Go" /></div>
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
       <input type="hidden" name="check_keywords" value="yes" />
       <input type="hidden" name="area" value="default" />
     </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
 </div>
 <script type="text/javascript">$('#searchbox').show(0);</script>
         </div>
@@ -126,7 +127,7 @@ definition is part of the Haskell Report on
 <p>FFI support is enabled by default, but can be enabled or disabled
 explicitly with the <code class="xref std std-ghc-flag docutils literal"><span class="pre">-XForeignFunctionInterface</span></code> flag.</p>
 <p>GHC implements a number of GHC-specific extensions to the FFI Addendum.
-These extensions are described in <a class="reference internal" href="#ffi-ghcexts"><span class="std std-ref">GHC extensions to the FFI Addendum</span></a>, but please note
+These extensions are described in <a class="reference internal" href="#ffi-ghcexts"><span>GHC extensions to the FFI Addendum</span></a>, but please note
 that programs using these features are not portable. Hence, these
 features should be avoided where possible.</p>
 <p>The FFI libraries are documented in the accompanying library
@@ -146,7 +147,7 @@ Addendum, Section 3.2): <code class="docutils literal"><span class="pre">Int#</s
 <span id="ffi-newtype-io"></span><h3>11.1.2. Newtype wrapping of the IO monad<a class="headerlink" href="#newtype-wrapping-of-the-io-monad" title="Permalink to this headline">¶</a></h3>
 <p>The FFI spec requires the IO monad to appear in various places, but it
 can sometimes be convenient to wrap the IO monad in a <code class="docutils literal"><span class="pre">newtype</span></code>, thus:</p>
-<div class="highlight-haskell"><div class="highlight"><pre><span></span><span class="kr">newtype</span> <span class="kt">MyIO</span> <span class="n">a</span> <span class="ow">=</span> <span class="kt">MIO</span> <span class="p">(</span><span class="kt">IO</span> <span class="n">a</span><span class="p">)</span>
+<div class="highlight-haskell"><div class="highlight"><pre><span class="kr">newtype</span> <span class="kt">MyIO</span> <span class="n">a</span> <span class="ow">=</span> <span class="kt">MIO</span> <span class="p">(</span><span class="kt">IO</span> <span class="n">a</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>(A reason for doing so might be to prevent the programmer from calling
@@ -157,7 +158,7 @@ imports and exports will be automatically unwrapped if they are newtypes
 unwrapping any newtypes that wrap the IO monad itself. More precisely,
 wherever the FFI specification requires an <code class="docutils literal"><span class="pre">IO</span></code> type, GHC will accept any
 newtype-wrapping of an <code class="docutils literal"><span class="pre">IO</span></code> type. For example, these declarations are OK:</p>
-<div class="highlight-haskell"><div class="highlight"><pre><span></span><span class="nf">foreign</span> <span class="kr">import</span> <span class="nn">foo</span> <span class="ow">::</span> <span class="kt">Int</span> <span class="ow">-&gt;</span> <span class="kt">MyIO</span> <span class="kt">Int</span>
+<div class="highlight-haskell"><div class="highlight"><pre><span class="nf">foreign</span> <span class="kr">import</span> <span class="nn">foo</span> <span class="ow">::</span> <span class="kt">Int</span> <span class="ow">-&gt;</span> <span class="kt">MyIO</span> <span class="kt">Int</span>
 <span class="nf">foreign</span> <span class="kr">import</span> <span class="s">&quot;dynamic&quot;</span> <span class="nn">baz</span> <span class="ow">::</span> <span class="p">(</span><span class="kt">Int</span> <span class="ow">-&gt;</span> <span class="kt">MyIO</span> <span class="kt">Int</span><span class="p">)</span> <span class="ow">-&gt;</span> <span class="kt">CInt</span> <span class="ow">-&gt;</span> <span class="kt">MyIO</span> <span class="kt">Int</span>
 </pre></div>
 </div>
@@ -166,7 +167,7 @@ newtype-wrapping of an <code class="docutils literal"><span class="pre">IO</span
 <span id="ffi-prim"></span><h3>11.1.3. Primitive imports<a class="headerlink" href="#primitive-imports" title="Permalink to this headline">¶</a></h3>
 <p>GHC extends the FFI with an additional calling convention <code class="docutils literal"><span class="pre">prim</span></code>,
 e.g.:</p>
-<div class="highlight-haskell"><div class="highlight"><pre><span></span><span class="nf">foreign</span> <span class="kr">import</span> <span class="nn">prim</span> <span class="s">&quot;foo&quot;</span> <span class="n">foo</span> <span class="ow">::</span> <span class="kt">ByteArray</span><span class="o">#</span> <span class="ow">-&gt;</span> <span class="p">(</span><span class="o">#</span> <span class="kt">Int</span><span class="o">#</span><span class="p">,</span> <span class="kt">Int</span><span class="o">#</span> <span class="o">#</span><span class="p">)</span>
+<div class="highlight-haskell"><div class="highlight"><pre><span class="nf">foreign</span> <span class="kr">import</span> <span class="nn">prim</span> <span class="s">&quot;foo&quot;</span> <span class="n">foo</span> <span class="ow">::</span> <span class="kt">ByteArray</span><span class="o">#</span> <span class="ow">-&gt;</span> <span class="p">(</span><span class="o">#</span> <span class="kt">Int</span><span class="o">#</span><span class="p">,</span> <span class="kt">Int</span><span class="o">#</span> <span class="o">#</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>This is used to import functions written in Cmm code that follow an
@@ -195,7 +196,7 @@ call safely. However, GHC does provide a way to interrupt blocking
 system calls which works for most system calls on both Unix and Windows.
 When the <code class="docutils literal"><span class="pre">InterruptibleFFI</span></code> extension is enabled, a foreign call can
 be annotated with <code class="docutils literal"><span class="pre">interruptible</span></code> instead of <code class="docutils literal"><span class="pre">safe</span></code> or <code class="docutils literal"><span class="pre">unsafe</span></code>:</p>
-<div class="highlight-haskell"><div class="highlight"><pre><span></span><span class="nf">foreign</span> <span class="kr">import</span> <span class="nn">ccall</span> <span class="n">interruptible</span>
+<div class="highlight-haskell"><div class="highlight"><pre><span class="nf">foreign</span> <span class="kr">import</span> <span class="nn">ccall</span> <span class="n">interruptible</span>
    <span class="s">&quot;sleep&quot;</span> <span class="n">sleepBlock</span> <span class="ow">::</span> <span class="kt">CUint</span> <span class="ow">-&gt;</span> <span class="kt">IO</span> <span class="kt">CUint</span>
 </pre></div>
 </div>
@@ -226,7 +227,7 @@ it is not typically necessary to handle <code class="docutils literal"><span cla
 <span id="ffi-capi"></span><h3>11.1.5. The CAPI calling convention<a class="headerlink" href="#the-capi-calling-convention" title="Permalink to this headline">¶</a></h3>
 <p>The <code class="docutils literal"><span class="pre">CApiFFI</span></code> extension allows a calling convention of <code class="docutils literal"><span class="pre">capi</span></code> to be
 used in foreign declarations, e.g.</p>
-<div class="highlight-haskell"><div class="highlight"><pre><span></span><span class="nf">foreign</span> <span class="kr">import</span> <span class="nn">capi</span> <span class="s">&quot;header.h f&quot;</span> <span class="n">f</span> <span class="ow">::</span> <span class="kt">CInt</span> <span class="ow">-&gt;</span> <span class="kt">IO</span> <span class="kt">CInt</span>
+<div class="highlight-haskell"><div class="highlight"><pre><span class="nf">foreign</span> <span class="kr">import</span> <span class="nn">capi</span> <span class="s">&quot;header.h f&quot;</span> <span class="n">f</span> <span class="ow">::</span> <span class="kt">CInt</span> <span class="ow">-&gt;</span> <span class="kt">IO</span> <span class="kt">CInt</span>
 </pre></div>
 </div>
 <p>Rather than generating code to call <code class="docutils literal"><span class="pre">f</span></code> according to the platform&#8217;s
@@ -235,29 +236,29 @@ ABI, we instead call <code class="docutils literal"><span class="pre">f</span></
 CPP <code class="docutils literal"><span class="pre">#define</span></code> rather than a proper function.</p>
 <p>When using <code class="docutils literal"><span class="pre">capi</span></code>, it is also possible to import values, rather than
 functions. For example,</p>
-<div class="highlight-haskell"><div class="highlight"><pre><span></span><span class="nf">foreign</span> <span class="kr">import</span> <span class="nn">capi</span> <span class="s">&quot;pi.h value pi&quot;</span> <span class="n">c_pi</span> <span class="ow">::</span> <span class="kt">CDouble</span>
+<div class="highlight-haskell"><div class="highlight"><pre><span class="nf">foreign</span> <span class="kr">import</span> <span class="nn">capi</span> <span class="s">&quot;pi.h value pi&quot;</span> <span class="n">c_pi</span> <span class="ow">::</span> <span class="kt">CDouble</span>
 </pre></div>
 </div>
 <p>will work regardless of whether <code class="docutils literal"><span class="pre">pi</span></code> is defined as</p>
-<div class="highlight-haskell"><div class="highlight"><pre><span></span><span class="nf">const</span> <span class="n">double</span> <span class="n">pi</span> <span class="ow">=</span> <span class="mf">3.14</span><span class="p">;</span>
+<div class="highlight-haskell"><div class="highlight"><pre><span class="nf">const</span> <span class="n">double</span> <span class="n">pi</span> <span class="ow">=</span> <span class="mf">3.14</span><span class="p">;</span>
 </pre></div>
 </div>
 <p>or with</p>
-<div class="highlight-haskell"><div class="highlight"><pre><span></span><span class="o">#</span><span class="n">define</span> <span class="n">pi</span> <span class="mf">3.14</span>
+<div class="highlight-haskell"><div class="highlight"><pre><span class="o">#</span><span class="n">define</span> <span class="n">pi</span> <span class="mf">3.14</span>
 </pre></div>
 </div>
 <p>In order to tell GHC the C type that a Haskell type corresponds to when
 it is used with the CAPI, a <code class="docutils literal"><span class="pre">CTYPE</span></code> pragma can be used on the type
 definition. The header which defines the type can optionally also be
 specified. The syntax looks like:</p>
-<div class="highlight-haskell"><div class="highlight"><pre><span></span><span class="kr">data</span>    <span class="cm">{-# CTYPE &quot;unistd.h&quot; &quot;useconds_t&quot; #-}</span> <span class="kt">T</span> <span class="ow">=</span> <span class="o">...</span>
+<div class="highlight-haskell"><div class="highlight"><pre><span class="kr">data</span>    <span class="cm">{-# CTYPE &quot;unistd.h&quot; &quot;useconds_t&quot; #-}</span> <span class="kt">T</span> <span class="ow">=</span> <span class="o">...</span>
 <span class="kr">newtype</span> <span class="cm">{-# CTYPE            &quot;useconds_t&quot; #-}</span> <span class="kt">T</span> <span class="ow">=</span> <span class="o">...</span>
 </pre></div>
 </div>
 </div>
 <div class="section" id="hs-thread-done">
 <h3>11.1.6. <code class="docutils literal"><span class="pre">hs_thread_done()</span></code><a class="headerlink" href="#hs-thread-done" title="Permalink to this headline">¶</a></h3>
-<div class="highlight-haskell"><div class="highlight"><pre><span></span><span class="nf">void</span> <span class="n">hs_thread_done</span><span class="p">(</span><span class="n">void</span><span class="p">);</span>
+<div class="highlight-haskell"><div class="highlight"><pre><span class="nf">void</span> <span class="n">hs_thread_done</span><span class="p">(</span><span class="n">void</span><span class="p">);</span>
 </pre></div>
 </div>
 <p>GHC allocates a small amount of thread-local memory when a thread calls
@@ -289,7 +290,7 @@ C programs.</p>
 <p>For a plain <code class="docutils literal"><span class="pre">foreign</span> <span class="pre">export</span></code>, the file <code class="docutils literal"><span class="pre">M_stub.h</span></code> contains a C
 prototype for the foreign exported function. For example, if we compile
 the following module:</p>
-<div class="highlight-haskell"><div class="highlight"><pre><span></span><span class="kr">module</span> <span class="nn">Foo</span> <span class="kr">where</span>
+<div class="highlight-haskell"><div class="highlight"><pre><span class="kr">module</span> <span class="nn">Foo</span> <span class="kr">where</span>
 
 <span class="nf">foreign</span> <span class="n">export</span> <span class="n">ccall</span> <span class="n">foo</span> <span class="ow">::</span> <span class="kt">Int</span> <span class="ow">-&gt;</span> <span class="kt">IO</span> <span class="kt">Int</span>
 
@@ -302,14 +303,14 @@ the following module:</p>
 </pre></div>
 </div>
 <p>Then <code class="docutils literal"><span class="pre">Foo_stub.h</span></code> will contain something like this:</p>
-<div class="highlight-c"><div class="highlight"><pre><span></span><span class="cp">#include</span> <span class="cpf">&quot;HsFFI.h&quot;</span><span class="cp"></span>
+<div class="highlight-c"><div class="highlight"><pre><span class="cp">#include</span> <span class="cpf">&quot;HsFFI.h&quot;</span><span class="cp"></span>
 <span class="k">extern</span> <span class="n">HsInt</span> <span class="nf">foo</span><span class="p">(</span><span class="n">HsInt</span> <span class="n">a0</span><span class="p">);</span>
 </pre></div>
 </div>
 <p>To invoke <code class="docutils literal"><span class="pre">foo()</span></code> from C, just <code class="docutils literal"><span class="pre">#include</span> <span class="pre">&quot;Foo_stub.h&quot;</span></code> and call
 <code class="docutils literal"><span class="pre">foo()</span></code>.</p>
 <p>The <code class="docutils literal"><span class="pre">Foo_stub.h</span></code> file can be redirected using the <code class="docutils literal"><span class="pre">-stubdir</span></code> option;
-see <a class="reference internal" href="separate_compilation.html#options-output"><span class="std std-ref">Redirecting the compilation output(s)</span></a>.</p>
+see <a class="reference internal" href="separate_compilation.html#options-output"><span>Redirecting the compilation output(s)</span></a>.</p>
 <div class="section" id="using-your-own-main">
 <span id="using-own-main"></span><h4>11.2.1.1. Using your own <code class="docutils literal"><span class="pre">main()</span></code><a class="headerlink" href="#using-your-own-main" title="Permalink to this headline">¶</a></h4>
 <p>Normally, GHC&#8217;s runtime system provides a <code class="docutils literal"><span class="pre">main()</span></code>, which arranges to
@@ -319,7 +320,7 @@ in another language, say C. In order to do this, you have to initialize
 the Haskell runtime system explicitly.</p>
 <p>Let&#8217;s take the example from above, and invoke it from a standalone C
 program. Here&#8217;s the C code:</p>
-<div class="highlight-c"><div class="highlight"><pre><span></span><span class="cp">#include</span> <span class="cpf">&lt;stdio.h&gt;</span><span class="cp"></span>
+<div class="highlight-c"><div class="highlight"><pre><span class="cp">#include</span> <span class="cpf">&lt;stdio.h&gt;</span><span class="cp"></span>
 <span class="cp">#include</span> <span class="cpf">&quot;HsFFI.h&quot;</span><span class="cp"></span>
 
 <span class="cp">#ifdef __GLASGOW_HASKELL__</span>
@@ -366,17 +367,17 @@ will try to link to the <code class="docutils literal"><span class="pre">Main</s
 <tbody valign="top">
 <tr><td class="label"><a class="fn-backref" href="#id1">[1]</a></td><td>The outermost <code class="docutils literal"><span class="pre">hs_exit()</span></code> will actually de-initialise the system.
 Note that currently GHC&#8217;s runtime cannot reliably re-initialise after
-this has happened, see <a class="reference internal" href="bugs.html#infelicities-ffi"><span class="std std-ref">The Foreign Function Interface</span></a>.</td></tr>
+this has happened, see <a class="reference internal" href="bugs.html#infelicities-ffi"><span>The Foreign Function Interface</span></a>.</td></tr>
 </tbody>
 </table>
 <p>To use <code class="docutils literal"><span class="pre">+RTS</span></code> flags with <code class="docutils literal"><span class="pre">hs_init()</span></code>, we have to modify the example
 slightly. By default, GHC&#8217;s RTS will only accept &#8220;safe&#8221; <code class="docutils literal"><span class="pre">+RTS</span></code> flags
-(see <a class="reference internal" href="phases.html#options-linker"><span class="std std-ref">Options affecting linking</span></a>), and the <a class="reference internal" href="phases.html#ghc-flag--rtsopts"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-rtsopts</span></code></a>
+(see <a class="reference internal" href="phases.html#options-linker"><span>Options affecting linking</span></a>), and the <a class="reference internal" href="phases.html#ghc-flag--rtsopts"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-rtsopts</span></code></a>
 link-time flag overrides this. However, <a class="reference internal" href="phases.html#ghc-flag--rtsopts"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-rtsopts</span></code></a> has no effect when
 <a class="reference internal" href="phases.html#ghc-flag--no-hs-main"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-no-hs-main</span></code></a> is in use (and the same goes for <a class="reference internal" href="phases.html#ghc-flag--with-rtsopts"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-with-rtsopts</span></code></a>). To
 set these options we have to call a GHC-specific API instead of
 <code class="docutils literal"><span class="pre">hs_init()</span></code>:</p>
-<div class="highlight-c"><div class="highlight"><pre><span></span><span class="cp">#include</span> <span class="cpf">&lt;stdio.h&gt;</span><span class="cp"></span>
+<div class="highlight-c"><div class="highlight"><pre><span class="cp">#include</span> <span class="cpf">&lt;stdio.h&gt;</span><span class="cp"></span>
 <span class="cp">#include</span> <span class="cpf">&quot;HsFFI.h&quot;</span><span class="cp"></span>
 
 <span class="cp">#ifdef __GLASGOW_HASKELL__</span>
@@ -412,7 +413,7 @@ external RTS interface, and we called <code class="docutils literal"><span class
 <code class="docutils literal"><span class="pre">hs_init()</span></code>, passing an argument of type <code class="docutils literal"><span class="pre">RtsConfig</span></code>. <code class="docutils literal"><span class="pre">RtsConfig</span></code>
 is a struct with various fields that affect the behaviour of the runtime
 system. Its definition is:</p>
-<div class="highlight-c"><div class="highlight"><pre><span></span><span class="k">typedef</span> <span class="k">struct</span> <span class="p">{</span>
+<div class="highlight-c"><div class="highlight"><pre><span class="k">typedef</span> <span class="k">struct</span> <span class="p">{</span>
     <span class="n">RtsOptsEnabledEnum</span> <span class="n">rts_opts_enabled</span><span class="p">;</span>
     <span class="k">const</span> <span class="kt">char</span> <span class="o">*</span><span class="n">rts_opts</span><span class="p">;</span>
 <span class="p">}</span> <span class="n">RtsConfig</span><span class="p">;</span>
@@ -434,7 +435,7 @@ and then modify the required fields, as in the code sample above.</p>
 </div>
 <div class="section" id="making-a-haskell-library-that-can-be-called-from-foreign-code">
 <span id="ffi-library"></span><h4>11.2.1.2. Making a Haskell library that can be called from foreign code<a class="headerlink" href="#making-a-haskell-library-that-can-be-called-from-foreign-code" title="Permalink to this headline">¶</a></h4>
-<p>The scenario here is much like in <a class="reference internal" href="#using-own-main"><span class="std std-ref">Using your own main()</span></a>, except that the
+<p>The scenario here is much like in <a class="reference internal" href="#using-own-main"><span>Using your own main()</span></a>, except that the
 aim is not to link a complete program, but to make a library from
 Haskell code that can be deployed in the same way that you would deploy
 a library of C code.</p>
@@ -442,7 +443,7 @@ a library of C code.</p>
 before any Haskell code can be called, so your library should provide
 initialisation and deinitialisation entry points, implemented in C or
 C++. For example:</p>
-<div class="highlight-c"><div class="highlight"><pre><span></span><span class="cp">#include</span> <span class="cpf">&lt;stdlib.h&gt;</span><span class="cp"></span>
+<div class="highlight-c"><div class="highlight"><pre><span class="cp">#include</span> <span class="cpf">&lt;stdlib.h&gt;</span><span class="cp"></span>
 <span class="cp">#include</span> <span class="cpf">&quot;HsFFI.h&quot;</span><span class="cp"></span>
 
 <span class="n">HsBool</span> <span class="nf">mylib_init</span><span class="p">(</span><span class="kt">void</span><span class="p">){</span>
@@ -478,7 +479,7 @@ compiler could therefore check that the C function being called via the
 FFI was being called at the right type.</p>
 <p>GHC no longer includes external header files when compiling via C, so
 this checking is not performed. The change was made for compatibility
-with the <a class="reference internal" href="codegens.html#native-code-gen"><span class="std std-ref">native code generator</span></a> (<a class="reference internal" href="phases.html#ghc-flag--fasm"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-fasm</span></code></a>) and to
+with the <a class="reference internal" href="codegens.html#native-code-gen"><span>native code generator</span></a> (<a class="reference internal" href="phases.html#ghc-flag--fasm"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-fasm</span></code></a>) and to
 comply strictly with the FFI specification, which requires that FFI calls are
 not subject to macro expansion and other CPP conversions that may be applied
 when using C header files. This approach also simplifies the inlining of foreign
@@ -534,7 +535,7 @@ implementation of Pools in the future, however.</dd>
 <div class="section" id="multi-threading-and-the-ffi">
 <span id="ffi-threads"></span><h3>11.2.4. Multi-threading and the FFI<a class="headerlink" href="#multi-threading-and-the-ffi" title="Permalink to this headline">¶</a></h3>
 <p>In order to use the FFI in a multi-threaded setting, you must use the
-<a class="reference internal" href="phases.html#ghc-flag--threaded"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-threaded</span></code></a> option (see <a class="reference internal" href="phases.html#options-linker"><span class="std std-ref">Options affecting linking</span></a>).</p>
+<a class="reference internal" href="phases.html#ghc-flag--threaded"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-threaded</span></code></a> option (see <a class="reference internal" href="phases.html#options-linker"><span>Options affecting linking</span></a>).</p>
 <div class="section" id="foreign-imports-and-multi-threading">
 <h4>11.2.4.1. Foreign imports and multi-threading<a class="headerlink" href="#foreign-imports-and-multi-threading" title="Permalink to this headline">¶</a></h4>
 <p>When you call a <code class="docutils literal"><span class="pre">foreign</span> <span class="pre">import</span></code>ed function that is annotated as
@@ -552,10 +553,10 @@ thread-safe. In particularly, some GUI libraries are not thread-safe and
 require that the caller only invokes GUI methods from a single thread.
 If this is the case, you may need to restrict your GUI operations to a
 single Haskell thread, and possibly also use a bound thread (see
-<a class="reference internal" href="#haskell-threads-and-os-threads"><span class="std std-ref">The relationship between Haskell threads and OS threads</span></a>).</p>
+<a class="reference internal" href="#haskell-threads-and-os-threads"><span>The relationship between Haskell threads and OS threads</span></a>).</p>
 <p>Note that foreign calls made by different Haskell threads may execute in
 <em>parallel</em>, even when the <code class="docutils literal"><span class="pre">+RTS</span> <span class="pre">-N</span></code> flag is not being used
-(<a class="reference internal" href="using-concurrent.html#parallel-options"><span class="std std-ref">RTS options for SMP parallelism</span></a>). The <a class="reference internal" href="using-concurrent.html#rts-flag--N"><code class="xref std std-rts-flag docutils literal"><span class="pre">-N</span></code></a> flag controls parallel
+(<a class="reference internal" href="using-concurrent.html#parallel-options"><span>RTS options for SMP parallelism</span></a>). The <a class="reference internal" href="using-concurrent.html#rts-flag--N"><code class="xref std std-rts-flag docutils literal"><span class="pre">-N</span></code></a> flag controls parallel
 execution of Haskell threads, but there may be an arbitrary number of
 foreign calls in progress at any one time, regardless of the <code class="docutils literal"><span class="pre">+RTS</span> <span class="pre">-N</span></code>
 value.</p>
@@ -565,7 +566,7 @@ thread receives an exception. The mechanism by which the interrupt
 occurs is platform dependent, but is intended to cause blocking system
 calls to return immediately with an interrupted error code. The
 underlying operating system thread is not to be destroyed. See
-<a class="reference internal" href="#ffi-interruptible"><span class="std std-ref">Interruptible foreign calls</span></a> for more details.</p>
+<a class="reference internal" href="#ffi-interruptible"><span>Interruptible foreign calls</span></a> for more details.</p>
 </div>
 <div class="section" id="the-relationship-between-haskell-threads-and-os-threads">
 <span id="haskell-threads-and-os-threads"></span><h4>11.2.4.2. The relationship between Haskell threads and OS threads<a class="headerlink" href="#the-relationship-between-haskell-threads-and-os-threads" title="Permalink to this headline">¶</a></h4>
@@ -602,7 +603,7 @@ example, the thread might be currently executing a foreign call, and we
 have no way to force the foreign call to complete. What&#8217;s more, the
 runtime must assume that in the worst case the Haskell code and runtime
 are about to be removed from memory (e.g. if this is a
-<a class="reference internal" href="win32-dlls.html#win32-dlls"><span class="std std-ref">Windows DLL</span></a>, <code class="docutils literal"><span class="pre">hs_exit()</span></code> is normally called before unloading
+<a class="reference internal" href="win32-dlls.html#win32-dlls"><span>Windows DLL</span></a>, <code class="docutils literal"><span class="pre">hs_exit()</span></code> is normally called before unloading
 the DLL). So <code class="docutils literal"><span class="pre">hs_exit()</span></code> <em>must</em> wait until all outstanding foreign
 calls return before it can return itself.</p>
 <p>The upshot of this is that if you have Haskell threads that are blocked
@@ -673,12 +674,12 @@ a foreign call, because foreign calls are never pre-empted by GHC.</li>
         <li class="right" >
           <a href="safe_haskell.html" title="10.39. Safe Haskell"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">GHC 8.0.2 Users Guide</a> &#187;</li> 
+        <li class="nav-item nav-item-0"><a href="index.html">GHC 8.0.2 Users Guide</a> &raquo;</li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">
-        &#169; Copyright 2015, GHC Team.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.5.2.
+        &copy; Copyright 2015, GHC Team.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.6.
     </div>
   </body>
 </html>

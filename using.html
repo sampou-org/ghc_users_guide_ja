@@ -7,7 +7,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>7.1. Using GHC &#8212; Glasgow Haskell Compiler &lt;release&gt; Users Guide</title>
+    <title>7.1. Using GHC &mdash; Glasgow Haskell Compiler &lt;release&gt; Users Guide</title>
     
     <link rel="stylesheet" href="_static/ghc-theme.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -18,15 +18,14 @@
         VERSION:     '8.0.2',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
-        HAS_SOURCE:  true,
-        SOURCELINK_SUFFIX: '.txt'
+        HAS_SOURCE:  true
       };
     </script>
     <script type="text/javascript" src="_static/jquery.js"></script>
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
-    <link rel="index" title="Index" href="genindex.html" />
-    <link rel="search" title="Search" href="search.html" />
+    <link rel="top" title="Glasgow Haskell Compiler &lt;release&gt; Users Guide" href="index.html" />
+    <link rel="up" title="7. Using GHC" href="usage.html" />
     <link rel="next" title="7.2. Warnings and sanity-checking" href="using-warnings.html" />
     <link rel="prev" title="7. Using GHC" href="usage.html" /> 
   </head>
@@ -47,8 +46,8 @@
         <li class="right" >
           <a href="usage.html" title="7. Using GHC"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">GHC 8.0.2 Users Guide</a> &#187;</li>
-          <li class="nav-item nav-item-1"><a href="usage.html" accesskey="U">7. Using GHC</a> &#187;</li> 
+        <li class="nav-item nav-item-0"><a href="index.html">GHC 8.0.2 Users Guide</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="usage.html" accesskey="U">7. Using GHC</a> &raquo;</li> 
       </ul>
     </div>
 
@@ -90,18 +89,21 @@
   <div role="note" aria-label="source link">
     <h3>This Page</h3>
     <ul class="this-page-menu">
-      <li><a href="_sources/using.rst.txt"
+      <li><a href="_sources/using.txt"
             rel="nofollow">Show Source</a></li>
     </ul>
    </div>
 <div id="searchbox" style="display: none" role="search">
   <h3>Quick search</h3>
     <form class="search" action="search.html" method="get">
-      <div><input type="text" name="q" /></div>
-      <div><input type="submit" value="Go" /></div>
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
       <input type="hidden" name="check_keywords" value="yes" />
       <input type="hidden" name="area" value="default" />
     </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
 </div>
 <script type="text/javascript">$('#searchbox').show(0);</script>
         </div>
@@ -124,11 +126,11 @@ quick introduction to the basic usage of GHC for compiling a Haskell
 program, before the following sections dive into the full syntax.</p>
 <p>Let&#8217;s create a Hello World program, and compile and run it. First,
 create a file <code class="file docutils literal"><span class="pre">hello.hs</span></code> containing the Haskell code:</p>
-<div class="highlight-haskell"><div class="highlight"><pre><span></span><span class="nf">main</span> <span class="ow">=</span> <span class="n">putStrLn</span> <span class="s">&quot;Hello, World!&quot;</span>
+<div class="highlight-haskell"><div class="highlight"><pre><span class="nf">main</span> <span class="ow">=</span> <span class="n">putStrLn</span> <span class="s">&quot;Hello, World!&quot;</span>
 </pre></div>
 </div>
 <p>To compile the program, use GHC like this:</p>
-<div class="highlight-sh"><div class="highlight"><pre><span></span>$ ghc hello.hs
+<div class="highlight-sh"><div class="highlight"><pre>$ ghc hello.hs
 </pre></div>
 </div>
 <p>(where <code class="docutils literal"><span class="pre">$</span></code> represents the prompt: don&#8217;t type it). GHC will compile the
@@ -140,7 +142,7 @@ the libraries that come with GHC to produce an executable called
 error messages. If you want to see in more detail what&#8217;s going on behind
 the scenes, add <a class="reference internal" href="#ghc-flag--v"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-v</span></code></a> to the command line.</p>
 <p>Then we can run the program like this:</p>
-<div class="highlight-sh"><div class="highlight"><pre><span></span>$ ./hello
+<div class="highlight-sh"><div class="highlight"><pre>$ ./hello
 Hello World!
 </pre></div>
 </div>
@@ -162,7 +164,7 @@ Options can be specified in three ways:</p>
 <div class="section" id="command-line-arguments">
 <h3>7.1.2.1. Command-line arguments<a class="headerlink" href="#command-line-arguments" title="Permalink to this headline">¶</a></h3>
 <p id="index-1">An invocation of GHC takes the following form:</p>
-<div class="highlight-none"><div class="highlight"><pre><span></span>ghc [argument...]
+<div class="highlight-none"><div class="highlight"><pre>ghc [argument...]
 </pre></div>
 </div>
 <p>Command-line arguments are either options or file names.</p>
@@ -198,15 +200,15 @@ Haskell source file deliberately uses name shadowing, it should be
 compiled with the <code class="docutils literal"><span class="pre">-Wno-name-shadowing</span></code> option. Rather than
 maintaining the list of per-file options in a <code class="docutils literal"><span class="pre">Makefile</span></code>, it is
 possible to do this directly in the source file using the
-<code class="docutils literal"><span class="pre">OPTIONS_GHC</span></code> <a class="reference internal" href="glasgow_exts.html#options-pragma"><span class="std std-ref">pragma</span></a></p>
-<div class="highlight-haskell"><div class="highlight"><pre><span></span><span class="cm">{-# OPTIONS_GHC -Wno-name-shadowing #-}</span>
+<code class="docutils literal"><span class="pre">OPTIONS_GHC</span></code> <a class="reference internal" href="glasgow_exts.html#options-pragma"><span>pragma</span></a></p>
+<div class="highlight-haskell"><div class="highlight"><pre><span class="cm">{-# OPTIONS_GHC -Wno-name-shadowing #-}</span>
 <span class="kr">module</span> <span class="nn">X</span> <span class="kr">where</span>
 <span class="o">...</span>
 </pre></div>
 </div>
-<p><code class="docutils literal"><span class="pre">OPTIONS_GHC</span></code> is a <em>file-header pragma</em> (see <a class="reference internal" href="glasgow_exts.html#options-pragma"><span class="std std-ref">OPTIONS_GHC pragma</span></a>).</p>
+<p><code class="docutils literal"><span class="pre">OPTIONS_GHC</span></code> is a <em>file-header pragma</em> (see <a class="reference internal" href="glasgow_exts.html#options-pragma"><span>OPTIONS_GHC pragma</span></a>).</p>
 <p>Only <em>dynamic</em> flags can be used in an <code class="docutils literal"><span class="pre">OPTIONS_GHC</span></code> pragma (see
-<a class="reference internal" href="#static-dynamic-flags"><span class="std std-ref">Static, Dynamic, and Mode options</span></a>).</p>
+<a class="reference internal" href="#static-dynamic-flags"><span>Static, Dynamic, and Mode options</span></a>).</p>
 <p>Note that your command shell does not get to the source file options,
 they are just included literally in the array of command-line arguments
 the compiler maintains internally, so you&#8217;ll be desperately disappointed
@@ -235,14 +237,14 @@ mode:</p>
 <blockquote>
 <div><p>For example, <a class="reference internal" href="#ghc-flag---make"><code class="xref std std-ghc-flag docutils literal"><span class="pre">--make</span></code></a> or <a class="reference internal" href="#ghc-flag--E"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-E</span></code></a>. There may only be a single mode
 flag on the command line. The available modes are listed in
-<a class="reference internal" href="#modes"><span class="std std-ref">Modes of operation</span></a>.</p>
+<a class="reference internal" href="#modes"><span>Modes of operation</span></a>.</p>
 <p>Most non-mode flags fall into this category. A dynamic flag may be
 used on the command line, in a <code class="docutils literal"><span class="pre">OPTIONS_GHC</span></code> pragma in a source
 file, or set using <a class="reference internal" href="ghci.html#ghci-cmd-:set"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:set</span></code></a> in GHCi.</p>
 <p>A few flags are &#8220;static&#8221;, which means they can only be used on the
 command-line, and remain in force over the entire GHC/GHCi run.</p>
 </div></blockquote>
-<p>The flag reference tables (<a class="reference internal" href="flags.html#flag-reference"><span class="std std-ref">Flag reference</span></a>) lists the status of
+<p>The flag reference tables (<a class="reference internal" href="flags.html#flag-reference"><span>Flag reference</span></a>) lists the status of
 each flag.</p>
 <p>There are a few flags that are static except that they can also be used
 with GHCi&#8217;s <a class="reference internal" href="ghci.html#ghci-cmd-:set"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:set</span></code></a> command; these are listed as “static/<code class="docutils literal"><span class="pre">:set</span></code>”
@@ -285,11 +287,11 @@ the linker.</p>
 <p id="index-7">GHC&#8217;s behaviour is firstly controlled by a mode flag. Only one of these
 flags may be given, but it does not necessarily need to be the first
 option on the command-line. For instance,</p>
-<div class="highlight-none"><div class="highlight"><pre><span></span>$ ghc Main.hs --make -o my-application
+<div class="highlight-none"><div class="highlight"><pre>$ ghc Main.hs --make -o my-application
 </pre></div>
 </div>
 <p>If no mode flag is present, then GHC will enter <a class="reference internal" href="#ghc-flag---make"><code class="xref std std-ghc-flag docutils literal"><span class="pre">--make</span></code></a> mode
-(<a class="reference internal" href="#make-mode"><span class="std std-ref">Using ghc &#8211;make</span></a>) if there are any Haskell source files given on the
+(<a class="reference internal" href="#make-mode"><span>Using ghc &#8211;make</span></a>) if there are any Haskell source files given on the
 command line, or else it will link the objects named on the command line
 to produce an executable.</p>
 <p>The available mode flags are:</p>
@@ -297,7 +299,7 @@ to produce an executable.</p>
 <dt id="ghc-flag---interactive">
 <code class="descname">--interactive</code><code class="descclassname"> </code><a class="headerlink" href="#ghc-flag---interactive" title="Permalink to this definition">¶</a></dt>
 <dd><p id="index-8">Interactive mode, which is also available as <strong class="program">ghci</strong>. Interactive
-mode is described in more detail in <a class="reference internal" href="ghci.html#ghci"><span class="std std-ref">Using GHCi</span></a>.</p>
+mode is described in more detail in <a class="reference internal" href="ghci.html#ghci"><span>Using GHCi</span></a>.</p>
 </dd></dl>
 
 <dl class="ghc-flag">
@@ -307,7 +309,7 @@ mode is described in more detail in <a class="reference internal" href="ghci.htm
 automatically, figuring out dependencies for itself. If you have a
 straightforward Haskell program, this is likely to be much easier,
 and faster, than using <strong class="command">make</strong>. Make mode is described in
-<a class="reference internal" href="#make-mode"><span class="std std-ref">Using ghc &#8211;make</span></a>.</p>
+<a class="reference internal" href="#make-mode"><span>Using ghc &#8211;make</span></a>.</p>
 <p>This mode is the default if there are any Haskell source files
 mentioned on the command line, and in this case the <a class="reference internal" href="#ghc-flag---make"><code class="xref std std-ghc-flag docutils literal"><span class="pre">--make</span></code></a>
 option can be omitted.</p>
@@ -318,7 +320,7 @@ option can be omitted.</p>
 <code class="descname">-e</code><code class="descclassname"> ⟨expr⟩</code><a class="headerlink" href="#ghc-flag--e" title="Permalink to this definition">¶</a></dt>
 <dd><p id="index-10">Expression-evaluation mode. This is very similar to interactive
 mode, except that there is a single expression to evaluate (⟨expr⟩)
-which is given on the command line. See <a class="reference internal" href="#eval-mode"><span class="std std-ref">Expression evaluation mode</span></a> for more
+which is given on the command line. See <a class="reference internal" href="#eval-mode"><span>Expression evaluation mode</span></a> for more
 details.</p>
 </dd></dl>
 
@@ -333,7 +335,7 @@ details.</p>
 <code class="descname">-c</code><code class="descclassname"> </code><a class="headerlink" href="#ghc-flag--c" title="Permalink to this definition">¶</a></dt>
 <dd><p>This is the traditional batch-compiler mode, in which GHC can
 compile source files one at a time, or link objects together into an
-executable. See <a class="reference internal" href="#options-order"><span class="std std-ref">Batch compiler mode</span></a>.</p>
+executable. See <a class="reference internal" href="#options-order"><span>Batch compiler mode</span></a>.</p>
 </dd></dl>
 
 <dl class="ghc-flag">
@@ -341,20 +343,20 @@ executable. See <a class="reference internal" href="#options-order"><span class=
 <code class="descname">-M</code><code class="descclassname"> </code><a class="headerlink" href="#ghc-flag--M" title="Permalink to this definition">¶</a></dt>
 <dd><p id="index-11">Dependency-generation mode. In this mode, GHC can be used to
 generate dependency information suitable for use in a <code class="docutils literal"><span class="pre">Makefile</span></code>.
-See <a class="reference internal" href="separate_compilation.html#makefile-dependencies"><span class="std std-ref">Dependency generation</span></a>.</p>
+See <a class="reference internal" href="separate_compilation.html#makefile-dependencies"><span>Dependency generation</span></a>.</p>
 </dd></dl>
 
 <dl class="ghc-flag">
 <dt id="ghc-flag---frontend">
 <code class="descname">--frontend</code><code class="descclassname"> ⟨module⟩</code><a class="headerlink" href="#ghc-flag---frontend" title="Permalink to this definition">¶</a></dt>
-<dd><p id="index-12">Run GHC using the given frontend plugin. See <a class="reference internal" href="extending_ghc.html#frontend-plugins"><span class="std std-ref">Frontend plugins</span></a> for
+<dd><p id="index-12">Run GHC using the given frontend plugin. See <a class="reference internal" href="extending_ghc.html#frontend-plugins"><span>Frontend plugins</span></a> for
 details.</p>
 </dd></dl>
 
 <dl class="ghc-flag">
 <dt id="ghc-flag---mk-dll">
 <code class="descname">--mk-dll</code><code class="descclassname"> </code><a class="headerlink" href="#ghc-flag---mk-dll" title="Permalink to this definition">¶</a></dt>
-<dd><p id="index-13">DLL-creation mode (Windows only). See <a class="reference internal" href="win32-dlls.html#win32-dlls-create"><span class="std std-ref">Creating a DLL</span></a>.</p>
+<dd><p id="index-13">DLL-creation mode (Windows only). See <a class="reference internal" href="win32-dlls.html#win32-dlls-create"><span>Creating a DLL</span></a>.</p>
 </dd></dl>
 
 <dl class="ghc-flag">
@@ -415,7 +417,7 @@ autocompletion in a shell.</p>
 directory tree containing GHC&#8217;s libraries, interfaces, and include
 files (usually something like <code class="docutils literal"><span class="pre">/usr/local/lib/ghc-5.04</span></code> on Unix).
 This is the value of <code class="docutils literal"><span class="pre">$libdir</span></code> in the package
-configuration file (see <a class="reference internal" href="packages.html#packages"><span class="std std-ref">Packages</span></a>).</p>
+configuration file (see <a class="reference internal" href="packages.html#packages"><span>Packages</span></a>).</p>
 </dd></dl>
 
 <div class="section" id="using-ghc-make">
@@ -424,13 +426,13 @@ configuration file (see <a class="reference internal" href="packages.html#packag
 dependencies from one or more root modules (usually just <code class="docutils literal"><span class="pre">Main</span></code>). For
 example, if your <code class="docutils literal"><span class="pre">Main</span></code> module is in a file called <code class="file docutils literal"><span class="pre">Main.hs</span></code>, you
 could compile and link the program like this:</p>
-<div class="highlight-none"><div class="highlight"><pre><span></span>ghc --make Main.hs
+<div class="highlight-none"><div class="highlight"><pre>ghc --make Main.hs
 </pre></div>
 </div>
 <p>In fact, GHC enters make mode automatically if there are any Haskell
 source files on the command line and no other mode is specified, so in
 this case we could just type</p>
-<div class="highlight-none"><div class="highlight"><pre><span></span>ghc Main.hs
+<div class="highlight-none"><div class="highlight"><pre>ghc Main.hs
 </pre></div>
 </div>
 <p>Any number of source file names or module names may be specified; GHC
@@ -460,7 +462,7 @@ then it defaults to the number of processors.</p>
 can be used with <code class="docutils literal"><span class="pre">--make</span></code>, but note that any options you give on the
 command line will apply to all the source files compiled, so if you want
 any options to apply to a single source file only, you&#8217;ll need to use an
-<code class="docutils literal"><span class="pre">OPTIONS_GHC</span></code> pragma (see <a class="reference internal" href="#source-file-options"><span class="std std-ref">Command line options in source files</span></a>).</p>
+<code class="docutils literal"><span class="pre">OPTIONS_GHC</span></code> pragma (see <a class="reference internal" href="#source-file-options"><span>Command line options in source files</span></a>).</p>
 <p>If the program needs to be linked with additional objects (say, some
 auxiliary C code), then the object files can be given on the command
 line and GHC will include them when linking the executable.</p>
@@ -474,7 +476,7 @@ module, then GHC will complain. The exception to this rule is for
 package modules, which may or may not have source files.</p>
 <p>The source files for the program don&#8217;t all need to be in the same
 directory; the <a class="reference internal" href="separate_compilation.html#ghc-flag--i"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-i</span></code></a> option can be used to add directories to the
-search path (see <a class="reference internal" href="separate_compilation.html#search-path"><span class="std std-ref">The search path</span></a>).</p>
+search path (see <a class="reference internal" href="separate_compilation.html#search-path"><span>The search path</span></a>).</p>
 <dl class="ghc-flag">
 <dt id="ghc-flag--j">
 <code class="descname">-j</code><code class="descclassname"> [N]</code><a class="headerlink" href="#ghc-flag--j" title="Permalink to this definition">¶</a></dt>
@@ -490,7 +492,7 @@ until its dependencies have been built.</p>
 <p>This mode is very similar to interactive mode, except that there is a
 single expression to evaluate which is specified on the command line as
 an argument to the <code class="docutils literal"><span class="pre">-e</span></code> option:</p>
-<div class="highlight-none"><div class="highlight"><pre><span></span>ghc -e expr
+<div class="highlight-none"><div class="highlight"><pre>ghc -e expr
 </pre></div>
 </div>
 <p>Haskell source files may be named on the command line, and they will be
@@ -498,12 +500,12 @@ loaded exactly as in interactive mode. The expression is evaluated in
 the context of the loaded modules.</p>
 <p>For example, to load and run a Haskell program containing a module
 <code class="docutils literal"><span class="pre">Main</span></code>, we might say:</p>
-<div class="highlight-none"><div class="highlight"><pre><span></span>ghc -e Main.main Main.hs
+<div class="highlight-none"><div class="highlight"><pre>ghc -e Main.main Main.hs
 </pre></div>
 </div>
 <p>or we can just use this mode to evaluate expressions in the context of
 the <code class="docutils literal"><span class="pre">Prelude</span></code>:</p>
-<div class="highlight-none"><div class="highlight"><pre><span></span>$ ghc -e &quot;interact (unlines.map reverse.lines)&quot;
+<div class="highlight-none"><div class="highlight"><pre>$ ghc -e &quot;interact (unlines.map reverse.lines)&quot;
 hello
 olleh
 </pre></div>
@@ -564,7 +566,7 @@ go all the way through to linking. This table summarises:</p>
 </tbody>
 </table>
 <p id="index-17">Thus, a common invocation would be:</p>
-<div class="highlight-none"><div class="highlight"><pre><span></span>ghc -c Foo.hs
+<div class="highlight-none"><div class="highlight"><pre>ghc -c Foo.hs
 </pre></div>
 </div>
 <p>to compile the Haskell source file <code class="docutils literal"><span class="pre">Foo.hs</span></code> to an object file
@@ -572,12 +574,12 @@ go all the way through to linking. This table summarises:</p>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
 <p class="last">What the Haskell compiler proper produces depends on what backend
-code generator is used. See <a class="reference internal" href="codegens.html#code-generators"><span class="std std-ref">GHC Backends</span></a> for more details.</p>
+code generator is used. See <a class="reference internal" href="codegens.html#code-generators"><span>GHC Backends</span></a> for more details.</p>
 </div>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
 <p class="last">Pre-processing is optional, the <a class="reference internal" href="phases.html#ghc-flag--cpp"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-cpp</span></code></a> flag turns it
-on. See <a class="reference internal" href="phases.html#c-pre-processor"><span class="std std-ref">Options affecting the C pre-processor</span></a> for more details.</p>
+on. See <a class="reference internal" href="phases.html#c-pre-processor"><span>Options affecting the C pre-processor</span></a> for more details.</p>
 </div>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
@@ -587,7 +589,7 @@ the compiler, dumping the result in a file.</p>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
 <p class="last">The option <a class="reference internal" href="#ghc-flag--C"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-C</span></code></a> is only available when GHC is built in
-unregisterised mode. See <a class="reference internal" href="codegens.html#unreg"><span class="std std-ref">Unregisterised compilation</span></a> for more details.</p>
+unregisterised mode. See <a class="reference internal" href="codegens.html#unreg"><span>Unregisterised compilation</span></a> for more details.</p>
 </div>
 <div class="section" id="overriding-the-default-behaviour-for-a-file">
 <span id="overriding-suffixes"></span><h4>7.1.5.3.1. Overriding the default behaviour for a file<a class="headerlink" href="#overriding-the-default-behaviour-for-a-file" title="Permalink to this headline">¶</a></h4>
@@ -608,7 +610,7 @@ compile a Haskell module in the file <code class="docutils literal"><span class=
 <div class="section" id="verbosity-options">
 <span id="options-help"></span><h2>7.1.6. Verbosity options<a class="headerlink" href="#verbosity-options" title="Permalink to this headline">¶</a></h2>
 <p id="index-18">See also the <code class="docutils literal"><span class="pre">--help</span></code>, <code class="docutils literal"><span class="pre">--version</span></code>, <code class="docutils literal"><span class="pre">--numeric-version</span></code>, and
-<code class="docutils literal"><span class="pre">--print-libdir</span></code> modes in <a class="reference internal" href="#modes"><span class="std std-ref">Modes of operation</span></a>.</p>
+<code class="docutils literal"><span class="pre">--print-libdir</span></code> modes in <a class="reference internal" href="#modes"><span>Modes of operation</span></a>.</p>
 <dl class="ghc-flag">
 <dt id="ghc-flag--v">
 <code class="descname">-v</code><code class="descclassname"> </code><a class="headerlink" href="#ghc-flag--v" title="Permalink to this definition">¶</a></dt>
@@ -664,7 +666,7 @@ messages and in GHCi:</p>
 <code class="descname">-fprint-unicode-syntax</code><code class="descclassname"> </code><a class="headerlink" href="#ghc-flag--fprint-unicode-syntax" title="Permalink to this definition">¶</a></dt>
 <dd><p>When enabled GHC prints type signatures using the unicode symbols from the
 <a class="reference internal" href="glasgow_exts.html#ghc-flag--XUnicodeSyntax"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-XUnicodeSyntax</span></code></a> extension. For instance,</p>
-<div class="highlight-none"><div class="highlight"><pre><span></span>ghci&gt; :set -fprint-unicode-syntax
+<div class="highlight-none"><div class="highlight"><pre>ghci&gt; :set -fprint-unicode-syntax
 ghci&gt; :t (&gt;&gt;)
 (&gt;&gt;) :: ∀ (m :: * → *) a b. Monad m ⇒ m a → m b → m b
 </pre></div>
@@ -677,7 +679,7 @@ ghci&gt; :t (&gt;&gt;)
 <dd><p>Using <a class="reference internal" href="#ghc-flag--fprint-explicit-foralls"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-fprint-explicit-foralls</span></code></a> makes
 GHC print explicit <code class="docutils literal"><span class="pre">forall</span></code> quantification at the top level of a
 type; normally this is suppressed. For example, in GHCi:</p>
-<div class="highlight-none"><div class="highlight"><pre><span></span>ghci&gt; let f x = x
+<div class="highlight-none"><div class="highlight"><pre>ghci&gt; let f x = x
 ghci&gt; :t f
 f :: a -&gt; a
 ghci&gt; :set -fprint-explicit-foralls
@@ -689,14 +691,14 @@ f :: forall a. a -&gt; a
 under these circumstances:</p>
 <ul>
 <li><p class="first">For nested <code class="docutils literal"><span class="pre">foralls</span></code>, e.g.</p>
-<div class="highlight-none"><div class="highlight"><pre><span></span>ghci&gt; :t GHC.ST.runST
+<div class="highlight-none"><div class="highlight"><pre>ghci&gt; :t GHC.ST.runST
 GHC.ST.runST :: (forall s. GHC.ST.ST s a) -&gt; a
 </pre></div>
 </div>
 </li>
 <li><p class="first">If any of the quantified type variables has a kind that mentions
 a kind variable, e.g.</p>
-<div class="highlight-none"><div class="highlight"><pre><span></span>ghci&gt; :i Data.Type.Equality.sym
+<div class="highlight-none"><div class="highlight"><pre>ghci&gt; :i Data.Type.Equality.sym
 Data.Type.Equality.sym ::
   forall (k :: BOX) (a :: k) (b :: k).
   (a Data.Type.Equality.:~: b) -&gt; b Data.Type.Equality.:~: a
@@ -713,7 +715,7 @@ Data.Type.Equality.sym ::
 <dd><p>Using <a class="reference internal" href="#ghc-flag--fprint-explicit-kinds"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-fprint-explicit-kinds</span></code></a> makes GHC print kind arguments in
 types, which are normally suppressed. This can be important when you
 are using kind polymorphism. For example:</p>
-<div class="highlight-none"><div class="highlight"><pre><span></span>ghci&gt; :set -XPolyKinds
+<div class="highlight-none"><div class="highlight"><pre>ghci&gt; :set -XPolyKinds
 ghci&gt; data T a = MkT
 ghci&gt; :t MkT
 MkT :: forall (k :: BOX) (a :: k). T a
@@ -730,7 +732,7 @@ MkT :: forall (k :: BOX) (a :: k). T k a
 <dd><p>When <a class="reference internal" href="#ghc-flag--fprint-explicit-runtime-reps"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-fprint-explicit-runtime-reps</span></code></a> is enabled, GHC prints
 <code class="docutils literal"><span class="pre">RuntimeRep</span></code> type variables for runtime-representation-polymorphic types.
 Otherwise GHC will default these to <code class="docutils literal"><span class="pre">PtrRepLifted</span></code>. For example,</p>
-<div class="highlight-none"><div class="highlight"><pre><span></span>ghci&gt; :t ($)
+<div class="highlight-none"><div class="highlight"><pre>ghci&gt; :t ($)
 ($) :: (a -&gt; b) -&gt; a -&gt; b
 ghci&gt; :set -fprint-explicit-runtime-reps
 ghci&gt; :t ($)
@@ -761,7 +763,7 @@ might be different) and <code class="docutils literal"><span class="pre">~#</spa
 the internal equality relation used in GHC&#8217;s solver. Generally,
 users should not need to worry about the subtleties here; <code class="docutils literal"><span class="pre">~</span></code> is
 probably what you want. Without <a class="reference internal" href="#ghc-flag--fprint-equality-relations"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-fprint-equality-relations</span></code></a>, GHC
-prints all of these as <code class="docutils literal"><span class="pre">~</span></code>. See also <a class="reference internal" href="glasgow_exts.html#equality-constraints"><span class="std std-ref">Equality constraints</span></a>.</p>
+prints all of these as <code class="docutils literal"><span class="pre">~</span></code>. See also <a class="reference internal" href="glasgow_exts.html#equality-constraints"><span>Equality constraints</span></a>.</p>
 </dd></dl>
 
 <dl class="ghc-flag">
@@ -769,19 +771,19 @@ prints all of these as <code class="docutils literal"><span class="pre">~</span>
 <code class="descname">-fprint-expanded-synonyms</code><code class="descclassname"> </code><a class="headerlink" href="#ghc-flag--fprint-expanded-synonyms" title="Permalink to this definition">¶</a></dt>
 <dd><p>When enabled, GHC also prints type-synonym-expanded types in type
 errors. For example, with this type synonyms:</p>
-<div class="highlight-haskell"><div class="highlight"><pre><span></span><span class="kr">type</span> <span class="kt">Foo</span> <span class="ow">=</span> <span class="kt">Int</span>
+<div class="highlight-haskell"><div class="highlight"><pre><span class="kr">type</span> <span class="kt">Foo</span> <span class="ow">=</span> <span class="kt">Int</span>
 <span class="kr">type</span> <span class="kt">Bar</span> <span class="ow">=</span> <span class="kt">Bool</span>
 <span class="kr">type</span> <span class="kt">MyBarST</span> <span class="n">s</span> <span class="ow">=</span> <span class="kt">ST</span> <span class="n">s</span> <span class="kt">Bar</span>
 </pre></div>
 </div>
 <p>This error message:</p>
-<div class="highlight-none"><div class="highlight"><pre><span></span>Couldn&#39;t match type &#39;Int&#39; with &#39;Bool&#39;
+<div class="highlight-none"><div class="highlight"><pre>Couldn&#39;t match type &#39;Int&#39; with &#39;Bool&#39;
 Expected type: ST s Foo
   Actual type: MyBarST s
 </pre></div>
 </div>
 <p>Becomes this:</p>
-<div class="highlight-none"><div class="highlight"><pre><span></span>Couldn&#39;t match type &#39;Int&#39; with &#39;Bool&#39;
+<div class="highlight-none"><div class="highlight"><pre>Couldn&#39;t match type &#39;Int&#39; with &#39;Bool&#39;
 Expected type: ST s Foo
   Actual type: MyBarST s
 Type synonyms expanded:
@@ -796,21 +798,21 @@ Expected type: ST s Int
 <code class="descname">-fprint-typechecker-elaboration</code><code class="descclassname"> </code><a class="headerlink" href="#ghc-flag--fprint-typechecker-elaboration" title="Permalink to this definition">¶</a></dt>
 <dd><p>When enabled, GHC also prints extra information from the typechecker in
 warnings. For example:</p>
-<div class="highlight-haskell"><div class="highlight"><pre><span></span><span class="nf">main</span> <span class="ow">::</span> <span class="kt">IO</span> <span class="nb">()</span>
+<div class="highlight-haskell"><div class="highlight"><pre><span class="nf">main</span> <span class="ow">::</span> <span class="kt">IO</span> <span class="nb">()</span>
 <span class="nf">main</span> <span class="ow">=</span> <span class="kr">do</span>
   <span class="n">return</span> <span class="o">$</span> <span class="kr">let</span> <span class="n">a</span> <span class="ow">=</span> <span class="s">&quot;hello&quot;</span> <span class="kr">in</span> <span class="n">a</span>
   <span class="n">return</span> <span class="nb">()</span>
 </pre></div>
 </div>
 <p>This warning message:</p>
-<div class="highlight-none"><div class="highlight"><pre><span></span>A do-notation statement discarded a result of type ‘[Char]’
+<div class="highlight-none"><div class="highlight"><pre>A do-notation statement discarded a result of type ‘[Char]’
 Suppress this warning by saying
   ‘_ &lt;- ($) return let a = &quot;hello&quot; in a’
 or by using the flag -fno-warn-unused-do-bind
 </pre></div>
 </div>
 <p>Becomes this:</p>
-<div class="highlight-none"><div class="highlight"><pre><span></span>A do-notation statement discarded a result of type ‘[Char]’
+<div class="highlight-none"><div class="highlight"><pre>A do-notation statement discarded a result of type ‘[Char]’
 Suppress this warning by saying
   ‘_ &lt;- ($)
           return
@@ -834,15 +836,15 @@ or by using the flag -fno-warn-unused-do-bind
 relating to an error message. Normally, GHC emits the source
 location of the start of the syntactic entity only.</p>
 <p>For example:</p>
-<div class="highlight-none"><div class="highlight"><pre><span></span>test.hs:3:6: parse error on input `where&#39;
+<div class="highlight-none"><div class="highlight"><pre>test.hs:3:6: parse error on input `where&#39;
 </pre></div>
 </div>
 <p>becomes:</p>
-<div class="highlight-none"><div class="highlight"><pre><span></span>test296.hs:3:6-10: parse error on input `where&#39;
+<div class="highlight-none"><div class="highlight"><pre>test296.hs:3:6-10: parse error on input `where&#39;
 </pre></div>
 </div>
 <p>And multi-line spans are possible too:</p>
-<div class="highlight-none"><div class="highlight"><pre><span></span>test.hs:(5,4)-(6,7):
+<div class="highlight-none"><div class="highlight"><pre>test.hs:(5,4)-(6,7):
     Conflicting definitions for `a&#39;
     Bound at: test.hs:5:4
               test.hs:6:7
@@ -858,7 +860,7 @@ start at zero. This choice was made to follow existing convention
 <dt id="ghc-flag--H">
 <code class="descname">-H</code><code class="descclassname"> ⟨size⟩</code><a class="headerlink" href="#ghc-flag--H" title="Permalink to this definition">¶</a></dt>
 <dd><p>Set the minimum size of the heap to ⟨size⟩. This option is
-equivalent to <code class="docutils literal"><span class="pre">+RTS</span> <span class="pre">-Hsize</span></code>, see <a class="reference internal" href="runtime_control.html#rts-options-gc"><span class="std std-ref">RTS options to control the garbage collector</span></a>.</p>
+equivalent to <code class="docutils literal"><span class="pre">+RTS</span> <span class="pre">-Hsize</span></code>, see <a class="reference internal" href="runtime_control.html#rts-options-gc"><span>RTS options to control the garbage collector</span></a>.</p>
 </dd></dl>
 
 <dl class="ghc-flag">
@@ -866,7 +868,7 @@ equivalent to <code class="docutils literal"><span class="pre">+RTS</span> <span
 <code class="descname">-Rghc-timing</code><code class="descclassname"> </code><a class="headerlink" href="#ghc-flag--Rghc-timing" title="Permalink to this definition">¶</a></dt>
 <dd><p>Prints a one-line summary of timing statistics for the GHC run. This
 option is equivalent to <code class="docutils literal"><span class="pre">+RTS</span> <span class="pre">-tstderr</span></code>, see
-<a class="reference internal" href="runtime_control.html#rts-options-gc"><span class="std std-ref">RTS options to control the garbage collector</span></a>.</p>
+<a class="reference internal" href="runtime_control.html#rts-options-gc"><span>RTS options to control the garbage collector</span></a>.</p>
 </dd></dl>
 
 </div>
@@ -878,11 +880,11 @@ option is equivalent to <code class="docutils literal"><span class="pre">+RTS</s
 <code class="descname">-msse2</code><code class="descclassname"> </code><a class="headerlink" href="#ghc-flag--msse2" title="Permalink to this definition">¶</a></dt>
 <dd><p>(x86 only, added in GHC 7.0.1) Use the SSE2 registers and
 instruction set to implement floating point operations when using
-the <a class="reference internal" href="codegens.html#native-code-gen"><span class="std std-ref">native code generator</span></a>. This gives a
+the <a class="reference internal" href="codegens.html#native-code-gen"><span>native code generator</span></a>. This gives a
 substantial performance improvement for floating point, but the
 resulting compiled code will only run on processors that support
 SSE2 (Intel Pentium 4 and later, or AMD Athlon 64 and later). The
-<a class="reference internal" href="codegens.html#llvm-code-gen"><span class="std std-ref">LLVM backend</span></a> will also use SSE2 if your
+<a class="reference internal" href="codegens.html#llvm-code-gen"><span>LLVM backend</span></a> will also use SSE2 if your
 processor supports it but detects this automatically so no flag is
 required.</p>
 <p>SSE2 is unconditionally used on x86-64 platforms.</p>
@@ -893,9 +895,9 @@ required.</p>
 <code class="descname">-msse4.2</code><code class="descclassname"> </code></dt>
 <dd><p>(x86 only, added in GHC 7.4.1) Use the SSE4.2 instruction set to
 implement some floating point and bit operations when using the
-<a class="reference internal" href="codegens.html#native-code-gen"><span class="std std-ref">native code generator</span></a>. The resulting compiled
+<a class="reference internal" href="codegens.html#native-code-gen"><span>native code generator</span></a>. The resulting compiled
 code will only run on processors that support SSE4.2 (Intel Core i7
-and later). The <a class="reference internal" href="codegens.html#llvm-code-gen"><span class="std std-ref">LLVM backend</span></a> will also use
+and later). The <a class="reference internal" href="codegens.html#llvm-code-gen"><span>LLVM backend</span></a> will also use
 SSE4.2 if your processor supports it but detects this automatically
 so no flag is required.</p>
 </dd></dl>
@@ -921,13 +923,13 @@ so no flag is required.</p>
         <li class="right" >
           <a href="usage.html" title="7. Using GHC"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">GHC 8.0.2 Users Guide</a> &#187;</li>
-          <li class="nav-item nav-item-1"><a href="usage.html" >7. Using GHC</a> &#187;</li> 
+        <li class="nav-item nav-item-0"><a href="index.html">GHC 8.0.2 Users Guide</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="usage.html" >7. Using GHC</a> &raquo;</li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">
-        &#169; Copyright 2015, GHC Team.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.5.2.
+        &copy; Copyright 2015, GHC Team.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.6.
     </div>
   </body>
 </html>

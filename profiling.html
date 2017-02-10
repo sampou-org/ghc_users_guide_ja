@@ -7,7 +7,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>8. Profiling &#8212; Glasgow Haskell Compiler &lt;release&gt; Users Guide</title>
+    <title>8. Profiling &mdash; Glasgow Haskell Compiler &lt;release&gt; Users Guide</title>
     
     <link rel="stylesheet" href="_static/ghc-theme.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -18,15 +18,13 @@
         VERSION:     '8.0.2',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
-        HAS_SOURCE:  true,
-        SOURCELINK_SUFFIX: '.txt'
+        HAS_SOURCE:  true
       };
     </script>
     <script type="text/javascript" src="_static/jquery.js"></script>
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
-    <link rel="index" title="Index" href="genindex.html" />
-    <link rel="search" title="Search" href="search.html" />
+    <link rel="top" title="Glasgow Haskell Compiler &lt;release&gt; Users Guide" href="index.html" />
     <link rel="next" title="9. Advice on: sooner, faster, smaller, thriftier" href="sooner.html" />
     <link rel="prev" title="7.13. Debugging the compiler" href="debugging.html" /> 
   </head>
@@ -47,7 +45,7 @@
         <li class="right" >
           <a href="debugging.html" title="7.13. Debugging the compiler"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">GHC 8.0.2 Users Guide</a> &#187;</li> 
+        <li class="nav-item nav-item-0"><a href="index.html">GHC 8.0.2 Users Guide</a> &raquo;</li> 
       </ul>
     </div>
 
@@ -110,18 +108,21 @@
   <div role="note" aria-label="source link">
     <h3>This Page</h3>
     <ul class="this-page-menu">
-      <li><a href="_sources/profiling.rst.txt"
+      <li><a href="_sources/profiling.txt"
             rel="nofollow">Show Source</a></li>
     </ul>
    </div>
 <div id="searchbox" style="display: none" role="search">
   <h3>Quick search</h3>
     <form class="search" action="search.html" method="get">
-      <div><input type="text" name="q" /></div>
-      <div><input type="submit" value="Go" /></div>
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
       <input type="hidden" name="check_keywords" value="yes" />
       <input type="hidden" name="area" value="default" />
     </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
 </div>
 <script type="text/javascript">$('#searchbox').show(0);</script>
         </div>
@@ -171,12 +172,12 @@ Furthermore, GHC will remember the stack of enclosing cost centres for
 any given expression at run-time and generate a call-tree of cost
 attributions.</p>
 <p>Let&#8217;s take a look at an example:</p>
-<div class="highlight-haskell"><div class="highlight"><pre><span></span><span class="nf">main</span> <span class="ow">=</span> <span class="n">print</span> <span class="p">(</span><span class="n">fib</span> <span class="mi">30</span><span class="p">)</span>
+<div class="highlight-haskell"><div class="highlight"><pre><span class="nf">main</span> <span class="ow">=</span> <span class="n">print</span> <span class="p">(</span><span class="n">fib</span> <span class="mi">30</span><span class="p">)</span>
 <span class="nf">fib</span> <span class="n">n</span> <span class="ow">=</span> <span class="kr">if</span> <span class="n">n</span> <span class="o">&lt;</span> <span class="mi">2</span> <span class="kr">then</span> <span class="mi">1</span> <span class="kr">else</span> <span class="n">fib</span> <span class="p">(</span><span class="n">n</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="o">+</span> <span class="n">fib</span> <span class="p">(</span><span class="n">n</span><span class="o">-</span><span class="mi">2</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>Compile and run this program as follows:</p>
-<div class="highlight-none"><div class="highlight"><pre><span></span>$ ghc -prof -fprof-auto -rtsopts Main.hs
+<div class="highlight-none"><div class="highlight"><pre>$ ghc -prof -fprof-auto -rtsopts Main.hs
 $ ./Main +RTS -p
 121393
 $
@@ -185,7 +186,7 @@ $
 <p>When a GHC-compiled program is run with the <a class="reference internal" href="#rts-flag--p"><code class="xref std std-rts-flag docutils literal"><span class="pre">-p</span></code></a> RTS option, it
 generates a file called <code class="file docutils literal"><span class="pre">prog.prof</span></code>. In this case, the file will contain
 something like this:</p>
-<div class="highlight-none"><div class="highlight"><pre><span></span>        Wed Oct 12 16:14 2011 Time and Allocation Profiling Report  (Final)
+<div class="highlight-none"><div class="highlight"><pre>        Wed Oct 12 16:14 2011 Time and Allocation Profiling Report  (Final)
 
            Main +RTS -p -RTS
 
@@ -214,7 +215,7 @@ total time and total memory allocation measured during the run of the
 program (note that the total memory allocation figure isn&#8217;t the same as
 the amount of <em>live</em> memory needed by the program at any one time; the
 latter can be determined using heap profiling, which we will describe
-later in <a class="reference internal" href="#prof-heap"><span class="std std-ref">Profiling memory usage</span></a>).</p>
+later in <a class="reference internal" href="#prof-heap"><span>Profiling memory usage</span></a>).</p>
 <p>The second part of the file is a break-down by cost centre of the most
 costly functions in the program. In this case, there was only one
 significant function in the program, namely <code class="docutils literal"><span class="pre">fib</span></code>, and it was
@@ -230,7 +231,7 @@ code covered by this cost centre stack alone, and “inherited”, which
 includes the costs incurred by all the children of this node.</p>
 <p>The usefulness of cost-centre stacks is better demonstrated by modifying
 the example slightly:</p>
-<div class="highlight-haskell"><div class="highlight"><pre><span></span><span class="nf">main</span> <span class="ow">=</span> <span class="n">print</span> <span class="p">(</span><span class="n">f</span> <span class="mi">30</span> <span class="o">+</span> <span class="n">g</span> <span class="mi">30</span><span class="p">)</span>
+<div class="highlight-haskell"><div class="highlight"><pre><span class="nf">main</span> <span class="ow">=</span> <span class="n">print</span> <span class="p">(</span><span class="n">f</span> <span class="mi">30</span> <span class="o">+</span> <span class="n">g</span> <span class="mi">30</span><span class="p">)</span>
   <span class="kr">where</span>
     <span class="n">f</span> <span class="n">n</span>  <span class="ow">=</span> <span class="n">fib</span> <span class="n">n</span>
     <span class="n">g</span> <span class="n">n</span>  <span class="ow">=</span> <span class="n">fib</span> <span class="p">(</span><span class="n">n</span> <span class="p">`</span><span class="n">div</span><span class="p">`</span> <span class="mi">2</span><span class="p">)</span>
@@ -240,7 +241,7 @@ the example slightly:</p>
 </div>
 <p>Compile and run this program as before, and take a look at the new
 profiling results:</p>
-<div class="highlight-none"><div class="highlight"><pre><span></span>COST CENTRE MODULE                  no.     entries  %time %alloc   %time %alloc
+<div class="highlight-none"><div class="highlight"><pre>COST CENTRE MODULE                  no.     entries  %time %alloc   %time %alloc
 
 MAIN        MAIN                    102           0    0.0    0.0   100.0  100.0
  CAF        GHC.IO.Handle.FD        128           0    0.0    0.0     0.0    0.0
@@ -299,7 +300,7 @@ to the compiler, it automatically inserts a cost centre annotation
 around every binding not marked INLINE in your program, but you are
 entirely free to add cost centre annotations yourself.</p>
 <p>The syntax of a cost centre annotation is</p>
-<div class="highlight-haskell"><div class="highlight"><pre><span></span><span class="cm">{-# SCC &quot;name&quot; #-}</span> <span class="o">&lt;</span><span class="n">expression</span><span class="o">&gt;</span>
+<div class="highlight-haskell"><div class="highlight"><pre><span class="cm">{-# SCC &quot;name&quot; #-}</span> <span class="o">&lt;</span><span class="n">expression</span><span class="o">&gt;</span>
 </pre></div>
 </div>
 <p>where <code class="docutils literal"><span class="pre">&quot;name&quot;</span></code> is an arbitrary string, that will become the name of
@@ -308,11 +309,11 @@ your cost centre as it appears in the profiling output, and
 extends as far to the right as possible when parsing. (SCC stands for
 &#8220;Set Cost Centre&#8221;). The double quotes can be omitted if <code class="docutils literal"><span class="pre">name</span></code> is a
 Haskell identifier, for example:</p>
-<div class="highlight-haskell"><div class="highlight"><pre><span></span><span class="cm">{-# SCC my_function #-}</span> <span class="o">&lt;</span><span class="n">expression</span><span class="o">&gt;</span>
+<div class="highlight-haskell"><div class="highlight"><pre><span class="cm">{-# SCC my_function #-}</span> <span class="o">&lt;</span><span class="n">expression</span><span class="o">&gt;</span>
 </pre></div>
 </div>
 <p>Here is an example of a program with a couple of SCCs:</p>
-<div class="highlight-haskell"><div class="highlight"><pre><span></span><span class="nf">main</span> <span class="ow">::</span> <span class="kt">IO</span> <span class="nb">()</span>
+<div class="highlight-haskell"><div class="highlight"><pre><span class="nf">main</span> <span class="ow">::</span> <span class="kt">IO</span> <span class="nb">()</span>
 <span class="nf">main</span> <span class="ow">=</span> <span class="kr">do</span> <span class="kr">let</span> <span class="n">xs</span> <span class="ow">=</span> <span class="p">[</span><span class="mi">1</span><span class="o">..</span><span class="mi">1000000</span><span class="p">]</span>
           <span class="kr">let</span> <span class="n">ys</span> <span class="ow">=</span> <span class="p">[</span><span class="mi">1</span><span class="o">..</span><span class="mi">2000000</span><span class="p">]</span>
           <span class="n">print</span> <span class="o">$</span> <span class="cm">{-# SCC last_xs #-}</span> <span class="n">last</span> <span class="n">xs</span>
@@ -322,7 +323,7 @@ Haskell identifier, for example:</p>
 </pre></div>
 </div>
 <p>which gives this profile when run:</p>
-<div class="highlight-none"><div class="highlight"><pre><span></span>COST CENTRE     MODULE                  no.     entries  %time %alloc   %time %alloc
+<div class="highlight-none"><div class="highlight"><pre>COST CENTRE     MODULE                  no.     entries  %time %alloc   %time %alloc
 
 MAIN            MAIN                    102           0    0.0    0.0   100.0  100.0
  CAF            GHC.IO.Handle.FD        130           0    0.0    0.0     0.0    0.0
@@ -418,7 +419,7 @@ function, you have to add it manually.</p>
 particularly useful when using profiling for the purposes of
 generating stack traces; see the function <a class="reference external" href="../libraries/base-4.9.1.0/Debug-Trace.html#traceShow">traceStack</a> in the
 module <code class="docutils literal"><span class="pre">Debug.Trace</span></code>, or the <a class="reference internal" href="runtime_control.html#rts-flag--xc"><code class="xref std std-rts-flag docutils literal"><span class="pre">-xc</span></code></a> RTS flag
-(<a class="reference internal" href="runtime_control.html#rts-options-debugging"><span class="std std-ref">RTS options for hackers, debuggers, and over-interested souls</span></a>) for more details.</p>
+(<a class="reference internal" href="runtime_control.html#rts-options-debugging"><span>RTS options for hackers, debuggers, and over-interested souls</span></a>) for more details.</p>
 </dd></dl>
 
 <dl class="ghc-flag">
@@ -491,7 +492,7 @@ sampling interval of the time and allocation profile. The default is
 stack whenever an exception is raised. This can be particularly
 useful for debugging the location of exceptions, such as the
 notorious <code class="docutils literal"><span class="pre">Prelude.head:</span> <span class="pre">empty</span> <span class="pre">list</span></code> error. See
-<a class="reference internal" href="runtime_control.html#rts-options-debugging"><span class="std std-ref">RTS options for hackers, debuggers, and over-interested souls</span></a>.</p>
+<a class="reference internal" href="runtime_control.html#rts-options-debugging"><span>RTS options for hackers, debuggers, and over-interested souls</span></a>.</p>
 </dd></dl>
 
 </div>
@@ -505,18 +506,18 @@ leaks lead to slower execution due to heavy garbage collector activity,
 and may even cause the program to run out of memory altogether.</p>
 <p>To generate a heap profile from your program:</p>
 <ol class="arabic simple">
-<li>Compile the program for profiling (<a class="reference internal" href="#prof-compiler-options"><span class="std std-ref">Compiler options for profiling</span></a>).</li>
+<li>Compile the program for profiling (<a class="reference internal" href="#prof-compiler-options"><span>Compiler options for profiling</span></a>).</li>
 <li>Run it with one of the heap profiling options described below (eg.
 <a class="reference internal" href="#rts-flag--h"><code class="xref std std-rts-flag docutils literal"><span class="pre">-h</span></code></a> for a basic producer profile). This generates the file
 <code class="docutils literal"><span class="pre">prog.hp</span></code>.</li>
 <li>Run <code class="docutils literal"><span class="pre">hp2ps</span></code> to produce a Postscript file, <code class="docutils literal"><span class="pre">prog.ps</span></code>. The
-<code class="docutils literal"><span class="pre">hp2ps</span></code> utility is described in detail in <a class="reference internal" href="#hp2ps"><span class="std std-ref">hp2ps &#8211; Rendering heap profiles to PostScript</span></a>.</li>
+<code class="docutils literal"><span class="pre">hp2ps</span></code> utility is described in detail in <a class="reference internal" href="#hp2ps"><span>hp2ps &#8211; Rendering heap profiles to PostScript</span></a>.</li>
 <li>Display the heap profile using a postscript viewer such as Ghostview,
 or print it out on a Postscript-capable printer.</li>
 </ol>
 <p>For example, here is a heap profile produced for the <code class="docutils literal"><span class="pre">sphere</span></code> program
 from GHC&#8217;s <code class="docutils literal"><span class="pre">nofib</span></code> benchmark suite,</p>
-<img alt="_images/prof_scc.svg" src="_images/prof_scc.svg" /><p>You might also want to take a look at
+<img src="_images/prof_scc.svg" /><p>You might also want to take a look at
 <a class="reference external" href="http://www.haskell.org/haskellwiki/Hp2any">hp2any</a>, a more advanced
 suite of tools (not distributed with GHC) for displaying heap profiles.</p>
 <div class="section" id="rts-options-for-heap-profiling">
@@ -561,14 +562,14 @@ approximation to the actual type.</p>
 <dt id="rts-flag--hr">
 <code class="descname">-hr</code><code class="descclassname"> </code><a class="headerlink" href="#rts-flag--hr" title="Permalink to this definition">¶</a></dt>
 <dd><p>Break down the graph by retainer set. Retainer profiling is
-described in more detail below (<a class="reference internal" href="#retainer-prof"><span class="std std-ref">Retainer Profiling</span></a>).</p>
+described in more detail below (<a class="reference internal" href="#retainer-prof"><span>Retainer Profiling</span></a>).</p>
 </dd></dl>
 
 <dl class="rts-flag">
 <dt id="rts-flag--hb">
 <code class="descname">-hb</code><code class="descclassname"> </code><a class="headerlink" href="#rts-flag--hb" title="Permalink to this definition">¶</a></dt>
 <dd><p>Break down the graph by biography. Biographical profiling is
-described in more detail below (<a class="reference internal" href="#biography-prof"><span class="std std-ref">Biographical Profiling</span></a>).</p>
+described in more detail below (<a class="reference internal" href="#biography-prof"><span>Biographical Profiling</span></a>).</p>
 </dd></dl>
 
 <p>In addition, the profile can be restricted to heap data which satisfies
@@ -627,7 +628,7 @@ biographies, where ⟨bio⟩ is one of <code class="docutils literal"><span clas
 
 <p>For example, the following options will generate a retainer profile
 restricted to <code class="docutils literal"><span class="pre">Branch</span></code> and <code class="docutils literal"><span class="pre">Leaf</span></code> constructors:</p>
-<div class="highlight-none"><div class="highlight"><pre><span></span>prog +RTS -hr -hdBranch,Leaf
+<div class="highlight-none"><div class="highlight"><pre>prog +RTS -hr -hdBranch,Leaf
 </pre></div>
 </div>
 <p>There can only be one &#8220;break-down&#8221; option (eg. <a class="reference internal" href="#rts-flag--hr"><code class="xref std std-rts-flag docutils literal"><span class="pre">-hr</span></code></a> in the example
@@ -642,7 +643,7 @@ doesn&#8217;t currently support mixing the <a class="reference internal" href="#
 is 0.1&nbsp;second). Fractions are allowed: for example <code class="docutils literal"><span class="pre">-i0.2</span></code> will
 get 5 samples per second. This only affects heap profiling; time
 profiles are always sampled with the frequency of the RTS clock. See
-<a class="reference internal" href="#prof-time-options"><span class="std std-ref">Time and allocation profiling</span></a> for changing that.</p>
+<a class="reference internal" href="#prof-time-options"><span>Time and allocation profiling</span></a> for changing that.</p>
 </dd></dl>
 
 <dl class="rts-flag">
@@ -719,7 +720,7 @@ However, retainer profiling will in this case report <code class="docutils liter
 the large structure. To move further up the chain of retainers, we can ask for
 another retainer profile but this time restrict the profile to <code class="docutils literal"><span class="pre">B</span></code> objects, so
 we get a profile of the retainers of <code class="docutils literal"><span class="pre">B</span></code>:</p>
-<div class="highlight-none"><div class="highlight"><pre><span></span>prog +RTS -hr -hcB
+<div class="highlight-none"><div class="highlight"><pre>prog +RTS -hr -hcB
 </pre></div>
 </div>
 <p>This trick isn&#8217;t foolproof, because there might be other <code class="docutils literal"><span class="pre">B</span></code> closures in
@@ -749,12 +750,12 @@ likely to be wasted space than heap in the lag or use states.</p>
 states by a different criteria, by restricting a profile by biography.
 For example, to show the portion of the heap in the drag or void state
 by producer:</p>
-<div class="highlight-none"><div class="highlight"><pre><span></span>prog +RTS -hc -hbdrag,void
+<div class="highlight-none"><div class="highlight"><pre>prog +RTS -hc -hbdrag,void
 </pre></div>
 </div>
 <p>Once you know the producer or the type of the heap in the drag or void
 states, the next step is usually to find the retainer(s):</p>
-<div class="highlight-none"><div class="highlight"><pre><span></span>prog +RTS -hr -hccc...
+<div class="highlight-none"><div class="highlight"><pre>prog +RTS -hr -hccc...
 </pre></div>
 </div>
 <div class="admonition note">
@@ -799,7 +800,7 @@ allocated by foreign libraries, and data allocated by the RTS), and
 <div class="section" id="hp2ps-rendering-heap-profiles-to-postscript">
 <span id="hp2ps"></span><h2>8.5. <code class="docutils literal"><span class="pre">hp2ps</span></code> &#8211; Rendering heap profiles to PostScript<a class="headerlink" href="#hp2ps-rendering-heap-profiles-to-postscript" title="Permalink to this headline">¶</a></h2>
 <p id="index-8">Usage:</p>
-<div class="highlight-none"><div class="highlight"><pre><span></span>hp2ps [flags] [&lt;file&gt;[.hp]]
+<div class="highlight-none"><div class="highlight"><pre>hp2ps [flags] [&lt;file&gt;[.hp]]
 </pre></div>
 </div>
 <p>The program <strong class="command">hp2ps</strong> program converts a heap profile as produced
@@ -919,8 +920,8 @@ ensuring that all the data will be displayed.</p>
 </dd></dl>
 
 <dl class="option">
-<dt id="cmdoption-hp2ps">
-<code class="descname">-?</code><code class="descclassname"></code><a class="headerlink" href="#cmdoption-hp2ps" title="Permalink to this definition">¶</a></dt>
+<dt id="cmdoption-hp2ps-?">
+<code class="descname">-?</code><code class="descclassname"></code><a class="headerlink" href="#cmdoption-hp2ps-?" title="Permalink to this definition">¶</a></dt>
 <dd><p>Print out usage information.</p>
 </dd></dl>
 
@@ -930,7 +931,7 @@ ensuring that all the data will be displayed.</p>
 <p>The <code class="docutils literal"><span class="pre">FOO.hp</span></code> file produced when you ask for the heap profile of a
 program <code class="docutils literal"><span class="pre">FOO</span></code> is a text file with a particularly simple structure.
 Here&#8217;s a representative example, with much of the actual data omitted:</p>
-<div class="highlight-none"><div class="highlight"><pre><span></span>JOB &quot;FOO -hC&quot;
+<div class="highlight-none"><div class="highlight"><pre>JOB &quot;FOO -hC&quot;
 DATE &quot;Thu Dec 26 18:17 2002&quot;
 SAMPLE_UNIT &quot;seconds&quot;
 VALUE_UNIT &quot;bytes&quot;
@@ -969,7 +970,7 @@ snapshot of your program&#8217;s heap usage. However, the last sample in the
 file may be incomplete, causing <strong class="command">hp2ps</strong> to fail. If you are using a
 machine with UNIX utilities installed, it&#8217;s not too hard to work around
 this problem (though the resulting command line looks rather Byzantine):</p>
-<div class="highlight-sh"><div class="highlight"><pre><span></span>head -<span class="sb">`</span>fgrep -n END_SAMPLE FOO.hp <span class="p">|</span> tail -1 <span class="p">|</span> cut -d : -f <span class="m">1</span><span class="sb">`</span> FOO.hp <span class="se">\</span>
+<div class="highlight-sh"><div class="highlight"><pre>head -<span class="sb">`</span>fgrep -n END_SAMPLE FOO.hp <span class="p">|</span> tail -1 <span class="p">|</span> cut -d : -f 1<span class="sb">`</span> FOO.hp <span class="se">\</span>
     <span class="p">|</span> hp2ps &gt; FOO.ps
 </pre></div>
 </div>
@@ -987,20 +988,20 @@ This results in a properly-formatted .hp file which we feed directly to
 can be used to view an up-to-date heap profile of your program as it runs.
 Simply generate an incremental heap profile as described in the previous
 section. Run <strong class="command">gv</strong> on your profile:</p>
-<div class="highlight-sh"><div class="highlight"><pre><span></span>gv -watch -orientation<span class="o">=</span>seascape FOO.ps
+<div class="highlight-sh"><div class="highlight"><pre>gv -watch -orientation<span class="o">=</span>seascape FOO.ps
 </pre></div>
 </div>
 <p>If you forget the <code class="docutils literal"><span class="pre">-watch</span></code> flag you can still select &#8220;Watch file&#8221; from
 the &#8220;State&#8221; menu. Now each time you generate a new profile <code class="docutils literal"><span class="pre">FOO.ps</span></code>
 the view will update automatically.</p>
 <p>This can all be encapsulated in a little script:</p>
-<div class="highlight-sh"><div class="highlight"><pre><span></span><span class="ch">#!/bin/sh</span>
-head -<span class="sb">`</span>fgrep -n END_SAMPLE FOO.hp <span class="p">|</span> tail -1 <span class="p">|</span> cut -d : -f <span class="m">1</span><span class="sb">`</span> FOO.hp <span class="se">\</span>
+<div class="highlight-sh"><div class="highlight"><pre><span class="ch">#!/bin/sh</span>
+head -<span class="sb">`</span>fgrep -n END_SAMPLE FOO.hp <span class="p">|</span> tail -1 <span class="p">|</span> cut -d : -f 1<span class="sb">`</span> FOO.hp <span class="se">\</span>
   <span class="p">|</span> hp2ps &gt; FOO.ps
 gv -watch -orientation<span class="o">=</span>seascape FOO.ps <span class="p">&amp;</span>
 <span class="k">while</span> <span class="o">[</span> <span class="m">1</span> <span class="o">]</span> <span class="p">;</span> <span class="k">do</span>
   sleep <span class="m">10</span> <span class="c1"># We generate a new profile every 10 seconds.</span>
-  head -<span class="sb">`</span>fgrep -n END_SAMPLE FOO.hp <span class="p">|</span> tail -1 <span class="p">|</span> cut -d : -f <span class="m">1</span><span class="sb">`</span> FOO.hp <span class="se">\</span>
+  head -<span class="sb">`</span>fgrep -n END_SAMPLE FOO.hp <span class="p">|</span> tail -1 <span class="p">|</span> cut -d : -f 1<span class="sb">`</span> FOO.hp <span class="se">\</span>
     <span class="p">|</span> hp2ps &gt; FOO.ps
 <span class="k">done</span>
 </pre></div>
@@ -1010,16 +1011,16 @@ gv -watch -orientation<span class="o">=</span>seascape FOO.ps <span class="p">&a
 slightly more complicated script works around this problem, by using the
 fact that sending a SIGHUP to gv will cause it to re-read its input
 file:</p>
-<div class="highlight-sh"><div class="highlight"><pre><span></span><span class="ch">#!/bin/sh</span>
-head -<span class="sb">`</span>fgrep -n END_SAMPLE FOO.hp <span class="p">|</span> tail -1 <span class="p">|</span> cut -d : -f <span class="m">1</span><span class="sb">`</span> FOO.hp <span class="se">\</span>
+<div class="highlight-sh"><div class="highlight"><pre><span class="ch">#!/bin/sh</span>
+head -<span class="sb">`</span>fgrep -n END_SAMPLE FOO.hp <span class="p">|</span> tail -1 <span class="p">|</span> cut -d : -f 1<span class="sb">`</span> FOO.hp <span class="se">\</span>
   <span class="p">|</span> hp2ps &gt; FOO.ps
 gv FOO.ps <span class="p">&amp;</span>
 <span class="nv">gvpsnum</span><span class="o">=</span><span class="nv">$!</span>
 <span class="k">while</span> <span class="o">[</span> <span class="m">1</span> <span class="o">]</span> <span class="p">;</span> <span class="k">do</span>
-  sleep <span class="m">10</span>
-  head -<span class="sb">`</span>fgrep -n END_SAMPLE FOO.hp <span class="p">|</span> tail -1 <span class="p">|</span> cut -d : -f <span class="m">1</span><span class="sb">`</span> FOO.hp <span class="se">\</span>
+  sleep 10
+  head -<span class="sb">`</span>fgrep -n END_SAMPLE FOO.hp <span class="p">|</span> tail -1 <span class="p">|</span> cut -d : -f 1<span class="sb">`</span> FOO.hp <span class="se">\</span>
     <span class="p">|</span> hp2ps &gt; FOO.ps
-  <span class="nb">kill</span> -HUP <span class="nv">$gvpsnum</span>
+  <span class="nb">kill</span> -HUP $gvpsnum
 <span class="k">done</span>
 </pre></div>
 </div>
@@ -1077,7 +1078,7 @@ one.</p>
 <p>For an example we have a program, called <code class="file docutils literal"><span class="pre">Recip.hs</span></code>, which computes
 exact decimal representations of reciprocals, with recurring parts
 indicated in brackets.</p>
-<div class="highlight-haskell"><div class="highlight"><pre><span></span><span class="nf">reciprocal</span> <span class="ow">::</span> <span class="kt">Int</span> <span class="ow">-&gt;</span> <span class="p">(</span><span class="kt">String</span><span class="p">,</span> <span class="kt">Int</span><span class="p">)</span>
+<div class="highlight-haskell"><div class="highlight"><pre><span class="nf">reciprocal</span> <span class="ow">::</span> <span class="kt">Int</span> <span class="ow">-&gt;</span> <span class="p">(</span><span class="kt">String</span><span class="p">,</span> <span class="kt">Int</span><span class="p">)</span>
 <span class="nf">reciprocal</span> <span class="n">n</span> <span class="o">|</span> <span class="n">n</span> <span class="o">&gt;</span> <span class="mi">1</span> <span class="ow">=</span> <span class="p">(</span><span class="sc">&#39;0&#39;</span> <span class="kt">:</span> <span class="sc">&#39;.&#39;</span> <span class="kt">:</span> <span class="n">digits</span><span class="p">,</span> <span class="n">recur</span><span class="p">)</span>
              <span class="o">|</span> <span class="n">otherwise</span> <span class="ow">=</span> <span class="ne">error</span>
               <span class="s">&quot;attempting to compute reciprocal of number &lt;= 1&quot;</span>
@@ -1110,7 +1111,7 @@ indicated in brackets.</p>
 </pre></div>
 </div>
 <p>HPC instrumentation is enabled with the <a class="reference internal" href="#ghc-flag--fhpc"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-fhpc</span></code></a> flag:</p>
-<div class="highlight-sh"><div class="highlight"><pre><span></span>$ ghc -fhpc Recip.hs
+<div class="highlight-sh"><div class="highlight"><pre>$ ghc -fhpc Recip.hs
 </pre></div>
 </div>
 <p>GHC creates a subdirectory <code class="docutils literal"><span class="pre">.hpc</span></code> in the current directory, and puts
@@ -1118,9 +1119,9 @@ HPC index (<code class="docutils literal"><span class="pre">.mix</span></code>) 
 don&#8217;t need to worry about these files: they contain information needed
 by the <code class="docutils literal"><span class="pre">hpc</span></code> tool to generate the coverage data for compiled modules
 after the program is run.</p>
-<div class="highlight-sh"><div class="highlight"><pre><span></span>$ ./Recip
-<span class="m">1</span>/3
-<span class="o">=</span> <span class="m">0</span>.<span class="o">(</span><span class="m">3</span><span class="o">)</span>
+<div class="highlight-sh"><div class="highlight"><pre>$ ./Recip
+1/3
+<span class="o">=</span> 0.<span class="o">(</span>3<span class="o">)</span>
 </pre></div>
 </div>
 <p>Running the program generates a file with the <code class="docutils literal"><span class="pre">.tix</span></code> suffix, in this
@@ -1130,7 +1131,7 @@ data), and the coverage data from the separate runs is accumulated in
 the <code class="docutils literal"><span class="pre">.tix</span></code> file. To reset the coverage data and start again, just
 remove the <code class="docutils literal"><span class="pre">.tix</span></code> file.</p>
 <p>Having run the program, we can generate a textual summary of coverage:</p>
-<div class="highlight-none"><div class="highlight"><pre><span></span>$ hpc report Recip
+<div class="highlight-none"><div class="highlight"><pre>$ hpc report Recip
  80% expressions used (81/101)
  12% boolean coverage (1/8)
       14% guards (1/7), 3 always True,
@@ -1144,7 +1145,7 @@ remove the <code class="docutils literal"><span class="pre">.tix</span></code> f
 </pre></div>
 </div>
 <p>We can also generate a marked-up version of the source.</p>
-<div class="highlight-none"><div class="highlight"><pre><span></span>$ hpc markup Recip
+<div class="highlight-none"><div class="highlight"><pre>$ hpc markup Recip
 writing Recip.hs.html
 </pre></div>
 </div>
@@ -1171,7 +1172,7 @@ those modules.</p>
 <div class="section" id="the-hpc-toolkit">
 <h3>8.7.3. The hpc toolkit<a class="headerlink" href="#the-hpc-toolkit" title="Permalink to this headline">¶</a></h3>
 <p>The hpc command has several sub-commands:</p>
-<div class="highlight-none"><div class="highlight"><pre><span></span>$ hpc
+<div class="highlight-none"><div class="highlight"><pre>$ hpc
 Usage: hpc COMMAND ...
 
 Commands:
@@ -1206,7 +1207,7 @@ modules and packages are considered in generating report, unless include
 or exclude are used. The report is a summary unless the <code class="docutils literal"><span class="pre">--per-module</span></code>
 flag is used. The <code class="docutils literal"><span class="pre">--xml-output</span></code> option allows for tools to use hpc to
 glean coverage.</p>
-<div class="highlight-none"><div class="highlight"><pre><span></span>$ hpc help report
+<div class="highlight-none"><div class="highlight"><pre>$ hpc help report
 Usage: hpc report [OPTION] .. &lt;TIX_FILE&gt; [&lt;MODULE&gt; [&lt;MODULE&gt; ..]]
 
 Options:
@@ -1228,7 +1229,7 @@ Options:
 <div class="section" id="hpc-markup">
 <h4>8.7.3.2. hpc markup<a class="headerlink" href="#hpc-markup" title="Permalink to this headline">¶</a></h4>
 <p><code class="docutils literal"><span class="pre">hpc</span> <span class="pre">markup</span></code> marks up source files into colored html.</p>
-<div class="highlight-none"><div class="highlight"><pre><span></span>$ hpc help markup
+<div class="highlight-none"><div class="highlight"><pre>$ hpc help markup
 Usage: hpc markup [OPTION] .. &lt;TIX_FILE&gt; [&lt;MODULE&gt; [&lt;MODULE&gt; ..]]
 
 Options:
@@ -1252,7 +1253,7 @@ Options:
 <p><code class="docutils literal"><span class="pre">hpc</span> <span class="pre">sum</span></code> adds together any number of <code class="docutils literal"><span class="pre">.tix</span></code> files into a single
 <code class="docutils literal"><span class="pre">.tix</span></code> file. <code class="docutils literal"><span class="pre">hpc</span> <span class="pre">sum</span></code> does not change the original <code class="docutils literal"><span class="pre">.tix</span></code> file;
 it generates a new <code class="docutils literal"><span class="pre">.tix</span></code> file.</p>
-<div class="highlight-none"><div class="highlight"><pre><span></span>$ hpc help sum
+<div class="highlight-none"><div class="highlight"><pre>$ hpc help sum
 Usage: hpc sum [OPTION] .. &lt;TIX_FILE&gt; [&lt;TIX_FILE&gt; [&lt;TIX_FILE&gt; ..]]
 Sum multiple .tix files in a single .tix file
 
@@ -1271,7 +1272,7 @@ Options:
 take the difference between <code class="docutils literal"><span class="pre">.tix</span></code> files, to subtract one <code class="docutils literal"><span class="pre">.tix</span></code>
 file from another, or to add two <code class="docutils literal"><span class="pre">.tix</span></code> files. hpc combine does not
 change the original <code class="docutils literal"><span class="pre">.tix</span></code> file; it generates a new <code class="docutils literal"><span class="pre">.tix</span></code> file.</p>
-<div class="highlight-none"><div class="highlight"><pre><span></span>$ hpc help combine
+<div class="highlight-none"><div class="highlight"><pre>$ hpc help combine
 Usage: hpc combine [OPTION] .. &lt;TIX_FILE&gt; &lt;TIX_FILE&gt;
 Combine two .tix files in a single .tix file
 
@@ -1290,7 +1291,7 @@ Options:
 <h4>8.7.3.5. hpc map<a class="headerlink" href="#hpc-map" title="Permalink to this headline">¶</a></h4>
 <p>hpc map inverts or zeros a <code class="docutils literal"><span class="pre">.tix</span></code> file. hpc map does not change the
 original <code class="docutils literal"><span class="pre">.tix</span></code> file; it generates a new <code class="docutils literal"><span class="pre">.tix</span></code> file.</p>
-<div class="highlight-none"><div class="highlight"><pre><span></span>$ hpc help map
+<div class="highlight-none"><div class="highlight"><pre>$ hpc help map
 Usage: hpc map [OPTION] .. &lt;TIX_FILE&gt;
 Map a function over a single .tix file
 
@@ -1310,7 +1311,7 @@ Options:
 <p>Overlays are an experimental feature of HPC, a textual description of
 coverage. hpc draft is used to generate a draft overlay from a .tix
 file, and hpc overlay generates a .tix files from an overlay.</p>
-<div class="highlight-none"><div class="highlight"><pre><span></span>% hpc help overlay
+<div class="highlight-none"><div class="highlight"><pre>% hpc help overlay
 Usage: hpc overlay [OPTION] .. &lt;OVERLAY_FILE&gt; [&lt;OVERLAY_FILE&gt; [...]]
 
 Options:
@@ -1396,12 +1397,12 @@ earlier versions, and may yet change further, feedback is welcome.</td></tr>
         <li class="right" >
           <a href="debugging.html" title="7.13. Debugging the compiler"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">GHC 8.0.2 Users Guide</a> &#187;</li> 
+        <li class="nav-item nav-item-0"><a href="index.html">GHC 8.0.2 Users Guide</a> &raquo;</li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">
-        &#169; Copyright 2015, GHC Team.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.5.2.
+        &copy; Copyright 2015, GHC Team.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.6.
     </div>
   </body>
 </html>
