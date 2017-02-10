@@ -241,40 +241,83 @@ version 8.0.2 のリリースノート
    デフォルト規則は ``Num`` クラスに対してしか効きませんが ``Bool`` は ``Num`` のインスタンスではないからです．
    GHC がこれを受け入れるようにするには :ghc-flag:`-XExtendedDefaultRules` 拡張を有効にするだけです．
 
-Compiler
-~~~~~~~~
+..
+   Compiler
+   ~~~~~~~~
 
--  A compiler bug present in 8.0.1 resulting in undefined reference errors while
-   compiling some packages has been fixed. (see :ghc-ticket:`12076`).
+コンパイラ
+~~~~~~~~~~
 
--  A code generator bug which resulted in segmentation faults in compiled
-   programs has been fixed (see :ghc-ticket:`12757`).
+..
+   -  A compiler bug present in 8.0.1 resulting in undefined reference errors while
+      compiling some packages has been fixed. (see :ghc-ticket:`12076`).
 
--  GHC now supports systems whose C compiler produces position-independent
-   executables by default. (see :ghc-ticket:`12579`).
+-  8.0.1 にあった，いくつかのパッケージをコンパイル中に未定義参照エラーになるというバグを修正しました
+   (:ghc-ticket:`12076` 参照)．
 
--  GHC can now be built on systems which use the ``gold`` linker by default
-   (see :ghc-ticket:`12816`).
+..
+   -  A code generator bug which resulted in segmentation faults in compiled
+      programs has been fixed (see :ghc-ticket:`12757`).
 
--  GHC now reliably runs on macOS Sierra systems. Sierra introduced a linker
-   limitation which GHC occassionally surpassed when compiling programs with
-   many package dependencies. (see :ghc-ticket:`12479`).
+-  コンパイル済みのプログラムでセグメンテーションフォルトがでるというコード生成器のバグを修正しました
+   (ghc-ticket:`12757` 参照)．
 
--  The :ghc-flag:`-Wredundant-constraints` flag has been removed from the
-   :ghc-flag:`-Wall` flag set (see :ghc-ticket:`10635`).
+..
+   -  GHC now supports systems whose C compiler produces position-independent
+      executables by default. (see :ghc-ticket:`12579`).
 
--  Added :ghc-flag:`-fdefer-out-of-scope-variables`, which converts
-   out-of-scope variable errors into warnings.
+-  GHC はデフォルトで，位置独立実行可能コードを生成する C コンパイラシステムをサポートするようになりました
+   (:ghc-ticket:`12579`参照)．
 
--  The RTS :ghc-flag:`-xb` now reads the base heap address in any base,
-   defaulting to decimal, hexadecimal if the address starts with ``0x``, and
-   octal if the address starts with ``0``.
+..
+   -  GHC can now be built on systems which use the ``gold`` linker by default
+      (see :ghc-ticket:`12816`).
 
--  Due to an oversight in GHC 8.0.1, the value of the preprocessor macro
-   ``__GLASGOW_HASKELL_LLVM__``, which exposes the LLVM version used by GHC, was
-   no longer an integer. This value is now turned into an integer again, but the
-   formatting is changed to be in line with ``__GLASGOW_HASKELL__``
-   (:ghc-ticket:`12628`).
+-  GHC はデフォルトで ``gold`` リンカを使うシステムでビルドできるようになりました
+   (:ghc-ticket:`12816` 参照)．
+
+..
+   -  GHC now reliably runs on macOS Sierra systems. Sierra introduced a linker
+      limitation which GHC occassionally surpassed when compiling programs with
+      many package dependencies. (see :ghc-ticket:`12479`).
+
+-  GHC は macOS Sierra でちゃんと走るようになりました．
+   Sierra が導入したリンカの制限を，大量のパッケージ依存があるプログラムをコンパイルするときに
+   GHC が超えてしまうことがありました(:ghc-ticket:`12479` 参照)．
+
+..
+   -  The :ghc-flag:`-Wredundant-constraints` flag has been removed from the
+      :ghc-flag:`-Wall` flag set (see :ghc-ticket:`10635`).
+
+-  :ghc-flag:`-Wredundant-constraints` フラグを :ghc-flag:`-Wall` フラグ集合から削除しました
+   (:ghc-ticket:`10635`)．
+
+..
+   -  Added :ghc-flag:`-fdefer-out-of-scope-variables`, which converts
+      out-of-scope variable errors into warnings.
+
+-  :ghc-flag:`-fdefer-out-of-scope-variables` フラグを追加しました．
+   このフラグは範囲外変数エラーを警告に変えます．
+
+..
+   -  The RTS :ghc-flag:`-xb` now reads the base heap address in any base,
+      defaulting to decimal, hexadecimal if the address starts with ``0x``, and
+      octal if the address starts with ``0``.
+
+-  RTS の :ghc-flag:`-xb` はベースのヒープアドレスを任意の基数で読むようになりました．
+   デフォルトでは10進，``0x``ではじまるアドレスは16進，``0``ではじまるアドレスなら8進として読みます．
+
+..
+   -  Due to an oversight in GHC 8.0.1, the value of the preprocessor macro
+      ``__GLASGOW_HASKELL_LLVM__``, which exposes the LLVM version used by GHC, was
+      no longer an integer. This value is now turned into an integer again, but the
+      formatting is changed to be in line with ``__GLASGOW_HASKELL__``
+      (:ghc-ticket:`12628`).
+
+-  とある見落としのせいで，GHC 8.0.1 では，GHCが使う LLVM のバージョンを表すプリプロセッサマクロ
+   ``__GLASGOW_HASKELL_LLVM__`` の値が整数でなくなっていました．
+   この値を整数に戻しました．ただし，フォーマットは ``__GLASGOW_HASKELL__`` のやりかたに沿ったものに変更しました
+   (:ghc-ticket:`12628`)．
 
 -  Parallel programs should be significantly more reliable on platforms with weak
    memory consistency guarantees (:ghc-ticket:`12469`)
