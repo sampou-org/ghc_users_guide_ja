@@ -224,51 +224,36 @@ is not an instance. To make GHC accept the above program, simply enable the
 </div>
 <div class="section" id="compiler">
 <h3>4.2.2. Compiler<a class="headerlink" href="#compiler" title="Permalink to this headline">¶</a></h3>
-<ul>
-<li><p class="first">A compiler bug present in 8.0.1 resulting in undefined reference errors while
-compiling some packages has been fixed. (see <a class="reference external" href="http://ghc.haskell.org/trac/ghc/ticket/12076">Trac #12076</a>).</p>
-</li>
-<li><p class="first">A code generator bug which resulted in segmentation faults in compiled
-programs has been fixed (see <a class="reference external" href="http://ghc.haskell.org/trac/ghc/ticket/12757">Trac #12757</a>).</p>
-</li>
-<li><p class="first">GHC now supports systems whose C compiler produces position-independent
-executables by default. (see <a class="reference external" href="http://ghc.haskell.org/trac/ghc/ticket/12579">Trac #12579</a>).</p>
-</li>
-<li><p class="first">GHC can now be built on systems which use the <code class="docutils literal"><span class="pre">gold</span></code> linker by default
-(see <a class="reference external" href="http://ghc.haskell.org/trac/ghc/ticket/12816">Trac #12816</a>).</p>
-</li>
-<li><p class="first">GHC now reliably runs on macOS Sierra systems. Sierra introduced a linker
+<ul class="simple">
+<li>A compiler bug present in 8.0.1 resulting in undefined reference errors while
+compiling some packages has been fixed. (see <a class="reference external" href="http://ghc.haskell.org/trac/ghc/ticket/12076">Trac #12076</a>).</li>
+<li>A code generator bug which resulted in segmentation faults in compiled
+programs has been fixed (see <a class="reference external" href="http://ghc.haskell.org/trac/ghc/ticket/12757">Trac #12757</a>).</li>
+<li>GHC now supports systems whose C compiler produces position-independent
+executables by default. (see <a class="reference external" href="http://ghc.haskell.org/trac/ghc/ticket/12579">Trac #12579</a>).</li>
+<li>GHC can now be built on systems which use the <code class="docutils literal"><span class="pre">gold</span></code> linker by default
+(see <a class="reference external" href="http://ghc.haskell.org/trac/ghc/ticket/12816">Trac #12816</a>).</li>
+<li>GHC now reliably runs on macOS Sierra systems. Sierra introduced a linker
 limitation which GHC occassionally surpassed when compiling programs with
-many package dependencies. (see <a class="reference external" href="http://ghc.haskell.org/trac/ghc/ticket/12479">Trac #12479</a>).</p>
-</li>
-<li><p class="first">The <a class="reference internal" href="using-warnings.html#ghc-flag--Wredundant-constraints"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-Wredundant-constraints</span></code></a> flag has been removed from the
-<a class="reference internal" href="using-warnings.html#ghc-flag--Wall"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-Wall</span></code></a> flag set (see <a class="reference external" href="http://ghc.haskell.org/trac/ghc/ticket/10635">Trac #10635</a>).</p>
-</li>
-<li><p class="first">Added <a class="reference internal" href="using-warnings.html#ghc-flag--fdefer-out-of-scope-variables"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-fdefer-out-of-scope-variables</span></code></a>, which converts
-out-of-scope variable errors into warnings.</p>
-</li>
-<li><p class="first">The RTS <code class="xref std std-ghc-flag docutils literal"><span class="pre">-xb</span></code> now reads the base heap address in any base,
+many package dependencies. (see <a class="reference external" href="http://ghc.haskell.org/trac/ghc/ticket/12479">Trac #12479</a>).</li>
+<li>The <a class="reference internal" href="using-warnings.html#ghc-flag--Wredundant-constraints"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-Wredundant-constraints</span></code></a> flag has been removed from the
+<a class="reference internal" href="using-warnings.html#ghc-flag--Wall"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-Wall</span></code></a> flag set (see <a class="reference external" href="http://ghc.haskell.org/trac/ghc/ticket/10635">Trac #10635</a>).</li>
+<li>Added <a class="reference internal" href="using-warnings.html#ghc-flag--fdefer-out-of-scope-variables"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-fdefer-out-of-scope-variables</span></code></a>, which converts
+out-of-scope variable errors into warnings.</li>
+<li>The RTS <code class="xref std std-ghc-flag docutils literal"><span class="pre">-xb</span></code> now reads the base heap address in any base,
 defaulting to decimal, hexadecimal if the address starts with <code class="docutils literal"><span class="pre">0x</span></code>, and
-octal if the address starts with <code class="docutils literal"><span class="pre">0</span></code>.</p>
-</li>
-<li><p class="first">Due to an oversight in GHC 8.0.1, the value of the preprocessor macro
+octal if the address starts with <code class="docutils literal"><span class="pre">0</span></code>.</li>
+<li>Due to an oversight in GHC 8.0.1, the value of the preprocessor macro
 <code class="docutils literal"><span class="pre">__GLASGOW_HASKELL_LLVM__</span></code>, which exposes the LLVM version used by GHC, was
 no longer an integer. This value is now turned into an integer again, but the
 formatting is changed to be in line with <code class="docutils literal"><span class="pre">__GLASGOW_HASKELL__</span></code>
-(<a class="reference external" href="http://ghc.haskell.org/trac/ghc/ticket/12628">Trac #12628</a>).</p>
-</li>
-<li><p class="first">Parallel programs should be significantly more reliable on platforms with weak
-memory consistency guarantees (<a class="reference external" href="http://ghc.haskell.org/trac/ghc/ticket/12469">Trac #12469</a>)</p>
-</li>
-<li><p class="first">Interface files should now be bit-wise identical for a given build.
-(<a class="reference external" href="http://ghc.haskell.org/trac/ghc/ticket/4012">Trac #4012</a>)</p>
-</li>
-<li><dl class="first docutils">
-<dt>Nearly two-hundred more bugs. See <a class="reference external" href="https://ghc.haskell.org/trac/ghc/query?status=closed&amp;milestone=8.0.2&amp;col=id&amp;col=summary&amp;col=status&amp;col=type&amp;col=priority&amp;col=milestone&amp;col=component&amp;order=priority">Trac</a></dt>
-<dd><p class="first last">for a complete list.</p>
-</dd>
-</dl>
-</li>
+(<a class="reference external" href="http://ghc.haskell.org/trac/ghc/ticket/12628">Trac #12628</a>).</li>
+<li>Parallel programs should be significantly more reliable on platforms with weak
+memory consistency guarantees (<a class="reference external" href="http://ghc.haskell.org/trac/ghc/ticket/12469">Trac #12469</a>)</li>
+<li>Interface files should now be bit-wise identical for a given build.
+(<a class="reference external" href="http://ghc.haskell.org/trac/ghc/ticket/4012">Trac #4012</a>)</li>
+<li>Nearly two-hundred more bugs. See <a class="reference external" href="https://ghc.haskell.org/trac/ghc/query?status=closed&amp;milestone=8.0.2&amp;col=id&amp;col=summary&amp;col=status&amp;col=type&amp;col=priority&amp;col=milestone&amp;col=component&amp;order=priority">Trac</a>
+for a complete list.</li>
 </ul>
 </div>
 <div class="section" id="runtime-system">
