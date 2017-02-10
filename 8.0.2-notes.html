@@ -207,18 +207,16 @@ GHC 8.0.2 はこれをリジェクトするようになりました．
 </li>
 </ul>
 <ul>
-<li><p class="first">GHC now adheres more closely to the Haskell 2010 Report with respect to
-defaulting rules. As a result, GHC will now reject some defaulting rules
-which GHC 8.0.1 and earlier would accept. For example, this is now
-rejected</p>
+<li><p class="first">GHC はデフォルト規則に関して，より Haskell 2010 Report に近くなりました．
+その結果，GHC はバージョン 8.0.1 以前には受け入れていたいくつかのデフォルト規則を拒絶するようになりました．
+たとえば，以下は拒絶されます．</p>
 <div class="highlight-haskell"><div class="highlight"><pre><span class="kr">module</span> <span class="nn">Foo</span> <span class="kr">where</span>
 <span class="kr">default</span> <span class="p">(</span><span class="kt">Bool</span><span class="p">)</span>
 </pre></div>
 </div>
-<p>because when the <code class="xref std std-ghc-flag docutils literal"><span class="pre">-XExtendedDefaultRules</span></code> extension is not
-enabled, defaulting rules only work for the <code class="docutils literal"><span class="pre">Num</span></code> class, of which <code class="docutils literal"><span class="pre">Bool</span></code>
-is not an instance. To make GHC accept the above program, simply enable the
-<code class="xref std std-ghc-flag docutils literal"><span class="pre">-XExtendedDefaultRules</span></code> extension.</p>
+<p>その理由は <code class="xref std std-ghc-flag docutils literal"><span class="pre">-XExtendedDefaultRules</span></code> 拡張が有効になっていなければ，
+デフォルト規則は <code class="docutils literal"><span class="pre">Num</span></code> クラスに対してしか効きませんが <code class="docutils literal"><span class="pre">Bool</span></code> は <code class="docutils literal"><span class="pre">Num</span></code> のインスタンスではないからです．
+GHC がこれを受け入れるようにするには <code class="xref std std-ghc-flag docutils literal"><span class="pre">-XExtendedDefaultRules</span></code> 拡張を有効にするだけです．</p>
 </li>
 </ul>
 </div>
