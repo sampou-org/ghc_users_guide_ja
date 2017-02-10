@@ -230,33 +230,16 @@ version 8.0.2 のリリースノート
       is not an instance. To make GHC accept the above program, simply enable the
       :ghc-flag:`-XExtendedDefaultRules` extension.
 
-   -  Some programs which combine default type class method implementations and
-      overlapping instances may now fail to type-check. Here is an example: ::
-
-	 class Foo a where
-	   foo :: a -> [a]
-	   foo _ = []
-
-	 instance Foo a
-	 instance Foo Int
-
-      The problem is that the overlapping ``Foo Int`` instance is not explicitly
-      marked as overlapping. To fix this, simply add an ``OVERLAPPING`` pragma: ::
-
-	 instance {-# OVERLAPPING #-} Foo Int
-
--  GHC now adheres more closely to the Haskell 2010 Report with respect to
-   defaulting rules. As a result, GHC will now reject some defaulting rules
-   which GHC 8.0.1 and earlier would accept. For example, this is now
-   rejected ::
+-  GHC はデフォルト規則に関して，より Haskell 2010 Report に近くなりました．
+   その結果，GHC はバージョン 8.0.1 以前には受け入れていたいくつかのデフォルト規則を拒絶するようになりました．
+   たとえば，以下は拒絶されます． :: 
 
       module Foo where
       default (Bool)
 
-   because when the :ghc-flag:`-XExtendedDefaultRules` extension is not
-   enabled, defaulting rules only work for the ``Num`` class, of which ``Bool``
-   is not an instance. To make GHC accept the above program, simply enable the
-   :ghc-flag:`-XExtendedDefaultRules` extension.
+   その理由は :ghc-flag:`-XExtendedDefaultRules` 拡張が有効になっていなければ，
+   デフォルト規則は ``Num`` クラスに対してしか効きませんが ``Bool`` は ``Num`` のインスタンスではないからです．
+   GHC がこれを受け入れるようにするには :ghc-flag:`-XExtendedDefaultRules` 拡張を有効にするだけです．
 
 Compiler
 ~~~~~~~~
@@ -299,7 +282,7 @@ Compiler
 -  Interface files should now be bit-wise identical for a given build.
    (:ghc-ticket:`4012`)
 
-- Nearly two-hundred more bugs. See `Trac <https://ghc.haskell.org/trac/ghc/query?status=closed&milestone=8.0.2&col=id&col=summary&col=status&col=type&col=priority&col=milestone&col=component&order=priority>`__
+-  Nearly two-hundred more bugs. See `Trac <https://ghc.haskell.org/trac/ghc/query?status=closed&milestone=8.0.2&col=id&col=summary&col=status&col=type&col=priority&col=milestone&col=component&order=priority>`_
    for a complete list.
 
 Runtime system
