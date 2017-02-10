@@ -57,7 +57,7 @@
 <li><a class="reference internal" href="#id1">4.1. ハイライト</a></li>
 <li><a class="reference internal" href="#id2">4.2. 詳細</a><ul>
 <li><a class="reference internal" href="#id3">4.2.1. 言語拡張</a></li>
-<li><a class="reference internal" href="#compiler">4.2.2. Compiler</a></li>
+<li><a class="reference internal" href="#id4">4.2.2. コンパイラ</a></li>
 <li><a class="reference internal" href="#runtime-system">4.2.3. Runtime system</a></li>
 <li><a class="reference internal" href="#template-haskell">4.2.4. Template Haskell</a></li>
 <li><a class="reference internal" href="#ghc-library">4.2.5. <code class="docutils literal"><span class="pre">ghc</span></code> library</a></li>
@@ -220,32 +220,46 @@ GHC がこれを受け入れるようにするには <code class="xref std std-g
 </li>
 </ul>
 </div>
-<div class="section" id="compiler">
-<h3>4.2.2. Compiler<a class="headerlink" href="#compiler" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id4">
+<h3>4.2.2. コンパイラ<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
-<li>A compiler bug present in 8.0.1 resulting in undefined reference errors while
-compiling some packages has been fixed. (see <a class="reference external" href="http://ghc.haskell.org/trac/ghc/ticket/12076">Trac #12076</a>).</li>
-<li>A code generator bug which resulted in segmentation faults in compiled
-programs has been fixed (see <a class="reference external" href="http://ghc.haskell.org/trac/ghc/ticket/12757">Trac #12757</a>).</li>
-<li>GHC now supports systems whose C compiler produces position-independent
-executables by default. (see <a class="reference external" href="http://ghc.haskell.org/trac/ghc/ticket/12579">Trac #12579</a>).</li>
-<li>GHC can now be built on systems which use the <code class="docutils literal"><span class="pre">gold</span></code> linker by default
-(see <a class="reference external" href="http://ghc.haskell.org/trac/ghc/ticket/12816">Trac #12816</a>).</li>
-<li>GHC now reliably runs on macOS Sierra systems. Sierra introduced a linker
-limitation which GHC occassionally surpassed when compiling programs with
-many package dependencies. (see <a class="reference external" href="http://ghc.haskell.org/trac/ghc/ticket/12479">Trac #12479</a>).</li>
-<li>The <a class="reference internal" href="using-warnings.html#ghc-flag--Wredundant-constraints"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-Wredundant-constraints</span></code></a> flag has been removed from the
-<a class="reference internal" href="using-warnings.html#ghc-flag--Wall"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-Wall</span></code></a> flag set (see <a class="reference external" href="http://ghc.haskell.org/trac/ghc/ticket/10635">Trac #10635</a>).</li>
-<li>Added <a class="reference internal" href="using-warnings.html#ghc-flag--fdefer-out-of-scope-variables"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-fdefer-out-of-scope-variables</span></code></a>, which converts
-out-of-scope variable errors into warnings.</li>
-<li>The RTS <code class="xref std std-ghc-flag docutils literal"><span class="pre">-xb</span></code> now reads the base heap address in any base,
-defaulting to decimal, hexadecimal if the address starts with <code class="docutils literal"><span class="pre">0x</span></code>, and
-octal if the address starts with <code class="docutils literal"><span class="pre">0</span></code>.</li>
-<li>Due to an oversight in GHC 8.0.1, the value of the preprocessor macro
-<code class="docutils literal"><span class="pre">__GLASGOW_HASKELL_LLVM__</span></code>, which exposes the LLVM version used by GHC, was
-no longer an integer. This value is now turned into an integer again, but the
-formatting is changed to be in line with <code class="docutils literal"><span class="pre">__GLASGOW_HASKELL__</span></code>
-(<a class="reference external" href="http://ghc.haskell.org/trac/ghc/ticket/12628">Trac #12628</a>).</li>
+<li>8.0.1 にあった，いくつかのパッケージをコンパイル中に未定義参照エラーになるというバグを修正しました
+(<a class="reference external" href="http://ghc.haskell.org/trac/ghc/ticket/12076">Trac #12076</a> 参照)．</li>
+</ul>
+<ul class="simple">
+<li>コンパイル済みのプログラムでセグメンテーションフォルトがでるというコード生成器のバグを修正しました
+(ghc-ticket:<cite>12757</cite> 参照)．</li>
+</ul>
+<ul class="simple">
+<li>GHC はデフォルトで，位置独立実行可能コードを生成する C コンパイラシステムをサポートするようになりました
+(:ghc-ticket:<a href="#id5"><span class="problematic" id="id6">`</span></a>12579`参照)．</li>
+</ul>
+<ul class="simple">
+<li>GHC はデフォルトで <code class="docutils literal"><span class="pre">gold</span></code> リンカを使うシステムでビルドできるようになりました
+(<a class="reference external" href="http://ghc.haskell.org/trac/ghc/ticket/12816">Trac #12816</a> 参照)．</li>
+</ul>
+<ul class="simple">
+<li>GHC は macOS Sierra でちゃんと走るようになりました．
+Sierra が導入したリンカの制限を，大量のパッケージ依存があるプログラムをコンパイルするときに
+GHC が超えてしまうことがありました(<a class="reference external" href="http://ghc.haskell.org/trac/ghc/ticket/12479">Trac #12479</a> 参照)．</li>
+</ul>
+<ul class="simple">
+<li><a class="reference internal" href="using-warnings.html#ghc-flag--Wredundant-constraints"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-Wredundant-constraints</span></code></a> フラグを <a class="reference internal" href="using-warnings.html#ghc-flag--Wall"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-Wall</span></code></a> フラグ集合から削除しました
+(<a class="reference external" href="http://ghc.haskell.org/trac/ghc/ticket/10635">Trac #10635</a>)．</li>
+</ul>
+<ul class="simple">
+<li><a class="reference internal" href="using-warnings.html#ghc-flag--fdefer-out-of-scope-variables"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-fdefer-out-of-scope-variables</span></code></a> フラグを追加しました．
+このフラグは範囲外変数エラーを警告に変えます．</li>
+</ul>
+<ul class="simple">
+<li>RTS の <code class="xref std std-ghc-flag docutils literal"><span class="pre">-xb</span></code> はベースのヒープアドレスを任意の基数で読むようになりました．
+デフォルトでは10進，<a href="#id7"><span class="problematic" id="id8">``</span></a>0x``ではじまるアドレスは16進，<a href="#id9"><span class="problematic" id="id10">``</span></a>0``ではじまるアドレスなら8進として読みます．</li>
+</ul>
+<ul class="simple">
+<li>とある見落としのせいで，GHC 8.0.1 では，GHCが使う LLVM のバージョンを表すプリプロセッサマクロ
+<code class="docutils literal"><span class="pre">__GLASGOW_HASKELL_LLVM__</span></code> の値が整数でなくなっていました．
+この値を整数に戻しました．ただし，フォーマットは <code class="docutils literal"><span class="pre">__GLASGOW_HASKELL__</span></code> のやりかたに沿ったものに変更しました
+(<a class="reference external" href="http://ghc.haskell.org/trac/ghc/ticket/12628">Trac #12628</a>)．</li>
 <li>Parallel programs should be significantly more reliable on platforms with weak
 memory consistency guarantees (<a class="reference external" href="http://ghc.haskell.org/trac/ghc/ticket/12469">Trac #12469</a>)</li>
 <li>Interface files should now be bit-wise identical for a given build.
