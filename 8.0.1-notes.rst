@@ -1375,96 +1375,221 @@ base
   :ghc-flag:`-fdefer-type-errors` フラグで走っている場合，型検査に失敗したときに投げられます
   (see :ghc-ticket:`10284`)．
 
+..
+   binary
+   ~~~~~~
+
 binary
 ~~~~~~
 
--  Version number 0.8.3.0 (was 0.7.5.0)
+..
+   -  Version number 0.8.3.0 (was 0.7.5.0)
+
+-  バージョン 0.8.3.0 (従来 0.7.5.0)
+
+..
+   bytestring
+   ~~~~~~~~~~
 
 bytestring
 ~~~~~~~~~~
 
--  Version number 0.10.8.0 (was 0.10.6.0)
+..
+   -  Version number 0.10.8.0 (was 0.10.6.0)
+
+-  バージョン 0.10.8.0 (従来 0.10.6.0)
+
+..
+   Cabal
+   ~~~~~
 
 Cabal
 ~~~~~
 
--  Version number 1.24.0 (was 1.22.5.0)
+..
+   -  Version number 1.24.0 (was 1.22.5.0)
+
+-  バージョン 1.24.0 (従来 1.22.5.0)
+
+..
+   containers
+   ~~~~~~~~~~
 
 containers
 ~~~~~~~~~~
 
--  Version number 0.5.7.1 (was 0.5.6.2)
+..
+   -  Version number 0.5.7.1 (was 0.5.6.2)
+
+-  バージョン 0.5.7.1 (従来 0.5.6.2)
+
+..
+   deepseq
+   ~~~~~~~
 
 deepseq
 ~~~~~~~
 
--  Version number 1.4.2.0 (was 1.4.1.1)
+..
+   -  Version number 1.4.2.0 (was 1.4.1.1)
+
+-  バージョン 1.4.2.0 (従来 1.4.1.1)
+
+..
+   directory
+   ~~~~~~~~~
 
 directory
 ~~~~~~~~~
 
--  Version number 1.2.6.2 (was 1.2.2.0)
+..
+   -  Version number 1.2.6.2 (was 1.2.2.0)
+
+-  バージョン 1.2.6.2 (従来 1.2.2.0)
+
+..
+   filepath
+   ~~~~~~~~
 
 filepath
 ~~~~~~~~
 
--  Version number 1.4.1.0 (was 1.4.0.0)
+..
+   -  Version number 1.4.1.0 (was 1.4.0.0)
+
+-  バージョン 1.4.1.0 (従来 1.4.0.0)
+
+..
+   ghc
+   ~~~
 
 ghc
 ~~~
 
--  The ``HsBang`` type has been removed in favour of ``HsSrcBang`` and
-   ``HsImplBang``. Data constructors now always carry around their
-   strictness annotations as the user wrote them, whether from an
-   imported module or not.
+..
+   -  The ``HsBang`` type has been removed in favour of ``HsSrcBang`` and
+      ``HsImplBang``. Data constructors now always carry around their
+      strictness annotations as the user wrote them, whether from an
+      imported module or not.
 
--  Moved ``startsVarSym``, ``startsVarId``, ``startsConSym``, ``startsConId``,
-   ``startsVarSymASCII``, and ``isVarSymChar`` from ``Lexeme`` to the
-   ``GHC.Lemexe`` module of the ``ghc-boot`` library.
+-  ``HsBang`` 型を廃止しました．代りに ``HsSrcBang`` と ``HsImplBang`` を使ってください．
+   データ構成子はインポートしたモジュール由来かどうかにかかわらず，
+   ユーザが書いたとおりの正格性アノテーションを常に持ち回ります．
 
--  Add ``isImport``, ``isDecl``, and ``isStmt`` functions.
+..
+   -  Moved ``startsVarSym``, ``startsVarId``, ``startsConSym``, ``startsConId``,
+      ``startsVarSymASCII``, and ``isVarSymChar`` from ``Lexeme`` to the
+      ``GHC.Lemexe`` module of the ``ghc-boot`` library.
 
--  The `mi_fix_fn` field of `ModIface` had its type changed from
-   ``OccName -> Fixity`` to ``OccName -> Maybe Fixity``, where a returned value
-   of ``Nothing`` indicates a cache miss. As a result, the types of
-   ``mkIfaceFixCache`` and ``emptyIfaceFixCache`` were also changed to have a
-   return type of ``Maybe Fixity``, and a new ``mi_fix :: OccName -> Fixity``
-   function was introduced which invokes ``mi_fix_fn`` but returns
-   ``defaultFixity`` upon a cache miss.
+-  ``startsVarSym``，``startsVarId``，``startsConSym``，``startsConId``，
+   ``startsVarSymASCII``，``isVarSymChar`` は ``Lexeme`` モジュールから
+   ``ghc-boot`` ライブラリの ``GHC.Lemexe`` モジュールに移動しました．
+
+..
+   -  Add ``isImport``, ``isDecl``, and ``isStmt`` functions.
+
+-  ``isImport``，``isDecl``，``isStmt`` 関数を追加しました．
+
+..
+   -  The `mi_fix_fn` field of `ModIface` had its type changed from
+      ``OccName -> Fixity`` to ``OccName -> Maybe Fixity``, where a returned value
+      of ``Nothing`` indicates a cache miss. As a result, the types of
+      ``mkIfaceFixCache`` and ``emptyIfaceFixCache`` were also changed to have a
+      return type of ``Maybe Fixity``, and a new ``mi_fix :: OccName -> Fixity``
+      function was introduced which invokes ``mi_fix_fn`` but returns
+      ``defaultFixity`` upon a cache miss.
+
+-  `ModIface` の `mi_fix_fn` フィールドの型を ``OccName -> Fixity`` から
+   ``OccName -> Maybe Fixity`` へ変更しました．
+   返り値が ``Nothing`` であれば，キャッシュミスがあったことが判ります．
+   この変更の結果，``mkIfaceFixCache`` と ``emptyIfaceFixCache`` も返り値の型は
+   ``Maybe Fixity`` になります．
+   また，``mi_fix :: OccName -> Fixity`` という関数を新規に導入しました．
+   この関数は ``mi_fix_fn`` を呼ぶのですが，キャッシュミスのときは， ``defaultFixity``
+   を返します．
+
+..
+   ghc-boot
+   ~~~~~~~~
 
 ghc-boot
 ~~~~~~~~
 
--  This is an internal package. Use with caution.
+..
+   -  This is an internal package. Use with caution.
 
--  Version number 8.0.1
+-  これは内部パッケージですので，使用は慎重に．
+
+..
+   -  Version number 8.0.1
+
+-  バージョン 8.0.1
 
 -  This package was renamed from ``bin-package-db`` to reflect its new purpose
    of containing intra-GHC functionality that needs to be shared across
    multiple GHC boot libraries.
 
+-  複数のGHCブートライブラリにまたがって共有しなければならない，イントラGHC機能を有するという
+   新しい目的を反映して，このパッケージは名前を ``bin-package-db`` から ``ghc-boot`` に
+   改名しました．
+      
+..
+   ghc-boot-th
+   ~~~~~~~~~~~
+
 ghc-boot-th
 ~~~~~~~~~~~
 
--  This is an internal package. Use with caution.
+..
+   -  This is an internal package. Use with caution.
 
--  Version number 8.0.1
+-  これは内部パッケージですので，使用は慎重に．
 
--  This package was created to share types and utilities between the ``ghc`` and
-   ``template-haskell`` packages
+..
+   -  Version number 8.0.1
 
--  Added ``GHC.Lexeme``, which contains functions for determining if a
-   character can be the first letter of a variable or data constructor in
-   Haskell, as defined by GHC. (These functions were moved from ``Lexeme``
-   in ``ghc``.)
+-  バージョン 8.0.1
 
--  Added ``GHC.LanguageExtensions`` which contains a type listing all
-   supported language extensions.
+..
+   -  This package was created to share types and utilities between the ``ghc`` and
+      ``template-haskell`` packages
+
+-  このパッケージは ``ghc`` パッケージと ``template-haskell`` パッケージの間で，
+   型やユーティリティを共有するために作成しました．
+
+..
+   -  Added ``GHC.Lexeme``, which contains functions for determining if a
+      character can be the first letter of a variable or data constructor in
+      Haskell, as defined by GHC. (These functions were moved from ``Lexeme``
+      in ``ghc``.)
+
+-  ``GHC.Lexeme`` を追加しました．
+   このモジュールには，文字が，GHCが定義した，Haskellにおける変数あるいはデータ構成子の一文字目
+   になれるかを判定する関数が含まれています
+   (これらの関数は，``ghc``パッケージの ``Lexeme`` モジュールから移動しました)．
+
+..
+   -  Added ``GHC.LanguageExtensions`` which contains a type listing all
+      supported language extensions.
+
+-  ``GHC.LanguageExtensions`` を追加しました．
+   このモジュールには，サポートされているすべての言語拡張一覧の型が含まれています．
+
+..
+   ghc-prim
+   ~~~~~~~~
 
 ghc-prim
 ~~~~~~~~
 
--  Version number 0.5.0.0 (was 0.4.0.0)
+..
+   -  Version number 0.5.0.0 (was 0.4.0.0)
+
+-  バージョン 0.5.0.0 (従来 0.4.0.0)
+
+..
+   haskell98
+   ~~~~~~~~~
 
 haskell98
 ~~~~~~~~~
@@ -1472,13 +1597,25 @@ haskell98
 ..
    -  No longer shipped
 
--  付属しなくなりました．
+-  付属しません．
+
+..
+   haskell2010
+   ~~~~~~~~~~~
 
 haskell2010
 ~~~~~~~~~~~
 
--  No longer shipped. We hope that this package or something like it will be
-   restored in a future GHC release.
+..
+   -  No longer shipped. We hope that this package or something like it will be
+      restored in a future GHC release.
+
+-  付属しません．
+   将来の GHC のリリースでは，このパッケージあるいはそれに類するパッケージが復活すると思います．
+
+..
+   hoopl
+   ~~~~~
 
 hoopl
 ~~~~~
@@ -1488,6 +1625,10 @@ hoopl
 
 -  バージョン 3.10.2.1 (従来 3.10.0.2)
 
+..
+   hpc
+   ~~~
+
 hpc
 ~~~
 
@@ -1495,6 +1636,10 @@ hpc
    -  Version number 0.6.0.3 (was 0.6.0.2)
 
 -  バージョン 0.6.0.3 (従来 0.6.0.2)
+
+..
+   integer-gmp
+   ~~~~~~~~~~~
 
 integer-gmp
 ~~~~~~~~~~~
@@ -1504,14 +1649,22 @@ integer-gmp
 
 -  バージョン 1.0.0.1 (従来 0.5.1.0)
 
+..
+   old-locale
+   ~~~~~~~~~~
+
 old-locale
-----------
+~~~~~~~~~~
 
 ..
    -  No longer shipped
 
--  付属しなくなりました．
+-  付属しません．
 
+
+..
+   old-time
+   ~~~~~~~~
 
 old-time
 ~~~~~~~~
@@ -1519,7 +1672,11 @@ old-time
 ..
    -  No longer shipped
 
--  付属しなくなりました．
+-  付属しません．
+
+..
+   process
+   ~~~~~~~
 
 process
 ~~~~~~~
@@ -1546,13 +1703,11 @@ template-haskell
       ``liftData`` function which is now exported from
       ``Language.Haskell.TH.Syntax``.
 
--  The ``Lift`` type class for lifting values into Template Haskell
-   splices now has a default signature ``lift :: Data a => a -> Q Exp``,
-   which means that you do not have to provide an explicit
-   implementation of ``lift`` for types which have a ``Data`` instance.
-   To manually use this default implementation, you can use the
-   ``liftData`` function which is now exported from
-   ``Language.Haskell.TH.Syntax``.
+-  値を Template Haskell のスプライスに持ち上げるための ``Lift`` 型クラスは
+   デフォルトのシグネチャ ``lift :: Data a => a -> Q Exp`` を備えるようになりました．
+   その結果 ``Data`` インスタンスの型用に ``lift`` を明示的に実装しなくてもよくなりました．
+   ``Language.Haskell.TH.Syntax`` からあらたにエクスポートした ``liftData`` 関数を使って，
+   手作業でこのデフォルト実装が使えます．
 
 ..
    -  ``Info``'s constructors no longer have ``Fixity`` fields. A
@@ -1560,10 +1715,14 @@ template-haskell
       well as the ``reifyFixity`` function, specialized for ``Q``) to allow
       lookup of fixity information for any given ``Name``.
 
--  ``Info``'s constructors no longer have ``Fixity`` fields. A
-   ``qReifyFixity`` function was added to the ``Quasi`` type class (as
-   well as the ``reifyFixity`` function, specialized for ``Q``) to allow
-   lookup of fixity information for any given ``Name``.
+-  ``Info`` の構成子から ``Fixity`` フィールドがなくなりました．
+   ``qReifyFixity`` を追加したので，この関数を使えば
+   (``Q``に特化した ``reifyFixity`` 関数も同様です) ``Quasi`` 型クラス
+   与えられた ``Name`` 用の結合方向情報を検索できるようになりました．
+
+..
+   time
+   ~~~~
 
 time
 ~~~~
@@ -1573,6 +1732,10 @@ time
 
 -  バージョン 1.6.0.1 (従来 1.5.0.1)
 
+..
+   unix
+   ~~~~
+
 unix
 ~~~~
 
@@ -1580,6 +1743,10 @@ unix
    -  Version number 2.7.2.0 (was 2.7.1.0)
 
 -  バージョン 2.7.2.0 (従来 2.7.1.0)
+
+..
+   Win32
+   ~~~~~
 
 Win32
 ~~~~~
@@ -1602,5 +1769,5 @@ Win32
      (:ghc-ticket:`11954`).
 
 - この GHC のリリース付属の Haddock で作成した文書では
-  :ref:`結合パターンシノニム <patsyn-impexp>` は表示されません
+  :ref:`バンドルパターンシノニム <patsyn-impexp>` は表示されません
   (:ghc-ticket:`11954`)．
