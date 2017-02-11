@@ -341,31 +341,65 @@ version 8.0.2 のリリースノート
    `Trac <https://ghc.haskell.org/trac/ghc/query?status=closed&milestone=8.0.2&col=id&col=summary&col=status&col=type&col=priority&col=milestone&col=component&order=priority>`_
    がその一覧です．
 
-Runtime system
-~~~~~~~~~~~~~~
+..
+   Runtime system
+   ~~~~~~~~~~~~~~
 
-- The Runtime linker on Windows is once again recognizing POSIX functions under their
-  "deprecated" name. e.g. "strdup" will now be recognized and internally forwarded to "_strdup".
-  If you have existing code already using the correct names (e.g. _strdup) then this will just continue
-  to work and no change is needed. For more information about how the forwarding is done please see
-  `MSDN <https://msdn.microsoft.com/en-us/library/ms235384.aspx>`_ . This should now introduce the same
-  behavior both compiled and interpreted. (see :ghc-ticket:`12497`).
+ランタイムシステム
+~~~~~~~~~~~~~~~~~~
 
-- Profiles from the cost-center profiler now provide source span information.
-  (see :ghc-ticket:`11543`).
+..
+   - The Runtime linker on Windows is once again recognizing POSIX functions under their
+     "deprecated" name. e.g. "strdup" will now be recognized and internally forwarded to "_strdup".
+     If you have existing code already using the correct names (e.g. _strdup) then this will just continue
+     to work and no change is needed. For more information about how the forwarding is done please see
+     `MSDN <https://msdn.microsoft.com/en-us/library/ms235384.aspx>`_ . This should now introduce the same
+     behavior both compiled and interpreted. (see :ghc-ticket:`12497`).
 
-- The number of threads used for garbage collection is now configurable
-  independently from the number of capabilities with the new :ghc-flag:`-qn`
-  flag.
+- Windows 上のランタイムリンカは，再び「非推奨」名のPOSIX関数を識別するようになりました．
+  たとえば strdup で識別して内部的には _strdup に転送します．
+  既存のコードで正しい名前を(たとえば _strdup)使っている場合，それはそのままで変更する必要はありません．
+  この転送がどのように行われてりうかの詳細については
+  `MSDN <https://msdn.microsoft.com/en-us/library/ms235384.aspx>`_
+  を参照してください．
+  これでコンパイル済みのコードとインタプリタを通したコードの振る舞いは同じになるはずです
+  (:ghc-ticket:`12497` 参照)．
 
-- The runtime system should now wake-up less often with large capability counts
+..
+   - Profiles from the cost-center profiler now provide source span information.
+     (see :ghc-ticket:`11543`).
 
-- The runtime system is now a more efficient in handling programs with many
-  bound threads. (:ghc-ticket:`12419`)
+- コスト集約点プロファイラが出力するプロファイルにソース位置情報が含まれるようになりました
+  (see :ghc-ticket:`11543`)．
 
-- A number of runtime system bugs which could result in crashes (see
-  :ghc-ticket:`12728`, :ghc-ticket:`10860`, :ghc-ticket:`12019`,
-  :ghc-ticket:`11978`,  :ghc-ticket:`12038`, :ghc-ticket:`12208`)
+..
+   - The number of threads used for garbage collection is now configurable
+     independently from the number of capabilities with the new :ghc-flag:`-qn`
+     flag.
+
+- 新しい :ghc-flag:`-qn` フラグを使えば，可能なスレッド数とは独立して，
+  ガーベッジコレクションに使うスレッドの数を設定できます．
+
+..
+   - The runtime system should now wake-up less often with large capability counts
+
+- 可能なスレッド数が大きいときのランタイムシステムの起動頻度が少くなりました．
+
+..
+   - The runtime system is now a more efficient in handling programs with many
+     bound threads. (:ghc-ticket:`12419`)
+
+- ランタイムシステムがたくさんのスレッドに割り当てられたプログラムをより効率よく
+  ハンドリングできるようになりました(:ghc-ticket:`12419`)．
+
+..
+   - A number of runtime system bugs which could result in crashes (see
+     :ghc-ticket:`12728`, :ghc-ticket:`10860`, :ghc-ticket:`12019`,
+     :ghc-ticket:`11978`,  :ghc-ticket:`12038`, :ghc-ticket:`12208`)
+
+- クラッシュにつながる可能性のあったランタイムシステムのバグをいくつも修正しました
+  (詳細は :ghc-ticket:`12728`, :ghc-ticket:`10860`, :ghc-ticket:`12019`,
+  :ghc-ticket:`11978`,  :ghc-ticket:`12038`, :ghc-ticket:`12208` 参照)．
 
 Template Haskell
 ~~~~~~~~~~~~~~~~
