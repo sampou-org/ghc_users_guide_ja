@@ -311,9 +311,8 @@ GHC が超えてしまうことがありました(<a class="reference external" 
 <div class="section" id="template-haskell">
 <h3>4.2.4. Template Haskell<a class="headerlink" href="#template-haskell" title="Permalink to this headline">¶</a></h3>
 <ul>
-<li><p class="first"><code class="docutils literal"><span class="pre">addModFinalizer</span></code> now exposes the local typing environment at the splice
-point. This allows <code class="docutils literal"><span class="pre">reify</span></code> to see local and top-level definitions in the
-current declaration group when used as in</p>
+<li><p class="first"><code class="docutils literal"><span class="pre">addModFinalizer</span></code> は当該のスプライスポイントにおけるローカル型付け環境を表すようになりました．
+これにより以下のように <code class="docutils literal"><span class="pre">reify</span></code> から現在の宣言グループにおけるローカルおよびトップレベルの定義が見えるようになります．</p>
 <div class="highlight-none"><div class="highlight"><pre>f x = $(addModFinalizer (reify &#39;x &gt;&gt;= runIO . print) &gt;&gt; [| x |])
 </pre></div>
 </div>
