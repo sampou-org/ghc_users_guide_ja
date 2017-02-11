@@ -401,12 +401,24 @@ version 8.0.2 のリリースノート
   (詳細は :ghc-ticket:`12728`, :ghc-ticket:`10860`, :ghc-ticket:`12019`,
   :ghc-ticket:`11978`,  :ghc-ticket:`12038`, :ghc-ticket:`12208` 参照)．
 
+..
+   Template Haskell
+   ~~~~~~~~~~~~~~~~
+
 Template Haskell
 ~~~~~~~~~~~~~~~~
 
-- ``addModFinalizer`` now exposes the local typing environment at the splice
-  point. This allows ``reify`` to see local and top-level definitions in the
-  current declaration group when used as in
+..
+   - ``addModFinalizer`` now exposes the local typing environment at the splice
+     point. This allows ``reify`` to see local and top-level definitions in the
+     current declaration group when used as in
+
+     .. code-block:: none
+
+	 f x = $(addModFinalizer (reify 'x >>= runIO . print) >> [| x |])
+
+- ``addModFinalizer`` は当該のスプライスポイントにおけるローカル型付け環境を表すようになりました．
+  これにより以下のように ``reify`` から現在の宣言グループにおけるローカルおよびトップレベルの定義が見えるようになります．
 
   .. code-block:: none
 
