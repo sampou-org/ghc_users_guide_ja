@@ -424,10 +424,22 @@ Template Haskell
 
       f x = $(addModFinalizer (reify 'x >>= runIO . print) >> [| x |])
 
+..
+   ``ghc`` library
+   ~~~~~~~~~~~~~~~
+
 ``ghc`` library
 ~~~~~~~~~~~~~~~
 
-- Accessors are now exposed for ``ErrUtils.ErrMsg`` and ``ErrUtils.ErrDoc``.
+..
+   - Accessors are now exposed for ``ErrUtils.ErrMsg`` and ``ErrUtils.ErrDoc``.
 
-- There is now a ``createIservProcessHook`` to allow API users to redirect the
-  ``stdout`` and ``stderr`` handles.
+- ``ErrUtils.ErrMsg`` および ``ErrUtils.ErrDoc`` のアクセサをエクスポートしました．
+
+..
+   - There is now a ``createIservProcessHook`` to allow API users to redirect the
+     ``stdout`` and ``stderr`` handles.
+
+- API ユーザが ``createIservProcessHook`` を使って ``stdout`` および
+  ``stderr`` ハンドルをリダイレクトできるようになりました．
+
