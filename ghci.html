@@ -7,7 +7,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>5. Using GHCi &mdash; Glasgow Haskell Compiler &lt;release&gt; Users Guide</title>
+    <title>5. GHCiを使う &mdash; Glasgow Haskell Compiler &lt;release&gt; Users Guide</title>
     
     <link rel="stylesheet" href="_static/ghc-theme.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -53,8 +53,8 @@
         <div class="sphinxsidebarwrapper">
   <h3><a href="index.html">Table Of Contents</a></h3>
   <ul>
-<li><a class="reference internal" href="#">5. Using GHCi</a><ul>
-<li><a class="reference internal" href="#introduction-to-ghci">5.1. Introduction to GHCi</a></li>
+<li><a class="reference internal" href="#">5. GHCiを使う</a><ul>
+<li><a class="reference internal" href="#id5">5.1. GHCi入門</a></li>
 <li><a class="reference internal" href="#loading-source-files">5.2. Loading source files</a><ul>
 <li><a class="reference internal" href="#modules-vs-filenames">5.2.1. Modules vs. filenames</a></li>
 <li><a class="reference internal" href="#making-changes-and-recompilation">5.2.2. Making changes and recompilation</a></li>
@@ -154,60 +154,60 @@
         <div class="bodywrapper">
           <div class="body" role="main">
             
-  <div class="section" id="using-ghci">
-<span id="ghci"></span><h1>5. Using GHCi<a class="headerlink" href="#using-ghci" title="Permalink to this headline">¶</a></h1>
-<p id="index-0">GHCi <a class="footnote-reference" href="#id3" id="id1">[1]</a> is GHC&#8217;s interactive environment, in which Haskell expressions
-can be interactively evaluated and programs can be interpreted. If
-you&#8217;re familiar with <a class="reference external" href="http://www.haskell.org/hugs/">Hugs</a>, then
-you&#8217;ll be right at home with GHCi. However, GHCi also has support for
-interactively loading compiled code, as well as supporting all <a class="footnote-reference" href="#id4" id="id2">[2]</a> the
-language extensions that GHC provides. GHCi also includes an interactive
-debugger (see <a class="reference internal" href="#ghci-debugger"><span>The GHCi Debugger</span></a>).</p>
+  <span class="target" id="ghci"></span><div class="section" id="id1">
+<h1>5. GHCiを使う<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h1>
+<span class="target" id="index-0"></span><p>GHCi <a class="footnote-reference" href="#id3" id="id2">[1]</a> はGHCの対話環境であり，Haskellの式を対話方式で評価したり
+プログラムを解釈実行したりできます．
+<a class="reference external" href="http://www.haskell.org/hugs/">Hugs</a> の経験があるなら，
+すぐにでもGHCiに慣れることでしょう．
+しかしながら， GHCiはコンパイル済みのコードを対話的にロードすることができます．
+また，GHCが提供する言語拡張のすべて[2]_ をサポートしています．
+GHCi は対話方式のデバッガも備えています(<a class="reference internal" href="#ghci-debugger"><span>The GHCi Debugger</span></a> 参照)．</p>
 <table class="docutils footnote" frame="void" id="id3" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
-<tr><td class="label"><a class="fn-backref" href="#id1">[1]</a></td><td>The &#8220;i&#8221; stands for “Interactive”</td></tr>
+<tr><td class="label"><a class="fn-backref" href="#id2">[1]</a></td><td>&#8220;i&#8221;は“Interactive”の i です．</td></tr>
 </tbody>
 </table>
 <table class="docutils footnote" frame="void" id="id4" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
-<tr><td class="label"><a class="fn-backref" href="#id2">[2]</a></td><td>except <code class="docutils literal"><span class="pre">foreign</span> <span class="pre">export</span></code>, at the moment</td></tr>
+<tr><td class="label">[2]</td><td>ただし今のところ <code class="docutils literal"><span class="pre">foreign</span> <span class="pre">export</span></code> は除きます．</td></tr>
 </tbody>
 </table>
-<div class="section" id="introduction-to-ghci">
-<span id="ghci-introduction"></span><h2>5.1. Introduction to GHCi<a class="headerlink" href="#introduction-to-ghci" title="Permalink to this headline">¶</a></h2>
-<p>Let&#8217;s start with an example GHCi session. You can fire up GHCi with the
-command <code class="docutils literal"><span class="pre">ghci</span></code>:</p>
+<span class="target" id="ghci-introduction"></span><div class="section" id="id5">
+<h2>5.1. GHCi入門<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h2>
+<p>GHCiセッションの例を見ていくことから始めましょう．
+GHCiは <code class="docutils literal"><span class="pre">ghci</span></code> コマンドで起動します．</p>
 <div class="highlight-none"><div class="highlight"><pre>$ ghci
-GHCi, version 8.0.1: http://www.haskell.org/ghc/  :? for help
+GHCi, version 8.0.2: http://www.haskell.org/ghc/  :? for help
 Prelude&gt;
 </pre></div>
 </div>
-<p>There may be a short pause while GHCi loads the prelude and standard
-libraries, after which the prompt is shown. As the banner says, you can
-type <a class="reference internal" href="#ghci-cmd-:?"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:?</span></code></a> to see the list of commands available, and a half line
-description of each of them. We&#8217;ll explain most of these commands as we
-go along, and there is complete documentation for all the commands in
-<a class="reference internal" href="#ghci-commands"><span>GHCi commands</span></a>.</p>
-<p>Haskell expressions can be typed at the prompt:</p>
+<p>GHCiがプレリュードと標準ライブラリをロードするのにすこしかかるかもしれませんが，
+それが完了するとプロンプトが現れます．
+バナーにあるとおり，<a class="reference internal" href="#ghci-cmd-:?"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:?</span></code></a> をタイプすれば，利用可能なコマンド一覧と
+それぞれの短い説明が表示されます．
+これ以降ほとんどのコマンドを説明します．
+すべてのコマンドの完全な説明は <a class="reference internal" href="#ghci-commands"><span>GHCi commands</span></a> にあります．</p>
+<p>プロンプトにはHaskellの式をタイプします．</p>
 <div class="highlight-none" id="index-1"><div class="highlight"><pre>Prelude&gt; 1+2
 3
-Prelude&gt; let x = 42 in x / 9
+Prelude&gt; let x = 42
+Preldue&gt; x / 9
 4.666666666666667
 Prelude&gt;
 </pre></div>
 </div>
-<p>GHCi interprets the whole line as an expression to evaluate. The
-expression may not span several lines - as soon as you press enter, GHCi
-will attempt to evaluate it.</p>
-<p>In Haskell, a <code class="docutils literal"><span class="pre">let</span></code> expression is followed by <code class="docutils literal"><span class="pre">in</span></code>. However, in
-GHCi, since the expression can also be interpreted in the <code class="docutils literal"><span class="pre">IO</span></code> monad,
-a <code class="docutils literal"><span class="pre">let</span></code> binding with no accompanying <code class="docutils literal"><span class="pre">in</span></code> statement can be signalled
-by an empty line, as in the above example.</p>
+<p>GHCiは行全体を1つの式だと解釈し，これを評価します．
+式は複数行にまたがることはできません．
+エンターキーを押したとたん，GHCiはそこまでにタイプされたものを評価しようとします．</p>
+<p>Haskellでは <code class="docutils literal"><span class="pre">let</span></code> 式は <code class="docutils literal"><span class="pre">in</span></code> をともないます．
+しかし，GHCiでは，式は <code class="docutils literal"><span class="pre">IO</span></code> モナドの中でも解釈されますので，上の例は
+<code class="docutils literal"><span class="pre">in</span></code> を伴わない <code class="docutils literal"><span class="pre">let</span></code> 束縛文であることは，行が表示されないことで示されています．</p>
 </div>
 <div class="section" id="loading-source-files">
-<span id="id5"></span><h2>5.2. Loading source files<a class="headerlink" href="#loading-source-files" title="Permalink to this headline">¶</a></h2>
+<span id="id6"></span><h2>5.2. Loading source files<a class="headerlink" href="#loading-source-files" title="Permalink to this headline">¶</a></h2>
 <p>Suppose we have the following Haskell source code, which we place in a
 file <code class="docutils literal"><span class="pre">Main.hs</span></code>:</p>
 <div class="highlight-haskell"><div class="highlight"><pre><span class="nf">main</span> <span class="ow">=</span> <span class="n">print</span> <span class="p">(</span><span class="n">fac</span> <span class="mi">20</span><span class="p">)</span>
@@ -217,7 +217,7 @@ file <code class="docutils literal"><span class="pre">Main.hs</span></code>:</p>
 </pre></div>
 </div>
 <p>You can save <code class="docutils literal"><span class="pre">Main.hs</span></code> anywhere you like, but if you save it somewhere
-other than the current directory <a class="footnote-reference" href="#id7" id="id6">[3]</a> then we will need to change to the
+other than the current directory <a class="footnote-reference" href="#id8" id="id7">[3]</a> then we will need to change to the
 right directory in GHCi:</p>
 <div class="highlight-none"><div class="highlight"><pre>Prelude&gt; :cd dir
 </pre></div>
@@ -245,10 +245,10 @@ name of the &#8220;topmost&#8221; module to the <a class="reference internal" hr
 normally be <code class="docutils literal"><span class="pre">Main</span></code>, but it doesn&#8217;t have to be. GHCi will discover which
 modules are required, directly or indirectly, by the topmost module, and load
 them all in dependency order.</p>
-<table class="docutils footnote" frame="void" id="id7" rules="none">
+<table class="docutils footnote" frame="void" id="id8" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
-<tr><td class="label"><a class="fn-backref" href="#id6">[3]</a></td><td>If you started up GHCi from the command line then GHCi&#8217;s current
+<tr><td class="label"><a class="fn-backref" href="#id7">[3]</a></td><td>If you started up GHCi from the command line then GHCi&#8217;s current
 directory is the same as the current directory of the shell from
 which it was started. If you started GHCi from the “Start” menu in
 Windows, then the current directory is probably something like
@@ -273,7 +273,7 @@ option on the GHCi command line, like so:</p>
 </pre></div>
 </div>
 <p>or it can be set using the <a class="reference internal" href="#ghci-cmd-:set"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:set</span></code></a> command from within GHCi (see
-<a class="reference internal" href="#ghci-cmd-line-options"><span>Setting GHC command-line options in GHCi</span></a>) <a class="footnote-reference" href="#id9" id="id8">[4]</a></p>
+<a class="reference internal" href="#ghci-cmd-line-options"><span>Setting GHC command-line options in GHCi</span></a>) <a class="footnote-reference" href="#id10" id="id9">[4]</a></p>
 <p>One consequence of the way that GHCi follows dependencies to find
 modules to load is that every module must have a source file. The only
 exception to the rule is modules that come from a package, including the
@@ -281,10 +281,10 @@ exception to the rule is modules that come from a package, including the
 you attempt to load a module for which GHCi can&#8217;t find a source file,
 even if there are object and interface files for the module, you&#8217;ll get
 an error message.</p>
-<table class="docutils footnote" frame="void" id="id9" rules="none">
+<table class="docutils footnote" frame="void" id="id10" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
-<tr><td class="label"><a class="fn-backref" href="#id8">[4]</a></td><td>Note that in GHCi, and <a class="reference internal" href="using.html#ghc-flag---make"><code class="xref std std-ghc-flag docutils literal"><span class="pre">--make</span></code></a> mode, the <a class="reference internal" href="separate_compilation.html#ghc-flag--i"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-i</span></code></a> option is used to
+<tr><td class="label"><a class="fn-backref" href="#id9">[4]</a></td><td>Note that in GHCi, and <a class="reference internal" href="using.html#ghc-flag---make"><code class="xref std std-ghc-flag docutils literal"><span class="pre">--make</span></code></a> mode, the <a class="reference internal" href="separate_compilation.html#ghc-flag--i"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-i</span></code></a> option is used to
 specify the search path for <em>source</em> files, whereas in standard
 batch-compilation mode the <a class="reference internal" href="separate_compilation.html#ghc-flag--i"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-i</span></code></a> option is used to specify the
 search path for interface files, see <a class="reference internal" href="separate_compilation.html#search-path"><span>The search path</span></a>.</td></tr>
@@ -1083,7 +1083,7 @@ running computation in order to examine the values of variables. The
 debugger is integrated into GHCi, and is turned on by default: no flags
 are required to enable the debugging facilities. There is one major
 restriction: breakpoints and single-stepping are only available in
-interpreted modules; compiled code is invisible to the debugger <a class="footnote-reference" href="#id16" id="id10">[5]</a>.</p>
+interpreted modules; compiled code is invisible to the debugger <a class="footnote-reference" href="#id17" id="id11">[5]</a>.</p>
 <p>The debugger provides the following:</p>
 <ul class="simple">
 <li>The ability to set a breakpoint on a function definition or
@@ -1161,7 +1161,7 @@ can use the <a class="reference internal" href="#ghci-cmd-:list"><code class="xr
 <p>The <a class="reference internal" href="#ghci-cmd-:list"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:list</span></code></a> command lists the source code around the current
 breakpoint. If your output device supports it, then GHCi will highlight
 the active subexpression in bold.</p>
-<p>GHCi has provided bindings for the free variables <a class="footnote-reference" href="#id17" id="id11">[6]</a> of the expression
+<p>GHCi has provided bindings for the free variables <a class="footnote-reference" href="#id18" id="id12">[6]</a> of the expression
 on which the breakpoint was placed (<code class="docutils literal"><span class="pre">a</span></code>, <code class="docutils literal"><span class="pre">left</span></code>, <code class="docutils literal"><span class="pre">right</span></code>), and
 additionally a binding for the result of the expression (<code class="docutils literal"><span class="pre">_result</span></code>).
 These variables are just like other variables that you might define in
@@ -1258,7 +1258,7 @@ right :: [a]
 <p>The execution continued at the point it previously stopped, and has now
 stopped at the breakpoint for a second time.</p>
 <div class="section" id="setting-breakpoints">
-<span id="id12"></span><h4>5.5.1.1. Setting breakpoints<a class="headerlink" href="#setting-breakpoints" title="Permalink to this headline">¶</a></h4>
+<span id="id13"></span><h4>5.5.1.1. Setting breakpoints<a class="headerlink" href="#setting-breakpoints" title="Permalink to this headline">¶</a></h4>
 <p>Breakpoints can be set in various ways. Perhaps the easiest way to set a
 breakpoint is to name a top-level function:</p>
 <div class="highlight-none"><div class="highlight"><pre>:break identifier
@@ -1319,7 +1319,7 @@ given in the output from <a class="reference internal" href="#ghci-cmd-:show bre
 </div>
 </div>
 <div class="section" id="single-stepping">
-<span id="id13"></span><h3>5.5.2. Single-stepping<a class="headerlink" href="#single-stepping" title="Permalink to this headline">¶</a></h3>
+<span id="id14"></span><h3>5.5.2. Single-stepping<a class="headerlink" href="#single-stepping" title="Permalink to this headline">¶</a></h3>
 <p>Single-stepping is a great way to visualise the execution of your
 program, and it is also a useful tool for identifying the source of a
 bug. GHCi offers two variants of stepping. Use <a class="reference internal" href="#ghci-cmd-:step"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:step</span></code></a> to enable all
@@ -1360,7 +1360,7 @@ _result :: [Integer]
 </div>
 </div>
 <div class="section" id="nested-breakpoints">
-<span id="id14"></span><h3>5.5.3. Nested breakpoints<a class="headerlink" href="#nested-breakpoints" title="Permalink to this headline">¶</a></h3>
+<span id="id15"></span><h3>5.5.3. Nested breakpoints<a class="headerlink" href="#nested-breakpoints" title="Permalink to this headline">¶</a></h3>
 <p>When GHCi is stopped at a breakpoint, and an expression entered at the
 prompt triggers a second breakpoint, the new breakpoint becomes the
 &#8220;current&#8221; one, and the old one is saved on a stack. An arbitrary number
@@ -1729,7 +1729,7 @@ to the command line.</p>
 </div>
 </div>
 <div class="section" id="ghci-commands">
-<span id="id15"></span><h2>5.7. GHCi commands<a class="headerlink" href="#ghci-commands" title="Permalink to this headline">¶</a></h2>
+<span id="id16"></span><h2>5.7. GHCi commands<a class="headerlink" href="#ghci-commands" title="Permalink to this headline">¶</a></h2>
 <p>GHCi commands all begin with &#8220;<code class="docutils literal"><span class="pre">:</span></code>&#8221; and consist of a single command
 name followed by zero or more parameters. The command name may be
 abbreviated, with ambiguities being resolved in favour of the more
@@ -2849,17 +2849,17 @@ program thus:</p>
 </div>
 </dd>
 </dl>
-<table class="docutils footnote" frame="void" id="id16" rules="none">
-<colgroup><col class="label" /><col /></colgroup>
-<tbody valign="top">
-<tr><td class="label"><a class="fn-backref" href="#id10">[5]</a></td><td>Note that packages only contain compiled code, so debugging a package
-requires finding its source and loading that directly.</td></tr>
-</tbody>
-</table>
 <table class="docutils footnote" frame="void" id="id17" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
-<tr><td class="label"><a class="fn-backref" href="#id11">[6]</a></td><td>We originally provided bindings for all variables in scope, rather
+<tr><td class="label"><a class="fn-backref" href="#id11">[5]</a></td><td>Note that packages only contain compiled code, so debugging a package
+requires finding its source and loading that directly.</td></tr>
+</tbody>
+</table>
+<table class="docutils footnote" frame="void" id="id18" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id12">[6]</a></td><td>We originally provided bindings for all variables in scope, rather
 than just the free variables of the expression, but found that this
 affected performance considerably, hence the current restriction to
 just the free variables.</td></tr>
