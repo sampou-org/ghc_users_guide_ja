@@ -1,73 +1,147 @@
 .. _ghci:
 
-Using GHCi
+..
+   Using GHCi
+   ==========
+
+GHCiを使う
 ==========
+
+..
+   .. index::
+      single: GHCi
+      single: interpreter
+      single: interactive
+      single: Hugs
+      single: Foreign Function Interface; GHCi support
+      single: FFI; GHCi support
 
 .. index::
    single: GHCi
-   single: interpreter
-   single: interactive
+   single: インタプリタ
+   single: 対話方式
    single: Hugs
-   single: Foreign Function Interface; GHCi support
-   single: FFI; GHCi support
+   single: 外部関数インターフェイス; GHCiがサポートする
+   single: FFI; GHCiがサポートする
 
-GHCi [1]_ is GHC's interactive environment, in which Haskell expressions
-can be interactively evaluated and programs can be interpreted. If
-you're familiar with `Hugs <http://www.haskell.org/hugs/>`__, then
-you'll be right at home with GHCi. However, GHCi also has support for
-interactively loading compiled code, as well as supporting all [2]_ the
-language extensions that GHC provides. GHCi also includes an interactive
-debugger (see :ref:`ghci-debugger`).
+..
+   GHCi [1]_ is GHC's interactive environment, in which Haskell expressions
+   can be interactively evaluated and programs can be interpreted. If
+   you're familiar with `Hugs <http://www.haskell.org/hugs/>`__, then
+   you'll be right at home with GHCi. However, GHCi also has support for
+   interactively loading compiled code, as well as supporting all [2]_ the
+   language extensions that GHC provides. GHCi also includes an interactive
+   debugger (see :ref:`ghci-debugger`).
+
+   .. [1]
+      The "i" stands for “Interactive”
+
+   .. [2]
+      except ``foreign export``, at the moment
+
+GHCi [1]_ はGHCの対話環境であり，Haskellの式を対話方式で評価したり
+プログラムを解釈実行したりできます．
+`Hugs <http://www.haskell.org/hugs/>`__ の経験があるなら，
+すぐにでもGHCiに慣れることでしょう．
+しかしながら， GHCiはコンパイル済みのコードを対話的にロードすることができます．
+また，GHCが提供する言語拡張のすべて[2]_ をサポートしています．
+GHCi は対話方式のデバッガも備えています(:ref:`ghci-debugger` 参照)．
 
 .. [1]
-   The "i" stands for “Interactive”
+   "i"は“Interactive”の i です．
 
 .. [2]
-   except ``foreign export``, at the moment
+   ただし今のところ ``foreign export`` は除きます．
 
 
 .. _ghci-introduction:
 
-Introduction to GHCi
---------------------
+..
+   Introduction to GHCi
+   --------------------
 
-Let's start with an example GHCi session. You can fire up GHCi with the
-command ``ghci``:
+GHCi入門
+--------
+
+..
+   Let's start with an example GHCi session. You can fire up GHCi with the
+   command ``ghci``:
+
+   .. code-block:: none
+
+       $ ghci
+       GHCi, version 8.0.1: http://www.haskell.org/ghc/  :? for help
+       Prelude>
+
+   There may be a short pause while GHCi loads the prelude and standard
+   libraries, after which the prompt is shown. As the banner says, you can
+   type :ghci-cmd:`:?` to see the list of commands available, and a half line
+   description of each of them. We'll explain most of these commands as we
+   go along, and there is complete documentation for all the commands in
+   :ref:`ghci-commands`.
+
+GHCiセッションの例を見ていくことから始めましょう．
+GHCiは ``ghci`` コマンドで起動します．
 
 .. code-block:: none
 
     $ ghci
-    GHCi, version 8.0.1: http://www.haskell.org/ghc/  :? for help
+    GHCi, version 8.0.2: http://www.haskell.org/ghc/  :? for help
     Prelude>
 
-There may be a short pause while GHCi loads the prelude and standard
-libraries, after which the prompt is shown. As the banner says, you can
-type :ghci-cmd:`:?` to see the list of commands available, and a half line
-description of each of them. We'll explain most of these commands as we
-go along, and there is complete documentation for all the commands in
-:ref:`ghci-commands`.
+GHCiがプレリュードと標準ライブラリをロードするのにすこしかかるかもしれませんが，
+それが完了するとプロンプトが現れます．
+バナーにあるとおり，:ghci-cmd:`:?` をタイプすれば，利用可能なコマンド一覧と
+それぞれの短い説明が表示されます．
+これ以降ほとんどのコマンドを説明します．
+すべてのコマンドの完全な説明は :ref:`ghci-commands` にあります．
 
-Haskell expressions can be typed at the prompt:
+..
+   Haskell expressions can be typed at the prompt:
+
+   .. index::
+      single: prompt; GHCi
+
+   .. code-block:: none
+
+       Prelude> 1+2
+       3
+       Prelude> let x = 42 in x / 9
+       4.666666666666667
+       Prelude>
+
+   GHCi interprets the whole line as an expression to evaluate. The
+   expression may not span several lines - as soon as you press enter, GHCi
+   will attempt to evaluate it.
+
+プロンプトにはHaskellの式をタイプします．
 
 .. index::
-   single: prompt; GHCi
+   single: プロンプト; GHCi
 
 .. code-block:: none
 
     Prelude> 1+2
     3
-    Prelude> let x = 42 in x / 9
-    4.666666666666667
+    Prelude> let x = 42
+    Preldue> x / 9
+    4.666666666666667		
     Prelude>
 
-GHCi interprets the whole line as an expression to evaluate. The
-expression may not span several lines - as soon as you press enter, GHCi
-will attempt to evaluate it.
+GHCiは行全体を1つの式だと解釈し，これを評価します．
+式は複数行にまたがることはできません．
+エンターキーを押したとたん，GHCiはそこまでにタイプされたものを評価しようとします．
 
-In Haskell, a ``let`` expression is followed by ``in``. However, in
-GHCi, since the expression can also be interpreted in the ``IO`` monad,
-a ``let`` binding with no accompanying ``in`` statement can be signalled
-by an empty line, as in the above example.
+
+..
+   In Haskell, a ``let`` expression is followed by ``in``. However, in
+   GHCi, since the expression can also be interpreted in the ``IO`` monad,
+   a ``let`` binding with no accompanying ``in`` statement can be signalled
+   by an empty line, as in the above example.
+
+Haskellでは ``let`` 式は ``in`` をともないます．
+しかし，GHCiでは，式は ``IO`` モナドの中でも解釈されますので，上の例は
+``in`` を伴わない ``let`` 束縛文であることは，行が表示されないことで示されています．
 
 .. _loading-source-files:
 
