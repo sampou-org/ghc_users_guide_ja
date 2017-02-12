@@ -361,18 +361,33 @@ GHCiは，このように依存関係を追ってロードすべきモジュー�
    :ghc-flag:`-i` オプションはインターフェイスファイルの探索パスを指定することに注意してください．
    詳しくは :ref:`search-path` を参照してください．
 
-Making changes and recompilation
+..
+   Making changes and recompilation
+   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+ソースコードの変更と再コンパイル
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+..
+   .. index::
+      single: :reload
+
+   If you make some changes to the source code and want GHCi to recompile
+   the program, give the :ghci-cmd:`:reload` command. The program will be
+   recompiled as necessary, with GHCi doing its best to avoid actually
+   recompiling modules if their external dependencies haven't changed. This
+   is the same mechanism we use to avoid re-compiling modules in the batch
+   compilation setting (see :ref:`recomp`).
 
 .. index::
    single: :reload
 
-If you make some changes to the source code and want GHCi to recompile
-the program, give the :ghci-cmd:`:reload` command. The program will be
-recompiled as necessary, with GHCi doing its best to avoid actually
-recompiling modules if their external dependencies haven't changed. This
-is the same mechanism we use to avoid re-compiling modules in the batch
-compilation setting (see :ref:`recomp`).
+ソースコードに変更を加えて，GHCiに再コンパイルさせたいときは :ghci-cmd:`:reload`
+コマンドを使います．
+プログラムは必要に応じて再コンパイルされます．
+このとき、GHCiは依存関係の変化がないモジュールを実際に再コンパイルするのを避けようと最善をつくします．
+これは一括コンパイル時に再コンパイルを避ける機構と同じです
+(:ref:`recompile` 参照)．
 
 .. _ghci-compiled:
 
