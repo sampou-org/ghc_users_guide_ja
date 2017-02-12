@@ -55,7 +55,7 @@
   <ul>
 <li><a class="reference internal" href="#">5. GHCiを使う</a><ul>
 <li><a class="reference internal" href="#id5">5.1. GHCi入門</a></li>
-<li><a class="reference internal" href="#loading-source-files">5.2. Loading source files</a><ul>
+<li><a class="reference internal" href="#id6">5.2. ソースファイルをロードする</a><ul>
 <li><a class="reference internal" href="#modules-vs-filenames">5.2.1. Modules vs. filenames</a></li>
 <li><a class="reference internal" href="#making-changes-and-recompilation">5.2.2. Making changes and recompilation</a></li>
 </ul>
@@ -205,54 +205,51 @@ Prelude&gt;
 <p>Haskellでは <code class="docutils literal"><span class="pre">let</span></code> 式は <code class="docutils literal"><span class="pre">in</span></code> をともないます．
 しかし，GHCiでは，式は <code class="docutils literal"><span class="pre">IO</span></code> モナドの中でも解釈されますので，上の例は
 <code class="docutils literal"><span class="pre">in</span></code> を伴わない <code class="docutils literal"><span class="pre">let</span></code> 束縛文であることは，行が表示されないことで示されています．</p>
-</div>
-<div class="section" id="loading-source-files">
-<span id="id6"></span><h2>5.2. Loading source files<a class="headerlink" href="#loading-source-files" title="Permalink to this headline">¶</a></h2>
-<p>Suppose we have the following Haskell source code, which we place in a
-file <code class="docutils literal"><span class="pre">Main.hs</span></code>:</p>
+<span class="target" id="loading-source-files"></span></div>
+<div class="section" id="id6">
+<h2>5.2. ソースファイルをロードする<a class="headerlink" href="#id6" title="Permalink to this headline">¶</a></h2>
+<p>次のようなHaskellのソースコードが <code class="docutils literal"><span class="pre">Main.hs</span></code> というファイルに書かれているとしましょう．</p>
 <div class="highlight-haskell"><div class="highlight"><pre><span class="nf">main</span> <span class="ow">=</span> <span class="n">print</span> <span class="p">(</span><span class="n">fac</span> <span class="mi">20</span><span class="p">)</span>
 
 <span class="nf">fac</span> <span class="mi">0</span> <span class="ow">=</span> <span class="mi">1</span>
 <span class="nf">fac</span> <span class="n">n</span> <span class="ow">=</span> <span class="n">n</span> <span class="o">*</span> <span class="n">fac</span> <span class="p">(</span><span class="n">n</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
 </pre></div>
 </div>
-<p>You can save <code class="docutils literal"><span class="pre">Main.hs</span></code> anywhere you like, but if you save it somewhere
-other than the current directory <a class="footnote-reference" href="#id8" id="id7">[3]</a> then we will need to change to the
-right directory in GHCi:</p>
+<p><code class="docutils literal"><span class="pre">Main.hs</span></code> は好きな場所に置けますが，GHCiを起動したファイルがあるカレントディレクトリ
+<a class="footnote-reference" href="#id8" id="id7">[3]</a> 以外の場所に置いたときには，GHCiでディレクトリを正しく変更する必要があります．</p>
 <div class="highlight-none"><div class="highlight"><pre>Prelude&gt; :cd dir
 </pre></div>
 </div>
-<p>where ⟨dir⟩ is the directory (or folder) in which you saved <code class="docutils literal"><span class="pre">Main.hs</span></code>.</p>
-<p>To load a Haskell source file into GHCi, use the <a class="reference internal" href="#ghci-cmd-:load"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:load</span></code></a> command:</p>
+<p>ここで ⟨dir⟩ は <code class="docutils literal"><span class="pre">Main.hs</span></code> を保存したディレクトリ(あるいはフォルダ）です．</p>
+<p>HaskellのソースファイルをGHCiにロードするには <a class="reference internal" href="#ghci-cmd-:load"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:load</span></code></a> コマンドを使います．</p>
 <div class="highlight-none" id="index-2"><div class="highlight"><pre>Prelude&gt; :load Main
 Compiling Main             ( Main.hs, interpreted )
 Ok, modules loaded: Main.
 *Main&gt;
 </pre></div>
 </div>
-<p>GHCi has loaded the <code class="docutils literal"><span class="pre">Main</span></code> module, and the prompt has changed to
-<code class="docutils literal"><span class="pre">*Main&gt;</span></code> to indicate that the current context for expressions
-typed at the prompt is the <code class="docutils literal"><span class="pre">Main</span></code> module we just loaded (we&#8217;ll explain
-what the <code class="docutils literal"><span class="pre">*</span></code> means later in <a class="reference internal" href="#ghci-scope"><span>What&#8217;s really in scope at the prompt?</span></a>). So we can now type
-expressions involving the functions from <code class="docutils literal"><span class="pre">Main.hs</span></code>:</p>
+<p>GHCiは <code class="docutils literal"><span class="pre">Main</span></code> モジュールをロードし，プロンプトが <code class="docutils literal"><span class="pre">*Main&gt;</span></code> に変りました．
+このプロンプトは，ここにユーザが入力する式を評価するときの文脈が，たったいまロードした
+<code class="docutils literal"><span class="pre">Main</span></code> モジュールであることを示しています
+(<code class="docutils literal"><span class="pre">*</span></code> の意味については <a class="reference internal" href="#ghci-scope"><span>What&#8217;s really in scope at the prompt?</span></a> で説明します)．
+これで <code class="docutils literal"><span class="pre">Main.hs</span></code> で定義した関数を含む式が評価できるようになりました．</p>
 <div class="highlight-none"><div class="highlight"><pre>*Main&gt; fac 17
 355687428096000
 </pre></div>
 </div>
-<p>Loading a multi-module program is just as straightforward; just give the
-name of the &#8220;topmost&#8221; module to the <a class="reference internal" href="#ghci-cmd-:load"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:load</span></code></a> command (hint:
-<a class="reference internal" href="#ghci-cmd-:load"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:load</span></code></a> can be abbreviated to <code class="docutils literal"><span class="pre">:l</span></code>). The topmost module will
-normally be <code class="docutils literal"><span class="pre">Main</span></code>, but it doesn&#8217;t have to be. GHCi will discover which
-modules are required, directly or indirectly, by the topmost module, and load
-them all in dependency order.</p>
+<p>複数のモジュールからなるプログラムをロードするのも同様に簡単です．
+「最上位の」モジュールの名前を <a class="reference internal" href="#ghci-cmd-:load"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:load</span></code></a> コマンドに指定すればいいだけです
+(ヒント: <code class="xref std std-ghci-cmd docutils literal"><span class="pre">load</span></code> は <code class="docutils literal"><span class="pre">:l</span></code> に短縮できます)．
+最上位のモジュールはふつうは <code class="docutils literal"><span class="pre">Main</span></code> ですが，必ずしもそうである必要はありません．
+GHCiは最上位のモジュールから直接・間接に必要とされているモジュールを見つけ，
+それらを依存関係の順にロードします．</p>
 <table class="docutils footnote" frame="void" id="id8" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
-<tr><td class="label"><a class="fn-backref" href="#id7">[3]</a></td><td>If you started up GHCi from the command line then GHCi&#8217;s current
-directory is the same as the current directory of the shell from
-which it was started. If you started GHCi from the “Start” menu in
-Windows, then the current directory is probably something like
-<code class="docutils literal"><span class="pre">C:\Documents</span> <span class="pre">and</span> <span class="pre">Settings\user</span> <span class="pre">name</span></code>.</td></tr>
+<tr><td class="label"><a class="fn-backref" href="#id7">[3]</a></td><td>コマンドラインから GHCi を起動した場合は GHCi のカレントディレクトリは
+シェルから起動したときのカレントディレクトリと同じです．
+Windowsの「スタート」メニューから GHCi を起動した場合は，
+カレントディレクトリはおそく <code class="docutils literal"><span class="pre">C:\Documents</span> <span class="pre">and</span> <span class="pre">Settings\user</span> <span class="pre">name</span></code> あたりでしょう．</td></tr>
 </tbody>
 </table>
 <div class="section" id="modules-vs-filenames">
@@ -708,7 +705,7 @@ you run GHCi and type <code class="docutils literal"><span class="pre">J&lt;tab&
 <div class="section" id="the-effect-of-load-on-what-is-in-scope">
 <span id="ghci-load-scope"></span><h4>5.4.5.1. The effect of <code class="docutils literal"><span class="pre">:load</span></code> on what is in scope<a class="headerlink" href="#the-effect-of-load-on-what-is-in-scope" title="Permalink to this headline">¶</a></h4>
 <p>The <a class="reference internal" href="#ghci-cmd-:load"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:load</span></code></a>, <a class="reference internal" href="#ghci-cmd-:add"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:add</span></code></a>, and <a class="reference internal" href="#ghci-cmd-:reload"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:reload</span></code></a> commands
-(<a class="reference internal" href="#loading-source-files"><span>Loading source files</span></a> and <a class="reference internal" href="#ghci-compiled"><span>Loading compiled code</span></a>) affect the
+(<span class="xref std std-ref">loading-source-files</span> and <a class="reference internal" href="#ghci-compiled"><span>Loading compiled code</span></a>) affect the
 top-level scope. Let&#8217;s start with the simple cases; when you start GHCi
 the prompt looks like this:</p>
 <div class="highlight-none"><div class="highlight"><pre>Prelude&gt;
