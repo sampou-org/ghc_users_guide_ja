@@ -57,7 +57,7 @@
 <li><a class="reference internal" href="#id5">5.1. GHCi入門</a></li>
 <li><a class="reference internal" href="#id6">5.2. ソースファイルをロードする</a><ul>
 <li><a class="reference internal" href="#modules-vs-filenames">5.2.1. Modules vs. filenames</a></li>
-<li><a class="reference internal" href="#making-changes-and-recompilation">5.2.2. Making changes and recompilation</a></li>
+<li><a class="reference internal" href="#id11">5.2.2. ソースコードの変更と再コンパイル</a></li>
 </ul>
 </li>
 <li><a class="reference internal" href="#loading-compiled-code">5.3. Loading compiled code</a></li>
@@ -289,14 +289,14 @@ GHCiを起動するコマンドラインで <a class="reference internal" href="
 </tbody>
 </table>
 </div>
-<div class="section" id="making-changes-and-recompilation">
-<h3>5.2.2. Making changes and recompilation<a class="headerlink" href="#making-changes-and-recompilation" title="Permalink to this headline">¶</a></h3>
-<p id="index-4">If you make some changes to the source code and want GHCi to recompile
-the program, give the <a class="reference internal" href="#ghci-cmd-:reload"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:reload</span></code></a> command. The program will be
-recompiled as necessary, with GHCi doing its best to avoid actually
-recompiling modules if their external dependencies haven&#8217;t changed. This
-is the same mechanism we use to avoid re-compiling modules in the batch
-compilation setting (see <a class="reference internal" href="separate_compilation.html#recomp"><span>The recompilation checker</span></a>).</p>
+<div class="section" id="id11">
+<h3>5.2.2. ソースコードの変更と再コンパイル<a class="headerlink" href="#id11" title="Permalink to this headline">¶</a></h3>
+<p id="index-4">ソースコードに変更を加えて，GHCiに再コンパイルさせたいときは <a class="reference internal" href="#ghci-cmd-:reload"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:reload</span></code></a>
+コマンドを使います．
+プログラムは必要に応じて再コンパイルされます．
+このとき、GHCiは依存関係の変化がないモジュールを実際に再コンパイルするのを避けようと最善をつくします．
+これは一括コンパイル時に再コンパイルを避ける機構と同じです
+(<span class="xref std std-ref">recompile</span> 参照)．</p>
 </div>
 </div>
 <div class="section" id="loading-compiled-code">
@@ -1081,7 +1081,7 @@ running computation in order to examine the values of variables. The
 debugger is integrated into GHCi, and is turned on by default: no flags
 are required to enable the debugging facilities. There is one major
 restriction: breakpoints and single-stepping are only available in
-interpreted modules; compiled code is invisible to the debugger <a class="footnote-reference" href="#id17" id="id11">[5]</a>.</p>
+interpreted modules; compiled code is invisible to the debugger <a class="footnote-reference" href="#id18" id="id12">[5]</a>.</p>
 <p>The debugger provides the following:</p>
 <ul class="simple">
 <li>The ability to set a breakpoint on a function definition or
@@ -1159,7 +1159,7 @@ can use the <a class="reference internal" href="#ghci-cmd-:list"><code class="xr
 <p>The <a class="reference internal" href="#ghci-cmd-:list"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:list</span></code></a> command lists the source code around the current
 breakpoint. If your output device supports it, then GHCi will highlight
 the active subexpression in bold.</p>
-<p>GHCi has provided bindings for the free variables <a class="footnote-reference" href="#id18" id="id12">[6]</a> of the expression
+<p>GHCi has provided bindings for the free variables <a class="footnote-reference" href="#id19" id="id13">[6]</a> of the expression
 on which the breakpoint was placed (<code class="docutils literal"><span class="pre">a</span></code>, <code class="docutils literal"><span class="pre">left</span></code>, <code class="docutils literal"><span class="pre">right</span></code>), and
 additionally a binding for the result of the expression (<code class="docutils literal"><span class="pre">_result</span></code>).
 These variables are just like other variables that you might define in
@@ -1256,7 +1256,7 @@ right :: [a]
 <p>The execution continued at the point it previously stopped, and has now
 stopped at the breakpoint for a second time.</p>
 <div class="section" id="setting-breakpoints">
-<span id="id13"></span><h4>5.5.1.1. Setting breakpoints<a class="headerlink" href="#setting-breakpoints" title="Permalink to this headline">¶</a></h4>
+<span id="id14"></span><h4>5.5.1.1. Setting breakpoints<a class="headerlink" href="#setting-breakpoints" title="Permalink to this headline">¶</a></h4>
 <p>Breakpoints can be set in various ways. Perhaps the easiest way to set a
 breakpoint is to name a top-level function:</p>
 <div class="highlight-none"><div class="highlight"><pre>:break identifier
@@ -1317,7 +1317,7 @@ given in the output from <a class="reference internal" href="#ghci-cmd-:show bre
 </div>
 </div>
 <div class="section" id="single-stepping">
-<span id="id14"></span><h3>5.5.2. Single-stepping<a class="headerlink" href="#single-stepping" title="Permalink to this headline">¶</a></h3>
+<span id="id15"></span><h3>5.5.2. Single-stepping<a class="headerlink" href="#single-stepping" title="Permalink to this headline">¶</a></h3>
 <p>Single-stepping is a great way to visualise the execution of your
 program, and it is also a useful tool for identifying the source of a
 bug. GHCi offers two variants of stepping. Use <a class="reference internal" href="#ghci-cmd-:step"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:step</span></code></a> to enable all
@@ -1358,7 +1358,7 @@ _result :: [Integer]
 </div>
 </div>
 <div class="section" id="nested-breakpoints">
-<span id="id15"></span><h3>5.5.3. Nested breakpoints<a class="headerlink" href="#nested-breakpoints" title="Permalink to this headline">¶</a></h3>
+<span id="id16"></span><h3>5.5.3. Nested breakpoints<a class="headerlink" href="#nested-breakpoints" title="Permalink to this headline">¶</a></h3>
 <p>When GHCi is stopped at a breakpoint, and an expression entered at the
 prompt triggers a second breakpoint, the new breakpoint becomes the
 &#8220;current&#8221; one, and the old one is saved on a stack. An arbitrary number
@@ -1727,7 +1727,7 @@ to the command line.</p>
 </div>
 </div>
 <div class="section" id="ghci-commands">
-<span id="id16"></span><h2>5.7. GHCi commands<a class="headerlink" href="#ghci-commands" title="Permalink to this headline">¶</a></h2>
+<span id="id17"></span><h2>5.7. GHCi commands<a class="headerlink" href="#ghci-commands" title="Permalink to this headline">¶</a></h2>
 <p>GHCi commands all begin with &#8220;<code class="docutils literal"><span class="pre">:</span></code>&#8221; and consist of a single command
 name followed by zero or more parameters. The command name may be
 abbreviated, with ambiguities being resolved in favour of the more
@@ -2847,17 +2847,17 @@ program thus:</p>
 </div>
 </dd>
 </dl>
-<table class="docutils footnote" frame="void" id="id17" rules="none">
-<colgroup><col class="label" /><col /></colgroup>
-<tbody valign="top">
-<tr><td class="label"><a class="fn-backref" href="#id11">[5]</a></td><td>Note that packages only contain compiled code, so debugging a package
-requires finding its source and loading that directly.</td></tr>
-</tbody>
-</table>
 <table class="docutils footnote" frame="void" id="id18" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
-<tr><td class="label"><a class="fn-backref" href="#id12">[6]</a></td><td>We originally provided bindings for all variables in scope, rather
+<tr><td class="label"><a class="fn-backref" href="#id12">[5]</a></td><td>Note that packages only contain compiled code, so debugging a package
+requires finding its source and loading that directly.</td></tr>
+</tbody>
+</table>
+<table class="docutils footnote" frame="void" id="id19" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id13">[6]</a></td><td>We originally provided bindings for all variables in scope, rather
 than just the free variables of the expression, but found that this
 affected performance considerably, hence the current restriction to
 just the free variables.</td></tr>
