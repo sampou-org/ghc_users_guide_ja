@@ -252,39 +252,40 @@ Windowsの「スタート」メニューから GHCi を起動した場合は，
 カレントディレクトリはおそく <code class="docutils literal"><span class="pre">C:\Documents</span> <span class="pre">and</span> <span class="pre">Settings\user</span> <span class="pre">name</span></code> あたりでしょう．</td></tr>
 </tbody>
 </table>
-<div class="section" id="modules-vs-filenames">
-<span id="ghci-modules-filenames"></span><h3>5.2.1. Modules vs. filenames<a class="headerlink" href="#modules-vs-filenames" title="Permalink to this headline">¶</a></h3>
-<p id="index-3">Question: How does GHC find the filename which contains module ⟨M⟩?
-Answer: it looks for the file <code class="docutils literal"><span class="pre">M.hs</span></code>, or <code class="docutils literal"><span class="pre">M.lhs</span></code>. This means that
-for most modules, the module name must match the filename. If it
-doesn&#8217;t, GHCi won&#8217;t be able to find it.</p>
-<p>There is one exception to this general rule: when you load a program
-with <a class="reference internal" href="#ghci-cmd-:load"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:load</span></code></a>, or specify it when you invoke <code class="docutils literal"><span class="pre">ghci</span></code>, you can give a
-filename rather than a module name. This filename is loaded if it
-exists, and it may contain any module you like. This is particularly
-convenient if you have several <code class="docutils literal"><span class="pre">Main</span></code> modules in the same directory
-and you can&#8217;t call them all <code class="docutils literal"><span class="pre">Main.hs</span></code>.</p>
-<p>The search path for finding source files is specified with the <a class="reference internal" href="separate_compilation.html#ghc-flag--i"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-i</span></code></a>
-option on the GHCi command line, like so:</p>
+<span class="target" id="ghci-modules-filenames"></span><div class="section" id="modules-vs-filenames">
+<h3>5.2.1. Modules vs. filenames<a class="headerlink" href="#modules-vs-filenames" title="Permalink to this headline">¶</a></h3>
+<span class="target" id="index-3"></span><p>問: GHCi はモジュール ⟨M⟩ がどのファイルにあるかをどうやって知るのですか．
+答: <code class="docutils literal"><span class="pre">M.hs</span></code> あるいは <code class="docutils literal"><span class="pre">M.lhs</span></code> というファイルを探します．
+したがって，大部分のモジュールでは，モジュール名とファイル名は一致している必要があります．
+一致しなかった場合，GHCiはモジュールを見つけ出すことができません．</p>
+<p>この規則には一つの例外があります．
+<a class="reference internal" href="#ghci-cmd-:load"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:load</span></code></a> を使ってプログラムをロードするとき，
+あるいは <code class="docutils literal"><span class="pre">ghci</span></code> を起動するときには，モジュール名ではなくファイル名を指定することができます．
+その名前のファイルがあれば，それをロードします．
+このときそのファイルにはどのような名前のモジュールを含んでいてもかまいません．
+これは，複数の <code class="docutils literal"><span class="pre">Main</span></code> モジュールが1つのディレクトリにある場合，
+全てを <code class="docutils literal"><span class="pre">Main.hs</span></code> と呼ぶことはできませんので，特に便利です．</p>
+<p>ソースファイルを探すときの探索パスは，次に示すように，
+GHCiを起動するコマンドラインで <a class="reference internal" href="separate_compilation.html#ghc-flag--i"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-i</span></code></a> オプションで指定できます．</p>
 <div class="highlight-none"><div class="highlight"><pre>ghci -idir1:...:dirn
 </pre></div>
 </div>
-<p>or it can be set using the <a class="reference internal" href="#ghci-cmd-:set"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:set</span></code></a> command from within GHCi (see
-<a class="reference internal" href="#ghci-cmd-line-options"><span>Setting GHC command-line options in GHCi</span></a>) <a class="footnote-reference" href="#id10" id="id9">[4]</a></p>
-<p>One consequence of the way that GHCi follows dependencies to find
-modules to load is that every module must have a source file. The only
-exception to the rule is modules that come from a package, including the
-<code class="docutils literal"><span class="pre">Prelude</span></code> and standard libraries such as <code class="docutils literal"><span class="pre">IO</span></code> and <code class="docutils literal"><span class="pre">Complex</span></code>. If
-you attempt to load a module for which GHCi can&#8217;t find a source file,
-even if there are object and interface files for the module, you&#8217;ll get
-an error message.</p>
+<p>あるいは，GHCiの中で <a class="reference internal" href="#ghci-cmd-:set"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:set</span></code></a> コマンドで指定できます
+(<a class="reference internal" href="#ghci-cmd-line-options"><span>Setting GHC command-line options in GHCi</span></a> 参照) <a class="footnote-reference" href="#id10" id="id9">[4]</a></p>
+<p>GHCiは，このように依存関係を追ってロードすべきモジュールを見つけようとするので，
+モジュールごとに，1つのソースファイルがなければなりません．
+この規則の唯一の例外はパッケージ由来のモジュールで，それには <code class="docutils literal"><span class="pre">Prelude</span></code> のほか
+<code class="docutils literal"><span class="pre">IO</span></code> や <code class="docutils literal"><span class="pre">Complex</span></code> といった標準ライブラリも含まれます．
+モジュールをロードしようとしたとき，GHCiがソースファイルを見つけられなければ，
+たとえ，そのモジュールのオブジェクトファイルやインターフェイスファイルがあったとしても，
+エラーメッセージが表示されます．</p>
 <table class="docutils footnote" frame="void" id="id10" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
-<tr><td class="label"><a class="fn-backref" href="#id9">[4]</a></td><td>Note that in GHCi, and <a class="reference internal" href="using.html#ghc-flag---make"><code class="xref std std-ghc-flag docutils literal"><span class="pre">--make</span></code></a> mode, the <a class="reference internal" href="separate_compilation.html#ghc-flag--i"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-i</span></code></a> option is used to
-specify the search path for <em>source</em> files, whereas in standard
-batch-compilation mode the <a class="reference internal" href="separate_compilation.html#ghc-flag--i"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-i</span></code></a> option is used to specify the
-search path for interface files, see <a class="reference internal" href="separate_compilation.html#search-path"><span>The search path</span></a>.</td></tr>
+<tr><td class="label"><a class="fn-backref" href="#id9">[4]</a></td><td>GHCiや <a class="reference internal" href="using.html#ghc-flag---make"><code class="xref std std-ghc-flag docutils literal"><span class="pre">--make</span></code></a> モードでは <a class="reference internal" href="separate_compilation.html#ghc-flag--i"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-i</span></code></a> オプションは，
+<em>ソースファイル</em> の探索パスを指定するのに対し，標準の一括コンパイルモードでは
+<a class="reference internal" href="separate_compilation.html#ghc-flag--i"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-i</span></code></a> オプションはインターフェイスファイルの探索パスを指定することに注意してください．
+詳しくは <a class="reference internal" href="separate_compilation.html#search-path"><span>The search path</span></a> を参照してください．</td></tr>
 </tbody>
 </table>
 </div>
@@ -1702,7 +1703,7 @@ unloaded, and you&#8217;ll be dumped back into the <code class="docutils literal
 <p id="index-16">Extra libraries may be specified on the command line using the normal
 <code class="docutils literal"><span class="pre">-llib</span></code> option. (The term <em>library</em> here refers to libraries of
 foreign object code; for using libraries of Haskell source code, see
-<a class="reference internal" href="#ghci-modules-filenames"><span>Modules vs. filenames</span></a>.) For example, to load the “m” library:</p>
+<span class="xref std std-ref">ghci-modules-filenames</span>.) For example, to load the “m” library:</p>
 <div class="highlight-none"><div class="highlight"><pre>$ ghci -lm
 </pre></div>
 </div>
