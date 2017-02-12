@@ -708,11 +708,25 @@ GHCiは ``C`` のオブジェクトファイルを利用しなかったのです
 
 .. _interactive-evaluation:
 
-Interactive evaluation at the prompt
-------------------------------------
+..
+   Interactive evaluation at the prompt
+   ------------------------------------
 
-When you type an expression at the prompt, GHCi immediately evaluates
-and prints the result:
+プロンプトで対話的に評価する
+----------------------------
+
+..
+   When you type an expression at the prompt, GHCi immediately evaluates
+   and prints the result:
+
+   .. code-block:: none
+
+       Prelude> reverse "hello"
+       "olleh"
+       Prelude> 5+5
+       10
+
+プロンプトに式を入力すると，GHCi はただちに評価して結果を表示します．
 
 .. code-block:: none
 
@@ -723,12 +737,28 @@ and prints the result:
 
 .. _actions-at-prompt:
 
-I/O actions at the prompt
-~~~~~~~~~~~~~~~~~~~~~~~~~
+..
+   I/O actions at the prompt
+   ~~~~~~~~~~~~~~~~~~~~~~~~~
 
-GHCi does more than simple expression evaluation at the prompt. If you
-enter an expression of type ``IO a`` for some ``a``, then GHCi
-*executes* it as an IO-computation.
+プロンプトでのI/Oアクション
+~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+..
+   GHCi does more than simple expression evaluation at the prompt. If you
+   enter an expression of type ``IO a`` for some ``a``, then GHCi
+   *executes* it as an IO-computation.
+
+   .. code-block:: none
+
+       Prelude> "hello"
+       "hello"
+       Prelude> putStrLn "hello"
+       hello
+
+GHCi がプロンプトで行うのは単なる式の評価だけではありません．
+ある型 ``a`` に関して ``IO a`` 型の式を入力すると，GHCiはそれをIOコンピュテーションとして
+*実行* します．
 
 .. code-block:: none
 
@@ -737,22 +767,48 @@ enter an expression of type ``IO a`` for some ``a``, then GHCi
     Prelude> putStrLn "hello"
     hello
 
-This works even if the type of the expression is more general, provided
-it can be *instantiated* to ``IO a``. For example
+..
+   This works even if the type of the expression is more general, provided
+   it can be *instantiated* to ``IO a``. For example
+
+   .. code-block:: none
+
+       Prelude> return True
+       True
+
+式の型がより一般的なものであっても ``IO a`` に *具体化* することができる限り動作します．
+それ例が以下です．
 
 .. code-block:: none
 
     Prelude> return True
     True
 
-Furthermore, GHCi will print the result of the I/O action if (and only
-if):
+..
+   Furthermore, GHCi will print the result of the I/O action if (and only
+   if):
 
--  The result type is an instance of ``Show``.
+   -  The result type is an instance of ``Show``.
 
--  The result type is not ``()``.
+   -  The result type is not ``()``.
 
-For example, remembering that ``putStrLn :: String -> IO ()``:
+   For example, remembering that ``putStrLn :: String -> IO ()``:
+
+   .. code-block:: none
+
+       Prelude> putStrLn "hello"
+       hello
+       Prelude> do { putStrLn "hello"; return "yes" }
+       hello
+       "yes"
+
+さらに，GHCiは以下の条件を満す場合(かつその限りにおいて)，I/Oアクションの結果を表示します．
+
+-  結果の型が ``Show`` のインスタンスの場合．
+
+-  結果の型が ``()`` ではない場合．
+
+以下はその例です．ただし， ``putStrLn :: String -> IO ()`` です．
 
 .. code-block:: none
 
@@ -764,21 +820,47 @@ For example, remembering that ``putStrLn :: String -> IO ()``:
 
 .. _ghci-stmts:
 
-Using ``do`` notation at the prompt
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+..
+   Using ``do`` notation at the prompt
+   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+プロンプトで ``do`` 記法を使う
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+..
+   .. index::
+      single: do-notation; in GHCi
+      single: statements; in GHCi
 
 .. index::
-   single: do-notation; in GHCi
-   single: statements; in GHCi
+   single: do記法; GHCiでの〜
+   single: 文; GHCiでの〜
 
-GHCi actually accepts statements rather than just expressions at the
-prompt. This means you can bind values and functions to names, and use
-them in future expressions or statements.
+..
+   GHCi actually accepts statements rather than just expressions at the
+   prompt. This means you can bind values and functions to names, and use
+   them in future expressions or statements.
+
+実際には，GHCiはプロンプトで受け付けているのは単なる式ではなく文です．
+そのため，値や関数を名前に束縛して，後で式や文の中で使うことができます．
+
+..
+   The syntax of a statement accepted at the GHCi prompt is exactly the
+   same as the syntax of a statement in a Haskell ``do`` expression.
+   However, there's no monad overloading here: statements typed at the
+   prompt must be in the ``IO`` monad.
+
+   .. code-block:: none
+
+       Prelude> x <- return 42
+       Prelude> print x
+       42
+       Prelude>
 
 The syntax of a statement accepted at the GHCi prompt is exactly the
-same as the syntax of a statement in a Haskell ``do`` expression.
-However, there's no monad overloading here: statements typed at the
-prompt must be in the ``IO`` monad.
+GHCiがプロンプトで受け付ける文の構文は，Haskellのdo式における文の構文と全く同じです．
+ただし，こちらにはモナドの多重定義はありません．
+プロンプトに入力される文はIOモナドの中になければなりません．
 
 .. code-block:: none
 
@@ -787,23 +869,49 @@ prompt must be in the ``IO`` monad.
     42
     Prelude>
 
-The statement ``x <- return 42`` means “execute ``return 42`` in the
-``IO`` monad, and bind the result to ``x``\ ”. We can then use ``x`` in
-future statements, for example to print it as we did above.
+..
+   The statement ``x <- return 42`` means “execute ``return 42`` in the
+   ``IO`` monad, and bind the result to ``x``\ ”. We can then use ``x`` in
+   future statements, for example to print it as we did above.
+
+``x <- return 42`` という文は「``return 42`` を ``IO`` モナド内で実行し，
+その結果で ``x`` を束縛する」という意味です．
+以降 ``x`` は文の中で使用できます．
+たとえば，上でしたように値を印字できます．
+
+..
+   .. ghc-flag:: -fprint-bind-result
+
+       If :ghc-flag:`-fprint-bind-result` is set then GHCi will print the result of a
+       statement if and only if:
+
+       - The statement is not a binding, or it is a monadic binding
+	 (``p <- e``) that binds exactly one variable.
+
+       - The variable's type is not polymorphic, is not ``()``, and is an
+	 instance of ``Show``.
 
 .. ghc-flag:: -fprint-bind-result
 
-    If :ghc-flag:`-fprint-bind-result` is set then GHCi will print the result of a
-    statement if and only if:
+    :ghc-flag:`-fprint-bind-result` が設定されていれば，GHCiは次の場合(かつ，その場合に限り)
+    文の結果を表示します．
 
-    - The statement is not a binding, or it is a monadic binding
-      (``p <- e``) that binds exactly one variable.
+    - 当該の文が束縛ではないか，1つの変数だけを束縛するモナド束縛(``p <- e``)の場合．
 
-    - The variable's type is not polymorphic, is not ``()``, and is an
-      instance of ``Show``.
+    - 変数の型が多相的でなく， ``()`` でもなく， ``Show`` のインスタンスである場合．
 
-Of course, you can also bind normal non-IO expressions using the
-``let``\-statement:
+..
+   Of course, you can also bind normal non-IO expressions using the
+   ``let``\-statement:
+
+   .. code-block:: none
+
+       Prelude> let x = 42
+       Prelude> x
+       42
+       Prelude>
+
+もちろん，``let`` 文を使って，ふつうの非IO式で束縛することもできます．
 
 .. code-block:: none
 
@@ -812,9 +920,21 @@ Of course, you can also bind normal non-IO expressions using the
     42
     Prelude>
 
-Another important difference between the two types of binding is that
-the monadic bind (``p <- e``) is *strict* (it evaluates ``e``), whereas
-with the ``let`` form, the expression isn't evaluated immediately:
+..
+   Another important difference between the two types of binding is that
+   the monadic bind (``p <- e``) is *strict* (it evaluates ``e``), whereas
+   with the ``let`` form, the expression isn't evaluated immediately:
+
+   .. code-block:: none
+
+       Prelude> let x = error "help!"
+       Prelude> print x
+       *** Exception: help!
+       Prelude>
+
+この2種類の束縛のもうひとつ重要な違いは，
+モナド束縛(``p <- e``)は *正格* (``e`` を評価)ですが，
+``let`` 形式では式はすぐには評価されないということです．
 
 .. code-block:: none
 
@@ -823,10 +943,23 @@ with the ``let`` form, the expression isn't evaluated immediately:
     *** Exception: help!
     Prelude>
 
-Note that ``let`` bindings do not automatically print the value bound,
-unlike monadic bindings.
+..
+   Note that ``let`` bindings do not automatically print the value bound,
+   unlike monadic bindings.
 
-You can also define functions at the prompt:
+``let`` 束縛では，モナド束縛とは違い，束縛値が自動的に表示されることはありません．
+
+..
+   You can also define functions at the prompt:
+
+   .. code-block:: none
+
+       Prelude> add a b = a + b
+       Prelude> add 1 2
+       3
+       Prelude>
+
+プロンプトで関数を定義することもできます．
 
 .. code-block:: none
 
@@ -835,10 +968,22 @@ You can also define functions at the prompt:
     3
     Prelude>
 
-However, this quickly gets tedious when defining functions with multiple
-clauses, or groups of mutually recursive functions, because the complete
-definition has to be given on a single line, using explicit semicolons
-instead of layout:
+..
+   However, this quickly gets tedious when defining functions with multiple
+   clauses, or groups of mutually recursive functions, because the complete
+   definition has to be given on a single line, using explicit semicolons
+   instead of layout:
+
+   .. code-block:: none
+
+       Prelude> f op n [] = n ; f op n (h:t) = h `op` f op n t
+       Prelude> f (+) 0 [1..3]
+       6
+       Prelude>
+
+しかし，複数の節からなる関数を定義したり，相互再帰的な関数を定義したりしようとすると，
+このやりかたはすぐ面倒になります．
+レイアウト規則が使えず，定義全体を明示的なブレースとセミコロンを使って一行で与えないといけないからです．
 
 .. code-block:: none
 
@@ -847,9 +992,22 @@ instead of layout:
     6
     Prelude>
 
-To alleviate this issue, GHCi commands can be split over multiple lines,
-by wrapping them in ``:{`` and ``:}`` (each on a single line of its
-own):
+..
+   To alleviate this issue, GHCi commands can be split over multiple lines,
+   by wrapping them in ``:{`` and ``:}`` (each on a single line of its
+   own):
+
+   .. code-block:: none
+
+       Prelude> :{
+       Prelude| g op n [] = n
+       Prelude| g op n (h:t) = h `op` g op n t
+       Prelude| :}
+       Prelude> g (*) 1 [1..3]
+       6
+
+この問題を軽減するために，GHCi コマンドは複数行に渡って書くことができるようになっています．
+``:{`` および ``:}`` で，それぞれ1行を使います．
 
 .. code-block:: none
 
@@ -860,28 +1018,63 @@ own):
     Prelude> g (*) 1 [1..3]
     6
 
+..
+   Such multiline commands can be used with any GHCi command, and note that
+   the layout rule is in effect. The main purpose of multiline commands is
+   not to replace module loading but to make definitions in .ghci-files
+   (see :ref:`ghci-dot-files`) more readable and maintainable.
+
 Such multiline commands can be used with any GHCi command, and note that
-the layout rule is in effect. The main purpose of multiline commands is
-not to replace module loading but to make definitions in .ghci-files
-(see :ref:`ghci-dot-files`) more readable and maintainable.
+このような複数行コマンドは任意のGHCiコマンドについて用いることができます．
+このときレイアウト規則が有効であることに注意してください．
+複数行コマンドの主な目的は，モジュールのロードの代替にすることではなく，
+.ghciファイル(:ref:`ghci-dot-files` 参照)での定義を読みやすく保守しやするするためです．
+
+..
+   Any exceptions raised during the evaluation or execution of the
+   statement are caught and printed by the GHCi command line interface (for
+   more information on exceptions, see the module ``Control.Exception`` in
+   the libraries :base-ref:`documentation <Control-Exception.html>`).
 
 Any exceptions raised during the evaluation or execution of the
-statement are caught and printed by the GHCi command line interface (for
-more information on exceptions, see the module ``Control.Exception`` in
-the libraries :base-ref:`documentation <Control-Exception.html>`).
+文を評価または実行している間に発生した例外は，GHCiのコマンド行インターフェイスによって捕捉され，
+表示されます(例外について詳しくはライブラリドキュメント ``Control.Exception``
+モジュールのライブラリ :base-ref:`文書 <Control-Exception.html>` を参照してください)．
 
-Every new binding shadows any existing bindings of the same name,
-including entities that are in scope in the current module context.
+..
+   Every new binding shadows any existing bindings of the same name,
+   including entities that are in scope in the current module context.
+
+新しい束縛は，同じ名前の既存の束縛をシャドウし(覆い隠し)ます．
+これは現在のモジュールの文脈で有効範囲にある実体もシャドウします．
+
+..
+   .. warning::
+       Temporary bindings introduced at the prompt only last until the
+       next :ghci-cmd:`:load` or :ghci-cmd:`:reload` command, at which time they
+       will be simply lost. However, they do survive a change of context with
+       :ghci-cmd:`:module`: the temporary bindings just move to the new location.
 
 .. warning::
-    Temporary bindings introduced at the prompt only last until the
-    next :ghci-cmd:`:load` or :ghci-cmd:`:reload` command, at which time they
-    will be simply lost. However, they do survive a change of context with
-    :ghci-cmd:`:module`: the temporary bindings just move to the new location.
+    プロンプトで導入さた束縛あ一時的なもので，
+    次に :ghci-cmd:`:load` あるいは :ghci-cmd:`:reload` コマンドが実行されるまでの間のことです．
+    これらのコマンドが実行されると，一時的な束縛は消えてしまいます．
+    ただし，:ghci-cmd:`:module`: で文脈を変更しても一時的は束縛は新しい場所へ移動し，
+    消えることはありません．
+
+..
+   .. hint::
+       To get a list of the bindings currently in scope, use the
+       :ghci-cmd:`:show bindings` command:
+
+       .. code-block:: none
+
+	   Prelude> :show bindings
+	   x :: Int
+	   Prelude>
 
 .. hint::
-    To get a list of the bindings currently in scope, use the
-    :ghci-cmd:`:show bindings` command:
+    :ghci-cmd:`:show bindings` コマンドを使えば，その時点で有効範囲にある束縛の一覧がえられます．
 
     .. code-block:: none
 
@@ -889,9 +1082,24 @@ including entities that are in scope in the current module context.
         x :: Int
         Prelude>
 
+..
+   .. hint::
+       If you turn on the ``+t`` option, GHCi will show the type of each
+       variable bound by a statement. For example:
+
+       .. code-block:: none
+
+	   Prelude> :set +t
+	   Prelude> let (x:xs) = [1..]
+	   x :: Integer
+	   xs :: [Integer]
+
+       .. index::
+	   single: +t option; in GHCi
+
 .. hint::
-    If you turn on the ``+t`` option, GHCi will show the type of each
-    variable bound by a statement. For example:
+    ``+t`` オプションを指定すると，GHCi は文が束縛したそれぞれの変数の型を表示するようになります．
+    以下はその例です．
 
     .. code-block:: none
 
@@ -902,7 +1110,6 @@ including entities that are in scope in the current module context.
 
     .. index::
         single: +t option; in GHCi
-
 
 .. _ghci-multiline:
 
