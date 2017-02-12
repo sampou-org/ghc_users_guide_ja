@@ -266,49 +266,100 @@ GHCiは最上位のモジュールから直接・間接に必要とされてい�
 
 .. _ghci-modules-filenames:
 
+..
+   Modules vs. filenames
+   ~~~~~~~~~~~~~~~~~~~~~
+
 Modules vs. filenames
 ~~~~~~~~~~~~~~~~~~~~~
 
+..
+   .. index::
+      single: modules; and filenames
+      single: filenames; of modules
+
 .. index::
-   single: modules; and filenames
-   single: filenames; of modules
+   single: モジュール; 〜とファイル名
+   single: ファイル名; モジュールの〜
 
-Question: How does GHC find the filename which contains module ⟨M⟩?
-Answer: it looks for the file ``M.hs``, or ``M.lhs``. This means that
-for most modules, the module name must match the filename. If it
-doesn't, GHCi won't be able to find it.
+..
+   Question: How does GHC find the filename which contains module ⟨M⟩?
+   Answer: it looks for the file ``M.hs``, or ``M.lhs``. This means that
+   for most modules, the module name must match the filename. If it
+   doesn't, GHCi won't be able to find it.
 
-There is one exception to this general rule: when you load a program
-with :ghci-cmd:`:load`, or specify it when you invoke ``ghci``, you can give a
-filename rather than a module name. This filename is loaded if it
-exists, and it may contain any module you like. This is particularly
-convenient if you have several ``Main`` modules in the same directory
-and you can't call them all ``Main.hs``.
+問: GHCi はモジュール ⟨M⟩ がどのファイルにあるかをどうやって知るのですか．
+答: ``M.hs`` あるいは ``M.lhs`` というファイルを探します．
+したがって，大部分のモジュールでは，モジュール名とファイル名は一致している必要があります．
+一致しなかった場合，GHCiはモジュールを見つけ出すことができません．
 
-The search path for finding source files is specified with the :ghc-flag:`-i`
-option on the GHCi command line, like so:
+..
+   There is one exception to this general rule: when you load a program
+   with :ghci-cmd:`:load`, or specify it when you invoke ``ghci``, you can give a
+   filename rather than a module name. This filename is loaded if it
+   exists, and it may contain any module you like. This is particularly
+   convenient if you have several ``Main`` modules in the same directory
+   and you can't call them all ``Main.hs``.
+
+この規則には一つの例外があります．
+:ghci-cmd:`:load` を使ってプログラムをロードするとき，
+あるいは ``ghci`` を起動するときには，モジュール名ではなくファイル名を指定することができます．
+その名前のファイルがあれば，それをロードします．
+このときそのファイルにはどのような名前のモジュールを含んでいてもかまいません．
+これは，複数の ``Main`` モジュールが1つのディレクトリにある場合，
+全てを ``Main.hs`` と呼ぶことはできませんので，特に便利です．
+
+..
+   The search path for finding source files is specified with the :ghc-flag:`-i`
+   option on the GHCi command line, like so:
+
+   .. code-block:: none
+
+       ghci -idir1:...:dirn
+
+   or it can be set using the :ghci-cmd:`:set` command from within GHCi (see
+   :ref:`ghci-cmd-line-options`) [4]_
+
+
+ソースファイルを探すときの探索パスは，次に示すように，
+GHCiを起動するコマンドラインで :ghc-flag:`-i` オプションで指定できます．
 
 .. code-block:: none
 
     ghci -idir1:...:dirn
 
-or it can be set using the :ghci-cmd:`:set` command from within GHCi (see
-:ref:`ghci-cmd-line-options`) [4]_
+あるいは，GHCiの中で :ghci-cmd:`:set` コマンドで指定できます
+(:ref:`ghci-cmd-line-options` 参照) [4]_
 
-One consequence of the way that GHCi follows dependencies to find
-modules to load is that every module must have a source file. The only
-exception to the rule is modules that come from a package, including the
-``Prelude`` and standard libraries such as ``IO`` and ``Complex``. If
-you attempt to load a module for which GHCi can't find a source file,
-even if there are object and interface files for the module, you'll get
-an error message.
+..
+   One consequence of the way that GHCi follows dependencies to find
+   modules to load is that every module must have a source file. The only
+   exception to the rule is modules that come from a package, including the
+   ``Prelude`` and standard libraries such as ``IO`` and ``Complex``. If
+   you attempt to load a module for which GHCi can't find a source file,
+   even if there are object and interface files for the module, you'll get
+   an error message.
+
+GHCiは，このように依存関係を追ってロードすべきモジュールを見つけようとするので，
+モジュールごとに，1つのソースファイルがなければなりません．
+この規則の唯一の例外はパッケージ由来のモジュールで，それには ``Prelude`` のほか
+``IO`` や ``Complex`` といった標準ライブラリも含まれます．
+モジュールをロードしようとしたとき，GHCiがソースファイルを見つけられなければ，
+たとえ，そのモジュールのオブジェクトファイルやインターフェイスファイルがあったとしても，
+エラーメッセージが表示されます．
+
+..
+   .. [4]
+      Note that in GHCi, and :ghc-flag:`--make` mode, the :ghc-flag:`-i` option is used to
+      specify the search path for *source* files, whereas in standard
+      batch-compilation mode the :ghc-flag:`-i` option is used to specify the
+      search path for interface files, see :ref:`search-path`.
 
 .. [4]
-   Note that in GHCi, and :ghc-flag:`--make` mode, the :ghc-flag:`-i` option is used to
-   specify the search path for *source* files, whereas in standard
-   batch-compilation mode the :ghc-flag:`-i` option is used to specify the
-   search path for interface files, see :ref:`search-path`.
-
+   GHCiや :ghc-flag:`--make` モードでは :ghc-flag:`-i` オプションは，
+   *ソースファイル* の探索パスを指定するのに対し，標準の一括コンパイルモードでは
+   :ghc-flag:`-i` オプションはインターフェイスファイルの探索パスを指定することに注意してください．
+   詳しくは :ref:`search-path` を参照してください．
 
 Making changes and recompilation
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
