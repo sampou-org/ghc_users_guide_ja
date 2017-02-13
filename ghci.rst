@@ -1113,14 +1113,32 @@ Any exceptions raised during the evaluation or execution of the
 
 .. _ghci-multiline:
 
-Multiline input
-~~~~~~~~~~~~~~~
+..
+   Multiline input
+   ~~~~~~~~~~~~~~~
 
-Apart from the ``:{ ... :}`` syntax for multi-line input mentioned
-above, GHCi also has a multiline mode, enabled by ``:set +m``,
-``:set +m`` in which GHCi detects automatically when the current
-statement is unfinished and allows further lines to be added. A
-multi-line input is terminated with an empty line. For example:
+複数行入力
+~~~~~~~~~~
+
+..
+   Apart from the ``:{ ... :}`` syntax for multi-line input mentioned
+   above, GHCi also has a multiline mode, enabled by ``:set +m``,
+   ``:set +m`` in which GHCi detects automatically when the current
+   statement is unfinished and allows further lines to be added. A
+   multi-line input is terminated with an empty line. For example:
+
+   .. code-block:: none
+
+       Prelude> :set +m
+       Prelude> let x = 42
+       Prelude|
+
+上で説明しあた ``:{ ... :}`` 構文による複数行入力のほかに，GHCiでは ``:set +m``
+とすると有効になる複数行モードがあります．
+このモードでは，現在の文が入力途中であることをGHCiが自動的に検出します．
+その先の入力ができるようになります．
+複数行入力は空行で終端します．
+実際の入力例は以下のとおりです．
 
 .. code-block:: none
 
@@ -1128,10 +1146,24 @@ multi-line input is terminated with an empty line. For example:
     Prelude> let x = 42
     Prelude|
 
-Further bindings can be added to this ``let`` statement, so GHCi
-indicates that the next line continues the previous one by changing the
-prompt. Note that layout is in effect, so to add more bindings to this
-``let`` we have to line them up:
+..
+   Further bindings can be added to this ``let`` statement, so GHCi
+   indicates that the next line continues the previous one by changing the
+   prompt. Note that layout is in effect, so to add more bindings to this
+   ``let`` we have to line them up:
+
+   .. code-block:: none
+
+       Prelude> :set +m
+       Prelude> let x = 42
+       Prelude|     y = 3
+       Prelude|
+       Prelude>
+
+この ``let`` 文にはさらに束縛を追加できます．
+GHCiのプロンプトが変り，直前の行の続きを入力できることが判ります．
+レイアウト規則は有効ですので，この ``let`` にさらに束縛を加えるには
+束縛の先頭位置をそろえる必要があることに注意してください．
 
 .. code-block:: none
 
@@ -1141,7 +1173,23 @@ prompt. Note that layout is in effect, so to add more bindings to this
     Prelude|
     Prelude>
 
-Explicit braces and semicolons can be used instead of layout:
+..
+   Explicit braces and semicolons can be used instead of layout:
+
+   .. code-block:: none
+
+       Prelude> do {
+       Prelude| putStrLn "hello"
+       Prelude| ;putStrLn "world"
+       Prelude| }
+       hello
+       world
+       Prelude>
+
+   Note that after the closing brace, GHCi knows that the current statement
+   is finished, so no empty line is required.
+
+レイアウトではなく明示的にブレースをセミコロンを使うこともできます．
 
 .. code-block:: none
 
@@ -1153,10 +1201,24 @@ Explicit braces and semicolons can be used instead of layout:
     world
     Prelude>
 
-Note that after the closing brace, GHCi knows that the current statement
-is finished, so no empty line is required.
+閉じブレースの後は，現在の文がおわっていることが判るので，空行は必要ありません．
 
-Multiline mode is useful when entering monadic ``do`` statements:
+..
+   Multiline mode is useful when entering monadic ``do`` statements:
+
+   .. code-block:: none
+
+       Control.Monad.State> flip evalStateT 0 $ do
+       Control.Monad.State| i <- get
+       Control.Monad.State| lift $ do
+       Control.Monad.State|   putStrLn "Hello World!"
+       Control.Monad.State|   print i
+       Control.Monad.State|
+       "Hello World!"
+       0
+       Control.Monad.State>
+
+複数行モードはモナドの ``do`` 文を入力するのに便利です．
 
 .. code-block:: none
 
@@ -1170,8 +1232,18 @@ Multiline mode is useful when entering monadic ``do`` statements:
     0
     Control.Monad.State>
 
-During a multiline interaction, the user can interrupt and return to the
-top-level prompt.
+..
+   During a multiline interaction, the user can interrupt and return to the
+   top-level prompt.
+
+   .. code-block:: none
+
+       Prelude> do
+       Prelude| putStrLn "Hello, World!"
+       Prelude| ^C
+       Prelude>
+
+複数行モードで入力中に中断してトップレベルのプロンプトに戻ることもできます．
 
 .. code-block:: none
 
