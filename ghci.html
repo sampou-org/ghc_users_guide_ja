@@ -64,7 +64,7 @@
 <li><a class="reference internal" href="#id13">5.4. プロンプトで対話的に評価する</a><ul>
 <li><a class="reference internal" href="#i-o">5.4.1. プロンプトでのI/Oアクション</a></li>
 <li><a class="reference internal" href="#do">5.4.2. プロンプトで <code class="docutils literal"><span class="pre">do</span></code> 記法を使う</a></li>
-<li><a class="reference internal" href="#multiline-input">5.4.3. Multiline input</a></li>
+<li><a class="reference internal" href="#id14">5.4.3. 複数行入力</a></li>
 <li><a class="reference internal" href="#type-class-and-other-declarations">5.4.4. Type, class and other declarations</a></li>
 <li><a class="reference internal" href="#what-s-really-in-scope-at-the-prompt">5.4.5. What&#8217;s really in scope at the prompt?</a><ul>
 <li><a class="reference internal" href="#the-effect-of-load-on-what-is-in-scope">5.4.5.1. The effect of <code class="docutils literal"><span class="pre">:load</span></code> on what is in scope</a></li>
@@ -575,23 +575,24 @@ xs :: [Integer]
 </pre></div>
 </div>
 </div>
-</div>
-<div class="section" id="multiline-input">
-<span id="ghci-multiline"></span><span id="index-7"></span><h3>5.4.3. Multiline input<a class="headerlink" href="#multiline-input" title="Permalink to this headline">¶</a></h3>
-<p>Apart from the <code class="docutils literal"><span class="pre">:{</span> <span class="pre">...</span> <span class="pre">:}</span></code> syntax for multi-line input mentioned
-above, GHCi also has a multiline mode, enabled by <code class="docutils literal"><span class="pre">:set</span> <span class="pre">+m</span></code>,
-<code class="docutils literal"><span class="pre">:set</span> <span class="pre">+m</span></code> in which GHCi detects automatically when the current
-statement is unfinished and allows further lines to be added. A
-multi-line input is terminated with an empty line. For example:</p>
+<span class="target" id="ghci-multiline"><span id="index-7"></span></span></div>
+<div class="section" id="id14">
+<h3>5.4.3. 複数行入力<a class="headerlink" href="#id14" title="Permalink to this headline">¶</a></h3>
+<p>上で説明しあた <code class="docutils literal"><span class="pre">:{</span> <span class="pre">...</span> <span class="pre">:}</span></code> 構文による複数行入力のほかに，GHCiでは <code class="docutils literal"><span class="pre">:set</span> <span class="pre">+m</span></code>
+とすると有効になる複数行モードがあります．
+このモードでは，現在の文が入力途中であることをGHCiが自動的に検出します．
+その先の入力ができるようになります．
+複数行入力は空行で終端します．
+実際の入力例は以下のとおりです．</p>
 <div class="highlight-none"><div class="highlight"><pre>Prelude&gt; :set +m
 Prelude&gt; let x = 42
 Prelude|
 </pre></div>
 </div>
-<p>Further bindings can be added to this <code class="docutils literal"><span class="pre">let</span></code> statement, so GHCi
-indicates that the next line continues the previous one by changing the
-prompt. Note that layout is in effect, so to add more bindings to this
-<code class="docutils literal"><span class="pre">let</span></code> we have to line them up:</p>
+<p>この <code class="docutils literal"><span class="pre">let</span></code> 文にはさらに束縛を追加できます．
+GHCiのプロンプトが変り，直前の行の続きを入力できることが判ります．
+レイアウト規則は有効ですので，この <code class="docutils literal"><span class="pre">let</span></code> にさらに束縛を加えるには
+束縛の先頭位置をそろえる必要があることに注意してください．</p>
 <div class="highlight-none"><div class="highlight"><pre>Prelude&gt; :set +m
 Prelude&gt; let x = 42
 Prelude|     y = 3
@@ -599,7 +600,7 @@ Prelude|
 Prelude&gt;
 </pre></div>
 </div>
-<p>Explicit braces and semicolons can be used instead of layout:</p>
+<p>レイアウトではなく明示的にブレースをセミコロンを使うこともできます．</p>
 <div class="highlight-none"><div class="highlight"><pre>Prelude&gt; do {
 Prelude| putStrLn &quot;hello&quot;
 Prelude| ;putStrLn &quot;world&quot;
@@ -609,9 +610,8 @@ world
 Prelude&gt;
 </pre></div>
 </div>
-<p>Note that after the closing brace, GHCi knows that the current statement
-is finished, so no empty line is required.</p>
-<p>Multiline mode is useful when entering monadic <code class="docutils literal"><span class="pre">do</span></code> statements:</p>
+<p>閉じブレースの後は，現在の文がおわっていることが判るので，空行は必要ありません．</p>
+<p>複数行モードはモナドの <code class="docutils literal"><span class="pre">do</span></code> 文を入力するのに便利です．</p>
 <div class="highlight-none"><div class="highlight"><pre>Control.Monad.State&gt; flip evalStateT 0 $ do
 Control.Monad.State| i &lt;- get
 Control.Monad.State| lift $ do
@@ -623,8 +623,7 @@ Control.Monad.State|
 Control.Monad.State&gt;
 </pre></div>
 </div>
-<p>During a multiline interaction, the user can interrupt and return to the
-top-level prompt.</p>
+<p>複数行モードで入力中に中断してトップレベルのプロンプトに戻ることもできます．</p>
 <div class="highlight-none"><div class="highlight"><pre>Prelude&gt; do
 Prelude| putStrLn &quot;Hello, World!&quot;
 Prelude| ^C
@@ -1076,7 +1075,7 @@ running computation in order to examine the values of variables. The
 debugger is integrated into GHCi, and is turned on by default: no flags
 are required to enable the debugging facilities. There is one major
 restriction: breakpoints and single-stepping are only available in
-interpreted modules; compiled code is invisible to the debugger <a class="footnote-reference" href="#id20" id="id14">[5]</a>.</p>
+interpreted modules; compiled code is invisible to the debugger <a class="footnote-reference" href="#id21" id="id15">[5]</a>.</p>
 <p>The debugger provides the following:</p>
 <ul class="simple">
 <li>The ability to set a breakpoint on a function definition or
@@ -1154,7 +1153,7 @@ can use the <a class="reference internal" href="#ghci-cmd-:list"><code class="xr
 <p>The <a class="reference internal" href="#ghci-cmd-:list"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:list</span></code></a> command lists the source code around the current
 breakpoint. If your output device supports it, then GHCi will highlight
 the active subexpression in bold.</p>
-<p>GHCi has provided bindings for the free variables <a class="footnote-reference" href="#id21" id="id15">[6]</a> of the expression
+<p>GHCi has provided bindings for the free variables <a class="footnote-reference" href="#id22" id="id16">[6]</a> of the expression
 on which the breakpoint was placed (<code class="docutils literal"><span class="pre">a</span></code>, <code class="docutils literal"><span class="pre">left</span></code>, <code class="docutils literal"><span class="pre">right</span></code>), and
 additionally a binding for the result of the expression (<code class="docutils literal"><span class="pre">_result</span></code>).
 These variables are just like other variables that you might define in
@@ -1251,7 +1250,7 @@ right :: [a]
 <p>The execution continued at the point it previously stopped, and has now
 stopped at the breakpoint for a second time.</p>
 <div class="section" id="setting-breakpoints">
-<span id="id16"></span><h4>5.5.1.1. Setting breakpoints<a class="headerlink" href="#setting-breakpoints" title="Permalink to this headline">¶</a></h4>
+<span id="id17"></span><h4>5.5.1.1. Setting breakpoints<a class="headerlink" href="#setting-breakpoints" title="Permalink to this headline">¶</a></h4>
 <p>Breakpoints can be set in various ways. Perhaps the easiest way to set a
 breakpoint is to name a top-level function:</p>
 <div class="highlight-none"><div class="highlight"><pre>:break identifier
@@ -1312,7 +1311,7 @@ given in the output from <a class="reference internal" href="#ghci-cmd-:show bre
 </div>
 </div>
 <div class="section" id="single-stepping">
-<span id="id17"></span><h3>5.5.2. Single-stepping<a class="headerlink" href="#single-stepping" title="Permalink to this headline">¶</a></h3>
+<span id="id18"></span><h3>5.5.2. Single-stepping<a class="headerlink" href="#single-stepping" title="Permalink to this headline">¶</a></h3>
 <p>Single-stepping is a great way to visualise the execution of your
 program, and it is also a useful tool for identifying the source of a
 bug. GHCi offers two variants of stepping. Use <a class="reference internal" href="#ghci-cmd-:step"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:step</span></code></a> to enable all
@@ -1353,7 +1352,7 @@ _result :: [Integer]
 </div>
 </div>
 <div class="section" id="nested-breakpoints">
-<span id="id18"></span><h3>5.5.3. Nested breakpoints<a class="headerlink" href="#nested-breakpoints" title="Permalink to this headline">¶</a></h3>
+<span id="id19"></span><h3>5.5.3. Nested breakpoints<a class="headerlink" href="#nested-breakpoints" title="Permalink to this headline">¶</a></h3>
 <p>When GHCi is stopped at a breakpoint, and an expression entered at the
 prompt triggers a second breakpoint, the new breakpoint becomes the
 &#8220;current&#8221; one, and the old one is saved on a stack. An arbitrary number
@@ -1722,7 +1721,7 @@ to the command line.</p>
 </div>
 </div>
 <div class="section" id="ghci-commands">
-<span id="id19"></span><h2>5.7. GHCi commands<a class="headerlink" href="#ghci-commands" title="Permalink to this headline">¶</a></h2>
+<span id="id20"></span><h2>5.7. GHCi commands<a class="headerlink" href="#ghci-commands" title="Permalink to this headline">¶</a></h2>
 <p>GHCi commands all begin with &#8220;<code class="docutils literal"><span class="pre">:</span></code>&#8221; and consist of a single command
 name followed by zero or more parameters. The command name may be
 abbreviated, with ambiguities being resolved in favour of the more
@@ -2526,7 +2525,7 @@ The commands <a class="reference internal" href="#ghci-cmd-:all-types"><code cla
 <code class="descname">:set +m</code><a class="headerlink" href="#ghci-cmd-:set +m" title="Permalink to this definition">¶</a></dt>
 <dd><p id="index-28">Enable parsing of multiline commands. A multiline command is
 prompted for when the current input line contains open layout
-contexts (see <a class="reference internal" href="#ghci-multiline"><span>Multiline input</span></a>).</p>
+contexts (see <span class="xref std std-ref">ghci-multiline</span>).</p>
 </dd></dl>
 
 <dl class="ghci-cmd">
@@ -2842,17 +2841,17 @@ program thus:</p>
 </div>
 </dd>
 </dl>
-<table class="docutils footnote" frame="void" id="id20" rules="none">
-<colgroup><col class="label" /><col /></colgroup>
-<tbody valign="top">
-<tr><td class="label"><a class="fn-backref" href="#id14">[5]</a></td><td>Note that packages only contain compiled code, so debugging a package
-requires finding its source and loading that directly.</td></tr>
-</tbody>
-</table>
 <table class="docutils footnote" frame="void" id="id21" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
-<tr><td class="label"><a class="fn-backref" href="#id15">[6]</a></td><td>We originally provided bindings for all variables in scope, rather
+<tr><td class="label"><a class="fn-backref" href="#id15">[5]</a></td><td>Note that packages only contain compiled code, so debugging a package
+requires finding its source and loading that directly.</td></tr>
+</tbody>
+</table>
+<table class="docutils footnote" frame="void" id="id22" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id16">[6]</a></td><td>We originally provided bindings for all variables in scope, rather
 than just the free variables of the expression, but found that this
 affected performance considerably, hence the current restriction to
 just the free variables.</td></tr>
