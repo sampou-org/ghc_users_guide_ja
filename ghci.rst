@@ -1046,7 +1046,7 @@ Any exceptions raised during the evaluation or execution of the
    including entities that are in scope in the current module context.
 
 新しい束縛は，同じ名前の既存の束縛をシャドウし(覆い隠し)ます．
-これは現在のモジュールの文脈で有効範囲にある実体もシャドウします．
+これは現在のモジュールの文脈でスコープにある実体もシャドウします．
 
 ..
    .. warning::
@@ -1074,7 +1074,7 @@ Any exceptions raised during the evaluation or execution of the
 	   Prelude>
 
 .. hint::
-    :ghci-cmd:`:show bindings` コマンドを使えば，その時点で有効範囲にある束縛の一覧がえられます．
+    :ghci-cmd:`:show bindings` コマンドを使えば，その時点でスコープにある束縛の一覧がえられます．
 
     .. code-block:: none
 
@@ -1369,27 +1369,50 @@ As with ordinary variable bindings, later definitions shadow earlier
 
 .. _ghci-scope:
 
-What's really in scope at the prompt?
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+..
+   What's really in scope at the prompt?
+   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+プロンプトのスコープにあるもの
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+..
+   When you type an expression at the prompt, what identifiers and types
+   are in scope? GHCi provides a flexible way to control exactly how the
+   context for an expression is constructed:
+
+   -  The :ghci-cmd:`:load`, :ghci-cmd:`:add`, and :ghci-cmd:`:reload` commands
+      (:ref:`ghci-load-scope`).
+
+   -  The ``import`` declaration (:ref:`ghci-import-decl`).
+
+   -  The :ghci-cmd:`:module` command (:ref:`ghci-module-cmd`).
 
 When you type an expression at the prompt, what identifiers and types
-are in scope? GHCi provides a flexible way to control exactly how the
-context for an expression is constructed:
+プロンプトに式を入力するとき，どの識別子や型がスコープにあるのでしょうか．
+以下のように，GHCiでは，式を評価する際の環境を構成する方法を正確に指定できます．      
 
--  The :ghci-cmd:`:load`, :ghci-cmd:`:add`, and :ghci-cmd:`:reload` commands
-   (:ref:`ghci-load-scope`).
+-  :ghci-cmd:`:load` ， :ghci-cmd:`:add` ， :ghci-cmd:`:reload` コマンド
+   (:ref:`ghci-load-scope`)．
 
--  The ``import`` declaration (:ref:`ghci-import-decl`).
+-  ``import`` 宣言(:ref:`ghci-import-decl`)．
 
--  The :ghci-cmd:`:module` command (:ref:`ghci-module-cmd`).
+-  :ghci-cmd:`:module` コマンド(:ref:`ghci-module-cmd`)．
 
-The command :ghci-cmd:`:show imports` will show a summary of which modules
-contribute to the top-level scope.
+..
+   The command :ghci-cmd:`:show imports` will show a summary of which modules
+   contribute to the top-level scope.
+
+   .. hint::
+       GHCi will tab-complete names that are in scope; for example, if
+       you run GHCi and type ``J<tab>`` then GHCi will expand it to
+       ``Just``.
+
+:ghci-cmd:`:show imports` を使えば，トップレベルのスコープにどのモジュールがあるか要約を表示できます．
 
 .. hint::
-    GHCi will tab-complete names that are in scope; for example, if
-    you run GHCi and type ``J<tab>`` then GHCi will expand it to
-    ``Just``.
+    GHCi ではスコープ内にある名前をタブ補完できます．
+    たとえば，GHCiを起動して ``J<tab>`` と入力すると ``Just`` と展開されます．
 
 .. _ghci-load-scope:
 
