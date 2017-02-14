@@ -1744,29 +1744,55 @@ To make life slightly easier, the GHCi prompt also behaves as if there
 .. index::
    single: -fno-implicit-import-qualified
 
-``:module`` and ``:load``
-^^^^^^^^^^^^^^^^^^^^^^^^^
+..
+   ``:module`` and ``:load``
+   ^^^^^^^^^^^^^^^^^^^^^^^^^
 
-It might seem that :ghci-cmd:`:module`/``import`` and
-:ghci-cmd:`:load`/:ghci-cmd:`:add`/:ghci-cmd:`:reload` do similar things: you
-can use both to bring a module into scope. However, there is a very important
-difference. GHCi is concerned with two sets of modules:
+``:module`` と ``:load``
+^^^^^^^^^^^^^^^^^^^^^^^^
 
--  The set of modules that are currently *loaded*. This set is modified
-   by :ghci-cmd:`:load`, :ghci-cmd:`:add` and :ghci-cmd:`:reload`, and can be shown with
-   :ghci-cmd:`:show modules`.
+..
+   It might seem that :ghci-cmd:`:module`/``import`` and
+   :ghci-cmd:`:load`/:ghci-cmd:`:add`/:ghci-cmd:`:reload` do similar things: you
+   can use both to bring a module into scope. However, there is a very important
+   difference. GHCi is concerned with two sets of modules:
 
--  The set of modules that are currently *in scope* at the prompt. This set is
-   modified by ``import`` and :ghci-cmd:`:module`, and it is also modified
-   automatically after :ghci-cmd:`:load`, :ghci-cmd:`:add`, and
-   :ghci-cmd:`:reload`, as described above. The set of modules in scope can be
-   shown with :ghci-cmd:`:show imports`.
+   -  The set of modules that are currently *loaded*. This set is modified
+      by :ghci-cmd:`:load`, :ghci-cmd:`:add` and :ghci-cmd:`:reload`, and can be shown with
+      :ghci-cmd:`:show modules`.
 
-You can add a module to the scope (via :ghci-cmd:`:module` or ``import``) only
-if either (a) it is loaded, or (b) it is a module from a package that
-GHCi knows about. Using :ghci-cmd:`:module` or ``import`` to try bring into
-scope a non-loaded module may result in the message
-``module M is not loaded``.
+   -  The set of modules that are currently *in scope* at the prompt. This set is
+      modified by ``import`` and :ghci-cmd:`:module`, and it is also modified
+      automatically after :ghci-cmd:`:load`, :ghci-cmd:`:add`, and
+      :ghci-cmd:`:reload`, as described above. The set of modules in scope can be
+      shown with :ghci-cmd:`:show imports`.
+
+:ghci-cmd:`:module`/``import`` と :ghci-cmd:`:load`/:ghci-cmd:`:add`/:ghci-cmd:`:reload` とは同じものという気がするかもしれません．
+どちらも，モジュールをスコープに入れるために使うものです．
+しかし，この2つには大きな違いがあります．
+GHCi は2種類のモジュール集合にかかわっています．
+
+-  現在 *ロード済み* のモジュール集合．
+   このモジュール集合は :ghci-cmd:`:load` ， :ghci-cmd:`:add` ， :ghci-cmd:`:reload` で変更し，
+   :ghci-cmd:`:show modules` で表示できます．
+
+-  現在，プロンプトの *スコープ内* にあるモジュール集合．
+   このモジュール集合は ``import`` および :ghci-cmd:`:module` で変更します．
+   :ghci-cmd:`:load` ， :ghci-cmd:`:add` ， :ghci-cmd:`:reload` コマンドを発行すると
+   このモジュール集合は，上述のように自動的に変更されます．
+   表示するためには :ghci-cmd:`:show imports` を使います．
+
+..
+   You can add a module to the scope (via :ghci-cmd:`:module` or ``import``) only
+   if either (a) it is loaded, or (b) it is a module from a package that
+   GHCi knows about. Using :ghci-cmd:`:module` or ``import`` to try bring into
+   scope a non-loaded module may result in the message
+   ``module M is not loaded``.
+
+(:ghci-cmd:`:module` あるいは ``import`` 経由)モジュールをスコープに追加できるのは，
+(a) ロード済みのモジュール，(b) GHCiが知っているパッケージ由来のモジュール，のどちらかだけです．
+:ghci-cmd:`:module` あるいは ``import`` を使って，ロードされていないモジュールをスコープに
+追加しようとすると ``module M is not loaded`` というメッセージが表示されることでしょう．
 
 The ``:main`` and ``:run`` commands
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
