@@ -1254,12 +1254,34 @@ GHCiのプロンプトが変り，直前の行の続きを入力できること�
 
 .. _ghci-decls:
 
-Type, class and other declarations
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+..
+   Type, class and other declarations
+   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-At the GHCi prompt you can also enter any top-level Haskell declaration,
-including ``data``, ``type``, ``newtype``, ``class``, ``instance``,
-``deriving``, and ``foreign`` declarations. For example:
+型，クラス，その他の宣言
+~~~~~~~~~~~~~~~~~~~~~~~~
+
+..
+   At the GHCi prompt you can also enter any top-level Haskell declaration,
+   including ``data``, ``type``, ``newtype``, ``class``, ``instance``,
+   ``deriving``, and ``foreign`` declarations. For example:
+
+   .. code-block:: none
+
+       Prelude> data T = A | B | C deriving (Eq, Ord, Show, Enum)
+       Prelude> [A ..]
+       [A,B,C]
+       Prelude> :i T
+       data T = A | B | C      -- Defined at <interactive>:2:6
+       instance Enum T -- Defined at <interactive>:2:45
+       instance Eq T -- Defined at <interactive>:2:30
+       instance Ord T -- Defined at <interactive>:2:34
+       instance Show T -- Defined at <interactive>:2:39
+
+GHCi のプロンプトには，Haskellの任意のトップレベル宣言を入力できます．
+これには ``data`` ， ``type`` ， ``newtype`` ， ``class`` ， ``instance`` ，
+``deriving`` ， ``foreign`` 宣言が含まれています．
+例は以下のとおり．
 
 .. code-block:: none
 
@@ -1273,14 +1295,39 @@ including ``data``, ``type``, ``newtype``, ``class``, ``instance``,
     instance Ord T -- Defined at <interactive>:2:34
     instance Show T -- Defined at <interactive>:2:39
 
+..
+   As with ordinary variable bindings, later definitions shadow earlier
+   ones, so you can re-enter a declaration to fix a problem with it or
+   extend it. But there's a gotcha: when a new type declaration shadows an
+   older one, there might be other declarations that refer to the old type.
+   The thing to remember is that the old type still exists, and these other
+   declarations still refer to the old type. However, while the old and the
+   new type have the same name, GHCi will treat them as distinct. For
+   example:
+
+   .. code-block:: none
+
+       Prelude> data T = A | B
+       Prelude> let f A = True; f B = False
+       Prelude> data T = A | B | C
+       Prelude> f A
+
+       <interactive>:2:3:
+	   Couldn't match expected type `main::Interactive.T'
+		       with actual type `T'
+	   In the first argument of `f', namely `A'
+	   In the expression: f A
+	   In an equation for `it': it = f A
+       Prelude>
+
 As with ordinary variable bindings, later definitions shadow earlier
-ones, so you can re-enter a declaration to fix a problem with it or
-extend it. But there's a gotcha: when a new type declaration shadows an
-older one, there might be other declarations that refer to the old type.
-The thing to remember is that the old type still exists, and these other
-declarations still refer to the old type. However, while the old and the
-new type have the same name, GHCi will treat them as distinct. For
-example:
+通常の変数束縛と同様に，後で定義されたものは古い定義をシャドウしてしまうので，
+定義を再入力すれば，問題を修正したり拡張したりできます．
+ただし，落とし穴があります．
+新しい型宣言が古い型宣言をシャドウするとき，古い型の定義を参照している別の宣言があるかもしれません．
+この古い型はまだ存在し，この別の宣言はまだ古い型を参照しているということを覚えておいてください．
+古い型と新しい型は同じ名前ですが，GHCiはこれらを区別するということです．
+たとえば，
 
 .. code-block:: none
 
@@ -1289,23 +1336,36 @@ example:
     Prelude> data T = A | B | C
     Prelude> f A
 
-    <interactive>:2:3:
-        Couldn't match expected type `main::Interactive.T'
-                    with actual type `T'
-        In the first argument of `f', namely `A'
-        In the expression: f A
-        In an equation for `it': it = f A
+    <interactive>:4:3: error:
+        • Couldn't match expected type ‘Ghci1.T’
+                      with actual type ‘T’
+          NB: ‘T’ is defined at <interactive>:3:1-18
+              ‘Ghci1.T’ is defined at <interactive>:1:1-14
+        • In the first argument of ‘f’, namely ‘A’
+          In the expression: f A
+	  In an equation for ‘it’: it = f A
     Prelude>
 
-The old, shadowed, version of ``T`` is displayed as
-``main::Interactive.T`` by GHCi in an attempt to distinguish it from the
-new ``T``, which is displayed as simply ``T``.
+..
+   The old, shadowed, version of ``T`` is displayed as
+   ``main::Interactive.T`` by GHCi in an attempt to distinguish it from the
+   new ``T``, which is displayed as simply ``T``.
 
-Class and type-family instance declarations are simply added to the list
-of available instances, with one exception. Since you might want to
-re-define one, a class or type-family instance *replaces* any earlier
-instance with an identical head or left hand side (respectively). (See
-:ref:`type-families`.)
+シャドウされた古いほうの ``T`` は ``Ghci1.T`` と表示されています．
+これは，単に ``T`` と表示されている新しい方と区別するためです．
+
+..
+   Class and type-family instance declarations are simply added to the list
+   of available instances, with one exception. Since you might want to
+   re-define one, a class or type-family instance *replaces* any earlier
+   instance with an identical head or left hand side (respectively). (See
+   :ref:`type-families`.)
+
+クラスや型族のインスタンス宣言は，単に利用可能なインスタンスの一覧に追加されるだけです．
+ただし例外が一つあります．
+クラスや型族インスタンスは再定義したいこともあるので，
+頭部あるいは左辺が同一であるインスタンスはそれぞれ新しいもので *置き換える* ことになります
+(:ref:`type-families` 参照)．
 
 .. _ghci-scope:
 
