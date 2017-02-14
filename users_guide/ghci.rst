@@ -1602,10 +1602,10 @@ GHCi はこのようなモジュールのスコープのを全て組み合わせ
        import Data.Map as Map
        Prelude System.IO Map>
 
-The full Haskell import syntax is supported, including ``hiding`` and
-``as`` clauses. The prompt shows the modules that are currently
-imported, but it omits details about ``hiding``, ``as``, and so on. To
-see the full story, use :ghci-cmd:`:show imports`:
+``hiding`` 節および ``as`` 節を含む完全なHaskellのインポート構文がサポートされています．
+プロンプトには現在インポートされているモジュールが表示されていますが，
+``hiding`` や ``as`` やその他の詳細は省略されています．
+その部分を知りたければ :ghci-cmd:`:show imports` を使って下さい．
 
 .. code-block:: none
 
@@ -1622,9 +1622,8 @@ see the full story, use :ghci-cmd:`:show imports`:
    overridden with an explicit ``Prelude`` import, just like in a Haskell
    module.
 
-Note that the ``Prelude`` import is marked as implicit. It can be
-overridden with an explicit ``Prelude`` import, just like in a Haskell
-module.
+``Prelude`` のインポートについては implicit (暗黙) と表示されることに注意してください．
+明示的に ``Prelude`` をインポートすれば，他のモジュールと同じように表示されます．
 
 ..
    With multiple modules in scope, especially multiple ``*``-form modules,
@@ -1632,10 +1631,10 @@ module.
    clashes are only reported when an ambiguous identifier is used, and GHCi
    behaves in the same way for expressions typed at the prompt.
 
-With multiple modules in scope, especially multiple ``*``-form modules,
-it is likely that name clashes will occur. Haskell specifies that name
-clashes are only reported when an ambiguous identifier is used, and GHCi
-behaves in the same way for expressions typed at the prompt.
+複数のモジュールがスコープにあるとき，特に複数の ``*`` 形式のモジュールがあるときは，
+名前の衝突が起こりやすくなります．
+Haskell では名前の衝突が起こったことが報告されるのは，実際に曖昧な名前が使われたときに限ると規定されています．
+GHCi もプロンプトで入力される式についてはこれにならった振る舞いをします．
 
 .. _ghci-module-cmd:
 
