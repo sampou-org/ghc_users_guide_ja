@@ -1,8 +1,10 @@
-.. _introduction-GHC:
-
 ..
+   .. _introduction-GHC:
+
    Introduction to GHC
    ===================
+
+.. _introduction-GHC:
 
 GHC の紹介
 ==========
@@ -91,11 +93,13 @@ GHCのプロファイリングシステムは「コスト集約点スタック�
 GHCには多数のライブラリが付属しています．
 これらのライブラリについて別の文書で説明されています．
 
-.. _getting:
-
 ..
+   .. _getting:
+
    Obtaining GHC
    -------------
+
+.. _getting:
 
 GHCの入手方法
 -------------
@@ -119,11 +123,13 @@ GHCの入手方法
 GHCそれ自身はHaskellで書かれていることに注意してください．
 ビルドするためには，そのためのGHCをインストールしなければならないということです．
 
-.. _mailing-lists-GHC:
-
 ..
+   .. _mailing-lists-GHC:
+
    Meta-information: Web sites, mailing lists, etc.
    ------------------------------------------------
+
+.. _mailing-lists-GHC:
 
 メタ情報: Webサイト，メーリングリストなど
 -----------------------------------------
@@ -213,11 +219,13 @@ GHCに関しては以下のようなメーリングリストを運営してい�
 http://www.haskell.org/mailman/listinfo/
 に一覧があります．
 
-.. _bug-reporting:
-
 ..
+   .. _bug-reporting:
+
    Reporting bugs in GHC
    ---------------------
+
+.. _bug-reporting:
 
 GHCのバグの報告方法
 -------------------
@@ -241,11 +249,13 @@ Glasgow Haskellは変化を続けるシステムであり，そこには必ず�
 :ghc-wiki:`このwikiページ <ReportABug>`
 を見て，バグを報告する方法を知ってください．
 
-.. _version-numbering:
-
 ..
+   .. _version-numbering:
+
    GHC version numbering policy
    ----------------------------
+
+.. _version-numbering:
 
 GHCのバージョン番号付けの方針
 -----------------------------

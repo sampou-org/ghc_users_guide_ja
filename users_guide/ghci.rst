@@ -1,8 +1,10 @@
-.. _ghci:
-
 ..
+   .. _ghci:
+
    Using GHCi
    ==========
+
+.. _ghci:
 
 GHCiを使う
 ==========
@@ -54,11 +56,13 @@ GHCi は対話方式のデバッガも備えています(:ref:`ghci-debugger` �
    ただし今のところ ``foreign export`` は除きます．
 
 
-.. _ghci-introduction:
-
 ..
+   .. _ghci-introduction:
+
    Introduction to GHCi
    --------------------
+
+.. _ghci-introduction:
 
 GHCi入門
 --------
@@ -143,11 +147,13 @@ Haskellでは ``let`` 式は ``in`` をともないます．
 しかし，GHCiでは，式は ``IO`` モナドの中でも解釈されますので，上の例は
 ``in`` を伴わない ``let`` 束縛文であることは，行が表示されないことで示されています．
 
-.. _loading-source-files:
-
 ..
+   .. _loading-source-files:
+
    Loading source files
    --------------------
+
+.. _loading-source-files:
 
 ソースファイルをロードする
 --------------------------
@@ -264,14 +270,16 @@ GHCiは最上位のモジュールから直接・間接に必要とされてい�
    カレントディレクトリはおそく ``C:\Documents and Settings\user name`` あたりでしょう．
 
 
-.. _ghci-modules-filenames:
-
 ..
+   .. _ghci-modules-filenames:
+
    Modules vs. filenames
    ~~~~~~~~~~~~~~~~~~~~~
 
-Modules vs. filenames
-~~~~~~~~~~~~~~~~~~~~~
+.. _ghci-modules-filenames:
+
+モジュールとファイル名
+~~~~~~~~~~~~~~~~~~~~~~
 
 ..
    .. index::
@@ -389,11 +397,13 @@ GHCiは，このように依存関係を追ってロードすべきモジュー�
 これは一括コンパイル時に再コンパイルを避ける機構と同じです
 (:ref:`recomp` 参照)．
 
-.. _ghci-compiled:
-
 ..
+   .. _ghci-compiled:
+
    Loading compiled code
    ---------------------
+
+.. _ghci-compiled:
 
 コンパイル済みコードをロードする
 --------------------------------
@@ -706,11 +716,13 @@ GHCiは ``C`` のオブジェクトファイルを利用しなかったのです
    コードを変更したときは，そのモジュールは解釈実行されますが，プロジェクト中の他の部分は
    変わらずコンパイル済みのものが使われます．
 
-.. _interactive-evaluation:
-
 ..
+   .. _interactive-evaluation:
+
    Interactive evaluation at the prompt
    ------------------------------------
+
+.. _interactive-evaluation:
 
 プロンプトで対話的に評価する
 ----------------------------
@@ -735,11 +747,13 @@ GHCiは ``C`` のオブジェクトファイルを利用しなかったのです
     Prelude> 5+5
     10
 
-.. _actions-at-prompt:
-
 ..
+   .. _actions-at-prompt:
+
    I/O actions at the prompt
    ~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. _actions-at-prompt:
 
 プロンプトでのI/Oアクション
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -818,11 +832,13 @@ GHCi がプロンプトで行うのは単なる式の評価だけではありま
     hello
     "yes"
 
-.. _ghci-stmts:
-
 ..
+   .. _ghci-stmts:
+
    Using ``do`` notation at the prompt
    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. _ghci-stmts:
 
 プロンプトで ``do`` 記法を使う
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -1111,11 +1127,13 @@ Any exceptions raised during the evaluation or execution of the
     .. index::
         single: +t option; in GHCi
 
-.. _ghci-multiline:
-
 ..
+   .. _ghci-multiline:
+
    Multiline input
    ~~~~~~~~~~~~~~~
+
+.. _ghci-multiline:
 
 複数行入力
 ~~~~~~~~~~
@@ -1252,11 +1270,13 @@ GHCiのプロンプトが変り，直前の行の続きを入力できること�
     Prelude| ^C
     Prelude>
 
-.. _ghci-decls:
-
 ..
+   .. _ghci-decls:
+
    Type, class and other declarations
    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. _ghci-decls:
 
 型，クラス，その他の宣言
 ~~~~~~~~~~~~~~~~~~~~~~~~
@@ -1367,11 +1387,13 @@ As with ordinary variable bindings, later definitions shadow earlier
 頭部あるいは左辺が同一であるインスタンスはそれぞれ新しいもので *置き換える* ことになります
 (:ref:`type-families` 参照)．
 
-.. _ghci-scope:
-
 ..
-   What's really in scope at the prompt?
-   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   .. _ghci-scope:
+
+   What’s really in scope at the prompt?
+   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. _ghci-scope:
 
 プロンプトのスコープにあるもの
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -1413,11 +1435,13 @@ As with ordinary variable bindings, later definitions shadow earlier
     GHCi ではスコープ内にある名前をタブ補完できます．
     たとえば，GHCiを起動して ``J<tab>`` と入力すると ``Just`` と展開されます．
 
-.. _ghci-load-scope:
-
 ..
+   .. _ghci-load-scope:
+
    The effect of ``:load`` on what is in scope
    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+.. _ghci-load-scope:
 
 スコープ内容に対する ``:load`` の影響
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -1532,7 +1556,7 @@ GHCi を起動すると最初のプロンプトは以下のようになります
 スコープは ``Prelude Bar`` になります
 (GHCiは ``Prelude`` が指定されておらず，しかも ``*`` 形式のモジュールが一つもなければ ``Prelude``
 を自動的に付け加えます)．
-これらの自動に追加されたインポートについては :ghci-comd:`:show imports` で表示できます．
+これらの自動に追加されたインポートについては :ghci-cmd:`:show imports` で表示できます．
 
 .. code-block:: none
 
@@ -1547,11 +1571,13 @@ GHCi を起動すると最初のプロンプトは以下のようになります
 :ghci-cmd:`:add` あるいは :ghci-cmd:`:reload` を発行すると別のものに置き換えられます．
 通常のインポートと同様に :ghci-cmd:`:module` で削除することもできます．
 
-.. _ghci-import-decl:
-
 ..
+   .. _ghci-import-decl:
+
    Controlling what is in scope with ``import``
    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+.. _ghci-import-decl:
 
 ``import`` によるスコープ制御
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -1636,11 +1662,13 @@ GHCi はこのようなモジュールのスコープのを全て組み合わせ
 Haskell では名前の衝突が起こったことが報告されるのは，実際に曖昧な名前が使われたときに限ると規定されています．
 GHCi もプロンプトで入力される式についてはこれにならった振る舞いをします．
 
-.. _ghci-module-cmd:
-
 ..
+   .. _ghci-module-cmd:
+
    Controlling what is in scope with the ``:module`` command
    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+.. _ghci-module-cmd:
 
 ``:module`` コマンドによるスコープ制御
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
