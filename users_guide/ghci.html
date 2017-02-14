@@ -68,7 +68,7 @@
 <li><a class="reference internal" href="#id15">5.4.4. 型，クラス，その他の宣言</a></li>
 <li><a class="reference internal" href="#id16">5.4.5. プロンプトのスコープにあるもの</a><ul>
 <li><a class="reference internal" href="#load">5.4.5.1. スコープ内容に対する <code class="docutils literal"><span class="pre">:load</span></code> の影響</a></li>
-<li><a class="reference internal" href="#controlling-what-is-in-scope-with-import">5.4.5.2. Controlling what is in scope with <code class="docutils literal"><span class="pre">import</span></code></a></li>
+<li><a class="reference internal" href="#import">5.4.5.2. <code class="docutils literal"><span class="pre">import</span></code> によるスコープ制御</a></li>
 <li><a class="reference internal" href="#controlling-what-is-in-scope-with-the-module-command">5.4.5.3. Controlling what is in scope with the <code class="docutils literal"><span class="pre">:module</span></code> command</a></li>
 <li><a class="reference internal" href="#qualified-names">5.4.5.4. Qualified names</a></li>
 <li><a class="reference internal" href="#module-and-load">5.4.5.5. <code class="docutils literal"><span class="pre">:module</span></code> and <code class="docutils literal"><span class="pre">:load</span></code></a></li>
@@ -687,7 +687,7 @@ Prelude&gt;
 <ul class="simple">
 <li><a class="reference internal" href="#ghci-cmd-:load"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:load</span></code></a> ， <a class="reference internal" href="#ghci-cmd-:add"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:add</span></code></a> ， <a class="reference internal" href="#ghci-cmd-:reload"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:reload</span></code></a> コマンド
 (<span class="xref std std-ref">ghci-load-scope</span>)．</li>
-<li><code class="docutils literal"><span class="pre">import</span></code> 宣言(<a class="reference internal" href="#ghci-import-decl"><span>Controlling what is in scope with import</span></a>)．</li>
+<li><code class="docutils literal"><span class="pre">import</span></code> 宣言(<span class="xref std std-ref">ghci-import-decl</span>)．</li>
 <li><a class="reference internal" href="#ghci-cmd-:module"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:module</span></code></a> コマンド(<a class="reference internal" href="#ghci-module-cmd"><span>Controlling what is in scope with the :module command</span></a>)．</li>
 </ul>
 <p><a class="reference internal" href="#ghci-cmd-:show imports"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:show</span> <span class="pre">imports</span></code></a> を使えば，トップレベルのスコープにどのモジュールがあるか要約を表示できます．</p>
@@ -749,16 +749,16 @@ Ok, modules loaded: Main.
 <p>この自動的に追加されたインポートは，次に <a class="reference internal" href="#ghci-cmd-:load"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:load</span></code></a> ，
 <a class="reference internal" href="#ghci-cmd-:add"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:add</span></code></a> あるいは <a class="reference internal" href="#ghci-cmd-:reload"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:reload</span></code></a> を発行すると別のものに置き換えられます．
 通常のインポートと同様に <a class="reference internal" href="#ghci-cmd-:module"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:module</span></code></a> で削除することもできます．</p>
-</div>
-<div class="section" id="controlling-what-is-in-scope-with-import">
-<span id="ghci-import-decl"></span><h4>5.4.5.2. Controlling what is in scope with <code class="docutils literal"><span class="pre">import</span></code><a class="headerlink" href="#controlling-what-is-in-scope-with-import" title="Permalink to this headline">¶</a></h4>
-<p>We are not limited to a single module: GHCi can combine scopes from
-multiple modules, in any mixture of <code class="docutils literal"><span class="pre">*</span></code> and non-<code class="docutils literal"><span class="pre">*</span></code> forms. GHCi
-combines the scopes from all of these modules to form the scope that is
-in effect at the prompt.</p>
-<p>To add modules to the scope, use ordinary Haskell <code class="docutils literal"><span class="pre">import</span></code> syntax:</p>
+<span class="target" id="ghci-import-decl"></span></div>
+<div class="section" id="import">
+<h4>5.4.5.2. <code class="docutils literal"><span class="pre">import</span></code> によるスコープ制御<a class="headerlink" href="#import" title="Permalink to this headline">¶</a></h4>
+<p>GHCi が扱えるのは単一のモジュールだけではありません．
+複数のモジュールからのスコープを組み合わせることもできます．
+このとき <code class="docutils literal"><span class="pre">*</span></code> 形式とそうでない形式を混ぜて使えます．
+GHCi はこのようなモジュールのスコープのを全て組み合わせて，プロンプトのスコープします．</p>
+<p>モジュールをスコープに加えるには，通常はHaskellの <code class="docutils literal"><span class="pre">import</span></code> 構文を使います．</p>
 <div class="highlight-none"><div class="highlight"><pre>Prelude&gt; import System.IO
-Prelude System.IO&gt; hPutStrLn stdout &quot;hello\n&quot;
+Prelude System.IO&gt; hPutStrLn stdout &quot;hello&quot;
 hello
 Prelude System.IO&gt;
 </pre></div>
