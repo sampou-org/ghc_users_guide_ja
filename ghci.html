@@ -65,7 +65,7 @@
 <li><a class="reference internal" href="#i-o">5.4.1. プロンプトでのI/Oアクション</a></li>
 <li><a class="reference internal" href="#do">5.4.2. プロンプトで <code class="docutils literal"><span class="pre">do</span></code> 記法を使う</a></li>
 <li><a class="reference internal" href="#id14">5.4.3. 複数行入力</a></li>
-<li><a class="reference internal" href="#type-class-and-other-declarations">5.4.4. Type, class and other declarations</a></li>
+<li><a class="reference internal" href="#id15">5.4.4. 型，クラス，その他の宣言</a></li>
 <li><a class="reference internal" href="#what-s-really-in-scope-at-the-prompt">5.4.5. What&#8217;s really in scope at the prompt?</a><ul>
 <li><a class="reference internal" href="#the-effect-of-load-on-what-is-in-scope">5.4.5.1. The effect of <code class="docutils literal"><span class="pre">:load</span></code> on what is in scope</a></li>
 <li><a class="reference internal" href="#controlling-what-is-in-scope-with-import">5.4.5.2. Controlling what is in scope with <code class="docutils literal"><span class="pre">import</span></code></a></li>
@@ -630,12 +630,13 @@ Prelude| ^C
 Prelude&gt;
 </pre></div>
 </div>
-</div>
-<div class="section" id="type-class-and-other-declarations">
-<span id="ghci-decls"></span><h3>5.4.4. Type, class and other declarations<a class="headerlink" href="#type-class-and-other-declarations" title="Permalink to this headline">¶</a></h3>
-<p>At the GHCi prompt you can also enter any top-level Haskell declaration,
-including <code class="docutils literal"><span class="pre">data</span></code>, <code class="docutils literal"><span class="pre">type</span></code>, <code class="docutils literal"><span class="pre">newtype</span></code>, <code class="docutils literal"><span class="pre">class</span></code>, <code class="docutils literal"><span class="pre">instance</span></code>,
-<code class="docutils literal"><span class="pre">deriving</span></code>, and <code class="docutils literal"><span class="pre">foreign</span></code> declarations. For example:</p>
+<span class="target" id="ghci-decls"></span></div>
+<div class="section" id="id15">
+<h3>5.4.4. 型，クラス，その他の宣言<a class="headerlink" href="#id15" title="Permalink to this headline">¶</a></h3>
+<p>GHCi のプロンプトには，Haskellの任意のトップレベル宣言を入力できます．
+これには <code class="docutils literal"><span class="pre">data</span></code> ， <code class="docutils literal"><span class="pre">type</span></code> ， <code class="docutils literal"><span class="pre">newtype</span></code> ， <code class="docutils literal"><span class="pre">class</span></code> ， <code class="docutils literal"><span class="pre">instance</span></code> ，
+<code class="docutils literal"><span class="pre">deriving</span></code> ， <code class="docutils literal"><span class="pre">foreign</span></code> 宣言が含まれています．
+例は以下のとおり．</p>
 <div class="highlight-none"><div class="highlight"><pre>Prelude&gt; data T = A | B | C deriving (Eq, Ord, Show, Enum)
 Prelude&gt; [A ..]
 [A,B,C]
@@ -648,35 +649,36 @@ instance Show T -- Defined at &lt;interactive&gt;:2:39
 </pre></div>
 </div>
 <p>As with ordinary variable bindings, later definitions shadow earlier
-ones, so you can re-enter a declaration to fix a problem with it or
-extend it. But there&#8217;s a gotcha: when a new type declaration shadows an
-older one, there might be other declarations that refer to the old type.
-The thing to remember is that the old type still exists, and these other
-declarations still refer to the old type. However, while the old and the
-new type have the same name, GHCi will treat them as distinct. For
-example:</p>
+通常の変数束縛と同様に，後で定義されたものは古い定義をシャドウしてしまうので，
+定義を再入力すれば，問題を修正したり拡張したりできます．
+ただし，落とし穴があります．
+新しい型宣言が古い型宣言をシャドウするとき，古い型の定義を参照している別の宣言があるかもしれません．
+この古い型はまだ存在し，この別の宣言はまだ古い型を参照しているということを覚えておいてください．
+古い型と新しい型は同じ名前ですが，GHCiはこれらを区別するということです．
+たとえば，</p>
 <div class="highlight-none"><div class="highlight"><pre>Prelude&gt; data T = A | B
 Prelude&gt; let f A = True; f B = False
 Prelude&gt; data T = A | B | C
 Prelude&gt; f A
 
-&lt;interactive&gt;:2:3:
-    Couldn&#39;t match expected type `main::Interactive.T&#39;
-                with actual type `T&#39;
-    In the first argument of `f&#39;, namely `A&#39;
-    In the expression: f A
-    In an equation for `it&#39;: it = f A
+&lt;interactive&gt;:4:3: error:
+    • Couldn&#39;t match expected type ‘Ghci1.T’
+                  with actual type ‘T’
+      NB: ‘T’ is defined at &lt;interactive&gt;:3:1-18
+          ‘Ghci1.T’ is defined at &lt;interactive&gt;:1:1-14
+    • In the first argument of ‘f’, namely ‘A’
+      In the expression: f A
+      In an equation for ‘it’: it = f A
 Prelude&gt;
 </pre></div>
 </div>
-<p>The old, shadowed, version of <code class="docutils literal"><span class="pre">T</span></code> is displayed as
-<code class="docutils literal"><span class="pre">main::Interactive.T</span></code> by GHCi in an attempt to distinguish it from the
-new <code class="docutils literal"><span class="pre">T</span></code>, which is displayed as simply <code class="docutils literal"><span class="pre">T</span></code>.</p>
-<p>Class and type-family instance declarations are simply added to the list
-of available instances, with one exception. Since you might want to
-re-define one, a class or type-family instance <em>replaces</em> any earlier
-instance with an identical head or left hand side (respectively). (See
-<a class="reference internal" href="glasgow_exts.html#type-families"><span>Type families</span></a>.)</p>
+<p>シャドウされた古いほうの <code class="docutils literal"><span class="pre">T</span></code> は <code class="docutils literal"><span class="pre">Ghci1.T</span></code> と表示されています．
+これは，単に <code class="docutils literal"><span class="pre">T</span></code> と表示されている新しい方と区別するためです．</p>
+<p>クラスや型族のインスタンス宣言は，単に利用可能なインスタンスの一覧に追加されるだけです．
+ただし例外が一つあります．
+クラスや型族インスタンスは再定義したいこともあるので，
+頭部あるいは左辺が同一であるインスタンスはそれぞれ新しいもので <em>置き換える</em> ことになります
+(<a class="reference internal" href="glasgow_exts.html#type-families"><span>Type families</span></a> 参照)．</p>
 </div>
 <div class="section" id="what-s-really-in-scope-at-the-prompt">
 <span id="ghci-scope"></span><h3>5.4.5. What&#8217;s really in scope at the prompt?<a class="headerlink" href="#what-s-really-in-scope-at-the-prompt" title="Permalink to this headline">¶</a></h3>
@@ -1075,7 +1077,7 @@ running computation in order to examine the values of variables. The
 debugger is integrated into GHCi, and is turned on by default: no flags
 are required to enable the debugging facilities. There is one major
 restriction: breakpoints and single-stepping are only available in
-interpreted modules; compiled code is invisible to the debugger <a class="footnote-reference" href="#id21" id="id15">[5]</a>.</p>
+interpreted modules; compiled code is invisible to the debugger <a class="footnote-reference" href="#id22" id="id16">[5]</a>.</p>
 <p>The debugger provides the following:</p>
 <ul class="simple">
 <li>The ability to set a breakpoint on a function definition or
@@ -1153,7 +1155,7 @@ can use the <a class="reference internal" href="#ghci-cmd-:list"><code class="xr
 <p>The <a class="reference internal" href="#ghci-cmd-:list"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:list</span></code></a> command lists the source code around the current
 breakpoint. If your output device supports it, then GHCi will highlight
 the active subexpression in bold.</p>
-<p>GHCi has provided bindings for the free variables <a class="footnote-reference" href="#id22" id="id16">[6]</a> of the expression
+<p>GHCi has provided bindings for the free variables <a class="footnote-reference" href="#id23" id="id17">[6]</a> of the expression
 on which the breakpoint was placed (<code class="docutils literal"><span class="pre">a</span></code>, <code class="docutils literal"><span class="pre">left</span></code>, <code class="docutils literal"><span class="pre">right</span></code>), and
 additionally a binding for the result of the expression (<code class="docutils literal"><span class="pre">_result</span></code>).
 These variables are just like other variables that you might define in
@@ -1250,7 +1252,7 @@ right :: [a]
 <p>The execution continued at the point it previously stopped, and has now
 stopped at the breakpoint for a second time.</p>
 <div class="section" id="setting-breakpoints">
-<span id="id17"></span><h4>5.5.1.1. Setting breakpoints<a class="headerlink" href="#setting-breakpoints" title="Permalink to this headline">¶</a></h4>
+<span id="id18"></span><h4>5.5.1.1. Setting breakpoints<a class="headerlink" href="#setting-breakpoints" title="Permalink to this headline">¶</a></h4>
 <p>Breakpoints can be set in various ways. Perhaps the easiest way to set a
 breakpoint is to name a top-level function:</p>
 <div class="highlight-none"><div class="highlight"><pre>:break identifier
@@ -1311,7 +1313,7 @@ given in the output from <a class="reference internal" href="#ghci-cmd-:show bre
 </div>
 </div>
 <div class="section" id="single-stepping">
-<span id="id18"></span><h3>5.5.2. Single-stepping<a class="headerlink" href="#single-stepping" title="Permalink to this headline">¶</a></h3>
+<span id="id19"></span><h3>5.5.2. Single-stepping<a class="headerlink" href="#single-stepping" title="Permalink to this headline">¶</a></h3>
 <p>Single-stepping is a great way to visualise the execution of your
 program, and it is also a useful tool for identifying the source of a
 bug. GHCi offers two variants of stepping. Use <a class="reference internal" href="#ghci-cmd-:step"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:step</span></code></a> to enable all
@@ -1352,7 +1354,7 @@ _result :: [Integer]
 </div>
 </div>
 <div class="section" id="nested-breakpoints">
-<span id="id19"></span><h3>5.5.3. Nested breakpoints<a class="headerlink" href="#nested-breakpoints" title="Permalink to this headline">¶</a></h3>
+<span id="id20"></span><h3>5.5.3. Nested breakpoints<a class="headerlink" href="#nested-breakpoints" title="Permalink to this headline">¶</a></h3>
 <p>When GHCi is stopped at a breakpoint, and an expression entered at the
 prompt triggers a second breakpoint, the new breakpoint becomes the
 &#8220;current&#8221; one, and the old one is saved on a stack. An arbitrary number
@@ -1721,7 +1723,7 @@ to the command line.</p>
 </div>
 </div>
 <div class="section" id="ghci-commands">
-<span id="id20"></span><h2>5.7. GHCi commands<a class="headerlink" href="#ghci-commands" title="Permalink to this headline">¶</a></h2>
+<span id="id21"></span><h2>5.7. GHCi commands<a class="headerlink" href="#ghci-commands" title="Permalink to this headline">¶</a></h2>
 <p>GHCi commands all begin with &#8220;<code class="docutils literal"><span class="pre">:</span></code>&#8221; and consist of a single command
 name followed by zero or more parameters. The command name may be
 abbreviated, with ambiguities being resolved in favour of the more
@@ -2841,17 +2843,17 @@ program thus:</p>
 </div>
 </dd>
 </dl>
-<table class="docutils footnote" frame="void" id="id21" rules="none">
-<colgroup><col class="label" /><col /></colgroup>
-<tbody valign="top">
-<tr><td class="label"><a class="fn-backref" href="#id15">[5]</a></td><td>Note that packages only contain compiled code, so debugging a package
-requires finding its source and loading that directly.</td></tr>
-</tbody>
-</table>
 <table class="docutils footnote" frame="void" id="id22" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
-<tr><td class="label"><a class="fn-backref" href="#id16">[6]</a></td><td>We originally provided bindings for all variables in scope, rather
+<tr><td class="label"><a class="fn-backref" href="#id16">[5]</a></td><td>Note that packages only contain compiled code, so debugging a package
+requires finding its source and loading that directly.</td></tr>
+</tbody>
+</table>
+<table class="docutils footnote" frame="void" id="id23" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id17">[6]</a></td><td>We originally provided bindings for all variables in scope, rather
 than just the free variables of the expression, but found that this
 affected performance considerably, hence the current restriction to
 just the free variables.</td></tr>
