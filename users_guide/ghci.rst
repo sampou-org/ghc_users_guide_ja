@@ -1638,31 +1638,56 @@ GHCi もプロンプトで入力される式についてはこれにならった
 
 .. _ghci-module-cmd:
 
-Controlling what is in scope with the ``:module`` command
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..
+   Controlling what is in scope with the ``:module`` command
+   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Another way to manipulate the scope is to use the :ghci-cmd:`:module`
-command, whose syntax is this:
+``:module`` コマンドによるスコープ制御
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+..
+   Another way to manipulate the scope is to use the :ghci-cmd:`:module`
+   command, whose syntax is this:
+
+   .. code-block:: none
+
+       :module +|- *mod1 ... *modn
+
+   Using the ``+`` form of the ``module`` commands adds modules to the
+   current scope, and ``-`` removes them. Without either ``+`` or ``-``,
+   the current scope is replaced by the set of modules specified. Note that
+   if you use this form and leave out ``Prelude``, an implicit ``Prelude``
+   import will be added automatically.
+
+スコープを操作するもう1つの方法は :ghci-cmd:`:module` コマンドです．
+構文は以下のとおりになります．
 
 .. code-block:: none
 
     :module +|- *mod1 ... *modn
 
-Using the ``+`` form of the ``module`` commands adds modules to the
-current scope, and ``-`` removes them. Without either ``+`` or ``-``,
-the current scope is replaced by the set of modules specified. Note that
-if you use this form and leave out ``Prelude``, an implicit ``Prelude``
-import will be added automatically.
+``+`` 形式の ``module`` コマンドでモジュールを現在のスコープに追加し，
+``-`` 形式でモジュールを現在のスコープから削除します．
+``+`` 形式でも ``-`` 形式でもない場合には，指定されたモジュール群が現在のスコープに置き換わります．
+``+`` 形式でも ``-`` 形式でもなく，``Prelude`` も指定に含まれていない場合は，
+自動的に，暗黙に ``Prelude`` をインポートします．
 
-The :ghci-cmd:`:module` command provides a way to do two things that cannot be
-done with ordinary ``import`` declarations:
+..
+   The :ghci-cmd:`:module` command provides a way to do two things that cannot be
+   done with ordinary ``import`` declarations:
 
--  :ghci-cmd:`:module` supports the ``*`` modifier on modules, which opens the
-   full top-level scope of a module, rather than just its exports.
+   -  :ghci-cmd:`:module` supports the ``*`` modifier on modules, which opens the
+      full top-level scope of a module, rather than just its exports.
 
--  Imports can be *removed* from the context, using the syntax
-   ``:module -M``. The ``import`` syntax is cumulative (as in a Haskell
-   module), so this is the only way to subtract from the scope.
+   -  Imports can be *removed* from the context, using the syntax
+      ``:module -M``. The ``import`` syntax is cumulative (as in a Haskell
+      module), so this is the only way to subtract from the scope.
+
+:ghci-cmd:`:module` コマンドでは通常の ``import`` 宣言ではできないことが2つ可能になります．
+
+-  :ghci-cmd:`:module` コマンドでは，モジュールを ``*`` で修飾できます．そうすると，単にモジュールがエクスポートしているものだけではなく，モジュールのトップレベルのスコープが完全にオープンになります．
+
+-  ``:module -M`` 構文を使うと，文脈からモジュールを削除できます．``import`` 構文は累積的(Haskellのモジュール内と同様)なので，これがスコープからモジュールを取り除く唯一の方法です．
 
 .. _ghci-import-qualified:
 
