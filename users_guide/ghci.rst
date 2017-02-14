@@ -1549,22 +1549,58 @@ GHCi を起動すると最初のプロンプトは以下のようになります
 
 .. _ghci-import-decl:
 
-Controlling what is in scope with ``import``
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..
+   Controlling what is in scope with ``import``
+   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-We are not limited to a single module: GHCi can combine scopes from
-multiple modules, in any mixture of ``*`` and non-\ ``*`` forms. GHCi
-combines the scopes from all of these modules to form the scope that is
-in effect at the prompt.
+``import`` によるスコープ制御
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-To add modules to the scope, use ordinary Haskell ``import`` syntax:
+..
+   We are not limited to a single module: GHCi can combine scopes from
+   multiple modules, in any mixture of ``*`` and non-\ ``*`` forms. GHCi
+   combines the scopes from all of these modules to form the scope that is
+   in effect at the prompt.
+
+GHCi が扱えるのは単一のモジュールだけではありません．
+複数のモジュールからのスコープを組み合わせることもできます．
+このとき ``*`` 形式とそうでない形式を混ぜて使えます．
+GHCi はこのようなモジュールのスコープのを全て組み合わせて，プロンプトのスコープします．
+
+..
+   To add modules to the scope, use ordinary Haskell ``import`` syntax:
+
+   .. code-block:: none
+
+       Prelude> import System.IO
+       Prelude System.IO> hPutStrLn stdout "hello\n"
+       hello
+       Prelude System.IO>
+
+モジュールをスコープに加えるには，通常はHaskellの ``import`` 構文を使います．
 
 .. code-block:: none
 
     Prelude> import System.IO
-    Prelude System.IO> hPutStrLn stdout "hello\n"
+    Prelude System.IO> hPutStrLn stdout "hello"
     hello
     Prelude System.IO>
+
+..
+   The full Haskell import syntax is supported, including ``hiding`` and
+   ``as`` clauses. The prompt shows the modules that are currently
+   imported, but it omits details about ``hiding``, ``as``, and so on. To
+   see the full story, use :ghci-cmd:`:show imports`:
+
+   .. code-block:: none
+
+       Prelude> import System.IO
+       Prelude System.IO> import Data.Map as Map
+       Prelude System.IO Map> :show imports
+       import Prelude -- implicit
+       import System.IO
+       import Data.Map as Map
+       Prelude System.IO Map>
 
 The full Haskell import syntax is supported, including ``hiding`` and
 ``as`` clauses. The prompt shows the modules that are currently
@@ -1581,9 +1617,20 @@ see the full story, use :ghci-cmd:`:show imports`:
     import Data.Map as Map
     Prelude System.IO Map>
 
+..
+   Note that the ``Prelude`` import is marked as implicit. It can be
+   overridden with an explicit ``Prelude`` import, just like in a Haskell
+   module.
+
 Note that the ``Prelude`` import is marked as implicit. It can be
 overridden with an explicit ``Prelude`` import, just like in a Haskell
 module.
+
+..
+   With multiple modules in scope, especially multiple ``*``-form modules,
+   it is likely that name clashes will occur. Haskell specifies that name
+   clashes are only reported when an ambiguous identifier is used, and GHCi
+   behaves in the same way for expressions typed at the prompt.
 
 With multiple modules in scope, especially multiple ``*``-form modules,
 it is likely that name clashes will occur. Haskell specifies that name
