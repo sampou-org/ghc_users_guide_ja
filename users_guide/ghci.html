@@ -69,7 +69,7 @@
 <li><a class="reference internal" href="#id16">5.4.5. プロンプトのスコープにあるもの</a><ul>
 <li><a class="reference internal" href="#load">5.4.5.1. スコープ内容に対する <code class="docutils literal"><span class="pre">:load</span></code> の影響</a></li>
 <li><a class="reference internal" href="#import">5.4.5.2. <code class="docutils literal"><span class="pre">import</span></code> によるスコープ制御</a></li>
-<li><a class="reference internal" href="#controlling-what-is-in-scope-with-the-module-command">5.4.5.3. Controlling what is in scope with the <code class="docutils literal"><span class="pre">:module</span></code> command</a></li>
+<li><a class="reference internal" href="#module">5.4.5.3. <code class="docutils literal"><span class="pre">:module</span></code> コマンドによるスコープ制御</a></li>
 <li><a class="reference internal" href="#qualified-names">5.4.5.4. Qualified names</a></li>
 <li><a class="reference internal" href="#module-and-load">5.4.5.5. <code class="docutils literal"><span class="pre">:module</span></code> and <code class="docutils literal"><span class="pre">:load</span></code></a></li>
 </ul>
@@ -688,7 +688,7 @@ Prelude&gt;
 <li><a class="reference internal" href="#ghci-cmd-:load"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:load</span></code></a> ， <a class="reference internal" href="#ghci-cmd-:add"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:add</span></code></a> ， <a class="reference internal" href="#ghci-cmd-:reload"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:reload</span></code></a> コマンド
 (<span class="xref std std-ref">ghci-load-scope</span>)．</li>
 <li><code class="docutils literal"><span class="pre">import</span></code> 宣言(<span class="xref std std-ref">ghci-import-decl</span>)．</li>
-<li><a class="reference internal" href="#ghci-cmd-:module"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:module</span></code></a> コマンド(<a class="reference internal" href="#ghci-module-cmd"><span>Controlling what is in scope with the :module command</span></a>)．</li>
+<li><a class="reference internal" href="#ghci-cmd-:module"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:module</span></code></a> コマンド(<span class="xref std std-ref">ghci-module-cmd</span>)．</li>
 </ul>
 <p><a class="reference internal" href="#ghci-cmd-:show imports"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:show</span> <span class="pre">imports</span></code></a> を使えば，トップレベルのスコープにどのモジュールがあるか要約を表示できます．</p>
 <div class="admonition hint">
@@ -763,10 +763,10 @@ hello
 Prelude System.IO&gt;
 </pre></div>
 </div>
-<p>The full Haskell import syntax is supported, including <code class="docutils literal"><span class="pre">hiding</span></code> and
-<code class="docutils literal"><span class="pre">as</span></code> clauses. The prompt shows the modules that are currently
-imported, but it omits details about <code class="docutils literal"><span class="pre">hiding</span></code>, <code class="docutils literal"><span class="pre">as</span></code>, and so on. To
-see the full story, use <a class="reference internal" href="#ghci-cmd-:show imports"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:show</span> <span class="pre">imports</span></code></a>:</p>
+<p><code class="docutils literal"><span class="pre">hiding</span></code> 節および <code class="docutils literal"><span class="pre">as</span></code> 節を含む完全なHaskellのインポート構文がサポートされています．
+プロンプトには現在インポートされているモジュールが表示されていますが，
+<code class="docutils literal"><span class="pre">hiding</span></code> や <code class="docutils literal"><span class="pre">as</span></code> やその他の詳細は省略されています．
+その部分を知りたければ <a class="reference internal" href="#ghci-cmd-:show imports"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:show</span> <span class="pre">imports</span></code></a> を使って下さい．</p>
 <div class="highlight-none"><div class="highlight"><pre>Prelude&gt; import System.IO
 Prelude System.IO&gt; import Data.Map as Map
 Prelude System.IO Map&gt; :show imports
@@ -776,34 +776,29 @@ import Data.Map as Map
 Prelude System.IO Map&gt;
 </pre></div>
 </div>
-<p>Note that the <code class="docutils literal"><span class="pre">Prelude</span></code> import is marked as implicit. It can be
-overridden with an explicit <code class="docutils literal"><span class="pre">Prelude</span></code> import, just like in a Haskell
-module.</p>
-<p>With multiple modules in scope, especially multiple <code class="docutils literal"><span class="pre">*</span></code>-form modules,
-it is likely that name clashes will occur. Haskell specifies that name
-clashes are only reported when an ambiguous identifier is used, and GHCi
-behaves in the same way for expressions typed at the prompt.</p>
-</div>
-<div class="section" id="controlling-what-is-in-scope-with-the-module-command">
-<span id="ghci-module-cmd"></span><h4>5.4.5.3. Controlling what is in scope with the <code class="docutils literal"><span class="pre">:module</span></code> command<a class="headerlink" href="#controlling-what-is-in-scope-with-the-module-command" title="Permalink to this headline">¶</a></h4>
-<p>Another way to manipulate the scope is to use the <a class="reference internal" href="#ghci-cmd-:module"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:module</span></code></a>
-command, whose syntax is this:</p>
+<p><code class="docutils literal"><span class="pre">Prelude</span></code> のインポートについては implicit (暗黙) と表示されることに注意してください．
+明示的に <code class="docutils literal"><span class="pre">Prelude</span></code> をインポートすれば，他のモジュールと同じように表示されます．</p>
+<p>複数のモジュールがスコープにあるとき，特に複数の <code class="docutils literal"><span class="pre">*</span></code> 形式のモジュールがあるときは，
+名前の衝突が起こりやすくなります．
+Haskell では名前の衝突が起こったことが報告されるのは，実際に曖昧な名前が使われたときに限ると規定されています．
+GHCi もプロンプトで入力される式についてはこれにならった振る舞いをします．</p>
+<span class="target" id="ghci-module-cmd"></span></div>
+<div class="section" id="module">
+<h4>5.4.5.3. <code class="docutils literal"><span class="pre">:module</span></code> コマンドによるスコープ制御<a class="headerlink" href="#module" title="Permalink to this headline">¶</a></h4>
+<p>スコープを操作するもう1つの方法は <a class="reference internal" href="#ghci-cmd-:module"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:module</span></code></a> コマンドです．
+構文は以下のとおりになります．</p>
 <div class="highlight-none"><div class="highlight"><pre>:module +|- *mod1 ... *modn
 </pre></div>
 </div>
-<p>Using the <code class="docutils literal"><span class="pre">+</span></code> form of the <code class="docutils literal"><span class="pre">module</span></code> commands adds modules to the
-current scope, and <code class="docutils literal"><span class="pre">-</span></code> removes them. Without either <code class="docutils literal"><span class="pre">+</span></code> or <code class="docutils literal"><span class="pre">-</span></code>,
-the current scope is replaced by the set of modules specified. Note that
-if you use this form and leave out <code class="docutils literal"><span class="pre">Prelude</span></code>, an implicit <code class="docutils literal"><span class="pre">Prelude</span></code>
-import will be added automatically.</p>
-<p>The <a class="reference internal" href="#ghci-cmd-:module"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:module</span></code></a> command provides a way to do two things that cannot be
-done with ordinary <code class="docutils literal"><span class="pre">import</span></code> declarations:</p>
+<p><code class="docutils literal"><span class="pre">+</span></code> 形式の <code class="docutils literal"><span class="pre">module</span></code> コマンドでモジュールを現在のスコープに追加し，
+<code class="docutils literal"><span class="pre">-</span></code> 形式でモジュールを現在のスコープから削除します．
+<code class="docutils literal"><span class="pre">+</span></code> 形式でも <code class="docutils literal"><span class="pre">-</span></code> 形式でもない場合には，指定されたモジュール群が現在のスコープに置き換わります．
+<code class="docutils literal"><span class="pre">+</span></code> 形式でも <code class="docutils literal"><span class="pre">-</span></code> 形式でもなく，<code class="docutils literal"><span class="pre">Prelude</span></code> も指定に含まれていない場合は，
+自動的に，暗黙に <code class="docutils literal"><span class="pre">Prelude</span></code> をインポートします．</p>
+<p><a class="reference internal" href="#ghci-cmd-:module"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:module</span></code></a> コマンドでは通常の <code class="docutils literal"><span class="pre">import</span></code> 宣言ではできないことが2つ可能になります．</p>
 <ul class="simple">
-<li><a class="reference internal" href="#ghci-cmd-:module"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:module</span></code></a> supports the <code class="docutils literal"><span class="pre">*</span></code> modifier on modules, which opens the
-full top-level scope of a module, rather than just its exports.</li>
-<li>Imports can be <em>removed</em> from the context, using the syntax
-<code class="docutils literal"><span class="pre">:module</span> <span class="pre">-M</span></code>. The <code class="docutils literal"><span class="pre">import</span></code> syntax is cumulative (as in a Haskell
-module), so this is the only way to subtract from the scope.</li>
+<li><a class="reference internal" href="#ghci-cmd-:module"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:module</span></code></a> コマンドでは，モジュールを <code class="docutils literal"><span class="pre">*</span></code> で修飾できます．そうすると，単にモジュールがエクスポートしているものだけではなく，モジュールのトップレベルのスコープが完全にオープンになります．</li>
+<li><code class="docutils literal"><span class="pre">:module</span> <span class="pre">-M</span></code> 構文を使うと，文脈からモジュールを削除できます．<code class="docutils literal"><span class="pre">import</span></code> 構文は累積的(Haskellのモジュール内と同様)なので，これがスコープからモジュールを取り除く唯一の方法です．</li>
 </ul>
 </div>
 <div class="section" id="qualified-names">
