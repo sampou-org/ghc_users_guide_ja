@@ -1717,15 +1717,29 @@ GHCi もプロンプトで入力される式についてはこれにならった
 
 -  ``:module -M`` 構文を使うと，文脈からモジュールを削除できます．``import`` 構文は累積的(Haskellのモジュール内と同様)なので，これがスコープからモジュールを取り除く唯一の方法です．
 
+..
+   .. _ghci-import-qualified:
+
+   Qualified names
+   ^^^^^^^^^^^^^^^
+
 .. _ghci-import-qualified:
 
-Qualified names
-^^^^^^^^^^^^^^^
+修飾名
+^^^^^^
+
+..
+   To make life slightly easier, the GHCi prompt also behaves as if there
+   is an implicit ``import qualified`` declaration for every module in
+   every package, and every module currently loaded into GHCi. This
+   behaviour can be disabled with the ``-fno-implicit-import-qualified`` flag.
+
+   .. index::
+      single: -fno-implicit-import-qualified
 
 To make life slightly easier, the GHCi prompt also behaves as if there
-is an implicit ``import qualified`` declaration for every module in
-every package, and every module currently loaded into GHCi. This
-behaviour can be disabled with the ``-fno-implicit-import-qualified`` flag.
+手間をすこし省くことができるように，GHCiのプロンプトは全てのパッケージの全てのモジュールと，現在GHCiにロードされている全てのモジュールについて，暗黙の ``import qualified`` 宣言があるかのように振る舞います．
+これは ``-fno-implicit-import-qualified`` というフラグで無効にできます．
 
 .. index::
    single: -fno-implicit-import-qualified
