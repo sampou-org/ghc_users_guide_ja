@@ -1388,7 +1388,6 @@ As with ordinary variable bindings, later definitions shadow earlier
 
    -  The :ghci-cmd:`:module` command (:ref:`ghci-module-cmd`).
 
-When you type an expression at the prompt, what identifiers and types
 プロンプトに式を入力するとき，どの識別子や型がスコープにあるのでしょうか．
 以下のように，GHCiでは，式を評価する際の環境を構成する方法を正確に指定できます．      
 
@@ -1416,23 +1415,55 @@ When you type an expression at the prompt, what identifiers and types
 
 .. _ghci-load-scope:
 
-The effect of ``:load`` on what is in scope
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..
+   The effect of ``:load`` on what is in scope
+   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-The :ghci-cmd:`:load`, :ghci-cmd:`:add`, and :ghci-cmd:`:reload` commands
-(:ref:`loading-source-files` and :ref:`ghci-compiled`) affect the
-top-level scope. Let's start with the simple cases; when you start GHCi
-the prompt looks like this:
+スコープ内容に対する ``:load`` の影響
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+..
+   The :ghci-cmd:`:load`, :ghci-cmd:`:add`, and :ghci-cmd:`:reload` commands
+   (:ref:`loading-source-files` and :ref:`ghci-compiled`) affect the
+   top-level scope. Let's start with the simple cases; when you start GHCi
+   the prompt looks like this:
+
+   .. code-block:: none
+
+       Prelude>
+
+   which indicates that everything from the module ``Prelude`` is currently
+   in scope; the visible identifiers are exactly those that would be
+   visible in a Haskell source file with no ``import`` declarations.
+
+:ghci-cmd:`:load` ， :ghci-cmd:`:add` ， :ghci-cmd:`:reload` コマンド
+(:ref:`loading-source-files` と :ref:`ghci-compiled` を参照) はトップレベルのスコープに影響します．
+単純な場合から始めましょう．
+GHCi を起動すると最初のプロンプトは以下のようになります．
 
 .. code-block:: none
 
     Prelude>
 
-which indicates that everything from the module ``Prelude`` is currently
-in scope; the visible identifiers are exactly those that would be
-visible in a Haskell source file with no ``import`` declarations.
+これは現在のスコープにあるものはすべて ``Prelude`` モジュール由来であるということを示しています．
+ここで見える識別子は ``import`` 宣言のないHaskellのソースファイルから見える識別子と一致しています．
 
-If we now load a file into GHCi, the prompt will change:
+..
+   If we now load a file into GHCi, the prompt will change:
+
+   .. code-block:: none
+
+       Prelude> :load Main.hs
+       Compiling Main             ( Main.hs, interpreted )
+       *Main>
+
+   The new prompt is ``*Main``, which indicates that we are typing
+   expressions in the context of the top-level of the ``Main`` module.
+   Everything that is in scope at the top-level in the module ``Main`` we
+   just loaded is also in scope at the prompt (probably including
+   ``Prelude``, as long as ``Main`` doesn't explicitly hide it).
+
+ここで，GHCiにファイルをロードすると，プロンプトは変化します．
 
 .. code-block:: none
 
@@ -1440,32 +1471,68 @@ If we now load a file into GHCi, the prompt will change:
     Compiling Main             ( Main.hs, interpreted )
     *Main>
 
-The new prompt is ``*Main``, which indicates that we are typing
-expressions in the context of the top-level of the ``Main`` module.
-Everything that is in scope at the top-level in the module ``Main`` we
-just loaded is also in scope at the prompt (probably including
-``Prelude``, as long as ``Main`` doesn't explicitly hide it).
+新しいプロンプトは ``*Main> `` です．
+これはプロンプトに入力した式の文脈が ``Main`` モジュールのトップレベルの文脈であることを示しています．
+ロードした ``Main`` モジュールのトップレベルのスコープにあるものはすべて，
+このプロンプトのスコープにあります
+(``Main`` が明示的に隠蔽していなければ ``Prelude`` も含まれます）．
 
-The syntax in the prompt ``*module`` indicates that it is the full
-top-level scope of ⟨module⟩ that is contributing to the scope for
-expressions typed at the prompt. Without the ``*``, just the exports of
-the module are visible.
+..
+   The syntax in the prompt ``*module`` indicates that it is the full
+   top-level scope of ⟨module⟩ that is contributing to the scope for
+   expressions typed at the prompt. Without the ``*``, just the exports of
+   the module are visible.
+
+   .. note::
+       For technical reasons, GHCi can only support the ``*``-form for
+       modules that are interpreted. Compiled modules and package modules can
+       only contribute their exports to the current scope. To ensure that GHCi
+       loads the interpreted version of a module, add the ``*`` when loading
+       the module, e.g. ``:load *M``.
+
+プロンプトの ``*module`` という構文は，このプロンプトに入力した式のスコープは
+⟨module⟩ のトップレベルのスコープであることを示しています．
+``*`` が付かない場合は当該モジュールからエクスポートされたものだけが見えるということです．
 
 .. note::
-    For technical reasons, GHCi can only support the ``*``-form for
-    modules that are interpreted. Compiled modules and package modules can
-    only contribute their exports to the current scope. To ensure that GHCi
-    loads the interpreted version of a module, add the ``*`` when loading
-    the module, e.g. ``:load *M``.
+    技術的理由により，GHCi が ``*`` 形式で表示できるのは解釈実行するモジュールに限られます．
+    コンパイル済みのモジュールおよびパッケージモジュールの場合は，それらから，エクスポート
+    されたものだけが現在のスコープに入ります．
+    GHCi が解釈実行版のモジュールをロードするようにするには，モジュールをロードするときに
+    ``*`` を付けます．たとえば ``:load *M`` のようにロードします．
 
-In general, after a :ghci-cmd:`:load` command, an automatic import is added to
-the scope for the most recently loaded "target" module, in a ``*``-form
-if possible. For example, if you say ``:load foo.hs bar.hs`` and
-``bar.hs`` contains module ``Bar``, then the scope will be set to
-``*Bar`` if ``Bar`` is interpreted, or if ``Bar`` is compiled it will be
-set to ``Prelude Bar`` (GHCi automatically adds ``Prelude`` if it isn't
-present and there aren't any ``*``-form modules). These
-automatically-added imports can be seen with :ghci-cmd:`:show imports`:
+..
+   In general, after a :ghci-cmd:`:load` command, an automatic import is added to
+   the scope for the most recently loaded "target" module, in a ``*``-form
+   if possible. For example, if you say ``:load foo.hs bar.hs`` and
+   ``bar.hs`` contains module ``Bar``, then the scope will be set to
+   ``*Bar`` if ``Bar`` is interpreted, or if ``Bar`` is compiled it will be
+   set to ``Prelude Bar`` (GHCi automatically adds ``Prelude`` if it isn't
+   present and there aren't any ``*``-form modules). These
+   automatically-added imports can be seen with :ghci-cmd:`:show imports`:
+
+   .. code-block:: none
+
+       Prelude> :load hello.hs
+       [1 of 1] Compiling Main             ( hello.hs, interpreted )
+       Ok, modules loaded: Main.
+       *Main> :show imports
+       :module +*Main -- added automatically
+       *Main>
+
+   and the automatically-added import is replaced the next time you use
+   :ghci-cmd:`:load`, :ghci-cmd:`:add`, or :ghci-cmd:`:reload`. It can also be
+   removed by :ghci-cmd:`:module` as with normal imports.
+
+一般に :ghci-cmd:`:load` コマンドが発行された後，直近にロードされた「ターゲット」モジュールに対する
+インポートが自動的にスコープに追加されます．
+このとき，可能なら ``*`` 形式が使われます．
+たとえば ``:load foo.hs bar.hs`` と入力したとき ``bar.hs`` に ``Bar`` というモジュールがあるとすると，
+``Bar`` が解釈実行されているなら，スコープは ``*Bar`` に設定され， ``Bar`` がコンパイル済みなら，
+スコープは ``Prelude Bar`` になります
+(GHCiは ``Prelude`` が指定されておらず，しかも ``*`` 形式のモジュールが一つもなければ ``Prelude``
+を自動的に付け加えます)．
+これらの自動に追加されたインポートについては :ghci-comd:`:show imports` で表示できます．
 
 .. code-block:: none
 
@@ -1476,9 +1543,9 @@ automatically-added imports can be seen with :ghci-cmd:`:show imports`:
     :module +*Main -- added automatically
     *Main>
 
-and the automatically-added import is replaced the next time you use
-:ghci-cmd:`:load`, :ghci-cmd:`:add`, or :ghci-cmd:`:reload`. It can also be
-removed by :ghci-cmd:`:module` as with normal imports.
+この自動的に追加されたインポートは，次に :ghci-cmd:`:load` ，
+:ghci-cmd:`:add` あるいは :ghci-cmd:`:reload` を発行すると別のものに置き換えられます．
+通常のインポートと同様に :ghci-cmd:`:module` で削除することもできます．
 
 .. _ghci-import-decl:
 
