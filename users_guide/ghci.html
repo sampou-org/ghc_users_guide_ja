@@ -54,19 +54,19 @@
   <h3><a href="index.html">Table Of Contents</a></h3>
   <ul>
 <li><a class="reference internal" href="#">5. GHCiを使う</a><ul>
-<li><a class="reference internal" href="#id5">5.1. GHCi入門</a></li>
-<li><a class="reference internal" href="#id6">5.2. ソースファイルをロードする</a><ul>
-<li><a class="reference internal" href="#modules-vs-filenames">5.2.1. Modules vs. filenames</a></li>
-<li><a class="reference internal" href="#id11">5.2.2. ソースコードの変更と再コンパイル</a></li>
+<li><a class="reference internal" href="#ghci-introduction">5.1. GHCi入門</a></li>
+<li><a class="reference internal" href="#loading-source-files">5.2. ソースファイルをロードする</a><ul>
+<li><a class="reference internal" href="#ghci-modules-filenames">5.2.1. モジュールとファイル名</a></li>
+<li><a class="reference internal" href="#id12">5.2.2. ソースコードの変更と再コンパイル</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#id12">5.3. コンパイル済みコードをロードする</a></li>
-<li><a class="reference internal" href="#id13">5.4. プロンプトで対話的に評価する</a><ul>
+<li><a class="reference internal" href="#ghci-compiled">5.3. コンパイル済みコードをロードする</a></li>
+<li><a class="reference internal" href="#interactive-evaluation">5.4. プロンプトで対話的に評価する</a><ul>
 <li><a class="reference internal" href="#i-o">5.4.1. プロンプトでのI/Oアクション</a></li>
 <li><a class="reference internal" href="#do">5.4.2. プロンプトで <code class="docutils literal"><span class="pre">do</span></code> 記法を使う</a></li>
-<li><a class="reference internal" href="#id14">5.4.3. 複数行入力</a></li>
-<li><a class="reference internal" href="#id15">5.4.4. 型，クラス，その他の宣言</a></li>
-<li><a class="reference internal" href="#id16">5.4.5. プロンプトのスコープにあるもの</a><ul>
+<li><a class="reference internal" href="#ghci-multiline">5.4.3. 複数行入力</a></li>
+<li><a class="reference internal" href="#ghci-decls">5.4.4. 型，クラス，その他の宣言</a></li>
+<li><a class="reference internal" href="#ghci-scope">5.4.5. プロンプトのスコープにあるもの</a><ul>
 <li><a class="reference internal" href="#load">5.4.5.1. スコープ内容に対する <code class="docutils literal"><span class="pre">:load</span></code> の影響</a></li>
 <li><a class="reference internal" href="#import">5.4.5.2. <code class="docutils literal"><span class="pre">import</span></code> によるスコープ制御</a></li>
 <li><a class="reference internal" href="#module">5.4.5.3. <code class="docutils literal"><span class="pre">:module</span></code> コマンドによるスコープ制御</a></li>
@@ -154,8 +154,8 @@
         <div class="bodywrapper">
           <div class="body" role="main">
             
-  <span class="target" id="ghci"></span><div class="section" id="id1">
-<h1>5. GHCiを使う<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h1>
+  <div class="section" id="ghci">
+<span id="id1"></span><h1>5. GHCiを使う<a class="headerlink" href="#ghci" title="Permalink to this headline">¶</a></h1>
 <span class="target" id="index-0"></span><p>GHCi <a class="footnote-reference" href="#id3" id="id2">[1]</a> はGHCの対話環境であり，Haskellの式を対話方式で評価したり
 プログラムを解釈実行したりできます．
 <a class="reference external" href="http://www.haskell.org/hugs/">Hugs</a> の経験があるなら，
@@ -175,8 +175,8 @@ GHCi は対話方式のデバッガも備えています(<a class="reference int
 <tr><td class="label">[2]</td><td>ただし今のところ <code class="docutils literal"><span class="pre">foreign</span> <span class="pre">export</span></code> は除きます．</td></tr>
 </tbody>
 </table>
-<span class="target" id="ghci-introduction"></span><div class="section" id="id5">
-<h2>5.1. GHCi入門<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="ghci-introduction">
+<span id="id5"></span><h2>5.1. GHCi入門<a class="headerlink" href="#ghci-introduction" title="Permalink to this headline">¶</a></h2>
 <p>GHCiセッションの例を見ていくことから始めましょう．
 GHCiは <code class="docutils literal"><span class="pre">ghci</span></code> コマンドで起動します．</p>
 <div class="highlight-none"><div class="highlight"><pre>$ ghci
@@ -205,9 +205,9 @@ Prelude&gt;
 <p>Haskellでは <code class="docutils literal"><span class="pre">let</span></code> 式は <code class="docutils literal"><span class="pre">in</span></code> をともないます．
 しかし，GHCiでは，式は <code class="docutils literal"><span class="pre">IO</span></code> モナドの中でも解釈されますので，上の例は
 <code class="docutils literal"><span class="pre">in</span></code> を伴わない <code class="docutils literal"><span class="pre">let</span></code> 束縛文であることは，行が表示されないことで示されています．</p>
-<span class="target" id="loading-source-files"></span></div>
-<div class="section" id="id6">
-<h2>5.2. ソースファイルをロードする<a class="headerlink" href="#id6" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="loading-source-files">
+<span id="id6"></span><h2>5.2. ソースファイルをロードする<a class="headerlink" href="#loading-source-files" title="Permalink to this headline">¶</a></h2>
 <p>次のようなHaskellのソースコードが <code class="docutils literal"><span class="pre">Main.hs</span></code> というファイルに書かれているとしましょう．</p>
 <div class="highlight-haskell"><div class="highlight"><pre><span class="nf">main</span> <span class="ow">=</span> <span class="n">print</span> <span class="p">(</span><span class="n">fac</span> <span class="mi">20</span><span class="p">)</span>
 
@@ -231,7 +231,7 @@ Ok, modules loaded: Main.
 <p>GHCiは <code class="docutils literal"><span class="pre">Main</span></code> モジュールをロードし，プロンプトが <code class="docutils literal"><span class="pre">*Main&gt;</span></code> に変りました．
 このプロンプトは，ここにユーザが入力する式を評価するときの文脈が，たったいまロードした
 <code class="docutils literal"><span class="pre">Main</span></code> モジュールであることを示しています
-(<code class="docutils literal"><span class="pre">*</span></code> の意味については <span class="xref std std-ref">ghci-scope</span> で説明します)．
+(<code class="docutils literal"><span class="pre">*</span></code> の意味については <a class="reference internal" href="#ghci-scope"><span>プロンプトのスコープにあるもの</span></a> で説明します)．
 これで <code class="docutils literal"><span class="pre">Main.hs</span></code> で定義した関数を含む式が評価できるようになりました．</p>
 <div class="highlight-none"><div class="highlight"><pre>*Main&gt; fac 17
 355687428096000
@@ -252,8 +252,8 @@ Windowsの「スタート」メニューから GHCi を起動した場合は，
 カレントディレクトリはおそく <code class="docutils literal"><span class="pre">C:\Documents</span> <span class="pre">and</span> <span class="pre">Settings\user</span> <span class="pre">name</span></code> あたりでしょう．</td></tr>
 </tbody>
 </table>
-<span class="target" id="ghci-modules-filenames"></span><div class="section" id="modules-vs-filenames">
-<h3>5.2.1. Modules vs. filenames<a class="headerlink" href="#modules-vs-filenames" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="ghci-modules-filenames">
+<span id="id9"></span><h3>5.2.1. モジュールとファイル名<a class="headerlink" href="#ghci-modules-filenames" title="Permalink to this headline">¶</a></h3>
 <span class="target" id="index-3"></span><p>問: GHCi はモジュール ⟨M⟩ がどのファイルにあるかをどうやって知るのですか．
 答: <code class="docutils literal"><span class="pre">M.hs</span></code> あるいは <code class="docutils literal"><span class="pre">M.lhs</span></code> というファイルを探します．
 したがって，大部分のモジュールでは，モジュール名とファイル名は一致している必要があります．
@@ -271,7 +271,7 @@ GHCiを起動するコマンドラインで <a class="reference internal" href="
 </pre></div>
 </div>
 <p>あるいは，GHCiの中で <a class="reference internal" href="#ghci-cmd-:set"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:set</span></code></a> コマンドで指定できます
-(<a class="reference internal" href="#ghci-cmd-line-options"><span>Setting GHC command-line options in GHCi</span></a> 参照) <a class="footnote-reference" href="#id10" id="id9">[4]</a></p>
+(<a class="reference internal" href="#ghci-cmd-line-options"><span>Setting GHC command-line options in GHCi</span></a> 参照) <a class="footnote-reference" href="#id11" id="id10">[4]</a></p>
 <p>GHCiは，このように依存関係を追ってロードすべきモジュールを見つけようとするので，
 モジュールごとに，1つのソースファイルがなければなりません．
 この規則の唯一の例外はパッケージ由来のモジュールで，それには <code class="docutils literal"><span class="pre">Prelude</span></code> のほか
@@ -279,28 +279,28 @@ GHCiを起動するコマンドラインで <a class="reference internal" href="
 モジュールをロードしようとしたとき，GHCiがソースファイルを見つけられなければ，
 たとえ，そのモジュールのオブジェクトファイルやインターフェイスファイルがあったとしても，
 エラーメッセージが表示されます．</p>
-<table class="docutils footnote" frame="void" id="id10" rules="none">
+<table class="docutils footnote" frame="void" id="id11" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
-<tr><td class="label"><a class="fn-backref" href="#id9">[4]</a></td><td>GHCiや <a class="reference internal" href="using.html#ghc-flag---make"><code class="xref std std-ghc-flag docutils literal"><span class="pre">--make</span></code></a> モードでは <a class="reference internal" href="separate_compilation.html#ghc-flag--i"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-i</span></code></a> オプションは，
+<tr><td class="label"><a class="fn-backref" href="#id10">[4]</a></td><td>GHCiや <a class="reference internal" href="using.html#ghc-flag---make"><code class="xref std std-ghc-flag docutils literal"><span class="pre">--make</span></code></a> モードでは <a class="reference internal" href="separate_compilation.html#ghc-flag--i"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-i</span></code></a> オプションは，
 <em>ソースファイル</em> の探索パスを指定するのに対し，標準の一括コンパイルモードでは
 <a class="reference internal" href="separate_compilation.html#ghc-flag--i"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-i</span></code></a> オプションはインターフェイスファイルの探索パスを指定することに注意してください．
 詳しくは <a class="reference internal" href="separate_compilation.html#search-path"><span>The search path</span></a> を参照してください．</td></tr>
 </tbody>
 </table>
 </div>
-<div class="section" id="id11">
-<h3>5.2.2. ソースコードの変更と再コンパイル<a class="headerlink" href="#id11" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id12">
+<h3>5.2.2. ソースコードの変更と再コンパイル<a class="headerlink" href="#id12" title="Permalink to this headline">¶</a></h3>
 <p id="index-4">ソースコードに変更を加えて，GHCiに再コンパイルさせたいときは <a class="reference internal" href="#ghci-cmd-:reload"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:reload</span></code></a>
 コマンドを使います．
 プログラムは必要に応じて再コンパイルされます．
 このとき，GHCiは依存関係の変化がないモジュールを実際に再コンパイルするのを避けようと最善をつくします．
 これは一括コンパイル時に再コンパイルを避ける機構と同じです
 (<a class="reference internal" href="separate_compilation.html#recomp"><span>The recompilation checker</span></a> 参照)．</p>
-<span class="target" id="ghci-compiled"></span></div>
 </div>
-<div class="section" id="id12">
-<h2>5.3. コンパイル済みコードをロードする<a class="headerlink" href="#id12" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="ghci-compiled">
+<span id="id13"></span><h2>5.3. コンパイル済みコードをロードする<a class="headerlink" href="#ghci-compiled" title="Permalink to this headline">¶</a></h2>
 <span class="target" id="index-5"></span><p>HaskellのソースモジュールをGHCiにロードすると，通常はバイトコードに変換され，解釈実行器で実行されます．
 しかし，GHCiでは解釈実行されるコードはコンパイル済みコードと一緒に実行することもできます．
 実際，GHCiは起動すると通常は <code class="docutils literal"><span class="pre">base</span></code> パッケージのコンパイル済みのものをロードします．
@@ -397,7 +397,7 @@ Ok, modules loaded: A, B, C (C.o), D (D.o).
 <p>このようなオブジェクトファイルの自動ロードは混乱の原因になることがあります．
 モジュールのエクスポートされていないトップレベルの定義をプロンプトの式で使えるのは，
 そのモジュールが解釈実行されているときだけだからです
-(<span class="xref std std-ref">ghci-scope</span> 参照)．
+(<a class="reference internal" href="#ghci-scope"><span>プロンプトのスコープにあるもの</span></a> 参照)．
 このため，GHCiにインタプリタを使ってモジュールのロードを強制したいことがあるかもしれません．
 そうするには <a class="reference internal" href="#ghci-cmd-:load"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:load</span></code></a> を使うときにモジュール名またはファイル名の前に*を置きます．
 たとえば，以下のようにします．</p>
@@ -423,9 +423,9 @@ Compiling A                ( A.hs, interpreted )
 コードを変更したときは，そのモジュールは解釈実行されますが，プロジェクト中の他の部分は
 変わらずコンパイル済みのものが使われます．</p>
 </div>
-<span class="target" id="interactive-evaluation"></span></div>
-<div class="section" id="id13">
-<h2>5.4. プロンプトで対話的に評価する<a class="headerlink" href="#id13" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="interactive-evaluation">
+<span id="id14"></span><h2>5.4. プロンプトで対話的に評価する<a class="headerlink" href="#interactive-evaluation" title="Permalink to this headline">¶</a></h2>
 <p>プロンプトに式を入力すると，GHCi はただちに評価して結果を表示します．</p>
 <div class="highlight-none"><div class="highlight"><pre>Prelude&gt; reverse &quot;hello&quot;
 &quot;olleh&quot;
@@ -433,8 +433,8 @@ Prelude&gt; 5+5
 10
 </pre></div>
 </div>
-<span class="target" id="actions-at-prompt"></span><div class="section" id="i-o">
-<h3>5.4.1. プロンプトでのI/Oアクション<a class="headerlink" href="#i-o" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="i-o">
+<span id="actions-at-prompt"></span><h3>5.4.1. プロンプトでのI/Oアクション<a class="headerlink" href="#i-o" title="Permalink to this headline">¶</a></h3>
 <p>GHCi がプロンプトで行うのは単なる式の評価だけではありません．
 ある型 <code class="docutils literal"><span class="pre">a</span></code> に関して <code class="docutils literal"><span class="pre">IO</span> <span class="pre">a</span></code> 型の式を入力すると，GHCiはそれをIOコンピュテーションとして
 <em>実行</em> します．</p>
@@ -463,9 +463,9 @@ hello
 &quot;yes&quot;
 </pre></div>
 </div>
-<span class="target" id="ghci-stmts"></span></div>
+</div>
 <div class="section" id="do">
-<h3>5.4.2. プロンプトで <code class="docutils literal"><span class="pre">do</span></code> 記法を使う<a class="headerlink" href="#do" title="Permalink to this headline">¶</a></h3>
+<span id="ghci-stmts"></span><h3>5.4.2. プロンプトで <code class="docutils literal"><span class="pre">do</span></code> 記法を使う<a class="headerlink" href="#do" title="Permalink to this headline">¶</a></h3>
 <span class="target" id="index-6"></span><p>実際には，GHCiはプロンプトで受け付けているのは単なる式ではなく文です．
 そのため，値や関数を名前に束縛して，後で式や文の中で使うことができます．</p>
 <p>The syntax of a statement accepted at the GHCi prompt is exactly the
@@ -574,10 +574,10 @@ x :: Integer
 xs :: [Integer]
 </pre></div>
 </div>
+<span class="target" id="index-7"></span></div>
 </div>
-<span class="target" id="ghci-multiline"><span id="index-7"></span></span></div>
-<div class="section" id="id14">
-<h3>5.4.3. 複数行入力<a class="headerlink" href="#id14" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="ghci-multiline">
+<span id="id15"></span><h3>5.4.3. 複数行入力<a class="headerlink" href="#ghci-multiline" title="Permalink to this headline">¶</a></h3>
 <p>上で説明しあた <code class="docutils literal"><span class="pre">:{</span> <span class="pre">...</span> <span class="pre">:}</span></code> 構文による複数行入力のほかに，GHCiでは <code class="docutils literal"><span class="pre">:set</span> <span class="pre">+m</span></code>
 とすると有効になる複数行モードがあります．
 このモードでは，現在の文が入力途中であることをGHCiが自動的に検出します．
@@ -630,9 +630,9 @@ Prelude| ^C
 Prelude&gt;
 </pre></div>
 </div>
-<span class="target" id="ghci-decls"></span></div>
-<div class="section" id="id15">
-<h3>5.4.4. 型，クラス，その他の宣言<a class="headerlink" href="#id15" title="Permalink to this headline">¶</a></h3>
+</div>
+<div class="section" id="ghci-decls">
+<span id="id16"></span><h3>5.4.4. 型，クラス，その他の宣言<a class="headerlink" href="#ghci-decls" title="Permalink to this headline">¶</a></h3>
 <p>GHCi のプロンプトには，Haskellの任意のトップレベル宣言を入力できます．
 これには <code class="docutils literal"><span class="pre">data</span></code> ， <code class="docutils literal"><span class="pre">type</span></code> ， <code class="docutils literal"><span class="pre">newtype</span></code> ， <code class="docutils literal"><span class="pre">class</span></code> ， <code class="docutils literal"><span class="pre">instance</span></code> ，
 <code class="docutils literal"><span class="pre">deriving</span></code> ， <code class="docutils literal"><span class="pre">foreign</span></code> 宣言が含まれています．
@@ -679,16 +679,16 @@ Prelude&gt;
 クラスや型族インスタンスは再定義したいこともあるので，
 頭部あるいは左辺が同一であるインスタンスはそれぞれ新しいもので <em>置き換える</em> ことになります
 (<a class="reference internal" href="glasgow_exts.html#type-families"><span>Type families</span></a> 参照)．</p>
-<span class="target" id="ghci-scope"></span></div>
-<div class="section" id="id16">
-<h3>5.4.5. プロンプトのスコープにあるもの<a class="headerlink" href="#id16" title="Permalink to this headline">¶</a></h3>
+</div>
+<div class="section" id="ghci-scope">
+<span id="id17"></span><h3>5.4.5. プロンプトのスコープにあるもの<a class="headerlink" href="#ghci-scope" title="Permalink to this headline">¶</a></h3>
 <p>プロンプトに式を入力するとき，どの識別子や型がスコープにあるのでしょうか．
 以下のように，GHCiでは，式を評価する際の環境を構成する方法を正確に指定できます．</p>
 <ul class="simple">
 <li><a class="reference internal" href="#ghci-cmd-:load"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:load</span></code></a> ， <a class="reference internal" href="#ghci-cmd-:add"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:add</span></code></a> ， <a class="reference internal" href="#ghci-cmd-:reload"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:reload</span></code></a> コマンド
-(<span class="xref std std-ref">ghci-load-scope</span>)．</li>
-<li><code class="docutils literal"><span class="pre">import</span></code> 宣言(<span class="xref std std-ref">ghci-import-decl</span>)．</li>
-<li><a class="reference internal" href="#ghci-cmd-:module"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:module</span></code></a> コマンド(<span class="xref std std-ref">ghci-module-cmd</span>)．</li>
+(<a class="reference internal" href="#ghci-load-scope"><span>スコープ内容に対する :load の影響</span></a>)．</li>
+<li><code class="docutils literal"><span class="pre">import</span></code> 宣言(<a class="reference internal" href="#ghci-import-decl"><span>import によるスコープ制御</span></a>)．</li>
+<li><a class="reference internal" href="#ghci-cmd-:module"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:module</span></code></a> コマンド(<a class="reference internal" href="#ghci-module-cmd"><span>:module コマンドによるスコープ制御</span></a>)．</li>
 </ul>
 <p><a class="reference internal" href="#ghci-cmd-:show imports"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:show</span> <span class="pre">imports</span></code></a> を使えば，トップレベルのスコープにどのモジュールがあるか要約を表示できます．</p>
 <div class="admonition hint">
@@ -696,10 +696,10 @@ Prelude&gt;
 <p class="last">GHCi ではスコープ内にある名前をタブ補完できます．
 たとえば，GHCiを起動して <code class="docutils literal"><span class="pre">J&lt;tab&gt;</span></code> と入力すると <code class="docutils literal"><span class="pre">Just</span></code> と展開されます．</p>
 </div>
-<span class="target" id="ghci-load-scope"></span><div class="section" id="load">
-<h4>5.4.5.1. スコープ内容に対する <code class="docutils literal"><span class="pre">:load</span></code> の影響<a class="headerlink" href="#load" title="Permalink to this headline">¶</a></h4>
+<div class="section" id="load">
+<span id="ghci-load-scope"></span><h4>5.4.5.1. スコープ内容に対する <code class="docutils literal"><span class="pre">:load</span></code> の影響<a class="headerlink" href="#load" title="Permalink to this headline">¶</a></h4>
 <p><a class="reference internal" href="#ghci-cmd-:load"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:load</span></code></a> ， <a class="reference internal" href="#ghci-cmd-:add"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:add</span></code></a> ， <a class="reference internal" href="#ghci-cmd-:reload"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:reload</span></code></a> コマンド
-(<span class="xref std std-ref">loading-source-files</span> と <span class="xref std std-ref">ghci-compiled</span> を参照) はトップレベルのスコープに影響します．
+(<a class="reference internal" href="#loading-source-files"><span>ソースファイルをロードする</span></a> と <a class="reference internal" href="#ghci-compiled"><span>コンパイル済みコードをロードする</span></a> を参照) はトップレベルのスコープに影響します．
 単純な場合から始めましょう．
 GHCi を起動すると最初のプロンプトは以下のようになります．</p>
 <div class="highlight-none"><div class="highlight"><pre>Prelude&gt;
@@ -737,7 +737,7 @@ GHCi が解釈実行版のモジュールをロードするようにするには
 スコープは <code class="docutils literal"><span class="pre">Prelude</span> <span class="pre">Bar</span></code> になります
 (GHCiは <code class="docutils literal"><span class="pre">Prelude</span></code> が指定されておらず，しかも <code class="docutils literal"><span class="pre">*</span></code> 形式のモジュールが一つもなければ <code class="docutils literal"><span class="pre">Prelude</span></code>
 を自動的に付け加えます)．
-これらの自動に追加されたインポートについては <a href="#id17"><span class="problematic" id="id18">:ghci-comd:`:show imports`</span></a> で表示できます．</p>
+これらの自動に追加されたインポートについては <a class="reference internal" href="#ghci-cmd-:show imports"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:show</span> <span class="pre">imports</span></code></a> で表示できます．</p>
 <div class="highlight-none"><div class="highlight"><pre>Prelude&gt; :load hello.hs
 [1 of 1] Compiling Main             ( hello.hs, interpreted )
 Ok, modules loaded: Main.
@@ -749,9 +749,9 @@ Ok, modules loaded: Main.
 <p>この自動的に追加されたインポートは，次に <a class="reference internal" href="#ghci-cmd-:load"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:load</span></code></a> ，
 <a class="reference internal" href="#ghci-cmd-:add"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:add</span></code></a> あるいは <a class="reference internal" href="#ghci-cmd-:reload"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:reload</span></code></a> を発行すると別のものに置き換えられます．
 通常のインポートと同様に <a class="reference internal" href="#ghci-cmd-:module"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:module</span></code></a> で削除することもできます．</p>
-<span class="target" id="ghci-import-decl"></span></div>
+</div>
 <div class="section" id="import">
-<h4>5.4.5.2. <code class="docutils literal"><span class="pre">import</span></code> によるスコープ制御<a class="headerlink" href="#import" title="Permalink to this headline">¶</a></h4>
+<span id="ghci-import-decl"></span><h4>5.4.5.2. <code class="docutils literal"><span class="pre">import</span></code> によるスコープ制御<a class="headerlink" href="#import" title="Permalink to this headline">¶</a></h4>
 <p>GHCi が扱えるのは単一のモジュールだけではありません．
 複数のモジュールからのスコープを組み合わせることもできます．
 このとき <code class="docutils literal"><span class="pre">*</span></code> 形式とそうでない形式を混ぜて使えます．
@@ -782,9 +782,9 @@ Prelude System.IO Map&gt;
 名前の衝突が起こりやすくなります．
 Haskell では名前の衝突が起こったことが報告されるのは，実際に曖昧な名前が使われたときに限ると規定されています．
 GHCi もプロンプトで入力される式についてはこれにならった振る舞いをします．</p>
-<span class="target" id="ghci-module-cmd"></span></div>
+</div>
 <div class="section" id="module">
-<h4>5.4.5.3. <code class="docutils literal"><span class="pre">:module</span></code> コマンドによるスコープ制御<a class="headerlink" href="#module" title="Permalink to this headline">¶</a></h4>
+<span id="ghci-module-cmd"></span><h4>5.4.5.3. <code class="docutils literal"><span class="pre">:module</span></code> コマンドによるスコープ制御<a class="headerlink" href="#module" title="Permalink to this headline">¶</a></h4>
 <p>スコープを操作するもう1つの方法は <a class="reference internal" href="#ghci-cmd-:module"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:module</span></code></a> コマンドです．
 構文は以下のとおりになります．</p>
 <div class="highlight-none"><div class="highlight"><pre>:module +|- *mod1 ... *modn
@@ -973,7 +973,7 @@ return <code class="docutils literal"><span class="pre">undefined</span></code> 
 that printf doesn&#8217;t require extensions to the class system), so if the
 type defaults to <code class="docutils literal"><span class="pre">Integer</span></code> then ghci gives an error when running a
 printf.</p>
-<p>See also <span class="xref std std-ref">actions-at-prompt</span> for how the monad of a computational
+<p>See also <a class="reference internal" href="#actions-at-prompt"><span>プロンプトでのI/Oアクション</span></a> for how the monad of a computational
 expression defaults to <code class="docutils literal"><span class="pre">IO</span></code> if possible.</p>
 </div>
 <div class="section" id="using-a-custom-interactive-printing-function">
@@ -1068,7 +1068,7 @@ running computation in order to examine the values of variables. The
 debugger is integrated into GHCi, and is turned on by default: no flags
 are required to enable the debugging facilities. There is one major
 restriction: breakpoints and single-stepping are only available in
-interpreted modules; compiled code is invisible to the debugger <a class="footnote-reference" href="#id25" id="id19">[5]</a>.</p>
+interpreted modules; compiled code is invisible to the debugger <a class="footnote-reference" href="#id24" id="id18">[5]</a>.</p>
 <p>The debugger provides the following:</p>
 <ul class="simple">
 <li>The ability to set a breakpoint on a function definition or
@@ -1146,7 +1146,7 @@ can use the <a class="reference internal" href="#ghci-cmd-:list"><code class="xr
 <p>The <a class="reference internal" href="#ghci-cmd-:list"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:list</span></code></a> command lists the source code around the current
 breakpoint. If your output device supports it, then GHCi will highlight
 the active subexpression in bold.</p>
-<p>GHCi has provided bindings for the free variables <a class="footnote-reference" href="#id26" id="id20">[6]</a> of the expression
+<p>GHCi has provided bindings for the free variables <a class="footnote-reference" href="#id25" id="id19">[6]</a> of the expression
 on which the breakpoint was placed (<code class="docutils literal"><span class="pre">a</span></code>, <code class="docutils literal"><span class="pre">left</span></code>, <code class="docutils literal"><span class="pre">right</span></code>), and
 additionally a binding for the result of the expression (<code class="docutils literal"><span class="pre">_result</span></code>).
 These variables are just like other variables that you might define in
@@ -1243,7 +1243,7 @@ right :: [a]
 <p>The execution continued at the point it previously stopped, and has now
 stopped at the breakpoint for a second time.</p>
 <div class="section" id="setting-breakpoints">
-<span id="id21"></span><h4>5.5.1.1. Setting breakpoints<a class="headerlink" href="#setting-breakpoints" title="Permalink to this headline">¶</a></h4>
+<span id="id20"></span><h4>5.5.1.1. Setting breakpoints<a class="headerlink" href="#setting-breakpoints" title="Permalink to this headline">¶</a></h4>
 <p>Breakpoints can be set in various ways. Perhaps the easiest way to set a
 breakpoint is to name a top-level function:</p>
 <div class="highlight-none"><div class="highlight"><pre>:break identifier
@@ -1304,7 +1304,7 @@ given in the output from <a class="reference internal" href="#ghci-cmd-:show bre
 </div>
 </div>
 <div class="section" id="single-stepping">
-<span id="id22"></span><h3>5.5.2. Single-stepping<a class="headerlink" href="#single-stepping" title="Permalink to this headline">¶</a></h3>
+<span id="id21"></span><h3>5.5.2. Single-stepping<a class="headerlink" href="#single-stepping" title="Permalink to this headline">¶</a></h3>
 <p>Single-stepping is a great way to visualise the execution of your
 program, and it is also a useful tool for identifying the source of a
 bug. GHCi offers two variants of stepping. Use <a class="reference internal" href="#ghci-cmd-:step"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:step</span></code></a> to enable all
@@ -1345,7 +1345,7 @@ _result :: [Integer]
 </div>
 </div>
 <div class="section" id="nested-breakpoints">
-<span id="id23"></span><h3>5.5.3. Nested breakpoints<a class="headerlink" href="#nested-breakpoints" title="Permalink to this headline">¶</a></h3>
+<span id="id22"></span><h3>5.5.3. Nested breakpoints<a class="headerlink" href="#nested-breakpoints" title="Permalink to this headline">¶</a></h3>
 <p>When GHCi is stopped at a breakpoint, and an expression entered at the
 prompt triggers a second breakpoint, the new breakpoint becomes the
 &#8220;current&#8221; one, and the old one is saved on a stack. An arbitrary number
@@ -1690,7 +1690,7 @@ unloaded, and you&#8217;ll be dumped back into the <code class="docutils literal
 <p id="index-16">Extra libraries may be specified on the command line using the normal
 <code class="docutils literal"><span class="pre">-llib</span></code> option. (The term <em>library</em> here refers to libraries of
 foreign object code; for using libraries of Haskell source code, see
-<span class="xref std std-ref">ghci-modules-filenames</span>.) For example, to load the “m” library:</p>
+<a class="reference internal" href="#ghci-modules-filenames"><span>モジュールとファイル名</span></a>.) For example, to load the “m” library:</p>
 <div class="highlight-none"><div class="highlight"><pre>$ ghci -lm
 </pre></div>
 </div>
@@ -1714,7 +1714,7 @@ to the command line.</p>
 </div>
 </div>
 <div class="section" id="ghci-commands">
-<span id="id24"></span><h2>5.7. GHCi commands<a class="headerlink" href="#ghci-commands" title="Permalink to this headline">¶</a></h2>
+<span id="id23"></span><h2>5.7. GHCi commands<a class="headerlink" href="#ghci-commands" title="Permalink to this headline">¶</a></h2>
 <p>GHCi commands all begin with &#8220;<code class="docutils literal"><span class="pre">:</span></code>&#8221; and consist of a single command
 name followed by zero or more parameters. The command name may be
 abbreviated, with ambiguities being resolved in favour of the more
@@ -1771,7 +1771,7 @@ source-code span, e.g.</p>
 be either loaded into GHCi or be a member of a package. If ⟨module⟩
 is omitted, the most recently-loaded module is used.</p>
 <p>Like all other GHCi commands, the output is always displayed in the
-current GHCi scope (<span class="xref std std-ref">ghci-scope</span>).</p>
+current GHCi scope (<a class="reference internal" href="#ghci-scope"><span>プロンプトのスコープにあるもの</span></a>).</p>
 <p>There are two variants of the browse command:</p>
 <ul>
 <li><p class="first">If the <code class="docutils literal"><span class="pre">*</span></code> symbol is placed before the module name, then <em>all</em>
@@ -1808,7 +1808,7 @@ entries. Here is an example:</p>
 in the scope of <code class="docutils literal"><span class="pre">Prelude</span></code>), the first group of items from
 <code class="docutils literal"><span class="pre">Data.Maybe</span></code> are not in scope (althought they are available in
 fully qualified form in the GHCi session - see
-<span class="xref std std-ref">ghci-scope</span>), whereas the second group of items are in
+<a class="reference internal" href="#ghci-scope"><span>プロンプトのスコープにあるもの</span></a>), whereas the second group of items are in
 scope (via <code class="docutils literal"><span class="pre">Prelude</span></code>) and are therefore available either
 unqualified, or with a <code class="docutils literal"><span class="pre">Prelude.</span></code> qualifier.</p>
 </li>
@@ -2188,7 +2188,7 @@ bar
 <code class="descname">import ⟨mod⟩</code><a class="headerlink" href="#ghci-cmd-import" title="Permalink to this definition">¶</a></dt>
 <dd><p>Sets or modifies the current context for statements typed at the
 prompt. The form <code class="docutils literal"><span class="pre">import</span> <span class="pre">mod</span></code> is equivalent to <code class="docutils literal"><span class="pre">:module</span> <span class="pre">+mod</span></code>.
-See <span class="xref std std-ref">ghci-scope</span> for more details.</p>
+See <a class="reference internal" href="#ghci-scope"><span>プロンプトのスコープにあるもの</span></a> for more details.</p>
 </dd></dl>
 
 <dl class="ghci-cmd">
@@ -2518,7 +2518,7 @@ The commands <a class="reference internal" href="#ghci-cmd-:all-types"><code cla
 <code class="descname">:set +m</code><a class="headerlink" href="#ghci-cmd-:set +m" title="Permalink to this definition">¶</a></dt>
 <dd><p id="index-28">Enable parsing of multiline commands. A multiline command is
 prompted for when the current input line contains open layout
-contexts (see <span class="xref std std-ref">ghci-multiline</span>).</p>
+contexts (see <a class="reference internal" href="#ghci-multiline"><span>複数行入力</span></a>).</p>
 </dd></dl>
 
 <dl class="ghci-cmd">
@@ -2834,17 +2834,17 @@ program thus:</p>
 </div>
 </dd>
 </dl>
-<table class="docutils footnote" frame="void" id="id25" rules="none">
+<table class="docutils footnote" frame="void" id="id24" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
-<tr><td class="label"><a class="fn-backref" href="#id19">[5]</a></td><td>Note that packages only contain compiled code, so debugging a package
+<tr><td class="label"><a class="fn-backref" href="#id18">[5]</a></td><td>Note that packages only contain compiled code, so debugging a package
 requires finding its source and loading that directly.</td></tr>
 </tbody>
 </table>
-<table class="docutils footnote" frame="void" id="id26" rules="none">
+<table class="docutils footnote" frame="void" id="id25" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
-<tr><td class="label"><a class="fn-backref" href="#id20">[6]</a></td><td>We originally provided bindings for all variables in scope, rather
+<tr><td class="label"><a class="fn-backref" href="#id19">[6]</a></td><td>We originally provided bindings for all variables in scope, rather
 than just the free variables of the expression, but found that this
 affected performance considerably, hence the current restriction to
 just the free variables.</td></tr>

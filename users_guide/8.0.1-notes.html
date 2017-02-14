@@ -63,13 +63,13 @@
 </li>
 <li><a class="reference internal" href="#ghci">3.2.3. GHCi</a></li>
 <li><a class="reference internal" href="#template-haskell">3.2.4. Template Haskell</a></li>
-<li><a class="reference internal" href="#id9">3.2.5. ランタイムシステム</a></li>
-<li><a class="reference internal" href="#id10">3.2.6. ビルドシステム</a></li>
-<li><a class="reference internal" href="#id11">3.2.7. パッケージシステム</a></li>
+<li><a class="reference internal" href="#id7">3.2.5. ランタイムシステム</a></li>
+<li><a class="reference internal" href="#id8">3.2.6. ビルドシステム</a></li>
+<li><a class="reference internal" href="#id9">3.2.7. パッケージシステム</a></li>
 <li><a class="reference internal" href="#hsc2hs">3.2.8. hsc2hs</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#id12">3.3. ライブラリ</a><ul>
+<li><a class="reference internal" href="#id10">3.3. ライブラリ</a><ul>
 <li><a class="reference internal" href="#array">3.3.1. array</a></li>
 <li><a class="reference internal" href="#base">3.3.2. base</a></li>
 <li><a class="reference internal" href="#binary">3.3.3. binary</a></li>
@@ -91,13 +91,13 @@
 <li><a class="reference internal" href="#old-locale">3.3.19. old-locale</a></li>
 <li><a class="reference internal" href="#old-time">3.3.20. old-time</a></li>
 <li><a class="reference internal" href="#process">3.3.21. process</a></li>
-<li><a class="reference internal" href="#id13">3.3.22. template-haskell</a></li>
+<li><a class="reference internal" href="#id11">3.3.22. template-haskell</a></li>
 <li><a class="reference internal" href="#time">3.3.23. time</a></li>
 <li><a class="reference internal" href="#unix">3.3.24. unix</a></li>
 <li><a class="reference internal" href="#win32">3.3.25. Win32</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#id14">3.4. 既知のバグ</a></li>
+<li><a class="reference internal" href="#id12">3.4. 既知のバグ</a></li>
 </ul>
 </li>
 </ul>
@@ -136,8 +136,8 @@
         <div class="bodywrapper">
           <div class="body" role="main">
             
-  <span class="target" id="release-8-0-1"></span><div class="section" id="id1">
-<h1>3. バージョン 8.0.1 のリリースノート<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h1>
+  <div class="section" id="release-8-0-1">
+<span id="id1"></span><h1>3. バージョン 8.0.1 のリリースノート<a class="headerlink" href="#release-8-0-1" title="Permalink to this headline">¶</a></h1>
 <p>コンパイラのさまざまな部分での重要な変更は以降の節で一覧表にしてあります．
 7.10ブランチに対して大量のバグ修正と性能改善を行いました．</p>
 <div class="admonition warning">
@@ -630,10 +630,10 @@ Template Haskellで定義した識別子がどこで使われているか grep �
 </ul>
 <ul class="simple">
 <li>準クォートの実装は内部的には通常の Template Haskell のスプライスに統合されました．
-従来の実装では，トップレベル宣言の準クォートは，<a href="#id7"><span class="problematic" id="id8">``</span></a>$(...)``形式のスプライスとはちがって，
+従来の実装では，トップレベル宣言の準クォートは <code class="docutils literal"><span class="pre">$(...)</span></code> 形式のスプライスとはちがって，
 宣言グループを抜けることはありませんでした．
 この振舞いは新しい実装でも維持してます．
-これについては，<a class="reference internal" href="glasgow_exts.html#th-syntax"><span>Syntax</span></a> で説明してあります．</li>
+これについては <a class="reference internal" href="glasgow_exts.html#th-syntax"><span>Syntax</span></a> で説明してあります．</li>
 </ul>
 <ul class="simple">
 <li><code class="docutils literal"><span class="pre">Lift</span></code> クラスが <a class="reference internal" href="glasgow_exts.html#ghc-flag--XDeriveLift"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-XDeriveLift</span></code></a> 拡張により導出可能になりました．
@@ -673,8 +673,8 @@ Template Haskellで定義した識別子がどこで使われているか grep �
 必要になったということです．</li>
 </ul>
 </div>
-<div class="section" id="id9">
-<h3>3.2.5. ランタイムシステム<a class="headerlink" href="#id9" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id7">
+<h3>3.2.5. ランタイムシステム<a class="headerlink" href="#id7" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li>64-bit プラットフォーム用にピカピカの2段階メモリアロケーションを備えました(<a class="reference external" href="http://ghc.haskell.org/trac/ghc/ticket/9706">Trac #9706</a> 参照)．
 ランタイムシステムの実装を単純になったのに加えて，ガーベッジコレクタの性能が大幅に向上しました．
@@ -702,14 +702,14 @@ Template Haskellで定義した識別子がどこで使われているか grep �
 (要約が <a class="reference external" href="http://ghc.haskell.org/trac/ghc/ticket/11206">Trac #11206</a> にあります)．</li>
 </ul>
 </div>
-<div class="section" id="id10">
-<h3>3.2.6. ビルドシステム<a class="headerlink" href="#id10" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id8">
+<h3>3.2.6. ビルドシステム<a class="headerlink" href="#id8" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li>変更はありません．</li>
 </ul>
 </div>
-<div class="section" id="id11">
-<h3>3.2.7. パッケージシステム<a class="headerlink" href="#id11" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id9">
+<h3>3.2.7. パッケージシステム<a class="headerlink" href="#id9" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li>さまざまな内部変更がありますが，ユーザーから見えるものはありません．</li>
 </ul>
@@ -743,16 +743,16 @@ In file included from dist/build/Module_hsc_make.c:1:0:
 </ul>
 </div>
 </div>
-<div class="section" id="id12">
-<h2>3.3. ライブラリ<a class="headerlink" href="#id12" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id10">
+<h2>3.3. ライブラリ<a class="headerlink" href="#id10" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="array">
 <h3>3.3.1. array<a class="headerlink" href="#array" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li>バージョン 0.5.1.1 (従来 0.5.1.0)</li>
 </ul>
-<span class="target" id="lib-base"></span></div>
+</div>
 <div class="section" id="base">
-<h3>3.3.2. base<a class="headerlink" href="#base" title="Permalink to this headline">¶</a></h3>
+<span id="lib-base"></span><h3>3.3.2. base<a class="headerlink" href="#base" title="Permalink to this headline">¶</a></h3>
 <p>完全なリリースノートは <code class="docutils literal"><span class="pre">base</span></code> パッケージになる <code class="docutils literal"><span class="pre">changelog.md</span></code> を参照してください．</p>
 <ul class="simple">
 <li>バージョン 4.9.0.0 (従来 4.8.2.0)</li>
@@ -1000,8 +1000,8 @@ multiple GHC boot libraries.</li>
 <li>バージョン 1.4.2.0 (従来 1.2.3.0)</li>
 </ul>
 </div>
-<div class="section" id="id13">
-<h3>3.3.22. template-haskell<a class="headerlink" href="#id13" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id11">
+<h3>3.3.22. template-haskell<a class="headerlink" href="#id11" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li>バージョン 2.11.0.0 (従来 2.10.0.0)</li>
 </ul>
@@ -1038,8 +1038,8 @@ multiple GHC boot libraries.</li>
 </ul>
 </div>
 </div>
-<div class="section" id="id14">
-<h2>3.4. 既知のバグ<a class="headerlink" href="#id14" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id12">
+<h2>3.4. 既知のバグ<a class="headerlink" href="#id12" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
 <li>この GHC のリリース付属の Haddock で作成した文書では
 <a class="reference internal" href="glasgow_exts.html#patsyn-impexp"><span>バンドルパターンシノニム</span></a> は表示されません

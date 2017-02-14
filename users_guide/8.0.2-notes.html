@@ -58,7 +58,7 @@
 <li><a class="reference internal" href="#id2">4.2. 詳細</a><ul>
 <li><a class="reference internal" href="#id3">4.2.1. 言語拡張</a></li>
 <li><a class="reference internal" href="#id4">4.2.2. コンパイラ</a></li>
-<li><a class="reference internal" href="#id11">4.2.3. ランタイムシステム</a></li>
+<li><a class="reference internal" href="#id5">4.2.3. ランタイムシステム</a></li>
 <li><a class="reference internal" href="#template-haskell">4.2.4. Template Haskell</a></li>
 <li><a class="reference internal" href="#ghc-library">4.2.5. <code class="docutils literal"><span class="pre">ghc</span></code> library</a></li>
 </ul>
@@ -101,8 +101,8 @@
         <div class="bodywrapper">
           <div class="body" role="main">
             
-  <span class="target" id="release-8-0-2"></span><div class="section" id="version-8-0-2">
-<h1>4. version 8.0.2 のリリースノート<a class="headerlink" href="#version-8-0-2" title="Permalink to this headline">¶</a></h1>
+  <div class="section" id="version-8-0-2">
+<span id="release-8-0-2"></span><h1>4. version 8.0.2 のリリースノート<a class="headerlink" href="#version-8-0-2" title="Permalink to this headline">¶</a></h1>
 <p>コンパイラのさまざまな重大な変更箇所については次節以降で網羅します．
 8.0.1 にあった大量のバグの修正と性能改善を行いました．</p>
 <div class="admonition warning">
@@ -232,7 +232,7 @@ GHC がこれを受け入れるようにするには <code class="xref std std-g
 </ul>
 <ul class="simple">
 <li>GHC はデフォルトで，位置独立実行可能コードを生成する C コンパイラシステムをサポートするようになりました
-(:ghc-ticket:<a href="#id5"><span class="problematic" id="id6">`</span></a>12579`参照)．</li>
+(<a class="reference external" href="http://ghc.haskell.org/trac/ghc/ticket/12579">Trac #12579</a> 参照)．</li>
 </ul>
 <ul class="simple">
 <li>GHC はデフォルトで <code class="docutils literal"><span class="pre">gold</span></code> リンカを使うシステムでビルドできるようになりました
@@ -253,7 +253,7 @@ GHC が超えてしまうことがありました(<a class="reference external" 
 </ul>
 <ul class="simple">
 <li>RTS の <code class="xref std std-ghc-flag docutils literal"><span class="pre">-xb</span></code> はベースのヒープアドレスを任意の基数で読むようになりました．
-デフォルトでは10進，<a href="#id7"><span class="problematic" id="id8">``</span></a>0x``ではじまるアドレスは16進，<a href="#id9"><span class="problematic" id="id10">``</span></a>0``ではじまるアドレスなら8進として読みます．</li>
+デフォルトでは10進，<code class="docutils literal"><span class="pre">0x</span></code> ではじまるアドレスは16進 <code class="docutils literal"><span class="pre">0</span></code> ではじまるアドレスなら8進として読みます．</li>
 </ul>
 <ul class="simple">
 <li>とある見落としのせいで，GHC 8.0.1 では，GHCが使う LLVM のバージョンを表すプリプロセッサマクロ
@@ -275,8 +275,8 @@ GHC が超えてしまうことがありました(<a class="reference external" 
 がその一覧です．</li>
 </ul>
 </div>
-<div class="section" id="id11">
-<h3>4.2.3. ランタイムシステム<a class="headerlink" href="#id11" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id5">
+<h3>4.2.3. ランタイムシステム<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li>Windows 上のランタイムリンカは，再び「非推奨」名のPOSIX関数を識別するようになりました．
 たとえば strdup で識別して内部的には _strdup に転送します．
