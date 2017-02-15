@@ -1883,15 +1883,34 @@ GHCi は2種類のモジュール集合にかかわっています．
     bar
     ["foo","bar baz"]
 
-The ``it`` variable
-~~~~~~~~~~~~~~~~~~~
+..
+   The ``it`` variable
+   ~~~~~~~~~~~~~~~~~~~
+
+   .. index::
+      single: it variable
+
+``it`` 変数
+~~~~~~~~~~~
 
 .. index::
-   single: it variable
+   single: it変数
 
-Whenever an expression (or a non-binding statement, to be precise) is
-typed at the prompt, GHCi implicitly binds its value to the variable
-``it``. For example:
+..
+   Whenever an expression (or a non-binding statement, to be precise) is
+   typed at the prompt, GHCi implicitly binds its value to the variable
+   ``it``. For example:
+
+   .. code-block:: none
+
+       Prelude> 1+2
+       3
+       Prelude> it * 2
+       6
+
+プロンプトに式(正確には非束縛文)を入力すると，
+GHCi は暗黙のうちにその値で ``it`` を束縛します．
+以下はその一例です．
 
 .. code-block:: none
 
@@ -1900,19 +1919,49 @@ typed at the prompt, GHCi implicitly binds its value to the variable
     Prelude> it * 2
     6
 
-What actually happens is that GHCi typechecks the expression, and if it
-doesn't have an ``IO`` type, then it transforms it as follows: an
-expression ``e`` turns into
+..
+   What actually happens is that GHCi typechecks the expression, and if it
+   doesn't have an ``IO`` type, then it transforms it as follows: an
+   expression ``e`` turns into
+
+   .. code-block:: none
+
+       let it = e;
+       print it
+
+   which is then run as an IO-action.
+
+実際はなにが起こっているかというと，GHCi は型検査を行い，その式の型が ``IO`` 型でなければ，
+次のように変形します．
+すなわち，ここで当該の式を ``e`` とすると,
 
 .. code-block:: none
 
     let it = e;
     print it
 
-which is then run as an IO-action.
+のように変形したのち，これをIOアクションとして実行します．
 
-Hence, the original expression must have a type which is an instance of
-the ``Show`` class, or GHCi will complain:
+..
+   Hence, the original expression must have a type which is an instance of
+   the ``Show`` class, or GHCi will complain:
+
+   .. code-block:: none
+
+       Prelude> id
+
+       <interactive>:1:0:
+	   No instance for (Show (a -> a))
+	     arising from use of `print' at <interactive>:1:0-1
+	   Possible fix: add an instance declaration for (Show (a -> a))
+	   In the expression: print it
+	   In a 'do' expression: print it
+
+   The error message contains some clues as to the transformation happening
+   internally.
+
+そういう訳で，元の式の型は ``Show`` クラスのインスタンスでなければなりません．
+``Show`` クラスのインスタンスでなかったら，GHCiは文句をいいます．
 
 .. code-block:: none
 
@@ -1925,12 +1974,22 @@ the ``Show`` class, or GHCi will complain:
         In the expression: print it
         In a 'do' expression: print it
 
-The error message contains some clues as to the transformation happening
-internally.
+このエラーメッセージから，内部の変形で何が起こったのか少しだけうかがい知ることができます．
 
-If the expression was instead of type ``IO a`` for some ``a``, then
-``it`` will be bound to the result of the ``IO`` computation, which is
-of type ``a``. eg.:
+..
+   If the expression was instead of type ``IO a`` for some ``a``, then
+   ``it`` will be bound to the result of the ``IO`` computation, which is
+   of type ``a``. eg.:
+
+   .. code-block:: none
+
+       Prelude> Time.getClockTime
+       Wed Mar 14 12:23:13 GMT 2001
+       Prelude> print it
+       Wed Mar 14 12:23:13 GMT 2001
+
+式の型がなにがしかの型 ``a`` について ``IO a`` 型である場合には，
+``it`` はその ``IO`` コンピュテーションの結果，つまり ``a`` 型の値で束縛されます．
 
 .. code-block:: none
 
@@ -1939,14 +1998,25 @@ of type ``a``. eg.:
     Prelude> print it
     Wed Mar 14 12:23:13 GMT 2001
 
-The corresponding translation for an IO-typed ``e`` is
+..
+   The corresponding translation for an IO-typed ``e`` is
+
+   .. code-block:: none
+
+       it <- e
+
+   Note that ``it`` is shadowed by the new value each time you evaluate a
+   new expression, and the old value of ``it`` is lost.
+
+IO型の式 ``e`` に対する変形は，
 
 .. code-block:: none
 
     it <- e
 
-Note that ``it`` is shadowed by the new value each time you evaluate a
-new expression, and the old value of ``it`` is lost.
+となります．
+    
+新しい式を評価するたびに ``it`` の値は新しい値でシャドウされ，古い ``it`` の値は失われることに注意してください．
 
 .. _extended-default-rules:
 
