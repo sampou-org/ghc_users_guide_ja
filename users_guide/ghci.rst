@@ -1794,17 +1794,35 @@ GHCi は2種類のモジュール集合にかかわっています．
 :ghci-cmd:`:module` あるいは ``import`` を使って，ロードされていないモジュールをスコープに
 追加しようとすると ``module M is not loaded`` というメッセージが表示されることでしょう．
 
-The ``:main`` and ``:run`` commands
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+..
+   The ``:main`` and ``:run`` commands
+   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-When a program is compiled and executed, it can use the ``getArgs``
-function to access the command-line arguments. However, we cannot simply
-pass the arguments to the ``main`` function while we are testing in
-ghci, as the ``main`` function doesn't take its directly.
+``:main`` コマンドと ``:run`` コマンド
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Instead, we can use the :ghci-cmd:`:main` command. This runs whatever ``main``
-is in scope, with any arguments being treated the same as command-line
-arguments, e.g.:
+..
+   When a program is compiled and executed, it can use the ``getArgs``
+   function to access the command-line arguments. However, we cannot simply
+   pass the arguments to the ``main`` function while we are testing in
+   ghci, as the ``main`` function doesn't take its directly.
+
+プログラムをコンパイルして実行するとき ``getArgs`` 関数を使っていれば，コマンドライン引数にアクセスできます．
+しかし ``main`` は直接引数を取りませんので，ghci でテストしているときは単純にコマンドライン引数を渡すことができません．
+
+..
+   Instead, we can use the :ghci-cmd:`:main` command. This runs whatever ``main``
+   is in scope, with any arguments being treated the same as command-line
+   arguments, e.g.:
+
+   .. code-block:: none
+
+       Prelude> main = System.Environment.getArgs >>= print
+       Prelude> :main foo bar
+       ["foo","bar"]
+
+その代りとして :ghci-cmd:`:main` コマンドを使います．
+このコマンドはスコープ内にある ``main`` を以下のようにコマンドライン引数を渡した状態にして起動します．
 
 .. code-block:: none
 
@@ -1812,9 +1830,21 @@ arguments, e.g.:
     Prelude> :main foo bar
     ["foo","bar"]
 
-We can also quote arguments which contains characters like spaces, and
-they are treated like Haskell strings, or we can just use Haskell list
-syntax:
+..
+   We can also quote arguments which contains characters like spaces, and
+   they are treated like Haskell strings, or we can just use Haskell list
+   syntax:
+
+   .. code-block:: none
+
+       Prelude> :main foo "bar baz"
+       ["foo","bar baz"]
+       Prelude> :main ["foo", "bar baz"]
+       ["foo","bar baz"]
+
+スペースのような文字を含む文字列は引用符でかこって渡せます．
+引数はそれぞれHaskellの文字列として扱われます．
+また，Haskellのリスト構文をそのまま使うこともできます．
 
 .. code-block:: none
 
@@ -1823,8 +1853,23 @@ syntax:
     Prelude> :main ["foo", "bar baz"]
     ["foo","bar baz"]
 
-Finally, other functions can be called, either with the ``-main-is``
-flag or the :ghci-cmd:`:run` command:
+..
+   Finally, other functions can be called, either with the ``-main-is``
+   flag or the :ghci-cmd:`:run` command:
+
+   .. code-block:: none
+
+       Prelude> foo = putStrLn "foo" >> System.Environment.getArgs >>= print
+       Prelude> bar = putStrLn "bar" >> System.Environment.getArgs >>= print
+       Prelude> :set -main-is foo
+       Prelude> :main foo "bar baz"
+       foo
+       ["foo","bar baz"]
+       Prelude> :run bar ["foo", "bar baz"]
+       bar
+       ["foo","bar baz"]
+
+また ``-main-is`` フラグや :ghci-cmd:`:run` コマンドを使えば，その他の関数を呼べます．
 
 .. code-block:: none
 
