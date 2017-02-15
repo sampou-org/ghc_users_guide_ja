@@ -2018,25 +2018,56 @@ IO型の式 ``e`` に対する変形は，
     
 新しい式を評価するたびに ``it`` の値は新しい値でシャドウされ，古い ``it`` の値は失われることに注意してください．
 
+..
+   .. _extended-default-rules:
+
+   Type defaulting in GHCi
+   ~~~~~~~~~~~~~~~~~~~~~~~
+
+   .. index::
+      single: Type defaulting; in GHCi
+      single: Show class
+
 .. _extended-default-rules:
 
-Type defaulting in GHCi
-~~~~~~~~~~~~~~~~~~~~~~~
+GHCi でのデフォルト型設定
+~~~~~~~~~~~~~~~~~~~~~~~~~
 
 .. index::
-   single: Type defaulting; in GHCi
-   single: Show class
+   single: デフォルト型設定; GHCiでの〜
+   single: Showクラス
 
-Consider this GHCi session:
+..
+   Consider this GHCi session:
+
+   .. code-block:: none
+
+	 ghci> reverse []
+
+次のGHCiセッションを考えていみましょう．
 
 .. code-block:: none
 
       ghci> reverse []
 
-What should GHCi do? Strictly speaking, the program is ambiguous.
-``show (reverse [])`` (which is what GHCi computes here) has type
-``Show a => String`` and how that displays depends on the type ``a``.
-For example:
+..
+   What should GHCi do? Strictly speaking, the program is ambiguous.
+   ``show (reverse [])`` (which is what GHCi computes here) has type
+   ``Show a => String`` and how that displays depends on the type ``a``.
+   For example:
+
+   .. code-block:: none
+
+	 ghci> reverse ([] :: String)
+	 ""
+	 ghci> reverse ([] :: [Int])
+	 []
+
+GHCi は何をすべきでしょうか．
+厳密にいえば，このプログラムは曖昧です．
+``show (reverse [])`` (ここでGHCiが計算するのはこれです)の型は，
+``Show a => String`` であり，これをどのように表示するかは ``a`` の型に依存します．
+たとえば，
 
 .. code-block:: none
 
@@ -2045,31 +2076,70 @@ For example:
       ghci> reverse ([] :: [Int])
       []
 
-However, it is tiresome for the user to have to specify the type, so
-GHCi extends Haskell's type-defaulting rules (Section 4.3.4 of the
-Haskell 2010 Report) as follows. The standard rules take each group of
-constraints ``(C1 a, C2 a, ..., Cn a)`` for each type variable ``a``,
-and defaults the type variable if
+..
+   However, it is tiresome for the user to have to specify the type, so
+   GHCi extends Haskell's type-defaulting rules (Section 4.3.4 of the
+   Haskell 2010 Report) as follows. The standard rules take each group of
+   constraints ``(C1 a, C2 a, ..., Cn a)`` for each type variable ``a``,
+   and defaults the type variable if
 
-1. The type variable ``a`` appears in no other constraints
+   1. The type variable ``a`` appears in no other constraints
 
-2. All the classes ``Ci`` are standard.
+   2. All the classes ``Ci`` are standard.
 
-3. At least one of the classes ``Ci`` is numeric.
+   3. At least one of the classes ``Ci`` is numeric.
 
-At the GHCi prompt, or with GHC if the :ghc-flag:`-XExtendedDefaultRules` flag
-is given, the following additional differences apply:
+のようになります．
+しかし，ユーザがこの型を指定しなければならないというのは面倒なので，
+GHCiはHaskellのデフォルト型設定規則(Haskell 2010 Report の 4.3.4 節)
+を以下のように拡張しています．
+標準の規則では，個々の型変数 ``a`` についてのそれぞれ制約グループ ``(C1 a, C2 a, ..., Cn a)`` を考え，
+次の条件が満たされたとき，この型変数のデフォルトの型を設定します．
 
--  Rule 2 above is relaxed thus: *All* of the classes ``Ci`` are
-   single-parameter type classes.
+1. 型変数 ``a`` が他のどの制約にも現れない．
 
--  Rule 3 above is relaxed this: At least one of the classes ``Ci`` is
-   numeric, or is ``Show``, ``Eq``, ``Ord``, ``Foldable`` or ``Traversable``.
+2. クラス ``Ci`` はすべて標準のクラスである．
 
--  The unit type ``()`` and the list type ``[]`` are added to the start of
-   the standard list of types which are tried when doing type defaulting.
+3. クラス ``Ci`` の少くとも1つは数値である．
 
-The last point means that, for example, this program: ::
+..
+   At the GHCi prompt, or with GHC if the :ghc-flag:`-XExtendedDefaultRules` flag
+   is given, the following additional differences apply:
+
+   -  Rule 2 above is relaxed thus: *All* of the classes ``Ci`` are
+      single-parameter type classes.
+
+   -  Rule 3 above is relaxed this: At least one of the classes ``Ci`` is
+      numeric, or is ``Show``, ``Eq``, ``Ord``, ``Foldable`` or ``Traversable``.
+
+   -  The unit type ``()`` and the list type ``[]`` are added to the start of
+      the standard list of types which are tried when doing type defaulting.
+
+GHCiプロンプトあるいはGHCでは :ghc-flag:`-XExtendedDefaultRules` フラグが設定されていると，
+以下のような規則変更がおこなわれます．
+
+-  規則2の緩和: クラス ``Ci`` は *すべて* 単一パラメータの型クラスである．
+
+-  規則3の緩和: クラス ``Ci`` のうち少くとも1つは数値であるか ``Show`` ， ``Eq`` ， ``Ord`` ， ``Foldable`` ， ``Traversable``
+   のどれかである．
+
+-  ユニット型 ``()`` およびリスト型 ``[]`` がデフォルトの型として試されるリストの先頭に追加される．
+
+..
+   The last point means that, for example, this program: ::
+
+       main :: IO ()
+       main = print def
+
+       instance Num ()
+
+       def :: (Num a, Enum a) => a
+       def = toEnum 0
+
+   prints ``()`` rather than ``0`` as the type is defaulted to ``()``
+   rather than ``Integer``.
+
+最後の点は，たとえば，以下のプログラムに影響します． ::
 
     main :: IO ()
     main = print def
@@ -2079,20 +2149,31 @@ The last point means that, for example, this program: ::
     def :: (Num a, Enum a) => a
     def = toEnum 0
 
-prints ``()`` rather than ``0`` as the type is defaulted to ``()``
-rather than ``Integer``.
+このプログラムは ``0`` ではなく ``()`` を表示します．
+それは ``a`` のデフォルトの型が ``Integer`` ではなく ``()`` に設定されるからです．
 
-The motivation for the change is that it means ``IO a`` actions default
-to ``IO ()``, which in turn means that ghci won't try to print a result
-when running them. This is particularly important for ``printf``, which
-has an instance that returns ``IO a``. However, it is only able to
-return ``undefined`` (the reason for the instance having this type is so
-that printf doesn't require extensions to the class system), so if the
-type defaults to ``Integer`` then ghci gives an error when running a
-printf.
+..
+   The motivation for the change is that it means ``IO a`` actions default
+   to ``IO ()``, which in turn means that ghci won't try to print a result
+   when running them. This is particularly important for ``printf``, which
+   has an instance that returns ``IO a``. However, it is only able to
+   return ``undefined`` (the reason for the instance having this type is so
+   that printf doesn't require extensions to the class system), so if the
+   type defaults to ``Integer`` then ghci gives an error when running a
+   printf.
 
-See also :ref:`actions-at-prompt` for how the monad of a computational
-expression defaults to ``IO`` if possible.
+このような変更を行う動機は ``IO a`` アクションのデフォルトの型は ``IO ()`` になるので，
+これを実行したときghciは結果を表示する面倒がないというものです．
+とくに ``printf`` にとってはこれが重要で ``printf`` のインスタンスで ``IO a`` を返すものがありますが，
+それができることといえば ``undefined`` を返すこと以外ありません
+(printf が型クラスシステムの拡張を必要としないようにというのがその理由)．
+したがって，もしここでデフォルトの型が ``Integer`` だと，printfを走らせると，ghciがエラーになってしまいます．
+
+..
+   See also :ref:`actions-at-prompt` for how the monad of a computational
+   expression defaults to ``IO`` if possible.
+
+計算を扱うモナドは，可能であるなら ``IO`` がデフォルトであることについては :ref:`actions-at-prompt` を参照してください．
 
 .. _ghci-interactive-print:
 
