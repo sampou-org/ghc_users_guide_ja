@@ -71,7 +71,7 @@
 <li><a class="reference internal" href="#import">5.4.5.2. <code class="docutils literal"><span class="pre">import</span></code> によるスコープ制御</a></li>
 <li><a class="reference internal" href="#module">5.4.5.3. <code class="docutils literal"><span class="pre">:module</span></code> コマンドによるスコープ制御</a></li>
 <li><a class="reference internal" href="#ghci-import-qualified">5.4.5.4. 修飾名</a></li>
-<li><a class="reference internal" href="#module-and-load">5.4.5.5. <code class="docutils literal"><span class="pre">:module</span></code> and <code class="docutils literal"><span class="pre">:load</span></code></a></li>
+<li><a class="reference internal" href="#module-load">5.4.5.5. <code class="docutils literal"><span class="pre">:module</span></code> と <code class="docutils literal"><span class="pre">:load</span></code></a></li>
 </ul>
 </li>
 <li><a class="reference internal" href="#the-main-and-run-commands">5.4.6. The <code class="docutils literal"><span class="pre">:main</span></code> and <code class="docutils literal"><span class="pre">:run</span></code> commands</a></li>
@@ -806,28 +806,27 @@ GHCi もプロンプトで入力される式についてはこれにならった
 <p>To make life slightly easier, the GHCi prompt also behaves as if there
 手間をすこし省くことができるように，GHCiのプロンプトは全てのパッケージの全てのモジュールと，現在GHCiにロードされている全てのモジュールについて，暗黙の <code class="docutils literal"><span class="pre">import</span> <span class="pre">qualified</span></code> 宣言があるかのように振る舞います．
 これは <code class="docutils literal"><span class="pre">-fno-implicit-import-qualified</span></code> というフラグで無効にできます．</p>
-</div>
-<div class="section" id="module-and-load">
-<span id="index-8"></span><h4>5.4.5.5. <code class="docutils literal"><span class="pre">:module</span></code> and <code class="docutils literal"><span class="pre">:load</span></code><a class="headerlink" href="#module-and-load" title="Permalink to this headline">¶</a></h4>
-<p>It might seem that <a class="reference internal" href="#ghci-cmd-:module"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:module</span></code></a>/<code class="docutils literal"><span class="pre">import</span></code> and
-<a class="reference internal" href="#ghci-cmd-:load"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:load</span></code></a>/<a class="reference internal" href="#ghci-cmd-:add"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:add</span></code></a>/<a class="reference internal" href="#ghci-cmd-:reload"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:reload</span></code></a> do similar things: you
-can use both to bring a module into scope. However, there is a very important
-difference. GHCi is concerned with two sets of modules:</p>
+<span class="target" id="index-8"></span></div>
+<div class="section" id="module-load">
+<h4>5.4.5.5. <code class="docutils literal"><span class="pre">:module</span></code> と <code class="docutils literal"><span class="pre">:load</span></code><a class="headerlink" href="#module-load" title="Permalink to this headline">¶</a></h4>
+<p><a class="reference internal" href="#ghci-cmd-:module"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:module</span></code></a>/<code class="docutils literal"><span class="pre">import</span></code> と <a class="reference internal" href="#ghci-cmd-:load"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:load</span></code></a>/<a class="reference internal" href="#ghci-cmd-:add"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:add</span></code></a>/<a class="reference internal" href="#ghci-cmd-:reload"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:reload</span></code></a> とは同じものという気がするかもしれません．
+どちらも，モジュールをスコープに入れるために使うものです．
+しかし，この2つには大きな違いがあります．
+GHCi は2種類のモジュール集合にかかわっています．</p>
 <ul class="simple">
-<li>The set of modules that are currently <em>loaded</em>. This set is modified
-by <a class="reference internal" href="#ghci-cmd-:load"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:load</span></code></a>, <a class="reference internal" href="#ghci-cmd-:add"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:add</span></code></a> and <a class="reference internal" href="#ghci-cmd-:reload"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:reload</span></code></a>, and can be shown with
-<a class="reference internal" href="#ghci-cmd-:show modules"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:show</span> <span class="pre">modules</span></code></a>.</li>
-<li>The set of modules that are currently <em>in scope</em> at the prompt. This set is
-modified by <code class="docutils literal"><span class="pre">import</span></code> and <a class="reference internal" href="#ghci-cmd-:module"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:module</span></code></a>, and it is also modified
-automatically after <a class="reference internal" href="#ghci-cmd-:load"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:load</span></code></a>, <a class="reference internal" href="#ghci-cmd-:add"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:add</span></code></a>, and
-<a class="reference internal" href="#ghci-cmd-:reload"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:reload</span></code></a>, as described above. The set of modules in scope can be
-shown with <a class="reference internal" href="#ghci-cmd-:show imports"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:show</span> <span class="pre">imports</span></code></a>.</li>
+<li>現在 <em>ロード済み</em> のモジュール集合．
+このモジュール集合は <a class="reference internal" href="#ghci-cmd-:load"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:load</span></code></a> ， <a class="reference internal" href="#ghci-cmd-:add"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:add</span></code></a> ， <a class="reference internal" href="#ghci-cmd-:reload"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:reload</span></code></a> で変更し，
+<a class="reference internal" href="#ghci-cmd-:show modules"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:show</span> <span class="pre">modules</span></code></a> で表示できます．</li>
+<li>現在，プロンプトの <em>スコープ内</em> にあるモジュール集合．
+このモジュール集合は <code class="docutils literal"><span class="pre">import</span></code> および <a class="reference internal" href="#ghci-cmd-:module"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:module</span></code></a> で変更します．
+<a class="reference internal" href="#ghci-cmd-:load"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:load</span></code></a> ， <a class="reference internal" href="#ghci-cmd-:add"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:add</span></code></a> ， <a class="reference internal" href="#ghci-cmd-:reload"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:reload</span></code></a> コマンドを発行すると
+このモジュール集合は，上述のように自動的に変更されます．
+表示するためには <a class="reference internal" href="#ghci-cmd-:show imports"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:show</span> <span class="pre">imports</span></code></a> を使います．</li>
 </ul>
-<p>You can add a module to the scope (via <a class="reference internal" href="#ghci-cmd-:module"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:module</span></code></a> or <code class="docutils literal"><span class="pre">import</span></code>) only
-if either (a) it is loaded, or (b) it is a module from a package that
-GHCi knows about. Using <a class="reference internal" href="#ghci-cmd-:module"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:module</span></code></a> or <code class="docutils literal"><span class="pre">import</span></code> to try bring into
-scope a non-loaded module may result in the message
-<code class="docutils literal"><span class="pre">module</span> <span class="pre">M</span> <span class="pre">is</span> <span class="pre">not</span> <span class="pre">loaded</span></code>.</p>
+<p>(<a class="reference internal" href="#ghci-cmd-:module"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:module</span></code></a> あるいは <code class="docutils literal"><span class="pre">import</span></code> 経由)モジュールをスコープに追加できるのは，
+(a) ロード済みのモジュール，(b) GHCiが知っているパッケージ由来のモジュール，のどちらかだけです．
+<a class="reference internal" href="#ghci-cmd-:module"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:module</span></code></a> あるいは <code class="docutils literal"><span class="pre">import</span></code> を使って，ロードされていないモジュールをスコープに
+追加しようとすると <code class="docutils literal"><span class="pre">module</span> <span class="pre">M</span> <span class="pre">is</span> <span class="pre">not</span> <span class="pre">loaded</span></code> というメッセージが表示されることでしょう．</p>
 </div>
 </div>
 <div class="section" id="the-main-and-run-commands">
