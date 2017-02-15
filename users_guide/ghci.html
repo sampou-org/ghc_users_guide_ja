@@ -76,7 +76,7 @@
 </li>
 <li><a class="reference internal" href="#main-run">5.4.6. <code class="docutils literal"><span class="pre">:main</span></code> コマンドと <code class="docutils literal"><span class="pre">:run</span></code> コマンド</a></li>
 <li><a class="reference internal" href="#it">5.4.7. <code class="docutils literal"><span class="pre">it</span></code> 変数</a></li>
-<li><a class="reference internal" href="#type-defaulting-in-ghci">5.4.8. Type defaulting in GHCi</a></li>
+<li><a class="reference internal" href="#extended-default-rules">5.4.8. GHCi でのデフォルト型設定</a></li>
 <li><a class="reference internal" href="#using-a-custom-interactive-printing-function">5.4.9. Using a custom interactive printing function</a></li>
 <li><a class="reference internal" href="#stack-traces-in-ghci">5.4.10. Stack Traces in GHCi</a></li>
 </ul>
@@ -909,43 +909,43 @@ Wed Mar 14 12:23:13 GMT 2001
 <p>となります．</p>
 <p>新しい式を評価するたびに <code class="docutils literal"><span class="pre">it</span></code> の値は新しい値でシャドウされ，古い <code class="docutils literal"><span class="pre">it</span></code> の値は失われることに注意してください．</p>
 </div>
-<div class="section" id="type-defaulting-in-ghci">
-<span id="extended-default-rules"></span><h3>5.4.8. Type defaulting in GHCi<a class="headerlink" href="#type-defaulting-in-ghci" title="Permalink to this headline">¶</a></h3>
-<p id="index-10">Consider this GHCi session:</p>
+<div class="section" id="extended-default-rules">
+<span id="id19"></span><h3>5.4.8. GHCi でのデフォルト型設定<a class="headerlink" href="#extended-default-rules" title="Permalink to this headline">¶</a></h3>
+<span class="target" id="index-10"></span><p>次のGHCiセッションを考えていみましょう．</p>
 <div class="highlight-none"><div class="highlight"><pre>ghci&gt; reverse []
 </pre></div>
 </div>
-<p>What should GHCi do? Strictly speaking, the program is ambiguous.
-<code class="docutils literal"><span class="pre">show</span> <span class="pre">(reverse</span> <span class="pre">[])</span></code> (which is what GHCi computes here) has type
-<code class="docutils literal"><span class="pre">Show</span> <span class="pre">a</span> <span class="pre">=&gt;</span> <span class="pre">String</span></code> and how that displays depends on the type <code class="docutils literal"><span class="pre">a</span></code>.
-For example:</p>
+<p>GHCi は何をすべきでしょうか．
+厳密にいえば，このプログラムは曖昧です．
+<code class="docutils literal"><span class="pre">show</span> <span class="pre">(reverse</span> <span class="pre">[])</span></code> (ここでGHCiが計算するのはこれです)の型は，
+<code class="docutils literal"><span class="pre">Show</span> <span class="pre">a</span> <span class="pre">=&gt;</span> <span class="pre">String</span></code> であり，これをどのように表示するかは <code class="docutils literal"><span class="pre">a</span></code> の型に依存します．
+たとえば，</p>
 <div class="highlight-none"><div class="highlight"><pre>ghci&gt; reverse ([] :: String)
 &quot;&quot;
 ghci&gt; reverse ([] :: [Int])
 []
 </pre></div>
 </div>
-<p>However, it is tiresome for the user to have to specify the type, so
-GHCi extends Haskell&#8217;s type-defaulting rules (Section 4.3.4 of the
-Haskell 2010 Report) as follows. The standard rules take each group of
-constraints <code class="docutils literal"><span class="pre">(C1</span> <span class="pre">a,</span> <span class="pre">C2</span> <span class="pre">a,</span> <span class="pre">...,</span> <span class="pre">Cn</span> <span class="pre">a)</span></code> for each type variable <code class="docutils literal"><span class="pre">a</span></code>,
-and defaults the type variable if</p>
+<p>のようになります．
+しかし，ユーザがこの型を指定しなければならないというのは面倒なので，
+GHCiはHaskellのデフォルト型設定規則(Haskell 2010 Report の 4.3.4 節)
+を以下のように拡張しています．
+標準の規則では，個々の型変数 <code class="docutils literal"><span class="pre">a</span></code> についてのそれぞれ制約グループ <code class="docutils literal"><span class="pre">(C1</span> <span class="pre">a,</span> <span class="pre">C2</span> <span class="pre">a,</span> <span class="pre">...,</span> <span class="pre">Cn</span> <span class="pre">a)</span></code> を考え，
+次の条件が満たされたとき，この型変数のデフォルトの型を設定します．</p>
 <ol class="arabic simple">
-<li>The type variable <code class="docutils literal"><span class="pre">a</span></code> appears in no other constraints</li>
-<li>All the classes <code class="docutils literal"><span class="pre">Ci</span></code> are standard.</li>
-<li>At least one of the classes <code class="docutils literal"><span class="pre">Ci</span></code> is numeric.</li>
+<li>型変数 <code class="docutils literal"><span class="pre">a</span></code> が他のどの制約にも現れない．</li>
+<li>クラス <code class="docutils literal"><span class="pre">Ci</span></code> はすべて標準のクラスである．</li>
+<li>クラス <code class="docutils literal"><span class="pre">Ci</span></code> の少くとも1つは数値である．</li>
 </ol>
-<p>At the GHCi prompt, or with GHC if the <code class="xref std std-ghc-flag docutils literal"><span class="pre">-XExtendedDefaultRules</span></code> flag
-is given, the following additional differences apply:</p>
+<p>GHCiプロンプトあるいはGHCでは <code class="xref std std-ghc-flag docutils literal"><span class="pre">-XExtendedDefaultRules</span></code> フラグが設定されていると，
+以下のような規則変更がおこなわれます．</p>
 <ul class="simple">
-<li>Rule 2 above is relaxed thus: <em>All</em> of the classes <code class="docutils literal"><span class="pre">Ci</span></code> are
-single-parameter type classes.</li>
-<li>Rule 3 above is relaxed this: At least one of the classes <code class="docutils literal"><span class="pre">Ci</span></code> is
-numeric, or is <code class="docutils literal"><span class="pre">Show</span></code>, <code class="docutils literal"><span class="pre">Eq</span></code>, <code class="docutils literal"><span class="pre">Ord</span></code>, <code class="docutils literal"><span class="pre">Foldable</span></code> or <code class="docutils literal"><span class="pre">Traversable</span></code>.</li>
-<li>The unit type <code class="docutils literal"><span class="pre">()</span></code> and the list type <code class="docutils literal"><span class="pre">[]</span></code> are added to the start of
-the standard list of types which are tried when doing type defaulting.</li>
+<li>規則2の緩和: クラス <code class="docutils literal"><span class="pre">Ci</span></code> は <em>すべて</em> 単一パラメータの型クラスである．</li>
+<li>規則3の緩和: クラス <code class="docutils literal"><span class="pre">Ci</span></code> のうち少くとも1つは数値であるか <code class="docutils literal"><span class="pre">Show</span></code> ， <code class="docutils literal"><span class="pre">Eq</span></code> ， <code class="docutils literal"><span class="pre">Ord</span></code> ， <code class="docutils literal"><span class="pre">Foldable</span></code> ， <code class="docutils literal"><span class="pre">Traversable</span></code>
+のどれかである．</li>
+<li>ユニット型 <code class="docutils literal"><span class="pre">()</span></code> およびリスト型 <code class="docutils literal"><span class="pre">[]</span></code> がデフォルトの型として試されるリストの先頭に追加される．</li>
 </ul>
-<p>The last point means that, for example, this program:</p>
+<p>最後の点は，たとえば，以下のプログラムに影響します．</p>
 <div class="highlight-haskell"><div class="highlight"><pre><span class="nf">main</span> <span class="ow">::</span> <span class="kt">IO</span> <span class="nb">()</span>
 <span class="nf">main</span> <span class="ow">=</span> <span class="n">print</span> <span class="n">def</span>
 
@@ -955,18 +955,15 @@ the standard list of types which are tried when doing type defaulting.</li>
 <span class="nf">def</span> <span class="ow">=</span> <span class="n">toEnum</span> <span class="mi">0</span>
 </pre></div>
 </div>
-<p>prints <code class="docutils literal"><span class="pre">()</span></code> rather than <code class="docutils literal"><span class="pre">0</span></code> as the type is defaulted to <code class="docutils literal"><span class="pre">()</span></code>
-rather than <code class="docutils literal"><span class="pre">Integer</span></code>.</p>
-<p>The motivation for the change is that it means <code class="docutils literal"><span class="pre">IO</span> <span class="pre">a</span></code> actions default
-to <code class="docutils literal"><span class="pre">IO</span> <span class="pre">()</span></code>, which in turn means that ghci won&#8217;t try to print a result
-when running them. This is particularly important for <code class="docutils literal"><span class="pre">printf</span></code>, which
-has an instance that returns <code class="docutils literal"><span class="pre">IO</span> <span class="pre">a</span></code>. However, it is only able to
-return <code class="docutils literal"><span class="pre">undefined</span></code> (the reason for the instance having this type is so
-that printf doesn&#8217;t require extensions to the class system), so if the
-type defaults to <code class="docutils literal"><span class="pre">Integer</span></code> then ghci gives an error when running a
-printf.</p>
-<p>See also <a class="reference internal" href="#actions-at-prompt"><span>プロンプトでのI/Oアクション</span></a> for how the monad of a computational
-expression defaults to <code class="docutils literal"><span class="pre">IO</span></code> if possible.</p>
+<p>このプログラムは <code class="docutils literal"><span class="pre">0</span></code> ではなく <code class="docutils literal"><span class="pre">()</span></code> を表示します．
+それは <code class="docutils literal"><span class="pre">a</span></code> のデフォルトの型が <code class="docutils literal"><span class="pre">Integer</span></code> ではなく <code class="docutils literal"><span class="pre">()</span></code> に設定されるからです．</p>
+<p>このような変更を行う動機は <code class="docutils literal"><span class="pre">IO</span> <span class="pre">a</span></code> アクションのデフォルトの型は <code class="docutils literal"><span class="pre">IO</span> <span class="pre">()</span></code> になるので，
+これを実行したときghciは結果を表示する面倒がないというものです．
+とくに <code class="docutils literal"><span class="pre">printf</span></code> にとってはこれが重要で <code class="docutils literal"><span class="pre">printf</span></code> のインスタンスで <code class="docutils literal"><span class="pre">IO</span> <span class="pre">a</span></code> を返すものがありますが，
+それができることといえば <code class="docutils literal"><span class="pre">undefined</span></code> を返すこと以外ありません
+(printf が型クラスシステムの拡張を必要としないようにというのがその理由)．
+したがって，もしここでデフォルトの型が <code class="docutils literal"><span class="pre">Integer</span></code> だと，printfを走らせると，ghciがエラーになってしまいます．</p>
+<p>計算を扱うモナドは，可能であるなら <code class="docutils literal"><span class="pre">IO</span></code> がデフォルトであることについては <a class="reference internal" href="#actions-at-prompt"><span>プロンプトでのI/Oアクション</span></a> を参照してください．</p>
 </div>
 <div class="section" id="using-a-custom-interactive-printing-function">
 <span id="ghci-interactive-print"></span><h3>5.4.9. Using a custom interactive printing function<a class="headerlink" href="#using-a-custom-interactive-printing-function" title="Permalink to this headline">¶</a></h3>
@@ -1060,7 +1057,7 @@ running computation in order to examine the values of variables. The
 debugger is integrated into GHCi, and is turned on by default: no flags
 are required to enable the debugging facilities. There is one major
 restriction: breakpoints and single-stepping are only available in
-interpreted modules; compiled code is invisible to the debugger <a class="footnote-reference" href="#id25" id="id19">[5]</a>.</p>
+interpreted modules; compiled code is invisible to the debugger <a class="footnote-reference" href="#id26" id="id20">[5]</a>.</p>
 <p>The debugger provides the following:</p>
 <ul class="simple">
 <li>The ability to set a breakpoint on a function definition or
@@ -1138,7 +1135,7 @@ can use the <a class="reference internal" href="#ghci-cmd-:list"><code class="xr
 <p>The <a class="reference internal" href="#ghci-cmd-:list"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:list</span></code></a> command lists the source code around the current
 breakpoint. If your output device supports it, then GHCi will highlight
 the active subexpression in bold.</p>
-<p>GHCi has provided bindings for the free variables <a class="footnote-reference" href="#id26" id="id20">[6]</a> of the expression
+<p>GHCi has provided bindings for the free variables <a class="footnote-reference" href="#id27" id="id21">[6]</a> of the expression
 on which the breakpoint was placed (<code class="docutils literal"><span class="pre">a</span></code>, <code class="docutils literal"><span class="pre">left</span></code>, <code class="docutils literal"><span class="pre">right</span></code>), and
 additionally a binding for the result of the expression (<code class="docutils literal"><span class="pre">_result</span></code>).
 These variables are just like other variables that you might define in
@@ -1235,7 +1232,7 @@ right :: [a]
 <p>The execution continued at the point it previously stopped, and has now
 stopped at the breakpoint for a second time.</p>
 <div class="section" id="setting-breakpoints">
-<span id="id21"></span><h4>5.5.1.1. Setting breakpoints<a class="headerlink" href="#setting-breakpoints" title="Permalink to this headline">¶</a></h4>
+<span id="id22"></span><h4>5.5.1.1. Setting breakpoints<a class="headerlink" href="#setting-breakpoints" title="Permalink to this headline">¶</a></h4>
 <p>Breakpoints can be set in various ways. Perhaps the easiest way to set a
 breakpoint is to name a top-level function:</p>
 <div class="highlight-none"><div class="highlight"><pre>:break identifier
@@ -1296,7 +1293,7 @@ given in the output from <a class="reference internal" href="#ghci-cmd-:show bre
 </div>
 </div>
 <div class="section" id="single-stepping">
-<span id="id22"></span><h3>5.5.2. Single-stepping<a class="headerlink" href="#single-stepping" title="Permalink to this headline">¶</a></h3>
+<span id="id23"></span><h3>5.5.2. Single-stepping<a class="headerlink" href="#single-stepping" title="Permalink to this headline">¶</a></h3>
 <p>Single-stepping is a great way to visualise the execution of your
 program, and it is also a useful tool for identifying the source of a
 bug. GHCi offers two variants of stepping. Use <a class="reference internal" href="#ghci-cmd-:step"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:step</span></code></a> to enable all
@@ -1337,7 +1334,7 @@ _result :: [Integer]
 </div>
 </div>
 <div class="section" id="nested-breakpoints">
-<span id="id23"></span><h3>5.5.3. Nested breakpoints<a class="headerlink" href="#nested-breakpoints" title="Permalink to this headline">¶</a></h3>
+<span id="id24"></span><h3>5.5.3. Nested breakpoints<a class="headerlink" href="#nested-breakpoints" title="Permalink to this headline">¶</a></h3>
 <p>When GHCi is stopped at a breakpoint, and an expression entered at the
 prompt triggers a second breakpoint, the new breakpoint becomes the
 &#8220;current&#8221; one, and the old one is saved on a stack. An arbitrary number
@@ -1706,7 +1703,7 @@ to the command line.</p>
 </div>
 </div>
 <div class="section" id="ghci-commands">
-<span id="id24"></span><h2>5.7. GHCi commands<a class="headerlink" href="#ghci-commands" title="Permalink to this headline">¶</a></h2>
+<span id="id25"></span><h2>5.7. GHCi commands<a class="headerlink" href="#ghci-commands" title="Permalink to this headline">¶</a></h2>
 <p>GHCi commands all begin with &#8220;<code class="docutils literal"><span class="pre">:</span></code>&#8221; and consist of a single command
 name followed by zero or more parameters. The command name may be
 abbreviated, with ambiguities being resolved in favour of the more
@@ -2609,7 +2606,7 @@ interactive options are modified as follows:</p>
 <ul class="simple">
 <li>The option <code class="docutils literal"><span class="pre">-XExtendedDefaultRules</span></code> is enabled, in order to apply
 special defaulting rules to expressions typed at the prompt (see
-<a class="reference internal" href="#extended-default-rules"><span>Type defaulting in GHCi</span></a>).</li>
+<a class="reference internal" href="#extended-default-rules"><span>GHCi でのデフォルト型設定</span></a>).</li>
 <li>The Monomorphism Restriction is disabled (see <a class="reference internal" href="glasgow_exts.html#monomorphism"><span>Switching off the dreaded Monomorphism Restriction</span></a>).</li>
 </ul>
 </div>
@@ -2826,17 +2823,17 @@ program thus:</p>
 </div>
 </dd>
 </dl>
-<table class="docutils footnote" frame="void" id="id25" rules="none">
-<colgroup><col class="label" /><col /></colgroup>
-<tbody valign="top">
-<tr><td class="label"><a class="fn-backref" href="#id19">[5]</a></td><td>Note that packages only contain compiled code, so debugging a package
-requires finding its source and loading that directly.</td></tr>
-</tbody>
-</table>
 <table class="docutils footnote" frame="void" id="id26" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
-<tr><td class="label"><a class="fn-backref" href="#id20">[6]</a></td><td>We originally provided bindings for all variables in scope, rather
+<tr><td class="label"><a class="fn-backref" href="#id20">[5]</a></td><td>Note that packages only contain compiled code, so debugging a package
+requires finding its source and loading that directly.</td></tr>
+</tbody>
+</table>
+<table class="docutils footnote" frame="void" id="id27" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id21">[6]</a></td><td>We originally provided bindings for all variables in scope, rather
 than just the free variables of the expression, but found that this
 affected performance considerably, hence the current restriction to
 just the free variables.</td></tr>
