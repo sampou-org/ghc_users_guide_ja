@@ -77,7 +77,7 @@
 <li><a class="reference internal" href="#main-run">5.4.6. <code class="docutils literal"><span class="pre">:main</span></code> コマンドと <code class="docutils literal"><span class="pre">:run</span></code> コマンド</a></li>
 <li><a class="reference internal" href="#it">5.4.7. <code class="docutils literal"><span class="pre">it</span></code> 変数</a></li>
 <li><a class="reference internal" href="#extended-default-rules">5.4.8. GHCi でのデフォルト型設定</a></li>
-<li><a class="reference internal" href="#using-a-custom-interactive-printing-function">5.4.9. Using a custom interactive printing function</a></li>
+<li><a class="reference internal" href="#ghci-interactive-print">5.4.9. 独自の対話表示関数を使う</a></li>
 <li><a class="reference internal" href="#stack-traces-in-ghci">5.4.10. Stack Traces in GHCi</a></li>
 </ul>
 </li>
@@ -965,50 +965,45 @@ GHCiはHaskellのデフォルト型設定規則(Haskell 2010 Report の 4.3.4 �
 したがって，もしここでデフォルトの型が <code class="docutils literal"><span class="pre">Integer</span></code> だと，printfを走らせると，ghciがエラーになってしまいます．</p>
 <p>計算を扱うモナドは，可能であるなら <code class="docutils literal"><span class="pre">IO</span></code> がデフォルトであることについては <a class="reference internal" href="#actions-at-prompt"><span>プロンプトでのI/Oアクション</span></a> を参照してください．</p>
 </div>
-<div class="section" id="using-a-custom-interactive-printing-function">
-<span id="ghci-interactive-print"></span><h3>5.4.9. Using a custom interactive printing function<a class="headerlink" href="#using-a-custom-interactive-printing-function" title="Permalink to this headline">¶</a></h3>
-<p id="index-11">Since GHC 7.6.1, GHCi prints the result of expressions typed at the prompt
-using the function <code class="docutils literal"><span class="pre">System.IO.print</span></code>. Its type signature is <code class="docutils literal"><span class="pre">Show</span> <span class="pre">a</span> <span class="pre">=&gt;</span> <span class="pre">a</span> <span class="pre">-&gt;</span>
-<span class="pre">IO</span> <span class="pre">()</span></code>, and it works by converting the value to <code class="docutils literal"><span class="pre">String</span></code> using <code class="docutils literal"><span class="pre">show</span></code>.</p>
-<p>This is not ideal in certain cases, like when the output is long, or
-contains strings with non-ascii characters.</p>
-<p>The <a class="reference internal" href="#ghc-flag--interactive-print"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-interactive-print</span></code></a> flag allows to specify any function of type
-<code class="docutils literal"><span class="pre">C</span> <span class="pre">a</span> <span class="pre">=&gt;</span> <span class="pre">a</span> <span class="pre">-&gt;</span> <span class="pre">IO</span> <span class="pre">()</span></code>, for some constraint <code class="docutils literal"><span class="pre">C</span></code>, as the function for
-printing evaluated expressions. The function can reside in any loaded
-module or any registered package, but only when it resides in a registered
-package will it survive a <a class="reference internal" href="#ghci-cmd-:cd"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:cd</span></code></a>, <a class="reference internal" href="#ghci-cmd-:add"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:add</span></code></a>, <a class="reference internal" href="#ghci-cmd-:load"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:load</span></code></a>,
-<a class="reference internal" href="#ghci-cmd-:reload"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:reload</span></code></a> or, <a class="reference internal" href="#ghci-cmd-:set"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:set</span></code></a>.</p>
+<div class="section" id="ghci-interactive-print">
+<span id="id20"></span><h3>5.4.9. 独自の対話表示関数を使う<a class="headerlink" href="#ghci-interactive-print" title="Permalink to this headline">¶</a></h3>
+<span class="target" id="index-11"></span><p>GHC 7.6.1 以降，GHCiはプロンプトに入力された式の結果を <code class="docutils literal"><span class="pre">System.IO.print</span></code> を使って表示します．
+この関数の型シグネチャは <code class="docutils literal"><span class="pre">Show</span> <span class="pre">a</span> <span class="pre">=&gt;</span> <span class="pre">a</span> <span class="pre">-&gt;</span> <span class="pre">IO</span> <span class="pre">()</span></code> で，値を <code class="docutils literal"><span class="pre">show</span></code> を使って <code class="docutils literal"><span class="pre">String</span></code> に変換しています．</p>
+<p>このやり方が理想的ではない場合があります．
+出力が長い場合や非アスキー文字が含まれるというような場合です．</p>
+<p><a class="reference internal" href="#ghc-flag--interactive-print"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-interactive-print</span></code></a> フラグを使えば，何らかの制約を <code class="docutils literal"><span class="pre">C</span></code> として，
+<code class="docutils literal"><span class="pre">C</span> <span class="pre">a</span> <span class="pre">=&gt;</span> <span class="pre">a</span> <span class="pre">-&gt;</span> <span class="pre">IO</span> <span class="pre">()</span></code> という型の関数を評価済みの式の値を表示する関数として指定できるようになります．
+この関数はロード済みのモジュールまたは登録済みのパッケージに置いてあればよいのですが，
+登録済みのパッケージに置いてある場合のみ <a class="reference internal" href="#ghci-cmd-:cd"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:cd</span></code></a> ， <a class="reference internal" href="#ghci-cmd-:add"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:add</span></code></a> ， <a class="reference internal" href="#ghci-cmd-:load"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:load</span></code></a> ， <a class="reference internal" href="#ghci-cmd-:reload"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:reload</span></code></a> あるいは <a class="reference internal" href="#ghci-cmd-:set"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:set</span></code></a> というコマンドをくぐり抜けられます．</p>
 <dl class="ghc-flag">
 <dt id="ghc-flag--interactive-print">
 <code class="descname">-interactive-print</code><code class="descclassname"> ⟨expr⟩</code><a class="headerlink" href="#ghc-flag--interactive-print" title="Permalink to this definition">¶</a></dt>
-<dd><p>Set the function used by GHCi to print evaluation results. Expression
-must be of type <code class="docutils literal"><span class="pre">C</span> <span class="pre">a</span> <span class="pre">=&gt;</span> <span class="pre">a</span> <span class="pre">-&gt;</span> <span class="pre">IO</span> <span class="pre">()</span></code>.</p>
+<dd><p>GHCiが評価結果を表示するのに使う関数を設定します．
+このとき〈expr〉の型は <code class="docutils literal"><span class="pre">C</span> <span class="pre">a</span> <span class="pre">=&gt;</span> <span class="pre">a</span> <span class="pre">-&gt;</span> <span class="pre">IO</span> <span class="pre">()</span></code> でなければなりません．</p>
 </dd></dl>
 
-<p>As an example, suppose we have following special printing module:</p>
+<p>例として，以下の特別な表示モジュールがあるとしましょう．</p>
 <div class="highlight-haskell"><div class="highlight"><pre><span class="kr">module</span> <span class="nn">SpecPrinter</span> <span class="kr">where</span>
 <span class="kr">import</span> <span class="nn">System.IO</span>
 
 <span class="nf">sprint</span> <span class="n">a</span> <span class="ow">=</span> <span class="n">putStrLn</span> <span class="o">$</span> <span class="n">show</span> <span class="n">a</span> <span class="o">++</span> <span class="s">&quot;!&quot;</span>
 </pre></div>
 </div>
-<p>The <code class="docutils literal"><span class="pre">sprint</span></code> function adds an exclamation mark at the end of any
-printed value. Running GHCi with the command:</p>
+<p><code class="docutils literal"><span class="pre">sprint</span></code> 関数は表示された値の最後に感嘆符を追加します．
+以下のコマンド</p>
 <div class="highlight-none"><div class="highlight"><pre>ghci -interactive-print=SpecPrinter.sprinter SpecPrinter
 </pre></div>
 </div>
-<p>will start an interactive session where values with be printed using
-<code class="docutils literal"><span class="pre">sprint</span></code>:</p>
+<p>でGHCiを起動すると，対話セッションが始まり，そこでは値は <code class="docutils literal"><span class="pre">sprint</span></code> で表示されます．</p>
 <div class="highlight-none"><div class="highlight"><pre>*SpecPrinter&gt; [1,2,3]
 [1,2,3]!
 *SpecPrinter&gt; 42
 42!
 </pre></div>
 </div>
-<p>A custom pretty printing function can be used, for example, to format
-tree-like and nested structures in a more readable way.</p>
-<p>The <a class="reference internal" href="#ghc-flag--interactive-print"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-interactive-print</span></code></a> flag can also be used when running GHC in
-<code class="docutils literal"><span class="pre">-e</span> <span class="pre">mode</span></code>:</p>
+<p>これには独自の整形表示関数が使えます．
+たとえばツリー構造や入れ子構造をよりよみやすい形式で表示できます．</p>
+<p><a class="reference internal" href="#ghc-flag--interactive-print"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-interactive-print</span></code></a> フラグはGHCを <code class="docutils literal"><span class="pre">-e</span> <span class="pre">mode</span></code> で起動したときにも使えます．</p>
 <div class="highlight-none"><div class="highlight"><pre>% ghc -e &quot;[1,2,3]&quot; -interactive-print=SpecPrinter.sprint SpecPrinter
 [1,2,3]!
 </pre></div>
@@ -1057,7 +1052,7 @@ running computation in order to examine the values of variables. The
 debugger is integrated into GHCi, and is turned on by default: no flags
 are required to enable the debugging facilities. There is one major
 restriction: breakpoints and single-stepping are only available in
-interpreted modules; compiled code is invisible to the debugger <a class="footnote-reference" href="#id26" id="id20">[5]</a>.</p>
+interpreted modules; compiled code is invisible to the debugger <a class="footnote-reference" href="#id27" id="id21">[5]</a>.</p>
 <p>The debugger provides the following:</p>
 <ul class="simple">
 <li>The ability to set a breakpoint on a function definition or
@@ -1135,7 +1130,7 @@ can use the <a class="reference internal" href="#ghci-cmd-:list"><code class="xr
 <p>The <a class="reference internal" href="#ghci-cmd-:list"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:list</span></code></a> command lists the source code around the current
 breakpoint. If your output device supports it, then GHCi will highlight
 the active subexpression in bold.</p>
-<p>GHCi has provided bindings for the free variables <a class="footnote-reference" href="#id27" id="id21">[6]</a> of the expression
+<p>GHCi has provided bindings for the free variables <a class="footnote-reference" href="#id28" id="id22">[6]</a> of the expression
 on which the breakpoint was placed (<code class="docutils literal"><span class="pre">a</span></code>, <code class="docutils literal"><span class="pre">left</span></code>, <code class="docutils literal"><span class="pre">right</span></code>), and
 additionally a binding for the result of the expression (<code class="docutils literal"><span class="pre">_result</span></code>).
 These variables are just like other variables that you might define in
@@ -1232,7 +1227,7 @@ right :: [a]
 <p>The execution continued at the point it previously stopped, and has now
 stopped at the breakpoint for a second time.</p>
 <div class="section" id="setting-breakpoints">
-<span id="id22"></span><h4>5.5.1.1. Setting breakpoints<a class="headerlink" href="#setting-breakpoints" title="Permalink to this headline">¶</a></h4>
+<span id="id23"></span><h4>5.5.1.1. Setting breakpoints<a class="headerlink" href="#setting-breakpoints" title="Permalink to this headline">¶</a></h4>
 <p>Breakpoints can be set in various ways. Perhaps the easiest way to set a
 breakpoint is to name a top-level function:</p>
 <div class="highlight-none"><div class="highlight"><pre>:break identifier
@@ -1293,7 +1288,7 @@ given in the output from <a class="reference internal" href="#ghci-cmd-:show bre
 </div>
 </div>
 <div class="section" id="single-stepping">
-<span id="id23"></span><h3>5.5.2. Single-stepping<a class="headerlink" href="#single-stepping" title="Permalink to this headline">¶</a></h3>
+<span id="id24"></span><h3>5.5.2. Single-stepping<a class="headerlink" href="#single-stepping" title="Permalink to this headline">¶</a></h3>
 <p>Single-stepping is a great way to visualise the execution of your
 program, and it is also a useful tool for identifying the source of a
 bug. GHCi offers two variants of stepping. Use <a class="reference internal" href="#ghci-cmd-:step"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:step</span></code></a> to enable all
@@ -1334,7 +1329,7 @@ _result :: [Integer]
 </div>
 </div>
 <div class="section" id="nested-breakpoints">
-<span id="id24"></span><h3>5.5.3. Nested breakpoints<a class="headerlink" href="#nested-breakpoints" title="Permalink to this headline">¶</a></h3>
+<span id="id25"></span><h3>5.5.3. Nested breakpoints<a class="headerlink" href="#nested-breakpoints" title="Permalink to this headline">¶</a></h3>
 <p>When GHCi is stopped at a breakpoint, and an expression entered at the
 prompt triggers a second breakpoint, the new breakpoint becomes the
 &#8220;current&#8221; one, and the old one is saved on a stack. An arbitrary number
@@ -1703,7 +1698,7 @@ to the command line.</p>
 </div>
 </div>
 <div class="section" id="ghci-commands">
-<span id="id25"></span><h2>5.7. GHCi commands<a class="headerlink" href="#ghci-commands" title="Permalink to this headline">¶</a></h2>
+<span id="id26"></span><h2>5.7. GHCi commands<a class="headerlink" href="#ghci-commands" title="Permalink to this headline">¶</a></h2>
 <p>GHCi commands all begin with &#8220;<code class="docutils literal"><span class="pre">:</span></code>&#8221; and consist of a single command
 name followed by zero or more parameters. The command name may be
 abbreviated, with ambiguities being resolved in favour of the more
@@ -2823,17 +2818,17 @@ program thus:</p>
 </div>
 </dd>
 </dl>
-<table class="docutils footnote" frame="void" id="id26" rules="none">
-<colgroup><col class="label" /><col /></colgroup>
-<tbody valign="top">
-<tr><td class="label"><a class="fn-backref" href="#id20">[5]</a></td><td>Note that packages only contain compiled code, so debugging a package
-requires finding its source and loading that directly.</td></tr>
-</tbody>
-</table>
 <table class="docutils footnote" frame="void" id="id27" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
-<tr><td class="label"><a class="fn-backref" href="#id21">[6]</a></td><td>We originally provided bindings for all variables in scope, rather
+<tr><td class="label"><a class="fn-backref" href="#id21">[5]</a></td><td>Note that packages only contain compiled code, so debugging a package
+requires finding its source and loading that directly.</td></tr>
+</tbody>
+</table>
+<table class="docutils footnote" frame="void" id="id28" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id22">[6]</a></td><td>We originally provided bindings for all variables in scope, rather
 than just the free variables of the expression, but found that this
 affected performance considerably, hence the current restriction to
 just the free variables.</td></tr>
