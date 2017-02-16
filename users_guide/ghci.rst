@@ -2303,52 +2303,101 @@ GHC 7.6.1 以降，GHCiはプロンプトに入力された式の結果を ``Sys
     % ghc -e "[1,2,3]" -interactive-print=SpecPrinter.sprint SpecPrinter
     [1,2,3]!
 
+..
+   .. _ghci-stack-traces:
+
+   Stack Traces in GHCi
+   ~~~~~~~~~~~~~~~~~~~~
+
+   .. index::
+     simple: stack trace; in GHCi
+
 .. _ghci-stack-traces:
 
-Stack Traces in GHCi
-~~~~~~~~~~~~~~~~~~~~
+GHCiでのスタックトレース
+~~~~~~~~~~~~~~~~~~~~~~~~
 
 .. index::
-  simple: stack trace; in GHCi
+  simple: スタックトレース; GHCiでの〜
 
-[ This is an experimental feature enabled by the new
-``-fexternal-interpreter`` flag that was introduced in GHC 8.0.1.  It
-is currently not supported on Windows.]
 
-GHCi can use the profiling system to collect stack trace information
-when running interpreted code.  To gain access to stack traces, start
-GHCi like this:
+..
+   [ This is an experimental feature enabled by the new
+   ``-fexternal-interpreter`` flag that was introduced in GHC 8.0.1.  It
+   is currently not supported on Windows.]
+
+[ この機能は GHC 8.0.1 で導入された実験的機能で，
+``-fexternal-interpreter`` フラグで有効になります．
+現時点ではWindowsでは利用できません．]
+
+..
+   GHCi can use the profiling system to collect stack trace information
+   when running interpreted code.  To gain access to stack traces, start
+   GHCi like this:
+
+   .. code-block:: none
+
+       ghci -fexternal-interpreter -prof
+
+GHCi では解釈実行コードを走らせるときに，プロファイリングシステムを使って，
+スタックトレース情報を収集できます．
+スタックトレースにアクセスするには，GHCiを次のように起動します．
 
 .. code-block:: none
 
     ghci -fexternal-interpreter -prof
 
-This runs the interpreted code in a separate process (see
-:ref:`external-interpreter`) and runs it in profiling mode to collect
-call stack information.  Note that because we're running the
-interpreted code in profiling mode, all packages that you use must be
-compiled for profiling.  The ``-prof`` flag to GHCi only works in
-conjunction with ``-fexternal-interpreter``.
+..
+   This runs the interpreted code in a separate process (see
+   :ref:`external-interpreter`) and runs it in profiling mode to collect
+   call stack information.  Note that because we're running the
+   interpreted code in profiling mode, all packages that you use must be
+   compiled for profiling.  The ``-prof`` flag to GHCi only works in
+   conjunction with ``-fexternal-interpreter``.
 
-There are three ways to get access to the current call stack.
+こうすると，解釈実行コードは別プロセスで(:ref:`external-interpreter` 参照)，
+プロファイリングモードで走らせてコールスタック情報を収集します．
+解釈実行コードをプロファイリングモードで走らせることになりますので，
+使用するすべてのパッケージはプロファイリング用にコンパイルされている必要があります．
+GHCi に対する ``-prof`` フラグは ``-fexternal-interpreter`` と同時に使うときだけ有効です．
 
-- ``error`` and ``undefined`` automatically attach the current stack
-  to the error message.  This often complements the ``HasCallStack``
-  stack (see :ref:`hascallstack`), so both call stacks are
-  shown.
+..
+   There are three ways to get access to the current call stack.
 
-- ``Debug.Trace.traceStack`` is a version of ``Debug.Trace.trace``
-  that also prints the current call stack.
+   - ``error`` and ``undefined`` automatically attach the current stack
+     to the error message.  This often complements the ``HasCallStack``
+     stack (see :ref:`hascallstack`), so both call stacks are
+     shown.
 
-- Functions in the module ``GHC.Stack`` can be used to get the current
-  stack and render it.
+   - ``Debug.Trace.traceStack`` is a version of ``Debug.Trace.trace``
+     that also prints the current call stack.
 
-You don't need to use ``-fprof-auto`` for interpreted modules,
-annotations are automatically added at a granularity fine enough to
-distinguish individual call sites.  However, you won't see any call
-stack information for compiled code unless it was compiled with
-``-fprof-auto`` or has explicit ``SCC`` annotations (see
-:ref:`scc-pragma`).
+   - Functions in the module ``GHC.Stack`` can be used to get the current
+     stack and render it.
+
+現在のコールスタックにアクセスする方法は3つあります．
+
+- ``error`` と ``undefined`` は自動的にエラーメッセージにカレントスタックをアタッチします．
+これは通常 ``HasCallStack`` スタック(:ref:`hascallstack` 参照)を補足するもので，
+その時には両方のスタックが表示されます．
+
+- ``Debug.Trace.traceStack`` は ``Debug.Trace.trace`` の変形版で現在のコールスタックも表示します．
+
+- ``GHC.Stack`` にある関数を使って現在のスタックを取得し，表示できます．
+
+..
+   You don't need to use ``-fprof-auto`` for interpreted modules,
+   annotations are automatically added at a granularity fine enough to
+   distinguish individual call sites.  However, you won't see any call
+   stack information for compiled code unless it was compiled with
+   ``-fprof-auto`` or has explicit ``SCC`` annotations (see
+   :ref:`scc-pragma`).
+
+解釈実行するモジュールについては ``-fprof-auto`` を使う必要はありません．
+注釈は自動的に細かく追加されますので，個別のコールサイトを区別できます．
+しかしながら，コンパイル済みコードのコールスタック情報は，そのコードを
+``-fprof-auto`` 付きでコンパイルしているか，明示的に ``SCC`` 注釈
+(:ref:`scc-pragma` 参照)を付けていないかぎり見ることはできません．
 
 .. _ghci-debugger:
 
