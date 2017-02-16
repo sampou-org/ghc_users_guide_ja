@@ -413,7 +413,7 @@ GHCiは，このように依存関係を追ってロードすべきモジュー�
       single: compiled code; in GHCi
 
 .. index::
-   single: コンパイル済みコード; GHCiでの〜
+   single: コンパイル済みコード; GHCiの〜
 
 ..
    When you load a Haskell source module into GHCi, it is normally
@@ -849,8 +849,8 @@ GHCi がプロンプトで行うのは単なる式の評価だけではありま
       single: statements; in GHCi
 
 .. index::
-   single: do記法; GHCiでの〜
-   single: 文; GHCiでの〜
+   single: do記法; GHCiの〜
+   single: 文; GHCiの〜
 
 ..
    GHCi actually accepts statements rather than just expressions at the
@@ -2034,7 +2034,7 @@ GHCi でのデフォルト型設定
 ~~~~~~~~~~~~~~~~~~~~~~~~~
 
 .. index::
-   single: デフォルト型設定; GHCiでの〜
+   single: デフォルト型設定; GHCiの〜
    single: Showクラス
 
 ..
@@ -2190,7 +2190,7 @@ GHCiプロンプトあるいはGHCでは :ghc-flag:`-XExtendedDefaultRules` フ�
 ~~~~~~~~~~~~~~~~~~~~~~~~
 
 .. index::
-   single: 独自の表示関数; GHCiでの〜
+   single: 独自の表示関数; GHCiの〜
 
 ..
    Since GHC 7.6.1, GHCi prints the result of expressions typed at the prompt
@@ -2314,11 +2314,11 @@ GHC 7.6.1 以降，GHCiはプロンプトに入力された式の結果を ``Sys
 
 .. _ghci-stack-traces:
 
-GHCiでのスタックトレース
-~~~~~~~~~~~~~~~~~~~~~~~~
+GHCiのスタックトレース
+~~~~~~~~~~~~~~~~~~~~~~
 
 .. index::
-  simple: スタックトレース; GHCiでの〜
+  simple: スタックトレース; GHCiの〜
 
 
 ..
@@ -2378,8 +2378,8 @@ GHCi に対する ``-prof`` フラグは ``-fexternal-interpreter`` と同時に
 現在のコールスタックにアクセスする方法は3つあります．
 
 - ``error`` と ``undefined`` は自動的にエラーメッセージにカレントスタックをアタッチします．
-これは通常 ``HasCallStack`` スタック(:ref:`hascallstack` 参照)を補足するもので，
-その時には両方のスタックが表示されます．
+  これは通常 ``HasCallStack`` スタック(:ref:`hascallstack` 参照)を補足するもので，
+  その時には両方のスタックが表示されます．
 
 - ``Debug.Trace.traceStack`` は ``Debug.Trace.trace`` の変形版で現在のコールスタックも表示します．
 
@@ -2399,49 +2399,92 @@ GHCi に対する ``-prof`` フラグは ``-fexternal-interpreter`` と同時に
 ``-fprof-auto`` 付きでコンパイルしているか，明示的に ``SCC`` 注釈
 (:ref:`scc-pragma` 参照)を付けていないかぎり見ることはできません．
 
+..
+   .. _ghci-debugger:
+
+   The GHCi Debugger
+   -----------------
+
+   .. index::
+      single: debugger; in GHCi
+
 .. _ghci-debugger:
 
-The GHCi Debugger
------------------
+GHCiのデバッガ
+--------------
 
 .. index::
-   single: debugger; in GHCi
+   single: デバッガ; GHCiの〜
 
-GHCi contains a simple imperative-style debugger in which you can stop a
-running computation in order to examine the values of variables. The
-debugger is integrated into GHCi, and is turned on by default: no flags
-are required to enable the debugging facilities. There is one major
-restriction: breakpoints and single-stepping are only available in
-interpreted modules; compiled code is invisible to the debugger [5]_.
+..
+   GHCi contains a simple imperative-style debugger in which you can stop a
+   running computation in order to examine the values of variables. The
+   debugger is integrated into GHCi, and is turned on by default: no flags
+   are required to enable the debugging facilities. There is one major
+   restriction: breakpoints and single-stepping are only available in
+   interpreted modules; compiled code is invisible to the debugger [5]_.
 
-The debugger provides the following:
+GHCi は単純な命令スタイルのデバッガを備えています．
+これを使うと，変数の値を確認するために進行中の計算を止められます．
+このデバッガはGHCiに統合されていて，デフォルトで有効になっています．
+デバッグ機能を有効にするのにフラグは必要ありません．
+1つ重要な制限があります．それは，ブレイクポイントとステップ実行は解釈実行されているモジュールでしか使えないということです．
+コンパイル済みのコードはデバッガからは見えません [5]_ ．
 
--  The ability to set a breakpoint on a function definition or
-   expression in the program. When the function is called, or the
-   expression evaluated, GHCi suspends execution and returns to the
-   prompt, where you can inspect the values of local variables before
-   continuing with the execution.
+..
+   The debugger provides the following:
 
--  Execution can be single-stepped: the evaluator will suspend execution
-   approximately after every reduction, allowing local variables to be
-   inspected. This is equivalent to setting a breakpoint at every point
-   in the program.
+   -  The ability to set a breakpoint on a function definition or
+      expression in the program. When the function is called, or the
+      expression evaluated, GHCi suspends execution and returns to the
+      prompt, where you can inspect the values of local variables before
+      continuing with the execution.
 
--  Execution can take place in tracing mode, in which the evaluator
-   remembers each evaluation step as it happens, but doesn't suspend
-   execution until an actual breakpoint is reached. When this happens,
-   the history of evaluation steps can be inspected.
+   -  Execution can be single-stepped: the evaluator will suspend execution
+      approximately after every reduction, allowing local variables to be
+      inspected. This is equivalent to setting a breakpoint at every point
+      in the program.
 
--  Exceptions (e.g. pattern matching failure and ``error``) can be
-   treated as breakpoints, to help locate the source of an exception in
-   the program.
+   -  Execution can take place in tracing mode, in which the evaluator
+      remembers each evaluation step as it happens, but doesn't suspend
+      execution until an actual breakpoint is reached. When this happens,
+      the history of evaluation steps can be inspected.
 
-There is currently no support for obtaining a “stack trace”, but the
-tracing and history features provide a useful second-best, which will
-often be enough to establish the context of an error. For instance, it
-is possible to break automatically when an exception is thrown, even if
-it is thrown from within compiled code (see
-:ref:`ghci-debugger-exceptions`).
+   -  Exceptions (e.g. pattern matching failure and ``error``) can be
+      treated as breakpoints, to help locate the source of an exception in
+      the program.
+
+このデバッガが提供する機能は以下のとおりです．
+
+-  プログラム中の関数定義や式にブレイクポイントを設定する機能．
+   関数が呼ばれたとき，式が評価されたとき，GHCiは実行を中断しプロンプトに戻ります．
+   このプロンプトで局所変数の値を調べたあと，実行を再開継続できます．
+
+-  ステップ実行機能．
+   評価器はほぼ簡約ごとに実行を中断し，局所変数の値を調べられるようにします．
+   これはプログラムのあらゆるポイントにブレイクポイントを設定するのと同じことです．
+
+-  トレースモードでの実行機能． 
+   トレースモードで実行すると，評価器は発生した評価ステップをすべて記憶します．
+   ただし，実際のブレイクポイントに到達するまでは，実行を中断することはありません．
+   実行が中断されたら，評価ステップの履歴を調べることができるようになります．
+
+-  例外(たとえば，パターン照合の失敗あるいは ``error`` など)をブレイクポイントとして扱えます．
+   これにより，プログラム中の例外発生源を特定しやすくなります．
+
+..
+   There is currently no support for obtaining a “stack trace”, but the
+   tracing and history features provide a useful second-best, which will
+   often be enough to establish the context of an error. For instance, it
+   is possible to break automatically when an exception is thrown, even if
+   it is thrown from within compiled code (see
+   :ref:`ghci-debugger-exceptions`).
+
+現時点では「スタックトレース」を得る手段は提供されていませんが，
+トレース機能と履歴機能が次善の策として提供されており，
+エラー発生時の状況を知るには十分であることも多いのです．
+たとえコンパイル済みのコードから例外が投げられたときでも，自動的にブレイクするようにできます
+(:ref:`ghci-debugger-exceptions` 参照)．
 
 .. _breakpoints:
 
