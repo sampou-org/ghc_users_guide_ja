@@ -78,10 +78,10 @@
 <li><a class="reference internal" href="#it">5.4.7. <code class="docutils literal"><span class="pre">it</span></code> 変数</a></li>
 <li><a class="reference internal" href="#extended-default-rules">5.4.8. GHCi でのデフォルト型設定</a></li>
 <li><a class="reference internal" href="#ghci-interactive-print">5.4.9. 独自の対話表示関数を使う</a></li>
-<li><a class="reference internal" href="#ghci-stack-traces">5.4.10. GHCiでのスタックトレース</a></li>
+<li><a class="reference internal" href="#ghci-stack-traces">5.4.10. GHCiのスタックトレース</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#the-ghci-debugger">5.5. The GHCi Debugger</a><ul>
+<li><a class="reference internal" href="#ghci-debugger">5.5. GHCiのデバッガ</a><ul>
 <li><a class="reference internal" href="#breakpoints-and-inspecting-variables">5.5.1. Breakpoints and inspecting variables</a><ul>
 <li><a class="reference internal" href="#setting-breakpoints">5.5.1.1. Setting breakpoints</a></li>
 <li><a class="reference internal" href="#listing-and-deleting-breakpoints">5.5.1.2. Listing and deleting breakpoints</a></li>
@@ -162,7 +162,7 @@
 すぐにでもGHCiに慣れることでしょう．
 しかしながら， GHCiはコンパイル済みのコードを対話的にロードすることができます．
 また，GHCが提供する言語拡張のすべて[2]_ をサポートしています．
-GHCi は対話方式のデバッガも備えています(<a class="reference internal" href="#ghci-debugger"><span>The GHCi Debugger</span></a> 参照)．</p>
+GHCi は対話方式のデバッガも備えています(<a class="reference internal" href="#ghci-debugger"><span>GHCiのデバッガ</span></a> 参照)．</p>
 <table class="docutils footnote" frame="void" id="id3" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
@@ -1010,7 +1010,7 @@ GHCiはHaskellのデフォルト型設定規則(Haskell 2010 Report の 4.3.4 �
 </div>
 </div>
 <div class="section" id="ghci-stack-traces">
-<span id="id21"></span><h3>5.4.10. GHCiでのスタックトレース<a class="headerlink" href="#ghci-stack-traces" title="Permalink to this headline">¶</a></h3>
+<span id="id21"></span><h3>5.4.10. GHCiのスタックトレース<a class="headerlink" href="#ghci-stack-traces" title="Permalink to this headline">¶</a></h3>
 <span class="target" id="index-12"></span><p>[ この機能は GHC 8.0.1 で導入された実験的機能で，
 <code class="docutils literal"><span class="pre">-fexternal-interpreter</span></code> フラグで有効になります．
 現時点ではWindowsでは利用できません．]</p>
@@ -1040,39 +1040,34 @@ GHCi に対する <code class="docutils literal"><span class="pre">-prof</span><
 (<a class="reference internal" href="profiling.html#scc-pragma"><span>Inserting cost centres by hand</span></a> 参照)を付けていないかぎり見ることはできません．</p>
 </div>
 </div>
-<div class="section" id="the-ghci-debugger">
-<span id="ghci-debugger"></span><h2>5.5. The GHCi Debugger<a class="headerlink" href="#the-ghci-debugger" title="Permalink to this headline">¶</a></h2>
-<p id="index-13">GHCi contains a simple imperative-style debugger in which you can stop a
-running computation in order to examine the values of variables. The
-debugger is integrated into GHCi, and is turned on by default: no flags
-are required to enable the debugging facilities. There is one major
-restriction: breakpoints and single-stepping are only available in
-interpreted modules; compiled code is invisible to the debugger <a class="footnote-reference" href="#id28" id="id22">[5]</a>.</p>
-<p>The debugger provides the following:</p>
+<div class="section" id="ghci-debugger">
+<span id="id22"></span><h2>5.5. GHCiのデバッガ<a class="headerlink" href="#ghci-debugger" title="Permalink to this headline">¶</a></h2>
+<span class="target" id="index-13"></span><p>GHCi は単純な命令スタイルのデバッガを備えています．
+これを使うと，変数の値を確認するために進行中の計算を止められます．
+このデバッガはGHCiに統合されていて，デフォルトで有効になっています．
+デバッグ機能を有効にするのにフラグは必要ありません．
+1つ重要な制限があります．それは，ブレイクポイントとステップ実行は解釈実行されているモジュールでしか使えないということです．
+コンパイル済みのコードはデバッガからは見えません <a class="footnote-reference" href="#id29" id="id23">[5]</a> ．</p>
+<p>このデバッガが提供する機能は以下のとおりです．</p>
 <ul class="simple">
-<li>The ability to set a breakpoint on a function definition or
-expression in the program. When the function is called, or the
-expression evaluated, GHCi suspends execution and returns to the
-prompt, where you can inspect the values of local variables before
-continuing with the execution.</li>
-<li>Execution can be single-stepped: the evaluator will suspend execution
-approximately after every reduction, allowing local variables to be
-inspected. This is equivalent to setting a breakpoint at every point
-in the program.</li>
-<li>Execution can take place in tracing mode, in which the evaluator
-remembers each evaluation step as it happens, but doesn&#8217;t suspend
-execution until an actual breakpoint is reached. When this happens,
-the history of evaluation steps can be inspected.</li>
-<li>Exceptions (e.g. pattern matching failure and <code class="docutils literal"><span class="pre">error</span></code>) can be
-treated as breakpoints, to help locate the source of an exception in
-the program.</li>
+<li>プログラム中の関数定義や式にブレイクポイントを設定する機能．
+関数が呼ばれたとき，式が評価されたとき，GHCiは実行を中断しプロンプトに戻ります．
+このプロンプトで局所変数の値を調べたあと，実行を再開継続できます．</li>
+<li>ステップ実行機能．
+評価器はほぼ簡約ごとに実行を中断し，局所変数の値を調べられるようにします．
+これはプログラムのあらゆるポイントにブレイクポイントを設定するのと同じことです．</li>
+<li>トレースモードでの実行機能．
+トレースモードで実行すると，評価器は発生した評価ステップをすべて記憶します．
+ただし，実際のブレイクポイントに到達するまでは，実行を中断することはありません．
+実行が中断されたら，評価ステップの履歴を調べることができるようになります．</li>
+<li>例外(たとえば，パターン照合の失敗あるいは <code class="docutils literal"><span class="pre">error</span></code> など)をブレイクポイントとして扱えます．
+これにより，プログラム中の例外発生源を特定しやすくなります．</li>
 </ul>
-<p>There is currently no support for obtaining a “stack trace”, but the
-tracing and history features provide a useful second-best, which will
-often be enough to establish the context of an error. For instance, it
-is possible to break automatically when an exception is thrown, even if
-it is thrown from within compiled code (see
-<a class="reference internal" href="#ghci-debugger-exceptions"><span>Debugging exceptions</span></a>).</p>
+<p>現時点では「スタックトレース」を得る手段は提供されていませんが，
+トレース機能と履歴機能が次善の策として提供されており，
+エラー発生時の状況を知るには十分であることも多いのです．
+たとえコンパイル済みのコードから例外が投げられたときでも，自動的にブレイクするようにできます
+(<a class="reference internal" href="#ghci-debugger-exceptions"><span>Debugging exceptions</span></a> 参照)．</p>
 <div class="section" id="breakpoints-and-inspecting-variables">
 <span id="breakpoints"></span><h3>5.5.1. Breakpoints and inspecting variables<a class="headerlink" href="#breakpoints-and-inspecting-variables" title="Permalink to this headline">¶</a></h3>
 <p>Let&#8217;s use quicksort as a running example. Here&#8217;s the code:</p>
@@ -1125,7 +1120,7 @@ can use the <a class="reference internal" href="#ghci-cmd-:list"><code class="xr
 <p>The <a class="reference internal" href="#ghci-cmd-:list"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:list</span></code></a> command lists the source code around the current
 breakpoint. If your output device supports it, then GHCi will highlight
 the active subexpression in bold.</p>
-<p>GHCi has provided bindings for the free variables <a class="footnote-reference" href="#id29" id="id23">[6]</a> of the expression
+<p>GHCi has provided bindings for the free variables <a class="footnote-reference" href="#id30" id="id24">[6]</a> of the expression
 on which the breakpoint was placed (<code class="docutils literal"><span class="pre">a</span></code>, <code class="docutils literal"><span class="pre">left</span></code>, <code class="docutils literal"><span class="pre">right</span></code>), and
 additionally a binding for the result of the expression (<code class="docutils literal"><span class="pre">_result</span></code>).
 These variables are just like other variables that you might define in
@@ -1222,7 +1217,7 @@ right :: [a]
 <p>The execution continued at the point it previously stopped, and has now
 stopped at the breakpoint for a second time.</p>
 <div class="section" id="setting-breakpoints">
-<span id="id24"></span><h4>5.5.1.1. Setting breakpoints<a class="headerlink" href="#setting-breakpoints" title="Permalink to this headline">¶</a></h4>
+<span id="id25"></span><h4>5.5.1.1. Setting breakpoints<a class="headerlink" href="#setting-breakpoints" title="Permalink to this headline">¶</a></h4>
 <p>Breakpoints can be set in various ways. Perhaps the easiest way to set a
 breakpoint is to name a top-level function:</p>
 <div class="highlight-none"><div class="highlight"><pre>:break identifier
@@ -1283,7 +1278,7 @@ given in the output from <a class="reference internal" href="#ghci-cmd-:show bre
 </div>
 </div>
 <div class="section" id="single-stepping">
-<span id="id25"></span><h3>5.5.2. Single-stepping<a class="headerlink" href="#single-stepping" title="Permalink to this headline">¶</a></h3>
+<span id="id26"></span><h3>5.5.2. Single-stepping<a class="headerlink" href="#single-stepping" title="Permalink to this headline">¶</a></h3>
 <p>Single-stepping is a great way to visualise the execution of your
 program, and it is also a useful tool for identifying the source of a
 bug. GHCi offers two variants of stepping. Use <a class="reference internal" href="#ghci-cmd-:step"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:step</span></code></a> to enable all
@@ -1324,7 +1319,7 @@ _result :: [Integer]
 </div>
 </div>
 <div class="section" id="nested-breakpoints">
-<span id="id26"></span><h3>5.5.3. Nested breakpoints<a class="headerlink" href="#nested-breakpoints" title="Permalink to this headline">¶</a></h3>
+<span id="id27"></span><h3>5.5.3. Nested breakpoints<a class="headerlink" href="#nested-breakpoints" title="Permalink to this headline">¶</a></h3>
 <p>When GHCi is stopped at a breakpoint, and an expression entered at the
 prompt triggers a second breakpoint, the new breakpoint becomes the
 &#8220;current&#8221; one, and the old one is saved on a stack. An arbitrary number
@@ -1693,7 +1688,7 @@ to the command line.</p>
 </div>
 </div>
 <div class="section" id="ghci-commands">
-<span id="id27"></span><h2>5.7. GHCi commands<a class="headerlink" href="#ghci-commands" title="Permalink to this headline">¶</a></h2>
+<span id="id28"></span><h2>5.7. GHCi commands<a class="headerlink" href="#ghci-commands" title="Permalink to this headline">¶</a></h2>
 <p>GHCi commands all begin with &#8220;<code class="docutils literal"><span class="pre">:</span></code>&#8221; and consist of a single command
 name followed by zero or more parameters. The command name may be
 abbreviated, with ambiguities being resolved in favour of the more
@@ -2755,7 +2750,7 @@ the interpreted code can be a different flavour (profiling or
 dynamically-linked) from GHC itself.  So for example:</p>
 <ul class="simple">
 <li>We can use the profiler to collect stack traces when using GHCi (see
-<a class="reference internal" href="#ghci-stack-traces"><span>GHCiでのスタックトレース</span></a>).</li>
+<a class="reference internal" href="#ghci-stack-traces"><span>GHCiのスタックトレース</span></a>).</li>
 <li>When compiling Template Haskell code with <a class="reference internal" href="profiling.html#ghc-flag--prof"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-prof</span></code></a> we don&#8217;t need to
 compile the modules without <a class="reference internal" href="profiling.html#ghc-flag--prof"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-prof</span></code></a> first (see <a class="reference internal" href="glasgow_exts.html#th-profiling"><span>Using Template Haskell with Profiling</span></a>)
 because we can run the profiled object code in the interpreter.</li>
@@ -2813,17 +2808,17 @@ program thus:</p>
 </div>
 </dd>
 </dl>
-<table class="docutils footnote" frame="void" id="id28" rules="none">
-<colgroup><col class="label" /><col /></colgroup>
-<tbody valign="top">
-<tr><td class="label"><a class="fn-backref" href="#id22">[5]</a></td><td>Note that packages only contain compiled code, so debugging a package
-requires finding its source and loading that directly.</td></tr>
-</tbody>
-</table>
 <table class="docutils footnote" frame="void" id="id29" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
-<tr><td class="label"><a class="fn-backref" href="#id23">[6]</a></td><td>We originally provided bindings for all variables in scope, rather
+<tr><td class="label"><a class="fn-backref" href="#id23">[5]</a></td><td>Note that packages only contain compiled code, so debugging a package
+requires finding its source and loading that directly.</td></tr>
+</tbody>
+</table>
+<table class="docutils footnote" frame="void" id="id30" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id24">[6]</a></td><td>We originally provided bindings for all variables in scope, rather
 than just the free variables of the expression, but found that this
 affected performance considerably, hence the current restriction to
 just the free variables.</td></tr>
