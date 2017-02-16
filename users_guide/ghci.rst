@@ -2175,49 +2175,103 @@ GHCiプロンプトあるいはGHCでは :ghc-flag:`-XExtendedDefaultRules` フ�
 
 計算を扱うモナドは，可能であるなら ``IO`` がデフォルトであることについては :ref:`actions-at-prompt` を参照してください．
 
+..
+   .. _ghci-interactive-print:
+
+   Using a custom interactive printing function
+   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+   .. index::
+      single: Custom printing function; in GHCi
+
 .. _ghci-interactive-print:
 
-Using a custom interactive printing function
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+独自の対話表示関数を使う
+~~~~~~~~~~~~~~~~~~~~~~~~
 
 .. index::
-   single: Custom printing function; in GHCi
+   single: 独自の表示関数; GHCiでの〜
 
-Since GHC 7.6.1, GHCi prints the result of expressions typed at the prompt
-using the function ``System.IO.print``. Its type signature is ``Show a => a ->
-IO ()``, and it works by converting the value to ``String`` using ``show``.
+..
+   Since GHC 7.6.1, GHCi prints the result of expressions typed at the prompt
+   using the function ``System.IO.print``. Its type signature is ``Show a => a ->
+   IO ()``, and it works by converting the value to ``String`` using ``show``.
 
-This is not ideal in certain cases, like when the output is long, or
-contains strings with non-ascii characters.
+GHC 7.6.1 以降，GHCiはプロンプトに入力された式の結果を ``System.IO.print`` を使って表示します．
+この関数の型シグネチャは ``Show a => a -> IO ()`` で，値を ``show`` を使って ``String`` に変換しています．
 
-The :ghc-flag:`-interactive-print` flag allows to specify any function of type
-``C a => a -> IO ()``, for some constraint ``C``, as the function for
-printing evaluated expressions. The function can reside in any loaded
-module or any registered package, but only when it resides in a registered
-package will it survive a :ghci-cmd:`:cd`, :ghci-cmd:`:add`, :ghci-cmd:`:load`,
-:ghci-cmd:`:reload` or, :ghci-cmd:`:set`.
+..
+   This is not ideal in certain cases, like when the output is long, or
+   contains strings with non-ascii characters.
+
+このやり方が理想的ではない場合があります．
+出力が長い場合や非アスキー文字が含まれるというような場合です．
+
+..
+   The :ghc-flag:`-interactive-print` flag allows to specify any function of type
+   ``C a => a -> IO ()``, for some constraint ``C``, as the function for
+   printing evaluated expressions. The function can reside in any loaded
+   module or any registered package, but only when it resides in a registered
+   package will it survive a :ghci-cmd:`:cd`, :ghci-cmd:`:add`, :ghci-cmd:`:load`,
+   :ghci-cmd:`:reload` or, :ghci-cmd:`:set`.
+
+:ghc-flag:`-interactive-print` フラグを使えば，何らかの制約を ``C`` として，
+``C a => a -> IO ()`` という型の関数を評価済みの式の値を表示する関数として指定できるようになります．
+この関数はロード済みのモジュールまたは登録済みのパッケージに置いてあればよいのですが，
+登録済みのパッケージに置いてある場合のみ :ghci-cmd:`:cd` ， :ghci-cmd:`:add` ， :ghci-cmd:`:load` ， :ghci-cmd:`:reload` あるいは :ghci-cmd:`:set` というコマンドをくぐり抜けられます．
+
+..
+   .. ghc-flag:: -interactive-print <expr>
+
+       Set the function used by GHCi to print evaluation results. Expression
+       must be of type ``C a => a -> IO ()``.
 
 .. ghc-flag:: -interactive-print <expr>
 
-    Set the function used by GHCi to print evaluation results. Expression
-    must be of type ``C a => a -> IO ()``.
+    GHCiが評価結果を表示するのに使う関数を設定します．
+    このとき〈expr〉の型は ``C a => a -> IO ()`` でなければなりません．
 
-As an example, suppose we have following special printing module: ::
+..
+   As an example, suppose we have following special printing module: ::
+
+       module SpecPrinter where
+       import System.IO
+
+       sprint a = putStrLn $ show a ++ "!"
+
+例として，以下の特別な表示モジュールがあるとしましょう． ::
 
     module SpecPrinter where
     import System.IO
 
     sprint a = putStrLn $ show a ++ "!"
 
-The ``sprint`` function adds an exclamation mark at the end of any
-printed value. Running GHCi with the command:
+..
+   The ``sprint`` function adds an exclamation mark at the end of any
+   printed value. Running GHCi with the command:
+
+   .. code-block:: none
+
+       ghci -interactive-print=SpecPrinter.sprinter SpecPrinter
+
+   will start an interactive session where values with be printed using
+   ``sprint``:
+
+   .. code-block:: none
+
+       *SpecPrinter> [1,2,3]
+       [1,2,3]!
+       *SpecPrinter> 42
+       42!
+
+``sprint`` 関数は表示された値の最後に感嘆符を追加します．
+以下のコマンド
 
 .. code-block:: none
 
     ghci -interactive-print=SpecPrinter.sprinter SpecPrinter
 
-will start an interactive session where values with be printed using
-``sprint``:
+でGHCiを起動すると，対話セッションが始まり，そこでは値は ``sprint`` で表示されます．
 
 .. code-block:: none
 
@@ -2226,11 +2280,23 @@ will start an interactive session where values with be printed using
     *SpecPrinter> 42
     42!
 
-A custom pretty printing function can be used, for example, to format
-tree-like and nested structures in a more readable way.
+..
+   A custom pretty printing function can be used, for example, to format
+   tree-like and nested structures in a more readable way.
 
-The :ghc-flag:`-interactive-print` flag can also be used when running GHC in
-``-e mode``:
+これには独自の整形表示関数が使えます．
+たとえばツリー構造や入れ子構造をよりよみやすい形式で表示できます．
+
+..
+   The :ghc-flag:`-interactive-print` flag can also be used when running GHC in
+   ``-e mode``:
+
+   .. code-block:: none
+
+       % ghc -e "[1,2,3]" -interactive-print=SpecPrinter.sprint SpecPrinter
+       [1,2,3]!
+
+:ghc-flag:`-interactive-print` フラグはGHCを ``-e mode`` で起動したときにも使えます．
 
 .. code-block:: none
 
