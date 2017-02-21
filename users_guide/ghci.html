@@ -82,7 +82,7 @@
 </ul>
 </li>
 <li><a class="reference internal" href="#ghci-debugger">5.5. GHCiのデバッガ</a><ul>
-<li><a class="reference internal" href="#breakpoints-and-inspecting-variables">5.5.1. Breakpoints and inspecting variables</a><ul>
+<li><a class="reference internal" href="#breakpoints">5.5.1. ブレイクポイントと変数内容の表示</a><ul>
 <li><a class="reference internal" href="#setting-breakpoints">5.5.1.1. Setting breakpoints</a></li>
 <li><a class="reference internal" href="#listing-and-deleting-breakpoints">5.5.1.2. Listing and deleting breakpoints</a></li>
 </ul>
@@ -1047,7 +1047,7 @@ GHCi に対する <code class="docutils literal"><span class="pre">-prof</span><
 このデバッガはGHCiに統合されていて，デフォルトで有効になっています．
 デバッグ機能を有効にするのにフラグは必要ありません．
 1つ重要な制限があります．それは，ブレイクポイントとステップ実行は解釈実行されているモジュールでしか使えないということです．
-コンパイル済みのコードはデバッガからは見えません <a class="footnote-reference" href="#id29" id="id23">[5]</a> ．</p>
+コンパイル済みのコードはデバッガからは見えません <a class="footnote-reference" href="#id30" id="id23">[5]</a> ．</p>
 <p>このデバッガが提供する機能は以下のとおりです．</p>
 <ul class="simple">
 <li>プログラム中の関数定義や式にブレイクポイントを設定する機能．
@@ -1068,9 +1068,9 @@ GHCi に対する <code class="docutils literal"><span class="pre">-prof</span><
 エラー発生時の状況を知るには十分であることも多いのです．
 たとえコンパイル済みのコードから例外が投げられたときでも，自動的にブレイクするようにできます
 (<a class="reference internal" href="#ghci-debugger-exceptions"><span>Debugging exceptions</span></a> 参照)．</p>
-<div class="section" id="breakpoints-and-inspecting-variables">
-<span id="breakpoints"></span><h3>5.5.1. Breakpoints and inspecting variables<a class="headerlink" href="#breakpoints-and-inspecting-variables" title="Permalink to this headline">¶</a></h3>
-<p>Let&#8217;s use quicksort as a running example. Here&#8217;s the code:</p>
+<div class="section" id="breakpoints">
+<span id="id24"></span><h3>5.5.1. ブレイクポイントと変数内容の表示<a class="headerlink" href="#breakpoints" title="Permalink to this headline">¶</a></h3>
+<p>実際に動く例としてクイックソートを使いましょう．以下がそのコードです．</p>
 <div class="highlight-haskell"><div class="highlight"><pre><span class="nf">qsort</span> <span class="kt">[]</span> <span class="ow">=</span> <span class="kt">[]</span>
 <span class="nf">qsort</span> <span class="p">(</span><span class="n">a</span><span class="kt">:</span><span class="n">as</span><span class="p">)</span> <span class="ow">=</span> <span class="n">qsort</span> <span class="n">left</span> <span class="o">++</span> <span class="p">[</span><span class="n">a</span><span class="p">]</span> <span class="o">++</span> <span class="n">qsort</span> <span class="n">right</span>
   <span class="kr">where</span> <span class="p">(</span><span class="n">left</span><span class="p">,</span><span class="n">right</span><span class="p">)</span> <span class="ow">=</span> <span class="p">(</span><span class="n">filter</span> <span class="p">(</span><span class="o">&lt;=</span><span class="n">a</span><span class="p">)</span> <span class="n">as</span><span class="p">,</span> <span class="n">filter</span> <span class="p">(</span><span class="o">&gt;</span><span class="n">a</span><span class="p">)</span> <span class="n">as</span><span class="p">)</span>
@@ -1078,146 +1078,117 @@ GHCi に対する <code class="docutils literal"><span class="pre">-prof</span><
 <span class="nf">main</span> <span class="ow">=</span> <span class="n">print</span> <span class="p">(</span><span class="n">qsort</span> <span class="p">[</span><span class="mi">8</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">23</span><span class="p">,</span> <span class="mi">11</span><span class="p">,</span> <span class="mi">18</span><span class="p">])</span>
 </pre></div>
 </div>
-<p>First, load the module into GHCi:</p>
+<p>ます，このモジュールをGHCiにロードしましょう．</p>
 <div class="highlight-none"><div class="highlight"><pre>Prelude&gt; :l qsort.hs
 [1 of 1] Compiling Main             ( qsort.hs, interpreted )
 Ok, modules loaded: Main.
 *Main&gt;
 </pre></div>
 </div>
-<p>Now, let&#8217;s set a breakpoint on the right-hand-side of the second
-equation of qsort:</p>
+<p>次に，qsort の定義2つめの等式の右辺にブレイクポイントを設定します．</p>
 <div class="highlight-none"><div class="highlight"><pre>*Main&gt; :break 2
-Breakpoint 0 activated at qsort.hs:2:15-46
+Breakpoint 0 activated at qsort.hs:2:16-47
 *Main&gt;
 </pre></div>
 </div>
-<p>The command <code class="docutils literal"><span class="pre">:break</span> <span class="pre">2</span></code> sets a breakpoint on line 2 of the most
-recently-loaded module, in this case <code class="docutils literal"><span class="pre">qsort.hs</span></code>. Specifically, it
-picks the leftmost complete subexpression on that line on which to set
-the breakpoint, which in this case is the expression
-<code class="docutils literal"><span class="pre">(qsort</span> <span class="pre">left</span> <span class="pre">++</span> <span class="pre">[a]</span> <span class="pre">++</span> <span class="pre">qsort</span> <span class="pre">right)</span></code>.</p>
-<p>Now, we run the program:</p>
+<p><code class="docutils literal"><span class="pre">:break</span> <span class="pre">2</span></code> というコマンドは直近にロードしたモジュールの2行目にブレイクポイントを設定するものです．
+この場合は <code class="docutils literal"><span class="pre">qsort.hs</span></code> の2行目です．
+詳しくいえば，ブレイクポイントを設定した行にある完全な部分式のうちもっとも左側にあるものが選ばれます．
+この場合は <code class="docutils literal"><span class="pre">(qsort</span> <span class="pre">left</span> <span class="pre">++</span> <span class="pre">[a]</span> <span class="pre">++</span> <span class="pre">qsort</span> <span class="pre">right)</span></code> です．</p>
+<p>[&#8211;ここから&#8211; GHC Users Manual 原文の記述とghciの実際の挙動が異なるので，実際の挙動に沿って非公式に説明します．]</p>
+<p>さて，このプログラムを走らせてみましょう．</p>
 <div class="highlight-none"><div class="highlight"><pre>*Main&gt; main
-Stopped at qsort.hs:2:15-46
-_result :: [a]
-a :: a
-left :: [a]
-right :: [a]
-[qsort.hs:2:15-46] *Main&gt;
+Stopped in Main.qsort, qsort.hs:2:16-47
+_result :: [Integer] = _
+a :: Integer = 8
+left :: [Integer] = _
+right :: [Integer] = _
+[qsort.hs:2:16-47] *Main&gt;
 </pre></div>
 </div>
-<p>Execution has stopped at the breakpoint. The prompt has changed to
-indicate that we are currently stopped at a breakpoint, and the
-location: <code class="docutils literal"><span class="pre">[qsort.hs:2:15-46]</span></code>. To further clarify the location, we
-can use the <a class="reference internal" href="#ghci-cmd-:list"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:list</span></code></a> command:</p>
-<div class="highlight-none"><div class="highlight"><pre>[qsort.hs:2:15-46] *Main&gt; :list
+<p>[&#8211;ここまで&#8211; 実際の挙動に沿った非公式な記述]</p>
+<p>ブレイクポイントのところで実行が中断されました．
+プロンプトが変化して，ブレイクポイントで止っていること，
+その場所が <code class="docutils literal"><span class="pre">[qsort.hs:2:16-47]</span></code> であることが判ります．
+その場所をさらに明確にするには <a class="reference internal" href="#ghci-cmd-:list"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:list</span></code></a> コマンドを使います．</p>
+<div class="highlight-none"><div class="highlight"><pre>[qsort.hs:2:16-47] *Main&gt; :list
 1  qsort [] = []
 2  qsort (a:as) = qsort left ++ [a] ++ qsort right
 3    where (left,right) = (filter (&lt;=a) as, filter (&gt;a) as)
 </pre></div>
 </div>
-<p>The <a class="reference internal" href="#ghci-cmd-:list"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:list</span></code></a> command lists the source code around the current
-breakpoint. If your output device supports it, then GHCi will highlight
-the active subexpression in bold.</p>
-<p>GHCi has provided bindings for the free variables <a class="footnote-reference" href="#id30" id="id24">[6]</a> of the expression
-on which the breakpoint was placed (<code class="docutils literal"><span class="pre">a</span></code>, <code class="docutils literal"><span class="pre">left</span></code>, <code class="docutils literal"><span class="pre">right</span></code>), and
-additionally a binding for the result of the expression (<code class="docutils literal"><span class="pre">_result</span></code>).
-These variables are just like other variables that you might define in
-GHCi; you can use them in expressions that you type at the prompt, you
-can ask for their types with <a class="reference internal" href="#ghci-cmd-:type"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:type</span></code></a>, and so on. There is one
-important difference though: these variables may only have partial
-types. For example, if we try to display the value of <code class="docutils literal"><span class="pre">left</span></code>:</p>
-<div class="highlight-none"><div class="highlight"><pre>[qsort.hs:2:15-46] *Main&gt; left
-
-&lt;interactive&gt;:1:0:
-    Ambiguous type variable `a&#39; in the constraint:
-      `Show a&#39; arising from a use of `print&#39; at &lt;interactive&gt;:1:0-3
-    Cannot resolve unknown runtime types: a
-    Use :print or :force to determine these types
+<p><a class="reference internal" href="#ghci-cmd-:list"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:list</span></code></a> コマンドは，現在のブレイクポイントの周囲のコードを表示します．
+出力デバイスがサポートしている場合は，注目している部分式がボールド体で表示されます．</p>
+<p>GHCiは，ブレイクポイントを置いた式の自由変数 <a class="footnote-reference" href="#id31" id="id25">[6]</a> (<code class="docutils literal"><span class="pre">a</span></code> ， <code class="docutils literal"><span class="pre">left</span></code> ， <code class="docutils literal"><span class="pre">right</span></code>)
+に対する束縛および当該式の結果(<code class="docutils literal"><span class="pre">_result</span></code>)に対する束縛も提供しています．
+これらの変数は，GHCi上で普通に定義する他の変数と同じです．
+プロンプトで入力する式の中で使ったり， <a class="reference internal" href="#ghci-cmd-:type"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:type</span></code></a> コマンドで型を確認するなどが可能です．</p>
+<p>[&#8211;ここから&#8211; GHC Users Manual 原文の記述とghciの実際の挙動が異なるので，実際の挙動に沿って非公式に説明します．]</p>
+<p>例を見ましょう．</p>
+<div class="highlight-none"><div class="highlight"><pre>[qsort.hs:2:16-47] *Main&gt; :type left
+left :: [Integer]
 </pre></div>
 </div>
-<p>This is because <code class="docutils literal"><span class="pre">qsort</span></code> is a polymorphic function, and because GHCi
-does not carry type information at runtime, it cannot determine the
-runtime types of free variables that involve type variables. Hence, when
-you ask to display <code class="docutils literal"><span class="pre">left</span></code> at the prompt, GHCi can&#8217;t figure out which
-instance of <code class="docutils literal"><span class="pre">Show</span></code> to use, so it emits the type error above.</p>
-<p>Fortunately, the debugger includes a generic printing command,
-<a class="reference internal" href="#ghci-cmd-:print"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:print</span></code></a>, which can inspect the actual runtime value of a variable and
-attempt to reconstruct its type. If we try it on <code class="docutils literal"><span class="pre">left</span></code>:</p>
-<div class="highlight-none"><div class="highlight"><pre>[qsort.hs:2:15-46] *Main&gt; :set -fprint-evld-with-show
-[qsort.hs:2:15-46] *Main&gt; :print left
-left = (_t1::[a])
+<p>[&#8211;ここまで&#8211; 実際の挙動に沿って非公式説明]</p>
+<p>デバッガにはジェネリックな表示コマンド
+<a class="reference internal" href="#ghci-cmd-:print"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:print</span></code></a> があり，これを使えば，変数の実行時の値と型を調べられます．
+<code class="docutils literal"><span class="pre">left</span></code> に対して使ってみましょう．</p>
+<div class="highlight-none"><div class="highlight"><pre>[qsort.hs:2:16-47] *Main&gt; :print left
+left = (_t1::[Integer])
 </pre></div>
 </div>
-<p>This isn&#8217;t particularly enlightening. What happened is that <code class="docutils literal"><span class="pre">left</span></code> is
-bound to an unevaluated computation (a suspension, or thunk), and
-<a class="reference internal" href="#ghci-cmd-:print"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:print</span></code></a> does not force any evaluation. The idea is that
-<a class="reference internal" href="#ghci-cmd-:print"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:print</span></code></a> can be used to inspect values at a breakpoint without any
-unfortunate side effects. It won&#8217;t force any evaluation, which could cause the
-program to give a different answer than it would normally, and hence it won&#8217;t
-cause any exceptions to be raised, infinite loops, or further breakpoints to be
-triggered (see <a class="reference internal" href="#nested-breakpoints"><span>Nested breakpoints</span></a>). Rather than forcing thunks,
-<a class="reference internal" href="#ghci-cmd-:print"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:print</span></code></a> binds each thunk to a fresh variable beginning with an
-underscore, in this case <code class="docutils literal"><span class="pre">_t1</span></code>.</p>
-<p>The flag <code class="xref std std-ghc-flag docutils literal"><span class="pre">-fprint-evld-with-show</span></code> instructs <a class="reference internal" href="#ghci-cmd-:print"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:print</span></code></a> to reuse
-available <code class="docutils literal"><span class="pre">Show</span></code> instances when possible. This happens only when the
-contents of the variable being inspected are completely evaluated.</p>
-<p>If we aren&#8217;t concerned about preserving the evaluatedness of a variable, we can
-use <a class="reference internal" href="#ghci-cmd-:force"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:force</span></code></a> instead of <a class="reference internal" href="#ghci-cmd-:print"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:print</span></code></a>. The <a class="reference internal" href="#ghci-cmd-:force"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:force</span></code></a>
-command behaves exactly like <a class="reference internal" href="#ghci-cmd-:print"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:print</span></code></a>, except that it forces the
-evaluation of any thunks it encounters:</p>
-<div class="highlight-none"><div class="highlight"><pre>[qsort.hs:2:15-46] *Main&gt; :force left
+<p>あまり細かいことは判りません．
+<code class="docutils literal"><span class="pre">left</span></code> は未評価の計算(サスペンションあるいはサンク)に束縛されています．
+これは <code class="docutils literal"><span class="pre">left</span></code> は未評価ですが <a class="reference internal" href="#ghci-cmd-:print"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:print</span></code></a> が評価を強制しないからです．</p>
+<p><a class="reference internal" href="#ghci-cmd-:print"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:print</span></code></a> はブレイクポイントで値を検査する際に副作用を起こさないようにしてあるのです．
+評価を強制しないので，通常の評価と違う結果になったり，例外が投げられたり，無限ループや別のブレイクポイントに遭遇することもありません
+(<a class="reference internal" href="#nested-breakpoints"><span>Nested breakpoints</span></a> 参照)．
+<a class="reference internal" href="#ghci-cmd-:print"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:print</span></code></a> は各サンクにアンダースコアで始まるフレッシュ(まだ使われていない)変数，ここでは <code class="docutils literal"><span class="pre">_t1</span></code> を束縛します．</p>
+<p>[&#8211;ここでは&#8211; GHC Users Manual 原文の記述とghciの実際の挙動が異なる部分に関連する説明を省いています．]</p>
+<p>変数の評価状態を変えてしまってかまわないのなら <a class="reference internal" href="#ghci-cmd-:print"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:print</span></code></a> ではなく <a class="reference internal" href="#ghci-cmd-:force"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:force</span></code></a> を使うこともできます．
+<a class="reference internal" href="#ghci-cmd-:force"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:force</span></code></a> コマンドはサンクのときは評価を強制する以外は <a class="reference internal" href="#ghci-cmd-:print"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:print</span></code></a> と同じ振る舞いになります．</p>
+<div class="highlight-none"><div class="highlight"><pre>[qsort.hs:2:16-47] *Main&gt; :force left
 left = [4,0,3,1]
 </pre></div>
 </div>
-<p>Now, since <a class="reference internal" href="#ghci-cmd-:force"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:force</span></code></a> has inspected the runtime value of <code class="docutils literal"><span class="pre">left</span></code>, it
-has reconstructed its type. We can see the results of this type
-reconstruction:</p>
-<div class="highlight-none"><div class="highlight"><pre>[qsort.hs:2:15-46] *Main&gt; :show bindings
-_result :: [Integer]
-a :: Integer
-left :: [Integer]
-right :: [Integer]
-_t1 :: [Integer]
+<p>[&#8211;ここから&#8211; GHC Users Manual 原文の記述とghciの実際の挙動が異なるので，実際の挙動に沿って非公式に説明します．]</p>
+<p>ここで <a class="reference internal" href="#ghci-cmd-:show bindings"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:show</span> <span class="pre">bindings</span></code></a> を使うと，関連する束縛を表示できます．</p>
+<div class="highlight-none"><div class="highlight"><pre>[qsort.hs:2:16-47] *Main&gt; :show bindings
+right :: [Integer] = _
+left :: [Integer] = [4,0,3,1]
+a :: Integer = 8
+_result :: [Integer] = _
+_t1 :: [Integer] = [4,0,3,1]
 </pre></div>
 </div>
-<p>Not only do we now know the type of <code class="docutils literal"><span class="pre">left</span></code>, but all the other partial
-types have also been resolved. So we can ask for the value of <code class="docutils literal"><span class="pre">a</span></code>, for
-example:</p>
-<div class="highlight-none"><div class="highlight"><pre>[qsort.hs:2:15-46] *Main&gt; a
-8
-</pre></div>
-</div>
-<p>You might find it useful to use Haskell&#8217;s <code class="docutils literal"><span class="pre">seq</span></code> function to evaluate
-individual thunks rather than evaluating the whole expression with
-<a class="reference internal" href="#ghci-cmd-:force"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:force</span></code></a>. For example:</p>
-<div class="highlight-none"><div class="highlight"><pre>[qsort.hs:2:15-46] *Main&gt; :print right
-right = (_t1::[Integer])
-[qsort.hs:2:15-46] *Main&gt; seq _t1 ()
+<p>式全体を:forceで評価してしまうのではなく，個々のサンクを評価したい場合には，Haskellの
+<code class="docutils literal"><span class="pre">seq</span></code> 関数が便利でしょう．以下のように使います．</p>
+<div class="highlight-none"><div class="highlight"><pre>[qsort.hs:2:16-47] *Main&gt; :print right
+right = (_t2::[Integer])
+[qsort.hs:2:16-47] *Main&gt; seq _t2 ()
 ()
-[qsort.hs:2:15-46] *Main&gt; :print right
-right = 23 : (_t2::[Integer])
+[qsort.hs:2:16-47] *Main&gt; :print right
+right = 23 : (_t3::[Integer])
 </pre></div>
 </div>
 <p>We evaluated only the <code class="docutils literal"><span class="pre">_t1</span></code> thunk, revealing the head of the list, and
-the tail is another thunk now bound to <code class="docutils literal"><span class="pre">_t2</span></code>. The <code class="docutils literal"><span class="pre">seq</span></code> function is
-a little inconvenient to use here, so you might want to use <a class="reference internal" href="#ghci-cmd-:def"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:def</span></code></a> to
-make a nicer interface (left as an exercise for the reader!).</p>
-<p>Finally, we can continue the current execution:</p>
-<div class="highlight-none"><div class="highlight"><pre>[qsort.hs:2:15-46] *Main&gt; :continue
-Stopped at qsort.hs:2:15-46
-_result :: [a]
-a :: a
-left :: [a]
-right :: [a]
-[qsort.hs:2:15-46] *Main&gt;
+ここでは，サンク <code class="docutils literal"><span class="pre">_t2</span></code> だけを評価して，リストの先頭が判明しました．
+<code class="docutils literal"><span class="pre">seq</span></code> 関数はすこし使いにくいので <a class="reference internal" href="#ghci-cmd-:def"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:def</span></code></a> を使ってもっとよいインターフェイスを作るといいでしょう
+(どうするかは練習問題にしておきます！)．</p>
+<p>そして，実行を再開することもできます．</p>
+<div class="highlight-none"><div class="highlight"><pre>[qsort.hs:2:16-47] *Main&gt; :continue
+Stopped in Main.qsort, qsort.hs:2:16-47
+_result :: [Integer] = _
+a :: Integer = 4
+left :: [Integer] = _
+right :: [Integer] = _
+[qsort.hs:2:16-47] *Main&gt;
 </pre></div>
 </div>
-<p>The execution continued at the point it previously stopped, and has now
-stopped at the breakpoint for a second time.</p>
+<p>実行が前に停止した点から再開し，同じブレイクで再び停止しました．</p>
+<p>[&#8211;ここまで&#8211; 実際の挙動に沿った非公式説明．]</p>
 <div class="section" id="setting-breakpoints">
-<span id="id25"></span><h4>5.5.1.1. Setting breakpoints<a class="headerlink" href="#setting-breakpoints" title="Permalink to this headline">¶</a></h4>
+<span id="id26"></span><h4>5.5.1.1. Setting breakpoints<a class="headerlink" href="#setting-breakpoints" title="Permalink to this headline">¶</a></h4>
 <p>Breakpoints can be set in various ways. Perhaps the easiest way to set a
 breakpoint is to name a top-level function:</p>
 <div class="highlight-none"><div class="highlight"><pre>:break identifier
@@ -1264,21 +1235,21 @@ the variables bound by the let.</p>
 <a class="reference internal" href="#ghci-cmd-:show breaks"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:show</span> <span class="pre">breaks</span></code></a>:</p>
 <div class="highlight-none"><div class="highlight"><pre>*Main&gt; :show breaks
 [0] Main qsort.hs:1:11-12
-[1] Main qsort.hs:2:15-46
+[1] Main qsort.hs:2:16-47
 </pre></div>
 </div>
 <p>To delete a breakpoint, use the <a class="reference internal" href="#ghci-cmd-:delete"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:delete</span></code></a> command with the number
 given in the output from <a class="reference internal" href="#ghci-cmd-:show breaks"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:show</span> <span class="pre">breaks</span></code></a>:</p>
 <div class="highlight-none"><div class="highlight"><pre>*Main&gt; :delete 0
 *Main&gt; :show breaks
-[1] Main qsort.hs:2:15-46
+[1] Main qsort.hs:2:16-47
 </pre></div>
 </div>
 <p>To delete all breakpoints at once, use <code class="docutils literal"><span class="pre">:delete</span> <span class="pre">*</span></code>.</p>
 </div>
 </div>
 <div class="section" id="single-stepping">
-<span id="id26"></span><h3>5.5.2. Single-stepping<a class="headerlink" href="#single-stepping" title="Permalink to this headline">¶</a></h3>
+<span id="id27"></span><h3>5.5.2. Single-stepping<a class="headerlink" href="#single-stepping" title="Permalink to this headline">¶</a></h3>
 <p>Single-stepping is a great way to visualise the execution of your
 program, and it is also a useful tool for identifying the source of a
 bug. GHCi offers two variants of stepping. Use <a class="reference internal" href="#ghci-cmd-:step"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:step</span></code></a> to enable all
@@ -1319,12 +1290,12 @@ _result :: [Integer]
 </div>
 </div>
 <div class="section" id="nested-breakpoints">
-<span id="id27"></span><h3>5.5.3. Nested breakpoints<a class="headerlink" href="#nested-breakpoints" title="Permalink to this headline">¶</a></h3>
+<span id="id28"></span><h3>5.5.3. Nested breakpoints<a class="headerlink" href="#nested-breakpoints" title="Permalink to this headline">¶</a></h3>
 <p>When GHCi is stopped at a breakpoint, and an expression entered at the
 prompt triggers a second breakpoint, the new breakpoint becomes the
 &#8220;current&#8221; one, and the old one is saved on a stack. An arbitrary number
 of breakpoint contexts can be built up in this way. For example:</p>
-<div class="highlight-none"><div class="highlight"><pre>[qsort.hs:2:15-46] *Main&gt; :st qsort [1,3]
+<div class="highlight-none"><div class="highlight"><pre>[qsort.hs:2:16-47] *Main&gt; :st qsort [1,3]
 Stopped at qsort.hs:(1,0)-(3,55)
 _result :: [a]
 ... [qsort.hs:(1,0)-(3,55)] *Main&gt;
@@ -1338,7 +1309,7 @@ breakpoints beyond the current one. To see the stack of contexts, use
 <a class="reference internal" href="#ghci-cmd-:show context"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:show</span> <span class="pre">context</span></code></a>:</p>
 <div class="highlight-none"><div class="highlight"><pre>... [qsort.hs:(1,0)-(3,55)] *Main&gt; :show context
 --&gt; main
-  Stopped at qsort.hs:2:15-46
+  Stopped at qsort.hs:2:16-47
 --&gt; qsort [1,3]
   Stopped at qsort.hs:(1,0)-(3,55)
 ... [qsort.hs:(1,0)-(3,55)] *Main&gt;
@@ -1346,7 +1317,7 @@ breakpoints beyond the current one. To see the stack of contexts, use
 </div>
 <p>To abandon the current evaluation, use <a class="reference internal" href="#ghci-cmd-:abandon"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:abandon</span></code></a>:</p>
 <div class="highlight-none"><div class="highlight"><pre>... [qsort.hs:(1,0)-(3,55)] *Main&gt; :abandon
-[qsort.hs:2:15-46] *Main&gt; :abandon
+[qsort.hs:2:16-47] *Main&gt; :abandon
 *Main&gt;
 </pre></div>
 </div>
@@ -1409,17 +1380,17 @@ _result :: [a]
 -2  : qsort.hs:3:23-55
 -3  : qsort.hs:(1,0)-(3,55)
 -4  : qsort.hs:2:15-24
--5  : qsort.hs:2:15-46
+-5  : qsort.hs:2:16-47
 -6  : qsort.hs:3:24-38
 -7  : qsort.hs:3:23-55
 -8  : qsort.hs:(1,0)-(3,55)
 -9  : qsort.hs:2:15-24
--10 : qsort.hs:2:15-46
+-10 : qsort.hs:2:16-47
 -11 : qsort.hs:3:24-38
 -12 : qsort.hs:3:23-55
 -13 : qsort.hs:(1,0)-(3,55)
 -14 : qsort.hs:2:15-24
--15 : qsort.hs:2:15-46
+-15 : qsort.hs:2:16-47
 -16 : qsort.hs:(1,0)-(3,55)
 &lt;end of history&gt;
 </pre></div>
@@ -1491,7 +1462,7 @@ _exception :: e
 -2  : qsort.hs:3:23-55
 -3  : qsort.hs:(1,0)-(3,55)
 -4  : qsort.hs:2:15-24
--5  : qsort.hs:2:15-46
+-5  : qsort.hs:2:16-47
 -6  : qsort.hs:(1,0)-(3,55)
 &lt;end of history&gt;
 [&lt;exception thrown&gt;] *Main&gt; :back
@@ -1553,7 +1524,7 @@ its type is not fully known yet, and thus it is not possible to apply it
 to any arguments. Nevertheless, observe that the type of its first
 argument is the same as the type of <code class="docutils literal"><span class="pre">x</span></code>, and its result type is shared
 with <code class="docutils literal"><span class="pre">_result</span></code>.</p>
-<p>As we demonstrated earlier (<a class="reference internal" href="#breakpoints"><span>Breakpoints and inspecting variables</span></a>), the debugger has some
+<p>As we demonstrated earlier (<a class="reference internal" href="#breakpoints"><span>ブレイクポイントと変数内容の表示</span></a>), the debugger has some
 intelligence built-in to update the type of <code class="docutils literal"><span class="pre">f</span></code> whenever the types of
 <code class="docutils literal"><span class="pre">x</span></code> or <code class="docutils literal"><span class="pre">_result</span></code> are discovered. So what we do in this scenario is
 force <code class="docutils literal"><span class="pre">x</span></code> a bit, in order to recover both its type and the argument
@@ -1688,7 +1659,7 @@ to the command line.</p>
 </div>
 </div>
 <div class="section" id="ghci-commands">
-<span id="id28"></span><h2>5.7. GHCi commands<a class="headerlink" href="#ghci-commands" title="Permalink to this headline">¶</a></h2>
+<span id="id29"></span><h2>5.7. GHCi commands<a class="headerlink" href="#ghci-commands" title="Permalink to this headline">¶</a></h2>
 <p>GHCi commands all begin with &#8220;<code class="docutils literal"><span class="pre">:</span></code>&#8221; and consist of a single command
 name followed by zero or more parameters. The command name may be
 abbreviated, with ambiguities being resolved in favour of the more
@@ -2176,7 +2147,7 @@ to reconstruct the type of the value, and will elaborate the type in
 GHCi&#8217;s environment if possible. If any unevaluated components
 (thunks) are encountered, then <a class="reference internal" href="#ghci-cmd-:print"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:print</span></code></a> binds a fresh variable
 with a name beginning with <code class="docutils literal"><span class="pre">_t</span></code> to each thunk. See
-<a class="reference internal" href="#breakpoints"><span>Breakpoints and inspecting variables</span></a> for more information. See also the <a class="reference internal" href="#ghci-cmd-:sprint"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:sprint</span></code></a>
+<a class="reference internal" href="#breakpoints"><span>ブレイクポイントと変数内容の表示</span></a> for more information. See also the <a class="reference internal" href="#ghci-cmd-:sprint"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:sprint</span></code></a>
 command, which works like <a class="reference internal" href="#ghci-cmd-:print"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:print</span></code></a> but does not bind new
 variables.</p>
 </dd></dl>
@@ -2808,17 +2779,17 @@ program thus:</p>
 </div>
 </dd>
 </dl>
-<table class="docutils footnote" frame="void" id="id29" rules="none">
+<table class="docutils footnote" frame="void" id="id30" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
 <tr><td class="label"><a class="fn-backref" href="#id23">[5]</a></td><td>Note that packages only contain compiled code, so debugging a package
 requires finding its source and loading that directly.</td></tr>
 </tbody>
 </table>
-<table class="docutils footnote" frame="void" id="id30" rules="none">
+<table class="docutils footnote" frame="void" id="id31" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
-<tr><td class="label"><a class="fn-backref" href="#id24">[6]</a></td><td>We originally provided bindings for all variables in scope, rather
+<tr><td class="label"><a class="fn-backref" href="#id25">[6]</a></td><td>We originally provided bindings for all variables in scope, rather
 than just the free variables of the expression, but found that this
 affected performance considerably, hence the current restriction to
 just the free variables.</td></tr>
