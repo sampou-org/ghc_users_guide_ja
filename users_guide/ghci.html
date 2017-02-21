@@ -26,7 +26,7 @@
     <script type="text/javascript" src="_static/doctools.js"></script>
     <link rel="top" title="Glasgow Haskell Compiler &lt;release&gt; Users Guide" href="index.html" />
     <link rel="next" title="6. Using runghc" href="runghc.html" />
-    <link rel="prev" title="4. version 8.0.2 のリリースノート" href="8.0.2-notes.html" /> 
+    <link rel="prev" title="4. バージョン 8.0.2 のリリースノート" href="8.0.2-notes.html" /> 
   </head>
   <body role="document">
 <div class="logo">
@@ -43,7 +43,7 @@
           <a href="runghc.html" title="6. Using runghc"
              accesskey="N">next</a> |</li>
         <li class="right" >
-          <a href="8.0.2-notes.html" title="4. version 8.0.2 のリリースノート"
+          <a href="8.0.2-notes.html" title="4. バージョン 8.0.2 のリリースノート"
              accesskey="P">previous</a> |</li>
         <li class="nav-item nav-item-0"><a href="index.html">GHC 8.0.2 Users Guide</a> &raquo;</li> 
       </ul>
@@ -83,7 +83,7 @@
 </li>
 <li><a class="reference internal" href="#ghci-debugger">5.5. GHCiのデバッガ</a><ul>
 <li><a class="reference internal" href="#breakpoints">5.5.1. ブレイクポイントと変数内容の表示</a><ul>
-<li><a class="reference internal" href="#setting-breakpoints">5.5.1.1. Setting breakpoints</a></li>
+<li><a class="reference internal" href="#setting-breakpoints">5.5.1.1. ブレイクポイントの設定</a></li>
 <li><a class="reference internal" href="#listing-and-deleting-breakpoints">5.5.1.2. Listing and deleting breakpoints</a></li>
 </ul>
 </li>
@@ -122,7 +122,7 @@
 
   <h4>Previous topic</h4>
   <p class="topless"><a href="8.0.2-notes.html"
-                        title="previous chapter">4. version 8.0.2 のリリースノート</a></p>
+                        title="previous chapter">4. バージョン 8.0.2 のリリースノート</a></p>
   <h4>Next topic</h4>
   <p class="topless"><a href="runghc.html"
                         title="next chapter">6. Using runghc</a></p>
@@ -1188,46 +1188,40 @@ right :: [Integer] = _
 <p>実行が前に停止した点から再開し，同じブレイクで再び停止しました．</p>
 <p>[&#8211;ここまで&#8211; 実際の挙動に沿った非公式説明．]</p>
 <div class="section" id="setting-breakpoints">
-<span id="id26"></span><h4>5.5.1.1. Setting breakpoints<a class="headerlink" href="#setting-breakpoints" title="Permalink to this headline">¶</a></h4>
-<p>Breakpoints can be set in various ways. Perhaps the easiest way to set a
-breakpoint is to name a top-level function:</p>
+<span id="id26"></span><h4>5.5.1.1. ブレイクポイントの設定<a class="headerlink" href="#setting-breakpoints" title="Permalink to this headline">¶</a></h4>
+<p>ブレークポイントを設定する方法はいくつかあります．
+おそらくもっとも簡単な方法は最上位の関数の名前を使うことです．</p>
 <div class="highlight-none"><div class="highlight"><pre>:break identifier
 </pre></div>
 </div>
-<p>Where ⟨identifier⟩ names any top-level function in an interpreted module
-currently loaded into GHCi (qualified names may be used). The breakpoint
-will be set on the body of the function, when it is fully applied but
-before any pattern matching has taken place.</p>
-<p>Breakpoints can also be set by line (and optionally column) number:</p>
+<p>ここで ⟨identifier⟩ はGHCiにロードされて解釈実行されるモジュールのトップレベルにある関数の名前です
+(これには修飾名も使えます)．
+ブレイクポイントは関数の本体部分に設定されます．
+関数が完全に適用されパターン照合が行われる直前に設定されます．</p>
+<p>行番号(および列番号)でブレイクポイントを設定することもできます．</p>
 <div class="highlight-none"><div class="highlight"><pre>:break line
 :break line column
 :break module line
 :break module line column
 </pre></div>
 </div>
-<p>When a breakpoint is set on a particular line, GHCi sets the breakpoint
-on the leftmost subexpression that begins and ends on that line. If two
-complete subexpressions start at the same column, the longest one is
-picked. If there is no complete subexpression on the line, then the
-leftmost expression starting on the line is picked, and failing that the
-rightmost expression that partially or completely covers the line.</p>
-<p>When a breakpoint is set on a particular line and column, GHCi picks the
-smallest subexpression that encloses that location on which to set the
-breakpoint. Note: GHC considers the TAB character to have a width of 1,
-wherever it occurs; in other words it counts characters, rather than
-columns. This matches what some editors do, and doesn&#8217;t match others.
-The best advice is to avoid tab characters in your source code
-altogether (see <a class="reference internal" href="using-warnings.html#ghc-flag--Wtabs"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-Wtabs</span></code></a> in <a class="reference internal" href="using-warnings.html#options-sanity"><span>Warnings and sanity-checking</span></a>).</p>
-<p>If the module is omitted, then the most recently-loaded module is used.</p>
-<p>Not all subexpressions are potential breakpoint locations. Single
-variables are typically not considered to be breakpoint locations
-(unless the variable is the right-hand-side of a function definition,
-lambda, or case alternative). The rule of thumb is that all redexes are
-breakpoint locations, together with the bodies of functions, lambdas,
-case alternatives and binding statements. There is normally no
-breakpoint on a let expression, but there will always be a breakpoint on
-its body, because we are usually interested in inspecting the values of
-the variables bound by the let.</p>
+<p>ブレークポイントを特定の行に設定する場合，GHCiはその行で始まりその行で終わる部分式の中で
+もっとも左側にあるものに設定します．
+2つの完全な部分式が同じカラムから始まっているなら長い方が選ばれます．
+その行に完全な部分式が無い場合，その行で始まっている部分式の中でもっとも左側にあるものが選ばれます．
+それも失敗したら，その行を一部あるいは全部覆う式の中でもっとも右側にあるものが選ばれます．</p>
+<p>ブレークポイントを特定の行の特定のカラムに設定する場合，GHCiはその位置を含む式の中で最小のものを選びます．
+注意: GHCはTAB文字を現れた位置に関わらず幅1とみなします．
+言い換えれば，カラム数を数えるのではなく文字を数えます．
+振る舞いと合うエディタもあり，合わないエディタもあります．
+最善はそもそもソースコード中でタブ文字を使わないことです
+(<a class="reference internal" href="using-warnings.html#options-sanity"><span>Warnings and sanity-checking</span></a> にある <a class="reference internal" href="using-warnings.html#ghc-flag--Wtabs"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-Wtabs</span></code></a> を参照してください)．</p>
+<p>モジュールが省略された場合，直近にロードされたモジュールが使われます．</p>
+<p>ブレークポイントを設定できない部分式もあります．
+単一の変数は通常ブレークポイント位置とはみなされません(ただし，その変数が関数定義かλかcaseの選択肢の右辺である場合は除きます)．
+大まかにいうと，ブレークポイントになるのは，全ての簡約基，関数やλ抽象の本体，caseの選択肢，束縛文です．
+通常let式はブレークポイントになりませんが，その本体は常にブレークポイントになります．
+そのletで束縛された変数の値を調べたいと思うのが普通だからです．</p>
 </div>
 <div class="section" id="listing-and-deleting-breakpoints">
 <h4>5.5.1.2. Listing and deleting breakpoints<a class="headerlink" href="#listing-and-deleting-breakpoints" title="Permalink to this headline">¶</a></h4>
@@ -1706,7 +1700,7 @@ source-code span, e.g.</p>
 <dt id="ghci-cmd-:break">
 <code class="descname">:break [⟨identifier⟩ | [⟨module⟩] ⟨line⟩ [⟨column⟩]]</code><a class="headerlink" href="#ghci-cmd-:break" title="Permalink to this definition">¶</a></dt>
 <dd><p>Set a breakpoint on the specified function or line and column. See
-<a class="reference internal" href="#setting-breakpoints"><span>Setting breakpoints</span></a>.</p>
+<a class="reference internal" href="#setting-breakpoints"><span>ブレイクポイントの設定</span></a>.</p>
 </dd></dl>
 
 <dl class="ghci-cmd">
@@ -2814,7 +2808,7 @@ just the free variables.</td></tr>
           <a href="runghc.html" title="6. Using runghc"
              >next</a> |</li>
         <li class="right" >
-          <a href="8.0.2-notes.html" title="4. version 8.0.2 のリリースノート"
+          <a href="8.0.2-notes.html" title="4. バージョン 8.0.2 のリリースノート"
              >previous</a> |</li>
         <li class="nav-item nav-item-0"><a href="index.html">GHC 8.0.2 Users Guide</a> &raquo;</li> 
       </ul>
