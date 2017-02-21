@@ -2486,12 +2486,27 @@ GHCi は単純な命令スタイルのデバッガを備えています．
 たとえコンパイル済みのコードから例外が投げられたときでも，自動的にブレイクするようにできます
 (:ref:`ghci-debugger-exceptions` 参照)．
 
+..
+   .. _breakpoints:
+
+   Breakpoints and inspecting variables
+   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 .. _breakpoints:
 
-Breakpoints and inspecting variables
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+ブレイクポイントと変数内容の表示
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Let's use quicksort as a running example. Here's the code: ::
+..
+   Let's use quicksort as a running example. Here's the code: ::
+
+       qsort [] = []
+       qsort (a:as) = qsort left ++ [a] ++ qsort right
+	 where (left,right) = (filter (<=a) as, filter (>a) as)
+
+       main = print (qsort [8, 4, 0, 3, 1, 23, 11, 18])
+
+実際に動く例としてクイックソートを使いましょう．以下がそのコードです． ::
 
     qsort [] = []
     qsort (a:as) = qsort left ++ [a] ++ qsort right
@@ -2499,7 +2514,17 @@ Let's use quicksort as a running example. Here's the code: ::
 
     main = print (qsort [8, 4, 0, 3, 1, 23, 11, 18])
 
-First, load the module into GHCi:
+..
+   First, load the module into GHCi:
+
+   .. code-block:: none
+
+       Prelude> :l qsort.hs
+       [1 of 1] Compiling Main             ( qsort.hs, interpreted )
+       Ok, modules loaded: Main.
+       *Main>
+
+ます，このモジュールをGHCiにロードしましょう．
 
 .. code-block:: none
 
@@ -2508,163 +2533,314 @@ First, load the module into GHCi:
     Ok, modules loaded: Main.
     *Main>
 
-Now, let's set a breakpoint on the right-hand-side of the second
-equation of qsort:
+..
+   Now, let's set a breakpoint on the right-hand-side of the second
+   equation of qsort:
+
+   .. code-block:: none
+
+       *Main> :break 2
+       Breakpoint 0 activated at qsort.hs:2:16-47
+       *Main>
+
+次に，qsort の定義2つめの等式の右辺にブレイクポイントを設定します．
 
 .. code-block:: none
 
     *Main> :break 2
-    Breakpoint 0 activated at qsort.hs:2:15-46
+    Breakpoint 0 activated at qsort.hs:2:16-47
     *Main>
 
-The command ``:break 2`` sets a breakpoint on line 2 of the most
-recently-loaded module, in this case ``qsort.hs``. Specifically, it
-picks the leftmost complete subexpression on that line on which to set
-the breakpoint, which in this case is the expression
-``(qsort left ++ [a] ++ qsort right)``.
+..
+   The command ``:break 2`` sets a breakpoint on line 2 of the most
+   recently-loaded module, in this case ``qsort.hs``. Specifically, it
+   picks the leftmost complete subexpression on that line on which to set
+   the breakpoint, which in this case is the expression
+   ``(qsort left ++ [a] ++ qsort right)``.
 
-Now, we run the program:
+``:break 2`` というコマンドは直近にロードしたモジュールの2行目にブレイクポイントを設定するものです．
+この場合は ``qsort.hs`` の2行目です．
+詳しくいえば，ブレイクポイントを設定した行にある完全な部分式のうちもっとも左側にあるものが選ばれます．
+この場合は ``(qsort left ++ [a] ++ qsort right)`` です．
+
+..
+   Now, we run the program:
+
+   .. code-block:: none
+
+       *Main> main
+       Stopped at qsort.hs:2:16-47
+       _result :: [a]
+       a :: a
+       left :: [a]
+       right :: [a]
+       [qsort.hs:2:16-47] *Main>
+
+[--ここから-- GHC Users Manual 原文の記述とghciの実際の挙動が異なるので，実際の挙動に沿って非公式に説明します．]
+
+さて，このプログラムを走らせてみましょう．
 
 .. code-block:: none
 
     *Main> main
-    Stopped at qsort.hs:2:15-46
-    _result :: [a]
-    a :: a
-    left :: [a]
-    right :: [a]
-    [qsort.hs:2:15-46] *Main>
+    Stopped in Main.qsort, qsort.hs:2:16-47
+    _result :: [Integer] = _
+    a :: Integer = 8
+    left :: [Integer] = _
+    right :: [Integer] = _
+    [qsort.hs:2:16-47] *Main> 
 
-Execution has stopped at the breakpoint. The prompt has changed to
-indicate that we are currently stopped at a breakpoint, and the
-location: ``[qsort.hs:2:15-46]``. To further clarify the location, we
-can use the :ghci-cmd:`:list` command:
+[--ここまで-- 実際の挙動に沿った非公式な記述]
+
+..
+   Execution has stopped at the breakpoint. The prompt has changed to
+   indicate that we are currently stopped at a breakpoint, and the
+   location: ``[qsort.hs:2:16-47]``. To further clarify the location, we
+   can use the :ghci-cmd:`:list` command:
+
+   .. code-block:: none
+
+       [qsort.hs:2:16-47] *Main> :list
+       1  qsort [] = []
+       2  qsort (a:as) = qsort left ++ [a] ++ qsort right
+       3    where (left,right) = (filter (<=a) as, filter (>a) as)
+
+ブレイクポイントのところで実行が中断されました．
+プロンプトが変化して，ブレイクポイントで止っていること，
+その場所が ``[qsort.hs:2:16-47]`` であることが判ります．
+その場所をさらに明確にするには :ghci-cmd:`:list` コマンドを使います．
 
 .. code-block:: none
 
-    [qsort.hs:2:15-46] *Main> :list
+    [qsort.hs:2:16-47] *Main> :list
     1  qsort [] = []
     2  qsort (a:as) = qsort left ++ [a] ++ qsort right
     3    where (left,right) = (filter (<=a) as, filter (>a) as)
 
-The :ghci-cmd:`:list` command lists the source code around the current
-breakpoint. If your output device supports it, then GHCi will highlight
-the active subexpression in bold.
+..
+   The :ghci-cmd:`:list` command lists the source code around the current
+   breakpoint. If your output device supports it, then GHCi will highlight
+   the active subexpression in bold.
 
-GHCi has provided bindings for the free variables [6]_ of the expression
-on which the breakpoint was placed (``a``, ``left``, ``right``), and
-additionally a binding for the result of the expression (``_result``).
-These variables are just like other variables that you might define in
-GHCi; you can use them in expressions that you type at the prompt, you
-can ask for their types with :ghci-cmd:`:type`, and so on. There is one
-important difference though: these variables may only have partial
-types. For example, if we try to display the value of ``left``:
+:ghci-cmd:`:list` コマンドは，現在のブレイクポイントの周囲のコードを表示します．
+出力デバイスがサポートしている場合は，注目している部分式がボールド体で表示されます．
 
-.. code-block:: none
+..
+   GHCi has provided bindings for the free variables [6]_ of the expression
+   on which the breakpoint was placed (``a``, ``left``, ``right``), and
+   additionally a binding for the result of the expression (``_result``).
+   These variables are just like other variables that you might define in
+   GHCi; you can use them in expressions that you type at the prompt, you
+   can ask for their types with :ghci-cmd:`:type`, and so on. There is one
+   important difference though: these variables may only have partial
+   types. For example, if we try to display the value of ``left``:
 
-    [qsort.hs:2:15-46] *Main> left
+   .. code-block:: none
 
-    <interactive>:1:0:
-        Ambiguous type variable `a' in the constraint:
-          `Show a' arising from a use of `print' at <interactive>:1:0-3
-        Cannot resolve unknown runtime types: a
-        Use :print or :force to determine these types
+       [qsort.hs:2:16-47] *Main> left
 
-This is because ``qsort`` is a polymorphic function, and because GHCi
-does not carry type information at runtime, it cannot determine the
-runtime types of free variables that involve type variables. Hence, when
-you ask to display ``left`` at the prompt, GHCi can't figure out which
-instance of ``Show`` to use, so it emits the type error above.
+       <interactive>:1:0:
+	   Ambiguous type variable `a' in the constraint:
+	     `Show a' arising from a use of `print' at <interactive>:1:0-3
+	   Cannot resolve unknown runtime types: a
+	   Use :print or :force to determine these types
 
-Fortunately, the debugger includes a generic printing command,
-:ghci-cmd:`:print`, which can inspect the actual runtime value of a variable and
-attempt to reconstruct its type. If we try it on ``left``:
+GHCiは，ブレイクポイントを置いた式の自由変数 [6]_ (``a`` ， ``left`` ， ``right``)
+に対する束縛および当該式の結果(``_result``)に対する束縛も提供しています．
+これらの変数は，GHCi上で普通に定義する他の変数と同じです．
+プロンプトで入力する式の中で使ったり， :ghci-cmd:`:type` コマンドで型を確認するなどが可能です．
 
-.. code-block:: none
+[--ここから-- GHC Users Manual 原文の記述とghciの実際の挙動が異なるので，実際の挙動に沿って非公式に説明します．]
 
-    [qsort.hs:2:15-46] *Main> :set -fprint-evld-with-show
-    [qsort.hs:2:15-46] *Main> :print left
-    left = (_t1::[a])
-
-This isn't particularly enlightening. What happened is that ``left`` is
-bound to an unevaluated computation (a suspension, or thunk), and
-:ghci-cmd:`:print` does not force any evaluation. The idea is that
-:ghci-cmd:`:print` can be used to inspect values at a breakpoint without any
-unfortunate side effects. It won't force any evaluation, which could cause the
-program to give a different answer than it would normally, and hence it won't
-cause any exceptions to be raised, infinite loops, or further breakpoints to be
-triggered (see :ref:`nested-breakpoints`). Rather than forcing thunks,
-:ghci-cmd:`:print` binds each thunk to a fresh variable beginning with an
-underscore, in this case ``_t1``.
-
-The flag :ghc-flag:`-fprint-evld-with-show` instructs :ghci-cmd:`:print` to reuse
-available ``Show`` instances when possible. This happens only when the
-contents of the variable being inspected are completely evaluated.
-
-If we aren't concerned about preserving the evaluatedness of a variable, we can
-use :ghci-cmd:`:force` instead of :ghci-cmd:`:print`. The :ghci-cmd:`:force`
-command behaves exactly like :ghci-cmd:`:print`, except that it forces the
-evaluation of any thunks it encounters:
+例を見ましょう．
 
 .. code-block:: none
 
-    [qsort.hs:2:15-46] *Main> :force left
+    [qsort.hs:2:16-47] *Main> :type left
+    left :: [Integer]		
+
+..
+   This is because ``qsort`` is a polymorphic function, and because GHCi
+   does not carry type information at runtime, it cannot determine the
+   runtime types of free variables that involve type variables. Hence, when
+   you ask to display ``left`` at the prompt, GHCi can't figure out which
+   instance of ``Show`` to use, so it emits the type error above.
+
+
+..
+   Fortunately, the debugger includes a generic printing command,
+   :ghci-cmd:`:print`, which can inspect the actual runtime value of a variable and
+   attempt to reconstruct its type. If we try it on ``left``:
+
+   .. code-block:: none
+
+       [qsort.hs:2:16-47] *Main> :set -fprint-evld-with-show
+       [qsort.hs:2:16-47] *Main> :print left
+       left = (_t1::[a])
+
+[--ここまで-- 実際の挙動に沿って非公式説明]
+
+デバッガにはジェネリックな表示コマンド
+:ghci-cmd:`:print` があり，これを使えば，変数の実行時の値と型を調べられます．
+``left`` に対して使ってみましょう．
+
+.. code-block:: none
+
+    [qsort.hs:2:16-47] *Main> :print left
+    left = (_t1::[Integer])
+
+..
+   This isn't particularly enlightening. What happened is that ``left`` is
+   bound to an unevaluated computation (a suspension, or thunk), and
+   :ghci-cmd:`:print` does not force any evaluation. The idea is that
+   :ghci-cmd:`:print` can be used to inspect values at a breakpoint without any
+   unfortunate side effects. It won't force any evaluation, which could cause the
+   program to give a different answer than it would normally, and hence it won't
+   cause any exceptions to be raised, infinite loops, or further breakpoints to be
+   triggered (see :ref:`nested-breakpoints`). Rather than forcing thunks,
+   :ghci-cmd:`:print` binds each thunk to a fresh variable beginning with an
+   underscore, in this case ``_t1``.
+
+あまり細かいことは判りません．
+``left`` は未評価の計算(サスペンションあるいはサンク)に束縛されています．
+これは ``left`` は未評価ですが :ghci-cmd:`:print` が評価を強制しないからです．
+
+:ghci-cmd:`:print` はブレイクポイントで値を検査する際に副作用を起こさないようにしてあるのです．
+評価を強制しないので，通常の評価と違う結果になったり，例外が投げられたり，無限ループや別のブレイクポイントに遭遇することもありません
+(:ref:`nested-breakpoints` 参照)．
+:ghci-cmd:`:print` は各サンクにアンダースコアで始まるフレッシュ(まだ使われていない)変数，ここでは ``_t1`` を束縛します．
+
+..
+   The flag :ghc-flag:`-fprint-evld-with-show` instructs :ghci-cmd:`:print` to reuse
+   available ``Show`` instances when possible. This happens only when the
+   contents of the variable being inspected are completely evaluated.
+
+[--ここでは-- GHC Users Manual 原文の記述とghciの実際の挙動が異なる部分に関連する説明を省いています．]
+
+..
+   If we aren't concerned about preserving the evaluatedness of a variable, we can
+   use :ghci-cmd:`:force` instead of :ghci-cmd:`:print`. The :ghci-cmd:`:force`
+   command behaves exactly like :ghci-cmd:`:print`, except that it forces the
+   evaluation of any thunks it encounters:
+
+   .. code-block:: none
+
+       [qsort.hs:2:16-47] *Main> :force left
+       left = [4,0,3,1]
+
+変数の評価状態を変えてしまってかまわないのなら :ghci-cmd:`:print` ではなく :ghci-cmd:`:force` を使うこともできます．
+:ghci-cmd:`:force` コマンドはサンクのときは評価を強制する以外は :ghci-cmd:`:print` と同じ振る舞いになります．
+
+.. code-block:: none
+
+    [qsort.hs:2:16-47] *Main> :force left
     left = [4,0,3,1]
 
-Now, since :ghci-cmd:`:force` has inspected the runtime value of ``left``, it
-has reconstructed its type. We can see the results of this type
-reconstruction:
+..
+   Now, since :ghci-cmd:`:force` has inspected the runtime value of ``left``, it
+   has reconstructed its type. We can see the results of this type
+   reconstruction:
+
+   .. code-block:: none
+
+       [qsort.hs:2:16-47] *Main> :show bindings
+       _result :: [Integer]
+       a :: Integer
+       left :: [Integer]
+       right :: [Integer]
+       _t1 :: [Integer]
+
+[--ここから-- GHC Users Manual 原文の記述とghciの実際の挙動が異なるので，実際の挙動に沿って非公式に説明します．]
+
+ここで :ghci-cmd:`:show bindings` を使うと，関連する束縛を表示できます．
 
 .. code-block:: none
 
-    [qsort.hs:2:15-46] *Main> :show bindings
-    _result :: [Integer]
-    a :: Integer
-    left :: [Integer]
-    right :: [Integer]
-    _t1 :: [Integer]
+    [qsort.hs:2:16-47] *Main> :show bindings
+    right :: [Integer] = _
+    left :: [Integer] = [4,0,3,1]
+    a :: Integer = 8
+    _result :: [Integer] = _
+    _t1 :: [Integer] = [4,0,3,1]
 
-Not only do we now know the type of ``left``, but all the other partial
-types have also been resolved. So we can ask for the value of ``a``, for
-example:
+..
+   Not only do we now know the type of ``left``, but all the other partial
+   types have also been resolved. So we can ask for the value of ``a``, for
+   example:
+
+   .. code-block:: none
+
+       [qsort.hs:2:16-47] *Main> a
+       8
+
+..
+   You might find it useful to use Haskell's ``seq`` function to evaluate
+   individual thunks rather than evaluating the whole expression with
+   :ghci-cmd:`:force`. For example:
+
+   .. code-block:: none
+
+       [qsort.hs:2:16-47] *Main> :print right
+       right = (_t1::[Integer])
+       [qsort.hs:2:16-47] *Main> seq _t1 ()
+       ()
+       [qsort.hs:2:16-47] *Main> :print right
+       right = 23 : (_t2::[Integer])
+
+式全体を:forceで評価してしまうのではなく，個々のサンクを評価したい場合には，Haskellの
+``seq`` 関数が便利でしょう．以下のように使います．
 
 .. code-block:: none
 
-    [qsort.hs:2:15-46] *Main> a
-    8
-
-You might find it useful to use Haskell's ``seq`` function to evaluate
-individual thunks rather than evaluating the whole expression with
-:ghci-cmd:`:force`. For example:
-
-.. code-block:: none
-
-    [qsort.hs:2:15-46] *Main> :print right
-    right = (_t1::[Integer])
-    [qsort.hs:2:15-46] *Main> seq _t1 ()
+    [qsort.hs:2:16-47] *Main> :print right
+    right = (_t2::[Integer])
+    [qsort.hs:2:16-47] *Main> seq _t2 ()
     ()
-    [qsort.hs:2:15-46] *Main> :print right
-    right = 23 : (_t2::[Integer])
+    [qsort.hs:2:16-47] *Main> :print right
+    right = 23 : (_t3::[Integer])
+
+..
+   We evaluated only the ``_t1`` thunk, revealing the head of the list, and
+   the tail is another thunk now bound to ``_t2``. The ``seq`` function is
+   a little inconvenient to use here, so you might want to use :ghci-cmd:`:def` to
+   make a nicer interface (left as an exercise for the reader!).
 
 We evaluated only the ``_t1`` thunk, revealing the head of the list, and
-the tail is another thunk now bound to ``_t2``. The ``seq`` function is
-a little inconvenient to use here, so you might want to use :ghci-cmd:`:def` to
-make a nicer interface (left as an exercise for the reader!).
+ここでは，サンク ``_t2`` だけを評価して，リストの先頭が判明しました．
+``seq`` 関数はすこし使いにくいので :ghci-cmd:`:def` を使ってもっとよいインターフェイスを作るといいでしょう
+(どうするかは練習問題にしておきます！)．
 
-Finally, we can continue the current execution:
+..
+   Finally, we can continue the current execution:
+
+   .. code-block:: none
+
+       [qsort.hs:2:16-47] *Main> :continue
+       Stopped at qsort.hs:2:16-47
+       _result :: [a]
+       a :: a
+       left :: [a]
+       right :: [a]
+       [qsort.hs:2:16-47] *Main>
+
+   The execution continued at the point it previously stopped, and has now
+   stopped at the breakpoint for a second time.
+
+そして，実行を再開することもできます．
 
 .. code-block:: none
 
-    [qsort.hs:2:15-46] *Main> :continue
-    Stopped at qsort.hs:2:15-46
-    _result :: [a]
-    a :: a
-    left :: [a]
-    right :: [a]
-    [qsort.hs:2:15-46] *Main>
+    [qsort.hs:2:16-47] *Main> :continue
+    Stopped in Main.qsort, qsort.hs:2:16-47
+    _result :: [Integer] = _
+    a :: Integer = 4
+    left :: [Integer] = _
+    right :: [Integer] = _
+    [qsort.hs:2:16-47] *Main> 
 
-The execution continued at the point it previously stopped, and has now
-stopped at the breakpoint for a second time.
+実行が前に停止した点から再開し，同じブレイクで再び停止しました．
+
+[--ここまで-- 実際の挙動に沿った非公式説明．]
 
 .. _setting-breakpoints:
 
@@ -2729,7 +2905,7 @@ The list of breakpoints currently enabled can be displayed using
 
     *Main> :show breaks
     [0] Main qsort.hs:1:11-12
-    [1] Main qsort.hs:2:15-46
+    [1] Main qsort.hs:2:16-47
 
 To delete a breakpoint, use the :ghci-cmd:`:delete` command with the number
 given in the output from :ghci-cmd:`:show breaks`:
@@ -2738,7 +2914,7 @@ given in the output from :ghci-cmd:`:show breaks`:
 
     *Main> :delete 0
     *Main> :show breaks
-    [1] Main qsort.hs:2:15-46
+    [1] Main qsort.hs:2:16-47
 
 To delete all breakpoints at once, use ``:delete *``.
 
@@ -2804,7 +2980,7 @@ of breakpoint contexts can be built up in this way. For example:
 
 .. code-block:: none
 
-    [qsort.hs:2:15-46] *Main> :st qsort [1,3]
+    [qsort.hs:2:16-47] *Main> :st qsort [1,3]
     Stopped at qsort.hs:(1,0)-(3,55)
     _result :: [a]
     ... [qsort.hs:(1,0)-(3,55)] *Main>
@@ -2820,7 +2996,7 @@ breakpoints beyond the current one. To see the stack of contexts, use
 
     ... [qsort.hs:(1,0)-(3,55)] *Main> :show context
     --> main
-      Stopped at qsort.hs:2:15-46
+      Stopped at qsort.hs:2:16-47
     --> qsort [1,3]
       Stopped at qsort.hs:(1,0)-(3,55)
     ... [qsort.hs:(1,0)-(3,55)] *Main>
@@ -2830,7 +3006,7 @@ To abandon the current evaluation, use :ghci-cmd:`:abandon`:
 .. code-block:: none
 
     ... [qsort.hs:(1,0)-(3,55)] *Main> :abandon
-    [qsort.hs:2:15-46] *Main> :abandon
+    [qsort.hs:2:16-47] *Main> :abandon
     *Main>
 
 .. _ghci-debugger-result:
@@ -2905,17 +3081,17 @@ We can now inspect the history of evaluation steps:
     -2  : qsort.hs:3:23-55
     -3  : qsort.hs:(1,0)-(3,55)
     -4  : qsort.hs:2:15-24
-    -5  : qsort.hs:2:15-46
+    -5  : qsort.hs:2:16-47
     -6  : qsort.hs:3:24-38
     -7  : qsort.hs:3:23-55
     -8  : qsort.hs:(1,0)-(3,55)
     -9  : qsort.hs:2:15-24
-    -10 : qsort.hs:2:15-46
+    -10 : qsort.hs:2:16-47
     -11 : qsort.hs:3:24-38
     -12 : qsort.hs:3:23-55
     -13 : qsort.hs:(1,0)-(3,55)
     -14 : qsort.hs:2:15-24
-    -15 : qsort.hs:2:15-46
+    -15 : qsort.hs:2:16-47
     -16 : qsort.hs:(1,0)-(3,55)
     <end of history>
 
@@ -2989,7 +3165,7 @@ example:
     -2  : qsort.hs:3:23-55
     -3  : qsort.hs:(1,0)-(3,55)
     -4  : qsort.hs:2:15-24
-    -5  : qsort.hs:2:15-46
+    -5  : qsort.hs:2:16-47
     -6  : qsort.hs:(1,0)-(3,55)
     <end of history>
     [<exception thrown>] *Main> :back
