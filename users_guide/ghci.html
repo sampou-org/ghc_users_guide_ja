@@ -89,7 +89,7 @@
 </li>
 <li><a class="reference internal" href="#single-stepping">5.5.2. ステップ実行</a></li>
 <li><a class="reference internal" href="#nested-breakpoints">5.5.3. ブレイクポイントのネスト</a></li>
-<li><a class="reference internal" href="#the-result-variable">5.5.4. The <code class="docutils literal"><span class="pre">_result</span></code> variable</a></li>
+<li><a class="reference internal" href="#result">5.5.4. <code class="docutils literal"><span class="pre">_result</span></code> 変数</a></li>
 <li><a class="reference internal" href="#tracing-and-history">5.5.5. Tracing and history</a></li>
 <li><a class="reference internal" href="#debugging-exceptions">5.5.6. Debugging exceptions</a></li>
 <li><a class="reference internal" href="#example-inspecting-functions">5.5.7. Example: inspecting functions</a></li>
@@ -1313,19 +1313,18 @@ Stopped in Main.qsort, qsort.hs:2:16-47
 </pre></div>
 </div>
 </div>
-<div class="section" id="the-result-variable">
-<span id="ghci-debugger-result"></span><h3>5.5.4. The <code class="docutils literal"><span class="pre">_result</span></code> variable<a class="headerlink" href="#the-result-variable" title="Permalink to this headline">¶</a></h3>
-<p>When stopped at a breakpoint or single-step, GHCi binds the variable
-<code class="docutils literal"><span class="pre">_result</span></code> to the value of the currently active expression. The value
-of <code class="docutils literal"><span class="pre">_result</span></code> is presumably not available yet, because we stopped its
-evaluation, but it can be forced: if the type is known and showable,
-then just entering <code class="docutils literal"><span class="pre">_result</span></code> at the prompt will show it. However,
-there&#8217;s one caveat to doing this: evaluating <code class="docutils literal"><span class="pre">_result</span></code> will be likely
-to trigger further breakpoints, starting with the breakpoint we are
-currently stopped at (if we stopped at a real breakpoint, rather than
-due to <a class="reference internal" href="#ghci-cmd-:step"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:step</span></code></a>). So it will probably be necessary to issue a
-<a class="reference internal" href="#ghci-cmd-:continue"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:continue</span></code></a> immediately when evaluating <code class="docutils literal"><span class="pre">_result</span></code>. Alternatively,
-you can use <a class="reference internal" href="#ghci-cmd-:force"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:force</span></code></a> which ignores breakpoints.</p>
+<div class="section" id="result">
+<span id="ghci-debugger-result"></span><h3>5.5.4. <code class="docutils literal"><span class="pre">_result</span></code> 変数<a class="headerlink" href="#result" title="Permalink to this headline">¶</a></h3>
+<p>ブレークポイントで停止したときやステップ実行するとき，GHCiは <code class="docutils literal"><span class="pre">_result</span></code> という変数を用意して，
+現在注目されている式の結果に束縛します．
+<code class="docutils literal"><span class="pre">_result</span></code> の値はおそらくまだ存在しない(その評価を止めたので)が，
+その評価を強制することはできます．
+その型が既知で表示できるなら <code class="docutils literal"><span class="pre">_result</span></code> とプロンプトに入力するだけで表示できます．
+ただし，警告が一つあります．
+<code class="docutils literal"><span class="pre">_result</span></code> を評価すると，別のブレークポイントにあたる可能性が高いということです．
+特に <a class="reference internal" href="#ghci-cmd-:step"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:step</span></code></a> ではなく真のブレークポイントで停止していたら，このブレークポイントに最初にあたります．
+このため <code class="docutils literal"><span class="pre">_result</span></code> を評価する時には，即座に <a class="reference internal" href="#ghci-cmd-:continue"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:continue</span></code></a> を発行しなければならなく可能性が高くなります．
+別の方法としては <a class="reference internal" href="#ghci-cmd-:force"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:force</span></code></a> はブレークポイントを無視するので，これを使うこともできます．</p>
 </div>
 <div class="section" id="tracing-and-history">
 <span id="tracing"></span><h3>5.5.5. Tracing and history<a class="headerlink" href="#tracing-and-history" title="Permalink to this headline">¶</a></h3>
