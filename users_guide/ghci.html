@@ -84,7 +84,7 @@
 <li><a class="reference internal" href="#ghci-debugger">5.5. GHCiのデバッガ</a><ul>
 <li><a class="reference internal" href="#breakpoints">5.5.1. ブレイクポイントと変数内容の表示</a><ul>
 <li><a class="reference internal" href="#setting-breakpoints">5.5.1.1. ブレイクポイントの設定</a></li>
-<li><a class="reference internal" href="#listing-and-deleting-breakpoints">5.5.1.2. Listing and deleting breakpoints</a></li>
+<li><a class="reference internal" href="#id27">5.5.1.2. ブレイクポイントの一覧と削除</a></li>
 </ul>
 </li>
 <li><a class="reference internal" href="#single-stepping">5.5.2. Single-stepping</a></li>
@@ -1047,7 +1047,7 @@ GHCi に対する <code class="docutils literal"><span class="pre">-prof</span><
 このデバッガはGHCiに統合されていて，デフォルトで有効になっています．
 デバッグ機能を有効にするのにフラグは必要ありません．
 1つ重要な制限があります．それは，ブレイクポイントとステップ実行は解釈実行されているモジュールでしか使えないということです．
-コンパイル済みのコードはデバッガからは見えません <a class="footnote-reference" href="#id30" id="id23">[5]</a> ．</p>
+コンパイル済みのコードはデバッガからは見えません <a class="footnote-reference" href="#id31" id="id23">[5]</a> ．</p>
 <p>このデバッガが提供する機能は以下のとおりです．</p>
 <ul class="simple">
 <li>プログラム中の関数定義や式にブレイクポイントを設定する機能．
@@ -1119,7 +1119,7 @@ right :: [Integer] = _
 </div>
 <p><a class="reference internal" href="#ghci-cmd-:list"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:list</span></code></a> コマンドは，現在のブレイクポイントの周囲のコードを表示します．
 出力デバイスがサポートしている場合は，注目している部分式がボールド体で表示されます．</p>
-<p>GHCiは，ブレイクポイントを置いた式の自由変数 <a class="footnote-reference" href="#id31" id="id25">[6]</a> (<code class="docutils literal"><span class="pre">a</span></code> ， <code class="docutils literal"><span class="pre">left</span></code> ， <code class="docutils literal"><span class="pre">right</span></code>)
+<p>GHCiは，ブレイクポイントを置いた式の自由変数 <a class="footnote-reference" href="#id32" id="id25">[6]</a> (<code class="docutils literal"><span class="pre">a</span></code> ， <code class="docutils literal"><span class="pre">left</span></code> ， <code class="docutils literal"><span class="pre">right</span></code>)
 に対する束縛および当該式の結果(<code class="docutils literal"><span class="pre">_result</span></code>)に対する束縛も提供しています．
 これらの変数は，GHCi上で普通に定義する他の変数と同じです．
 プロンプトで入力する式の中で使ったり， <a class="reference internal" href="#ghci-cmd-:type"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:type</span></code></a> コマンドで型を確認するなどが可能です．</p>
@@ -1223,27 +1223,27 @@ right :: [Integer] = _
 通常let式はブレークポイントになりませんが，その本体は常にブレークポイントになります．
 そのletで束縛された変数の値を調べたいと思うのが普通だからです．</p>
 </div>
-<div class="section" id="listing-and-deleting-breakpoints">
-<h4>5.5.1.2. Listing and deleting breakpoints<a class="headerlink" href="#listing-and-deleting-breakpoints" title="Permalink to this headline">¶</a></h4>
-<p>The list of breakpoints currently enabled can be displayed using
-<a class="reference internal" href="#ghci-cmd-:show breaks"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:show</span> <span class="pre">breaks</span></code></a>:</p>
+<div class="section" id="id27">
+<h4>5.5.1.2. ブレイクポイントの一覧と削除<a class="headerlink" href="#id27" title="Permalink to this headline">¶</a></h4>
+<p>現在有効になっているブレイクポイントを一覧するには
+<a class="reference internal" href="#ghci-cmd-:show breaks"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:show</span> <span class="pre">breaks</span></code></a> を使います．</p>
 <div class="highlight-none"><div class="highlight"><pre>*Main&gt; :show breaks
-[0] Main qsort.hs:1:11-12
+[0] Main qsort.hs:1:12-13
 [1] Main qsort.hs:2:16-47
 </pre></div>
 </div>
-<p>To delete a breakpoint, use the <a class="reference internal" href="#ghci-cmd-:delete"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:delete</span></code></a> command with the number
-given in the output from <a class="reference internal" href="#ghci-cmd-:show breaks"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:show</span> <span class="pre">breaks</span></code></a>:</p>
+<p>To delete a breakpoint, use the command with the number
+ブレイクポイントを削除するには <a class="reference internal" href="#ghci-cmd-:delete"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:delete</span></code></a> コマンドを使い <a class="reference internal" href="#ghci-cmd-:show breaks"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:show</span> <span class="pre">breaks</span></code></a> で出力されるブレイクポイント番号を指定します．</p>
 <div class="highlight-none"><div class="highlight"><pre>*Main&gt; :delete 0
 *Main&gt; :show breaks
 [1] Main qsort.hs:2:16-47
 </pre></div>
 </div>
-<p>To delete all breakpoints at once, use <code class="docutils literal"><span class="pre">:delete</span> <span class="pre">*</span></code>.</p>
+<p>全てのブレイクポイントを一度に削除するには <code class="docutils literal"><span class="pre">:delete</span> <span class="pre">*</span></code> とします．</p>
 </div>
 </div>
 <div class="section" id="single-stepping">
-<span id="id27"></span><h3>5.5.2. Single-stepping<a class="headerlink" href="#single-stepping" title="Permalink to this headline">¶</a></h3>
+<span id="id28"></span><h3>5.5.2. Single-stepping<a class="headerlink" href="#single-stepping" title="Permalink to this headline">¶</a></h3>
 <p>Single-stepping is a great way to visualise the execution of your
 program, and it is also a useful tool for identifying the source of a
 bug. GHCi offers two variants of stepping. Use <a class="reference internal" href="#ghci-cmd-:step"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:step</span></code></a> to enable all
@@ -1284,7 +1284,7 @@ _result :: [Integer]
 </div>
 </div>
 <div class="section" id="nested-breakpoints">
-<span id="id28"></span><h3>5.5.3. Nested breakpoints<a class="headerlink" href="#nested-breakpoints" title="Permalink to this headline">¶</a></h3>
+<span id="id29"></span><h3>5.5.3. Nested breakpoints<a class="headerlink" href="#nested-breakpoints" title="Permalink to this headline">¶</a></h3>
 <p>When GHCi is stopped at a breakpoint, and an expression entered at the
 prompt triggers a second breakpoint, the new breakpoint becomes the
 &#8220;current&#8221; one, and the old one is saved on a stack. An arbitrary number
@@ -1653,7 +1653,7 @@ to the command line.</p>
 </div>
 </div>
 <div class="section" id="ghci-commands">
-<span id="id29"></span><h2>5.7. GHCi commands<a class="headerlink" href="#ghci-commands" title="Permalink to this headline">¶</a></h2>
+<span id="id30"></span><h2>5.7. GHCi commands<a class="headerlink" href="#ghci-commands" title="Permalink to this headline">¶</a></h2>
 <p>GHCi commands all begin with &#8220;<code class="docutils literal"><span class="pre">:</span></code>&#8221; and consist of a single command
 name followed by zero or more parameters. The command name may be
 abbreviated, with ambiguities being resolved in favour of the more
@@ -2773,14 +2773,14 @@ program thus:</p>
 </div>
 </dd>
 </dl>
-<table class="docutils footnote" frame="void" id="id30" rules="none">
+<table class="docutils footnote" frame="void" id="id31" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
 <tr><td class="label"><a class="fn-backref" href="#id23">[5]</a></td><td>Note that packages only contain compiled code, so debugging a package
 requires finding its source and loading that directly.</td></tr>
 </tbody>
 </table>
-<table class="docutils footnote" frame="void" id="id31" rules="none">
+<table class="docutils footnote" frame="void" id="id32" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
 <tr><td class="label"><a class="fn-backref" href="#id25">[6]</a></td><td>We originally provided bindings for all variables in scope, rather
