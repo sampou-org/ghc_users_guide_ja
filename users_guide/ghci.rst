@@ -2842,25 +2842,61 @@ We evaluated only the ``_t1`` thunk, revealing the head of the list, and
 
 [--ここまで-- 実際の挙動に沿った非公式説明．]
 
+..
+   .. _setting-breakpoints:
+
+   Setting breakpoints
+   ^^^^^^^^^^^^^^^^^^^
+
 .. _setting-breakpoints:
 
-Setting breakpoints
-^^^^^^^^^^^^^^^^^^^
+ブレイクポイントの設定
+^^^^^^^^^^^^^^^^^^^^^^
 
-Breakpoints can be set in various ways. Perhaps the easiest way to set a
-breakpoint is to name a top-level function:
+..
+   Breakpoints can be set in various ways. Perhaps the easiest way to set a
+   breakpoint is to name a top-level function:
+
+   .. code-block:: none
+
+	  :break identifier
+
+   Where ⟨identifier⟩ names any top-level function in an interpreted module
+   currently loaded into GHCi (qualified names may be used). The breakpoint
+   will be set on the body of the function, when it is fully applied but
+   before any pattern matching has taken place.
+
+ブレークポイントを設定する方法はいくつかあります．
+おそらくもっとも簡単な方法は最上位の関数の名前を使うことです．
 
 .. code-block:: none
 
        :break identifier
 
-Where ⟨identifier⟩ names any top-level function in an interpreted module
-currently loaded into GHCi (qualified names may be used). The breakpoint
-will be set on the body of the function, when it is fully applied but
-before any pattern matching has taken place.
+ここで ⟨identifier⟩ はGHCiにロードされて解釈実行されるモジュールのトップレベルにある関数の名前です
+(これには修飾名も使えます)．
+ブレイクポイントは関数の本体部分に設定されます．
+関数が完全に適用されパターン照合が行われる直前に設定されます．
 
-Breakpoints can also be set by line (and optionally column) number:
+..
+   Breakpoints can also be set by line (and optionally column) number:
 
+   .. code-block:: none
+
+	  :break line
+	  :break line column
+	  :break module line
+	  :break module line column
+
+   When a breakpoint is set on a particular line, GHCi sets the breakpoint
+   on the leftmost subexpression that begins and ends on that line. If two
+   complete subexpressions start at the same column, the longest one is
+   picked. If there is no complete subexpression on the line, then the
+   leftmost expression starting on the line is picked, and failing that the
+   rightmost expression that partially or completely covers the line.
+
+行番号(および列番号)でブレイクポイントを設定することもできます．
+   
 .. code-block:: none
 
        :break line
@@ -2868,32 +2904,49 @@ Breakpoints can also be set by line (and optionally column) number:
        :break module line
        :break module line column
 
-When a breakpoint is set on a particular line, GHCi sets the breakpoint
-on the leftmost subexpression that begins and ends on that line. If two
-complete subexpressions start at the same column, the longest one is
-picked. If there is no complete subexpression on the line, then the
-leftmost expression starting on the line is picked, and failing that the
-rightmost expression that partially or completely covers the line.
+ブレークポイントを特定の行に設定する場合，GHCiはその行で始まりその行で終わる部分式の中で
+もっとも左側にあるものに設定します．
+2つの完全な部分式が同じカラムから始まっているなら長い方が選ばれます．
+その行に完全な部分式が無い場合，その行で始まっている部分式の中でもっとも左側にあるものが選ばれます．
+それも失敗したら，その行を一部あるいは全部覆う式の中でもっとも右側にあるものが選ばれます．
 
-When a breakpoint is set on a particular line and column, GHCi picks the
-smallest subexpression that encloses that location on which to set the
-breakpoint. Note: GHC considers the TAB character to have a width of 1,
-wherever it occurs; in other words it counts characters, rather than
-columns. This matches what some editors do, and doesn't match others.
-The best advice is to avoid tab characters in your source code
-altogether (see :ghc-flag:`-Wtabs` in :ref:`options-sanity`).
+..
+   When a breakpoint is set on a particular line and column, GHCi picks the
+   smallest subexpression that encloses that location on which to set the
+   breakpoint. Note: GHC considers the TAB character to have a width of 1,
+   wherever it occurs; in other words it counts characters, rather than
+   columns. This matches what some editors do, and doesn't match others.
+   The best advice is to avoid tab characters in your source code
+   altogether (see :ghc-flag:`-Wtabs` in :ref:`options-sanity`).
 
-If the module is omitted, then the most recently-loaded module is used.
+ブレークポイントを特定の行の特定のカラムに設定する場合，GHCiはその位置を含む式の中で最小のものを選びます．
+注意: GHCはTAB文字を現れた位置に関わらず幅1とみなします．
+言い換えれば，カラム数を数えるのではなく文字を数えます．
+振る舞いと合うエディタもあり，合わないエディタもあります．
+最善はそもそもソースコード中でタブ文字を使わないことです
+(:ref:`options-sanity` にある :ghc-flag:`-Wtabs` を参照してください)．
 
-Not all subexpressions are potential breakpoint locations. Single
-variables are typically not considered to be breakpoint locations
-(unless the variable is the right-hand-side of a function definition,
-lambda, or case alternative). The rule of thumb is that all redexes are
-breakpoint locations, together with the bodies of functions, lambdas,
-case alternatives and binding statements. There is normally no
-breakpoint on a let expression, but there will always be a breakpoint on
-its body, because we are usually interested in inspecting the values of
-the variables bound by the let.
+..
+   If the module is omitted, then the most recently-loaded module is used.
+
+モジュールが省略された場合，直近にロードされたモジュールが使われます．
+
+..
+   Not all subexpressions are potential breakpoint locations. Single
+   variables are typically not considered to be breakpoint locations
+   (unless the variable is the right-hand-side of a function definition,
+   lambda, or case alternative). The rule of thumb is that all redexes are
+   breakpoint locations, together with the bodies of functions, lambdas,
+   case alternatives and binding statements. There is normally no
+   breakpoint on a let expression, but there will always be a breakpoint on
+   its body, because we are usually interested in inspecting the values of
+   the variables bound by the let.
+
+ブレークポイントを設定できない部分式もあります．
+単一の変数は通常ブレークポイント位置とはみなされません(ただし，その変数が関数定義かλかcaseの選択肢の右辺である場合は除きます)．
+大まかにいうと，ブレークポイントになるのは，全ての簡約基，関数やλ抽象の本体，caseの選択肢，束縛文です．
+通常let式はブレークポイントになりませんが，その本体は常にブレークポイントになります．
+そのletで束縛された変数の値を調べたいと思うのが普通だからです．
 
 Listing and deleting breakpoints
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
