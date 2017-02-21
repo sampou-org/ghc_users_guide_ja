@@ -88,7 +88,7 @@
 </ul>
 </li>
 <li><a class="reference internal" href="#single-stepping">5.5.2. ステップ実行</a></li>
-<li><a class="reference internal" href="#nested-breakpoints">5.5.3. Nested breakpoints</a></li>
+<li><a class="reference internal" href="#nested-breakpoints">5.5.3. ブレイクポイントのネスト</a></li>
 <li><a class="reference internal" href="#the-result-variable">5.5.4. The <code class="docutils literal"><span class="pre">_result</span></code> variable</a></li>
 <li><a class="reference internal" href="#tracing-and-history">5.5.5. Tracing and history</a></li>
 <li><a class="reference internal" href="#debugging-exceptions">5.5.6. Debugging exceptions</a></li>
@@ -1142,7 +1142,7 @@ left = (_t1::[Integer])
 これは <code class="docutils literal"><span class="pre">left</span></code> は未評価ですが <a class="reference internal" href="#ghci-cmd-:print"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:print</span></code></a> が評価を強制しないからです．</p>
 <p><a class="reference internal" href="#ghci-cmd-:print"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:print</span></code></a> はブレイクポイントで値を検査する際に副作用を起こさないようにしてあるのです．
 評価を強制しないので，通常の評価と違う結果になったり，例外が投げられたり，無限ループや別のブレイクポイントに遭遇することもありません
-(<a class="reference internal" href="#nested-breakpoints"><span>Nested breakpoints</span></a> 参照)．
+(<a class="reference internal" href="#nested-breakpoints"><span>ブレイクポイントのネスト</span></a> 参照)．
 <a class="reference internal" href="#ghci-cmd-:print"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:print</span></code></a> は各サンクにアンダースコアで始まるフレッシュ(まだ使われていない)変数，ここでは <code class="docutils literal"><span class="pre">_t1</span></code> を束縛します．</p>
 <p>[&#8211;ここでは&#8211; GHC Users Manual 原文の記述とghciの実際の挙動が異なる部分に関連する説明を省いています．]</p>
 <p>変数の評価状態を変えてしまってかまわないのなら <a class="reference internal" href="#ghci-cmd-:print"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:print</span></code></a> ではなく <a class="reference internal" href="#ghci-cmd-:force"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:force</span></code></a> を使うこともできます．
@@ -1279,33 +1279,35 @@ _result :: [Integer] = _
 </div>
 </div>
 <div class="section" id="nested-breakpoints">
-<span id="id29"></span><h3>5.5.3. Nested breakpoints<a class="headerlink" href="#nested-breakpoints" title="Permalink to this headline">¶</a></h3>
-<p>When GHCi is stopped at a breakpoint, and an expression entered at the
-prompt triggers a second breakpoint, the new breakpoint becomes the
-&#8220;current&#8221; one, and the old one is saved on a stack. An arbitrary number
-of breakpoint contexts can be built up in this way. For example:</p>
-<div class="highlight-none"><div class="highlight"><pre>[qsort.hs:2:16-47] *Main&gt; :st qsort [1,3]
-Stopped at qsort.hs:(1,0)-(3,55)
-_result :: [a]
-... [qsort.hs:(1,0)-(3,55)] *Main&gt;
+<span id="id29"></span><h3>5.5.3. ブレイクポイントのネスト<a class="headerlink" href="#nested-breakpoints" title="Permalink to this headline">¶</a></h3>
+<p>GHCi がブレイクポイントで停止したとき，プロンプトに式を入力すると，次のブレイクポイントまで進みます．
+この新しいブレイクポイントが現在のブレイクポイントとなり，古いブレイクポイントはスタックに保存されます．
+任意の数のブレイクポイント文脈はこうして作られます．
+以下はその例です．</p>
+<div class="highlight-none"><div class="highlight"><pre>[qsort.hs:2:16-47] *Main&gt; :step qsort [1,3]
+Stopped in Main.qsort, qsort.hs:2:16-47
+_result :: [t] = _
+a :: t = _
+left :: [t] = _
+right :: [t] = _
+... [qsort.hs:2:16-47] *Main&gt;
 </pre></div>
 </div>
-<p>While stopped at the breakpoint on line 2 that we set earlier, we
-started a new evaluation with <code class="docutils literal"><span class="pre">:step</span> <span class="pre">qsort</span> <span class="pre">[1,3]</span></code>. This new evaluation
-stopped after one step (at the definition of <code class="docutils literal"><span class="pre">qsort</span></code>). The prompt has
-changed, now prefixed with <code class="docutils literal"><span class="pre">...</span></code>, to indicate that there are saved
-breakpoints beyond the current one. To see the stack of contexts, use
-<a class="reference internal" href="#ghci-cmd-:show context"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:show</span> <span class="pre">context</span></code></a>:</p>
-<div class="highlight-none"><div class="highlight"><pre>... [qsort.hs:(1,0)-(3,55)] *Main&gt; :show context
+<p>前に設定した2行目のブレークポイントで停止したところで <code class="docutils literal"><span class="pre">:step</span> <span class="pre">qsort</span> <span class="pre">[1,3]</span></code> として新しい評価を開始したしました．
+この新しい評価は1ステップの後に(<code class="docutils literal"><span class="pre">qsort</span></code> の定義で)停止しました．
+ここで，プロンプトが変わって先頭に <code class="docutils literal"><span class="pre">...</span></code> が付きます．
+これが現在のブレークポイントの他に保存されたブレークポイントがあることを示しています．
+この文脈スタックを見るには <a class="reference internal" href="#ghci-cmd-:show context"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:show</span> <span class="pre">context</span></code></a> を使えばいいでしょう．</p>
+<div class="highlight-none"><div class="highlight"><pre>... [qsort.hs:2:16-47] *Main&gt; :show context
 --&gt; main
-  Stopped at qsort.hs:2:16-47
+Stopped in Main.qsort, qsort.hs:2:16-47
 --&gt; qsort [1,3]
-  Stopped at qsort.hs:(1,0)-(3,55)
-... [qsort.hs:(1,0)-(3,55)] *Main&gt;
+Stopped in Main.qsort, qsort.hs:2:16-47
+... [qsort.hs:2:16-47] *Main&gt;
 </pre></div>
 </div>
-<p>To abandon the current evaluation, use <a class="reference internal" href="#ghci-cmd-:abandon"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:abandon</span></code></a>:</p>
-<div class="highlight-none"><div class="highlight"><pre>... [qsort.hs:(1,0)-(3,55)] *Main&gt; :abandon
+<p>現在の評価の結果を捨てるには <a class="reference internal" href="#ghci-cmd-:abandon"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:abandon</span></code></a>: を使います．</p>
+<div class="highlight-none"><div class="highlight"><pre>... [qsort.hs:2:16-47] *Main&gt; :abandon
 [qsort.hs:2:16-47] *Main&gt; :abandon
 *Main&gt;
 </pre></div>
