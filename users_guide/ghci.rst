@@ -2997,55 +2997,105 @@ To delete a breakpoint, use the command with the number
 
 全てのブレイクポイントを一度に削除するには ``:delete *`` とします．
 
+..
+   .. _single-stepping:
+
+   Single-stepping
+   ~~~~~~~~~~~~~~~
+
 .. _single-stepping:
 
-Single-stepping
-~~~~~~~~~~~~~~~
+ステップ実行
+~~~~~~~~~~~~
 
-Single-stepping is a great way to visualise the execution of your
-program, and it is also a useful tool for identifying the source of a
-bug. GHCi offers two variants of stepping. Use :ghci-cmd:`:step` to enable all
-the breakpoints in the program, and execute until the next breakpoint is
-reached. Use :ghci-cmd:`:steplocal` to limit the set of enabled breakpoints to
-those in the current top level function. Similarly, use :ghci-cmd:`:stepmodule`
-to single step only on breakpoints contained in the current module. For
-example:
+..
+   Single-stepping is a great way to visualise the execution of your
+   program, and it is also a useful tool for identifying the source of a
+   bug. GHCi offers two variants of stepping. Use :ghci-cmd:`:step` to enable all
+   the breakpoints in the program, and execute until the next breakpoint is
+   reached. Use :ghci-cmd:`:steplocal` to limit the set of enabled breakpoints to
+   those in the current top level function. Similarly, use :ghci-cmd:`:stepmodule`
+   to single step only on breakpoints contained in the current module. For
+   example:
+
+   .. code-block:: none
+
+       *Main> :step main
+       Stopped at qsort.hs:5:7-47
+       _result :: IO ()
+
+ステップ実行は，プログラムの実行を可視化する素晴しい方法であり，バグの原因を同定する手段としても有用である．
+:ghci-cmd:`:step` コマンドを使うと，プログラム中の全てのブレークポイントが有効にされ、次のブレークポイントに達するまで実行される．
+:ghci-cmd:`:steplocal` とすれば，現在のトップレベル関数の中にあるブレークポイントのみ有効になります．
+同様に :ghci-cmd:`:stepmodule` とすると現在のモジュール中にあるブレークポイントのみ有効にします．
+たとえば以下のようになる．
 
 .. code-block:: none
 
     *Main> :step main
-    Stopped at qsort.hs:5:7-47
-    _result :: IO ()
+    Stopped in Main.main, qsort.hs:5:8-48
+    _result :: IO () = _
 
-The command :ghci-cmd:`:step expr <:step>` begins the evaluation of ⟨expr⟩ in
-single-stepping mode. If ⟨expr⟩ is omitted, then it single-steps from
-the current breakpoint. :ghci-cmd:`:steplocal` and :ghci-cmd:`:stepmodule`
-commands work similarly.
+..
+   The command :ghci-cmd:`:step expr <:step>` begins the evaluation of ⟨expr⟩ in
+   single-stepping mode. If ⟨expr⟩ is omitted, then it single-steps from
+   the current breakpoint. :ghci-cmd:`:steplocal` and :ghci-cmd:`:stepmodule`
+   commands work similarly.
 
-The :ghci-cmd:`:list` command is particularly useful when single-stepping, to
-see where you currently are:
+:ghci-cmd:`:step expr <:step>` コマンドは⟨expr⟩のステップ実行を開始します．
+⟨expr⟩ が省略されたときは，現在のブレイクポイントからステップ実行します．
+:ghci-cmd:`:steplocal` および :ghci-cmd:`:stepmodule` も同様に動作します．
+
+..
+   The :ghci-cmd:`:list` command is particularly useful when single-stepping, to
+   see where you currently are:
+
+   .. code-block:: none
+
+       [qsort.hs:5:7-47] *Main> :list
+       4
+       5  main = print (qsort [8, 4, 0, 3, 1, 23, 11, 18])
+       6
+       [qsort.hs:5:7-47] *Main>
+
+ステップ実行中は :ghci-cmd:`:list` コマンドが特に便利で，いまどこを実行しているかが判ります．
 
 .. code-block:: none
 
-    [qsort.hs:5:7-47] *Main> :list
-    4
+    [qsort.hs:5:8-48] *Main> :list
+    4  
     5  main = print (qsort [8, 4, 0, 3, 1, 23, 11, 18])
-    6
-    [qsort.hs:5:7-47] *Main>
+    6  
+    [qsort.hs:5:8-48] *Main> 
 
-In fact, GHCi provides a way to run a command when a breakpoint is hit,
-so we can make it automatically do :ghci-cmd:`:list`:
+..
+   In fact, GHCi provides a way to run a command when a breakpoint is hit,
+   so we can make it automatically do :ghci-cmd:`:list`:
+
+   .. code-block:: none
+
+       [qsort.hs:5:7-47] *Main> :set stop :list
+       [qsort.hs:5:7-47] *Main> :step
+       Stopped at qsort.hs:5:14-46
+       _result :: [Integer]
+       4
+       5  main = print (qsort [8, 4, 0, 3, 1, 23, 11, 18])
+       6
+       [qsort.hs:5:14-46] *Main>
+
+実は，GHCiにはブレイクポイントにきたときにコマンドを実行するという機能があり，
+自動的に :ghci-cmd:`:list` するようにできます．
 
 .. code-block:: none
 
-    [qsort.hs:5:7-47] *Main> :set stop :list
-    [qsort.hs:5:7-47] *Main> :step
-    Stopped at qsort.hs:5:14-46
-    _result :: [Integer]
-    4
+    [qsort.hs:5:8-48] *Main> :set stop :list
+    [qsort.hs:5:8-48] *Main> :step
+    Stopped in Main.main, qsort.hs:5:15-47
+    _result :: [Integer] = _
+    4  
     5  main = print (qsort [8, 4, 0, 3, 1, 23, 11, 18])
-    6
-    [qsort.hs:5:14-46] *Main>
+    6  
+    [qsort.hs:5:15-47] *Main> 
 
 .. _nested-breakpoints:
 
