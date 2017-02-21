@@ -2948,20 +2948,46 @@ We evaluated only the ``_t1`` thunk, revealing the head of the list, and
 通常let式はブレークポイントになりませんが，その本体は常にブレークポイントになります．
 そのletで束縛された変数の値を調べたいと思うのが普通だからです．
 
-Listing and deleting breakpoints
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..
+   Listing and deleting breakpoints
+   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-The list of breakpoints currently enabled can be displayed using
-:ghci-cmd:`:show breaks`:
+ブレイクポイントの一覧と削除
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+..
+   The list of breakpoints currently enabled can be displayed using
+   :ghci-cmd:`:show breaks`:
+
+   .. code-block:: none
+
+       *Main> :show breaks
+       [0] Main qsort.hs:1:11-12
+       [1] Main qsort.hs:2:16-47
+
+現在有効になっているブレイクポイントを一覧するには
+:ghci-cmd:`:show breaks` を使います．
 
 .. code-block:: none
 
     *Main> :show breaks
-    [0] Main qsort.hs:1:11-12
+    [0] Main qsort.hs:1:12-13
     [1] Main qsort.hs:2:16-47
 
-To delete a breakpoint, use the :ghci-cmd:`:delete` command with the number
-given in the output from :ghci-cmd:`:show breaks`:
+..
+   To delete a breakpoint, use the :ghci-cmd:`:delete` command with the number
+   given in the output from :ghci-cmd:`:show breaks`:
+
+   .. code-block:: none
+
+       *Main> :delete 0
+       *Main> :show breaks
+       [1] Main qsort.hs:2:16-47
+
+   To delete all breakpoints at once, use ``:delete *``.
+
+To delete a breakpoint, use the command with the number
+ブレイクポイントを削除するには :ghci-cmd:`:delete` コマンドを使い :ghci-cmd:`:show breaks` で出力されるブレイクポイント番号を指定します．
 
 .. code-block:: none
 
@@ -2969,7 +2995,7 @@ given in the output from :ghci-cmd:`:show breaks`:
     *Main> :show breaks
     [1] Main qsort.hs:2:16-47
 
-To delete all breakpoints at once, use ``:delete *``.
+全てのブレイクポイントを一度に削除するには ``:delete *`` とします．
 
 .. _single-stepping:
 
