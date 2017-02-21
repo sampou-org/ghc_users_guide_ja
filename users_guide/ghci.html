@@ -87,7 +87,7 @@
 <li><a class="reference internal" href="#id27">5.5.1.2. ブレイクポイントの一覧と削除</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#single-stepping">5.5.2. Single-stepping</a></li>
+<li><a class="reference internal" href="#single-stepping">5.5.2. ステップ実行</a></li>
 <li><a class="reference internal" href="#nested-breakpoints">5.5.3. Nested breakpoints</a></li>
 <li><a class="reference internal" href="#the-result-variable">5.5.4. The <code class="docutils literal"><span class="pre">_result</span></code> variable</a></li>
 <li><a class="reference internal" href="#tracing-and-history">5.5.5. Tracing and history</a></li>
@@ -1243,43 +1243,38 @@ right :: [Integer] = _
 </div>
 </div>
 <div class="section" id="single-stepping">
-<span id="id28"></span><h3>5.5.2. Single-stepping<a class="headerlink" href="#single-stepping" title="Permalink to this headline">¶</a></h3>
-<p>Single-stepping is a great way to visualise the execution of your
-program, and it is also a useful tool for identifying the source of a
-bug. GHCi offers two variants of stepping. Use <a class="reference internal" href="#ghci-cmd-:step"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:step</span></code></a> to enable all
-the breakpoints in the program, and execute until the next breakpoint is
-reached. Use <a class="reference internal" href="#ghci-cmd-:steplocal"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:steplocal</span></code></a> to limit the set of enabled breakpoints to
-those in the current top level function. Similarly, use <a class="reference internal" href="#ghci-cmd-:stepmodule"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:stepmodule</span></code></a>
-to single step only on breakpoints contained in the current module. For
-example:</p>
+<span id="id28"></span><h3>5.5.2. ステップ実行<a class="headerlink" href="#single-stepping" title="Permalink to this headline">¶</a></h3>
+<p>ステップ実行は，プログラムの実行を可視化する素晴しい方法であり，バグの原因を同定する手段としても有用である．
+<a class="reference internal" href="#ghci-cmd-:step"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:step</span></code></a> コマンドを使うと，プログラム中の全てのブレークポイントが有効にされ、次のブレークポイントに達するまで実行される．
+<a class="reference internal" href="#ghci-cmd-:steplocal"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:steplocal</span></code></a> とすれば，現在のトップレベル関数の中にあるブレークポイントのみ有効になります．
+同様に <a class="reference internal" href="#ghci-cmd-:stepmodule"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:stepmodule</span></code></a> とすると現在のモジュール中にあるブレークポイントのみ有効にします．
+たとえば以下のようになる．</p>
 <div class="highlight-none"><div class="highlight"><pre>*Main&gt; :step main
-Stopped at qsort.hs:5:7-47
-_result :: IO ()
+Stopped in Main.main, qsort.hs:5:8-48
+_result :: IO () = _
 </pre></div>
 </div>
-<p>The command <a class="reference internal" href="#ghci-cmd-:step"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:step</span> <span class="pre">expr</span></code></a> begins the evaluation of ⟨expr⟩ in
-single-stepping mode. If ⟨expr⟩ is omitted, then it single-steps from
-the current breakpoint. <a class="reference internal" href="#ghci-cmd-:steplocal"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:steplocal</span></code></a> and <a class="reference internal" href="#ghci-cmd-:stepmodule"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:stepmodule</span></code></a>
-commands work similarly.</p>
-<p>The <a class="reference internal" href="#ghci-cmd-:list"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:list</span></code></a> command is particularly useful when single-stepping, to
-see where you currently are:</p>
-<div class="highlight-none"><div class="highlight"><pre>[qsort.hs:5:7-47] *Main&gt; :list
+<p><a class="reference internal" href="#ghci-cmd-:step"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:step</span> <span class="pre">expr</span></code></a> コマンドは⟨expr⟩のステップ実行を開始します．
+⟨expr⟩ が省略されたときは，現在のブレイクポイントからステップ実行します．
+<a class="reference internal" href="#ghci-cmd-:steplocal"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:steplocal</span></code></a> および <a class="reference internal" href="#ghci-cmd-:stepmodule"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:stepmodule</span></code></a> も同様に動作します．</p>
+<p>ステップ実行中は <a class="reference internal" href="#ghci-cmd-:list"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:list</span></code></a> コマンドが特に便利で，いまどこを実行しているかが判ります．</p>
+<div class="highlight-none"><div class="highlight"><pre>[qsort.hs:5:8-48] *Main&gt; :list
 4
 5  main = print (qsort [8, 4, 0, 3, 1, 23, 11, 18])
 6
-[qsort.hs:5:7-47] *Main&gt;
+[qsort.hs:5:8-48] *Main&gt;
 </pre></div>
 </div>
-<p>In fact, GHCi provides a way to run a command when a breakpoint is hit,
-so we can make it automatically do <a class="reference internal" href="#ghci-cmd-:list"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:list</span></code></a>:</p>
-<div class="highlight-none"><div class="highlight"><pre>[qsort.hs:5:7-47] *Main&gt; :set stop :list
-[qsort.hs:5:7-47] *Main&gt; :step
-Stopped at qsort.hs:5:14-46
-_result :: [Integer]
+<p>実は，GHCiにはブレイクポイントにきたときにコマンドを実行するという機能があり，
+自動的に <a class="reference internal" href="#ghci-cmd-:list"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:list</span></code></a> するようにできます．</p>
+<div class="highlight-none"><div class="highlight"><pre>[qsort.hs:5:8-48] *Main&gt; :set stop :list
+[qsort.hs:5:8-48] *Main&gt; :step
+Stopped in Main.main, qsort.hs:5:15-47
+_result :: [Integer] = _
 4
 5  main = print (qsort [8, 4, 0, 3, 1, 23, 11, 18])
 6
-[qsort.hs:5:14-46] *Main&gt;
+[qsort.hs:5:15-47] *Main&gt;
 </pre></div>
 </div>
 </div>
@@ -2342,7 +2337,7 @@ are not bound to new variables, they are simply denoted by <code class="docutils
 single-stepping mode. In this mode evaluation will be stopped after
 every reduction, allowing local variables to be inspected. If ⟨expr⟩
 is not given, evaluation will resume at the last breakpoint. See
-<a class="reference internal" href="#single-stepping"><span>Single-stepping</span></a>.</p>
+<a class="reference internal" href="#single-stepping"><span>ステップ実行</span></a>.</p>
 </dd></dl>
 
 <dl class="ghci-cmd">
