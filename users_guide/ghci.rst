@@ -3187,22 +3187,41 @@ GHCi がブレイクポイントで停止したとき，プロンプトに式を
     [qsort.hs:2:16-47] *Main> :abandon
     *Main> 
 
+..
+   .. _ghci-debugger-result:
+
+   The ``_result`` variable
+   ~~~~~~~~~~~~~~~~~~~~~~~~
+
 .. _ghci-debugger-result:
 
 The ``_result`` variable
 ~~~~~~~~~~~~~~~~~~~~~~~~
 
-When stopped at a breakpoint or single-step, GHCi binds the variable
+..
+   When stopped at a breakpoint or single-step, GHCi binds the variable
+   ``_result`` to the value of the currently active expression. The value
+   of ``_result`` is presumably not available yet, because we stopped its
+   evaluation, but it can be forced: if the type is known and showable,
+   then just entering ``_result`` at the prompt will show it. However,
+   there's one caveat to doing this: evaluating ``_result`` will be likely
+   to trigger further breakpoints, starting with the breakpoint we are
+   currently stopped at (if we stopped at a real breakpoint, rather than
+   due to :ghci-cmd:`:step`). So it will probably be necessary to issue a
+   :ghci-cmd:`:continue` immediately when evaluating ``_result``. Alternatively,
+   you can use :ghci-cmd:`:force` which ignores breakpoints.
+
 ``_result`` to the value of the currently active expression. The value
-of ``_result`` is presumably not available yet, because we stopped its
-evaluation, but it can be forced: if the type is known and showable,
-then just entering ``_result`` at the prompt will show it. However,
-there's one caveat to doing this: evaluating ``_result`` will be likely
-to trigger further breakpoints, starting with the breakpoint we are
-currently stopped at (if we stopped at a real breakpoint, rather than
-due to :ghci-cmd:`:step`). So it will probably be necessary to issue a
-:ghci-cmd:`:continue` immediately when evaluating ``_result``. Alternatively,
-you can use :ghci-cmd:`:force` which ignores breakpoints.
+ブレークポイントで停止したときやステップ実行するとき，GHCiは ``_result`` という変数を用意して，
+現在注目されている式の結果に束縛します．
+``_result`` の値はおそらくまだ存在しない(その評価を止めたので)が，
+その評価を強制することはできます．
+その型が既知で表示できるなら ``_result`` とプロンプトに入力するだけで表示できます．
+ただし，警告が一つあります．
+``_result`` を評価すると，別のブレークポイントにあたる可能性が高いということです．
+特に :ghci-cmd:`:step` ではなく真のブレークポイントで停止していたら，このブレークポイントに最初にあたります．
+このため ``_result`` を評価する時には，即座に :ghci:`:continue` を発行しなければならなく可能性が高くなります．
+別の方法としては :ghci-cmd:`:force` はブレークポイントを無視するので，これを使うこともできます．
 
 .. _tracing:
 
