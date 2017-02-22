@@ -3421,71 +3421,137 @@ GHCの実行エンジンにある「スタック」は字句的呼び出しス�
 
     GHCi で追跡する評価ヒストリの深さを変更する
 
+..
+   .. _ghci-debugger-exceptions:
+
+   Debugging exceptions
+   ~~~~~~~~~~~~~~~~~~~~
+
 .. _ghci-debugger-exceptions:
 
-Debugging exceptions
-~~~~~~~~~~~~~~~~~~~~
+例外のデバッグ
+~~~~~~~~~~~~~~
 
-Another common question that comes up when debugging is "where did this
-exception come from?". Exceptions such as those raised by ``error`` or
-``head []`` have no context information attached to them. Finding which
-particular call to ``head`` in your program resulted in the error can be
-a painstaking process, usually involving ``Debug.Trace.trace``, or
-compiling with profiling and using ``Debug.Trace.traceStack`` or
-``+RTS -xc`` (see :rts-flag:`-xc`).
+..
+   Another common question that comes up when debugging is "where did this
+   exception come from?". Exceptions such as those raised by ``error`` or
+   ``head []`` have no context information attached to them. Finding which
+   particular call to ``head`` in your program resulted in the error can be
+   a painstaking process, usually involving ``Debug.Trace.trace``, or
+   compiling with profiling and using ``Debug.Trace.traceStack`` or
+   ``+RTS -xc`` (see :rts-flag:`-xc`).
 
-The GHCi debugger offers a way to hopefully shed some light on these
-errors quickly and without modifying or recompiling the source code. One
-way would be to set a breakpoint on the location in the source code that
-throws the exception, and then use :ghci-cmd:`:trace` and :ghci-cmd:`:history` to
-establish the context. However, ``head`` is in a library and we can't
-set a breakpoint on it directly. For this reason, GHCi provides the
-flags :ghc-flag:`-fbreak-on-exception` which causes the evaluator to stop when
-an exception is thrown, and :ghc-flag:`-fbreak-on-error`, which works similarly
-but stops only on uncaught exceptions. When stopping at an exception,
-GHCi will act just as it does when a breakpoint is hit, with the
-deviation that it will not show you any source code location. Due to
-this, these commands are only really useful in conjunction with
-:ghci-cmd:`:trace`, in order to log the steps leading up to the exception. For
-example:
+デバッグの際にもうひとつ思うことは「この例外はどこから来たの？」ということです．
+``error`` や ``head []`` などが引き起こすような例外には文脈情報がついていません．
+プログラム中のどの ``head`` 呼び出しがエラーになったかを探すのは骨の折れる仕事です．
+たいていの場合 ``Debug.Trace.trace`` を仕込むか，プロファイル指定でコンパイルして
+``Debug.Trace.traceStack`` を使うか ``+RTS -xc`` (:rts-flag:`-xc` 参照)を使うかです．
+
+..
+   The GHCi debugger offers a way to hopefully shed some light on these
+   errors quickly and without modifying or recompiling the source code. One
+   way would be to set a breakpoint on the location in the source code that
+   throws the exception, and then use :ghci-cmd:`:trace` and :ghci-cmd:`:history` to
+   establish the context. However, ``head`` is in a library and we can't
+   set a breakpoint on it directly. For this reason, GHCi provides the
+   flags :ghc-flag:`-fbreak-on-exception` which causes the evaluator to stop when
+   an exception is thrown, and :ghc-flag:`-fbreak-on-error`, which works similarly
+   but stops only on uncaught exceptions. When stopping at an exception,
+   GHCi will act just as it does when a breakpoint is hit, with the
+   deviation that it will not show you any source code location. Due to
+   this, these commands are only really useful in conjunction with
+   :ghci-cmd:`:trace`, in order to log the steps leading up to the exception. For
+   example:
+
+   .. code-block:: none
+
+       *Main> :set -fbreak-on-exception
+       *Main> :trace qsort ("abc" ++ undefined)
+       “Stopped at <exception thrown>
+       _exception :: e
+       [<exception thrown>] *Main> :hist
+       -1  : qsort.hs:3:24-38
+       -2  : qsort.hs:3:23-55
+       -3  : qsort.hs:(1,0)-(3,55)
+       -4  : qsort.hs:2:15-24
+       -5  : qsort.hs:2:16-47
+       -6  : qsort.hs:(1,0)-(3,55)
+       <end of history>
+       [<exception thrown>] *Main> :back
+       Logged breakpoint at qsort.hs:3:24-38
+       _result :: [a]
+       as :: [a]
+       a :: a
+       [-1: qsort.hs:3:24-38] *Main> :force as
+       *** Exception: Prelude.undefined
+       [-1: qsort.hs:3:24-38] *Main> :print as
+       as = 'b' : 'c' : (_t1::[Char])
+
+   The exception itself is bound to a new variable, ``_exception``.
+
+GHCiデバッガはソースコードを書き換えたり，再コンパイルしたりすることなく，
+てばやく，この手のエラーに光を当てる方法を提供しています．
+ひとつの方法は，ソースコード中で例外を投げる場所にブレークポイントを設定し :ghci-cmd:`:trace` と :ghci-cmd:`:history` を使って
+文脈を把握することです．
+しかし ``head`` はライブラリ中にあり，そこに直接ブレークポイントを設定できません．
+そういうわけで，GHCiには :ghc-flag:`-fbreak-on-exception` フラグが用意されています．
+これを使うと例外が投げられた時に評価器を停止できます．
+:ghc-flag:`-fbreak-on-error` も同様ですが，こちらは例外が捕捉されなかった場合のみ停止します．
+例外で停止すると，GHCiはちょうどブレークポイントに当ったのと同じように振る舞います．
+違うのは，ソースコード中の位置が表示されないということです．
+したがって :ghci-cmd:`:trace` と組み合わせて，例外が発生する直前までのステップを記録するようにしないと
+あまり役には立ちません．
+たとえば，以下のようにします．
 
 .. code-block:: none
 
-    *Main> :set -fbreak-on-exception
+    *Main> :set -fbreak-on-exception 
     *Main> :trace qsort ("abc" ++ undefined)
-    “Stopped at <exception thrown>
-    _exception :: e
-    [<exception thrown>] *Main> :hist
-    -1  : qsort.hs:3:24-38
-    -2  : qsort.hs:3:23-55
-    -3  : qsort.hs:(1,0)-(3,55)
-    -4  : qsort.hs:2:15-24
-    -5  : qsort.hs:2:16-47
-    -6  : qsort.hs:(1,0)-(3,55)
+    "Stopped in <exception thrown>, <unknown>
+    _exception :: e = _
+    [<unknown>] *Main> :hist
+    -1  : qsort:(...) (qsort.hs:3:25-39)
+    -2  : qsort:(...) (qsort.hs:3:24-56)
+    -3  : qsort (qsort.hs:2:16-25)
+    -4  : qsort (qsort.hs:2:16-47)
     <end of history>
-    [<exception thrown>] *Main> :back
-    Logged breakpoint at qsort.hs:3:24-38
-    _result :: [a]
-    as :: [a]
-    a :: a
-    [-1: qsort.hs:3:24-38] *Main> :force as
+    [<unknown>] *Main> :back
+    Logged breakpoint at qsort.hs:3:25-39
+    _result :: [Char]
+    a :: Char
+    as :: [Char]
+    [-1: qsort.hs:3:25-39] *Main> :force as
     *** Exception: Prelude.undefined
-    [-1: qsort.hs:3:24-38] *Main> :print as
+    CallStack (from HasCallStack):
+    error, called at libraries/base/GHC/Err.hs:79:14 in base:GHC.Err
+    undefined, called at <interactive>:2:17 in interactive:Ghci1
+    [-1: qsort.hs:3:25-39] *Main> :print as
     as = 'b' : 'c' : (_t1::[Char])
 
-The exception itself is bound to a new variable, ``_exception``.
+新しい変数 ``_exception`` が例外に束縛されます．
 
-Breaking on exceptions is particularly useful for finding out what your
-program was doing when it was in an infinite loop. Just hit Control-C,
-and examine the history to find out what was going on.
+..
+   Breaking on exceptions is particularly useful for finding out what your
+   program was doing when it was in an infinite loop. Just hit Control-C,
+   and examine the history to find out what was going on.
+
+   .. ghc-flag:: -fbreak-on-exception
+		 -fbreak-on-error
+
+       Causes GHCi to halt evaluation and return to the interactive prompt
+       in the event of an exception. While :ghc-flag:`-fbreak-on-exception` breaks
+       on all exceptions, :ghc-flag:`-fbreak-on-error` breaks on only those which
+       would otherwise be uncaught.
+
+例外発生時にブレークする機能は，プログラムが無限ループしているとき，それが何をしているかを調べるのに特に便利です．
+Ctrl-C を叩いて，履歴を見て，何が起こっていたかを調べればいいのです．
 
 .. ghc-flag:: -fbreak-on-exception
               -fbreak-on-error
 
-    Causes GHCi to halt evaluation and return to the interactive prompt
-    in the event of an exception. While :ghc-flag:`-fbreak-on-exception` breaks
-    on all exceptions, :ghc-flag:`-fbreak-on-error` breaks on only those which
-    would otherwise be uncaught.
+    GHCiが，例外のイベントで，評価を停止して対話プロンプトに戻るようにします．
+    :ghc-flag:`-fbreak-on-exception` はすべての例外でブレイクするのに対して，
+    :ghc-flag:`-fbreak-on-error` は捕捉されない例外でのみブレイクします．
 
 Example: inspecting functions
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
