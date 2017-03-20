@@ -7,7 +7,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>7.12. Using shared libraries &mdash; Glasgow Haskell Compiler &lt;release&gt; Users Guide</title>
+    <title>7.12. Using shared libraries &#8212; Glasgow Haskell Compiler &lt;release&gt; Users Guide</title>
     
     <link rel="stylesheet" href="_static/ghc-theme.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -18,14 +18,15 @@
         VERSION:     '8.0.2',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
-        HAS_SOURCE:  true
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
       };
     </script>
     <script type="text/javascript" src="_static/jquery.js"></script>
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
-    <link rel="top" title="Glasgow Haskell Compiler &lt;release&gt; Users Guide" href="index.html" />
-    <link rel="up" title="7. Using GHC" href="usage.html" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="7.13. Debugging the compiler" href="debugging.html" />
     <link rel="prev" title="7.11. Options related to a particular phase" href="phases.html" /> 
   </head>
@@ -46,8 +47,8 @@
         <li class="right" >
           <a href="phases.html" title="7.11. Options related to a particular phase"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">GHC 8.0.2 Users Guide</a> &raquo;</li>
-          <li class="nav-item nav-item-1"><a href="usage.html" accesskey="U">7. Using GHC</a> &raquo;</li> 
+        <li class="nav-item nav-item-0"><a href="index.html">GHC 8.0.2 Users Guide</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="usage.html" accesskey="U">7. Using GHC</a> &#187;</li> 
       </ul>
     </div>
 
@@ -77,21 +78,18 @@
   <div role="note" aria-label="source link">
     <h3>This Page</h3>
     <ul class="this-page-menu">
-      <li><a href="_sources/shared_libs.txt"
+      <li><a href="_sources/shared_libs.rst.txt"
             rel="nofollow">Show Source</a></li>
     </ul>
    </div>
 <div id="searchbox" style="display: none" role="search">
   <h3>Quick search</h3>
     <form class="search" action="search.html" method="get">
-      <input type="text" name="q" />
-      <input type="submit" value="Go" />
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
       <input type="hidden" name="check_keywords" value="yes" />
       <input type="hidden" name="area" value="default" />
     </form>
-    <p class="searchtip" style="font-size: 90%">
-    Enter search terms or a module, class or function name.
-    </p>
 </div>
 <script type="text/javascript">$('#searchbox').show(0);</script>
         </div>
@@ -119,7 +117,7 @@ also commonly used as a plugin mechanism by various applications. This
 is particularly common on Windows using COM.</p>
 <p>In GHC version 6.12 building shared libraries is supported for Linux (on
 x86 and x86-64 architectures). GHC version 7.0 adds support on Windows
-(see <a class="reference internal" href="win32-dlls.html#win32-dlls"><span>Building and using Win32 DLLs</span></a>), FreeBSD and OpenBSD (x86 and x86-64), Solaris
+(see <a class="reference internal" href="win32-dlls.html#win32-dlls"><span class="std std-ref">Building and using Win32 DLLs</span></a>), FreeBSD and OpenBSD (x86 and x86-64), Solaris
 (x86) and Mac OS X (x86 and PowerPC).</p>
 <p>Building and using shared libraries is slightly more complicated than
 building and using static libraries. When using Cabal much of the detail
@@ -136,7 +134,7 @@ locations.</p>
 <h2>7.12.1. Building programs that use shared libraries<a class="headerlink" href="#building-programs-that-use-shared-libraries" title="Permalink to this headline">¶</a></h2>
 <p>To build a simple program and have it use shared libraries for the
 runtime system and the base libraries use the <a class="reference internal" href="phases.html#ghc-flag--dynamic"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-dynamic</span></code></a> flag:</p>
-<div class="highlight-none"><div class="highlight"><pre>ghc --make -dynamic Main.hs
+<div class="highlight-none"><div class="highlight"><pre><span></span>ghc --make -dynamic Main.hs
 </pre></div>
 </div>
 <p>This has two effects. The first is to compile the code in such a way
@@ -173,7 +171,7 @@ come from a separate shared lib, while modules from the same package (or
 the default &#8220;main&#8221; package) are assumed to be within the same shared lib
 (or main executable binary).</p>
 <p>Most of the conventions GHC expects when using packages are described in
-<a class="reference internal" href="packages.html#building-packages"><span>Building a package from Haskell source</span></a>. In addition note that GHC expects the <code class="docutils literal"><span class="pre">.hi</span></code>
+<a class="reference internal" href="packages.html#building-packages"><span class="std std-ref">Building a package from Haskell source</span></a>. In addition note that GHC expects the <code class="docutils literal"><span class="pre">.hi</span></code>
 files to use the extension <code class="docutils literal"><span class="pre">.dyn_hi</span></code>. The other requirements are the
 same as for C libraries and are described below, in particular the use
 of the flags <a class="reference internal" href="phases.html#ghc-flag--dynamic"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-dynamic</span></code></a>, <a class="reference internal" href="phases.html#ghc-flag--fPIC"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-fPIC</span></code></a> and <a class="reference internal" href="phases.html#ghc-flag--shared"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-shared</span></code></a>.</p>
@@ -190,12 +188,12 @@ compiler or linker.</p>
 programs not written in Haskell, so they are suitable for using as
 plugins. Of course to construct a plugin you will have to use the FFI to
 export C functions and follow the rules about initialising the RTS. See
-<a class="reference internal" href="ffi-chap.html#ffi-library"><span>Making a Haskell library that can be called from foreign code</span></a>. In particular you will probably want to export a C
+<a class="reference internal" href="ffi-chap.html#ffi-library"><span class="std std-ref">Making a Haskell library that can be called from foreign code</span></a>. In particular you will probably want to export a C
 function from your shared library to initialise the plugin before any
 Haskell functions are called.</p>
 <p>To build Haskell modules that export a C API into a shared library use
 the <a class="reference internal" href="phases.html#ghc-flag--dynamic"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-dynamic</span></code></a>, <a class="reference internal" href="phases.html#ghc-flag--fPIC"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-fPIC</span></code></a> and <a class="reference internal" href="phases.html#ghc-flag--shared"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-shared</span></code></a> flags:</p>
-<div class="highlight-none"><div class="highlight"><pre>ghc --make -dynamic -shared -fPIC Foo.hs -o libfoo.so
+<div class="highlight-none"><div class="highlight"><pre><span></span>ghc --make -dynamic -shared -fPIC Foo.hs -o libfoo.so
 </pre></div>
 </div>
 <p>As before, the <code class="docutils literal"><span class="pre">-dynamic</span></code> flag specifies that this library links
@@ -204,7 +202,7 @@ against the shared library versions of the rts and base package. The
 library. The <code class="docutils literal"><span class="pre">-shared</span></code> flag specifies to make a shared library rather
 than a program. To make this clearer we can break this down into
 separate compilation and link steps:</p>
-<div class="highlight-none"><div class="highlight"><pre>ghc -dynamic -fPIC -c Foo.hs
+<div class="highlight-none"><div class="highlight"><pre><span></span>ghc -dynamic -fPIC -c Foo.hs
 ghc -dynamic -shared Foo.o -o libfoo.so
 </pre></div>
 </div>
@@ -258,7 +256,7 @@ given by the <span class="target" id="index-3"></span><code class="xref std std-
 </dl>
 <p>To use relative paths for dependent libraries on Linux and Solaris you
 can pass a suitable <code class="docutils literal"><span class="pre">-rpath</span></code> flag to the linker:</p>
-<div class="highlight-none"><div class="highlight"><pre>ghc -dynamic Main.hs -o main -lfoo -L. -optl-Wl,-rpath,&#39;$ORIGIN&#39;
+<div class="highlight-none"><div class="highlight"><pre><span></span>ghc -dynamic Main.hs -o main -lfoo -L. -optl-Wl,-rpath,&#39;$ORIGIN&#39;
 </pre></div>
 </div>
 <p>This assumes that the library <code class="docutils literal"><span class="pre">libfoo.so</span></code> is in the current directory
@@ -311,13 +309,13 @@ install location.</p>
         <li class="right" >
           <a href="phases.html" title="7.11. Options related to a particular phase"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">GHC 8.0.2 Users Guide</a> &raquo;</li>
-          <li class="nav-item nav-item-1"><a href="usage.html" >7. Using GHC</a> &raquo;</li> 
+        <li class="nav-item nav-item-0"><a href="index.html">GHC 8.0.2 Users Guide</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="usage.html" >7. Using GHC</a> &#187;</li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">
-        &copy; Copyright 2015, GHC Team.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.6.
+        &#169; Copyright 2015, GHC Team.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.5.2.
     </div>
   </body>
 </html>

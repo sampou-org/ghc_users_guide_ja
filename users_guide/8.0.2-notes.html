@@ -7,7 +7,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>4. バージョン 8.0.2 のリリースノート &mdash; Glasgow Haskell Compiler &lt;release&gt; Users Guide</title>
+    <title>4. Release notes for version 8.0.2 &#8212; Glasgow Haskell Compiler &lt;release&gt; Users Guide</title>
     
     <link rel="stylesheet" href="_static/ghc-theme.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -18,15 +18,17 @@
         VERSION:     '8.0.2',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
-        HAS_SOURCE:  true
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
       };
     </script>
     <script type="text/javascript" src="_static/jquery.js"></script>
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
-    <link rel="top" title="Glasgow Haskell Compiler &lt;release&gt; Users Guide" href="index.html" />
-    <link rel="next" title="5. GHCiを使う" href="ghci.html" />
-    <link rel="prev" title="3. バージョン 8.0.1 のリリースノート" href="8.0.1-notes.html" /> 
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="5. Using GHCi" href="ghci.html" />
+    <link rel="prev" title="3. Release notes for version 8.0.1" href="8.0.1-notes.html" /> 
   </head>
   <body role="document">
 <div class="logo">
@@ -40,12 +42,12 @@
           <a href="genindex.html" title="General Index"
              accesskey="I">index</a></li>
         <li class="right" >
-          <a href="ghci.html" title="5. GHCiを使う"
+          <a href="ghci.html" title="5. Using GHCi"
              accesskey="N">next</a> |</li>
         <li class="right" >
-          <a href="8.0.1-notes.html" title="3. バージョン 8.0.1 のリリースノート"
+          <a href="8.0.1-notes.html" title="3. Release notes for version 8.0.1"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">GHC 8.0.2 Users Guide</a> &raquo;</li> 
+        <li class="nav-item nav-item-0"><a href="index.html">GHC 8.0.2 Users Guide</a> &#187;</li> 
       </ul>
     </div>
 
@@ -53,12 +55,12 @@
         <div class="sphinxsidebarwrapper">
   <h3><a href="index.html">Table Of Contents</a></h3>
   <ul>
-<li><a class="reference internal" href="#">4. バージョン 8.0.2 のリリースノート</a><ul>
-<li><a class="reference internal" href="#id2">4.1. ハイライト</a></li>
-<li><a class="reference internal" href="#id3">4.2. 詳細</a><ul>
-<li><a class="reference internal" href="#id4">4.2.1. 言語拡張</a></li>
-<li><a class="reference internal" href="#id5">4.2.2. コンパイラ</a></li>
-<li><a class="reference internal" href="#id6">4.2.3. ランタイムシステム</a></li>
+<li><a class="reference internal" href="#">4. Release notes for version 8.0.2</a><ul>
+<li><a class="reference internal" href="#highlights">4.1. Highlights</a></li>
+<li><a class="reference internal" href="#full-details">4.2. Full details</a><ul>
+<li><a class="reference internal" href="#language">4.2.1. Language</a></li>
+<li><a class="reference internal" href="#compiler">4.2.2. Compiler</a></li>
+<li><a class="reference internal" href="#runtime-system">4.2.3. Runtime system</a></li>
 <li><a class="reference internal" href="#template-haskell">4.2.4. Template Haskell</a></li>
 <li><a class="reference internal" href="#ghc-library">4.2.5. <code class="docutils literal"><span class="pre">ghc</span></code> library</a></li>
 </ul>
@@ -69,28 +71,25 @@
 
   <h4>Previous topic</h4>
   <p class="topless"><a href="8.0.1-notes.html"
-                        title="previous chapter">3. バージョン 8.0.1 のリリースノート</a></p>
+                        title="previous chapter">3. Release notes for version 8.0.1</a></p>
   <h4>Next topic</h4>
   <p class="topless"><a href="ghci.html"
-                        title="next chapter">5. GHCiを使う</a></p>
+                        title="next chapter">5. Using GHCi</a></p>
   <div role="note" aria-label="source link">
     <h3>This Page</h3>
     <ul class="this-page-menu">
-      <li><a href="_sources/8.0.2-notes.txt"
+      <li><a href="_sources/8.0.2-notes.rst.txt"
             rel="nofollow">Show Source</a></li>
     </ul>
    </div>
 <div id="searchbox" style="display: none" role="search">
   <h3>Quick search</h3>
     <form class="search" action="search.html" method="get">
-      <input type="text" name="q" />
-      <input type="submit" value="Go" />
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
       <input type="hidden" name="check_keywords" value="yes" />
       <input type="hidden" name="area" value="default" />
     </form>
-    <p class="searchtip" style="font-size: 90%">
-    Enter search terms or a module, class or function name.
-    </p>
 </div>
 <script type="text/javascript">$('#searchbox').show(0);</script>
         </div>
@@ -101,75 +100,71 @@
         <div class="bodywrapper">
           <div class="body" role="main">
             
-  <div class="section" id="release-8-0-2">
-<span id="id1"></span><h1>4. バージョン 8.0.2 のリリースノート<a class="headerlink" href="#release-8-0-2" title="Permalink to this headline">¶</a></h1>
-<p>コンパイラのさまざまな重大な変更箇所については次節以降で網羅します．
-8.0.1 にあった大量のバグの修正と性能改善を行いました．</p>
+  <div class="section" id="release-notes-for-version-8-0-2">
+<span id="release-8-0-2"></span><h1>4. Release notes for version 8.0.2<a class="headerlink" href="#release-notes-for-version-8-0-2" title="Permalink to this headline">¶</a></h1>
+<p>The significant changes to the various parts of the compiler are listed in the
+following sections. There have also been numerous bug fixes and performance
+improvements over the 8.0.1 release.</p>
 <div class="admonition warning">
 <p class="first admonition-title">Warning</p>
-<p>このリリースでは，Cabal のバージョン 1.24 以降でないと正しく機能しません(<a class="reference external" href="http://ghc.haskell.org/trac/ghc/ticket/11558">Trac #11558</a> 参照)．
-したがって，新しいパッケージをインストールする前に <code class="docutils literal"><span class="pre">cabal-install</span></code> を再コンパイルする必要があります．</p>
-<p class="last">理由は GHC 8.0 でパッケージの識別方法が変更になったからです．
-Cabal の以前のバージョンでは，GHCのパッケージを(GHC の <code class="xref std std-ghc-flag docutils literal"><span class="pre">-this-package-key</span></code> 引数を使って)
-パッケージキーで識別していましたが，GHC 8.0 以降ではパッケージキーの代りにインストール済みパッケージ
-ID を使います．</p>
+<p>Only Cabal versions 1.24 and newer will function properly with this release.
+(see <a class="reference external" href="http://ghc.haskell.org/trac/ghc/ticket/11558">Trac #11558</a>). Consequently it will likely be necessary to
+recompile <code class="docutils literal"><span class="pre">cabal-install</span></code> before installing new packages.</p>
+<p class="last">The reason for this is a change in how packages are identified in GHC
+8.0. While previous versions of Cabal identified packages to GHC with a
+package key (with GHC&#8217;s <code class="xref std std-ghc-flag docutils literal"><span class="pre">-this-package-key</span></code> argument), GHC 8.0 and
+later uses installed package IDs in place of package keys.</p>
 </div>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
-<p class="last">ユーザーが Mac OS X で XCode 7.3 を使って GHC をコンパイルするには，ビルドシステムに
-Apple の新しい <code class="docutils literal"><span class="pre">nm</span></code> コマンドではなく <code class="docutils literal"><span class="pre">nm-classic</span></code> コマンドを使うように指示しなければなりません．
-新しい <code class="docutils literal"><span class="pre">nm</span></code> コマンドは POSIX の規約を破っているからです．
-(<a class="reference external" href="http://ghc.haskell.org/trac/ghc/ticket/11744">Trac #11744</a> 参照)．
-指示は <code class="docutils literal"><span class="pre">configure</span></code> コマンドに <code class="docutils literal"><span class="pre">--with-nm=$(xcrun</span> <span class="pre">--find</span> <span class="pre">nm-classic)</span></code> のように指定します．</p>
+<p class="last">Users compiling GHC on Mac OS X with XCode 7.3 will need to tell the build
+system to use the <code class="docutils literal"><span class="pre">nm-classic</span></code> command instead of Apple&#8217;s new <code class="docutils literal"><span class="pre">nm</span></code>
+implementation as the latter breaks POSIX compliance (see
+<a class="reference external" href="http://ghc.haskell.org/trac/ghc/ticket/11744">Trac #11744</a>). This can be done by passing something like
+<code class="docutils literal"><span class="pre">--with-nm=$(xcrun</span> <span class="pre">--find</span> <span class="pre">nm-classic)</span></code> to <code class="docutils literal"><span class="pre">configure</span></code>.</p>
 </div>
-<div class="section" id="id2">
-<h2>4.1. ハイライト<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h2>
-<p>8.0.1 のリリースからの変更のハイライトは以下のとおりです．</p>
+<div class="section" id="highlights">
+<h2>4.1. Highlights<a class="headerlink" href="#highlights" title="Permalink to this headline">¶</a></h2>
+<p>The highlights, since the 8.0.1 release, are:</p>
 <ul class="simple">
-<li>macOS Sierra および，最近の Linux のディストリビューションでの互換性を修正</li>
-</ul>
-<ul class="simple">
-<li>たくさん，たくさんのバグ修正</li>
-</ul>
-<ul class="simple">
-<li>単一構成子をもつ GADT を <code class="docutils literal"><span class="pre">Ix</span></code> のインスタンスとしてスタンドアロン導出しようとすると失敗するバグを修正(<a class="reference external" href="http://ghc.haskell.org/trac/ghc/ticket/12583">Trac #12583</a>)．</li>
-</ul>
-<ul class="simple">
-<li>GHCが生成するインターフェイスファイルは決定的でなければならなくなりました．</li>
+<li>Compatibility fixes with macOS Sierra and recent Linux distributions.</li>
+<li>Many, many bug fixes.</li>
+<li>A bug has been fixed that caused standalone derived <code class="docutils literal"><span class="pre">Ix</span></code> instances to fail
+for GADTs with exactly one constructor (<a class="reference external" href="http://ghc.haskell.org/trac/ghc/ticket/12583">Trac #12583</a>).</li>
+<li>Interface files produced by GHC should now be deterministic.</li>
 </ul>
 </div>
-<div class="section" id="id3">
-<h2>4.2. 詳細<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="id4">
-<h3>4.2.1. 言語拡張<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h3>
-<ul class="simple">
-<li><a class="reference internal" href="glasgow_exts.html#ghc-flag--XRebindableSyntax"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-XRebindableSyntax</span></code></a> および <a class="reference internal" href="glasgow_exts.html#ghc-flag--XOverloadedStrings"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-XOverloadedStrings</span></code></a>
-が指定されている場合に <code class="docutils literal"><span class="pre">Show</span></code> インスタンスの導出に失敗するバグを修正
-(<a class="reference external" href="http://ghc.haskell.org/trac/ghc/ticket/12688">Trac #12688</a>)．</li>
-</ul>
+<div class="section" id="full-details">
+<h2>4.2. Full details<a class="headerlink" href="#full-details" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="language">
+<h3>4.2.1. Language<a class="headerlink" href="#language" title="Permalink to this headline">¶</a></h3>
 <ul>
-<li><p class="first"><a class="reference internal" href="glasgow_exts.html#ghc-flag--XGeneralizedNewtypeDeriving"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-XGeneralizedNewtypeDeriving</span></code></a> を指定することで生成する型検査コードがより厳格になりました．
-たとえば，以下のプログラムは GHC が拒絶します．</p>
-<div class="highlight-haskell"><div class="highlight"><pre><span class="kr">class</span> <span class="kt">C</span> <span class="n">m</span> <span class="kr">where</span>
+<li><p class="first">A bug has been fixed that caused derived <code class="docutils literal"><span class="pre">Show</span></code> instances to fail in the
+presence of <a class="reference internal" href="glasgow_exts.html#ghc-flag--XRebindableSyntax"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-XRebindableSyntax</span></code></a> and
+<a class="reference internal" href="glasgow_exts.html#ghc-flag--XOverloadedStrings"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-XOverloadedStrings</span></code></a> (<a class="reference external" href="http://ghc.haskell.org/trac/ghc/ticket/12688">Trac #12688</a>).</p>
+</li>
+<li><p class="first">GHC is now a bit more strict in typechecking code generated by
+<a class="reference internal" href="glasgow_exts.html#ghc-flag--XGeneralizedNewtypeDeriving"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-XGeneralizedNewtypeDeriving</span></code></a>. For example, GHC will now reject
+this program:</p>
+<div class="highlight-haskell"><div class="highlight"><pre><span></span><span class="kr">class</span> <span class="kt">C</span> <span class="n">m</span> <span class="kr">where</span>
   <span class="n">foo</span> <span class="ow">::</span> <span class="kt">C</span> <span class="n">m</span> <span class="ow">=&gt;</span> <span class="n">m</span> <span class="nb">()</span>
 
 <span class="kr">newtype</span> <span class="kt">N</span> <span class="n">m</span> <span class="n">a</span> <span class="ow">=</span> <span class="kt">N</span> <span class="p">(</span><span class="n">m</span> <span class="n">a</span><span class="p">)</span>
   <span class="kr">deriving</span> <span class="kt">C</span> <span class="c1">-- This is now an error</span>
 </pre></div>
 </div>
-<p>GHC 8.0.1 以前はこのコードは通っていました．
-単に <code class="docutils literal"><span class="pre">foo</span></code> にある全く不要の <code class="docutils literal"><span class="pre">C</span> <span class="pre">m</span></code> 制約を削除するだけで，このコードは修正できます．</p>
-<div class="highlight-haskell"><div class="highlight"><pre><span class="kr">class</span> <span class="kt">C</span> <span class="n">m</span> <span class="kr">where</span>
+<p>This is in contrast to GHC 8.0.1 and earlier, which would accept this code.
+To fix this code, simply remove the <code class="docutils literal"><span class="pre">C</span> <span class="pre">m</span></code> constraint from <code class="docutils literal"><span class="pre">foo</span></code>, as it
+is wholly unnecessary:</p>
+<div class="highlight-haskell"><div class="highlight"><pre><span></span><span class="kr">class</span> <span class="kt">C</span> <span class="n">m</span> <span class="kr">where</span>
   <span class="n">foo</span> <span class="ow">::</span> <span class="n">m</span> <span class="nb">()</span>
 </pre></div>
 </div>
 </li>
-</ul>
-<ul>
-<li><p class="first"><a class="reference internal" href="glasgow_exts.html#ghc-flag--XDefaultSignatures"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-XDefaultSignatures</span></code></a> を使ってプログラムで GHC 8.0.1 では正しく型検査ができないものがありましたが，
-GHC 8.0.2 はこれをリジェクトするようになりました．
-それを示す例を以下に挙げます．</p>
-<div class="highlight-haskell"><div class="highlight"><pre><span class="kr">class</span> <span class="kt">Monad</span> <span class="n">m</span> <span class="ow">=&gt;</span> <span class="kt">MonadSupply</span> <span class="n">m</span> <span class="kr">where</span>
+<li><p class="first">Some programs using <a class="reference internal" href="glasgow_exts.html#ghc-flag--XDefaultSignatures"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-XDefaultSignatures</span></code></a> that incorrectly
+type-checked in GHC 8.0.1 are now rejected by GHC 8.0.2. Here is a
+characteristic example:</p>
+<div class="highlight-haskell"><div class="highlight"><pre><span></span><span class="kr">class</span> <span class="kt">Monad</span> <span class="n">m</span> <span class="ow">=&gt;</span> <span class="kt">MonadSupply</span> <span class="n">m</span> <span class="kr">where</span>
   <span class="n">fresh</span> <span class="ow">::</span> <span class="n">m</span> <span class="kt">Integer</span>
   <span class="kr">default</span> <span class="n">fresh</span> <span class="ow">::</span> <span class="p">(</span><span class="kt">MonadTrans</span> <span class="n">t</span><span class="p">,</span> <span class="kt">MonadSupply</span> <span class="n">m</span><span class="p">)</span> <span class="ow">=&gt;</span> <span class="n">t</span> <span class="n">m</span> <span class="kt">Integer</span>
   <span class="n">fresh</span> <span class="ow">=</span> <span class="n">lift</span> <span class="n">fresh</span>
@@ -177,9 +172,10 @@ GHC 8.0.2 はこれをリジェクトするようになりました．
 <span class="kr">instance</span> <span class="kt">MonadSupply</span> <span class="n">m</span> <span class="ow">=&gt;</span> <span class="kt">MonadSupply</span> <span class="p">(</span><span class="kt">IdentityT</span> <span class="n">m</span><span class="p">)</span>
 </pre></div>
 </div>
-<p>デフォルトのタイプシグネチャの <code class="docutils literal"><span class="pre">m</span></code> とデフォルトのタイプシグネチャではない部分の <code class="docutils literal"><span class="pre">m</span></code> は全く違う使い方です．
-これを(後方互換性のある方法で)修正するには以下のように書きます．</p>
-<div class="highlight-haskell"><div class="highlight"><pre><span class="kr">class</span> <span class="kt">Monad</span> <span class="n">m</span> <span class="ow">=&gt;</span> <span class="kt">MonadSupply</span> <span class="n">m</span> <span class="kr">where</span>
+<p>Note that the <code class="docutils literal"><span class="pre">m</span></code> in the default type signature is being used in
+a completely different way than the <code class="docutils literal"><span class="pre">m</span></code> in the non-default signature!
+We can fix this (in a backwards-compatible way) like so:</p>
+<div class="highlight-haskell"><div class="highlight"><pre><span></span><span class="kr">class</span> <span class="kt">Monad</span> <span class="n">m</span> <span class="ow">=&gt;</span> <span class="kt">MonadSupply</span> <span class="n">m</span> <span class="kr">where</span>
   <span class="n">fresh</span> <span class="ow">::</span> <span class="n">m</span> <span class="kt">Integer</span>
   <span class="kr">default</span> <span class="n">fresh</span> <span class="ow">::</span> <span class="p">(</span><span class="kt">MonadTrans</span> <span class="n">t</span><span class="p">,</span> <span class="kt">MonadSupply</span> <span class="n">m&#39;</span><span class="p">,</span> <span class="n">m</span> <span class="o">~</span> <span class="n">t</span> <span class="n">m&#39;</span><span class="p">)</span> <span class="ow">=&gt;</span> <span class="n">m</span> <span class="kt">Integer</span>
                    <span class="c1">-- Same &#39;m Integer&#39; after the &#39;=&gt;&#39;</span>
@@ -187,11 +183,9 @@ GHC 8.0.2 はこれをリジェクトするようになりました．
 </pre></div>
 </div>
 </li>
-</ul>
-<ul>
-<li><p class="first">デフォルトの型クラスメソッド実装とオーバーラッピングインスタンスを組み合わせているプログラムの一部は
-型検査に失敗するようになりました．以下はその例です．</p>
-<div class="highlight-haskell"><div class="highlight"><pre><span class="kr">class</span> <span class="kt">Foo</span> <span class="n">a</span> <span class="kr">where</span>
+<li><p class="first">Some programs which combine default type class method implementations and
+overlapping instances may now fail to type-check. Here is an example:</p>
+<div class="highlight-haskell"><div class="highlight"><pre><span></span><span class="kr">class</span> <span class="kt">Foo</span> <span class="n">a</span> <span class="kr">where</span>
   <span class="n">foo</span> <span class="ow">::</span> <span class="n">a</span> <span class="ow">-&gt;</span> <span class="p">[</span><span class="n">a</span><span class="p">]</span>
   <span class="n">foo</span> <span class="kr">_</span> <span class="ow">=</span> <span class="kt">[]</span>
 
@@ -199,121 +193,94 @@ GHC 8.0.2 はこれをリジェクトするようになりました．
 <span class="kr">instance</span> <span class="kt">Foo</span> <span class="kt">Int</span>
 </pre></div>
 </div>
-<p>問題はオーバーラッピングインスタンス <code class="docutils literal"><span class="pre">Foo</span> <span class="pre">Int</span></code> に明示的にオーバーラッピングを示すマークが付いていないことです．
-これを修正するには，単に <code class="docutils literal"><span class="pre">OVERLAPPING</span></code> プラグマを加えるだけです．</p>
-<div class="highlight-haskell"><div class="highlight"><pre><span class="kr">instance</span> <span class="cm">{-# OVERLAPPING #-}</span> <span class="kt">Foo</span> <span class="kt">Int</span>
+<p>The problem is that the overlapping <code class="docutils literal"><span class="pre">Foo</span> <span class="pre">Int</span></code> instance is not explicitly
+marked as overlapping. To fix this, simply add an <code class="docutils literal"><span class="pre">OVERLAPPING</span></code> pragma:</p>
+<div class="highlight-haskell"><div class="highlight"><pre><span></span><span class="kr">instance</span> <span class="cm">{-# OVERLAPPING #-}</span> <span class="kt">Foo</span> <span class="kt">Int</span>
 </pre></div>
 </div>
 </li>
-</ul>
-<ul>
-<li><p class="first">GHC はデフォルト規則に関して，より Haskell 2010 Report に近くなりました．
-その結果，GHC はバージョン 8.0.1 以前には受け入れていたいくつかのデフォルト規則を拒絶するようになりました．
-たとえば，以下は拒絶されます．</p>
-<div class="highlight-haskell"><div class="highlight"><pre><span class="kr">module</span> <span class="nn">Foo</span> <span class="kr">where</span>
+<li><p class="first">GHC now adheres more closely to the Haskell 2010 Report with respect to
+defaulting rules. As a result, GHC will now reject some defaulting rules
+which GHC 8.0.1 and earlier would accept. For example, this is now
+rejected</p>
+<div class="highlight-haskell"><div class="highlight"><pre><span></span><span class="kr">module</span> <span class="nn">Foo</span> <span class="kr">where</span>
 <span class="kr">default</span> <span class="p">(</span><span class="kt">Bool</span><span class="p">)</span>
 </pre></div>
 </div>
-<p>その理由は <code class="xref std std-ghc-flag docutils literal"><span class="pre">-XExtendedDefaultRules</span></code> 拡張が有効になっていなければ，
-デフォルト規則は <code class="docutils literal"><span class="pre">Num</span></code> クラスに対してしか効きませんが <code class="docutils literal"><span class="pre">Bool</span></code> は <code class="docutils literal"><span class="pre">Num</span></code> のインスタンスではないからです．
-GHC がこれを受け入れるようにするには <code class="xref std std-ghc-flag docutils literal"><span class="pre">-XExtendedDefaultRules</span></code> 拡張を有効にするだけです．</p>
+<p>because when the <code class="xref std std-ghc-flag docutils literal"><span class="pre">-XExtendedDefaultRules</span></code> extension is not
+enabled, defaulting rules only work for the <code class="docutils literal"><span class="pre">Num</span></code> class, of which <code class="docutils literal"><span class="pre">Bool</span></code>
+is not an instance. To make GHC accept the above program, simply enable the
+<code class="xref std std-ghc-flag docutils literal"><span class="pre">-XExtendedDefaultRules</span></code> extension.</p>
 </li>
 </ul>
 </div>
-<div class="section" id="id5">
-<h3>4.2.2. コンパイラ<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="compiler">
+<h3>4.2.2. Compiler<a class="headerlink" href="#compiler" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
-<li>8.0.1 にあった，いくつかのパッケージをコンパイル中に未定義参照エラーになるというバグを修正しました
-(<a class="reference external" href="http://ghc.haskell.org/trac/ghc/ticket/12076">Trac #12076</a> 参照)．</li>
-</ul>
-<ul class="simple">
-<li>コンパイル済みのプログラムでセグメンテーションフォルトがでるというコード生成器のバグを修正しました
-(ghc-ticket:<cite>12757</cite> 参照)．</li>
-</ul>
-<ul class="simple">
-<li>GHC はデフォルトで，位置独立実行可能コードを生成する C コンパイラシステムをサポートするようになりました
-(<a class="reference external" href="http://ghc.haskell.org/trac/ghc/ticket/12579">Trac #12579</a> 参照)．</li>
-</ul>
-<ul class="simple">
-<li>GHC はデフォルトで <code class="docutils literal"><span class="pre">gold</span></code> リンカを使うシステムでビルドできるようになりました
-(<a class="reference external" href="http://ghc.haskell.org/trac/ghc/ticket/12816">Trac #12816</a> 参照)．</li>
-</ul>
-<ul class="simple">
-<li>GHC は macOS Sierra でちゃんと走るようになりました．
-Sierra が導入したリンカの制限を，大量のパッケージ依存があるプログラムをコンパイルするときに
-GHC が超えてしまうことがありました(<a class="reference external" href="http://ghc.haskell.org/trac/ghc/ticket/12479">Trac #12479</a> 参照)．</li>
-</ul>
-<ul class="simple">
-<li><a class="reference internal" href="using-warnings.html#ghc-flag--Wredundant-constraints"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-Wredundant-constraints</span></code></a> フラグを <a class="reference internal" href="using-warnings.html#ghc-flag--Wall"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-Wall</span></code></a> フラグ集合から削除しました
-(<a class="reference external" href="http://ghc.haskell.org/trac/ghc/ticket/10635">Trac #10635</a>)．</li>
-</ul>
-<ul class="simple">
-<li><a class="reference internal" href="using-warnings.html#ghc-flag--fdefer-out-of-scope-variables"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-fdefer-out-of-scope-variables</span></code></a> フラグを追加しました．
-このフラグは範囲外変数エラーを警告に変えます．</li>
-</ul>
-<ul class="simple">
-<li>RTS の <code class="xref std std-ghc-flag docutils literal"><span class="pre">-xb</span></code> はベースのヒープアドレスを任意の基数で読むようになりました．
-デフォルトでは10進，<code class="docutils literal"><span class="pre">0x</span></code> ではじまるアドレスは16進 <code class="docutils literal"><span class="pre">0</span></code> ではじまるアドレスなら8進として読みます．</li>
-</ul>
-<ul class="simple">
-<li>とある見落としのせいで，GHC 8.0.1 では，GHCが使う LLVM のバージョンを表すプリプロセッサマクロ
-<code class="docutils literal"><span class="pre">__GLASGOW_HASKELL_LLVM__</span></code> の値が整数でなくなっていました．
-この値を整数に戻しました．ただし，フォーマットは <code class="docutils literal"><span class="pre">__GLASGOW_HASKELL__</span></code> のやりかたに沿ったものに変更しました
-(<a class="reference external" href="http://ghc.haskell.org/trac/ghc/ticket/12628">Trac #12628</a>)．</li>
-</ul>
-<ul class="simple">
-<li>ウィークメモリコンシステンシを保証するプラットフォーム上の並列プログラムの信頼性が大幅に向上しました
-(<a class="reference external" href="http://ghc.haskell.org/trac/ghc/ticket/12469">Trac #12469</a>)．</li>
-</ul>
-<ul class="simple">
-<li>所定のビルドでは，インターフェイスファイルはビット単位で同一になるはずです
-(<a class="reference external" href="http://ghc.haskell.org/trac/ghc/ticket/4012">Trac #4012</a>)．</li>
-</ul>
-<ul class="simple">
-<li>200を超えるバグを修正しました．
-<a class="reference external" href="https://ghc.haskell.org/trac/ghc/query?status=closed&amp;milestone=8.0.2&amp;col=id&amp;col=summary&amp;col=status&amp;col=type&amp;col=priority&amp;col=milestone&amp;col=component&amp;order=priority">Trac</a>
-がその一覧です．</li>
+<li>A compiler bug present in 8.0.1 resulting in undefined reference errors while
+compiling some packages has been fixed. (see <a class="reference external" href="http://ghc.haskell.org/trac/ghc/ticket/12076">Trac #12076</a>).</li>
+<li>A code generator bug which resulted in segmentation faults in compiled
+programs has been fixed (see <a class="reference external" href="http://ghc.haskell.org/trac/ghc/ticket/12757">Trac #12757</a>).</li>
+<li>GHC now supports systems whose C compiler produces position-independent
+executables by default. (see <a class="reference external" href="http://ghc.haskell.org/trac/ghc/ticket/12579">Trac #12579</a>).</li>
+<li>GHC can now be built on systems which use the <code class="docutils literal"><span class="pre">gold</span></code> linker by default
+(see <a class="reference external" href="http://ghc.haskell.org/trac/ghc/ticket/12816">Trac #12816</a>).</li>
+<li>GHC now reliably runs on macOS Sierra systems. Sierra introduced a linker
+limitation which GHC occassionally surpassed when compiling programs with
+many package dependencies. (see <a class="reference external" href="http://ghc.haskell.org/trac/ghc/ticket/12479">Trac #12479</a>).</li>
+<li>The <a class="reference internal" href="using-warnings.html#ghc-flag--Wredundant-constraints"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-Wredundant-constraints</span></code></a> flag has been removed from the
+<a class="reference internal" href="using-warnings.html#ghc-flag--Wall"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-Wall</span></code></a> flag set (see <a class="reference external" href="http://ghc.haskell.org/trac/ghc/ticket/10635">Trac #10635</a>).</li>
+<li>Added <a class="reference internal" href="using-warnings.html#ghc-flag--fdefer-out-of-scope-variables"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-fdefer-out-of-scope-variables</span></code></a>, which converts
+out-of-scope variable errors into warnings.</li>
+<li>The RTS <code class="xref std std-ghc-flag docutils literal"><span class="pre">-xb</span></code> now reads the base heap address in any base,
+defaulting to decimal, hexadecimal if the address starts with <code class="docutils literal"><span class="pre">0x</span></code>, and
+octal if the address starts with <code class="docutils literal"><span class="pre">0</span></code>.</li>
+<li>Due to an oversight in GHC 8.0.1, the value of the preprocessor macro
+<code class="docutils literal"><span class="pre">__GLASGOW_HASKELL_LLVM__</span></code>, which exposes the LLVM version used by GHC, was
+no longer an integer. This value is now turned into an integer again, but the
+formatting is changed to be in line with <code class="docutils literal"><span class="pre">__GLASGOW_HASKELL__</span></code>
+(<a class="reference external" href="http://ghc.haskell.org/trac/ghc/ticket/12628">Trac #12628</a>).</li>
+<li>Parallel programs should be significantly more reliable on platforms with weak
+memory consistency guarantees (<a class="reference external" href="http://ghc.haskell.org/trac/ghc/ticket/12469">Trac #12469</a>)</li>
+<li>Interface files should now be bit-wise identical for a given build.
+(<a class="reference external" href="http://ghc.haskell.org/trac/ghc/ticket/4012">Trac #4012</a>)</li>
+<li><dl class="first docutils">
+<dt>Nearly two-hundred more bugs. See <a href="#id1"><span class="problematic" id="id2">`</span></a>Trac</dt>
+<dd>&lt;<a class="reference external" href="https://ghc.haskell.org/trac/ghc/query?status=closed&amp;milestone=8.0.2&amp;col=id&amp;col=summary&amp;col=status&amp;col=type&amp;col=priority&amp;col=milestone&amp;col=component&amp;order=priority">https://ghc.haskell.org/trac/ghc/query?status=closed&amp;milestone=8.0.2&amp;col=id&amp;col=summary&amp;col=status&amp;col=type&amp;col=priority&amp;col=milestone&amp;col=component&amp;order=priority</a>&gt;`_
+for a complete list.</dd>
+</dl>
+</li>
 </ul>
 </div>
-<div class="section" id="id6">
-<h3>4.2.3. ランタイムシステム<a class="headerlink" href="#id6" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="runtime-system">
+<h3>4.2.3. Runtime system<a class="headerlink" href="#runtime-system" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
-<li>Windows 上のランタイムリンカは，再び「非推奨」名のPOSIX関数を識別するようになりました．
-たとえば strdup で識別して内部的には _strdup に転送します．
-既存のコードで正しい名前を(たとえば _strdup)使っている場合，それはそのままで変更する必要はありません．
-この転送がどのように行われてりうかの詳細については
-<a class="reference external" href="https://msdn.microsoft.com/en-us/library/ms235384.aspx">MSDN</a>
-を参照してください．
-これでコンパイル済みのコードとインタプリタを通したコードの振る舞いは同じになるはずです
-(<a class="reference external" href="http://ghc.haskell.org/trac/ghc/ticket/12497">Trac #12497</a> 参照)．</li>
-</ul>
-<ul class="simple">
-<li>コスト集約点プロファイラが出力するプロファイルにソース位置情報が含まれるようになりました
-(see <a class="reference external" href="http://ghc.haskell.org/trac/ghc/ticket/11543">Trac #11543</a>)．</li>
-</ul>
-<ul class="simple">
-<li>新しい <code class="xref std std-ghc-flag docutils literal"><span class="pre">-qn</span></code> フラグを使えば，可能なスレッド数とは独立して，
-ガーベッジコレクションに使うスレッドの数を設定できます．</li>
-</ul>
-<ul class="simple">
-<li>可能なスレッド数が大きいときのランタイムシステムの起動頻度が少くなりました．</li>
-</ul>
-<ul class="simple">
-<li>ランタイムシステムがたくさんのスレッドに割り当てられたプログラムをより効率よく
-ハンドリングできるようになりました(<a class="reference external" href="http://ghc.haskell.org/trac/ghc/ticket/12419">Trac #12419</a>)．</li>
-</ul>
-<ul class="simple">
-<li>クラッシュにつながる可能性のあったランタイムシステムのバグをいくつも修正しました
-(詳細は <a class="reference external" href="http://ghc.haskell.org/trac/ghc/ticket/12728">Trac #12728</a>, <a class="reference external" href="http://ghc.haskell.org/trac/ghc/ticket/10860">Trac #10860</a>, <a class="reference external" href="http://ghc.haskell.org/trac/ghc/ticket/12019">Trac #12019</a>,
-<a class="reference external" href="http://ghc.haskell.org/trac/ghc/ticket/11978">Trac #11978</a>,  <a class="reference external" href="http://ghc.haskell.org/trac/ghc/ticket/12038">Trac #12038</a>, <a class="reference external" href="http://ghc.haskell.org/trac/ghc/ticket/12208">Trac #12208</a> 参照)．</li>
+<li>The Runtime linker on Windows is once again recognizing POSIX functions under their
+&#8220;deprecated&#8221; name. e.g. &#8220;strdup&#8221; will now be recognized and internally forwarded to &#8220;_strdup&#8221;.
+If you have existing code already using the correct names (e.g. _strdup) then this will just continue
+to work and no change is needed. For more information about how the forwarding is done please see
+<a class="reference external" href="https://msdn.microsoft.com/en-us/library/ms235384.aspx">MSDN</a> . This should now introduce the same
+behavior both compiled and interpreted. (see <a class="reference external" href="http://ghc.haskell.org/trac/ghc/ticket/12497">Trac #12497</a>).</li>
+<li>Profiles from the cost-center profiler now provide source span information.
+(see <a class="reference external" href="http://ghc.haskell.org/trac/ghc/ticket/11543">Trac #11543</a>).</li>
+<li>The number of threads used for garbage collection is now configurable
+independently from the number of capabilities with the new <code class="xref std std-ghc-flag docutils literal"><span class="pre">-qn</span></code>
+flag.</li>
+<li>The runtime system should now wake-up less often with large capability counts</li>
+<li>The runtime system is now a more efficient in handling programs with many
+bound threads. (<a class="reference external" href="http://ghc.haskell.org/trac/ghc/ticket/12419">Trac #12419</a>)</li>
+<li>A number of runtime system bugs which could result in crashes (see
+<a class="reference external" href="http://ghc.haskell.org/trac/ghc/ticket/12728">Trac #12728</a>, <a class="reference external" href="http://ghc.haskell.org/trac/ghc/ticket/10860">Trac #10860</a>, <a class="reference external" href="http://ghc.haskell.org/trac/ghc/ticket/12019">Trac #12019</a>,
+<a class="reference external" href="http://ghc.haskell.org/trac/ghc/ticket/11978">Trac #11978</a>,  <a class="reference external" href="http://ghc.haskell.org/trac/ghc/ticket/12038">Trac #12038</a>, <a class="reference external" href="http://ghc.haskell.org/trac/ghc/ticket/12208">Trac #12208</a>)</li>
 </ul>
 </div>
 <div class="section" id="template-haskell">
 <h3>4.2.4. Template Haskell<a class="headerlink" href="#template-haskell" title="Permalink to this headline">¶</a></h3>
 <ul>
-<li><p class="first"><code class="docutils literal"><span class="pre">addModFinalizer</span></code> は当該のスプライスポイントにおけるローカル型付け環境を表すようになりました．
-これにより以下のように <code class="docutils literal"><span class="pre">reify</span></code> から現在の宣言グループにおけるローカルおよびトップレベルの定義が見えるようになります．</p>
-<div class="highlight-none"><div class="highlight"><pre>f x = $(addModFinalizer (reify &#39;x &gt;&gt;= runIO . print) &gt;&gt; [| x |])
+<li><p class="first"><code class="docutils literal"><span class="pre">addModFinalizer</span></code> now exposes the local typing environment at the splice
+point. This allows <code class="docutils literal"><span class="pre">reify</span></code> to see local and top-level definitions in the
+current declaration group when used as in</p>
+<div class="highlight-none"><div class="highlight"><pre><span></span>f x = $(addModFinalizer (reify &#39;x &gt;&gt;= runIO . print) &gt;&gt; [| x |])
 </pre></div>
 </div>
 </li>
@@ -322,11 +289,9 @@ GHC が超えてしまうことがありました(<a class="reference external" 
 <div class="section" id="ghc-library">
 <h3>4.2.5. <code class="docutils literal"><span class="pre">ghc</span></code> library<a class="headerlink" href="#ghc-library" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
-<li><code class="docutils literal"><span class="pre">ErrUtils.ErrMsg</span></code> および <code class="docutils literal"><span class="pre">ErrUtils.ErrDoc</span></code> のアクセサをエクスポートしました．</li>
-</ul>
-<ul class="simple">
-<li>API ユーザが <code class="docutils literal"><span class="pre">createIservProcessHook</span></code> を使って <code class="docutils literal"><span class="pre">stdout</span></code> および
-<code class="docutils literal"><span class="pre">stderr</span></code> ハンドルをリダイレクトできるようになりました．</li>
+<li>Accessors are now exposed for <code class="docutils literal"><span class="pre">ErrUtils.ErrMsg</span></code> and <code class="docutils literal"><span class="pre">ErrUtils.ErrDoc</span></code>.</li>
+<li>There is now a <code class="docutils literal"><span class="pre">createIservProcessHook</span></code> to allow API users to redirect the
+<code class="docutils literal"><span class="pre">stdout</span></code> and <code class="docutils literal"><span class="pre">stderr</span></code> handles.</li>
 </ul>
 </div>
 </div>
@@ -345,17 +310,17 @@ GHC が超えてしまうことがありました(<a class="reference external" 
           <a href="genindex.html" title="General Index"
              >index</a></li>
         <li class="right" >
-          <a href="ghci.html" title="5. GHCiを使う"
+          <a href="ghci.html" title="5. Using GHCi"
              >next</a> |</li>
         <li class="right" >
-          <a href="8.0.1-notes.html" title="3. バージョン 8.0.1 のリリースノート"
+          <a href="8.0.1-notes.html" title="3. Release notes for version 8.0.1"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">GHC 8.0.2 Users Guide</a> &raquo;</li> 
+        <li class="nav-item nav-item-0"><a href="index.html">GHC 8.0.2 Users Guide</a> &#187;</li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">
-        &copy; Copyright 2015, GHC Team.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.6.
+        &#169; Copyright 2015, GHC Team.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.5.2.
     </div>
   </body>
 </html>

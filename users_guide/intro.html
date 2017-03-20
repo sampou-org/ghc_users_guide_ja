@@ -7,7 +7,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>2. GHC の紹介 &mdash; Glasgow Haskell Compiler &lt;release&gt; Users Guide</title>
+    <title>2. Introduction to GHC &#8212; Glasgow Haskell Compiler &lt;release&gt; Users Guide</title>
     
     <link rel="stylesheet" href="_static/ghc-theme.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -18,14 +18,16 @@
         VERSION:     '8.0.2',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
-        HAS_SOURCE:  true
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
       };
     </script>
     <script type="text/javascript" src="_static/jquery.js"></script>
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
-    <link rel="top" title="Glasgow Haskell Compiler &lt;release&gt; Users Guide" href="index.html" />
-    <link rel="next" title="3. バージョン 8.0.1 のリリースノート" href="8.0.1-notes.html" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="3. Release notes for version 8.0.1" href="8.0.1-notes.html" />
     <link rel="prev" title="1. The Glasgow Haskell Compiler License" href="license.html" /> 
   </head>
   <body role="document">
@@ -40,12 +42,12 @@
           <a href="genindex.html" title="General Index"
              accesskey="I">index</a></li>
         <li class="right" >
-          <a href="8.0.1-notes.html" title="3. バージョン 8.0.1 のリリースノート"
+          <a href="8.0.1-notes.html" title="3. Release notes for version 8.0.1"
              accesskey="N">next</a> |</li>
         <li class="right" >
           <a href="license.html" title="1. The Glasgow Haskell Compiler License"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">GHC 8.0.2 Users Guide</a> &raquo;</li> 
+        <li class="nav-item nav-item-0"><a href="index.html">GHC 8.0.2 Users Guide</a> &#187;</li> 
       </ul>
     </div>
 
@@ -53,11 +55,11 @@
         <div class="sphinxsidebarwrapper">
   <h3><a href="index.html">Table Of Contents</a></h3>
   <ul>
-<li><a class="reference internal" href="#">2. GHC の紹介</a><ul>
-<li><a class="reference internal" href="#getting">2.1. GHCの入手方法</a></li>
-<li><a class="reference internal" href="#web">2.2. メタ情報: Webサイト，メーリングリストなど</a></li>
-<li><a class="reference internal" href="#bug-reporting">2.3. GHCのバグの報告方法</a></li>
-<li><a class="reference internal" href="#version-numbering">2.4. GHCのバージョン番号付けの方針</a></li>
+<li><a class="reference internal" href="#">2. Introduction to GHC</a><ul>
+<li><a class="reference internal" href="#obtaining-ghc">2.1. Obtaining GHC</a></li>
+<li><a class="reference internal" href="#meta-information-web-sites-mailing-lists-etc">2.2. Meta-information: Web sites, mailing lists, etc.</a></li>
+<li><a class="reference internal" href="#reporting-bugs-in-ghc">2.3. Reporting bugs in GHC</a></li>
+<li><a class="reference internal" href="#ghc-version-numbering-policy">2.4. GHC version numbering policy</a></li>
 </ul>
 </li>
 </ul>
@@ -67,25 +69,22 @@
                         title="previous chapter">1. The Glasgow Haskell Compiler License</a></p>
   <h4>Next topic</h4>
   <p class="topless"><a href="8.0.1-notes.html"
-                        title="next chapter">3. バージョン 8.0.1 のリリースノート</a></p>
+                        title="next chapter">3. Release notes for version 8.0.1</a></p>
   <div role="note" aria-label="source link">
     <h3>This Page</h3>
     <ul class="this-page-menu">
-      <li><a href="_sources/intro.txt"
+      <li><a href="_sources/intro.rst.txt"
             rel="nofollow">Show Source</a></li>
     </ul>
    </div>
 <div id="searchbox" style="display: none" role="search">
   <h3>Quick search</h3>
     <form class="search" action="search.html" method="get">
-      <input type="text" name="q" />
-      <input type="submit" value="Go" />
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
       <input type="hidden" name="check_keywords" value="yes" />
       <input type="hidden" name="area" value="default" />
     </form>
-    <p class="searchtip" style="font-size: 90%">
-    Enter search terms or a module, class or function name.
-    </p>
 </div>
 <script type="text/javascript">$('#searchbox').show(0);</script>
         </div>
@@ -96,151 +95,139 @@
         <div class="bodywrapper">
           <div class="body" role="main">
             
-  <div class="section" id="ghc">
-<span id="introduction-ghc"></span><h1>2. GHC の紹介<a class="headerlink" href="#ghc" title="Permalink to this headline">¶</a></h1>
-<p>これはGlasgow Haskell Compiler (GHC)の使い方ガイドです．
-GHCはプログラミング言語
-<a class="reference external" href="http://www.haskell.org/">Haskell&nbsp;2010</a>
-用の対話式インタプリタ・一括処理式コンパイラです．</p>
-<p>GHCには主に2つの構成要素があります．
-1つは，GHCiとも呼ぶ対話方式のHaskellインタプリタで，これについては
-<a class="reference internal" href="ghci.html#ghci"><span>GHCiを使う</span></a>
-で説明します．
-もう1つは，一括処理方式のコンパイラで，これについては
-<a class="reference internal" href="using.html#using-ghc"><span>Using GHC</span></a>
-で説明します．
-GHCは実際のところは単一のプログラムで，起動時のオプション指定によって，対話方式のインタプリタになったり，一括処理方式のコンパイラになったりします．</p>
-<p>一括処理のコンパイラはGHCiと並行して使えます．
-対話的セッション中にコンパイル済みモジュールをロードすることができ，ロードされたものは解釈実行コードと同じように扱えます．
-実際，GHCiを使うとき，ライブラリコードの大部分はコンパイル済みのものが使われています．
-つまり，二つの方法の良いとこどりができるということです．
-どういうことかというと，あらかじめコンパイルしておいた高速で実行できるライブラリコードが手にはいり，活発に開発されている部分を繰り返しコンパイルするのにかかる時間を短くできるということです．</p>
-<p>GHCはたくさんの言語拡張をサポートしています．
-たとえば，並行性，外部関数インタフェース，例外，それにさまざまな型システムの拡張などです．
-型システムの拡張には，多引数の型クラス，局所的な全称/存在量化，関数従属，スコープを持つ型変数，明示的な非ボックス化型などの拡張があります．
-これらの言語拡張については全て
-<a class="reference internal" href="lang.html#ghc-language-features"><span>GHC Language Features</span></a>
-で説明します．</p>
-<p>GHCには広範囲にわたって最適化を行う機構があり，そのつもりになれば（そして，時間に余裕があるなら）GHCでそうとう速いコードを生成できます．
-それとは反対に，デフォルトのオプションは生成するコードを過度に最適化しようとはせずに，なるべく速くコンパイルできるように調整されています．
-（そうはいっても，GHCは，たぶん，いわゆる速いコンパイラではありません．笑）</p>
-<p>GHCのプロファイリングシステムは「コスト集約点スタック」をサポートしています．
-コスト集約点スタックとはHaskellプログラムのプロフィールをコールグラフ状の構造として見るためのものです．
-詳しくは
-<a class="reference internal" href="profiling.html#profiling"><span>Profiling</span></a>
-を参照してください．</p>
-<p>GHCには多数のライブラリが付属しています．
-これらのライブラリについて別の文書で説明されています．</p>
-<div class="section" id="getting">
-<span id="id1"></span><h2>2.1. GHCの入手方法<a class="headerlink" href="#getting" title="Permalink to this headline">¶</a></h2>
-<p><a class="reference external" href="http://www.haskell.org/ghc/">GHC home page</a>
-に行って「download」のリンクを辿って自分のプラットフォーム用のGHCをダウンロードしてください．</p>
-<p>そうする以外に，自分でGHCをビルドしたい場合には，
-<a class="reference external" href="http://ghc.haskell.org/trac/ghc/wiki/Building">GHC Building Guide</a>
-に行けば，ソースを入手する方法，手元でビルドする方法が判ります．
-GHCそれ自身はHaskellで書かれていることに注意してください．
-ビルドするためには，そのためのGHCをインストールしなければならないということです．</p>
+  <div class="section" id="introduction-to-ghc">
+<span id="introduction-ghc"></span><h1>2. Introduction to GHC<a class="headerlink" href="#introduction-to-ghc" title="Permalink to this headline">¶</a></h1>
+<p>This is a guide to using the Glasgow Haskell Compiler (GHC): an
+interactive and batch compilation system for the
+<a class="reference external" href="http://www.haskell.org/">Haskell&nbsp;2010</a> language.</p>
+<p>GHC has two main components: an interactive Haskell interpreter (also
+known as GHCi), described in <a class="reference internal" href="ghci.html#ghci"><span class="std std-ref">Using GHCi</span></a>, and a batch compiler,
+described throughout <a class="reference internal" href="using.html#using-ghc"><span class="std std-ref">Using GHC</span></a>. In fact, GHC consists of a single
+program which is just run with different options to provide either the
+interactive or the batch system.</p>
+<p>The batch compiler can be used alongside GHCi: compiled modules can be
+loaded into an interactive session and used in the same way as
+interpreted code, and in fact when using GHCi most of the library code
+will be pre-compiled. This means you get the best of both worlds: fast
+pre-compiled library code, and fast compile turnaround for the parts of
+your program being actively developed.</p>
+<p>GHC supports numerous language extensions, including concurrency, a
+foreign function interface, exceptions, type system extensions such as
+multi-parameter type classes, local universal and existential
+quantification, functional dependencies, scoped type variables and
+explicit unboxed types. These are all described in
+<a class="reference internal" href="lang.html#ghc-language-features"><span class="std std-ref">GHC Language Features</span></a>.</p>
+<p>GHC has a comprehensive optimiser, so when you want to Really Go For It
+(and you&#8217;ve got time to spare) GHC can produce pretty fast code.
+Alternatively, the default option is to compile as fast as possible
+while not making too much effort to optimise the generated code
+(although GHC probably isn&#8217;t what you&#8217;d describe as a fast compiler :-).</p>
+<p>GHC&#8217;s profiling system supports &#8220;cost centre stacks&#8221;: a way of seeing
+the profile of a Haskell program in a call-graph like structure. See
+<a class="reference internal" href="profiling.html#profiling"><span class="std std-ref">Profiling</span></a> for more details.</p>
+<p>GHC comes with a number of libraries. These are described in separate
+documentation.</p>
+<div class="section" id="obtaining-ghc">
+<span id="getting"></span><h2>2.1. Obtaining GHC<a class="headerlink" href="#obtaining-ghc" title="Permalink to this headline">¶</a></h2>
+<p>Go to the <a class="reference external" href="http://www.haskell.org/ghc/">GHC home page</a> and follow the
+&#8220;download&#8221; link to download GHC for your platform.</p>
+<p>Alternatively, if you want to build GHC yourself, head on over to the
+<a class="reference external" href="http://ghc.haskell.org/trac/ghc/wiki/Building">GHC Building Guide</a> to find out how to get the sources,
+and build it on your system. Note that GHC itself is written in Haskell, so you
+will still need to install GHC in order to build it.</p>
 </div>
-<div class="section" id="web">
-<span id="mailing-lists-ghc"></span><h2>2.2. メタ情報: Webサイト，メーリングリストなど<a class="headerlink" href="#web" title="Permalink to this headline">¶</a></h2>
-<span class="target" id="index-0"></span><p>関連サイトとしては以下があります．</p>
+<div class="section" id="meta-information-web-sites-mailing-lists-etc">
+<span id="mailing-lists-ghc"></span><h2>2.2. Meta-information: Web sites, mailing lists, etc.<a class="headerlink" href="#meta-information-web-sites-mailing-lists-etc" title="Permalink to this headline">¶</a></h2>
+<p id="index-0">On the World-Wide Web, there are several URLs of likely interest:</p>
 <ul class="simple">
 <li><a class="reference external" href="http://www.haskell.org/ghc/">GHC home page</a></li>
-<li><a class="reference external" href="http://ghc.haskell.org/trac/ghc/">GHC Developers Home</a>
-（開発者用文書，wiki，バグトラッカー）</li>
+<li><a class="reference external" href="http://ghc.haskell.org/trac/ghc/">GHC Developers Home</a> (developer
+documentation, wiki, and bug tracker)</li>
 </ul>
-<p>GHCに関しては以下のようなメーリングリストを運営しています．
-参加したいと思ったところに参加することをおすすめします．</p>
+<p>We run the following mailing lists about GHC. We encourage you to join,
+as you feel is appropriate.</p>
 <dl class="docutils">
 <dt><code class="docutils literal"><span class="pre">glasgow-haskell-users</span></code></dt>
-<dd><p class="first">ここはGHCの利用者が互いにおしゃべりをする場です．
-なにかGHCに関して具体的な質問があれば、先ず
-<a class="reference external" href="http://www.haskell.org/haskellwiki/GHC/FAQ">FAQ</a>
-を見てください．</p>
-<p class="last">参加者の投稿先は
-<a class="reference external" href="mailto:glasgow-haskell-users&#37;&#52;&#48;haskell&#46;org">glasgow-haskell-users<span>&#64;</span>haskell<span>&#46;</span>org</a>
-です．
-詳しくは
-<a class="reference external" href="http://www.haskell.org/mailman/listinfo/glasgow-haskell-users">Mailman page</a>
-を見てください．</p>
+<dd><p class="first">This list is for GHC users to chat among themselves. If you have a
+specific question about GHC, please check the
+<a class="reference external" href="http://www.haskell.org/haskellwiki/GHC/FAQ">FAQ</a> first.</p>
+<p class="last">Subscribers can post to the list by sending their message to
+<a class="reference external" href="mailto:glasgow-haskell-users&#37;&#52;&#48;haskell&#46;org">glasgow-haskell-users<span>&#64;</span>haskell<span>&#46;</span>org</a>. Further information can be found
+on the
+<a class="reference external" href="http://www.haskell.org/mailman/listinfo/glasgow-haskell-users">Mailman page</a>.</p>
 </dd>
-</dl>
-<dl class="docutils">
 <dt><code class="docutils literal"><span class="pre">ghc-devs</span></code></dt>
-<dd><p class="first">GHC開発者はここに出入りしています．
-GHC APIを使っていたり，GHCの実装に関して質問があれば，遠慮なく話に割って入ってください．</p>
-<p class="last">参加者の投稿先は
-<a class="reference external" href="mailto:ghc-devs&#37;&#52;&#48;haskell&#46;org">ghc-devs<span>&#64;</span>haskell<span>&#46;</span>org</a>
-です.
-詳しくは
-<a class="reference external" href="http://www.haskell.org/mailman/listinfo/ghc-devs">Mailman page</a>
-を見てください．</p>
+<dd><p class="first">The GHC developers hang out here. If you are working with the GHC API
+or have a question about GHC&#8217;s implementation, feel free to chime in.</p>
+<p class="last">Subscribers can post to the list by sending their message to
+<a class="reference external" href="mailto:ghc-devs&#37;&#52;&#48;haskell&#46;org">ghc-devs<span>&#64;</span>haskell<span>&#46;</span>org</a>. Further information can be found on the
+<a class="reference external" href="http://www.haskell.org/mailman/listinfo/ghc-devs">Mailman page</a>.</p>
 </dd>
 </dl>
-<p><code class="docutils literal"><span class="pre">www.haskell.org</span></code>
-では，他にもHaskellやGHCに関連するメーリングリストが提供されています．
-<a class="reference external" href="http://www.haskell.org/mailman/listinfo/">http://www.haskell.org/mailman/listinfo/</a>
-に一覧があります．</p>
+<p>There are several other Haskell and GHC-related mailing lists served by
+<code class="docutils literal"><span class="pre">www.haskell.org</span></code>. Go to <a class="reference external" href="http://www.haskell.org/mailman/listinfo/">http://www.haskell.org/mailman/listinfo/</a>
+for the full list.</p>
 </div>
-<div class="section" id="bug-reporting">
-<span id="id2"></span><h2>2.3. GHCのバグの報告方法<a class="headerlink" href="#bug-reporting" title="Permalink to this headline">¶</a></h2>
-<span class="target" id="index-1"></span><p>Glasgow Haskellは変化を続けるシステムであり，そこには必ずバグがあります．
-バグを見つけたら，
-<a class="reference external" href="http://ghc.haskell.org/trac/ghc/wiki/ReportABug">このwikiページ</a>
-を見て，バグを報告する方法を知ってください．</p>
+<div class="section" id="reporting-bugs-in-ghc">
+<span id="bug-reporting"></span><h2>2.3. Reporting bugs in GHC<a class="headerlink" href="#reporting-bugs-in-ghc" title="Permalink to this headline">¶</a></h2>
+<p id="index-1">Glasgow Haskell is a changing system so there are sure to be bugs in it.
+If you find one, please see <a class="reference external" href="http://ghc.haskell.org/trac/ghc/wiki/ReportABug">this wiki page</a> for
+information on how to report it.</p>
 </div>
-<div class="section" id="version-numbering">
-<span id="id3"></span><h2>2.4. GHCのバージョン番号付けの方針<a class="headerlink" href="#version-numbering" title="Permalink to this headline">¶</a></h2>
-<span class="target" id="index-2"></span><p>GHCバージョン6.8以降，GHCのバージョン番号の振り方は以下の方針にしたがっています．</p>
+<div class="section" id="ghc-version-numbering-policy">
+<span id="version-numbering"></span><h2>2.4. GHC version numbering policy<a class="headerlink" href="#ghc-version-numbering-policy" title="Permalink to this headline">¶</a></h2>
+<p id="index-2">As of GHC version 6.8, we have adopted the following policy for
+numbering GHC versions:</p>
 <blockquote>
-<div><p>安定版ブランチには <code class="docutils literal"><span class="pre">x.y</span></code> と振ります．
-ただし <code class="docutils literal"><span class="pre">y</span></code> は <em>偶数</em> です．
-安定版ブランチ <code class="docutils literal"><span class="pre">x.y</span></code> でのリリースには <code class="docutils literal"><span class="pre">x.y.z</span></code> と振ります．
-ただし， <code class="docutils literal"><span class="pre">z</span></code> (1以上)はパッチレベル番号です．
-パッチレベルのリリースはバグ修正のみで，システムが提供するコードへの
-プログラマ用インターフェイスを変更することはありません．
-しかし，新しいパッチレベルリリースを古いリリースに上書きインストールした場合，
-古いライブラリに対してコンパイルされたコードは全てコンパイルし直さなければなりません．</p>
-<p>メジャーリリース <code class="docutils literal"><span class="pre">x.y.z</span></code> では <code class="docutils literal"><span class="pre">__GLASGOW_HASKELL__</span></code> (<a class="reference internal" href="phases.html#c-pre-processor"><span>Options affecting the C pre-processor</span></a> 参照)
-の値は <code class="docutils literal"><span class="pre">xy</span></code> (ただし， <cite>y</cite> が一桁のときは前に <code class="docutils literal"><span class="pre">0</span></code> を置きます．たとえば，GHCバージョン6.8.2
-では， <code class="docutils literal"><span class="pre">__GLASGOW_HASKELL__==608</span></code>) となります．</p>
-<span class="target" id="index-3"></span><p>現在の安定版ブランチのスナップショットリリースを作成して，
-<a class="reference external" href="http://www.haskell.org/ghc/dist/stable/dist/">ここからダウンロード可能</a>
-にすることもあります．
-また、最新のソースは
-<a class="reference external" href="http://ghc.haskell.org/trac/ghc/wiki/Repositories">gitリポジトリ</a>
-からダウンロード可能です．</p>
-<p>安定版スナップショットリリースは <code class="docutils literal"><span class="pre">x.y.z.YYYYMMDD</span></code> という名前になります．
-ここで， <code class="docutils literal"><span class="pre">YYYYMMDD</span></code> はスナップショットのビルド元になったソースの日付けです．
-<code class="docutils literal"><span class="pre">x.y.z+1</span></code> が，そのブランチでの次のリリースになります．
-たとえば <code class="docutils literal"><span class="pre">6.8.1.20040225</span></code> は <code class="docutils literal"><span class="pre">6.8</span></code> ブランチのスナップショットで，
-<code class="docutils literal"><span class="pre">6.8.2</span></code> の開発中に作るものです．</p>
-<p>スナップショットリリースでは <code class="docutils literal"><span class="pre">__GLASGOW_HASKELL__</span></code> の値は(安定版のときと同様) <code class="docutils literal"><span class="pre">xy</span></code> となります．
-しかし，この値をチェックする条件コードを書いてはいけません．
-インターフェイスは日毎に変わるにもかかわらず <code class="docutils literal"><span class="pre">__GLASGOW_HASKELL__</span></code> では，
-これ以上細かい精度の値を表せませんから <code class="docutils literal"><span class="pre">__GLASGOW_HASKELL__</span></code> の値をチェックするなら
-メジャーリリース番号との間でだけ大小・等値比較を行ってください．</p>
-<p><code class="docutils literal"><span class="pre">HEAD</span></code> のスナップショットリリースは
-<a class="reference external" href="http://www.haskell.org/ghc/dist/current/dist/">ダウンロード</a>
-できるようにし，最新のソースは
-<a class="reference external" href="http://ghc.haskell.org/trac/ghc/wiki/Repositories">the git repositories</a>
-で利用できるようにします．</p>
-<p>不安定版スナップショットリリースは <code class="docutils literal"><span class="pre">x.y.YYYYMMDD</span></code> という名前になります．
-ここで， <code class="docutils literal"><span class="pre">YYYYMMDD</span></code> はスナップショットのビルド元になったソースの日付けです．
-たとえば <code class="docutils literal"><span class="pre">6.7.20040225</span></code> は <code class="docutils literal"><span class="pre">HEAD</span></code> のスナップショットで <code class="docutils literal"><span class="pre">6.8</span></code> ブランチ
-を作成する前の段階で作成します．</p>
-<p>スナップショットリリースでは <code class="docutils literal"><span class="pre">__GLASGOW_HASKELL__</span></code> の値は(安定版のときと同様) <code class="docutils literal"><span class="pre">xy</span></code> となります．
-しかし，この値をチェックする条件コードを書いてはいけません．
-インターフェイスは日毎に変わるにもかかわらず <code class="docutils literal"><span class="pre">__GLASGOW_HASKELL__</span></code> では，
-これ以上細かい精度の値を表せませんから <code class="docutils literal"><span class="pre">__GLASGOW_HASKELL__</span></code> の値をチェックするなら
-メジャーリリース番号との間でだけ大小・等値比較を行ってください．</p>
+<div><p>Stable branches are numbered <code class="docutils literal"><span class="pre">x.y</span></code>, where ⟨y⟩ is <em>even</em>. Releases
+on the stable branch <code class="docutils literal"><span class="pre">x.y</span></code> are numbered <code class="docutils literal"><span class="pre">x.y.z</span></code>, where ⟨z⟩ (&gt;=
+1) is the patchlevel number. Patchlevels are bug-fix releases only,
+and never change the programmer interface to any system-supplied
+code. However, if you install a new patchlevel over an old one you
+will need to recompile any code that was compiled against the old
+libraries.</p>
+<p>The value of <code class="docutils literal"><span class="pre">__GLASGOW_HASKELL__</span></code> (see <a class="reference internal" href="phases.html#c-pre-processor"><span class="std std-ref">Options affecting the C pre-processor</span></a>)
+for a major release <code class="docutils literal"><span class="pre">x.y.z</span></code> is the integer ⟨xyy⟩ (if ⟨y⟩ is a
+single digit, then a leading zero is added, so for example in
+version 6.8.2 of GHC we would have <code class="docutils literal"><span class="pre">__GLASGOW_HASKELL__==608</span></code>).</p>
+<p id="index-3">We may make snapshot releases of the current stable branch
+<a class="reference external" href="http://www.haskell.org/ghc/dist/stable/dist/">available for
+download</a>, and the
+latest sources are available from
+<a class="reference external" href="http://ghc.haskell.org/trac/ghc/wiki/Repositories">the git repositories</a>.</p>
+<p>Stable snapshot releases are named <code class="docutils literal"><span class="pre">x.y.z.YYYYMMDD</span></code>. where
+<code class="docutils literal"><span class="pre">YYYYMMDD</span></code> is the date of the sources from which the snapshot was
+built, and <code class="docutils literal"><span class="pre">x.y.z+1</span></code> is the next release to be made on that
+branch. For example, <code class="docutils literal"><span class="pre">6.8.1.20040225</span></code> would be a snapshot of the
+<code class="docutils literal"><span class="pre">6.8</span></code> branch during the development of <code class="docutils literal"><span class="pre">6.8.2</span></code>.</p>
+<p>The value of <code class="docutils literal"><span class="pre">__GLASGOW_HASKELL__</span></code> for a snapshot release is the
+integer ⟨xyy⟩. You should never write any conditional code which
+tests for this value, however: since interfaces change on a
+day-to-day basis, and we don&#8217;t have finer granularity in the values
+of <code class="docutils literal"><span class="pre">__GLASGOW_HASKELL__</span></code>, you should only conditionally compile
+using predicates which test whether <code class="docutils literal"><span class="pre">__GLASGOW_HASKELL__</span></code> is equal
+to, later than, or earlier than a given major release.</p>
+<p>We may make snapshot releases of the HEAD <a class="reference external" href="http://www.haskell.org/ghc/dist/current/dist/">available for
+download</a>, and the
+latest sources are available from
+<a class="reference external" href="http://ghc.haskell.org/trac/ghc/wiki/Repositories">the git repositories</a>.</p>
+<p>Unstable snapshot releases are named <code class="docutils literal"><span class="pre">x.y.YYYYMMDD</span></code>. where
+<code class="docutils literal"><span class="pre">YYYYMMDD</span></code> is the date of the sources from which the snapshot was
+built. For example, <code class="docutils literal"><span class="pre">6.7.20040225</span></code> would be a snapshot of the HEAD
+before the creation of the <code class="docutils literal"><span class="pre">6.8</span></code> branch.</p>
+<p>The value of <code class="docutils literal"><span class="pre">__GLASGOW_HASKELL__</span></code> for a snapshot release is the
+integer ⟨xyy⟩. You should never write any conditional code which
+tests for this value, however: since interfaces change on a
+day-to-day basis, and we don&#8217;t have finer granularity in the values
+of <code class="docutils literal"><span class="pre">__GLASGOW_HASKELL__</span></code>, you should only conditionally compile
+using predicates which test whether <code class="docutils literal"><span class="pre">__GLASGOW_HASKELL__</span></code> is equal
+to, later than, or earlier than a given major release.</p>
 </div></blockquote>
-<p>手元のGHCのバージョン番号は <code class="docutils literal"><span class="pre">ghc</span></code> を <code class="docutils literal"><span class="pre">--version</span></code> フラグ付きで起動すれば判ります
-(<a class="reference internal" href="using.html#options-help"><span>Verbosity options</span></a> 参照)．</p>
-<p>コンパイラのバージョンはコンパイルするコードの中でチェックできます．
-これは CPP のマクロ <code class="docutils literal"><span class="pre">MIN_VERSION_GLASGOW_HASKELL</span></code> を使います
-(このマクロは <code class="xref std std-ghc-flag docutils literal"><span class="pre">-XCPP</span></code> が指定されたときのみ有効です)．
-詳しくは <a class="reference internal" href="phases.html#standard-cpp-macros"><span>Standard CPP macros</span></a> を参照してください．</p>
+<p>The version number of your copy of GHC can be found by invoking <code class="docutils literal"><span class="pre">ghc</span></code>
+with the <code class="docutils literal"><span class="pre">--version</span></code> flag (see <a class="reference internal" href="using.html#options-help"><span class="std std-ref">Verbosity options</span></a>).</p>
+<p>The compiler version can be tested within compiled code with the
+<code class="docutils literal"><span class="pre">MIN_VERSION_GLASGOW_HASKELL</span></code> CPP macro (defined only when
+<code class="xref std std-ghc-flag docutils literal"><span class="pre">-XCPP</span></code> is used). See <a class="reference internal" href="phases.html#standard-cpp-macros"><span class="std std-ref">Standard CPP macros</span></a> for details.</p>
 </div>
 </div>
 
@@ -257,17 +244,17 @@ GHC APIを使っていたり，GHCの実装に関して質問があれば，遠�
           <a href="genindex.html" title="General Index"
              >index</a></li>
         <li class="right" >
-          <a href="8.0.1-notes.html" title="3. バージョン 8.0.1 のリリースノート"
+          <a href="8.0.1-notes.html" title="3. Release notes for version 8.0.1"
              >next</a> |</li>
         <li class="right" >
           <a href="license.html" title="1. The Glasgow Haskell Compiler License"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">GHC 8.0.2 Users Guide</a> &raquo;</li> 
+        <li class="nav-item nav-item-0"><a href="index.html">GHC 8.0.2 Users Guide</a> &#187;</li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">
-        &copy; Copyright 2015, GHC Team.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.6.
+        &#169; Copyright 2015, GHC Team.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.5.2.
     </div>
   </body>
 </html>

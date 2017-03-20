@@ -7,7 +7,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>10.38. Concurrent and Parallel Haskell &mdash; Glasgow Haskell Compiler &lt;release&gt; Users Guide</title>
+    <title>10.38. Concurrent and Parallel Haskell &#8212; Glasgow Haskell Compiler &lt;release&gt; Users Guide</title>
     
     <link rel="stylesheet" href="_static/ghc-theme.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -18,14 +18,15 @@
         VERSION:     '8.0.2',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
-        HAS_SOURCE:  true
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
       };
     </script>
     <script type="text/javascript" src="_static/jquery.js"></script>
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
-    <link rel="top" title="Glasgow Haskell Compiler &lt;release&gt; Users Guide" href="index.html" />
-    <link rel="up" title="10. GHC Language Features" href="lang.html" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="10.39. Safe Haskell" href="safe_haskell.html" />
     <link rel="prev" title="10.1. Language options" href="glasgow_exts.html" /> 
   </head>
@@ -46,8 +47,8 @@
         <li class="right" >
           <a href="glasgow_exts.html" title="10.1. Language options"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">GHC 8.0.2 Users Guide</a> &raquo;</li>
-          <li class="nav-item nav-item-1"><a href="lang.html" accesskey="U">10. GHC Language Features</a> &raquo;</li> 
+        <li class="nav-item nav-item-0"><a href="index.html">GHC 8.0.2 Users Guide</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="lang.html" accesskey="U">10. GHC Language Features</a> &#187;</li> 
       </ul>
     </div>
 
@@ -74,21 +75,18 @@
   <div role="note" aria-label="source link">
     <h3>This Page</h3>
     <ul class="this-page-menu">
-      <li><a href="_sources/parallel.txt"
+      <li><a href="_sources/parallel.rst.txt"
             rel="nofollow">Show Source</a></li>
     </ul>
    </div>
 <div id="searchbox" style="display: none" role="search">
   <h3>Quick search</h3>
     <form class="search" action="search.html" method="get">
-      <input type="text" name="q" />
-      <input type="submit" value="Go" />
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
       <input type="hidden" name="check_keywords" value="yes" />
       <input type="hidden" name="area" value="default" />
     </form>
-    <p class="searchtip" style="font-size: 90%">
-    Enter search terms or a module, class or function name.
-    </p>
 </div>
 <script type="text/javascript">$('#searchbox').show(0);</script>
         </div>
@@ -158,7 +156,7 @@ supported are these:</p>
 symmetric, shared-memory multi-processor (SMP). By default GHC runs
 your program on one processor; if you want it to run in parallel you
 must link your program with the <code class="docutils literal"><span class="pre">-threaded</span></code>, and run it with the RTS
-<code class="docutils literal"><span class="pre">-N</span></code> option; see <a class="reference internal" href="using-concurrent.html#using-smp"><span>Using SMP parallelism</span></a>). The runtime will schedule the
+<code class="docutils literal"><span class="pre">-N</span></code> option; see <a class="reference internal" href="using-concurrent.html#using-smp"><span class="std std-ref">Using SMP parallelism</span></a>). The runtime will schedule the
 running Haskell threads among the available OS threads, running as many
 in parallel as you specified with the <code class="docutils literal"><span class="pre">-N</span></code> RTS option.</p>
 </div>
@@ -167,12 +165,12 @@ in parallel as you specified with the <code class="docutils literal"><span class
 <p>Ordinary single-threaded Haskell programs will not benefit from enabling
 SMP parallelism alone: you must expose parallelism to the compiler. One
 way to do so is forking threads using Concurrent Haskell
-(<a class="reference internal" href="#concurrent-haskell"><span>Concurrent Haskell</span></a>), but the simplest mechanism for extracting
+(<a class="reference internal" href="#concurrent-haskell"><span class="std std-ref">Concurrent Haskell</span></a>), but the simplest mechanism for extracting
 parallelism from pure code is to use the <code class="docutils literal"><span class="pre">par</span></code> combinator, which is
 closely related to (and often used with) <code class="docutils literal"><span class="pre">seq</span></code>. Both of these are
 available from the
 <a class="reference external" href="http://hackage.haskell.org/package/parallel">parallel library</a>:</p>
-<div class="highlight-haskell"><div class="highlight"><pre><span class="kr">infixr</span> <span class="mi">0</span> <span class="p">`</span><span class="n">par</span><span class="p">`</span>
+<div class="highlight-haskell"><div class="highlight"><pre><span></span><span class="kr">infixr</span> <span class="mi">0</span> <span class="p">`</span><span class="n">par</span><span class="p">`</span>
 <span class="kr">infixr</span> <span class="mi">1</span> <span class="p">`</span><span class="n">pseq</span><span class="p">`</span>
 
 <span class="nf">par</span>  <span class="ow">::</span> <span class="n">a</span> <span class="ow">-&gt;</span> <span class="n">b</span> <span class="ow">-&gt;</span> <span class="n">b</span>
@@ -187,7 +185,7 @@ thread, and run the new thread on the idle CPU. In this way the
 available parallelism is spread amongst the real CPUs.</p>
 <p>For example, consider the following parallel version of our old nemesis,
 <code class="docutils literal"><span class="pre">nfib</span></code>:</p>
-<div class="highlight-haskell"><div class="highlight"><pre><span class="kr">import</span> <span class="nn">Control.Parallel</span>
+<div class="highlight-haskell"><div class="highlight"><pre><span></span><span class="kr">import</span> <span class="nn">Control.Parallel</span>
 
 <span class="nf">nfib</span> <span class="ow">::</span> <span class="kt">Int</span> <span class="ow">-&gt;</span> <span class="kt">Int</span>
 <span class="nf">nfib</span> <span class="n">n</span> <span class="o">|</span> <span class="n">n</span> <span class="o">&lt;=</span> <span class="mi">1</span> <span class="ow">=</span> <span class="mi">1</span>
@@ -218,7 +216,7 @@ the sparked computation should not be too small, otherwise the cost of
 forking it in parallel will be too large relative to the amount of
 parallelism gained. Getting these factors right is tricky in practice.</p>
 <p>It is possible to glean a little information about how well <code class="docutils literal"><span class="pre">par</span></code> is
-working from the runtime statistics; see <a class="reference internal" href="runtime_control.html#rts-options-gc"><span>RTS options to control the garbage collector</span></a>.</p>
+working from the runtime statistics; see <a class="reference internal" href="runtime_control.html#rts-options-gc"><span class="std std-ref">RTS options to control the garbage collector</span></a>.</p>
 <p>More sophisticated combinators for expressing parallelism are available
 from the <code class="docutils literal"><span class="pre">Control.Parallel.Strategies</span></code> module in the <a class="reference external" href="http://hackage.haskell.org/package/parallel">parallel
 package</a>. This module
@@ -252,13 +250,13 @@ More information can be found on the corresponding
         <li class="right" >
           <a href="glasgow_exts.html" title="10.1. Language options"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">GHC 8.0.2 Users Guide</a> &raquo;</li>
-          <li class="nav-item nav-item-1"><a href="lang.html" >10. GHC Language Features</a> &raquo;</li> 
+        <li class="nav-item nav-item-0"><a href="index.html">GHC 8.0.2 Users Guide</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="lang.html" >10. GHC Language Features</a> &#187;</li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">
-        &copy; Copyright 2015, GHC Team.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.6.
+        &#169; Copyright 2015, GHC Team.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.5.2.
     </div>
   </body>
 </html>

@@ -7,7 +7,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>GHC Users Guide にようこそ &mdash; Glasgow Haskell Compiler &lt;release&gt; Users Guide</title>
+    <title>Welcome to the GHC Users Guide &#8212; Glasgow Haskell Compiler &lt;release&gt; Users Guide</title>
     
     <link rel="stylesheet" href="_static/ghc-theme.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -18,13 +18,15 @@
         VERSION:     '8.0.2',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
-        HAS_SOURCE:  true
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
       };
     </script>
     <script type="text/javascript" src="_static/jquery.js"></script>
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
-    <link rel="top" title="Glasgow Haskell Compiler &lt;release&gt; Users Guide" href="#" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="1. The Glasgow Haskell Compiler License" href="license.html" /> 
   </head>
   <body role="document">
@@ -41,7 +43,7 @@
         <li class="right" >
           <a href="license.html" title="1. The Glasgow Haskell Compiler License"
              accesskey="N">next</a> |</li>
-        <li class="nav-item nav-item-0"><a href="#">GHC 8.0.2 Users Guide</a> &raquo;</li> 
+        <li class="nav-item nav-item-0"><a href="#">GHC 8.0.2 Users Guide</a> &#187;</li> 
       </ul>
     </div>
 
@@ -49,8 +51,8 @@
         <div class="sphinxsidebarwrapper">
   <h3><a href="#">Table Of Contents</a></h3>
   <ul>
-<li><a class="reference internal" href="#">GHC Users Guide にようこそ</a></li>
-<li><a class="reference internal" href="#id1">索引</a></li>
+<li><a class="reference internal" href="#">Welcome to the GHC Users Guide</a></li>
+<li><a class="reference internal" href="#indices-and-tables">Indices and tables</a></li>
 </ul>
 
   <h4>Next topic</h4>
@@ -59,21 +61,18 @@
   <div role="note" aria-label="source link">
     <h3>This Page</h3>
     <ul class="this-page-menu">
-      <li><a href="_sources/index.txt"
+      <li><a href="_sources/index.rst.txt"
             rel="nofollow">Show Source</a></li>
     </ul>
    </div>
 <div id="searchbox" style="display: none" role="search">
   <h3>Quick search</h3>
     <form class="search" action="search.html" method="get">
-      <input type="text" name="q" />
-      <input type="submit" value="Go" />
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
       <input type="hidden" name="check_keywords" value="yes" />
       <input type="hidden" name="area" value="default" />
     </form>
-    <p class="searchtip" style="font-size: 90%">
-    Enter search terms or a module, class or function name.
-    </p>
 </div>
 <script type="text/javascript">$('#searchbox').show(0);</script>
         </div>
@@ -84,37 +83,36 @@
         <div class="bodywrapper">
           <div class="body" role="main">
             
-  <div class="section" id="ghc-users-guide">
-<h1>GHC Users Guide にようこそ<a class="headerlink" href="#ghc-users-guide" title="Permalink to this headline">¶</a></h1>
-<p>(翻訳作業中： <a class="reference external" href="https://github.com/sampou-org/ghc_users_guide_ja/">GitHub</a>)</p>
-<p>目次:</p>
+  <div class="section" id="welcome-to-the-ghc-users-guide">
+<h1>Welcome to the GHC Users Guide<a class="headerlink" href="#welcome-to-the-ghc-users-guide" title="Permalink to this headline">¶</a></h1>
+<p>Contents:</p>
 <div class="toctree-wrapper compound">
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="license.html">1. The Glasgow Haskell Compiler License</a></li>
-<li class="toctree-l1"><a class="reference internal" href="intro.html">2. GHC の紹介</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="intro.html#getting">2.1. GHCの入手方法</a></li>
-<li class="toctree-l2"><a class="reference internal" href="intro.html#web">2.2. メタ情報: Webサイト，メーリングリストなど</a></li>
-<li class="toctree-l2"><a class="reference internal" href="intro.html#bug-reporting">2.3. GHCのバグの報告方法</a></li>
-<li class="toctree-l2"><a class="reference internal" href="intro.html#version-numbering">2.4. GHCのバージョン番号付けの方針</a></li>
+<li class="toctree-l1"><a class="reference internal" href="intro.html">2. Introduction to GHC</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="intro.html#obtaining-ghc">2.1. Obtaining GHC</a></li>
+<li class="toctree-l2"><a class="reference internal" href="intro.html#meta-information-web-sites-mailing-lists-etc">2.2. Meta-information: Web sites, mailing lists, etc.</a></li>
+<li class="toctree-l2"><a class="reference internal" href="intro.html#reporting-bugs-in-ghc">2.3. Reporting bugs in GHC</a></li>
+<li class="toctree-l2"><a class="reference internal" href="intro.html#ghc-version-numbering-policy">2.4. GHC version numbering policy</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="8.0.1-notes.html">3. バージョン 8.0.1 のリリースノート</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="8.0.1-notes.html#id2">3.1. ハイライト</a></li>
-<li class="toctree-l2"><a class="reference internal" href="8.0.1-notes.html#id3">3.2. 詳細</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="8.0.1-notes.html#id4">3.2.1. 言語拡張</a></li>
-<li class="toctree-l3"><a class="reference internal" href="8.0.1-notes.html#id5">3.2.2. コンパイラ</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="8.0.1-notes.html#id6">3.2.2.1. 警告</a></li>
+<li class="toctree-l1"><a class="reference internal" href="8.0.1-notes.html">3. Release notes for version 8.0.1</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="8.0.1-notes.html#highlights">3.1. Highlights</a></li>
+<li class="toctree-l2"><a class="reference internal" href="8.0.1-notes.html#full-details">3.2. Full details</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="8.0.1-notes.html#language">3.2.1. Language</a></li>
+<li class="toctree-l3"><a class="reference internal" href="8.0.1-notes.html#compiler">3.2.2. Compiler</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="8.0.1-notes.html#warnings">3.2.2.1. Warnings</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="8.0.1-notes.html#ghci">3.2.3. GHCi</a></li>
 <li class="toctree-l3"><a class="reference internal" href="8.0.1-notes.html#template-haskell">3.2.4. Template Haskell</a></li>
-<li class="toctree-l3"><a class="reference internal" href="8.0.1-notes.html#id7">3.2.5. ランタイムシステム</a></li>
-<li class="toctree-l3"><a class="reference internal" href="8.0.1-notes.html#id8">3.2.6. ビルドシステム</a></li>
-<li class="toctree-l3"><a class="reference internal" href="8.0.1-notes.html#id9">3.2.7. パッケージシステム</a></li>
+<li class="toctree-l3"><a class="reference internal" href="8.0.1-notes.html#runtime-system">3.2.5. Runtime system</a></li>
+<li class="toctree-l3"><a class="reference internal" href="8.0.1-notes.html#build-system">3.2.6. Build system</a></li>
+<li class="toctree-l3"><a class="reference internal" href="8.0.1-notes.html#package-system">3.2.7. Package system</a></li>
 <li class="toctree-l3"><a class="reference internal" href="8.0.1-notes.html#hsc2hs">3.2.8. hsc2hs</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="8.0.1-notes.html#id10">3.3. ライブラリ</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="8.0.1-notes.html#libraries">3.3. Libraries</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="8.0.1-notes.html#array">3.3.1. array</a></li>
 <li class="toctree-l3"><a class="reference internal" href="8.0.1-notes.html#base">3.3.2. base</a></li>
 <li class="toctree-l3"><a class="reference internal" href="8.0.1-notes.html#binary">3.3.3. binary</a></li>
@@ -133,69 +131,71 @@
 <li class="toctree-l3"><a class="reference internal" href="8.0.1-notes.html#hoopl">3.3.16. hoopl</a></li>
 <li class="toctree-l3"><a class="reference internal" href="8.0.1-notes.html#hpc">3.3.17. hpc</a></li>
 <li class="toctree-l3"><a class="reference internal" href="8.0.1-notes.html#integer-gmp">3.3.18. integer-gmp</a></li>
-<li class="toctree-l3"><a class="reference internal" href="8.0.1-notes.html#old-locale">3.3.19. old-locale</a></li>
-<li class="toctree-l3"><a class="reference internal" href="8.0.1-notes.html#old-time">3.3.20. old-time</a></li>
-<li class="toctree-l3"><a class="reference internal" href="8.0.1-notes.html#process">3.3.21. process</a></li>
-<li class="toctree-l3"><a class="reference internal" href="8.0.1-notes.html#id11">3.3.22. template-haskell</a></li>
-<li class="toctree-l3"><a class="reference internal" href="8.0.1-notes.html#time">3.3.23. time</a></li>
-<li class="toctree-l3"><a class="reference internal" href="8.0.1-notes.html#unix">3.3.24. unix</a></li>
-<li class="toctree-l3"><a class="reference internal" href="8.0.1-notes.html#win32">3.3.25. Win32</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="8.0.1-notes.html#id12">3.4. 既知のバグ</a></li>
+<li class="toctree-l2"><a class="reference internal" href="8.0.1-notes.html#old-locale">3.4. old-locale</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="8.0.1-notes.html#old-time">3.4.1. old-time</a></li>
+<li class="toctree-l3"><a class="reference internal" href="8.0.1-notes.html#process">3.4.2. process</a></li>
+<li class="toctree-l3"><a class="reference internal" href="8.0.1-notes.html#id1">3.4.3. template-haskell</a></li>
+<li class="toctree-l3"><a class="reference internal" href="8.0.1-notes.html#time">3.4.4. time</a></li>
+<li class="toctree-l3"><a class="reference internal" href="8.0.1-notes.html#unix">3.4.5. unix</a></li>
+<li class="toctree-l3"><a class="reference internal" href="8.0.1-notes.html#win32">3.4.6. Win32</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="8.0.2-notes.html">4. バージョン 8.0.2 のリリースノート</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="8.0.2-notes.html#id2">4.1. ハイライト</a></li>
-<li class="toctree-l2"><a class="reference internal" href="8.0.2-notes.html#id3">4.2. 詳細</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="8.0.2-notes.html#id4">4.2.1. 言語拡張</a></li>
-<li class="toctree-l3"><a class="reference internal" href="8.0.2-notes.html#id5">4.2.2. コンパイラ</a></li>
-<li class="toctree-l3"><a class="reference internal" href="8.0.2-notes.html#id6">4.2.3. ランタイムシステム</a></li>
+<li class="toctree-l2"><a class="reference internal" href="8.0.1-notes.html#known-bugs">3.5. Known bugs</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="8.0.2-notes.html">4. Release notes for version 8.0.2</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="8.0.2-notes.html#highlights">4.1. Highlights</a></li>
+<li class="toctree-l2"><a class="reference internal" href="8.0.2-notes.html#full-details">4.2. Full details</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="8.0.2-notes.html#language">4.2.1. Language</a></li>
+<li class="toctree-l3"><a class="reference internal" href="8.0.2-notes.html#compiler">4.2.2. Compiler</a></li>
+<li class="toctree-l3"><a class="reference internal" href="8.0.2-notes.html#runtime-system">4.2.3. Runtime system</a></li>
 <li class="toctree-l3"><a class="reference internal" href="8.0.2-notes.html#template-haskell">4.2.4. Template Haskell</a></li>
 <li class="toctree-l3"><a class="reference internal" href="8.0.2-notes.html#ghc-library">4.2.5. <code class="docutils literal"><span class="pre">ghc</span></code> library</a></li>
 </ul>
 </li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="ghci.html">5. GHCiを使う</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="ghci.html#ghci-introduction">5.1. GHCi入門</a></li>
-<li class="toctree-l2"><a class="reference internal" href="ghci.html#loading-source-files">5.2. ソースファイルをロードする</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="ghci.html#ghci-modules-filenames">5.2.1. モジュールとファイル名</a></li>
-<li class="toctree-l3"><a class="reference internal" href="ghci.html#id12">5.2.2. ソースコードの変更と再コンパイル</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ghci.html">5. Using GHCi</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="ghci.html#introduction-to-ghci">5.1. Introduction to GHCi</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ghci.html#loading-source-files">5.2. Loading source files</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="ghci.html#modules-vs-filenames">5.2.1. Modules vs. filenames</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ghci.html#making-changes-and-recompilation">5.2.2. Making changes and recompilation</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="ghci.html#ghci-compiled">5.3. コンパイル済みコードをロードする</a></li>
-<li class="toctree-l2"><a class="reference internal" href="ghci.html#interactive-evaluation">5.4. プロンプトで対話的に評価する</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="ghci.html#i-o">5.4.1. プロンプトでのI/Oアクション</a></li>
-<li class="toctree-l3"><a class="reference internal" href="ghci.html#do">5.4.2. プロンプトで <code class="docutils literal"><span class="pre">do</span></code> 記法を使う</a></li>
-<li class="toctree-l3"><a class="reference internal" href="ghci.html#ghci-multiline">5.4.3. 複数行入力</a></li>
-<li class="toctree-l3"><a class="reference internal" href="ghci.html#ghci-decls">5.4.4. 型，クラス，その他の宣言</a></li>
-<li class="toctree-l3"><a class="reference internal" href="ghci.html#ghci-scope">5.4.5. プロンプトのスコープにあるもの</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="ghci.html#load">5.4.5.1. スコープ内容に対する <code class="docutils literal"><span class="pre">:load</span></code> の影響</a></li>
-<li class="toctree-l4"><a class="reference internal" href="ghci.html#import">5.4.5.2. <code class="docutils literal"><span class="pre">import</span></code> によるスコープ制御</a></li>
-<li class="toctree-l4"><a class="reference internal" href="ghci.html#module">5.4.5.3. <code class="docutils literal"><span class="pre">:module</span></code> コマンドによるスコープ制御</a></li>
-<li class="toctree-l4"><a class="reference internal" href="ghci.html#ghci-import-qualified">5.4.5.4. 修飾名</a></li>
-<li class="toctree-l4"><a class="reference internal" href="ghci.html#module-load">5.4.5.5. <code class="docutils literal"><span class="pre">:module</span></code> と <code class="docutils literal"><span class="pre">:load</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ghci.html#loading-compiled-code">5.3. Loading compiled code</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ghci.html#interactive-evaluation-at-the-prompt">5.4. Interactive evaluation at the prompt</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="ghci.html#i-o-actions-at-the-prompt">5.4.1. I/O actions at the prompt</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ghci.html#using-do-notation-at-the-prompt">5.4.2. Using <code class="docutils literal"><span class="pre">do</span></code> notation at the prompt</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ghci.html#multiline-input">5.4.3. Multiline input</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ghci.html#type-class-and-other-declarations">5.4.4. Type, class and other declarations</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ghci.html#what-s-really-in-scope-at-the-prompt">5.4.5. What&#8217;s really in scope at the prompt?</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="ghci.html#the-effect-of-load-on-what-is-in-scope">5.4.5.1. The effect of <code class="docutils literal"><span class="pre">:load</span></code> on what is in scope</a></li>
+<li class="toctree-l4"><a class="reference internal" href="ghci.html#controlling-what-is-in-scope-with-import">5.4.5.2. Controlling what is in scope with <code class="docutils literal"><span class="pre">import</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="ghci.html#controlling-what-is-in-scope-with-the-module-command">5.4.5.3. Controlling what is in scope with the <code class="docutils literal"><span class="pre">:module</span></code> command</a></li>
+<li class="toctree-l4"><a class="reference internal" href="ghci.html#qualified-names">5.4.5.4. Qualified names</a></li>
+<li class="toctree-l4"><a class="reference internal" href="ghci.html#module-and-load">5.4.5.5. <code class="docutils literal"><span class="pre">:module</span></code> and <code class="docutils literal"><span class="pre">:load</span></code></a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="ghci.html#main-run">5.4.6. <code class="docutils literal"><span class="pre">:main</span></code> コマンドと <code class="docutils literal"><span class="pre">:run</span></code> コマンド</a></li>
-<li class="toctree-l3"><a class="reference internal" href="ghci.html#it">5.4.7. <code class="docutils literal"><span class="pre">it</span></code> 変数</a></li>
-<li class="toctree-l3"><a class="reference internal" href="ghci.html#extended-default-rules">5.4.8. GHCi でのデフォルト型設定</a></li>
-<li class="toctree-l3"><a class="reference internal" href="ghci.html#ghci-interactive-print">5.4.9. 独自の対話表示関数を使う</a></li>
-<li class="toctree-l3"><a class="reference internal" href="ghci.html#ghci-stack-traces">5.4.10. GHCiのスタックトレース</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ghci.html#the-main-and-run-commands">5.4.6. The <code class="docutils literal"><span class="pre">:main</span></code> and <code class="docutils literal"><span class="pre">:run</span></code> commands</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ghci.html#the-it-variable">5.4.7. The <code class="docutils literal"><span class="pre">it</span></code> variable</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ghci.html#type-defaulting-in-ghci">5.4.8. Type defaulting in GHCi</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ghci.html#using-a-custom-interactive-printing-function">5.4.9. Using a custom interactive printing function</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ghci.html#stack-traces-in-ghci">5.4.10. Stack Traces in GHCi</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="ghci.html#ghci-debugger">5.5. GHCiのデバッガ</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="ghci.html#breakpoints">5.5.1. ブレイクポイントと変数内容の表示</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="ghci.html#setting-breakpoints">5.5.1.1. ブレイクポイントの設定</a></li>
-<li class="toctree-l4"><a class="reference internal" href="ghci.html#id27">5.5.1.2. ブレイクポイントの一覧と削除</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ghci.html#the-ghci-debugger">5.5. The GHCi Debugger</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="ghci.html#breakpoints-and-inspecting-variables">5.5.1. Breakpoints and inspecting variables</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="ghci.html#setting-breakpoints">5.5.1.1. Setting breakpoints</a></li>
+<li class="toctree-l4"><a class="reference internal" href="ghci.html#listing-and-deleting-breakpoints">5.5.1.2. Listing and deleting breakpoints</a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="ghci.html#single-stepping">5.5.2. ステップ実行</a></li>
-<li class="toctree-l3"><a class="reference internal" href="ghci.html#nested-breakpoints">5.5.3. ブレイクポイントのネスト</a></li>
-<li class="toctree-l3"><a class="reference internal" href="ghci.html#result">5.5.4. <code class="docutils literal"><span class="pre">_result</span></code> 変数</a></li>
-<li class="toctree-l3"><a class="reference internal" href="ghci.html#tracing">5.5.5. トレースとヒストリ</a></li>
-<li class="toctree-l3"><a class="reference internal" href="ghci.html#ghci-debugger-exceptions">5.5.6. 例外のデバッグ</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ghci.html#single-stepping">5.5.2. Single-stepping</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ghci.html#nested-breakpoints">5.5.3. Nested breakpoints</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ghci.html#the-result-variable">5.5.4. The <code class="docutils literal"><span class="pre">_result</span></code> variable</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ghci.html#tracing-and-history">5.5.5. Tracing and history</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ghci.html#debugging-exceptions">5.5.6. Debugging exceptions</a></li>
 <li class="toctree-l3"><a class="reference internal" href="ghci.html#example-inspecting-functions">5.5.7. Example: inspecting functions</a></li>
 <li class="toctree-l3"><a class="reference internal" href="ghci.html#limitations">5.5.8. Limitations</a></li>
 </ul>
@@ -998,11 +998,11 @@
 </ul>
 </div>
 </div>
-<div class="section" id="id1">
-<h1>索引<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="indices-and-tables">
+<h1>Indices and tables<a class="headerlink" href="#indices-and-tables" title="Permalink to this headline">¶</a></h1>
 <ul class="simple">
-<li><a class="reference internal" href="genindex.html"><span>Index</span></a></li>
-<li><a class="reference internal" href="search.html"><span>Search Page</span></a></li>
+<li><a class="reference internal" href="genindex.html"><span class="std std-ref">Index</span></a></li>
+<li><a class="reference internal" href="search.html"><span class="std std-ref">Search Page</span></a></li>
 </ul>
 </div>
 
@@ -1021,12 +1021,12 @@
         <li class="right" >
           <a href="license.html" title="1. The Glasgow Haskell Compiler License"
              >next</a> |</li>
-        <li class="nav-item nav-item-0"><a href="#">GHC 8.0.2 Users Guide</a> &raquo;</li> 
+        <li class="nav-item nav-item-0"><a href="#">GHC 8.0.2 Users Guide</a> &#187;</li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">
-        &copy; Copyright 2015, GHC Team.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.6.
+        &#169; Copyright 2015, GHC Team.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.5.2.
     </div>
   </body>
 </html>
