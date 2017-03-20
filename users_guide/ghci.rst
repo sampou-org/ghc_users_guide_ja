@@ -3757,34 +3757,58 @@ GHCi の表示を見れば ``f`` がスコープにあることがわかりま�
    先の評価はブレークポイントで停止しているので，もちろん結果は得られません．
    評価がハングしたときは Ctrl-C で中断すれば，プロンプトに戻ることができます．
 
-   ありがちなのは，CAF(例えばmain)を評価していて，ブレークポイントで停止し，そのCAFの値を再びプロンプトで要求するという場合です．
+   ありがちなのは，CAF(たとえば ``main``)を評価していて，ブレークポイントで停止し，そのCAFの値を再びプロンプトで要求するという場合です．
 
 -  暗黙パラメータ(:ref:`implicit-parameters` 参照)がブレイクポイントで利用できるのは，型が明示されている場合だけです．
 
+..
+   .. _ghci-invocation:
+
+   Invoking GHCi
+   -------------
+
+   .. index::
+      single: invoking; GHCi
+      single: --interactive
+
 .. _ghci-invocation:
 
-Invoking GHCi
--------------
+GHCi の起動
+-----------
 
 .. index::
-   single: invoking; GHCi
+   single: 起動; GHCiの〜
    single: --interactive
 
-GHCi is invoked with the command ``ghci`` or ``ghc --interactive``. One
-or more modules or filenames can also be specified on the command line;
-this instructs GHCi to load the specified modules or filenames (and all
-the modules they depend on), just as if you had said ``:load modules``
-at the GHCi prompt (see :ref:`ghci-commands`). For example, to start
-GHCi and load the program whose topmost module is in the file
-``Main.hs``, we could say:
+..
+   GHCi is invoked with the command ``ghci`` or ``ghc --interactive``. One
+   or more modules or filenames can also be specified on the command line;
+   this instructs GHCi to load the specified modules or filenames (and all
+   the modules they depend on), just as if you had said ``:load modules``
+   at the GHCi prompt (see :ref:`ghci-commands`). For example, to start
+   GHCi and load the program whose topmost module is in the file
+   ``Main.hs``, we could say:
+
+   .. code-block:: none
+
+       $ ghci Main.hs
+
+   Most of the command-line options accepted by GHC (see :ref:`using-ghc`)
+   also make sense in interactive mode. The ones that don't make sense are
+   mostly obvious.
+
+GHCiは ``ghci`` または ``ghc --interactive`` というコマンドで起動します．
+1つまたは複数のモジュールやファイル名をコマンド行で指定することもできます．
+そうすると，GHCiはプロンプトで ``:load モジュール名`` と入力したとき同じように(:ref:`ghci-commands` 参照)，指定されたモジュールやファイル(と，それらが依存するモジュール)をロードします．
+たとえば、GHCiを起動して(Main.hsに最上位モジュールがある)プログラムをロードするには，
+次のようにすればよい．
 
 .. code-block:: none
 
     $ ghci Main.hs
 
-Most of the command-line options accepted by GHC (see :ref:`using-ghc`)
-also make sense in interactive mode. The ones that don't make sense are
-mostly obvious.
+GHCが受け付けるコマンドラインオプション(:ref:`using-ghc` 参照)の大部分は対話モードでも有効です．
+GHCiで有効でないものは見れば判ります．
 
 Packages
 ~~~~~~~~
