@@ -99,7 +99,7 @@
 </ul>
 </li>
 <li><a class="reference internal" href="#ghci-invocation">5.6. GHCi の起動</a><ul>
-<li><a class="reference internal" href="#packages">5.6.1. Packages</a></li>
+<li><a class="reference internal" href="#id35">5.6.1. パッケージ</a></li>
 <li><a class="reference internal" href="#extra-libraries">5.6.2. Extra libraries</a></li>
 </ul>
 </li>
@@ -1047,7 +1047,7 @@ GHCi に対する <code class="docutils literal"><span class="pre">-prof</span><
 デバッグ機能を有効にするのにフラグは必要ありません．
 1つ重要な制限があります．
 それは，ブレイクポイントとステップ実行は解釈実行されているモジュールでしか使えないということです．
-コンパイル済みのコードはデバッガからは見えません <a class="footnote-reference" href="#id36" id="id23">[5]</a> ．</p>
+コンパイル済みのコードはデバッガからは見えません <a class="footnote-reference" href="#id37" id="id23">[5]</a> ．</p>
 <p>このデバッガが提供する機能は以下のとおりです．</p>
 <ul class="simple">
 <li>プログラム中の関数定義や式にブレイクポイントを設定する機能．
@@ -1119,7 +1119,7 @@ right :: [Integer] = _
 </div>
 <p><a class="reference internal" href="#ghci-cmd-:list"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:list</span></code></a> コマンドは，現在のブレイクポイントの周囲のコードを表示します．
 出力デバイスがサポートしている場合は，注目している部分式がボールド体で表示されます．</p>
-<p>GHCiは，ブレイクポイントを置いた式の自由変数 <a class="footnote-reference" href="#id37" id="id25">[6]</a> (<code class="docutils literal"><span class="pre">a</span></code> ， <code class="docutils literal"><span class="pre">left</span></code> ， <code class="docutils literal"><span class="pre">right</span></code>)
+<p>GHCiは，ブレイクポイントを置いた式の自由変数 <a class="footnote-reference" href="#id38" id="id25">[6]</a> (<code class="docutils literal"><span class="pre">a</span></code> ， <code class="docutils literal"><span class="pre">left</span></code> ， <code class="docutils literal"><span class="pre">right</span></code>)
 に対する束縛および当該式の結果(<code class="docutils literal"><span class="pre">_result</span></code>)に対する束縛も提供しています．
 これらの変数は，GHCi上で普通に定義する他の変数と同じです．
 プロンプトで入力する式の中で使ったり， <a class="reference internal" href="#ghci-cmd-:type"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:type</span></code></a> コマンドで型を確認するなどが可能です．</p>
@@ -1551,26 +1551,25 @@ Just 20
 </div>
 <p>GHCが受け付けるコマンドラインオプション(<a class="reference internal" href="using.html#using-ghc"><span class="std std-ref">Using GHC</span></a> 参照)の大部分は対話モードでも有効です．
 GHCiで有効でないものは見れば判ります．</p>
-<div class="section" id="packages">
-<h3>5.6.1. Packages<a class="headerlink" href="#packages" title="Permalink to this headline">¶</a></h3>
-<p id="index-15">Most packages (see <a class="reference internal" href="packages.html#using-packages"><span class="std std-ref">Using Packages</span></a>) are available without needing
-to specify any extra flags at all: they will be automatically loaded the
-first time they are needed.</p>
-<p>For hidden packages, however, you need to request the package be loaded
-by using the <a class="reference internal" href="phases.html#ghc-flag--package"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-package</span></code></a> flag:</p>
-<div class="highlight-none"><div class="highlight"><pre><span></span>$ ghci -package readline
-GHCi, version 6.8.1: http://www.haskell.org/ghc/  :? for help
-Loading package base ... linking ... done.
-Loading package readline-1.0 ... linking ... done.
+<div class="section" id="id35">
+<h3>5.6.1. パッケージ<a class="headerlink" href="#id35" title="Permalink to this headline">¶</a></h3>
+<span class="target" id="index-15"></span><p>ほとんどのパッケージ(<a class="reference internal" href="packages.html#using-packages"><span class="std std-ref">Using Packages</span></a> 参照)は追加でフラグを指定しなくても利用できます．
+最初に必要になったときに自動的ロードされます．</p>
+<p>一方で，隠されたパッケージについては <a class="reference internal" href="phases.html#ghc-flag--package"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-package</span></code></a> フラグを使ってロードを要求する必要があります．</p>
+<div class="highlight-none"><div class="highlight"><pre><span></span>$ ghci -package ghc-8.0.2
+GHCi, version 8.0.2: http://www.haskell.org/ghc/  :? for help
+Prelude&gt; :show packages
+active package flags:
+  -package ghc-8.0.2
+</pre></div>
+</div>
+<p>以下のコマンドを使えば起動中のGHCiに新しいパッケージをロードできます．</p>
+<div class="highlight-none"><div class="highlight"><pre><span></span>*Main&gt; :set -package ghc-8.0.2
+package flags have changed, resetting and loading new packages...
 Prelude&gt;
 </pre></div>
 </div>
-<p>The following command works to load new packages into a running GHCi:</p>
-<div class="highlight-none"><div class="highlight"><pre><span></span>Prelude&gt; :set -package name
-</pre></div>
-</div>
-<p>But note that doing this will cause all currently loaded modules to be
-unloaded, and you&#8217;ll be dumped back into the <code class="docutils literal"><span class="pre">Prelude</span></code>.</p>
+<p>ただし，すでにロードされているモジュールが全て未ロードになり <code class="docutils literal"><span class="pre">Prelude</span></code> に戻されることになるので注意が必要です．</p>
 </div>
 <div class="section" id="extra-libraries">
 <h3>5.6.2. Extra libraries<a class="headerlink" href="#extra-libraries" title="Permalink to this headline">¶</a></h3>
@@ -1601,7 +1600,7 @@ to the command line.</p>
 </div>
 </div>
 <div class="section" id="ghci-commands">
-<span id="id35"></span><h2>5.7. GHCi commands<a class="headerlink" href="#ghci-commands" title="Permalink to this headline">¶</a></h2>
+<span id="id36"></span><h2>5.7. GHCi commands<a class="headerlink" href="#ghci-commands" title="Permalink to this headline">¶</a></h2>
 <p>GHCi commands all begin with &#8220;<code class="docutils literal"><span class="pre">:</span></code>&#8221; and consist of a single command
 name followed by zero or more parameters. The command name may be
 abbreviated, with ambiguities being resolved in favour of the more
@@ -2721,14 +2720,14 @@ program thus:</p>
 </div>
 </dd>
 </dl>
-<table class="docutils footnote" frame="void" id="id36" rules="none">
+<table class="docutils footnote" frame="void" id="id37" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
 <tr><td class="label"><a class="fn-backref" href="#id23">[5]</a></td><td>Note that packages only contain compiled code, so debugging a package
 requires finding its source and loading that directly.</td></tr>
 </tbody>
 </table>
-<table class="docutils footnote" frame="void" id="id37" rules="none">
+<table class="docutils footnote" frame="void" id="id38" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
 <tr><td class="label"><a class="fn-backref" href="#id25">[6]</a></td><td>We originally provided bindings for all variables in scope, rather
