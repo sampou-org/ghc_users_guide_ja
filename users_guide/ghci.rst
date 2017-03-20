@@ -3810,35 +3810,68 @@ GHCiは ``ghci`` または ``ghc --interactive`` というコマンドで起動�
 GHCが受け付けるコマンドラインオプション(:ref:`using-ghc` 参照)の大部分は対話モードでも有効です．
 GHCiで有効でないものは見れば判ります．
 
-Packages
-~~~~~~~~
+..
+   Packages
+   ~~~~~~~~
+
+   .. index::
+      single: packages; with GHCi
+
+パッケージ
+~~~~~~~~~~
 
 .. index::
-   single: packages; with GHCi
+   single: パッケージ; GHCiで〜を使う
 
-Most packages (see :ref:`using-packages`) are available without needing
-to specify any extra flags at all: they will be automatically loaded the
-first time they are needed.
+..
+   Most packages (see :ref:`using-packages`) are available without needing
+   to specify any extra flags at all: they will be automatically loaded the
+   first time they are needed.
 
-For hidden packages, however, you need to request the package be loaded
-by using the :ghc-flag:`-package` flag:
+ほとんどのパッケージ(:ref:`using-packages` 参照)は追加でフラグを指定しなくても利用できます．
+最初に必要になったときに自動的ロードされます．
+
+..
+   For hidden packages, however, you need to request the package be loaded
+   by using the :ghc-flag:`-package` flag:
+
+   .. code-block:: none
+
+       $ ghci -package readline
+       GHCi, version 6.8.1: http://www.haskell.org/ghc/  :? for help
+       Loading package base ... linking ... done.
+       Loading package readline-1.0 ... linking ... done.
+       Prelude>
+
+一方で，隠されたパッケージについては :ghc-flag:`-package` フラグを使ってロードを要求する必要があります．
 
 .. code-block:: none
 
-    $ ghci -package readline
-    GHCi, version 6.8.1: http://www.haskell.org/ghc/  :? for help
-    Loading package base ... linking ... done.
-    Loading package readline-1.0 ... linking ... done.
-    Prelude>
+    $ ghci -package ghc-8.0.2
+    GHCi, version 8.0.2: http://www.haskell.org/ghc/  :? for help
+    Prelude> :show packages
+    active package flags:
+      -package ghc-8.0.2
 
-The following command works to load new packages into a running GHCi:
+..
+   The following command works to load new packages into a running GHCi:
+
+   .. code-block:: none
+
+       Prelude> :set -package name
+
+   But note that doing this will cause all currently loaded modules to be
+   unloaded, and you'll be dumped back into the ``Prelude``.
+
+以下のコマンドを使えば起動中のGHCiに新しいパッケージをロードできます．
 
 .. code-block:: none
 
-    Prelude> :set -package name
+    *Main> :set -package ghc-8.0.2
+    package flags have changed, resetting and loading new packages...
+    Prelude> 
 
-But note that doing this will cause all currently loaded modules to be
-unloaded, and you'll be dumped back into the ``Prelude``.
+ただし，すでにロードされているモジュールが全て未ロードになり ``Prelude`` に戻されることになるので注意が必要です．
 
 Extra libraries
 ~~~~~~~~~~~~~~~
