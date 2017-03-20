@@ -2428,7 +2428,8 @@ GHCi は単純な命令スタイルのデバッガを備えています．
 これを使うと，変数の値を確認するために進行中の計算を止められます．
 このデバッガはGHCiに統合されていて，デフォルトで有効になっています．
 デバッグ機能を有効にするのにフラグは必要ありません．
-1つ重要な制限があります．それは，ブレイクポイントとステップ実行は解釈実行されているモジュールでしか使えないということです．
+1つ重要な制限があります．
+それは，ブレイクポイントとステップ実行は解釈実行されているモジュールでしか使えないということです．
 コンパイル済みのコードはデバッガからは見えません [5]_ ．
 
 ..
@@ -3553,17 +3554,39 @@ Ctrl-C を叩いて，履歴を見て，何が起こっていたかを調べれ�
     :ghc-flag:`-fbreak-on-exception` はすべての例外でブレイクするのに対して，
     :ghc-flag:`-fbreak-on-error` は捕捉されない例外でのみブレイクします．
 
-Example: inspecting functions
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+..
+   Example: inspecting functions
+   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-It is possible to use the debugger to examine function values. When we
-are at a breakpoint and a function is in scope, the debugger cannot show
-you the source code for it; however, it is possible to get some
-information by applying it to some arguments and observing the result.
+例：関数の調査
+~~~~~~~~~~~~~~
 
-The process is slightly complicated when the binding is polymorphic. We
-show the process by means of an example. To keep things simple, we will
-use the well known ``map`` function:
+..
+   It is possible to use the debugger to examine function values. When we
+   are at a breakpoint and a function is in scope, the debugger cannot show
+   you the source code for it; however, it is possible to get some
+   information by applying it to some arguments and observing the result.
+
+このデバッガを使って関数値を調べられます．
+ブレークポイントで停止し，スコープに関数があるとき，デバッガでその関数のソースコードを表示させることはできません．
+しかし，その関数をいくつかの引数に適用して結果を観察することで，いくらかの情報をえることはできます．
+
+..
+   The process is slightly complicated when the binding is polymorphic. We
+   show the process by means of an example. To keep things simple, we will
+   use the well known ``map`` function:
+
+   ::
+
+       import Prelude hiding (map)
+
+       map :: (a->b) -> [a] -> [b]
+       map f [] = []
+       map f (x:xs) = f x : map f xs
+
+束縛が多相的な場合には，このプロセスはすこし複雑になります．
+例で見ましょう．
+簡単に考えるために，よく知られた ``map`` 関数を例にとります．
 
 ::
 
@@ -3573,79 +3596,137 @@ use the well known ``map`` function:
     map f [] = []
     map f (x:xs) = f x : map f xs
 
-We set a breakpoint on ``map``, and call it.
+..
+   We set a breakpoint on ``map``, and call it.
+
+   .. code-block:: none
+
+       *Main> :break 5
+       Breakpoint 0 activated at  map.hs:5:15-28
+       *Main> map Just [1..5]
+       Stopped at map.hs:(4,0)-(5,12)
+       _result :: [b]
+       x :: a
+       f :: a -> b
+       xs :: [a]
+
+   GHCi tells us that, among other bindings, ``f`` is in scope. However,
+   its type is not fully known yet, and thus it is not possible to apply it
+   to any arguments. Nevertheless, observe that the type of its first
+   argument is the same as the type of ``x``, and its result type is shared
+   with ``_result``.
+
+``map`` にブレイクポイントを設定して，呼び出してみましょう．
 
 .. code-block:: none
 
     *Main> :break 5
-    Breakpoint 0 activated at  map.hs:5:15-28
+    Breakpoint 0 activated at map.hs:5:16-29
     *Main> map Just [1..5]
-    Stopped at map.hs:(4,0)-(5,12)
-    _result :: [b]
-    x :: a
-    f :: a -> b
-    xs :: [a]
+    Stopped in Main.map, map.hs:5:16-29
+    _result :: [b] = _
+    f :: Integer -> b = _
+    x :: Integer = 1
+    xs :: [Integer] = _
+    [map.hs:5:16-29] *Main> 
 
-GHCi tells us that, among other bindings, ``f`` is in scope. However,
-its type is not fully known yet, and thus it is not possible to apply it
-to any arguments. Nevertheless, observe that the type of its first
-argument is the same as the type of ``x``, and its result type is shared
-with ``_result``.
+GHCi の表示を見れば ``f`` がスコープにあることがわかります．
+しかし，その型は完全に判明しているわけではありません．
+とはいうものの，最初の引数の型を見れば，これが ``x`` の型と同じ ``Integer`` であることも，
+``_result`` の型が同じ ``Integer`` を要素とするリストであることも判ります．
 
-As we demonstrated earlier (:ref:`breakpoints`), the debugger has some
-intelligence built-in to update the type of ``f`` whenever the types of
-``x`` or ``_result`` are discovered. So what we do in this scenario is
-force ``x`` a bit, in order to recover both its type and the argument
-part of ``f``.
+..
+   As we demonstrated earlier (:ref:`breakpoints`), the debugger has some
+   intelligence built-in to update the type of ``f`` whenever the types of
+   ``x`` or ``_result`` are discovered. So what we do in this scenario is
+   force ``x`` a bit, in order to recover both its type and the argument
+   part of ``f``.
+
+   .. code-block:: none
+
+       *Main> seq x ()
+       *Main> :print x
+       x = 1
+
+[--ここでは-- GHC Users Guide 原文の記述とghciの実際の挙動が異なる部分に関連する説明を省いています．]
+
+..
+   We can check now that as expected, the type of ``x`` has been
+   reconstructed, and with it the type of ``f`` has been too:
+
+   .. code-block:: none
+
+       *Main> :t x
+       x :: Integer
+       *Main> :t f
+       f :: Integer -> b
+
+..
+   From here, we can apply f to any argument of type Integer and observe
+   the results.
+
+   .. code-block:: none
+
+       *Main> let b = f 10
+       *Main> :t b
+       b :: b
+       *Main> b
+       <interactive>:1:0:
+	   Ambiguous type variable `b' in the constraint:
+	     `Show b' arising from a use of `print' at <interactive>:1:0
+       *Main> :p b
+       b = (_t2::a)
+       *Main> seq b ()
+       ()
+       *Main> :t b
+       b :: a
+       *Main> :p b
+       b = Just 10
+       *Main> :t b
+       b :: Maybe Integer
+       *Main> :t f
+       f :: Integer -> Maybe Integer
+       *Main> f 20
+       Just 20
+       *Main> map f [1..5]
+       [Just 1, Just 2, Just 3, Just 4, Just 5]
+
+   In the first application of ``f``, we had to do some more type
+   reconstruction in order to recover the result type of ``f``. But after
+   that, we are free to use ``f`` normally.
+
+以降 ``f`` を ``Integer`` 型の任意の引数に適用してその結果を観察できます．
+[--ここから-- GHC Users Manual 原文の記述とghciの実際の挙動が異なるので，実際の挙動に沿って非公式に説明します．]
 
 .. code-block:: none
 
-    *Main> seq x ()
-    *Main> :print x
-    x = 1
-
-We can check now that as expected, the type of ``x`` has been
-reconstructed, and with it the type of ``f`` has been too:
-
-.. code-block:: none
-
-    *Main> :t x
-    x :: Integer
-    *Main> :t f
-    f :: Integer -> b
-
-From here, we can apply f to any argument of type Integer and observe
-the results.
-
-.. code-block:: none
-
+    [map.hs:5:16-29] *Main> :abandon
     *Main> let b = f 10
     *Main> :t b
     b :: b
-    *Main> b
-    <interactive>:1:0:
-        Ambiguous type variable `b' in the constraint:
-          `Show b' arising from a use of `print' at <interactive>:1:0
     *Main> :p b
-    b = (_t2::a)
+    b = (_t1::b)
     *Main> seq b ()
     ()
-    *Main> :t b
-    b :: a
-    *Main> :p b
-    b = Just 10
     *Main> :t b
     b :: Maybe Integer
     *Main> :t f
     f :: Integer -> Maybe Integer
     *Main> f 20
     Just 20
+    *Main> :delete *
     *Main> map f [1..5]
-    [Just 1, Just 2, Just 3, Just 4, Just 5]
+    [Just 1,Just 2,Just 3,Just 4,Just 5]
 
-In the first application of ``f``, we had to do some more type
-reconstruction in order to recover the result type of ``f``. But after
-that, we are free to use ``f`` normally.
+..
+   In the first application of ``f``, we had to do some more type
+   reconstruction in order to recover the result type of ``f``. But after
+   that, we are free to use ``f`` normally.
+
+[--ここまで-- 実際の挙動に沿った非公式説明．]
+
+最初の ``f`` の適用では ``f`` の結果の型を復元するために，型の再構築をもう少し行わなければならなかった．
+しかし，それ以降は ``f`` を通常の方法で自由に使うことができる．
 
 Limitations
 ~~~~~~~~~~~
