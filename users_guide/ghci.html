@@ -95,7 +95,7 @@
 <li><a class="reference internal" href="#tracing">5.5.5. トレースとヒストリ</a></li>
 <li><a class="reference internal" href="#ghci-debugger-exceptions">5.5.6. 例外のデバッグ</a></li>
 <li><a class="reference internal" href="#id32">5.5.7. 例：関数の調査</a></li>
-<li><a class="reference internal" href="#limitations">5.5.8. Limitations</a></li>
+<li><a class="reference internal" href="#id33">5.5.8. 制限</a></li>
 </ul>
 </li>
 <li><a class="reference internal" href="#invoking-ghci">5.6. Invoking GHCi</a><ul>
@@ -1047,7 +1047,7 @@ GHCi に対する <code class="docutils literal"><span class="pre">-prof</span><
 デバッグ機能を有効にするのにフラグは必要ありません．
 1つ重要な制限があります．
 それは，ブレイクポイントとステップ実行は解釈実行されているモジュールでしか使えないということです．
-コンパイル済みのコードはデバッガからは見えません <a class="footnote-reference" href="#id34" id="id23">[5]</a> ．</p>
+コンパイル済みのコードはデバッガからは見えません <a class="footnote-reference" href="#id35" id="id23">[5]</a> ．</p>
 <p>このデバッガが提供する機能は以下のとおりです．</p>
 <ul class="simple">
 <li>プログラム中の関数定義や式にブレイクポイントを設定する機能．
@@ -1119,7 +1119,7 @@ right :: [Integer] = _
 </div>
 <p><a class="reference internal" href="#ghci-cmd-:list"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:list</span></code></a> コマンドは，現在のブレイクポイントの周囲のコードを表示します．
 出力デバイスがサポートしている場合は，注目している部分式がボールド体で表示されます．</p>
-<p>GHCiは，ブレイクポイントを置いた式の自由変数 <a class="footnote-reference" href="#id35" id="id25">[6]</a> (<code class="docutils literal"><span class="pre">a</span></code> ， <code class="docutils literal"><span class="pre">left</span></code> ， <code class="docutils literal"><span class="pre">right</span></code>)
+<p>GHCiは，ブレイクポイントを置いた式の自由変数 <a class="footnote-reference" href="#id36" id="id25">[6]</a> (<code class="docutils literal"><span class="pre">a</span></code> ， <code class="docutils literal"><span class="pre">left</span></code> ， <code class="docutils literal"><span class="pre">right</span></code>)
 に対する束縛および当該式の結果(<code class="docutils literal"><span class="pre">_result</span></code>)に対する束縛も提供しています．
 これらの変数は，GHCi上で普通に定義する他の変数と同じです．
 プロンプトで入力する式の中で使ったり， <a class="reference internal" href="#ghci-cmd-:type"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:type</span></code></a> コマンドで型を確認するなどが可能です．</p>
@@ -1525,23 +1525,16 @@ Just 20
 <p>最初の <code class="docutils literal"><span class="pre">f</span></code> の適用では <code class="docutils literal"><span class="pre">f</span></code> の結果の型を復元するために，型の再構築をもう少し行う必要がありました．
 しかし，それ以降は <code class="docutils literal"><span class="pre">f</span></code> を通常の方法で自由に使うことができます．</p>
 </div>
-<div class="section" id="limitations">
-<h3>5.5.8. Limitations<a class="headerlink" href="#limitations" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id33">
+<h3>5.5.8. 制限<a class="headerlink" href="#id33" title="Permalink to this headline">¶</a></h3>
 <ul>
-<li><p class="first">When stopped at a breakpoint, if you try to evaluate a variable that
-is already under evaluation, the second evaluation will hang. The
-reason is that GHC knows the variable is under evaluation, so the new
-evaluation just waits for the result before continuing, but of course
-this isn&#8217;t going to happen because the first evaluation is stopped at
-a breakpoint. Control-C can interrupt the hung evaluation and return
-to the prompt.</p>
-<p>The most common way this can happen is when you&#8217;re evaluating a CAF
-(e.g. main), stop at a breakpoint, and ask for the value of the CAF
-at the prompt again.</p>
+<li><p class="first">ブレークポイントで停止したとき，既に評価中の変数を評価しようとすると，2回目の評価はハングする．
+その変数が評価中であることをGHCが知っていて，後の評価は先の結果を待ってからでないと続けられないからです．
+先の評価はブレークポイントで停止しているので，もちろん結果は得られません．
+評価がハングしたときは Ctrl-C で中断すれば，プロンプトに戻ることができます．</p>
+<p>ありがちなのは，CAF(例えばmain)を評価していて，ブレークポイントで停止し，そのCAFの値を再びプロンプトで要求するという場合です．</p>
 </li>
-<li><p class="first">Implicit parameters (see <a class="reference internal" href="glasgow_exts.html#implicit-parameters"><span class="std std-ref">Implicit parameters</span></a>) are only
-available at the scope of a breakpoint if there is an explicit type
-signature.</p>
+<li><p class="first">暗黙パラメータ(<a class="reference internal" href="glasgow_exts.html#implicit-parameters"><span class="std std-ref">Implicit parameters</span></a> 参照)がブレイクポイントで利用できるのは，型が明示されている場合だけです．</p>
 </li>
 </ul>
 </div>
@@ -1611,7 +1604,7 @@ to the command line.</p>
 </div>
 </div>
 <div class="section" id="ghci-commands">
-<span id="id33"></span><h2>5.7. GHCi commands<a class="headerlink" href="#ghci-commands" title="Permalink to this headline">¶</a></h2>
+<span id="id34"></span><h2>5.7. GHCi commands<a class="headerlink" href="#ghci-commands" title="Permalink to this headline">¶</a></h2>
 <p>GHCi commands all begin with &#8220;<code class="docutils literal"><span class="pre">:</span></code>&#8221; and consist of a single command
 name followed by zero or more parameters. The command name may be
 abbreviated, with ambiguities being resolved in favour of the more
@@ -2731,14 +2724,14 @@ program thus:</p>
 </div>
 </dd>
 </dl>
-<table class="docutils footnote" frame="void" id="id34" rules="none">
+<table class="docutils footnote" frame="void" id="id35" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
 <tr><td class="label"><a class="fn-backref" href="#id23">[5]</a></td><td>Note that packages only contain compiled code, so debugging a package
 requires finding its source and loading that directly.</td></tr>
 </tbody>
 </table>
-<table class="docutils footnote" frame="void" id="id35" rules="none">
+<table class="docutils footnote" frame="void" id="id36" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
 <tr><td class="label"><a class="fn-backref" href="#id25">[6]</a></td><td>We originally provided bindings for all variables in scope, rather

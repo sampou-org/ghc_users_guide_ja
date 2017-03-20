@@ -3728,24 +3728,38 @@ GHCi の表示を見れば ``f`` がスコープにあることがわかりま�
 最初の ``f`` の適用では ``f`` の結果の型を復元するために，型の再構築をもう少し行う必要がありました．
 しかし，それ以降は ``f`` を通常の方法で自由に使うことができます．
 
-Limitations
-~~~~~~~~~~~
+..
+   Limitations
+   ~~~~~~~~~~~
 
--  When stopped at a breakpoint, if you try to evaluate a variable that
-   is already under evaluation, the second evaluation will hang. The
-   reason is that GHC knows the variable is under evaluation, so the new
-   evaluation just waits for the result before continuing, but of course
-   this isn't going to happen because the first evaluation is stopped at
-   a breakpoint. Control-C can interrupt the hung evaluation and return
-   to the prompt.
+制限
+~~~~
 
-   The most common way this can happen is when you're evaluating a CAF
-   (e.g. main), stop at a breakpoint, and ask for the value of the CAF
-   at the prompt again.
+..
+   -  When stopped at a breakpoint, if you try to evaluate a variable that
+      is already under evaluation, the second evaluation will hang. The
+      reason is that GHC knows the variable is under evaluation, so the new
+      evaluation just waits for the result before continuing, but of course
+      this isn't going to happen because the first evaluation is stopped at
+      a breakpoint. Control-C can interrupt the hung evaluation and return
+      to the prompt.
 
--  Implicit parameters (see :ref:`implicit-parameters`) are only
-   available at the scope of a breakpoint if there is an explicit type
-   signature.
+      The most common way this can happen is when you're evaluating a CAF
+      (e.g. main), stop at a breakpoint, and ask for the value of the CAF
+      at the prompt again.
+
+   -  Implicit parameters (see :ref:`implicit-parameters`) are only
+      available at the scope of a breakpoint if there is an explicit type
+      signature.
+
+-  ブレークポイントで停止したとき，既に評価中の変数を評価しようとすると，2回目の評価はハングする．
+   その変数が評価中であることをGHCが知っていて，後の評価は先の結果を待ってからでないと続けられないからです．
+   先の評価はブレークポイントで停止しているので，もちろん結果は得られません．
+   評価がハングしたときは Ctrl-C で中断すれば，プロンプトに戻ることができます．
+
+   ありがちなのは，CAF(例えばmain)を評価していて，ブレークポイントで停止し，そのCAFの値を再びプロンプトで要求するという場合です．
+
+-  暗黙パラメータ(:ref:`implicit-parameters` 参照)がブレイクポイントで利用できるのは，型が明示されている場合だけです．
 
 .. _ghci-invocation:
 
