@@ -50,7 +50,35 @@
 <li><a class="reference internal" href="#">GHC</a><ul>
 <li><a class="reference internal" href="#synopsis">Synopsis</a></li>
 <li><a class="reference internal" href="#description">Description</a></li>
-<li><a class="reference internal" href="#options">Options</a></li>
+<li><a class="reference internal" href="#options">Options</a><ul>
+<li><a class="reference internal" href="#code-generation">Code generation</a></li>
+<li><a class="reference internal" href="#debugging-the-compiler">Debugging the compiler</a></li>
+<li><a class="reference internal" href="#c-pre-processor">C pre-processor</a></li>
+<li><a class="reference internal" href="#finding-imports">Finding imports</a></li>
+<li><a class="reference internal" href="#interactive-mode">Interactive mode</a></li>
+<li><a class="reference internal" href="#interface-files">Interface files</a></li>
+<li><a class="reference internal" href="#keeping-intermediate-files">Keeping intermediate files</a></li>
+<li><a class="reference internal" href="#language-options">Language options</a></li>
+<li><a class="reference internal" href="#linking-options">Linking options</a></li>
+<li><a class="reference internal" href="#miscellaneous-options">Miscellaneous options</a></li>
+<li><a class="reference internal" href="#modes-of-operation">Modes of operation</a></li>
+<li><a class="reference internal" href="#individual-optimizations">Individual optimizations</a></li>
+<li><a class="reference internal" href="#optimization-levels">Optimization levels</a></li>
+<li><a class="reference internal" href="#package-options">Package options</a></li>
+<li><a class="reference internal" href="#phases-of-compilation">Phases of compilation</a></li>
+<li><a class="reference internal" href="#overriding-external-programs">Overriding external programs</a></li>
+<li><a class="reference internal" href="#phase-specific-options">Phase-specific options</a></li>
+<li><a class="reference internal" href="#platform-specific-options">Platform-specific options</a></li>
+<li><a class="reference internal" href="#compiler-plugins">Compiler plugins</a></li>
+<li><a class="reference internal" href="#profiling">Profiling</a></li>
+<li><a class="reference internal" href="#program-coverage">Program coverage</a></li>
+<li><a class="reference internal" href="#recompilation-checking">Recompilation checking</a></li>
+<li><a class="reference internal" href="#redirecting-output">Redirecting output</a></li>
+<li><a class="reference internal" href="#temporary-files">Temporary files</a></li>
+<li><a class="reference internal" href="#verbosity-options">Verbosity options</a></li>
+<li><a class="reference internal" href="#warnings">Warnings</a></li>
+</ul>
+</li>
 <li><a class="reference internal" href="#copyright">Copyright</a></li>
 </ul>
 </li>
@@ -130,6 +158,1096 @@ The OPTIONS sections lists the status of each flag.</p>
 </div>
 <div class="section" id="options">
 <span id="options-ref"></span><h2>Options<a class="headerlink" href="#options" title="Permalink to this headline">¶</a></h2>
+<dl class="docutils">
+<dt>Code generation</dt>
+<dd><code class="docutils literal"><span class="pre">-fasm</span></code> <code class="docutils literal"><span class="pre">-fllvm</span></code> <code class="docutils literal"><span class="pre">-fno-code</span></code> <code class="docutils literal"><span class="pre">-fwrite-interface</span></code> <code class="docutils literal"><span class="pre">-fbyte-code</span></code> <code class="docutils literal"><span class="pre">-fobject-code</span></code> <code class="docutils literal"><span class="pre">-g⟨n⟩</span></code> <code class="docutils literal"><span class="pre">-dynamic</span></code> <code class="docutils literal"><span class="pre">-dynamic-too</span></code></dd>
+<dt>Debugging the compiler</dt>
+<dd><code class="docutils literal"><span class="pre">-dcore-lint</span></code> <code class="docutils literal"><span class="pre">-ddump-to-file</span></code> <code class="docutils literal"><span class="pre">-ddump-asm</span></code> <code class="docutils literal"><span class="pre">-ddump-bcos</span></code> <code class="docutils literal"><span class="pre">-ddump-cmm</span></code> <code class="docutils literal"><span class="pre">-ddump-core-stats</span></code> <code class="docutils literal"><span class="pre">-ddump-cse</span></code> <code class="docutils literal"><span class="pre">-ddump-deriv</span></code> <code class="docutils literal"><span class="pre">-ddump-ds</span></code> <code class="docutils literal"><span class="pre">-ddump-foreign</span></code> <code class="docutils literal"><span class="pre">-ddump-hpc</span></code> <code class="docutils literal"><span class="pre">-ddump-inlinings</span></code> <code class="docutils literal"><span class="pre">-ddump-llvm</span></code> <code class="docutils literal"><span class="pre">-ddump-occur-anal</span></code> <code class="docutils literal"><span class="pre">-ddump-opt-cmm</span></code> <code class="docutils literal"><span class="pre">-ddump-parsed</span></code> <code class="docutils literal"><span class="pre">-ddump-prep</span></code> <code class="docutils literal"><span class="pre">-ddump-rn</span></code> <code class="docutils literal"><span class="pre">-ddump-rule-firings</span></code> <code class="docutils literal"><span class="pre">-ddump-rule-rewrites</span></code> <code class="docutils literal"><span class="pre">-ddump-rules</span></code> <code class="docutils literal"><span class="pre">-ddump-vect</span></code> <code class="docutils literal"><span class="pre">-ddump-simpl</span></code> <code class="docutils literal"><span class="pre">-ddump-simpl-iterations</span></code> <code class="docutils literal"><span class="pre">-ddump-spec</span></code> <code class="docutils literal"><span class="pre">-ddump-splices</span></code> <code class="docutils literal"><span class="pre">-ddump-stg</span></code> <code class="docutils literal"><span class="pre">-ddump-stranal</span></code> <code class="docutils literal"><span class="pre">-ddump-str-signatures</span></code> <code class="docutils literal"><span class="pre">-ddump-tc</span></code> <code class="docutils literal"><span class="pre">-dth-dec-file</span></code> <code class="docutils literal"><span class="pre">-ddump-types</span></code> <code class="docutils literal"><span class="pre">-ddump-worker-wrapper</span></code> <code class="docutils literal"><span class="pre">-ddump-if-trace</span></code> <code class="docutils literal"><span class="pre">-ddump-tc-trace</span></code> <code class="docutils literal"><span class="pre">-ddump-vt-trace</span></code> <code class="docutils literal"><span class="pre">-ddump-rn-trace</span></code> <code class="docutils literal"><span class="pre">-ddump-rn-stats</span></code> <code class="docutils literal"><span class="pre">-ddump-simpl-stats</span></code> <code class="docutils literal"><span class="pre">-dno-debug-output</span></code> <code class="docutils literal"><span class="pre">-dppr-debug</span></code> <code class="docutils literal"><span class="pre">-dppr-user-length</span></code> <code class="docutils literal"><span class="pre">-dppr-cols⟨N⟩</span></code> <code class="docutils literal"><span class="pre">-dppr-case-as-let</span></code> <code class="docutils literal"><span class="pre">-dsuppress-all</span></code> <code class="docutils literal"><span class="pre">-dsuppress-uniques</span></code> <code class="docutils literal"><span class="pre">-dsuppress-idinfo</span></code> <code class="docutils literal"><span class="pre">-dsuppress-unfoldings</span></code> <code class="docutils literal"><span class="pre">-dsuppress-module-prefixes</span></code> <code class="docutils literal"><span class="pre">-dsuppress-type-signatures</span></code> <code class="docutils literal"><span class="pre">-dsuppress-type-applications</span></code> <code class="docutils literal"><span class="pre">-dsuppress-coercions</span></code> <code class="docutils literal"><span class="pre">-dsource-stats</span></code> <code class="docutils literal"><span class="pre">-dcmm-lint</span></code> <code class="docutils literal"><span class="pre">-dstg-lint</span></code> <code class="docutils literal"><span class="pre">-dstg-stats</span></code> <code class="docutils literal"><span class="pre">-dverbose-core2core</span></code> <code class="docutils literal"><span class="pre">-dverbose-stg2stg</span></code> <code class="docutils literal"><span class="pre">-dshow-passes</span></code> <code class="docutils literal"><span class="pre">-dfaststring-stats</span></code> <code class="docutils literal"><span class="pre">-frule-check</span></code></dd>
+<dt>C pre-processor</dt>
+<dd><code class="docutils literal"><span class="pre">-cpp</span></code> <code class="docutils literal"><span class="pre">-D⟨symbol⟩[=⟨value⟩]</span></code> <code class="docutils literal"><span class="pre">-U⟨symbol⟩</span></code> <code class="docutils literal"><span class="pre">-I⟨dir⟩</span></code></dd>
+<dt>Finding imports</dt>
+<dd><code class="docutils literal"><span class="pre">-i</span> <span class="pre">⟨dir1⟩:⟨dir2⟩:...</span></code> <code class="docutils literal"><span class="pre">-i</span></code></dd>
+<dt>Interactive mode</dt>
+<dd><code class="docutils literal"><span class="pre">-ignore-dot-ghci</span></code> <code class="docutils literal"><span class="pre">-ghci-script</span></code> <code class="docutils literal"><span class="pre">-fbreak-on-error</span></code> <code class="docutils literal"><span class="pre">-fbreak-on-exception</span></code> <code class="docutils literal"><span class="pre">-fghci-hist-size=⟨n⟩</span></code> <code class="docutils literal"><span class="pre">-fprint-evld-with-show</span></code> <code class="docutils literal"><span class="pre">-fprint-bind-result</span></code> <code class="docutils literal"><span class="pre">-fno-print-bind-contents</span></code> <code class="docutils literal"><span class="pre">-fno-implicit-import-qualified</span></code> <code class="docutils literal"><span class="pre">-interactive-print</span></code></dd>
+<dt>Interface files</dt>
+<dd><code class="docutils literal"><span class="pre">-ddump-hi</span></code> <code class="docutils literal"><span class="pre">-ddump-hi-diffs</span></code> <code class="docutils literal"><span class="pre">-ddump-minimal-imports</span></code> <code class="docutils literal"><span class="pre">--show-iface</span> <span class="pre">⟨file⟩</span></code></dd>
+<dt>Keeping intermediate files</dt>
+<dd><code class="docutils literal"><span class="pre">-keep-hc-file,</span> <span class="pre">-keep-hc-files</span></code> <code class="docutils literal"><span class="pre">-keep-llvm-file,</span> <span class="pre">-keep-llvm-files</span></code> <code class="docutils literal"><span class="pre">-keep-s-file,</span> <span class="pre">-keep-s-files</span></code> <code class="docutils literal"><span class="pre">-keep-tmp-files</span></code></dd>
+<dt>Language options</dt>
+<dd><code class="docutils literal"><span class="pre">-fconstraint-solver-iterations=⟨n⟩</span></code> <code class="docutils literal"><span class="pre">-freduction-depth=⟨n⟩</span></code> <code class="docutils literal"><span class="pre">-fcontext-stack=⟨n⟩</span></code> <code class="docutils literal"><span class="pre">-fglasgow-exts</span></code> <code class="docutils literal"><span class="pre">-firrefutable-tuples</span></code> <code class="docutils literal"><span class="pre">-fpackage-trust</span></code> <code class="docutils literal"><span class="pre">-ftype-function-depth=⟨n⟩</span></code> <code class="docutils literal"><span class="pre">-XAllowAmbiguousTypes</span></code> <code class="docutils literal"><span class="pre">-XArrows</span></code> <code class="docutils literal"><span class="pre">-XApplicativeDo</span></code> <code class="docutils literal"><span class="pre">-XAutoDeriveTypeable</span></code> <code class="docutils literal"><span class="pre">-XBangPatterns</span></code> <code class="docutils literal"><span class="pre">-XBinaryLiterals</span></code> <code class="docutils literal"><span class="pre">-XCApiFFI</span></code> <code class="docutils literal"><span class="pre">-XConstrainedClassMethods</span></code> <code class="docutils literal"><span class="pre">-XConstraintKinds</span></code> <code class="docutils literal"><span class="pre">-XCPP</span></code> <code class="docutils literal"><span class="pre">-XDataKinds</span></code> <code class="docutils literal"><span class="pre">-XDefaultSignatures</span></code> <code class="docutils literal"><span class="pre">-XDeriveAnyClass</span></code> <code class="docutils literal"><span class="pre">-XDeriveDataTypeable</span></code> <code class="docutils literal"><span class="pre">-XDeriveFunctor</span></code> <code class="docutils literal"><span class="pre">-XDeriveFoldable</span></code> <code class="docutils literal"><span class="pre">-XDeriveGeneric</span></code> <code class="docutils literal"><span class="pre">-XDeriveGeneric</span></code> <code class="docutils literal"><span class="pre">-XDeriveLift</span></code> <code class="docutils literal"><span class="pre">-XDeriveTraversable</span></code> <code class="docutils literal"><span class="pre">-XDisambiguateRecordFields</span></code> <code class="docutils literal"><span class="pre">-XEmptyCase</span></code> <code class="docutils literal"><span class="pre">-XEmptyDataDecls</span></code> <code class="docutils literal"><span class="pre">-XExistentialQuantification</span></code> <code class="docutils literal"><span class="pre">-XExplicitForAll</span></code> <code class="docutils literal"><span class="pre">-XExplicitNamespaces</span></code> <code class="docutils literal"><span class="pre">-XExtendedDefaultRules</span></code> <code class="docutils literal"><span class="pre">-XFlexibleContexts</span></code> <code class="docutils literal"><span class="pre">-XFlexibleInstances</span></code> <code class="docutils literal"><span class="pre">-XForeignFunctionInterface</span></code> <code class="docutils literal"><span class="pre">-XFunctionalDependencies</span></code> <code class="docutils literal"><span class="pre">-XGADTs</span></code> <code class="docutils literal"><span class="pre">-XGADTSyntax</span></code> <code class="docutils literal"><span class="pre">-XGeneralizedNewtypeDeriving</span></code> <code class="docutils literal"><span class="pre">-XGenerics</span></code> <code class="docutils literal"><span class="pre">-XImplicitParams</span></code> <code class="docutils literal"><span class="pre">-XNoImplicitPrelude</span></code> <code class="docutils literal"><span class="pre">-XImpredicativeTypes</span></code> <code class="docutils literal"><span class="pre">-XIncoherentInstances</span></code> <code class="docutils literal"><span class="pre">-XTypeFamilyDependencies</span></code> <code class="docutils literal"><span class="pre">-XInstanceSigs</span></code> <code class="docutils literal"><span class="pre">-XInterruptibleFFI</span></code> <code class="docutils literal"><span class="pre">-XKindSignatures</span></code> <code class="docutils literal"><span class="pre">-XLambdaCase</span></code> <code class="docutils literal"><span class="pre">-XLiberalTypeSynonyms</span></code> <code class="docutils literal"><span class="pre">-XMagicHash</span></code> <code class="docutils literal"><span class="pre">-XMonadComprehensions</span></code> <code class="docutils literal"><span class="pre">-XMonoLocalBinds</span></code> <code class="docutils literal"><span class="pre">-XNoMonomorphismRestriction</span></code> <code class="docutils literal"><span class="pre">-XMultiParamTypeClasses</span></code> <code class="docutils literal"><span class="pre">-XMultiWayIf</span></code> <code class="docutils literal"><span class="pre">-XNamedFieldPuns</span></code> <code class="docutils literal"><span class="pre">-XNamedWildCards</span></code> <code class="docutils literal"><span class="pre">-XNegativeLiterals</span></code> <code class="docutils literal"><span class="pre">-XNoNPlusKPatterns</span></code> <code class="docutils literal"><span class="pre">-XNullaryTypeClasses</span></code> <code class="docutils literal"><span class="pre">-XNumDecimals</span></code> <code class="docutils literal"><span class="pre">-XOverlappingInstances</span></code> <code class="docutils literal"><span class="pre">-XOverloadedLists</span></code> <code class="docutils literal"><span class="pre">-XOverloadedStrings</span></code> <code class="docutils literal"><span class="pre">-XPackageImports</span></code> <code class="docutils literal"><span class="pre">-XParallelArrays</span></code> <code class="docutils literal"><span class="pre">-XParallelListComp</span></code> <code class="docutils literal"><span class="pre">-XPartialTypeSignatures</span></code> <code class="docutils literal"><span class="pre">-XPatternGuards</span></code> <code class="docutils literal"><span class="pre">-XPatternSynonyms</span></code> <code class="docutils literal"><span class="pre">-XPolyKinds</span></code> <code class="docutils literal"><span class="pre">-XPolymorphicComponents</span></code> <code class="docutils literal"><span class="pre">-XPostfixOperators</span></code> <code class="docutils literal"><span class="pre">-XQuasiQuotes</span></code> <code class="docutils literal"><span class="pre">-XRank2Types</span></code> <code class="docutils literal"><span class="pre">-XRankNTypes</span></code> <code class="docutils literal"><span class="pre">-XRebindableSyntax</span></code> <code class="docutils literal"><span class="pre">-XRecordWildCards</span></code> <code class="docutils literal"><span class="pre">-XRecursiveDo</span></code> <code class="docutils literal"><span class="pre">-XRoleAnnotations</span></code> <code class="docutils literal"><span class="pre">-XSafe</span></code> <code class="docutils literal"><span class="pre">-XScopedTypeVariables</span></code> <code class="docutils literal"><span class="pre">-XStandaloneDeriving</span></code> <code class="docutils literal"><span class="pre">-XStrictData</span></code> <code class="docutils literal"><span class="pre">-XTemplateHaskell</span></code> <code class="docutils literal"><span class="pre">-XTemplateHaskellQuotes</span></code> <code class="docutils literal"><span class="pre">-XNoTraditionalRecordSyntax</span></code> <code class="docutils literal"><span class="pre">-XTransformListComp</span></code> <code class="docutils literal"><span class="pre">-XTrustworthy</span></code> <code class="docutils literal"><span class="pre">-XTupleSections</span></code> <code class="docutils literal"><span class="pre">-XTypeFamilies</span></code> <code class="docutils literal"><span class="pre">-XTypeOperators</span></code> <code class="docutils literal"><span class="pre">-XTypeSynonymInstances</span></code> <code class="docutils literal"><span class="pre">-XUnboxedTuples</span></code> <code class="docutils literal"><span class="pre">-XUndecidableInstances</span></code> <code class="docutils literal"><span class="pre">-XUnicodeSyntax</span></code> <code class="docutils literal"><span class="pre">-XUnliftedFFITypes</span></code> <code class="docutils literal"><span class="pre">-XUnsafe</span></code> <code class="docutils literal"><span class="pre">-XViewPatterns</span></code></dd>
+<dt>Linking options</dt>
+<dd><code class="docutils literal"><span class="pre">-shared</span></code> <code class="docutils literal"><span class="pre">-staticlib</span></code> <code class="docutils literal"><span class="pre">-fPIC</span></code> <code class="docutils literal"><span class="pre">-dynload</span></code> <code class="docutils literal"><span class="pre">-framework⟨name⟩</span></code> <code class="docutils literal"><span class="pre">-framework-path⟨name⟩</span></code> <code class="docutils literal"><span class="pre">-l⟨lib⟩</span></code> <code class="docutils literal"><span class="pre">-L⟨dir⟩</span></code> <code class="docutils literal"><span class="pre">-main-is</span></code> <code class="docutils literal"><span class="pre">--mk-dll</span></code> <code class="docutils literal"><span class="pre">-no-hs-main</span></code> <code class="docutils literal"><span class="pre">-rtsopts,-rtsopts={none,some,all}</span></code> <code class="docutils literal"><span class="pre">-with-rtsopts=opts</span></code> <code class="docutils literal"><span class="pre">-no-rtsopts-suggestions</span></code> <code class="docutils literal"><span class="pre">-no-link</span></code> <code class="docutils literal"><span class="pre">-split-objs</span></code> <code class="docutils literal"><span class="pre">-split-sections</span></code> <code class="docutils literal"><span class="pre">-static</span></code> <code class="docutils literal"><span class="pre">-threaded</span></code> <code class="docutils literal"><span class="pre">-debug</span></code> <code class="docutils literal"><span class="pre">-ticky</span></code> <code class="docutils literal"><span class="pre">-eventlog</span></code> <code class="docutils literal"><span class="pre">-fno-gen-manifest</span></code> <code class="docutils literal"><span class="pre">-fno-embed-manifest</span></code> <code class="docutils literal"><span class="pre">-fno-shared-implib</span></code> <code class="docutils literal"><span class="pre">-dylib-install-name</span> <span class="pre">⟨path⟩</span></code> <code class="docutils literal"><span class="pre">-rdynamic</span></code></dd>
+<dt>Miscellaneous options</dt>
+<dd><code class="docutils literal"><span class="pre">-jN</span></code> <code class="docutils literal"><span class="pre">-fno-hi-version-check</span></code> <code class="docutils literal"><span class="pre">-fhistory-size</span></code> <code class="docutils literal"><span class="pre">-fno-ghci-history</span></code> <code class="docutils literal"><span class="pre">-fno-ghci-sandbox</span></code> <code class="docutils literal"><span class="pre">-freverse-errors</span></code></dd>
+<dt>Modes of operation</dt>
+<dd><code class="docutils literal"><span class="pre">--help,-?</span></code> <code class="docutils literal"><span class="pre">--interactive</span></code> <code class="docutils literal"><span class="pre">--make</span></code> <code class="docutils literal"><span class="pre">-e</span> <span class="pre">expr</span></code> <code class="docutils literal"><span class="pre">--show-iface</span></code> <code class="docutils literal"><span class="pre">-M</span></code> <code class="docutils literal"><span class="pre">--frontend</span> <span class="pre">⟨module⟩</span></code> <code class="docutils literal"><span class="pre">--supported-extensions,</span> <span class="pre">--supported-languages</span></code> <code class="docutils literal"><span class="pre">--show-options</span></code> <code class="docutils literal"><span class="pre">--info</span></code> <code class="docutils literal"><span class="pre">--version,</span> <span class="pre">-V</span></code> <code class="docutils literal"><span class="pre">--numeric-version</span></code> <code class="docutils literal"><span class="pre">--print-libdir</span></code></dd>
+<dt>Individual optimizations</dt>
+<dd><code class="docutils literal"><span class="pre">-fcall-arity</span></code> <code class="docutils literal"><span class="pre">-fcase-merge</span></code> <code class="docutils literal"><span class="pre">-fcmm-elim-common-blocks</span></code> <code class="docutils literal"><span class="pre">-fcmm-sink</span></code> <code class="docutils literal"><span class="pre">-fcpr-anal</span></code> <code class="docutils literal"><span class="pre">-fcse</span></code> <code class="docutils literal"><span class="pre">-fdicts-cheap</span></code> <code class="docutils literal"><span class="pre">-fdicts-strict</span></code> <code class="docutils literal"><span class="pre">-fdmd-tx-dict-sel</span></code> <code class="docutils literal"><span class="pre">-fdo-eta-reduction</span></code> <code class="docutils literal"><span class="pre">-fdo-lambda-eta-expansion</span></code> <code class="docutils literal"><span class="pre">-feager-blackholing</span></code> <code class="docutils literal"><span class="pre">-fenable-rewrite-rules</span></code> <code class="docutils literal"><span class="pre">-fexcess-precision</span></code> <code class="docutils literal"><span class="pre">-fexpose-all-unfoldings</span></code> <code class="docutils literal"><span class="pre">-ffloat-in</span></code> <code class="docutils literal"><span class="pre">-ffull-laziness</span></code> <code class="docutils literal"><span class="pre">-ffun-to-thunk</span></code> <code class="docutils literal"><span class="pre">-fignore-asserts</span></code> <code class="docutils literal"><span class="pre">-fignore-interface-pragmas</span></code> <code class="docutils literal"><span class="pre">-flate-dmd-anal</span></code> <code class="docutils literal"><span class="pre">-fliberate-case</span></code> <code class="docutils literal"><span class="pre">-fliberate-case-threshold=⟨n⟩</span></code> <code class="docutils literal"><span class="pre">-floopification</span></code> <code class="docutils literal"><span class="pre">-fmax-inline-alloc-size=⟨n⟩</span></code> <code class="docutils literal"><span class="pre">-fmax-inline-memcpy-insns=⟨n⟩</span></code> <code class="docutils literal"><span class="pre">-fmax-inline-memset-insns=⟨n⟩</span></code> <code class="docutils literal"><span class="pre">-fmax-relevant-binds=⟨n⟩</span></code> <code class="docutils literal"><span class="pre">-fmax-simplifier-iterations=⟨n⟩</span></code> <code class="docutils literal"><span class="pre">-fmax-worker-args=⟨n⟩</span></code> <code class="docutils literal"><span class="pre">-fno-opt-coercion</span></code> <code class="docutils literal"><span class="pre">-fno-pre-inlining</span></code> <code class="docutils literal"><span class="pre">-fno-state-hack</span></code> <code class="docutils literal"><span class="pre">-fomit-interface-pragmas</span></code> <code class="docutils literal"><span class="pre">-fomit-yields</span></code> <code class="docutils literal"><span class="pre">-foptimal-applicative-do</span></code> <code class="docutils literal"><span class="pre">-fpedantic-bottoms</span></code> <code class="docutils literal"><span class="pre">-fregs-graph</span></code> <code class="docutils literal"><span class="pre">-fregs-iterative</span></code> <code class="docutils literal"><span class="pre">-fsimplifier-phases=⟨n⟩</span></code> <code class="docutils literal"><span class="pre">-fsimpl-tick-factor=⟨n⟩</span></code> <code class="docutils literal"><span class="pre">-fspec-constr</span></code> <code class="docutils literal"><span class="pre">-fspec-constr-count=⟨n⟩</span></code> <code class="docutils literal"><span class="pre">-fspec-constr-threshold=⟨n⟩</span></code> <code class="docutils literal"><span class="pre">-fspecialise</span></code> <code class="docutils literal"><span class="pre">-fcross-module-specialise</span></code> <code class="docutils literal"><span class="pre">-fstatic-argument-transformation</span></code> <code class="docutils literal"><span class="pre">-fstrictness</span></code> <code class="docutils literal"><span class="pre">-fstrictness-before=⟨n⟩</span></code> <code class="docutils literal"><span class="pre">-funbox-small-strict-fields</span></code> <code class="docutils literal"><span class="pre">-funbox-strict-fields</span></code> <code class="docutils literal"><span class="pre">-funfolding-creation-threshold=⟨n⟩</span></code> <code class="docutils literal"><span class="pre">-funfolding-dict-discount=⟨n⟩</span></code> <code class="docutils literal"><span class="pre">-funfolding-fun-discount=⟨n⟩</span></code> <code class="docutils literal"><span class="pre">-funfolding-keeness-factor=⟨n⟩</span></code> <code class="docutils literal"><span class="pre">-funfolding-use-threshold=⟨n⟩</span></code> <code class="docutils literal"><span class="pre">-fvectorisation-avoidance</span></code> <code class="docutils literal"><span class="pre">-fvectorise</span></code> <code class="docutils literal"><span class="pre">-fworker-wrapper</span></code></dd>
+<dt>Optimization levels</dt>
+<dd><code class="docutils literal"><span class="pre">-O0</span></code> <code class="docutils literal"><span class="pre">-O,</span> <span class="pre">-O1</span></code> <code class="docutils literal"><span class="pre">-O2</span></code> <code class="docutils literal"><span class="pre">-Odph</span></code></dd>
+<dt>Package options</dt>
+<dd><code class="docutils literal"><span class="pre">-this-unit-id⟨P⟩</span></code> <code class="docutils literal"><span class="pre">-package⟨P⟩</span></code> <code class="docutils literal"><span class="pre">-hide-all-packages</span></code> <code class="docutils literal"><span class="pre">-hide-package⟨name⟩</span></code> <code class="docutils literal"><span class="pre">-ignore-package⟨name⟩</span></code> <code class="docutils literal"><span class="pre">-package-db⟨file⟩</span></code> <code class="docutils literal"><span class="pre">-clear-package-db</span></code> <code class="docutils literal"><span class="pre">-no-global-package-db</span></code> <code class="docutils literal"><span class="pre">-global-package-db</span></code> <code class="docutils literal"><span class="pre">-no-user-package-db</span></code> <code class="docutils literal"><span class="pre">-user-package-db</span></code> <code class="docutils literal"><span class="pre">-no-auto-link-packages</span></code> <code class="docutils literal"><span class="pre">-trust⟨P⟩</span></code> <code class="docutils literal"><span class="pre">-distrust⟨P⟩</span></code> <code class="docutils literal"><span class="pre">-distrust-all</span></code></dd>
+<dt>Phases of compilation</dt>
+<dd><code class="docutils literal"><span class="pre">-F</span></code> <code class="docutils literal"><span class="pre">-E</span></code> <code class="docutils literal"><span class="pre">-C</span></code> <code class="docutils literal"><span class="pre">-S</span></code> <code class="docutils literal"><span class="pre">-c</span></code> <code class="docutils literal"><span class="pre">-x⟨suffix⟩</span></code></dd>
+<dt>Overriding external programs</dt>
+<dd><code class="docutils literal"><span class="pre">-pgmL⟨cmd⟩</span></code> <code class="docutils literal"><span class="pre">-pgmP⟨cmd⟩</span></code> <code class="docutils literal"><span class="pre">-pgmc⟨cmd⟩</span></code> <code class="docutils literal"><span class="pre">-pgmlo⟨cmd⟩</span></code> <code class="docutils literal"><span class="pre">-pgmlc⟨cmd⟩</span></code> <code class="docutils literal"><span class="pre">-pgms⟨cmd⟩</span></code> <code class="docutils literal"><span class="pre">-pgma⟨cmd⟩</span></code> <code class="docutils literal"><span class="pre">-pgml⟨cmd⟩</span></code> <code class="docutils literal"><span class="pre">-pgmdll⟨cmd⟩</span></code> <code class="docutils literal"><span class="pre">-pgmF⟨cmd⟩</span></code> <code class="docutils literal"><span class="pre">-pgmwindres⟨cmd⟩</span></code> <code class="docutils literal"><span class="pre">-pgmlibtool⟨cmd⟩</span></code></dd>
+<dt>Phase-specific options</dt>
+<dd><code class="docutils literal"><span class="pre">-optL⟨option⟩</span></code> <code class="docutils literal"><span class="pre">-optP⟨option⟩</span></code> <code class="docutils literal"><span class="pre">-optF⟨option⟩</span></code> <code class="docutils literal"><span class="pre">-optc⟨option⟩</span></code> <code class="docutils literal"><span class="pre">-optlo⟨option⟩</span></code> <code class="docutils literal"><span class="pre">-optlc⟨option⟩</span></code> <code class="docutils literal"><span class="pre">-opta⟨option⟩</span></code> <code class="docutils literal"><span class="pre">-optl⟨option⟩</span></code> <code class="docutils literal"><span class="pre">-optdll⟨option⟩</span></code> <code class="docutils literal"><span class="pre">-optwindres⟨option⟩</span></code></dd>
+<dt>Platform-specific options</dt>
+<dd><code class="docutils literal"><span class="pre">-msse2</span></code> <code class="docutils literal"><span class="pre">-msse4.2</span></code></dd>
+<dt>Compiler plugins</dt>
+<dd><code class="docutils literal"><span class="pre">-fplugin=⟨module⟩</span></code> <code class="docutils literal"><span class="pre">-fplugin-opt=⟨module:args⟩</span></code></dd>
+<dt>Profiling</dt>
+<dd><code class="docutils literal"><span class="pre">-prof</span></code> <code class="docutils literal"><span class="pre">-fprof-auto</span></code> <code class="docutils literal"><span class="pre">-fprof-auto-top</span></code> <code class="docutils literal"><span class="pre">-fprof-auto-exported</span></code> <code class="docutils literal"><span class="pre">-fprof-cafs</span></code> <code class="docutils literal"><span class="pre">-fno-prof-count-entries</span></code> <code class="docutils literal"><span class="pre">-ticky</span></code></dd>
+<dt>Program coverage</dt>
+<dd><code class="docutils literal"><span class="pre">-fhpc</span></code> <code class="docutils literal"><span class="pre">-hpcdir</span> <span class="pre">dir</span></code></dd>
+<dt>Recompilation checking</dt>
+<dd><code class="docutils literal"><span class="pre">-fforce-recomp</span></code></dd>
+<dt>Redirecting output</dt>
+<dd><code class="docutils literal"><span class="pre">-hcsuf</span> <span class="pre">⟨suffix⟩</span></code> <code class="docutils literal"><span class="pre">-hidir</span> <span class="pre">⟨dir⟩</span></code> <code class="docutils literal"><span class="pre">-hisuf</span> <span class="pre">⟨suffix⟩</span></code> <code class="docutils literal"><span class="pre">-o</span> <span class="pre">⟨filename⟩</span></code> <code class="docutils literal"><span class="pre">-odir</span> <span class="pre">⟨dir⟩</span></code> <code class="docutils literal"><span class="pre">-ohi</span> <span class="pre">⟨filename⟩</span></code> <code class="docutils literal"><span class="pre">-osuf</span> <span class="pre">⟨suffix⟩</span></code> <code class="docutils literal"><span class="pre">-stubdir</span> <span class="pre">⟨dir⟩</span></code> <code class="docutils literal"><span class="pre">-dumpdir</span> <span class="pre">⟨dir⟩</span></code> <code class="docutils literal"><span class="pre">-outputdir</span> <span class="pre">⟨dir⟩</span></code> <code class="docutils literal"><span class="pre">-dyno</span> <span class="pre">&lt;filename&gt;</span></code> <code class="docutils literal"><span class="pre">-dynosuf</span> <span class="pre">&lt;suffix&gt;</span></code> <code class="docutils literal"><span class="pre">-dynhisuf</span> <span class="pre">&lt;suffix&gt;</span></code></dd>
+<dt>Temporary files</dt>
+<dd><code class="docutils literal"><span class="pre">-tmpdir</span> <span class="pre">⟨dir⟩</span></code></dd>
+<dt>Verbosity options</dt>
+<dd><code class="docutils literal"><span class="pre">-v</span></code> <code class="docutils literal"><span class="pre">-v⟨n⟩</span></code> <code class="docutils literal"><span class="pre">-fprint-potential-instances</span></code> <code class="docutils literal"><span class="pre">-fprint-explicit-foralls</span></code> <code class="docutils literal"><span class="pre">-fprint-explicit-kinds</span></code> <code class="docutils literal"><span class="pre">-fprint-explicit-runtime-reps</span></code> <code class="docutils literal"><span class="pre">-fprint-unicode-syntax</span></code> <code class="docutils literal"><span class="pre">-fprint-expanded-synonyms</span></code> <code class="docutils literal"><span class="pre">-fprint-typechecker-elaboration</span></code> <code class="docutils literal"><span class="pre">-ferror-spans</span></code> <code class="docutils literal"><span class="pre">-Rghc-timing</span></code></dd>
+<dt>Warnings</dt>
+<dd><code class="docutils literal"><span class="pre">-W</span></code> <code class="docutils literal"><span class="pre">-w</span></code> <code class="docutils literal"><span class="pre">-Wall</span></code> <code class="docutils literal"><span class="pre">-Wcompat</span></code> <code class="docutils literal"><span class="pre">-Werror</span></code> <code class="docutils literal"><span class="pre">-Wwarn</span></code> <code class="docutils literal"><span class="pre">-Wunrecognised-warning-flags</span></code> <code class="docutils literal"><span class="pre">-fshow-warning-groups</span></code> <code class="docutils literal"><span class="pre">-fdefer-type-errors</span></code> <code class="docutils literal"><span class="pre">-fdefer-typed-holes</span></code> <code class="docutils literal"><span class="pre">-fdefer-out-of-scope-variables</span></code> <code class="docutils literal"><span class="pre">-fhelpful-errors</span></code> <code class="docutils literal"><span class="pre">-Wdeprecated-flags</span></code> <code class="docutils literal"><span class="pre">-Wduplicate-constraints</span></code> <code class="docutils literal"><span class="pre">-Wduplicate-exports</span></code> <code class="docutils literal"><span class="pre">-Whi-shadowing</span></code> <code class="docutils literal"><span class="pre">-Widentities</span></code> <code class="docutils literal"><span class="pre">-Wimplicit-prelude</span></code> <code class="docutils literal"><span class="pre">-Wincomplete-patterns</span></code> <code class="docutils literal"><span class="pre">-Wincomplete-uni-patterns</span></code> <code class="docutils literal"><span class="pre">-Wmax-pmcheck-iterations=&lt;N&gt;</span></code> <code class="docutils literal"><span class="pre">-Wincomplete-record-updates</span></code> <code class="docutils literal"><span class="pre">-Wmissing-fields</span></code> <code class="docutils literal"><span class="pre">-Wmissing-import-lists</span></code> <code class="docutils literal"><span class="pre">-Wmissing-methods</span></code> <code class="docutils literal"><span class="pre">-Wmissing-signatures</span></code> <code class="docutils literal"><span class="pre">-Wmissing-exported-sigs</span></code> <code class="docutils literal"><span class="pre">-Wmissing-exported-signatures</span></code> <code class="docutils literal"><span class="pre">-Wmissing-local-sigs</span></code> <code class="docutils literal"><span class="pre">-Wmissing-local-signatures</span></code> <code class="docutils literal"><span class="pre">-Wmissing-monadfail-instances</span></code> <code class="docutils literal"><span class="pre">-Wsemigroup</span></code> <code class="docutils literal"><span class="pre">-Wmissed-specialisations</span></code> <code class="docutils literal"><span class="pre">-Wall-missed-specialisations</span></code> <code class="docutils literal"><span class="pre">-Wmonomorphism-restriction</span></code> <code class="docutils literal"><span class="pre">-Wname-shadowing</span></code> <code class="docutils literal"><span class="pre">-Wnoncanonical-monad-instances</span></code> <code class="docutils literal"><span class="pre">-Wnoncanonical-monadfail-instances</span></code> <code class="docutils literal"><span class="pre">-Wnoncanonical-monoid-instances</span></code> <code class="docutils literal"><span class="pre">-Worphans</span></code> <code class="docutils literal"><span class="pre">-Woverlapping-patterns</span></code> <code class="docutils literal"><span class="pre">-Wtabs</span></code> <code class="docutils literal"><span class="pre">-Wtype-defaults</span></code> <code class="docutils literal"><span class="pre">-Wunrecognised-pragmas</span></code> <code class="docutils literal"><span class="pre">-Wunticked-promoted-constructors</span></code> <code class="docutils literal"><span class="pre">-Wunused-binds</span></code> <code class="docutils literal"><span class="pre">-Wunused-top-binds</span></code> <code class="docutils literal"><span class="pre">-Wunused-local-binds</span></code> <code class="docutils literal"><span class="pre">-Wunused-pattern-binds</span></code> <code class="docutils literal"><span class="pre">-Wunused-imports</span></code> <code class="docutils literal"><span class="pre">-Wunused-matches</span></code> <code class="docutils literal"><span class="pre">-Wunused-foralls</span></code> <code class="docutils literal"><span class="pre">-Wunused-type-variables</span></code> <code class="docutils literal"><span class="pre">-Wunused-do-bind</span></code> <code class="docutils literal"><span class="pre">-Wwrong-do-bind</span></code> <code class="docutils literal"><span class="pre">-Wunsafe</span></code> <code class="docutils literal"><span class="pre">-Wsafe</span></code> <code class="docutils literal"><span class="pre">-Wtrustworthy-safe</span></code> <code class="docutils literal"><span class="pre">-Wwarnings-deprecations</span></code> <code class="docutils literal"><span class="pre">-Wamp</span></code> <code class="docutils literal"><span class="pre">-Wredundant-constraints</span></code> <code class="docutils literal"><span class="pre">-Wdeferred-type-errors</span></code> <code class="docutils literal"><span class="pre">-Wtyped-holes</span></code> <code class="docutils literal"><span class="pre">-Wdeferred-out-of-scope-variables</span></code> <code class="docutils literal"><span class="pre">-Wpartial-type-signatures</span></code> <code class="docutils literal"><span class="pre">-Wderiving-typeable</span></code></dd>
+</dl>
+<div class="section" id="code-generation">
+<h3>Code generation<a class="headerlink" href="#code-generation" title="Permalink to this headline">¶</a></h3>
+<dl class="docutils">
+<dt><code class="docutils literal"><span class="pre">-fasm</span></code></dt>
+<dd>Use the <a class="reference internal" href="codegens.html#native-code-gen"><span class="std std-ref">native code generator</span></a></dd>
+<dt><code class="docutils literal"><span class="pre">-fllvm</span></code></dt>
+<dd>Compile using the <a class="reference internal" href="codegens.html#llvm-code-gen"><span class="std std-ref">LLVM code generator</span></a></dd>
+<dt><code class="docutils literal"><span class="pre">-fno-code</span></code></dt>
+<dd>Omit code generation</dd>
+<dt><code class="docutils literal"><span class="pre">-fwrite-interface</span></code></dt>
+<dd>Always write interface files</dd>
+<dt><code class="docutils literal"><span class="pre">-fbyte-code</span></code></dt>
+<dd>Generate byte-code</dd>
+<dt><code class="docutils literal"><span class="pre">-fobject-code</span></code></dt>
+<dd>Generate object code</dd>
+<dt><code class="docutils literal"><span class="pre">-g⟨n⟩</span></code></dt>
+<dd>Produce DWARF debug information in compiled object files.⟨n⟩ can be 0, 1, or 2, with higher numbers producing richer output. If ⟨n⟩ is omitted level 2 is assumed.</dd>
+<dt><code class="docutils literal"><span class="pre">-dynamic</span></code></dt>
+<dd>Build dynamically-linked object files and executables</dd>
+<dt><code class="docutils literal"><span class="pre">-dynamic-too</span></code></dt>
+<dd>Build dynamic object files <em>as well as</em> static object files during compilation</dd>
+</dl>
+</div>
+<div class="section" id="debugging-the-compiler">
+<h3>Debugging the compiler<a class="headerlink" href="#debugging-the-compiler" title="Permalink to this headline">¶</a></h3>
+<dl class="docutils">
+<dt><code class="docutils literal"><span class="pre">-dcore-lint</span></code></dt>
+<dd>Turn on internal sanity checking</dd>
+<dt><code class="docutils literal"><span class="pre">-ddump-to-file</span></code></dt>
+<dd>Dump to files instead of stdout</dd>
+<dt><code class="docutils literal"><span class="pre">-ddump-asm</span></code></dt>
+<dd>Dump assembly</dd>
+<dt><code class="docutils literal"><span class="pre">-ddump-bcos</span></code></dt>
+<dd>Dump interpreter byte code</dd>
+<dt><code class="docutils literal"><span class="pre">-ddump-cmm</span></code></dt>
+<dd>Dump C&#8211; output</dd>
+<dt><code class="docutils literal"><span class="pre">-ddump-core-stats</span></code></dt>
+<dd>Print a one-line summary of the size of the Core program at the end of the optimisation pipeline</dd>
+<dt><code class="docutils literal"><span class="pre">-ddump-cse</span></code></dt>
+<dd>Dump CSE output</dd>
+<dt><code class="docutils literal"><span class="pre">-ddump-deriv</span></code></dt>
+<dd>Dump deriving output</dd>
+<dt><code class="docutils literal"><span class="pre">-ddump-ds</span></code></dt>
+<dd>Dump desugarer output</dd>
+<dt><code class="docutils literal"><span class="pre">-ddump-foreign</span></code></dt>
+<dd>Dump <code class="docutils literal"><span class="pre">foreign</span> <span class="pre">export</span></code> stubs</dd>
+<dt><code class="docutils literal"><span class="pre">-ddump-hpc</span></code></dt>
+<dd>Dump after instrumentation for program coverage</dd>
+<dt><code class="docutils literal"><span class="pre">-ddump-inlinings</span></code></dt>
+<dd>Dump inlining info</dd>
+<dt><code class="docutils literal"><span class="pre">-ddump-llvm</span></code></dt>
+<dd>Dump LLVM intermediate code. Implies <a class="reference internal" href="phases.html#ghc-flag--fllvm"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-fllvm</span></code></a>.</dd>
+<dt><code class="docutils literal"><span class="pre">-ddump-occur-anal</span></code></dt>
+<dd>Dump occurrence analysis output</dd>
+<dt><code class="docutils literal"><span class="pre">-ddump-opt-cmm</span></code></dt>
+<dd>Dump the results of C&#8211; to C&#8211; optimising passes</dd>
+<dt><code class="docutils literal"><span class="pre">-ddump-parsed</span></code></dt>
+<dd>Dump parse tree</dd>
+<dt><code class="docutils literal"><span class="pre">-ddump-prep</span></code></dt>
+<dd>Dump prepared core</dd>
+<dt><code class="docutils literal"><span class="pre">-ddump-rn</span></code></dt>
+<dd>Dump renamer output</dd>
+<dt><code class="docutils literal"><span class="pre">-ddump-rule-firings</span></code></dt>
+<dd>Dump rule firing info</dd>
+<dt><code class="docutils literal"><span class="pre">-ddump-rule-rewrites</span></code></dt>
+<dd>Dump detailed rule firing info</dd>
+<dt><code class="docutils literal"><span class="pre">-ddump-rules</span></code></dt>
+<dd>Dump rules</dd>
+<dt><code class="docutils literal"><span class="pre">-ddump-vect</span></code></dt>
+<dd>Dump vectoriser input and output</dd>
+<dt><code class="docutils literal"><span class="pre">-ddump-simpl</span></code></dt>
+<dd>Dump final simplifier output</dd>
+<dt><code class="docutils literal"><span class="pre">-ddump-simpl-iterations</span></code></dt>
+<dd>Dump output from each simplifier iteration</dd>
+<dt><code class="docutils literal"><span class="pre">-ddump-spec</span></code></dt>
+<dd>Dump specialiser output</dd>
+<dt><code class="docutils literal"><span class="pre">-ddump-splices</span></code></dt>
+<dd>Dump TH spliced expressions, and what they evaluate to</dd>
+<dt><code class="docutils literal"><span class="pre">-ddump-stg</span></code></dt>
+<dd>Dump final STG</dd>
+<dt><code class="docutils literal"><span class="pre">-ddump-stranal</span></code></dt>
+<dd>Dump strictness analyser output</dd>
+<dt><code class="docutils literal"><span class="pre">-ddump-str-signatures</span></code></dt>
+<dd>Dump strictness signatures</dd>
+<dt><code class="docutils literal"><span class="pre">-ddump-tc</span></code></dt>
+<dd>Dump typechecker output</dd>
+<dt><code class="docutils literal"><span class="pre">-dth-dec-file</span></code></dt>
+<dd>Show evaluated TH declarations in a .th.hs file</dd>
+<dt><code class="docutils literal"><span class="pre">-ddump-types</span></code></dt>
+<dd>Dump type signatures</dd>
+<dt><code class="docutils literal"><span class="pre">-ddump-worker-wrapper</span></code></dt>
+<dd>Dump worker-wrapper output</dd>
+<dt><code class="docutils literal"><span class="pre">-ddump-if-trace</span></code></dt>
+<dd>Trace interface files</dd>
+<dt><code class="docutils literal"><span class="pre">-ddump-tc-trace</span></code></dt>
+<dd>Trace typechecker</dd>
+<dt><code class="docutils literal"><span class="pre">-ddump-vt-trace</span></code></dt>
+<dd>Trace vectoriser</dd>
+<dt><code class="docutils literal"><span class="pre">-ddump-rn-trace</span></code></dt>
+<dd>Trace renamer</dd>
+<dt><code class="docutils literal"><span class="pre">-ddump-rn-stats</span></code></dt>
+<dd>Renamer stats</dd>
+<dt><code class="docutils literal"><span class="pre">-ddump-simpl-stats</span></code></dt>
+<dd>Dump simplifier stats</dd>
+<dt><code class="docutils literal"><span class="pre">-dno-debug-output</span></code></dt>
+<dd>Suppress unsolicited debugging output</dd>
+<dt><code class="docutils literal"><span class="pre">-dppr-debug</span></code></dt>
+<dd>Turn on debug printing (more verbose)</dd>
+<dt><code class="docutils literal"><span class="pre">-dppr-user-length</span></code></dt>
+<dd>Set the depth for printing expressions in error msgs</dd>
+<dt><code class="docutils literal"><span class="pre">-dppr-cols⟨N⟩</span></code></dt>
+<dd>Set the width of debugging output. For example <code class="docutils literal"><span class="pre">-dppr-cols200</span></code></dd>
+<dt><code class="docutils literal"><span class="pre">-dppr-case-as-let</span></code></dt>
+<dd>Print single alternative case expressions as strict lets.</dd>
+<dt><code class="docutils literal"><span class="pre">-dsuppress-all</span></code></dt>
+<dd>In core dumps, suppress everything (except for uniques) that is suppressible.</dd>
+<dt><code class="docutils literal"><span class="pre">-dsuppress-uniques</span></code></dt>
+<dd>Suppress the printing of uniques in debug output (easier to use <code class="docutils literal"><span class="pre">diff</span></code>)</dd>
+<dt><code class="docutils literal"><span class="pre">-dsuppress-idinfo</span></code></dt>
+<dd>Suppress extended information about identifiers where they are bound</dd>
+<dt><code class="docutils literal"><span class="pre">-dsuppress-unfoldings</span></code></dt>
+<dd>Suppress the printing of the stable unfolding of a variable at its binding site</dd>
+<dt><code class="docutils literal"><span class="pre">-dsuppress-module-prefixes</span></code></dt>
+<dd>Suppress the printing of module qualification prefixes</dd>
+<dt><code class="docutils literal"><span class="pre">-dsuppress-type-signatures</span></code></dt>
+<dd>Suppress type signatures</dd>
+<dt><code class="docutils literal"><span class="pre">-dsuppress-type-applications</span></code></dt>
+<dd>Suppress type applications</dd>
+<dt><code class="docutils literal"><span class="pre">-dsuppress-coercions</span></code></dt>
+<dd>Suppress the printing of coercions in Core dumps to make them shorter</dd>
+<dt><code class="docutils literal"><span class="pre">-dsource-stats</span></code></dt>
+<dd>Dump haskell source stats</dd>
+<dt><code class="docutils literal"><span class="pre">-dcmm-lint</span></code></dt>
+<dd>C&#8211; pass sanity checking</dd>
+<dt><code class="docutils literal"><span class="pre">-dstg-lint</span></code></dt>
+<dd>STG pass sanity checking</dd>
+<dt><code class="docutils literal"><span class="pre">-dstg-stats</span></code></dt>
+<dd>Dump STG stats</dd>
+<dt><code class="docutils literal"><span class="pre">-dverbose-core2core</span></code></dt>
+<dd>Show output from each core-to-core pass</dd>
+<dt><code class="docutils literal"><span class="pre">-dverbose-stg2stg</span></code></dt>
+<dd>Show output from each STG-to-STG pass</dd>
+<dt><code class="docutils literal"><span class="pre">-dshow-passes</span></code></dt>
+<dd>Print out each pass name as it happens</dd>
+<dt><code class="docutils literal"><span class="pre">-dfaststring-stats</span></code></dt>
+<dd>Show statistics for fast string usage when finished</dd>
+<dt><code class="docutils literal"><span class="pre">-frule-check</span></code></dt>
+<dd>Report sites with rules that could have fired but didn&#8217;t. Takes a string argument.</dd>
+</dl>
+</div>
+<div class="section" id="c-pre-processor">
+<h3>C pre-processor<a class="headerlink" href="#c-pre-processor" title="Permalink to this headline">¶</a></h3>
+<dl class="docutils">
+<dt><code class="docutils literal"><span class="pre">-cpp</span></code></dt>
+<dd>Run the C pre-processor on Haskell source files</dd>
+<dt><code class="docutils literal"><span class="pre">-D⟨symbol⟩[=⟨value⟩]</span></code></dt>
+<dd>Define a symbol in the C pre-processor</dd>
+<dt><code class="docutils literal"><span class="pre">-U⟨symbol⟩</span></code></dt>
+<dd>Undefine a symbol in the C pre-processor</dd>
+<dt><code class="docutils literal"><span class="pre">-I⟨dir⟩</span></code></dt>
+<dd>Add ⟨dir⟩ to the directory search list for <code class="docutils literal"><span class="pre">#include</span></code> files</dd>
+</dl>
+</div>
+<div class="section" id="finding-imports">
+<h3>Finding imports<a class="headerlink" href="#finding-imports" title="Permalink to this headline">¶</a></h3>
+<dl class="docutils">
+<dt><code class="docutils literal"><span class="pre">-i</span> <span class="pre">⟨dir1⟩:⟨dir2⟩:...</span></code></dt>
+<dd>add ⟨dir⟩, ⟨dir2⟩, etc. to import path</dd>
+<dt><code class="docutils literal"><span class="pre">-i</span></code></dt>
+<dd>Empty the import directory list</dd>
+</dl>
+</div>
+<div class="section" id="interactive-mode">
+<h3>Interactive mode<a class="headerlink" href="#interactive-mode" title="Permalink to this headline">¶</a></h3>
+<dl class="docutils">
+<dt><code class="docutils literal"><span class="pre">-ignore-dot-ghci</span></code></dt>
+<dd>Disable reading of <code class="docutils literal"><span class="pre">.ghci</span></code> files</dd>
+<dt><code class="docutils literal"><span class="pre">-ghci-script</span></code></dt>
+<dd>Read additional <code class="docutils literal"><span class="pre">.ghci</span></code> files</dd>
+<dt><code class="docutils literal"><span class="pre">-fbreak-on-error</span></code></dt>
+<dd><a class="reference internal" href="ghci.html#ghci-debugger-exceptions"><span class="std std-ref">Break on uncaught exceptions and errors</span></a></dd>
+<dt><code class="docutils literal"><span class="pre">-fbreak-on-exception</span></code></dt>
+<dd><a class="reference internal" href="ghci.html#ghci-debugger-exceptions"><span class="std std-ref">Break on any exception thrown</span></a></dd>
+<dt><code class="docutils literal"><span class="pre">-fghci-hist-size=⟨n⟩</span></code></dt>
+<dd>Set the number of entries GHCi keeps for <code class="docutils literal"><span class="pre">:history</span></code>. See <a class="reference internal" href="ghci.html#ghci-debugger"><span class="std std-ref">The GHCi Debugger</span></a>.</dd>
+<dt><code class="docutils literal"><span class="pre">-fprint-evld-with-show</span></code></dt>
+<dd>Enable usage of <code class="docutils literal"><span class="pre">Show</span></code> instances in <code class="docutils literal"><span class="pre">:print</span></code>. See <a class="reference internal" href="ghci.html#breakpoints"><span class="std std-ref">Breakpoints and inspecting variables</span></a>.</dd>
+<dt><code class="docutils literal"><span class="pre">-fprint-bind-result</span></code></dt>
+<dd><a class="reference internal" href="ghci.html#ghci-stmts"><span class="std std-ref">Turn on printing of binding results in GHCi</span></a></dd>
+<dt><code class="docutils literal"><span class="pre">-fno-print-bind-contents</span></code></dt>
+<dd><a class="reference internal" href="ghci.html#breakpoints"><span class="std std-ref">Turn off printing of binding contents in GHCi</span></a></dd>
+<dt><code class="docutils literal"><span class="pre">-fno-implicit-import-qualified</span></code></dt>
+<dd><a class="reference internal" href="ghci.html#ghci-import-qualified"><span class="std std-ref">Turn off implicit qualified import of everything in GHCi</span></a></dd>
+<dt><code class="docutils literal"><span class="pre">-interactive-print</span></code></dt>
+<dd><a class="reference internal" href="ghci.html#ghci-interactive-print"><span class="std std-ref">Select the function to use for printing evaluated expressions in GHCi</span></a></dd>
+</dl>
+</div>
+<div class="section" id="interface-files">
+<h3>Interface files<a class="headerlink" href="#interface-files" title="Permalink to this headline">¶</a></h3>
+<dl class="docutils">
+<dt><code class="docutils literal"><span class="pre">-ddump-hi</span></code></dt>
+<dd>Dump the new interface to stdout</dd>
+<dt><code class="docutils literal"><span class="pre">-ddump-hi-diffs</span></code></dt>
+<dd>Show the differences vs. the old interface</dd>
+<dt><code class="docutils literal"><span class="pre">-ddump-minimal-imports</span></code></dt>
+<dd>Dump a minimal set of imports</dd>
+<dt><code class="docutils literal"><span class="pre">--show-iface</span> <span class="pre">⟨file⟩</span></code></dt>
+<dd>See <a class="reference internal" href="using.html#modes"><span class="std std-ref">Modes of operation</span></a>.</dd>
+</dl>
+</div>
+<div class="section" id="keeping-intermediate-files">
+<h3>Keeping intermediate files<a class="headerlink" href="#keeping-intermediate-files" title="Permalink to this headline">¶</a></h3>
+<dl class="docutils">
+<dt><code class="docutils literal"><span class="pre">-keep-hc-file,</span> <span class="pre">-keep-hc-files</span></code></dt>
+<dd>Retain intermediate <code class="docutils literal"><span class="pre">.hc</span></code> files.</dd>
+<dt><code class="docutils literal"><span class="pre">-keep-llvm-file,</span> <span class="pre">-keep-llvm-files</span></code></dt>
+<dd>Retain intermediate LLVM <code class="docutils literal"><span class="pre">.ll</span></code> files. Implies <a class="reference internal" href="phases.html#ghc-flag--fllvm"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-fllvm</span></code></a>.</dd>
+<dt><code class="docutils literal"><span class="pre">-keep-s-file,</span> <span class="pre">-keep-s-files</span></code></dt>
+<dd>Retain intermediate <code class="docutils literal"><span class="pre">.s</span></code> files.</dd>
+<dt><code class="docutils literal"><span class="pre">-keep-tmp-files</span></code></dt>
+<dd>Retain all intermediate temporary files.</dd>
+</dl>
+</div>
+<div class="section" id="language-options">
+<h3>Language options<a class="headerlink" href="#language-options" title="Permalink to this headline">¶</a></h3>
+<dl class="docutils">
+<dt><code class="docutils literal"><span class="pre">-fconstraint-solver-iterations=⟨n⟩</span></code></dt>
+<dd><em>default: 4.</em> Set the iteration limit for the type-constraint solver. Typically one iteration suffices; so please yell if you find you need to set it higher than the default. Zero means infinity.</dd>
+<dt><code class="docutils literal"><span class="pre">-freduction-depth=⟨n⟩</span></code></dt>
+<dd><em>default: 200.</em> Set the <a class="reference internal" href="glasgow_exts.html#undecidable-instances"><span class="std std-ref">limit for type simplification</span></a>. Zero means infinity.</dd>
+<dt><code class="docutils literal"><span class="pre">-fcontext-stack=⟨n⟩</span></code></dt>
+<dd>Deprecated. Use <code class="docutils literal"><span class="pre">-freduction-depth=⟨n⟩</span></code> instead.</dd>
+<dt><code class="docutils literal"><span class="pre">-fglasgow-exts</span></code></dt>
+<dd>Deprecated. Enable most language extensions; see <a class="reference internal" href="glasgow_exts.html#options-language"><span class="std std-ref">Language options</span></a> for exactly which ones.</dd>
+<dt><code class="docutils literal"><span class="pre">-firrefutable-tuples</span></code></dt>
+<dd>Make tuple pattern matching irrefutable</dd>
+<dt><code class="docutils literal"><span class="pre">-fpackage-trust</span></code></dt>
+<dd>Enable <a class="reference internal" href="safe_haskell.html#safe-haskell"><span class="std std-ref">Safe Haskell</span></a> trusted package requirement for trustworthy modules.</dd>
+<dt><code class="docutils literal"><span class="pre">-ftype-function-depth=⟨n⟩</span></code></dt>
+<dd>Deprecated. Use <code class="docutils literal"><span class="pre">-freduction-depth=⟨n⟩</span></code> instead.</dd>
+<dt><code class="docutils literal"><span class="pre">-XAllowAmbiguousTypes</span></code></dt>
+<dd>Allow the user to write <a class="reference internal" href="glasgow_exts.html#ambiguity"><span class="std std-ref">ambiguous types</span></a>, and the type inference engine to infer them.</dd>
+<dt><code class="docutils literal"><span class="pre">-XArrows</span></code></dt>
+<dd>Enable <a class="reference internal" href="glasgow_exts.html#arrow-notation"><span class="std std-ref">arrow notation</span></a> extension</dd>
+<dt><code class="docutils literal"><span class="pre">-XApplicativeDo</span></code></dt>
+<dd>Enable <a class="reference internal" href="glasgow_exts.html#applicative-do"><span class="std std-ref">Applicative do-notation desugaring</span></a></dd>
+<dt><code class="docutils literal"><span class="pre">-XAutoDeriveTypeable</span></code></dt>
+<dd>As of GHC 7.10, this option is not needed, and should not be used. Previously this would automatically <a class="reference internal" href="glasgow_exts.html#deriving-typeable"><span class="std std-ref">derive Typeable instances for every datatype and type class declaration</span></a>. Implies <a class="reference internal" href="glasgow_exts.html#ghc-flag--XDeriveDataTypeable"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-XDeriveDataTypeable</span></code></a>.</dd>
+<dt><code class="docutils literal"><span class="pre">-XBangPatterns</span></code></dt>
+<dd>Enable <a class="reference internal" href="glasgow_exts.html#bang-patterns"><span class="std std-ref">bang patterns</span></a>.</dd>
+<dt><code class="docutils literal"><span class="pre">-XBinaryLiterals</span></code></dt>
+<dd>Enable support for <a class="reference internal" href="glasgow_exts.html#binary-literals"><span class="std std-ref">binary literals</span></a>.</dd>
+<dt><code class="docutils literal"><span class="pre">-XCApiFFI</span></code></dt>
+<dd>Enable <a class="reference internal" href="ffi-chap.html#ffi-capi"><span class="std std-ref">the CAPI calling convention</span></a>.</dd>
+<dt><code class="docutils literal"><span class="pre">-XConstrainedClassMethods</span></code></dt>
+<dd>Enable <a class="reference internal" href="glasgow_exts.html#class-method-types"><span class="std std-ref">constrained class methods</span></a>.</dd>
+<dt><code class="docutils literal"><span class="pre">-XConstraintKinds</span></code></dt>
+<dd>Enable a <a class="reference internal" href="glasgow_exts.html#constraint-kind"><span class="std std-ref">kind of constraints</span></a>.</dd>
+<dt><code class="docutils literal"><span class="pre">-XCPP</span></code></dt>
+<dd>Enable the <a class="reference internal" href="phases.html#c-pre-processor"><span class="std std-ref">C preprocessor</span></a>.</dd>
+<dt><code class="docutils literal"><span class="pre">-XDataKinds</span></code></dt>
+<dd>Enable <a class="reference internal" href="glasgow_exts.html#promotion"><span class="std std-ref">datatype promotion</span></a>.</dd>
+<dt><code class="docutils literal"><span class="pre">-XDefaultSignatures</span></code></dt>
+<dd>Enable <a class="reference internal" href="glasgow_exts.html#class-default-signatures"><span class="std std-ref">default signatures</span></a>.</dd>
+<dt><code class="docutils literal"><span class="pre">-XDeriveAnyClass</span></code></dt>
+<dd>Enable <a class="reference internal" href="glasgow_exts.html#derive-any-class"><span class="std std-ref">deriving for any class</span></a>.</dd>
+<dt><code class="docutils literal"><span class="pre">-XDeriveDataTypeable</span></code></dt>
+<dd>Enable <code class="docutils literal"><span class="pre">deriving</span></code> for the <a class="reference internal" href="glasgow_exts.html#deriving-typeable"><span class="std std-ref">Data class</span></a>. Implied by <code class="xref std std-ghc-flag docutils literal"><span class="pre">-XAutoDeriveTypeable</span></code>.</dd>
+<dt><code class="docutils literal"><span class="pre">-XDeriveFunctor</span></code></dt>
+<dd>Enable <a class="reference internal" href="glasgow_exts.html#deriving-extra"><span class="std std-ref">deriving for the Functor class</span></a>. Implied by <a class="reference internal" href="glasgow_exts.html#ghc-flag--XDeriveTraversable"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-XDeriveTraversable</span></code></a>.</dd>
+<dt><code class="docutils literal"><span class="pre">-XDeriveFoldable</span></code></dt>
+<dd>Enable <a class="reference internal" href="glasgow_exts.html#deriving-extra"><span class="std std-ref">deriving for the Foldable class</span></a>. Implied by <a class="reference internal" href="glasgow_exts.html#ghc-flag--XDeriveTraversable"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-XDeriveTraversable</span></code></a>.</dd>
+<dt><code class="docutils literal"><span class="pre">-XDeriveGeneric</span></code></dt>
+<dd>Enable <a class="reference internal" href="glasgow_exts.html#deriving-typeable"><span class="std std-ref">deriving for the Generic class</span></a>.</dd>
+<dt><code class="docutils literal"><span class="pre">-XDeriveGeneric</span></code></dt>
+<dd>Enable <a class="reference internal" href="glasgow_exts.html#deriving-typeable"><span class="std std-ref">deriving for the Generic class</span></a>.</dd>
+<dt><code class="docutils literal"><span class="pre">-XDeriveLift</span></code></dt>
+<dd>Enable <a class="reference internal" href="glasgow_exts.html#deriving-lift"><span class="std std-ref">deriving for the Lift class</span></a></dd>
+<dt><code class="docutils literal"><span class="pre">-XDeriveTraversable</span></code></dt>
+<dd>Enable <a class="reference internal" href="glasgow_exts.html#deriving-extra"><span class="std std-ref">deriving for the Traversable class</span></a>. Implies <a class="reference internal" href="glasgow_exts.html#ghc-flag--XDeriveFunctor"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-XDeriveFunctor</span></code></a> and <a class="reference internal" href="glasgow_exts.html#ghc-flag--XDeriveFoldable"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-XDeriveFoldable</span></code></a>.</dd>
+<dt><code class="docutils literal"><span class="pre">-XDisambiguateRecordFields</span></code></dt>
+<dd>Enable <a class="reference internal" href="glasgow_exts.html#disambiguate-fields"><span class="std std-ref">record field disambiguation</span></a>. Implied by <a class="reference internal" href="glasgow_exts.html#ghc-flag--XRecordWildCards"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-XRecordWildCards</span></code></a>.</dd>
+<dt><code class="docutils literal"><span class="pre">-XEmptyCase</span></code></dt>
+<dd>Allow <a class="reference internal" href="glasgow_exts.html#empty-case"><span class="std std-ref">empty case alternatives</span></a>.</dd>
+<dt><code class="docutils literal"><span class="pre">-XEmptyDataDecls</span></code></dt>
+<dd>Enable empty data declarations.</dd>
+<dt><code class="docutils literal"><span class="pre">-XExistentialQuantification</span></code></dt>
+<dd>Enable <a class="reference internal" href="glasgow_exts.html#existential-quantification"><span class="std std-ref">existential quantification</span></a>.</dd>
+<dt><code class="docutils literal"><span class="pre">-XExplicitForAll</span></code></dt>
+<dd>Enable <a class="reference internal" href="glasgow_exts.html#explicit-foralls"><span class="std std-ref">explicit universal quantification</span></a>. Implied by <a class="reference internal" href="glasgow_exts.html#ghc-flag--XScopedTypeVariables"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-XScopedTypeVariables</span></code></a>, <a class="reference internal" href="glasgow_exts.html#ghc-flag--XLiberalTypeSynonyms"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-XLiberalTypeSynonyms</span></code></a>, <a class="reference internal" href="glasgow_exts.html#ghc-flag--XRankNTypes"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-XRankNTypes</span></code></a> and <a class="reference internal" href="glasgow_exts.html#ghc-flag--XExistentialQuantification"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-XExistentialQuantification</span></code></a>.</dd>
+<dt><code class="docutils literal"><span class="pre">-XExplicitNamespaces</span></code></dt>
+<dd>Enable using the keyword <code class="docutils literal"><span class="pre">type</span></code> to specify the namespace of entries in imports and exports (<a class="reference internal" href="glasgow_exts.html#explicit-namespaces"><span class="std std-ref">Explicit namespaces in import/export</span></a>). Implied by <a class="reference internal" href="glasgow_exts.html#ghc-flag--XTypeOperators"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-XTypeOperators</span></code></a> and <a class="reference internal" href="glasgow_exts.html#ghc-flag--XTypeFamilies"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-XTypeFamilies</span></code></a>.</dd>
+<dt><code class="docutils literal"><span class="pre">-XExtendedDefaultRules</span></code></dt>
+<dd>Use GHCi&#8217;s <a class="reference internal" href="ghci.html#extended-default-rules"><span class="std std-ref">extended default rules</span></a> in a normal module.</dd>
+<dt><code class="docutils literal"><span class="pre">-XFlexibleContexts</span></code></dt>
+<dd>Enable <a class="reference internal" href="glasgow_exts.html#flexible-contexts"><span class="std std-ref">flexible contexts</span></a>. Implied by <a class="reference internal" href="glasgow_exts.html#ghc-flag--XImplicitParams"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-XImplicitParams</span></code></a>.</dd>
+<dt><code class="docutils literal"><span class="pre">-XFlexibleInstances</span></code></dt>
+<dd>Enable <a class="reference internal" href="glasgow_exts.html#instance-rules"><span class="std std-ref">flexible instances</span></a>. Implies <a class="reference internal" href="glasgow_exts.html#ghc-flag--XTypeSynonymInstances"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-XTypeSynonymInstances</span></code></a>. Implied by <a class="reference internal" href="glasgow_exts.html#ghc-flag--XImplicitParams"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-XImplicitParams</span></code></a>.</dd>
+<dt><code class="docutils literal"><span class="pre">-XForeignFunctionInterface</span></code></dt>
+<dd>Enable <a class="reference internal" href="ffi-chap.html#ffi"><span class="std std-ref">foreign function interface</span></a>.</dd>
+<dt><code class="docutils literal"><span class="pre">-XFunctionalDependencies</span></code></dt>
+<dd>Enable <a class="reference internal" href="glasgow_exts.html#functional-dependencies"><span class="std std-ref">functional dependencies</span></a>. Implies <a class="reference internal" href="glasgow_exts.html#ghc-flag--XMultiParamTypeClasses"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-XMultiParamTypeClasses</span></code></a>.</dd>
+<dt><code class="docutils literal"><span class="pre">-XGADTs</span></code></dt>
+<dd>Enable <a class="reference internal" href="glasgow_exts.html#gadt"><span class="std std-ref">generalised algebraic data types</span></a>. Implies <a class="reference internal" href="glasgow_exts.html#ghc-flag--XGADTSyntax"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-XGADTSyntax</span></code></a> and <a class="reference internal" href="glasgow_exts.html#ghc-flag--XMonoLocalBinds"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-XMonoLocalBinds</span></code></a>.</dd>
+<dt><code class="docutils literal"><span class="pre">-XGADTSyntax</span></code></dt>
+<dd>Enable <a class="reference internal" href="glasgow_exts.html#gadt-style"><span class="std std-ref">generalised algebraic data type syntax</span></a>.</dd>
+<dt><code class="docutils literal"><span class="pre">-XGeneralizedNewtypeDeriving</span></code></dt>
+<dd>Enable <a class="reference internal" href="glasgow_exts.html#newtype-deriving"><span class="std std-ref">newtype deriving</span></a>.</dd>
+<dt><code class="docutils literal"><span class="pre">-XGenerics</span></code></dt>
+<dd>Deprecated, does nothing. No longer enables <a class="reference internal" href="glasgow_exts.html#generic-classes"><span class="std std-ref">generic classes</span></a>. See also GHC&#8217;s support for <a class="reference internal" href="glasgow_exts.html#generic-programming"><span class="std std-ref">generic programming</span></a>.</dd>
+<dt><code class="docutils literal"><span class="pre">-XImplicitParams</span></code></dt>
+<dd>Enable <a class="reference internal" href="glasgow_exts.html#implicit-parameters"><span class="std std-ref">Implicit Parameters</span></a>. Implies <a class="reference internal" href="glasgow_exts.html#ghc-flag--XFlexibleContexts"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-XFlexibleContexts</span></code></a> and <a class="reference internal" href="glasgow_exts.html#ghc-flag--XFlexibleInstances"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-XFlexibleInstances</span></code></a>.</dd>
+<dt><code class="docutils literal"><span class="pre">-XNoImplicitPrelude</span></code></dt>
+<dd>Don&#8217;t implicitly <code class="docutils literal"><span class="pre">import</span> <span class="pre">Prelude</span></code>. Implied by <a class="reference internal" href="glasgow_exts.html#ghc-flag--XRebindableSyntax"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-XRebindableSyntax</span></code></a>.</dd>
+<dt><code class="docutils literal"><span class="pre">-XImpredicativeTypes</span></code></dt>
+<dd>Enable <a class="reference internal" href="glasgow_exts.html#impredicative-polymorphism"><span class="std std-ref">impredicative types</span></a>. Implies <a class="reference internal" href="glasgow_exts.html#ghc-flag--XRankNTypes"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-XRankNTypes</span></code></a>.</dd>
+<dt><code class="docutils literal"><span class="pre">-XIncoherentInstances</span></code></dt>
+<dd>Enable <a class="reference internal" href="glasgow_exts.html#instance-overlap"><span class="std std-ref">incoherent instances</span></a>. Implies <a class="reference internal" href="glasgow_exts.html#ghc-flag--XOverlappingInstances"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-XOverlappingInstances</span></code></a>.</dd>
+<dt><code class="docutils literal"><span class="pre">-XTypeFamilyDependencies</span></code></dt>
+<dd>Enable <a class="reference internal" href="glasgow_exts.html#injective-ty-fams"><span class="std std-ref">injective type families</span></a>. Implies <a class="reference internal" href="glasgow_exts.html#ghc-flag--XTypeFamilies"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-XTypeFamilies</span></code></a>.</dd>
+<dt><code class="docutils literal"><span class="pre">-XInstanceSigs</span></code></dt>
+<dd>Enable <a class="reference internal" href="glasgow_exts.html#instance-sigs"><span class="std std-ref">instance signatures</span></a>.</dd>
+<dt><code class="docutils literal"><span class="pre">-XInterruptibleFFI</span></code></dt>
+<dd>Enable interruptible FFI.</dd>
+<dt><code class="docutils literal"><span class="pre">-XKindSignatures</span></code></dt>
+<dd>Enable <a class="reference internal" href="glasgow_exts.html#kinding"><span class="std std-ref">kind signatures</span></a>. Implied by <a class="reference internal" href="glasgow_exts.html#ghc-flag--XTypeFamilies"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-XTypeFamilies</span></code></a> and <a class="reference internal" href="glasgow_exts.html#ghc-flag--XPolyKinds"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-XPolyKinds</span></code></a>.</dd>
+<dt><code class="docutils literal"><span class="pre">-XLambdaCase</span></code></dt>
+<dd>Enable <a class="reference internal" href="glasgow_exts.html#lambda-case"><span class="std std-ref">lambda-case expressions</span></a>.</dd>
+<dt><code class="docutils literal"><span class="pre">-XLiberalTypeSynonyms</span></code></dt>
+<dd>Enable <a class="reference internal" href="glasgow_exts.html#type-synonyms"><span class="std std-ref">liberalised type synonyms</span></a>.</dd>
+<dt><code class="docutils literal"><span class="pre">-XMagicHash</span></code></dt>
+<dd>Allow <code class="docutils literal"><span class="pre">#</span></code> as a <a class="reference internal" href="glasgow_exts.html#magic-hash"><span class="std std-ref">postfix modifier on identifiers</span></a>.</dd>
+<dt><code class="docutils literal"><span class="pre">-XMonadComprehensions</span></code></dt>
+<dd>Enable <a class="reference internal" href="glasgow_exts.html#monad-comprehensions"><span class="std std-ref">monad comprehensions</span></a>.</dd>
+<dt><code class="docutils literal"><span class="pre">-XMonoLocalBinds</span></code></dt>
+<dd>Enable <a class="reference internal" href="glasgow_exts.html#mono-local-binds"><span class="std std-ref">do not generalise local bindings</span></a>. Implied by <a class="reference internal" href="glasgow_exts.html#ghc-flag--XTypeFamilies"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-XTypeFamilies</span></code></a> and <a class="reference internal" href="glasgow_exts.html#ghc-flag--XGADTs"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-XGADTs</span></code></a>.</dd>
+<dt><code class="docutils literal"><span class="pre">-XNoMonomorphismRestriction</span></code></dt>
+<dd>Disable the <a class="reference internal" href="glasgow_exts.html#monomorphism"><span class="std std-ref">monomorphism restriction</span></a>.</dd>
+<dt><code class="docutils literal"><span class="pre">-XMultiParamTypeClasses</span></code></dt>
+<dd>Enable <a class="reference internal" href="glasgow_exts.html#multi-param-type-classes"><span class="std std-ref">multi parameter type classes</span></a>. Implied by <a class="reference internal" href="glasgow_exts.html#ghc-flag--XFunctionalDependencies"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-XFunctionalDependencies</span></code></a>.</dd>
+<dt><code class="docutils literal"><span class="pre">-XMultiWayIf</span></code></dt>
+<dd>Enable <a class="reference internal" href="glasgow_exts.html#multi-way-if"><span class="std std-ref">multi-way if-expressions</span></a>.</dd>
+<dt><code class="docutils literal"><span class="pre">-XNamedFieldPuns</span></code></dt>
+<dd>Enable <a class="reference internal" href="glasgow_exts.html#record-puns"><span class="std std-ref">record puns</span></a>.</dd>
+<dt><code class="docutils literal"><span class="pre">-XNamedWildCards</span></code></dt>
+<dd>Enable <a class="reference internal" href="glasgow_exts.html#named-wildcards"><span class="std std-ref">named wildcards</span></a>.</dd>
+<dt><code class="docutils literal"><span class="pre">-XNegativeLiterals</span></code></dt>
+<dd>Enable support for <a class="reference internal" href="glasgow_exts.html#negative-literals"><span class="std std-ref">negative literals</span></a>.</dd>
+<dt><code class="docutils literal"><span class="pre">-XNoNPlusKPatterns</span></code></dt>
+<dd>Disable support for <code class="docutils literal"><span class="pre">n+k</span></code> patterns.</dd>
+<dt><code class="docutils literal"><span class="pre">-XNullaryTypeClasses</span></code></dt>
+<dd>Deprecated, does nothing. <a class="reference internal" href="glasgow_exts.html#nullary-type-classes"><span class="std std-ref">nullary (no parameter) type classes</span></a> are now enabled using <a class="reference internal" href="glasgow_exts.html#ghc-flag--XMultiParamTypeClasses"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-XMultiParamTypeClasses</span></code></a>.</dd>
+<dt><code class="docutils literal"><span class="pre">-XNumDecimals</span></code></dt>
+<dd>Enable support for &#8216;fractional&#8217; integer literals.</dd>
+<dt><code class="docutils literal"><span class="pre">-XOverlappingInstances</span></code></dt>
+<dd>Enable <a class="reference internal" href="glasgow_exts.html#instance-overlap"><span class="std std-ref">overlapping instances</span></a>.</dd>
+<dt><code class="docutils literal"><span class="pre">-XOverloadedLists</span></code></dt>
+<dd>Enable <a class="reference internal" href="glasgow_exts.html#overloaded-lists"><span class="std std-ref">overloaded lists</span></a>.</dd>
+<dt><code class="docutils literal"><span class="pre">-XOverloadedStrings</span></code></dt>
+<dd>Enable <a class="reference internal" href="glasgow_exts.html#overloaded-strings"><span class="std std-ref">overloaded string literals</span></a>.</dd>
+<dt><code class="docutils literal"><span class="pre">-XPackageImports</span></code></dt>
+<dd>Enable <a class="reference internal" href="glasgow_exts.html#package-imports"><span class="std std-ref">package-qualified imports</span></a>.</dd>
+<dt><code class="docutils literal"><span class="pre">-XParallelArrays</span></code></dt>
+<dd>Enable parallel arrays. Implies <a class="reference internal" href="glasgow_exts.html#ghc-flag--XParallelListComp"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-XParallelListComp</span></code></a>.</dd>
+<dt><code class="docutils literal"><span class="pre">-XParallelListComp</span></code></dt>
+<dd>Enable <a class="reference internal" href="glasgow_exts.html#parallel-list-comprehensions"><span class="std std-ref">parallel list comprehensions</span></a>. Implied by <code class="xref std std-ghc-flag docutils literal"><span class="pre">-XParallelArrays</span></code>.</dd>
+<dt><code class="docutils literal"><span class="pre">-XPartialTypeSignatures</span></code></dt>
+<dd>Enable <a class="reference internal" href="glasgow_exts.html#partial-type-signatures"><span class="std std-ref">partial type signatures</span></a>.</dd>
+<dt><code class="docutils literal"><span class="pre">-XPatternGuards</span></code></dt>
+<dd>Enable <a class="reference internal" href="glasgow_exts.html#pattern-guards"><span class="std std-ref">pattern guards</span></a>.</dd>
+<dt><code class="docutils literal"><span class="pre">-XPatternSynonyms</span></code></dt>
+<dd>Enable <a class="reference internal" href="glasgow_exts.html#pattern-synonyms"><span class="std std-ref">pattern synonyms</span></a>.</dd>
+<dt><code class="docutils literal"><span class="pre">-XPolyKinds</span></code></dt>
+<dd>Enable <a class="reference internal" href="glasgow_exts.html#kind-polymorphism"><span class="std std-ref">kind polymorphism</span></a>. Implies <a class="reference internal" href="glasgow_exts.html#ghc-flag--XKindSignatures"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-XKindSignatures</span></code></a>.</dd>
+<dt><code class="docutils literal"><span class="pre">-XPolymorphicComponents</span></code></dt>
+<dd>Enable <a class="reference internal" href="glasgow_exts.html#universal-quantification"><span class="std std-ref">polymorphic components for data constructors</span></a>. Synonym for <a class="reference internal" href="glasgow_exts.html#ghc-flag--XRankNTypes"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-XRankNTypes</span></code></a>.</dd>
+<dt><code class="docutils literal"><span class="pre">-XPostfixOperators</span></code></dt>
+<dd>Enable <a class="reference internal" href="glasgow_exts.html#postfix-operators"><span class="std std-ref">postfix operators</span></a>.</dd>
+<dt><code class="docutils literal"><span class="pre">-XQuasiQuotes</span></code></dt>
+<dd>Enable <a class="reference internal" href="glasgow_exts.html#th-quasiquotation"><span class="std std-ref">quasiquotation</span></a>.</dd>
+<dt><code class="docutils literal"><span class="pre">-XRank2Types</span></code></dt>
+<dd>Enable <a class="reference internal" href="glasgow_exts.html#universal-quantification"><span class="std std-ref">rank-2 types</span></a>. Synonym for <a class="reference internal" href="glasgow_exts.html#ghc-flag--XRankNTypes"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-XRankNTypes</span></code></a>.</dd>
+<dt><code class="docutils literal"><span class="pre">-XRankNTypes</span></code></dt>
+<dd>Enable <a class="reference internal" href="glasgow_exts.html#universal-quantification"><span class="std std-ref">rank-N types</span></a>. Implied by <a class="reference internal" href="glasgow_exts.html#ghc-flag--XImpredicativeTypes"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-XImpredicativeTypes</span></code></a>.</dd>
+<dt><code class="docutils literal"><span class="pre">-XRebindableSyntax</span></code></dt>
+<dd>Employ <a class="reference internal" href="glasgow_exts.html#rebindable-syntax"><span class="std std-ref">rebindable syntax</span></a>. Implies <a class="reference internal" href="glasgow_exts.html#ghc-flag--XNoImplicitPrelude"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-XNoImplicitPrelude</span></code></a>.</dd>
+<dt><code class="docutils literal"><span class="pre">-XRecordWildCards</span></code></dt>
+<dd>Enable <a class="reference internal" href="glasgow_exts.html#record-wildcards"><span class="std std-ref">record wildcards</span></a>. Implies <a class="reference internal" href="glasgow_exts.html#ghc-flag--XDisambiguateRecordFields"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-XDisambiguateRecordFields</span></code></a>.</dd>
+<dt><code class="docutils literal"><span class="pre">-XRecursiveDo</span></code></dt>
+<dd>Enable <a class="reference internal" href="glasgow_exts.html#recursive-do-notation"><span class="std std-ref">recursive do (mdo) notation</span></a>.</dd>
+<dt><code class="docutils literal"><span class="pre">-XRoleAnnotations</span></code></dt>
+<dd>Enable <a class="reference internal" href="glasgow_exts.html#role-annotations"><span class="std std-ref">role annotations</span></a>.</dd>
+<dt><code class="docutils literal"><span class="pre">-XSafe</span></code></dt>
+<dd>Enable the <a class="reference internal" href="safe_haskell.html#safe-haskell"><span class="std std-ref">Safe Haskell</span></a> Safe mode.</dd>
+<dt><code class="docutils literal"><span class="pre">-XScopedTypeVariables</span></code></dt>
+<dd>Enable <a class="reference internal" href="glasgow_exts.html#scoped-type-variables"><span class="std std-ref">lexically-scoped type variables</span></a>.</dd>
+<dt><code class="docutils literal"><span class="pre">-XStandaloneDeriving</span></code></dt>
+<dd>Enable <a class="reference internal" href="glasgow_exts.html#stand-alone-deriving"><span class="std std-ref">standalone deriving</span></a>.</dd>
+<dt><code class="docutils literal"><span class="pre">-XStrictData</span></code></dt>
+<dd>Enable <a class="reference internal" href="glasgow_exts.html#strict-data"><span class="std std-ref">default strict datatype fields</span></a>.</dd>
+<dt><code class="docutils literal"><span class="pre">-XTemplateHaskell</span></code></dt>
+<dd>Enable <a class="reference internal" href="glasgow_exts.html#template-haskell"><span class="std std-ref">Template Haskell</span></a>.</dd>
+<dt><code class="docutils literal"><span class="pre">-XTemplateHaskellQuotes</span></code></dt>
+<dd>Enable quotation subset of <a class="reference internal" href="glasgow_exts.html#template-haskell"><span class="std std-ref">Template Haskell</span></a>.</dd>
+<dt><code class="docutils literal"><span class="pre">-XNoTraditionalRecordSyntax</span></code></dt>
+<dd>Disable support for traditional record syntax (as supported by Haskell 98) <code class="docutils literal"><span class="pre">C</span> <span class="pre">{f</span> <span class="pre">=</span> <span class="pre">x}</span></code></dd>
+<dt><code class="docutils literal"><span class="pre">-XTransformListComp</span></code></dt>
+<dd>Enable <a class="reference internal" href="glasgow_exts.html#generalised-list-comprehensions"><span class="std std-ref">generalised list comprehensions</span></a>.</dd>
+<dt><code class="docutils literal"><span class="pre">-XTrustworthy</span></code></dt>
+<dd>Enable the <a class="reference internal" href="safe_haskell.html#safe-haskell"><span class="std std-ref">Safe Haskell</span></a> Trustworthy mode.</dd>
+<dt><code class="docutils literal"><span class="pre">-XTupleSections</span></code></dt>
+<dd>Enable <a class="reference internal" href="glasgow_exts.html#tuple-sections"><span class="std std-ref">tuple sections</span></a>.</dd>
+<dt><code class="docutils literal"><span class="pre">-XTypeFamilies</span></code></dt>
+<dd>Enable <a class="reference internal" href="glasgow_exts.html#type-families"><span class="std std-ref">type families</span></a>. Implies <a class="reference internal" href="glasgow_exts.html#ghc-flag--XExplicitNamespaces"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-XExplicitNamespaces</span></code></a>, <a class="reference internal" href="glasgow_exts.html#ghc-flag--XKindSignatures"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-XKindSignatures</span></code></a>, and <a class="reference internal" href="glasgow_exts.html#ghc-flag--XMonoLocalBinds"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-XMonoLocalBinds</span></code></a>.</dd>
+<dt><code class="docutils literal"><span class="pre">-XTypeOperators</span></code></dt>
+<dd>Enable <a class="reference internal" href="glasgow_exts.html#type-operators"><span class="std std-ref">type operators</span></a>. Implies <a class="reference internal" href="glasgow_exts.html#ghc-flag--XExplicitNamespaces"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-XExplicitNamespaces</span></code></a>.</dd>
+<dt><code class="docutils literal"><span class="pre">-XTypeSynonymInstances</span></code></dt>
+<dd>Enable <a class="reference internal" href="glasgow_exts.html#flexible-instance-head"><span class="std std-ref">type synonyms in instance heads</span></a>. Implied by <a class="reference internal" href="glasgow_exts.html#ghc-flag--XFlexibleInstances"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-XFlexibleInstances</span></code></a>.</dd>
+<dt><code class="docutils literal"><span class="pre">-XUnboxedTuples</span></code></dt>
+<dd>Enable <a class="reference internal" href="glasgow_exts.html#unboxed-tuples"><span class="std std-ref">unboxed tuples</span></a>.</dd>
+<dt><code class="docutils literal"><span class="pre">-XUndecidableInstances</span></code></dt>
+<dd>Enable <a class="reference internal" href="glasgow_exts.html#undecidable-instances"><span class="std std-ref">undecidable instances</span></a>.</dd>
+<dt><code class="docutils literal"><span class="pre">-XUnicodeSyntax</span></code></dt>
+<dd>Enable <a class="reference internal" href="glasgow_exts.html#unicode-syntax"><span class="std std-ref">unicode syntax</span></a>.</dd>
+<dt><code class="docutils literal"><span class="pre">-XUnliftedFFITypes</span></code></dt>
+<dd>Enable unlifted FFI types.</dd>
+<dt><code class="docutils literal"><span class="pre">-XUnsafe</span></code></dt>
+<dd>Enable <a class="reference internal" href="safe_haskell.html#safe-haskell"><span class="std std-ref">Safe Haskell</span></a> Unsafe mode.</dd>
+<dt><code class="docutils literal"><span class="pre">-XViewPatterns</span></code></dt>
+<dd>Enable <a class="reference internal" href="glasgow_exts.html#view-patterns"><span class="std std-ref">view patterns</span></a>.</dd>
+</dl>
+</div>
+<div class="section" id="linking-options">
+<h3>Linking options<a class="headerlink" href="#linking-options" title="Permalink to this headline">¶</a></h3>
+<dl class="docutils">
+<dt><code class="docutils literal"><span class="pre">-shared</span></code></dt>
+<dd>Generate a shared library (as opposed to an executable)</dd>
+<dt><code class="docutils literal"><span class="pre">-staticlib</span></code></dt>
+<dd>On Darwin/OS X/iOS only, generate a standalone static library (as opposed to an executable). This is the usual way to compile for iOS.</dd>
+<dt><code class="docutils literal"><span class="pre">-fPIC</span></code></dt>
+<dd>Generate position-independent code (where available)</dd>
+<dt><code class="docutils literal"><span class="pre">-dynload</span></code></dt>
+<dd>Selects one of a number of modes for finding shared libraries at runtime.</dd>
+<dt><code class="docutils literal"><span class="pre">-framework⟨name⟩</span></code></dt>
+<dd>On Darwin/OS X/iOS only, link in the framework ⟨name⟩. This option corresponds to the <code class="docutils literal"><span class="pre">-framework</span></code> option for Apple&#8217;s Linker.</dd>
+<dt><code class="docutils literal"><span class="pre">-framework-path⟨name⟩</span></code></dt>
+<dd>On Darwin/OS X/iOS only, add ⟨dir⟩ to the list of directories searched for frameworks. This option corresponds to the <code class="docutils literal"><span class="pre">-F</span></code> option for Apple&#8217;s Linker.</dd>
+<dt><code class="docutils literal"><span class="pre">-l⟨lib⟩</span></code></dt>
+<dd>Link in library ⟨lib⟩</dd>
+<dt><code class="docutils literal"><span class="pre">-L⟨dir⟩</span></code></dt>
+<dd>Add ⟨dir⟩ to the list of directories searched for libraries</dd>
+<dt><code class="docutils literal"><span class="pre">-main-is</span></code></dt>
+<dd>Set main module and function</dd>
+<dt><code class="docutils literal"><span class="pre">--mk-dll</span></code></dt>
+<dd>DLL-creation mode (Windows only)</dd>
+<dt><code class="docutils literal"><span class="pre">-no-hs-main</span></code></dt>
+<dd>Don&#8217;t assume this program contains <code class="docutils literal"><span class="pre">main</span></code></dd>
+<dt><code class="docutils literal"><span class="pre">-rtsopts,-rtsopts={none,some,all}</span></code></dt>
+<dd>Control whether the RTS behaviour can be tweaked via command-lineflags and the <code class="docutils literal"><span class="pre">GHCRTS</span></code> environment variable. Using <code class="docutils literal"><span class="pre">none</span></code> means no RTS flags can be given; <code class="docutils literal"><span class="pre">some</span></code> means only a minimum of safe options can be given (the default), and <code class="docutils literal"><span class="pre">all</span></code> (or no argument at all) means that all RTS flags are permitted.</dd>
+<dt><code class="docutils literal"><span class="pre">-with-rtsopts=opts</span></code></dt>
+<dd>Set the default RTS options to ⟨opts⟩.</dd>
+<dt><code class="docutils literal"><span class="pre">-no-rtsopts-suggestions</span></code></dt>
+<dd>Don&#8217;t print RTS suggestions about linking with <a class="reference internal" href="phases.html#ghc-flag--rtsopts"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-rtsopts</span></code></a>.</dd>
+<dt><code class="docutils literal"><span class="pre">-no-link</span></code></dt>
+<dd>Omit linking</dd>
+<dt><code class="docutils literal"><span class="pre">-split-objs</span></code></dt>
+<dd>Split objects (for libraries)</dd>
+<dt><code class="docutils literal"><span class="pre">-split-sections</span></code></dt>
+<dd>Split sections for link-time dead-code stripping</dd>
+<dt><code class="docutils literal"><span class="pre">-static</span></code></dt>
+<dd>Use static Haskell libraries</dd>
+<dt><code class="docutils literal"><span class="pre">-threaded</span></code></dt>
+<dd>Use the threaded runtime</dd>
+<dt><code class="docutils literal"><span class="pre">-debug</span></code></dt>
+<dd>Use the debugging runtime</dd>
+<dt><code class="docutils literal"><span class="pre">-ticky</span></code></dt>
+<dd>For linking, this simply implies <a class="reference internal" href="phases.html#ghc-flag--debug"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-debug</span></code></a>; see <a class="reference internal" href="profiling.html#ticky-ticky"><span class="std std-ref">Using “ticky-ticky” profiling (for implementors)</span></a>.</dd>
+<dt><code class="docutils literal"><span class="pre">-eventlog</span></code></dt>
+<dd>Enable runtime event tracing</dd>
+<dt><code class="docutils literal"><span class="pre">-fno-gen-manifest</span></code></dt>
+<dd>Do not generate a manifest file (Windows only)</dd>
+<dt><code class="docutils literal"><span class="pre">-fno-embed-manifest</span></code></dt>
+<dd>Do not embed the manifest in the executable (Windows only)</dd>
+<dt><code class="docutils literal"><span class="pre">-fno-shared-implib</span></code></dt>
+<dd>Don&#8217;t generate an import library for a DLL (Windows only)</dd>
+<dt><code class="docutils literal"><span class="pre">-dylib-install-name</span> <span class="pre">⟨path⟩</span></code></dt>
+<dd>Set the install name (via <code class="docutils literal"><span class="pre">-install_name</span></code> passed to Apple&#8217;s linker), specifying the full install path of the library file. Any libraries or executables that link with it later will pick up that path as their runtime search location for it. (Darwin/OS X only)</dd>
+<dt><code class="docutils literal"><span class="pre">-rdynamic</span></code></dt>
+<dd>This instructs the linker to add all symbols, not only used ones, to the dynamic symbol table. Currently Linux and Windows/MinGW32 only. This is equivalent to using <code class="docutils literal"><span class="pre">-optl</span> <span class="pre">-rdynamic</span></code> on Linux, and <code class="docutils literal"><span class="pre">-optl</span> <span class="pre">-export-all-symbols</span></code> on Windows.</dd>
+</dl>
+</div>
+<div class="section" id="miscellaneous-options">
+<h3>Miscellaneous options<a class="headerlink" href="#miscellaneous-options" title="Permalink to this headline">¶</a></h3>
+<dl class="docutils">
+<dt><code class="docutils literal"><span class="pre">-jN</span></code></dt>
+<dd>When compiling with <a class="reference internal" href="using.html#ghc-flag---make"><code class="xref std std-ghc-flag docutils literal"><span class="pre">--make</span></code></a>, compile ⟨N⟩ modules in parallel.</dd>
+<dt><code class="docutils literal"><span class="pre">-fno-hi-version-check</span></code></dt>
+<dd>Don&#8217;t complain about <code class="docutils literal"><span class="pre">.hi</span></code> file mismatches</dd>
+<dt><code class="docutils literal"><span class="pre">-fhistory-size</span></code></dt>
+<dd>Set simplification history size</dd>
+<dt><code class="docutils literal"><span class="pre">-fno-ghci-history</span></code></dt>
+<dd>Do not use the load/store the GHCi command history from/to <code class="docutils literal"><span class="pre">ghci_history</span></code>.</dd>
+<dt><code class="docutils literal"><span class="pre">-fno-ghci-sandbox</span></code></dt>
+<dd>Turn off the GHCi sandbox. Means computations are run in the main thread, rather than a forked thread.</dd>
+<dt><code class="docutils literal"><span class="pre">-freverse-errors</span></code></dt>
+<dd>Display errors in GHC/GHCi sorted by reverse order of source code line numbers.</dd>
+</dl>
+</div>
+<div class="section" id="modes-of-operation">
+<h3>Modes of operation<a class="headerlink" href="#modes-of-operation" title="Permalink to this headline">¶</a></h3>
+<dl class="docutils">
+<dt><code class="docutils literal"><span class="pre">--help,-?</span></code></dt>
+<dd>Display help</dd>
+<dt><code class="docutils literal"><span class="pre">--interactive</span></code></dt>
+<dd>Interactive mode - normally used by just running <code class="docutils literal"><span class="pre">ghci</span></code>; see <span class="xref std std-ref">ghci</span> for details.</dd>
+<dt><code class="docutils literal"><span class="pre">--make</span></code></dt>
+<dd>Build a multi-module Haskell program, automatically figuring out dependencies. Likely to be much easier, and faster, than using <code class="docutils literal"><span class="pre">make</span></code>; see <a class="reference internal" href="using.html#make-mode"><span class="std std-ref">Using ghc &#8211;make</span></a> for details.</dd>
+<dt><code class="docutils literal"><span class="pre">-e</span> <span class="pre">expr</span></code></dt>
+<dd>Evaluate <code class="docutils literal"><span class="pre">expr</span></code>; see <a class="reference internal" href="using.html#eval-mode"><span class="std std-ref">Expression evaluation mode</span></a> for details.</dd>
+<dt><code class="docutils literal"><span class="pre">--show-iface</span></code></dt>
+<dd>display the contents of an interface file.</dd>
+<dt><code class="docutils literal"><span class="pre">-M</span></code></dt>
+<dd>generate dependency information suitable for use in a <code class="docutils literal"><span class="pre">Makefile</span></code>; see <a class="reference internal" href="separate_compilation.html#makefile-dependencies"><span class="std std-ref">Dependency generation</span></a> for details.</dd>
+<dt><code class="docutils literal"><span class="pre">--frontend</span> <span class="pre">⟨module⟩</span></code></dt>
+<dd>run GHC with the given frontend plugin; see <a class="reference internal" href="extending_ghc.html#frontend-plugins"><span class="std std-ref">Frontend plugins</span></a> for details.</dd>
+<dt><code class="docutils literal"><span class="pre">--supported-extensions,</span> <span class="pre">--supported-languages</span></code></dt>
+<dd>display the supported language extensions</dd>
+<dt><code class="docutils literal"><span class="pre">--show-options</span></code></dt>
+<dd>display the supported command line options</dd>
+<dt><code class="docutils literal"><span class="pre">--info</span></code></dt>
+<dd>display information about the compiler</dd>
+<dt><code class="docutils literal"><span class="pre">--version,</span> <span class="pre">-V</span></code></dt>
+<dd>display GHC version</dd>
+<dt><code class="docutils literal"><span class="pre">--numeric-version</span></code></dt>
+<dd>display GHC version (numeric only)</dd>
+<dt><code class="docutils literal"><span class="pre">--print-libdir</span></code></dt>
+<dd>display GHC library directory</dd>
+</dl>
+</div>
+<div class="section" id="individual-optimizations">
+<h3>Individual optimizations<a class="headerlink" href="#individual-optimizations" title="Permalink to this headline">¶</a></h3>
+<dl class="docutils">
+<dt><code class="docutils literal"><span class="pre">-fcall-arity</span></code></dt>
+<dd>Enable call-arity optimisation. Implied by <a class="reference internal" href="using-optimisation.html#ghc-flag--O"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-O</span></code></a>.</dd>
+<dt><code class="docutils literal"><span class="pre">-fcase-merge</span></code></dt>
+<dd>Enable case-merging. Implied by <a class="reference internal" href="using-optimisation.html#ghc-flag--O"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-O</span></code></a>.</dd>
+<dt><code class="docutils literal"><span class="pre">-fcmm-elim-common-blocks</span></code></dt>
+<dd>Enable Cmm common block elimination. Implied by <a class="reference internal" href="using-optimisation.html#ghc-flag--O"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-O</span></code></a>.</dd>
+<dt><code class="docutils literal"><span class="pre">-fcmm-sink</span></code></dt>
+<dd>Enable Cmm sinking. Implied by <a class="reference internal" href="using-optimisation.html#ghc-flag--O"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-O</span></code></a>.</dd>
+<dt><code class="docutils literal"><span class="pre">-fcpr-anal</span></code></dt>
+<dd>Turn on CPR analysis in the demand analyser. Implied by <a class="reference internal" href="using-optimisation.html#ghc-flag--O"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-O</span></code></a>.</dd>
+<dt><code class="docutils literal"><span class="pre">-fcse</span></code></dt>
+<dd>Enable common sub-expression elimination. Implied by <a class="reference internal" href="using-optimisation.html#ghc-flag--O"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-O</span></code></a>.</dd>
+<dt><code class="docutils literal"><span class="pre">-fdicts-cheap</span></code></dt>
+<dd>Make dictionary-valued expressions seem cheap to the optimiser.</dd>
+<dt><code class="docutils literal"><span class="pre">-fdicts-strict</span></code></dt>
+<dd>Make dictionaries strict</dd>
+<dt><code class="docutils literal"><span class="pre">-fdmd-tx-dict-sel</span></code></dt>
+<dd>Use a special demand transformer for dictionary selectors. Always enabled by default.</dd>
+<dt><code class="docutils literal"><span class="pre">-fdo-eta-reduction</span></code></dt>
+<dd>Enable eta-reduction. Implied by <a class="reference internal" href="using-optimisation.html#ghc-flag--O"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-O</span></code></a>.</dd>
+<dt><code class="docutils literal"><span class="pre">-fdo-lambda-eta-expansion</span></code></dt>
+<dd>Enable lambda eta-expansion. Always enabled by default.</dd>
+<dt><code class="docutils literal"><span class="pre">-feager-blackholing</span></code></dt>
+<dd>Turn on <a class="reference internal" href="using-concurrent.html#parallel-compile-options"><span class="std std-ref">eager blackholing</span></a></dd>
+<dt><code class="docutils literal"><span class="pre">-fenable-rewrite-rules</span></code></dt>
+<dd>Switch on all rewrite rules (including rules generated by automatic specialisation of overloaded functions). Implied by <a class="reference internal" href="using-optimisation.html#ghc-flag--O"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-O</span></code></a>.</dd>
+<dt><code class="docutils literal"><span class="pre">-fexcess-precision</span></code></dt>
+<dd>Enable excess intermediate precision</dd>
+<dt><code class="docutils literal"><span class="pre">-fexpose-all-unfoldings</span></code></dt>
+<dd>Expose all unfoldings, even for very large or recursive functions.</dd>
+<dt><code class="docutils literal"><span class="pre">-ffloat-in</span></code></dt>
+<dd>Turn on the float-in transformation. Implied by <a class="reference internal" href="using-optimisation.html#ghc-flag--O"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-O</span></code></a>.</dd>
+<dt><code class="docutils literal"><span class="pre">-ffull-laziness</span></code></dt>
+<dd>Turn on full laziness (floating bindings outwards). Implied by <a class="reference internal" href="using-optimisation.html#ghc-flag--O"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-O</span></code></a>.</dd>
+<dt><code class="docutils literal"><span class="pre">-ffun-to-thunk</span></code></dt>
+<dd>Allow worker-wrapper to convert a function closure into a thunk if the function does not use any of its arguments. Off by default.</dd>
+<dt><code class="docutils literal"><span class="pre">-fignore-asserts</span></code></dt>
+<dd>Ignore assertions in the source. Implied by <a class="reference internal" href="using-optimisation.html#ghc-flag--O"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-O</span></code></a>.</dd>
+<dt><code class="docutils literal"><span class="pre">-fignore-interface-pragmas</span></code></dt>
+<dd>Ignore pragmas in interface files. Implied by <a class="reference internal" href="using-optimisation.html#ghc-flag--O0"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-O0</span></code></a> only.</dd>
+<dt><code class="docutils literal"><span class="pre">-flate-dmd-anal</span></code></dt>
+<dd>Run demand analysis again, at the end of the simplification pipeline</dd>
+<dt><code class="docutils literal"><span class="pre">-fliberate-case</span></code></dt>
+<dd>Turn on the liberate-case transformation. Implied by <a class="reference internal" href="using-optimisation.html#ghc-flag--O2"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-O2</span></code></a>.</dd>
+<dt><code class="docutils literal"><span class="pre">-fliberate-case-threshold=⟨n⟩</span></code></dt>
+<dd><em>default: 2000.</em> Set the size threshold for the liberate-case transformation to ⟨n⟩</dd>
+<dt><code class="docutils literal"><span class="pre">-floopification</span></code></dt>
+<dd>Turn saturated self-recursive tail-calls into local jumps in the generated assembly. Implied by <a class="reference internal" href="using-optimisation.html#ghc-flag--O"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-O</span></code></a>.</dd>
+<dt><code class="docutils literal"><span class="pre">-fmax-inline-alloc-size=⟨n⟩</span></code></dt>
+<dd><em>default: 128.</em> Set the maximum size of inline array allocations to ⟨n⟩ bytes (default: 128). GHC will allocate non-pinned arrays of statically known size in the current nursery block if they&#8217;re no bigger than ⟨n⟩ bytes, ignoring GC overheap. This value should be quite a bit smaller than the block size (typically: 4096).</dd>
+<dt><code class="docutils literal"><span class="pre">-fmax-inline-memcpy-insns=⟨n⟩</span></code></dt>
+<dd><em>default: 32.</em> Inline <code class="docutils literal"><span class="pre">memcpy</span></code> calls if they would generate no more than ⟨n⟩ pseudo instructions.</dd>
+<dt><code class="docutils literal"><span class="pre">-fmax-inline-memset-insns=⟨n⟩</span></code></dt>
+<dd><em>default: 32.</em> Inline <code class="docutils literal"><span class="pre">memset</span></code> calls if they would generate no more than ⟨n⟩ pseudo instructions</dd>
+<dt><code class="docutils literal"><span class="pre">-fmax-relevant-binds=⟨n⟩</span></code></dt>
+<dd><em>default: 6.</em> Set the maximum number of bindings to display in type error messages.</dd>
+<dt><code class="docutils literal"><span class="pre">-fmax-simplifier-iterations=⟨n⟩</span></code></dt>
+<dd><em>default: 4.</em> Set the max iterations for the simplifier.</dd>
+<dt><code class="docutils literal"><span class="pre">-fmax-worker-args=⟨n⟩</span></code></dt>
+<dd><em>default: 10.</em> If a worker has that many arguments, none will be unpacked anymore.</dd>
+<dt><code class="docutils literal"><span class="pre">-fno-opt-coercion</span></code></dt>
+<dd>Turn off the coercion optimiser</dd>
+<dt><code class="docutils literal"><span class="pre">-fno-pre-inlining</span></code></dt>
+<dd>Turn off pre-inlining</dd>
+<dt><code class="docutils literal"><span class="pre">-fno-state-hack</span></code></dt>
+<dd>Turn off the &#8220;state hack&#8221; whereby any lambda with a real-world state token as argument is considered to be single-entry. Hence OK to inline things inside it.</dd>
+<dt><code class="docutils literal"><span class="pre">-fomit-interface-pragmas</span></code></dt>
+<dd>Don&#8217;t generate interface pragmas. Implied by <a class="reference internal" href="using-optimisation.html#ghc-flag--O0"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-O0</span></code></a> only.</dd>
+<dt><code class="docutils literal"><span class="pre">-fomit-yields</span></code></dt>
+<dd>Omit heap checks when no allocation is being performed.</dd>
+<dt><code class="docutils literal"><span class="pre">-foptimal-applicative-do</span></code></dt>
+<dd>Use a slower but better algorithm for ApplicativeDo</dd>
+<dt><code class="docutils literal"><span class="pre">-fpedantic-bottoms</span></code></dt>
+<dd>Make GHC be more precise about its treatment of bottom (but see also <a class="reference internal" href="using-optimisation.html#ghc-flag--fno-state-hack"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-fno-state-hack</span></code></a>). In particular, GHC will not eta-expand through a case expression.</dd>
+<dt><code class="docutils literal"><span class="pre">-fregs-graph</span></code></dt>
+<dd>Use the graph colouring register allocator for register allocation in the native code generator. Implied by <a class="reference internal" href="using-optimisation.html#ghc-flag--O2"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-O2</span></code></a>.</dd>
+<dt><code class="docutils literal"><span class="pre">-fregs-iterative</span></code></dt>
+<dd>Use the iterative coalescing graph colouring register allocator in the native code generator.</dd>
+<dt><code class="docutils literal"><span class="pre">-fsimplifier-phases=⟨n⟩</span></code></dt>
+<dd><em>default: 2.</em> Set the number of phases for the simplifier. Ignored with <a class="reference internal" href="using-optimisation.html#ghc-flag--O0"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-O0</span></code></a>.</dd>
+<dt><code class="docutils literal"><span class="pre">-fsimpl-tick-factor=⟨n⟩</span></code></dt>
+<dd><em>default: 100.</em> Set the percentage factor for simplifier ticks.</dd>
+<dt><code class="docutils literal"><span class="pre">-fspec-constr</span></code></dt>
+<dd>Turn on the SpecConstr transformation. Implied by <a class="reference internal" href="using-optimisation.html#ghc-flag--O2"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-O2</span></code></a>.</dd>
+<dt><code class="docutils literal"><span class="pre">-fspec-constr-count=⟨n⟩</span></code></dt>
+<dd>default: 3.* Set to ⟨n⟩ the maximum number of specialisations that will be created for any one function by the SpecConstr transformation.</dd>
+<dt><code class="docutils literal"><span class="pre">-fspec-constr-threshold=⟨n⟩</span></code></dt>
+<dd><em>default: 2000.</em> Set the size threshold for the SpecConstr transformation to ⟨n⟩.</dd>
+<dt><code class="docutils literal"><span class="pre">-fspecialise</span></code></dt>
+<dd>Turn on specialisation of overloaded functions. Implied by <a class="reference internal" href="using-optimisation.html#ghc-flag--O"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-O</span></code></a>.</dd>
+<dt><code class="docutils literal"><span class="pre">-fcross-module-specialise</span></code></dt>
+<dd>Turn on specialisation of overloaded functions imported from other modules.</dd>
+<dt><code class="docutils literal"><span class="pre">-fstatic-argument-transformation</span></code></dt>
+<dd>Turn on the static argument transformation.</dd>
+<dt><code class="docutils literal"><span class="pre">-fstrictness</span></code></dt>
+<dd>Turn on strictness analysis. Implied by <a class="reference internal" href="using-optimisation.html#ghc-flag--O"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-O</span></code></a>. Implies <code class="xref std std-ghc-flag docutils literal"><span class="pre">-fworker-wrapper</span></code></dd>
+<dt><code class="docutils literal"><span class="pre">-fstrictness-before=⟨n⟩</span></code></dt>
+<dd>Run an additional strictness analysis before simplifier phase ⟨n⟩</dd>
+<dt><code class="docutils literal"><span class="pre">-funbox-small-strict-fields</span></code></dt>
+<dd>Flatten strict constructor fields with a pointer-sized representation. Implied by <a class="reference internal" href="using-optimisation.html#ghc-flag--O"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-O</span></code></a>.</dd>
+<dt><code class="docutils literal"><span class="pre">-funbox-strict-fields</span></code></dt>
+<dd>Flatten strict constructor fields</dd>
+<dt><code class="docutils literal"><span class="pre">-funfolding-creation-threshold=⟨n⟩</span></code></dt>
+<dd><em>default: 750.</em> Tweak unfolding settings.</dd>
+<dt><code class="docutils literal"><span class="pre">-funfolding-dict-discount=⟨n⟩</span></code></dt>
+<dd><em>default: 30.</em> Tweak unfolding settings.</dd>
+<dt><code class="docutils literal"><span class="pre">-funfolding-fun-discount=⟨n⟩</span></code></dt>
+<dd><em>default: 60.</em> Tweak unfolding settings.</dd>
+<dt><code class="docutils literal"><span class="pre">-funfolding-keeness-factor=⟨n⟩</span></code></dt>
+<dd><em>default: 1.5.</em> Tweak unfolding settings.</dd>
+<dt><code class="docutils literal"><span class="pre">-funfolding-use-threshold=⟨n⟩</span></code></dt>
+<dd><em>default: 60.</em> Tweak unfolding settings.</dd>
+<dt><code class="docutils literal"><span class="pre">-fvectorisation-avoidance</span></code></dt>
+<dd>Enable vectorisation avoidance. Always enabled by default.</dd>
+<dt><code class="docutils literal"><span class="pre">-fvectorise</span></code></dt>
+<dd>Enable vectorisation of nested data parallelism</dd>
+<dt><code class="docutils literal"><span class="pre">-fworker-wrapper</span></code></dt>
+<dd>Enable the worker-wrapper transformation after a strictness analysis pass. Implied by <a class="reference internal" href="using-optimisation.html#ghc-flag--O"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-O</span></code></a>, and by <a class="reference internal" href="using-optimisation.html#ghc-flag--fstrictness"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-fstrictness</span></code></a>. Disabled by <code class="xref std std-ghc-flag docutils literal"><span class="pre">-fno-strictness</span></code>. Enabling <code class="xref std std-ghc-flag docutils literal"><span class="pre">-fworker-wrapper</span></code> while strictness analysis is disabled (by <code class="xref std std-ghc-flag docutils literal"><span class="pre">-fno-strictness</span></code>) has no effect.</dd>
+</dl>
+</div>
+<div class="section" id="optimization-levels">
+<h3>Optimization levels<a class="headerlink" href="#optimization-levels" title="Permalink to this headline">¶</a></h3>
+<dl class="docutils">
+<dt><code class="docutils literal"><span class="pre">-O0</span></code></dt>
+<dd>Disable optimisations (default)</dd>
+<dt><code class="docutils literal"><span class="pre">-O,</span> <span class="pre">-O1</span></code></dt>
+<dd>Enable level 1 optimisations</dd>
+<dt><code class="docutils literal"><span class="pre">-O2</span></code></dt>
+<dd>Enable level 2 optimisations</dd>
+<dt><code class="docutils literal"><span class="pre">-Odph</span></code></dt>
+<dd>Enable level 2 optimisations, set <code class="docutils literal"><span class="pre">-fmax-simplifier-iterations=20</span></code> and <code class="docutils literal"><span class="pre">-fsimplifier-phases=3</span></code>.</dd>
+</dl>
+</div>
+<div class="section" id="package-options">
+<h3>Package options<a class="headerlink" href="#package-options" title="Permalink to this headline">¶</a></h3>
+<dl class="docutils">
+<dt><code class="docutils literal"><span class="pre">-this-unit-id⟨P⟩</span></code></dt>
+<dd>Compile to be part of unit (i.e. package) ⟨P⟩</dd>
+<dt><code class="docutils literal"><span class="pre">-package⟨P⟩</span></code></dt>
+<dd>Expose package ⟨P⟩</dd>
+<dt><code class="docutils literal"><span class="pre">-hide-all-packages</span></code></dt>
+<dd>Hide all packages by default</dd>
+<dt><code class="docutils literal"><span class="pre">-hide-package⟨name⟩</span></code></dt>
+<dd>Hide package ⟨P⟩</dd>
+<dt><code class="docutils literal"><span class="pre">-ignore-package⟨name⟩</span></code></dt>
+<dd>Ignore package ⟨P⟩</dd>
+<dt><code class="docutils literal"><span class="pre">-package-db⟨file⟩</span></code></dt>
+<dd>Add ⟨file⟩ to the package db stack.</dd>
+<dt><code class="docutils literal"><span class="pre">-clear-package-db</span></code></dt>
+<dd>Clear the package db stack.</dd>
+<dt><code class="docutils literal"><span class="pre">-no-global-package-db</span></code></dt>
+<dd>Remove the global package db from the stack.</dd>
+<dt><code class="docutils literal"><span class="pre">-global-package-db</span></code></dt>
+<dd>Add the global package db to the stack.</dd>
+<dt><code class="docutils literal"><span class="pre">-no-user-package-db</span></code></dt>
+<dd>Remove the user&#8217;s package db from the stack.</dd>
+<dt><code class="docutils literal"><span class="pre">-user-package-db</span></code></dt>
+<dd>Add the user&#8217;s package db to the stack.</dd>
+<dt><code class="docutils literal"><span class="pre">-no-auto-link-packages</span></code></dt>
+<dd>Don&#8217;t automatically link in the base and rts packages.</dd>
+<dt><code class="docutils literal"><span class="pre">-trust⟨P⟩</span></code></dt>
+<dd>Expose package ⟨P⟩ and set it to be trusted</dd>
+<dt><code class="docutils literal"><span class="pre">-distrust⟨P⟩</span></code></dt>
+<dd>Expose package ⟨P⟩ and set it to be distrusted</dd>
+<dt><code class="docutils literal"><span class="pre">-distrust-all</span></code></dt>
+<dd>Distrust all packages by default</dd>
+</dl>
+</div>
+<div class="section" id="phases-of-compilation">
+<h3>Phases of compilation<a class="headerlink" href="#phases-of-compilation" title="Permalink to this headline">¶</a></h3>
+<dl class="docutils">
+<dt><code class="docutils literal"><span class="pre">-F</span></code></dt>
+<dd>Enable the use of a <a class="reference internal" href="phases.html#pre-processor"><span class="std std-ref">pre-processor</span></a> (set with <a class="reference internal" href="phases.html#ghc-flag--pgmF"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-pgmF</span></code></a>)</dd>
+<dt><code class="docutils literal"><span class="pre">-E</span></code></dt>
+<dd>Stop after preprocessing (<code class="docutils literal"><span class="pre">.hspp</span></code> file)</dd>
+<dt><code class="docutils literal"><span class="pre">-C</span></code></dt>
+<dd>Stop after generating C (<code class="docutils literal"><span class="pre">.hc</span></code> file)</dd>
+<dt><code class="docutils literal"><span class="pre">-S</span></code></dt>
+<dd>Stop after generating assembly (<code class="docutils literal"><span class="pre">.s</span></code> file)</dd>
+<dt><code class="docutils literal"><span class="pre">-c</span></code></dt>
+<dd>Stop after generating object (<code class="docutils literal"><span class="pre">.o</span></code>) file</dd>
+<dt><code class="docutils literal"><span class="pre">-x⟨suffix⟩</span></code></dt>
+<dd>Override default behaviour for source files</dd>
+</dl>
+</div>
+<div class="section" id="overriding-external-programs">
+<h3>Overriding external programs<a class="headerlink" href="#overriding-external-programs" title="Permalink to this headline">¶</a></h3>
+<dl class="docutils">
+<dt><code class="docutils literal"><span class="pre">-pgmL⟨cmd⟩</span></code></dt>
+<dd>Use ⟨cmd⟩ as the literate pre-processor</dd>
+<dt><code class="docutils literal"><span class="pre">-pgmP⟨cmd⟩</span></code></dt>
+<dd>Use ⟨cmd⟩ as the C pre-processor (with <code class="docutils literal"><span class="pre">-cpp</span></code> only)</dd>
+<dt><code class="docutils literal"><span class="pre">-pgmc⟨cmd⟩</span></code></dt>
+<dd>Use ⟨cmd⟩ as the C compiler</dd>
+<dt><code class="docutils literal"><span class="pre">-pgmlo⟨cmd⟩</span></code></dt>
+<dd>Use ⟨cmd⟩ as the LLVM optimiser</dd>
+<dt><code class="docutils literal"><span class="pre">-pgmlc⟨cmd⟩</span></code></dt>
+<dd>Use ⟨cmd⟩ as the LLVM compiler</dd>
+<dt><code class="docutils literal"><span class="pre">-pgms⟨cmd⟩</span></code></dt>
+<dd>Use ⟨cmd⟩ as the splitter</dd>
+<dt><code class="docutils literal"><span class="pre">-pgma⟨cmd⟩</span></code></dt>
+<dd>Use ⟨cmd⟩ as the assembler</dd>
+<dt><code class="docutils literal"><span class="pre">-pgml⟨cmd⟩</span></code></dt>
+<dd>Use ⟨cmd⟩ as the linker</dd>
+<dt><code class="docutils literal"><span class="pre">-pgmdll⟨cmd⟩</span></code></dt>
+<dd>Use ⟨cmd⟩ as the DLL generator</dd>
+<dt><code class="docutils literal"><span class="pre">-pgmF⟨cmd⟩</span></code></dt>
+<dd>Use ⟨cmd⟩ as the pre-processor (with <code class="docutils literal"><span class="pre">-F</span></code> only)</dd>
+<dt><code class="docutils literal"><span class="pre">-pgmwindres⟨cmd⟩</span></code></dt>
+<dd>Use ⟨cmd⟩ as the program for embedding manifests on Windows.</dd>
+<dt><code class="docutils literal"><span class="pre">-pgmlibtool⟨cmd⟩</span></code></dt>
+<dd>Use ⟨cmd⟩ as the command for libtool (with <code class="docutils literal"><span class="pre">-staticlib</span></code> only).</dd>
+</dl>
+</div>
+<div class="section" id="phase-specific-options">
+<h3>Phase-specific options<a class="headerlink" href="#phase-specific-options" title="Permalink to this headline">¶</a></h3>
+<dl class="docutils">
+<dt><code class="docutils literal"><span class="pre">-optL⟨option⟩</span></code></dt>
+<dd>pass ⟨option⟩ to the literate pre-processor</dd>
+<dt><code class="docutils literal"><span class="pre">-optP⟨option⟩</span></code></dt>
+<dd>pass ⟨option⟩ to cpp (with <code class="docutils literal"><span class="pre">-cpp</span></code> only)</dd>
+<dt><code class="docutils literal"><span class="pre">-optF⟨option⟩</span></code></dt>
+<dd>pass ⟨option⟩ to the custom pre-processor</dd>
+<dt><code class="docutils literal"><span class="pre">-optc⟨option⟩</span></code></dt>
+<dd>pass ⟨option⟩ to the C compiler</dd>
+<dt><code class="docutils literal"><span class="pre">-optlo⟨option⟩</span></code></dt>
+<dd>pass ⟨option⟩ to the LLVM optimiser</dd>
+<dt><code class="docutils literal"><span class="pre">-optlc⟨option⟩</span></code></dt>
+<dd>pass ⟨option⟩ to the LLVM compiler</dd>
+<dt><code class="docutils literal"><span class="pre">-opta⟨option⟩</span></code></dt>
+<dd>pass ⟨option⟩ to the assembler</dd>
+<dt><code class="docutils literal"><span class="pre">-optl⟨option⟩</span></code></dt>
+<dd>pass ⟨option⟩ to the linker</dd>
+<dt><code class="docutils literal"><span class="pre">-optdll⟨option⟩</span></code></dt>
+<dd>pass ⟨option⟩ to the DLL generator</dd>
+<dt><code class="docutils literal"><span class="pre">-optwindres⟨option⟩</span></code></dt>
+<dd>pass ⟨option⟩ to <code class="docutils literal"><span class="pre">windres</span></code>.</dd>
+</dl>
+</div>
+<div class="section" id="platform-specific-options">
+<h3>Platform-specific options<a class="headerlink" href="#platform-specific-options" title="Permalink to this headline">¶</a></h3>
+<dl class="docutils">
+<dt><code class="docutils literal"><span class="pre">-msse2</span></code></dt>
+<dd>(x86 only) Use SSE2 for floating-point operations</dd>
+<dt><code class="docutils literal"><span class="pre">-msse4.2</span></code></dt>
+<dd>(x86 only) Use SSE4.2 for floating-point operations</dd>
+</dl>
+</div>
+<div class="section" id="compiler-plugins">
+<h3>Compiler plugins<a class="headerlink" href="#compiler-plugins" title="Permalink to this headline">¶</a></h3>
+<dl class="docutils">
+<dt><code class="docutils literal"><span class="pre">-fplugin=⟨module⟩</span></code></dt>
+<dd>Load a plugin exported by a given module</dd>
+<dt><code class="docutils literal"><span class="pre">-fplugin-opt=⟨module:args⟩</span></code></dt>
+<dd>Give arguments to a plugin module; module must be specified with <code class="docutils literal"><span class="pre">-fplugin</span></code></dd>
+</dl>
+</div>
+<div class="section" id="profiling">
+<h3>Profiling<a class="headerlink" href="#profiling" title="Permalink to this headline">¶</a></h3>
+<dl class="docutils">
+<dt><code class="docutils literal"><span class="pre">-prof</span></code></dt>
+<dd>Turn on profiling</dd>
+<dt><code class="docutils literal"><span class="pre">-fprof-auto</span></code></dt>
+<dd>Auto-add <code class="docutils literal"><span class="pre">SCC</span></code>s to all bindings not marked INLINE</dd>
+<dt><code class="docutils literal"><span class="pre">-fprof-auto-top</span></code></dt>
+<dd>Auto-add <code class="docutils literal"><span class="pre">SCC</span></code>s to all top-level bindings not marked INLINE</dd>
+<dt><code class="docutils literal"><span class="pre">-fprof-auto-exported</span></code></dt>
+<dd>Auto-add <code class="docutils literal"><span class="pre">SCC</span></code>s to all exported bindings not marked INLINE</dd>
+<dt><code class="docutils literal"><span class="pre">-fprof-cafs</span></code></dt>
+<dd>Auto-add <code class="docutils literal"><span class="pre">SCC</span></code>s to all CAFs</dd>
+<dt><code class="docutils literal"><span class="pre">-fno-prof-count-entries</span></code></dt>
+<dd>Do not collect entry counts</dd>
+<dt><code class="docutils literal"><span class="pre">-ticky</span></code></dt>
+<dd><a class="reference internal" href="profiling.html#ticky-ticky"><span class="std std-ref">Turn on ticky-ticky profiling</span></a></dd>
+</dl>
+</div>
+<div class="section" id="program-coverage">
+<h3>Program coverage<a class="headerlink" href="#program-coverage" title="Permalink to this headline">¶</a></h3>
+<dl class="docutils">
+<dt><code class="docutils literal"><span class="pre">-fhpc</span></code></dt>
+<dd>Turn on Haskell program coverage instrumentation</dd>
+<dt><code class="docutils literal"><span class="pre">-hpcdir</span> <span class="pre">dir</span></code></dt>
+<dd>Directory to deposit <code class="docutils literal"><span class="pre">.mix</span></code> files during compilation (default is <code class="docutils literal"><span class="pre">.hpc</span></code>)</dd>
+</dl>
+</div>
+<div class="section" id="recompilation-checking">
+<h3>Recompilation checking<a class="headerlink" href="#recompilation-checking" title="Permalink to this headline">¶</a></h3>
+<dl class="docutils">
+<dt><code class="docutils literal"><span class="pre">-fforce-recomp</span></code></dt>
+<dd>Turn off recompilation checking. This is implied by any <code class="docutils literal"><span class="pre">-ddump-X</span></code> option when compiling a single file (i.e. when using <a class="reference internal" href="using.html#ghc-flag--c"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-c</span></code></a>).</dd>
+</dl>
+</div>
+<div class="section" id="redirecting-output">
+<h3>Redirecting output<a class="headerlink" href="#redirecting-output" title="Permalink to this headline">¶</a></h3>
+<dl class="docutils">
+<dt><code class="docutils literal"><span class="pre">-hcsuf</span> <span class="pre">⟨suffix⟩</span></code></dt>
+<dd>set the suffix to use for intermediate C files</dd>
+<dt><code class="docutils literal"><span class="pre">-hidir</span> <span class="pre">⟨dir⟩</span></code></dt>
+<dd>set directory for interface files</dd>
+<dt><code class="docutils literal"><span class="pre">-hisuf</span> <span class="pre">⟨suffix⟩</span></code></dt>
+<dd>set the suffix to use for interface files</dd>
+<dt><code class="docutils literal"><span class="pre">-o</span> <span class="pre">⟨filename⟩</span></code></dt>
+<dd>set output filename</dd>
+<dt><code class="docutils literal"><span class="pre">-odir</span> <span class="pre">⟨dir⟩</span></code></dt>
+<dd>set directory for object files</dd>
+<dt><code class="docutils literal"><span class="pre">-ohi</span> <span class="pre">⟨filename⟩</span></code></dt>
+<dd>set the filename in which to put the interface</dd>
+<dt><code class="docutils literal"><span class="pre">-osuf</span> <span class="pre">⟨suffix⟩</span></code></dt>
+<dd>set the output file suffix</dd>
+<dt><code class="docutils literal"><span class="pre">-stubdir</span> <span class="pre">⟨dir⟩</span></code></dt>
+<dd>redirect FFI stub files</dd>
+<dt><code class="docutils literal"><span class="pre">-dumpdir</span> <span class="pre">⟨dir⟩</span></code></dt>
+<dd>redirect dump files</dd>
+<dt><code class="docutils literal"><span class="pre">-outputdir</span> <span class="pre">⟨dir⟩</span></code></dt>
+<dd>set output directory</dd>
+<dt><code class="docutils literal"><span class="pre">-dyno</span> <span class="pre">&lt;filename&gt;</span></code></dt>
+<dd>Set the output filename for dynamic object files (see <code class="docutils literal"><span class="pre">-dynamic-too</span></code>)</dd>
+<dt><code class="docutils literal"><span class="pre">-dynosuf</span> <span class="pre">&lt;suffix&gt;</span></code></dt>
+<dd>Set the object suffix for dynamic object files (see <code class="docutils literal"><span class="pre">-dynamic-too</span></code>)</dd>
+<dt><code class="docutils literal"><span class="pre">-dynhisuf</span> <span class="pre">&lt;suffix&gt;</span></code></dt>
+<dd>Set the hi suffix for dynamic object files (see <code class="docutils literal"><span class="pre">-dynamic-too</span></code>)</dd>
+</dl>
+</div>
+<div class="section" id="temporary-files">
+<h3>Temporary files<a class="headerlink" href="#temporary-files" title="Permalink to this headline">¶</a></h3>
+<dl class="docutils">
+<dt><code class="docutils literal"><span class="pre">-tmpdir</span> <span class="pre">⟨dir⟩</span></code></dt>
+<dd>set the directory for temporary files</dd>
+</dl>
+</div>
+<div class="section" id="verbosity-options">
+<h3>Verbosity options<a class="headerlink" href="#verbosity-options" title="Permalink to this headline">¶</a></h3>
+<dl class="docutils">
+<dt><code class="docutils literal"><span class="pre">-v</span></code></dt>
+<dd>verbose mode (equivalent to <code class="docutils literal"><span class="pre">-v3</span></code>)</dd>
+<dt><code class="docutils literal"><span class="pre">-v⟨n⟩</span></code></dt>
+<dd>set verbosity level</dd>
+<dt><code class="docutils literal"><span class="pre">-fprint-potential-instances</span></code></dt>
+<dd>display all available instances in type error messages</dd>
+<dt><code class="docutils literal"><span class="pre">-fprint-explicit-foralls</span></code></dt>
+<dd>Print explicit <code class="docutils literal"><span class="pre">forall</span></code> quantification in types. See also <a class="reference internal" href="glasgow_exts.html#ghc-flag--XExplicitForAll"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-XExplicitForAll</span></code></a></dd>
+<dt><code class="docutils literal"><span class="pre">-fprint-explicit-kinds</span></code></dt>
+<dd>Print explicit kind foralls and kind arguments in types. See also <code class="xref std std-ghc-flag docutils literal"><span class="pre">-XKindSignature</span></code></dd>
+<dt><code class="docutils literal"><span class="pre">-fprint-explicit-runtime-reps</span></code></dt>
+<dd>Print <code class="docutils literal"><span class="pre">RuntimeRep</span></code> variables in types which are runtime-representation polymorphic.</dd>
+<dt><code class="docutils literal"><span class="pre">-fprint-unicode-syntax</span></code></dt>
+<dd>Use unicode syntax when printing expressions, types and kinds. See also <a class="reference internal" href="glasgow_exts.html#ghc-flag--XUnicodeSyntax"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-XUnicodeSyntax</span></code></a></dd>
+<dt><code class="docutils literal"><span class="pre">-fprint-expanded-synonyms</span></code></dt>
+<dd>In type errors, also print type-synonym-expanded types.</dd>
+<dt><code class="docutils literal"><span class="pre">-fprint-typechecker-elaboration</span></code></dt>
+<dd>Print extra information from typechecker.</dd>
+<dt><code class="docutils literal"><span class="pre">-ferror-spans</span></code></dt>
+<dd>Output full span in error messages</dd>
+<dt><code class="docutils literal"><span class="pre">-Rghc-timing</span></code></dt>
+<dd>Summarise timing stats for GHC (same as <code class="docutils literal"><span class="pre">+RTS</span> <span class="pre">-tstderr</span></code>).</dd>
+</dl>
+</div>
+<div class="section" id="warnings">
+<h3>Warnings<a class="headerlink" href="#warnings" title="Permalink to this headline">¶</a></h3>
+<dl class="docutils">
+<dt><code class="docutils literal"><span class="pre">-W</span></code></dt>
+<dd>enable normal warnings</dd>
+<dt><code class="docutils literal"><span class="pre">-w</span></code></dt>
+<dd>disable all warnings</dd>
+<dt><code class="docutils literal"><span class="pre">-Wall</span></code></dt>
+<dd>enable almost all warnings (details in <a class="reference internal" href="using-warnings.html#options-sanity"><span class="std std-ref">Warnings and sanity-checking</span></a>)</dd>
+<dt><code class="docutils literal"><span class="pre">-Wcompat</span></code></dt>
+<dd>enable future compatibility warnings (details in <a class="reference internal" href="using-warnings.html#options-sanity"><span class="std std-ref">Warnings and sanity-checking</span></a>)</dd>
+<dt><code class="docutils literal"><span class="pre">-Werror</span></code></dt>
+<dd>make warnings fatal</dd>
+<dt><code class="docutils literal"><span class="pre">-Wwarn</span></code></dt>
+<dd>make warnings non-fatal</dd>
+<dt><code class="docutils literal"><span class="pre">-Wunrecognised-warning-flags</span></code></dt>
+<dd>throw a warning when an unreconised <code class="docutils literal"><span class="pre">-W...</span></code> flag is encountered on the command line.</dd>
+<dt><code class="docutils literal"><span class="pre">-fshow-warning-groups</span></code></dt>
+<dd>show which group an emitted warning belongs to.</dd>
+<dt><code class="docutils literal"><span class="pre">-fdefer-type-errors</span></code></dt>
+<dd>Turn type errors into warnings, <a class="reference internal" href="glasgow_exts.html#defer-type-errors"><span class="std std-ref">deferring the error until runtime</span></a>. Implies <a class="reference internal" href="using-warnings.html#ghc-flag--fdefer-typed-holes"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-fdefer-typed-holes</span></code></a> and <a class="reference internal" href="using-warnings.html#ghc-flag--fdefer-out-of-scope-variables"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-fdefer-out-of-scope-variables</span></code></a>. See also <code class="xref std std-ghc-flag docutils literal"><span class="pre">-Wdeferred-type-errors</span></code></dd>
+<dt><code class="docutils literal"><span class="pre">-fdefer-typed-holes</span></code></dt>
+<dd>Convert <a class="reference internal" href="glasgow_exts.html#typed-holes"><span class="std std-ref">typed hole</span></a> errors into warnings, <a class="reference internal" href="glasgow_exts.html#defer-type-errors"><span class="std std-ref">deferring the error until runtime</span></a>. Implied by <a class="reference internal" href="using-warnings.html#ghc-flag--fdefer-type-errors"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-fdefer-type-errors</span></code></a>. See also <a class="reference internal" href="using-warnings.html#ghc-flag--Wtyped-holes"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-Wtyped-holes</span></code></a>.</dd>
+<dt><code class="docutils literal"><span class="pre">-fdefer-out-of-scope-variables</span></code></dt>
+<dd>Convert variable out of scope variables errors into warnings. Implied by <a class="reference internal" href="using-warnings.html#ghc-flag--fdefer-type-errors"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-fdefer-type-errors</span></code></a>. See also <code class="xref std std-ghc-flag docutils literal"><span class="pre">-Wdeferred-out-of-scope-variables</span></code>.</dd>
+<dt><code class="docutils literal"><span class="pre">-fhelpful-errors</span></code></dt>
+<dd>Make suggestions for mis-spelled names.</dd>
+<dt><code class="docutils literal"><span class="pre">-Wdeprecated-flags</span></code></dt>
+<dd>warn about uses of commandline flags that are deprecated</dd>
+<dt><code class="docutils literal"><span class="pre">-Wduplicate-constraints</span></code></dt>
+<dd>warn when a constraint appears duplicated in a type signature</dd>
+<dt><code class="docutils literal"><span class="pre">-Wduplicate-exports</span></code></dt>
+<dd>warn when an entity is exported multiple times</dd>
+<dt><code class="docutils literal"><span class="pre">-Whi-shadowing</span></code></dt>
+<dd>warn when a <code class="docutils literal"><span class="pre">.hi</span></code> file in the current directory shadows a library</dd>
+<dt><code class="docutils literal"><span class="pre">-Widentities</span></code></dt>
+<dd>warn about uses of Prelude numeric conversions that are probably the identity (and hence could be omitted)</dd>
+<dt><code class="docutils literal"><span class="pre">-Wimplicit-prelude</span></code></dt>
+<dd>warn when the Prelude is implicitly imported</dd>
+<dt><code class="docutils literal"><span class="pre">-Wincomplete-patterns</span></code></dt>
+<dd>warn when a pattern match could fail</dd>
+<dt><code class="docutils literal"><span class="pre">-Wincomplete-uni-patterns</span></code></dt>
+<dd>warn when a pattern match in a lambda expression or pattern binding could fail</dd>
+<dt><code class="docutils literal"><span class="pre">-Wmax-pmcheck-iterations=&lt;N&gt;</span></code></dt>
+<dd>the iteration limit for the pattern match checker</dd>
+<dt><code class="docutils literal"><span class="pre">-Wincomplete-record-updates</span></code></dt>
+<dd>warn when a record update could fail</dd>
+<dt><code class="docutils literal"><span class="pre">-Wmissing-fields</span></code></dt>
+<dd>warn when fields of a record are uninitialised</dd>
+<dt><code class="docutils literal"><span class="pre">-Wmissing-import-lists</span></code></dt>
+<dd>warn when an import declaration does not explicitly list all thenames brought into scope</dd>
+<dt><code class="docutils literal"><span class="pre">-Wmissing-methods</span></code></dt>
+<dd>warn when class methods are undefined</dd>
+<dt><code class="docutils literal"><span class="pre">-Wmissing-signatures</span></code></dt>
+<dd>warn about top-level functions without signatures</dd>
+<dt><code class="docutils literal"><span class="pre">-Wmissing-exported-sigs</span></code></dt>
+<dd><em>(deprecated)</em> warn about top-level functions without signatures, only if they are exported. takes precedence over -Wmissing-signatures</dd>
+<dt><code class="docutils literal"><span class="pre">-Wmissing-exported-signatures</span></code></dt>
+<dd>warn about top-level functions without signatures, only if they are exported. takes precedence over -Wmissing-signatures</dd>
+<dt><code class="docutils literal"><span class="pre">-Wmissing-local-sigs</span></code></dt>
+<dd><em>(deprecated)</em> warn about polymorphic local bindings without signatures</dd>
+<dt><code class="docutils literal"><span class="pre">-Wmissing-local-signatures</span></code></dt>
+<dd>warn about polymorphic local bindings without signatures</dd>
+<dt><code class="docutils literal"><span class="pre">-Wmissing-monadfail-instances</span></code></dt>
+<dd>warn when a failable pattern is used in a do-block that does not have a <code class="docutils literal"><span class="pre">MonadFail</span></code> instance.</dd>
+<dt><code class="docutils literal"><span class="pre">-Wsemigroup</span></code></dt>
+<dd>warn when a <code class="docutils literal"><span class="pre">Monoid</span></code> is not <code class="docutils literal"><span class="pre">Semigroup</span></code>, and on non-<code class="docutils literal"><span class="pre">Semigroup</span></code> definitions of <code class="docutils literal"><span class="pre">(&lt;&gt;)</span></code>?</dd>
+<dt><code class="docutils literal"><span class="pre">-Wmissed-specialisations</span></code></dt>
+<dd>warn when specialisation of an imported, overloaded function fails.</dd>
+<dt><code class="docutils literal"><span class="pre">-Wall-missed-specialisations</span></code></dt>
+<dd>warn when specialisation of any overloaded function fails.</dd>
+<dt><code class="docutils literal"><span class="pre">-Wmonomorphism-restriction</span></code></dt>
+<dd>warn when the Monomorphism Restriction is applied</dd>
+<dt><code class="docutils literal"><span class="pre">-Wname-shadowing</span></code></dt>
+<dd>warn when names are shadowed</dd>
+<dt><code class="docutils literal"><span class="pre">-Wnoncanonical-monad-instances</span></code></dt>
+<dd>warn when <code class="docutils literal"><span class="pre">Applicative</span></code> or <code class="docutils literal"><span class="pre">Monad</span></code> instances have noncanonical definitions of <code class="docutils literal"><span class="pre">return</span></code>, <code class="docutils literal"><span class="pre">pure</span></code>, <code class="docutils literal"><span class="pre">(&gt;&gt;)</span></code>, or <code class="docutils literal"><span class="pre">(*&gt;)</span></code>. See flag description in <a class="reference internal" href="using-warnings.html#options-sanity"><span class="std std-ref">Warnings and sanity-checking</span></a> for more details.</dd>
+<dt><code class="docutils literal"><span class="pre">-Wnoncanonical-monadfail-instances</span></code></dt>
+<dd>warn when <code class="docutils literal"><span class="pre">Monad</span></code> or <code class="docutils literal"><span class="pre">MonadFail</span></code> instances have noncanonical definitions of <code class="docutils literal"><span class="pre">fail</span></code>.See flag description in <a class="reference internal" href="using-warnings.html#options-sanity"><span class="std std-ref">Warnings and sanity-checking</span></a> for more details.</dd>
+<dt><code class="docutils literal"><span class="pre">-Wnoncanonical-monoid-instances</span></code></dt>
+<dd>warn when <code class="docutils literal"><span class="pre">Semigroup</span></code> or <code class="docutils literal"><span class="pre">Monoid</span></code> instances have noncanonical definitions of <code class="docutils literal"><span class="pre">(&lt;&gt;)</span></code> or <code class="docutils literal"><span class="pre">mappend</span></code>. See flag description in <a class="reference internal" href="using-warnings.html#options-sanity"><span class="std std-ref">Warnings and sanity-checking</span></a> for more details.</dd>
+<dt><code class="docutils literal"><span class="pre">-Worphans</span></code></dt>
+<dd>warn when the module contains <a class="reference internal" href="separate_compilation.html#orphan-modules"><span class="std std-ref">orphan instance declarations or rewrite rules</span></a></dd>
+<dt><code class="docutils literal"><span class="pre">-Woverlapping-patterns</span></code></dt>
+<dd>warn about overlapping patterns</dd>
+<dt><code class="docutils literal"><span class="pre">-Wtabs</span></code></dt>
+<dd>warn if there are tabs in the source file</dd>
+<dt><code class="docutils literal"><span class="pre">-Wtype-defaults</span></code></dt>
+<dd>warn when defaulting happens</dd>
+<dt><code class="docutils literal"><span class="pre">-Wunrecognised-pragmas</span></code></dt>
+<dd>warn about uses of pragmas that GHC doesn&#8217;t recognise</dd>
+<dt><code class="docutils literal"><span class="pre">-Wunticked-promoted-constructors</span></code></dt>
+<dd>warn if promoted constructors are not ticked</dd>
+<dt><code class="docutils literal"><span class="pre">-Wunused-binds</span></code></dt>
+<dd>warn about bindings that are unused. Alias for <a class="reference internal" href="using-warnings.html#ghc-flag--Wunused-top-binds"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-Wunused-top-binds</span></code></a>, <a class="reference internal" href="using-warnings.html#ghc-flag--Wunused-local-binds"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-Wunused-local-binds</span></code></a> and <a class="reference internal" href="using-warnings.html#ghc-flag--Wunused-pattern-binds"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-Wunused-pattern-binds</span></code></a></dd>
+<dt><code class="docutils literal"><span class="pre">-Wunused-top-binds</span></code></dt>
+<dd>warn about top-level bindings that are unused</dd>
+<dt><code class="docutils literal"><span class="pre">-Wunused-local-binds</span></code></dt>
+<dd>warn about local bindings that are unused</dd>
+<dt><code class="docutils literal"><span class="pre">-Wunused-pattern-binds</span></code></dt>
+<dd>warn about pattern match bindings that are unused</dd>
+<dt><code class="docutils literal"><span class="pre">-Wunused-imports</span></code></dt>
+<dd>warn about unnecessary imports</dd>
+<dt><code class="docutils literal"><span class="pre">-Wunused-matches</span></code></dt>
+<dd>warn about variables in patterns that aren&#8217;t used</dd>
+<dt><code class="docutils literal"><span class="pre">-Wunused-foralls</span></code></dt>
+<dd>warn about type variables in user-written <code class="docutils literal"><span class="pre">forall</span></code>s that are unused</dd>
+<dt><code class="docutils literal"><span class="pre">-Wunused-type-variables</span></code></dt>
+<dd>warn about variables in type family or data family instances that are unused</dd>
+<dt><code class="docutils literal"><span class="pre">-Wunused-do-bind</span></code></dt>
+<dd>warn about do bindings that appear to throw away values of types other than <code class="docutils literal"><span class="pre">()</span></code></dd>
+<dt><code class="docutils literal"><span class="pre">-Wwrong-do-bind</span></code></dt>
+<dd>warn about do bindings that appear to throw away monadic values that you should have bound instead</dd>
+<dt><code class="docutils literal"><span class="pre">-Wunsafe</span></code></dt>
+<dd>warn if the module being compiled is regarded to be unsafe. Should be used to check the safety status of modules when using safe inference. Works on all module types, even those using explicit <a class="reference internal" href="safe_haskell.html#safe-haskell"><span class="std std-ref">Safe Haskell</span></a> modes (such as <a class="reference internal" href="safe_haskell.html#ghc-flag--XTrustworthy"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-XTrustworthy</span></code></a>) and so can be used to have the compiler check any assumptions made.</dd>
+<dt><code class="docutils literal"><span class="pre">-Wsafe</span></code></dt>
+<dd>warn if the module being compiled is regarded to be safe. Should be used to check the safety status of modules when using safe inference. Works on all module types, even those using explicit <a class="reference internal" href="safe_haskell.html#safe-haskell"><span class="std std-ref">Safe Haskell</span></a> modes (such as <a class="reference internal" href="safe_haskell.html#ghc-flag--XTrustworthy"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-XTrustworthy</span></code></a>) and so can be used to have the compiler check any assumptions made.</dd>
+<dt><code class="docutils literal"><span class="pre">-Wtrustworthy-safe</span></code></dt>
+<dd>warn if the module being compiled is marked as <a class="reference internal" href="safe_haskell.html#ghc-flag--XTrustworthy"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-XTrustworthy</span></code></a> but it could instead be marked as <a class="reference internal" href="safe_haskell.html#ghc-flag--XSafe"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-XSafe</span></code></a>, a more informative bound. Can be used to detectonce a Safe Haskell bound can be improved as dependencies are updated.</dd>
+<dt><code class="docutils literal"><span class="pre">-Wwarnings-deprecations</span></code></dt>
+<dd>warn about uses of functions &amp; types that have warnings or deprecated pragmas</dd>
+<dt><code class="docutils literal"><span class="pre">-Wamp</span></code></dt>
+<dd><em>(deprecated)</em> warn on definitions conflicting with the Applicative-Monad Proposal (AMP)</dd>
+<dt><code class="docutils literal"><span class="pre">-Wredundant-constraints</span></code></dt>
+<dd>Have the compiler warn about redundant constraints in typesignatures.</dd>
+<dt><code class="docutils literal"><span class="pre">-Wdeferred-type-errors</span></code></dt>
+<dd>Report warnings when <a class="reference internal" href="glasgow_exts.html#defer-type-errors"><span class="std std-ref">deferred type errors</span></a> are enabled. This option is enabled by default. See <a class="reference internal" href="using-warnings.html#ghc-flag--fdefer-type-errors"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-fdefer-type-errors</span></code></a>.</dd>
+<dt><code class="docutils literal"><span class="pre">-Wtyped-holes</span></code></dt>
+<dd>Report warnings when <a class="reference internal" href="glasgow_exts.html#typed-holes"><span class="std std-ref">typed hole</span></a> errors are <a class="reference internal" href="glasgow_exts.html#defer-type-errors"><span class="std std-ref">deferred until runtime</span></a>. See <a class="reference internal" href="using-warnings.html#ghc-flag--fdefer-typed-holes"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-fdefer-typed-holes</span></code></a>.</dd>
+<dt><code class="docutils literal"><span class="pre">-Wdeferred-out-of-scope-variables</span></code></dt>
+<dd>Report warnings when variable out-of-scope errors are <span class="xref std std-ref">deferred until runtime</span>. See <a class="reference internal" href="using-warnings.html#ghc-flag--fdefer-out-of-scope-variables"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-fdefer-out-of-scope-variables</span></code></a>.</dd>
+<dt><code class="docutils literal"><span class="pre">-Wpartial-type-signatures</span></code></dt>
+<dd>warn about holes in partial type signatures when <a class="reference internal" href="glasgow_exts.html#ghc-flag--XPartialTypeSignatures"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-XPartialTypeSignatures</span></code></a> is enabled. Not applicable when <code class="xref std std-ghc-flag docutils literal"><span class="pre">-XPartialTypesignatures</span></code> is not enabled, in which case errors are generated for such holes. See <a class="reference internal" href="glasgow_exts.html#partial-type-signatures"><span class="std std-ref">Partial Type Signatures</span></a>.</dd>
+<dt><code class="docutils literal"><span class="pre">-Wderiving-typeable</span></code></dt>
+<dd>warn when encountering a request to derive an instance of class <code class="docutils literal"><span class="pre">Typeable</span></code>. As of GHC 7.10, such declarations are unnecessary and are ignored by the compiler because GHC has a custom solver for discharging this type of constraint.</dd>
+</dl>
+</div>
 </div>
 <div class="section" id="copyright">
 <h2>Copyright<a class="headerlink" href="#copyright" title="Permalink to this headline">¶</a></h2>
