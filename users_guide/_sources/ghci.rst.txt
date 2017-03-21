@@ -3952,13 +3952,18 @@ GHCi は単なるオブジェクトファイル(プラットフォームによ�
 
 .. _ghci-commands:
 
-GHCi commands
--------------
+GHCi のコマンド群
+-----------------
 
-GHCi commands all begin with "``:``" and consist of a single command
-name followed by zero or more parameters. The command name may be
-abbreviated, with ambiguities being resolved in favour of the more
-commonly used commands.
+..
+   GHCi commands all begin with "``:``" and consist of a single command
+   name followed by zero or more parameters. The command name may be
+   abbreviated, with ambiguities being resolved in favour of the more
+   commonly used commands.
+
+GHCi のコマンドはすべて「 ``:`` 」ではじまり，1つのコマンド名と0個以上のパラメータからなります．
+コマンド名は短縮可能です．
+短縮の結果曖昧になった場合は，よりよく使われるコマンドを優先します．
 
 .. comment
 
@@ -3967,17 +3972,29 @@ commonly used commands.
     commands.
 
 
+..
+   .. ghci-cmd:: :abandon
+
+       Abandons the current evaluation (only available when stopped at a
+       breakpoint).
+
 .. ghci-cmd:: :abandon
 
-    Abandons the current evaluation (only available when stopped at a
-    breakpoint).
+    現在の評価を破棄します(これはブレイクポイントで停止しているときのみ有効)．
+
+..
+   .. ghci-cmd:: :add;[*] ⟨module⟩
+
+       Add ⟨module⟩(s) to the current target set, and perform a reload.
+       Normally pre-compiled code for the module will be loaded if
+       available, or otherwise the module will be compiled to byte-code.
+       Using the ``*`` prefix forces the module to be loaded as byte-code.
 
 .. ghci-cmd:: :add;[*] ⟨module⟩
 
-    Add ⟨module⟩(s) to the current target set, and perform a reload.
-    Normally pre-compiled code for the module will be loaded if
-    available, or otherwise the module will be compiled to byte-code.
-    Using the ``*`` prefix forces the module to be loaded as byte-code.
+    ⟨module⟩ を現在のターゲット集合に追加しリロードを実行します．
+    通常，可能ならそのモジュールのコンパイル済みコードをロードし，そうでなければ，そのモジュールはバイトコードにコンパイルします．
+    ``*`` 接頭辞を使えば，強制的にバイトコードとしてロードできます．
 
 .. ghci-cmd:: :all-types
 

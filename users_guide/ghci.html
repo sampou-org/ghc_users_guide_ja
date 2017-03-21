@@ -103,7 +103,7 @@
 <li><a class="reference internal" href="#id36">5.6.2. 追加のライブラリ</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#ghci-commands">5.7. GHCi commands</a></li>
+<li><a class="reference internal" href="#ghci-commands">5.7. GHCi のコマンド群</a></li>
 <li><a class="reference internal" href="#the-set-and-seti-commands">5.8. The <code class="docutils literal"><span class="pre">:set</span></code> and <code class="docutils literal"><span class="pre">:seti</span></code> commands</a><ul>
 <li><a class="reference internal" href="#ghci-options">5.8.1. GHCi options</a></li>
 <li><a class="reference internal" href="#setting-ghc-command-line-options-in-ghci">5.8.2. Setting GHC command-line options in GHCi</a></li>
@@ -188,7 +188,7 @@ Prelude&gt;
 バナーにあるとおり，<a class="reference internal" href="#ghci-cmd-:?"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:?</span></code></a> をタイプすれば，利用可能なコマンド一覧と
 それぞれの短い説明が表示されます．
 これ以降ほとんどのコマンドを説明します．
-すべてのコマンドの完全な説明は <a class="reference internal" href="#ghci-commands"><span class="std std-ref">GHCi commands</span></a> にあります．</p>
+すべてのコマンドの完全な説明は <a class="reference internal" href="#ghci-commands"><span class="std std-ref">GHCi のコマンド群</span></a> にあります．</p>
 <p>プロンプトにはHaskellの式をタイプします．</p>
 <div class="highlight-none" id="index-1"><div class="highlight"><pre><span></span>Prelude&gt; 1+2
 3
@@ -1543,7 +1543,7 @@ Just 20
 <span id="id34"></span><h2>5.6. GHCi の起動<a class="headerlink" href="#ghci-invocation" title="Permalink to this headline">¶</a></h2>
 <span class="target" id="index-14"></span><p>GHCiは <code class="docutils literal"><span class="pre">ghci</span></code> または <code class="docutils literal"><span class="pre">ghc</span> <span class="pre">--interactive</span></code> というコマンドで起動します．
 1つまたは複数のモジュールやファイル名をコマンド行で指定することもできます．
-そうすると，GHCiはプロンプトで <code class="docutils literal"><span class="pre">:load</span> <span class="pre">モジュール名</span></code> と入力したとき同じように(<a class="reference internal" href="#ghci-commands"><span class="std std-ref">GHCi commands</span></a> 参照)，指定されたモジュールやファイル(と，それらが依存するモジュール)をロードします．
+そうすると，GHCiはプロンプトで <code class="docutils literal"><span class="pre">:load</span> <span class="pre">モジュール名</span></code> と入力したとき同じように(<a class="reference internal" href="#ghci-commands"><span class="std std-ref">GHCi のコマンド群</span></a> 参照)，指定されたモジュールやファイル(と，それらが依存するモジュール)をロードします．
 たとえば、GHCiを起動して(Main.hsに最上位モジュールがある)プログラムをロードするには，
 次のようにすればよい．</p>
 <div class="highlight-none"><div class="highlight"><pre><span></span>$ ghci Main.hs
@@ -1593,25 +1593,22 @@ GHCi指定のライブラリが見つからなければ，ここでもエラー�
 </div>
 </div>
 <div class="section" id="ghci-commands">
-<span id="id37"></span><h2>5.7. GHCi commands<a class="headerlink" href="#ghci-commands" title="Permalink to this headline">¶</a></h2>
-<p>GHCi commands all begin with &#8220;<code class="docutils literal"><span class="pre">:</span></code>&#8221; and consist of a single command
-name followed by zero or more parameters. The command name may be
-abbreviated, with ambiguities being resolved in favour of the more
-commonly used commands.</p>
+<span id="id37"></span><h2>5.7. GHCi のコマンド群<a class="headerlink" href="#ghci-commands" title="Permalink to this headline">¶</a></h2>
+<p>GHCi のコマンドはすべて「 <code class="docutils literal"><span class="pre">:</span></code> 」ではじまり，1つのコマンド名と0個以上のパラメータからなります．
+コマンド名は短縮可能です．
+短縮の結果曖昧になった場合は，よりよく使われるコマンドを優先します．</p>
 <dl class="ghci-cmd">
 <dt id="ghci-cmd-:abandon">
 <code class="descname">:abandon</code><a class="headerlink" href="#ghci-cmd-:abandon" title="Permalink to this definition">¶</a></dt>
-<dd><p>Abandons the current evaluation (only available when stopped at a
-breakpoint).</p>
+<dd><p>現在の評価を破棄します(これはブレイクポイントで停止しているときのみ有効)．</p>
 </dd></dl>
 
 <dl class="ghci-cmd">
 <dt id="ghci-cmd-:add">
 <code class="descname">:add[*] ⟨module⟩</code><a class="headerlink" href="#ghci-cmd-:add" title="Permalink to this definition">¶</a></dt>
-<dd><p>Add ⟨module⟩(s) to the current target set, and perform a reload.
-Normally pre-compiled code for the module will be loaded if
-available, or otherwise the module will be compiled to byte-code.
-Using the <code class="docutils literal"><span class="pre">*</span></code> prefix forces the module to be loaded as byte-code.</p>
+<dd><p>⟨module⟩ を現在のターゲット集合に追加しリロードを実行します．
+通常，可能ならそのモジュールのコンパイル済みコードをロードし，そうでなければ，そのモジュールはバイトコードにコンパイルします．
+<code class="docutils literal"><span class="pre">*</span></code> 接頭辞を使えば，強制的にバイトコードとしてロードできます．</p>
 </dd></dl>
 
 <dl class="ghci-cmd">
