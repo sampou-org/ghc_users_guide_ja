@@ -102,7 +102,7 @@
 </ul>
 </li>
 <li><a class="reference internal" href="#ghci-commands">5.7. GHCi のコマンド群</a></li>
-<li><a class="reference internal" href="#the-set-and-seti-commands">5.8. The <code class="docutils literal"><span class="pre">:set</span></code> and <code class="docutils literal"><span class="pre">:seti</span></code> commands</a><ul>
+<li><a class="reference internal" href="#set-seti">5.8. <code class="docutils literal"><span class="pre">:set</span></code> コマンドと <code class="docutils literal"><span class="pre">:seti</span></code> コマンド</a><ul>
 <li><a class="reference internal" href="#ghci-options">5.8.1. GHCi options</a></li>
 <li><a class="reference internal" href="#setting-ghc-command-line-options-in-ghci">5.8.2. Setting GHC command-line options in GHCi</a></li>
 <li><a class="reference internal" href="#setting-options-for-interactive-evaluation-only">5.8.3. Setting options for interactive evaluation only</a></li>
@@ -2063,7 +2063,7 @@ bar
 <dt id="ghci-cmd-:set">
 <code class="descname">:set [⟨option⟩ ...]</code><a class="headerlink" href="#ghci-cmd-:set" title="Permalink to this definition">¶</a></dt>
 <dd><p>さまざまなオプションを設定します．
-利用可能なオプション一覧については <a class="reference internal" href="#ghci-set"><span>The :set and :seti commands</span></a> を参照して下さい．
+利用可能なオプション一覧については <a class="reference internal" href="#ghci-set"><span>:set コマンドと :seti コマンド</span></a> を参照して下さい．
 また，GHCi固有のフラグ一覧については <a class="reference internal" href="flags.html#interactive-mode-options"><span>Interactive-mode options</span></a> を参照してください．
 <a class="reference internal" href="#ghci-cmd-:set"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:set</span></code></a> コマンドを単独で使うと，現在設定されているオプションが表示されます．
 また，それとは分けて，動的フラグの設定状況も一覧表示します．</p>
@@ -2261,7 +2261,7 @@ Int -&gt; Int
 <dl class="ghci-cmd">
 <dt id="ghci-cmd-:unset">
 <code class="descname">:unset ⟨option⟩</code><a class="headerlink" href="#ghci-cmd-:unset" title="Permalink to this definition">¶</a></dt>
-<dd><p>ある種のオプションを未設定にします．利用可能なオプション一覧については <a class="reference internal" href="#ghci-set"><span>The :set and :seti commands</span></a> を参照してください．</p>
+<dd><p>ある種のオプションを未設定にします．利用可能なオプション一覧については <a class="reference internal" href="#ghci-set"><span>:set コマンドと :seti コマンド</span></a> を参照してください．</p>
 </dd></dl>
 
 <dl class="ghci-cmd">
@@ -2286,16 +2286,15 @@ GhciFind.hs:(57,62)-(57,66)
 </dd></dl>
 
 </div>
-<div class="section" id="the-set-and-seti-commands">
-<span id="ghci-set"></span><h2>5.8. The <code class="docutils literal"><span class="pre">:set</span></code> and <code class="docutils literal"><span class="pre">:seti</span></code> commands<a class="headerlink" href="#the-set-and-seti-commands" title="Permalink to this headline">¶</a></h2>
-<p id="index-25">The <a class="reference internal" href="#ghci-cmd-:set"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:set</span></code></a> command sets two types of options: GHCi options, which
-begin with &#8220;<code class="docutils literal"><span class="pre">+</span></code>&#8221;, and &#8220;command-line&#8221; options, which begin with &#8220;<code class="docutils literal"><span class="pre">-</span></code>&#8221;.</p>
+<div class="section" id="set-seti">
+<span id="ghci-set"></span><h2>5.8. <code class="docutils literal"><span class="pre">:set</span></code> コマンドと <code class="docutils literal"><span class="pre">:seti</span></code> コマンド<a class="headerlink" href="#set-seti" title="Permalink to this headline">¶</a></h2>
+<p id="index-25"><a class="reference internal" href="#ghci-cmd-:set"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:set</span></code></a> コマンドでは2種類のオプションを設定できます．
+「 <code class="docutils literal"><span class="pre">+</span></code>」で始まるオプションと「 <code class="docutils literal"><span class="pre">-</span></code> 」で始まる「コマンドライン」オプションです．</p>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
-<p class="last">At the moment, the <a class="reference internal" href="#ghci-cmd-:set"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:set</span></code></a> command doesn&#8217;t support any kind of
-quoting in its arguments: quotes will not be removed and cannot be used
-to group words together. For example, <code class="docutils literal"><span class="pre">:set</span> <span class="pre">-DFOO='BAR</span> <span class="pre">BAZ'</span></code> will not
-do what you expect.</p>
+<p class="last">現在のところ <a class="reference internal" href="#ghci-cmd-:set"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:set</span></code></a> コマンドは引数における引用符の使用を一切サポートしていません．
+引用符は削除されませんし，複数の単語を一つにまとめるのに使うこともできません．
+たとえば <code class="docutils literal"><span class="pre">:set</span> <span class="pre">-DFOO='BAR</span> <span class="pre">BAZ'</span></code> は期待した通りには動かないでしょう．</p>
 </div>
 <div class="section" id="ghci-options">
 <h3>5.8.1. GHCi options<a class="headerlink" href="#ghci-options" title="Permalink to this headline">¶</a></h3>
