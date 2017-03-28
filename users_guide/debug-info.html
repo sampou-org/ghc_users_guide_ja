@@ -7,7 +7,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>14. Debugging compiled programs &#8212; Glasgow Haskell Compiler &lt;release&gt; Users Guide</title>
+    <title>14. Debugging compiled programs &mdash; Glasgow Haskell Compiler &lt;release&gt; Users Guide</title>
     
     <link rel="stylesheet" href="_static/ghc-theme.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -18,15 +18,13 @@
         VERSION:     '8.0.2',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
-        HAS_SOURCE:  true,
-        SOURCELINK_SUFFIX: '.txt'
+        HAS_SOURCE:  true
       };
     </script>
     <script type="text/javascript" src="_static/jquery.js"></script>
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
-    <link rel="index" title="Index" href="genindex.html" />
-    <link rel="search" title="Search" href="search.html" />
+    <link rel="top" title="Glasgow Haskell Compiler &lt;release&gt; Users Guide" href="index.html" />
     <link rel="next" title="15. Other Haskell utility programs" href="utils.html" />
     <link rel="prev" title="13. What to do when something goes wrong" href="gone_wrong.html" /> 
   </head>
@@ -47,7 +45,7 @@
         <li class="right" >
           <a href="gone_wrong.html" title="13. What to do when something goes wrong"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">GHC 8.0.2 Users Guide</a> &#187;</li> 
+        <li class="nav-item nav-item-0"><a href="index.html">GHC 8.0.2 Users Guide</a> &raquo;</li> 
       </ul>
     </div>
 
@@ -80,18 +78,21 @@
   <div role="note" aria-label="source link">
     <h3>This Page</h3>
     <ul class="this-page-menu">
-      <li><a href="_sources/debug-info.rst.txt"
+      <li><a href="_sources/debug-info.txt"
             rel="nofollow">Show Source</a></li>
     </ul>
    </div>
 <div id="searchbox" style="display: none" role="search">
   <h3>Quick search</h3>
     <form class="search" action="search.html" method="get">
-      <div><input type="text" name="q" /></div>
-      <div><input type="submit" value="Go" /></div>
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
       <input type="hidden" name="check_keywords" value="yes" />
       <input type="hidden" name="area" value="default" />
     </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
 </div>
 <script type="text/javascript">$('#searchbox').show(0);</script>
         </div>
@@ -125,7 +126,7 @@ production code.</p>
 5
 6
 7
-8</pre></div></td><td class="code"><div class="highlight"><pre><span></span> <span class="c1">-- fib.hs</span>
+8</pre></div></td><td class="code"><div class="highlight"><pre> <span class="c1">-- fib.hs</span>
  <span class="n">fib</span> <span class="ow">::</span> <span class="kt">Int</span> <span class="ow">-&gt;</span> <span class="kt">Int</span>
  <span class="n">fib</span> <span class="mi">0</span> <span class="ow">=</span> <span class="mi">0</span>
  <span class="n">fib</span> <span class="mi">1</span> <span class="ow">=</span> <span class="mi">1</span>
@@ -137,7 +138,7 @@ production code.</p>
 </td></tr></table></div>
 <p>Let&#8217;s first see how execution flows through this program. We start by telling
 GHC that we want debug information,</p>
-<div class="highlight-sh"><div class="highlight"><pre><span></span>$ ghc -g -rtsopts fib.hs
+<div class="highlight-sh"><div class="highlight"><pre>$ ghc -g -rtsopts fib.hs
 </pre></div>
 </div>
 <p>Here we used the <code class="docutils literal"><span class="pre">-g</span></code> option to inform GHC that it should add debugging
@@ -151,7 +152,7 @@ by GHC.</p>
 <p>Under Mac OS X debug information is kept apart from the executable. After
 compiling the executable you&#8217;ll need to use the <code class="docutils literal"><span class="pre">dsymutil</span></code> utility to
 extract the debugging information and place them in the debug archive,</p>
-<div class="highlight-sh"><div class="highlight"><pre><span></span>$ dsymutil fib
+<div class="highlight-sh"><div class="highlight"><pre>$ dsymutil fib
 </pre></div>
 </div>
 <p class="last">This should produce a file named <code class="docutils literal"><span class="pre">fib.dSYM</span></code>.</p>
@@ -159,7 +160,7 @@ extract the debugging information and place them in the debug archive,</p>
 <p>Now let&#8217;s have a look at the flow of control. For this we can just start our
 program under <code class="docutils literal"><span class="pre">gdb</span></code> (or an equivalent debugger) as we would any other native
 executable,</p>
-<div class="highlight-none"><div class="highlight"><pre><span></span>$ gdb --args ./Fib +RTS -V0
+<div class="highlight-none"><div class="highlight"><pre>$ gdb --args ./Fib +RTS -V0
 Reading symbols from Fib...done.
 (gdb) run
 Starting program: /opt/exp/ghc/ghc-dwarf/Fib
@@ -178,7 +179,7 @@ into the program <code class="docutils literal"><span class="pre">gdb</span></co
 to the current point of execution.</p>
 <p>Moreover, we can ask <code class="docutils literal"><span class="pre">gdb</span></code> to tell us the flow of execution that lead us to
 this point in the program,</p>
-<div class="highlight-none"><div class="highlight"><pre><span></span>(gdb) bt
+<div class="highlight-none"><div class="highlight"><pre>(gdb) bt
 #0  0x000000000064fc7c in cfy4_info () at libraries/integer-gmp/src/GHC/Integer/Type.hs:424
 #1  0x00000000006eb0c0 in ?? ()
 #2  0x000000000064301c in cbuV_info () at libraries/integer-gmp/src/GHC/Integer/Type.hs:323
@@ -203,7 +204,7 @@ this point in the program,</p>
 <p>Here we notice the first bit of the stack trace has many unidentified stack
 frames at address <code class="docutils literal"><span class="pre">0x006eb0c0</span></code>. If we ask <code class="docutils literal"><span class="pre">gdb</span></code> about this location, we
 find that these frames are actually STG update closures,</p>
-<div class="highlight-none"><div class="highlight"><pre><span></span>(gdb) print/a 0x006eb0c0
+<div class="highlight-none"><div class="highlight"><pre>(gdb) print/a 0x006eb0c0
 $1 = 0x6eb0c0 &lt;stg_upd_frame_info&gt;
 </pre></div>
 </div>
@@ -229,7 +230,7 @@ Haskell should supplement the standard source location information with
 GHC-specific annotations (emitted with <code class="docutils literal"><span class="pre">-g2</span></code>) when assigning costs.</p>
 </div>
 <p>Indeed, we can even set breakpoints,</p>
-<div class="highlight-none"><div class="highlight"><pre><span></span>(gdb) break fib.hs:4
+<div class="highlight-none"><div class="highlight"><pre>(gdb) break fib.hs:4
 Breakpoint 1 at 0x406c60: fib.hs:4. (5 locations)
 (gdb) run
 Starting program: /opt/exp/ghc/ghc-dwarf/Fib
@@ -270,7 +271,7 @@ documentation in this module for details regarding usage.</p>
 <p>On POSIX-compatible platforms GHC&#8217;s runtime system (when built with <code class="docutils literal"><span class="pre">libdw</span></code>
 support) will produce a stack trace on <code class="docutils literal"><span class="pre">stderr</span></code> when a <code class="docutils literal"><span class="pre">SIGUSR2</span></code> signal is
 received. For instance (using the same <code class="docutils literal"><span class="pre">fib.hs</span></code> as above),</p>
-<div class="highlight-sh"><div class="highlight"><pre><span></span>$ ./fib  <span class="p">&amp;</span>  killall -SIGUSR2 fib
+<div class="highlight-sh"><div class="highlight"><pre>$ ./fib  <span class="p">&amp;</span>  killall -SIGUSR2 fib
 0x7f3176b15dd8    dwfl_thread_getframes <span class="o">(</span>/usr/lib/x86_64-linux-gnu/libdw-0.163.so<span class="o">)</span>
 0x7f3176b1582f    <span class="o">(</span>null<span class="o">)</span> <span class="o">(</span>/usr/lib/x86_64-linux-gnu/libdw-0.163.so<span class="o">)</span>
 0x7f3176b15b57    dwfl_getthreads <span class="o">(</span>/usr/lib/x86_64-linux-gnu/libdw-0.163.so<span class="o">)</span>
@@ -400,12 +401,12 @@ Analysis and Implementation*</a>.</p>
         <li class="right" >
           <a href="gone_wrong.html" title="13. What to do when something goes wrong"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">GHC 8.0.2 Users Guide</a> &#187;</li> 
+        <li class="nav-item nav-item-0"><a href="index.html">GHC 8.0.2 Users Guide</a> &raquo;</li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">
-        &#169; Copyright 2015, GHC Team.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.5.2.
+        &copy; Copyright 2015, GHC Team.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.6.
     </div>
   </body>
 </html>

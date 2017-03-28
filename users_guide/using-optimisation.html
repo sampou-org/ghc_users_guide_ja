@@ -7,7 +7,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>7.3. Optimisation (code improvement) &#8212; Glasgow Haskell Compiler &lt;release&gt; Users Guide</title>
+    <title>7.3. Optimisation (code improvement) &mdash; Glasgow Haskell Compiler &lt;release&gt; Users Guide</title>
     
     <link rel="stylesheet" href="_static/ghc-theme.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -18,15 +18,14 @@
         VERSION:     '8.0.2',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
-        HAS_SOURCE:  true,
-        SOURCELINK_SUFFIX: '.txt'
+        HAS_SOURCE:  true
       };
     </script>
     <script type="text/javascript" src="_static/jquery.js"></script>
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
-    <link rel="index" title="Index" href="genindex.html" />
-    <link rel="search" title="Search" href="search.html" />
+    <link rel="top" title="Glasgow Haskell Compiler &lt;release&gt; Users Guide" href="index.html" />
+    <link rel="up" title="7. Using GHC" href="usage.html" />
     <link rel="next" title="7.4. Using Concurrent Haskell" href="using-concurrent.html" />
     <link rel="prev" title="7.2. Warnings and sanity-checking" href="using-warnings.html" /> 
   </head>
@@ -47,8 +46,8 @@
         <li class="right" >
           <a href="using-warnings.html" title="7.2. Warnings and sanity-checking"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">GHC 8.0.2 Users Guide</a> &#187;</li>
-          <li class="nav-item nav-item-1"><a href="usage.html" accesskey="U">7. Using GHC</a> &#187;</li> 
+        <li class="nav-item nav-item-0"><a href="index.html">GHC 8.0.2 Users Guide</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="usage.html" accesskey="U">7. Using GHC</a> &raquo;</li> 
       </ul>
     </div>
 
@@ -72,18 +71,21 @@
   <div role="note" aria-label="source link">
     <h3>This Page</h3>
     <ul class="this-page-menu">
-      <li><a href="_sources/using-optimisation.rst.txt"
+      <li><a href="_sources/using-optimisation.txt"
             rel="nofollow">Show Source</a></li>
     </ul>
    </div>
 <div id="searchbox" style="display: none" role="search">
   <h3>Quick search</h3>
     <form class="search" action="search.html" method="get">
-      <div><input type="text" name="q" /></div>
-      <div><input type="submit" value="Go" /></div>
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
       <input type="hidden" name="check_keywords" value="yes" />
       <input type="hidden" name="area" value="default" />
     </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
 </div>
 <script type="text/javascript">$('#searchbox').show(0);</script>
         </div>
@@ -166,7 +168,7 @@ on or off individually.</p>
 <code class="descname">-Odph</code><code class="descclassname"> </code><a class="headerlink" href="#ghc-flag--Odph" title="Permalink to this definition">¶</a></dt>
 <dd><p id="index-3">Enables all <code class="docutils literal"><span class="pre">-O2</span></code> optimisation, sets
 <code class="docutils literal"><span class="pre">-fmax-simplifier-iterations=20</span></code> and <code class="docutils literal"><span class="pre">-fsimplifier-phases=3</span></code>.
-Designed for use with <a class="reference internal" href="parallel.html#dph"><span class="std std-ref">Data Parallel Haskell (DPH)</span></a>.</p>
+Designed for use with <a class="reference internal" href="parallel.html#dph"><span>Data Parallel Haskell (DPH)</span></a>.</p>
 </dd></dl>
 
 <p>We don&#8217;t use a <code class="docutils literal"><span class="pre">-O*</span></code> flag for day-to-day work. We use <code class="docutils literal"><span class="pre">-O</span></code> to get
@@ -181,7 +183,7 @@ breaks).</p>
 <p id="index-4">These flags turn on and off individual optimisations. Flags marked as
 on by default are enabled by <code class="docutils literal"><span class="pre">-O</span></code>, and as such you shouldn&#8217;t
 need to set any of them explicitly. A flag <code class="docutils literal"><span class="pre">-fwombat</span></code> can be negated
-by saying <code class="docutils literal"><span class="pre">-fno-wombat</span></code>. See <a class="reference internal" href="flags.html#options-f-compact"><span class="std std-ref">Individual optimisations</span></a> for a compact
+by saying <code class="docutils literal"><span class="pre">-fno-wombat</span></code>. See <a class="reference internal" href="flags.html#options-f-compact"><span>Individual optimisations</span></a> for a compact
 list.</p>
 <dl class="ghc-flag">
 <dt id="ghc-flag--fcase-merge">
@@ -196,7 +198,7 @@ list.</p>
 </table>
 <p>Merge immediately-nested case expressions that scrutinse the same variable.
 For example,</p>
-<div class="highlight-haskell"><div class="highlight"><pre><span></span><span class="kr">case</span> <span class="n">x</span> <span class="kr">of</span>
+<div class="highlight-haskell"><div class="highlight"><pre><span class="kr">case</span> <span class="n">x</span> <span class="kr">of</span>
    <span class="kt">Red</span> <span class="ow">-&gt;</span> <span class="n">e1</span>
    <span class="kr">_</span>   <span class="ow">-&gt;</span> <span class="kr">case</span> <span class="n">x</span> <span class="kr">of</span>
             <span class="kt">Blue</span> <span class="ow">-&gt;</span> <span class="n">e2</span>
@@ -204,7 +206,7 @@ For example,</p>
 </pre></div>
 </div>
 <p>Is transformed to,</p>
-<div class="highlight-haskell"><div class="highlight"><pre><span></span><span class="kr">case</span> <span class="n">x</span> <span class="kr">of</span>
+<div class="highlight-haskell"><div class="highlight"><pre><span class="kr">case</span> <span class="n">x</span> <span class="kr">of</span>
    <span class="kt">Red</span> <span class="ow">-&gt;</span> <span class="n">e1</span>
    <span class="kt">Blue</span> <span class="ow">-&gt;</span> <span class="n">e2</span>
    <span class="kt">Green</span> <span class="ow">-&gt;</span> <span class="n">e2</span>
@@ -351,7 +353,7 @@ this option for their compilation.</p>
 <p>Note that the 32-bit x86 native code generator only supports
 excess-precision mode, so neither <code class="docutils literal"><span class="pre">-fexcess-precision</span></code> nor
 <code class="docutils literal"><span class="pre">-fno-excess-precision</span></code> has any effect. This is a known bug, see
-<a class="reference internal" href="bugs.html#bugs-ghc"><span class="std std-ref">Bugs in GHC</span></a>.</p>
+<a class="reference internal" href="bugs.html#bugs-ghc"><span>Bugs in GHC</span></a>.</p>
 </dd></dl>
 
 <dl class="ghc-flag">
@@ -449,7 +451,7 @@ This flag allows worker/wrapper to remove <em>all</em> value lambdas.</p>
 </table>
 <p>Causes GHC to ignore uses of the function <code class="docutils literal"><span class="pre">Exception.assert</span></code> in source
 code (in other words, rewriting <code class="docutils literal"><span class="pre">Exception.assert</span> <span class="pre">p</span> <span class="pre">e</span></code> to <code class="docutils literal"><span class="pre">e</span></code> (see
-<a class="reference internal" href="glasgow_exts.html#assertions"><span class="std std-ref">Assertions</span></a>).</p>
+<a class="reference internal" href="glasgow_exts.html#assertions"><span>Assertions</span></a>).</p>
 </dd></dl>
 
 <dl class="ghc-flag">
@@ -718,8 +720,8 @@ enables iterative coalescing during register allocation.</p>
 </tbody>
 </table>
 <p>GHC&#8217;s optimiser can diverge if you write rewrite rules
-(<a class="reference internal" href="glasgow_exts.html#rewrite-rules"><span class="std std-ref">Rewrite rules</span></a>) that don&#8217;t terminate, or (less satisfactorily)
-if you code up recursion through data types (<a class="reference internal" href="bugs.html#bugs-ghc"><span class="std std-ref">Bugs in GHC</span></a>). To
+(<a class="reference internal" href="glasgow_exts.html#rewrite-rules"><span>Rewrite rules</span></a>) that don&#8217;t terminate, or (less satisfactorily)
+if you code up recursion through data types (<a class="reference internal" href="bugs.html#bugs-ghc"><span>Bugs in GHC</span></a>). To
 avoid making the compiler fall into an infinite loop, the optimiser
 carries a &#8220;tick count&#8221; and stops inlining and applying rewrite rules
 when this count is exceeded. The limit is set as a multiple of the
@@ -741,7 +743,7 @@ specialisation; see <a class="reference external" href="http://research.microsof
 programs</a>.</p>
 <p>This optimisation specializes recursive functions according to their
 argument &#8220;shapes&#8221;. This is best explained by example so consider:</p>
-<div class="highlight-haskell"><div class="highlight"><pre><span></span><span class="nf">last</span> <span class="ow">::</span> <span class="p">[</span><span class="n">a</span><span class="p">]</span> <span class="ow">-&gt;</span> <span class="n">a</span>
+<div class="highlight-haskell"><div class="highlight"><pre><span class="nf">last</span> <span class="ow">::</span> <span class="p">[</span><span class="n">a</span><span class="p">]</span> <span class="ow">-&gt;</span> <span class="n">a</span>
 <span class="nf">last</span> <span class="kt">[]</span> <span class="ow">=</span> <span class="ne">error</span> <span class="s">&quot;last&quot;</span>
 <span class="nf">last</span> <span class="p">(</span><span class="n">x</span> <span class="kt">:</span> <span class="kt">[]</span><span class="p">)</span> <span class="ow">=</span> <span class="n">x</span>
 <span class="nf">last</span> <span class="p">(</span><span class="n">x</span> <span class="kt">:</span> <span class="n">xs</span><span class="p">)</span> <span class="ow">=</span> <span class="n">last</span> <span class="n">xs</span>
@@ -750,7 +752,7 @@ argument &#8220;shapes&#8221;. This is best explained by example so consider:</p
 <p>In this code, once we pass the initial check for an empty list we
 know that in the recursive case this pattern match is redundant. As
 such <code class="docutils literal"><span class="pre">-fspec-constr</span></code> will transform the above code to:</p>
-<div class="highlight-haskell"><div class="highlight"><pre><span></span><span class="nf">last</span> <span class="ow">::</span> <span class="p">[</span><span class="n">a</span><span class="p">]</span> <span class="ow">-&gt;</span> <span class="n">a</span>
+<div class="highlight-haskell"><div class="highlight"><pre><span class="nf">last</span> <span class="ow">::</span> <span class="p">[</span><span class="n">a</span><span class="p">]</span> <span class="ow">-&gt;</span> <span class="n">a</span>
 <span class="nf">last</span> <span class="kt">[]</span>       <span class="ow">=</span> <span class="ne">error</span> <span class="s">&quot;last&quot;</span>
 <span class="nf">last</span> <span class="p">(</span><span class="n">x</span> <span class="kt">:</span> <span class="n">xs</span><span class="p">)</span> <span class="ow">=</span> <span class="n">last&#39;</span> <span class="n">x</span> <span class="n">xs</span>
     <span class="kr">where</span>
@@ -769,7 +771,7 @@ necessary for some highly optimized libraries, where we may want to
 specialize regardless of the number of specialisations, or the size
 of the code. As an example, consider a simplified use-case from the
 <code class="docutils literal"><span class="pre">vector</span></code> library:</p>
-<div class="highlight-haskell"><div class="highlight"><pre><span></span><span class="kr">import</span> <span class="nn">GHC.Types</span> <span class="p">(</span><span class="kt">SPEC</span><span class="p">(</span><span class="o">..</span><span class="p">))</span>
+<div class="highlight-haskell"><div class="highlight"><pre><span class="kr">import</span> <span class="nn">GHC.Types</span> <span class="p">(</span><span class="kt">SPEC</span><span class="p">(</span><span class="o">..</span><span class="p">))</span>
 
 <span class="nf">foldl</span> <span class="ow">::</span> <span class="p">(</span><span class="n">a</span> <span class="ow">-&gt;</span> <span class="n">b</span> <span class="ow">-&gt;</span> <span class="n">a</span><span class="p">)</span> <span class="ow">-&gt;</span> <span class="n">a</span> <span class="ow">-&gt;</span> <span class="kt">Stream</span> <span class="n">b</span> <span class="ow">-&gt;</span> <span class="n">a</span>
 <span class="cm">{-# INLINE foldl #-}</span>
@@ -836,7 +838,7 @@ any one function by the SpecConstr transformation.</p>
 <p>Specialise each type-class-overloaded function
 defined in this module for the types at which it is called in this
 module. If <a class="reference internal" href="#ghc-flag--fcross-module-specialise"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-fcross-module-specialise</span></code></a> is set imported functions
-that have an INLINABLE pragma (<a class="reference internal" href="glasgow_exts.html#inlinable-pragma"><span class="std std-ref">INLINABLE pragma</span></a>) will be
+that have an INLINABLE pragma (<a class="reference internal" href="glasgow_exts.html#inlinable-pragma"><span>INLINABLE pragma</span></a>) will be
 specialised as well.</p>
 </dd></dl>
 
@@ -851,7 +853,7 @@ specialised as well.</p>
 </tr>
 </tbody>
 </table>
-<p>Specialise <code class="docutils literal"><span class="pre">INLINABLE</span></code> (<a class="reference internal" href="glasgow_exts.html#inlinable-pragma"><span class="std std-ref">INLINABLE pragma</span></a>)
+<p>Specialise <code class="docutils literal"><span class="pre">INLINABLE</span></code> (<a class="reference internal" href="glasgow_exts.html#inlinable-pragma"><span>INLINABLE pragma</span></a>)
 type-class-overloaded functions imported from other modules for the types at
 which they are called in this module. Note that specialisation must be
 enabled (by <code class="docutils literal"><span class="pre">-fspecialise</span></code>) for this to have any effect.</p>
@@ -910,23 +912,23 @@ arguments.</p>
 <p id="index-5">This option causes all constructor fields which
 are marked strict (i.e. “!”) and which representation is smaller or
 equal to the size of a pointer to be unpacked, if possible. It is
-equivalent to adding an <code class="docutils literal"><span class="pre">UNPACK</span></code> pragma (see <a class="reference internal" href="glasgow_exts.html#unpack-pragma"><span class="std std-ref">UNPACK pragma</span></a>)
+equivalent to adding an <code class="docutils literal"><span class="pre">UNPACK</span></code> pragma (see <a class="reference internal" href="glasgow_exts.html#unpack-pragma"><span>UNPACK pragma</span></a>)
 to every strict constructor field that fulfils the size restriction.</p>
 <p>For example, the constructor fields in the following data types</p>
-<div class="highlight-haskell"><div class="highlight"><pre><span></span><span class="kr">data</span> <span class="kt">A</span> <span class="ow">=</span> <span class="kt">A</span> <span class="o">!</span><span class="kt">Int</span>
+<div class="highlight-haskell"><div class="highlight"><pre><span class="kr">data</span> <span class="kt">A</span> <span class="ow">=</span> <span class="kt">A</span> <span class="o">!</span><span class="kt">Int</span>
 <span class="kr">data</span> <span class="kt">B</span> <span class="ow">=</span> <span class="kt">B</span> <span class="o">!</span><span class="kt">A</span>
 <span class="kr">newtype</span> <span class="kt">C</span> <span class="ow">=</span> <span class="kt">C</span> <span class="kt">B</span>
 <span class="kr">data</span> <span class="kt">D</span> <span class="ow">=</span> <span class="kt">D</span> <span class="o">!</span><span class="kt">C</span>
 </pre></div>
 </div>
 <p>would all be represented by a single <code class="docutils literal"><span class="pre">Int#</span></code> (see
-<a class="reference internal" href="glasgow_exts.html#primitives"><span class="std std-ref">Unboxed types and primitive operations</span></a>) value with <code class="docutils literal"><span class="pre">-funbox-small-strict-fields</span></code>
+<a class="reference internal" href="glasgow_exts.html#primitives"><span>Unboxed types and primitive operations</span></a>) value with <code class="docutils literal"><span class="pre">-funbox-small-strict-fields</span></code>
 enabled.</p>
 <p>This option is less of a sledgehammer than
 <code class="docutils literal"><span class="pre">-funbox-strict-fields</span></code>: it should rarely make things worse. If
 you use <code class="docutils literal"><span class="pre">-funbox-small-strict-fields</span></code> to turn on unboxing by
 default you can disable it for certain constructor fields using the
-<code class="docutils literal"><span class="pre">NOUNPACK</span></code> pragma (see <a class="reference internal" href="glasgow_exts.html#nounpack-pragma"><span class="std std-ref">NOUNPACK pragma</span></a>).</p>
+<code class="docutils literal"><span class="pre">NOUNPACK</span></code> pragma (see <a class="reference internal" href="glasgow_exts.html#nounpack-pragma"><span>NOUNPACK pragma</span></a>).</p>
 <p>Note that for consistency <code class="docutils literal"><span class="pre">Double</span></code>, <code class="docutils literal"><span class="pre">Word64</span></code>, and <code class="docutils literal"><span class="pre">Int64</span></code>
 constructor fields are unpacked on 32-bit platforms, even though
 they are technically larger than a pointer on those platforms.</p>
@@ -938,13 +940,13 @@ they are technically larger than a pointer on those platforms.</p>
 <dd><p id="index-6">This option causes all constructor fields which are marked strict
 (i.e. <code class="docutils literal"><span class="pre">!</span></code>) to be unpacked if possible. It is equivalent to adding an
 <code class="docutils literal"><span class="pre">UNPACK</span></code> pragma to every strict constructor field (see
-<a class="reference internal" href="glasgow_exts.html#unpack-pragma"><span class="std std-ref">UNPACK pragma</span></a>).</p>
+<a class="reference internal" href="glasgow_exts.html#unpack-pragma"><span>UNPACK pragma</span></a>).</p>
 <p>This option is a bit of a sledgehammer: it might sometimes make
 things worse. Selectively unboxing fields by using <code class="docutils literal"><span class="pre">UNPACK</span></code>
 pragmas might be better. An alternative is to use
 <code class="docutils literal"><span class="pre">-funbox-strict-fields</span></code> to turn on unboxing by default but disable
 it for certain constructor fields using the <code class="docutils literal"><span class="pre">NOUNPACK</span></code> pragma (see
-<a class="reference internal" href="glasgow_exts.html#nounpack-pragma"><span class="std std-ref">NOUNPACK pragma</span></a>).</p>
+<a class="reference internal" href="glasgow_exts.html#nounpack-pragma"><span>NOUNPACK pragma</span></a>).</p>
 </dd></dl>
 
 <dl class="ghc-flag">
@@ -1049,7 +1051,7 @@ definition will be kept around at all for potential inlining.</p>
 </tr>
 </tbody>
 </table>
-<p id="index-12">Part of <a class="reference internal" href="parallel.html#dph"><span class="std std-ref">Data Parallel Haskell (DPH)</span></a>.</p>
+<p id="index-12">Part of <a class="reference internal" href="parallel.html#dph"><span>Data Parallel Haskell (DPH)</span></a>.</p>
 <p>Enable the <em>vectorisation</em> avoidance optimisation.
 This optimisation only works when used in combination with the
 <code class="docutils literal"><span class="pre">-fvectorise</span></code> transformation.</p>
@@ -1070,7 +1072,7 @@ function would be better of unvectorised and if so, do just that.</p>
 </tr>
 </tbody>
 </table>
-<p>Part of <a class="reference internal" href="parallel.html#dph"><span class="std std-ref">Data Parallel Haskell (DPH)</span></a>.</p>
+<p>Part of <a class="reference internal" href="parallel.html#dph"><span>Data Parallel Haskell (DPH)</span></a>.</p>
 <p>Enable the <em>vectorisation</em> optimisation
 transformation. This optimisation transforms the nested data
 parallelism code of programs using DPH into flat data parallelism.
@@ -1099,13 +1101,13 @@ enable SIMD parallelism and friendlier cache behaviour.</p>
         <li class="right" >
           <a href="using-warnings.html" title="7.2. Warnings and sanity-checking"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">GHC 8.0.2 Users Guide</a> &#187;</li>
-          <li class="nav-item nav-item-1"><a href="usage.html" >7. Using GHC</a> &#187;</li> 
+        <li class="nav-item nav-item-0"><a href="index.html">GHC 8.0.2 Users Guide</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="usage.html" >7. Using GHC</a> &raquo;</li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">
-        &#169; Copyright 2015, GHC Team.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.5.2.
+        &copy; Copyright 2015, GHC Team.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.6.
     </div>
   </body>
 </html>

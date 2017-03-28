@@ -7,7 +7,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>4. バージョン 8.0.2 のリリースノート &#8212; Glasgow Haskell Compiler &lt;release&gt; Users Guide</title>
+    <title>4. バージョン 8.0.2 のリリースノート &mdash; Glasgow Haskell Compiler &lt;release&gt; Users Guide</title>
     
     <link rel="stylesheet" href="_static/ghc-theme.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -18,15 +18,13 @@
         VERSION:     '8.0.2',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
-        HAS_SOURCE:  true,
-        SOURCELINK_SUFFIX: '.txt'
+        HAS_SOURCE:  true
       };
     </script>
     <script type="text/javascript" src="_static/jquery.js"></script>
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
-    <link rel="index" title="Index" href="genindex.html" />
-    <link rel="search" title="Search" href="search.html" />
+    <link rel="top" title="Glasgow Haskell Compiler &lt;release&gt; Users Guide" href="index.html" />
     <link rel="next" title="5. GHCiを使う" href="ghci.html" />
     <link rel="prev" title="3. バージョン 8.0.1 のリリースノート" href="8.0.1-notes.html" /> 
   </head>
@@ -47,7 +45,7 @@
         <li class="right" >
           <a href="8.0.1-notes.html" title="3. バージョン 8.0.1 のリリースノート"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">GHC 8.0.2 Users Guide</a> &#187;</li> 
+        <li class="nav-item nav-item-0"><a href="index.html">GHC 8.0.2 Users Guide</a> &raquo;</li> 
       </ul>
     </div>
 
@@ -78,18 +76,21 @@
   <div role="note" aria-label="source link">
     <h3>This Page</h3>
     <ul class="this-page-menu">
-      <li><a href="_sources/8.0.2-notes.rst.txt"
+      <li><a href="_sources/8.0.2-notes.txt"
             rel="nofollow">Show Source</a></li>
     </ul>
    </div>
 <div id="searchbox" style="display: none" role="search">
   <h3>Quick search</h3>
     <form class="search" action="search.html" method="get">
-      <div><input type="text" name="q" /></div>
-      <div><input type="submit" value="Go" /></div>
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
       <input type="hidden" name="check_keywords" value="yes" />
       <input type="hidden" name="area" value="default" />
     </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
 </div>
 <script type="text/javascript">$('#searchbox').show(0);</script>
         </div>
@@ -149,7 +150,7 @@ Apple の新しい <code class="docutils literal"><span class="pre">nm</span></c
 <ul>
 <li><p class="first"><a class="reference internal" href="glasgow_exts.html#ghc-flag--XGeneralizedNewtypeDeriving"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-XGeneralizedNewtypeDeriving</span></code></a> を指定することで生成する型検査コードがより厳格になりました．
 たとえば，以下のプログラムは GHC が拒絶します．</p>
-<div class="highlight-haskell"><div class="highlight"><pre><span></span><span class="kr">class</span> <span class="kt">C</span> <span class="n">m</span> <span class="kr">where</span>
+<div class="highlight-haskell"><div class="highlight"><pre><span class="kr">class</span> <span class="kt">C</span> <span class="n">m</span> <span class="kr">where</span>
   <span class="n">foo</span> <span class="ow">::</span> <span class="kt">C</span> <span class="n">m</span> <span class="ow">=&gt;</span> <span class="n">m</span> <span class="nb">()</span>
 
 <span class="kr">newtype</span> <span class="kt">N</span> <span class="n">m</span> <span class="n">a</span> <span class="ow">=</span> <span class="kt">N</span> <span class="p">(</span><span class="n">m</span> <span class="n">a</span><span class="p">)</span>
@@ -158,7 +159,7 @@ Apple の新しい <code class="docutils literal"><span class="pre">nm</span></c
 </div>
 <p>GHC 8.0.1 以前はこのコードは通っていました．
 単に <code class="docutils literal"><span class="pre">foo</span></code> にある全く不要の <code class="docutils literal"><span class="pre">C</span> <span class="pre">m</span></code> 制約を削除するだけで，このコードは修正できます．</p>
-<div class="highlight-haskell"><div class="highlight"><pre><span></span><span class="kr">class</span> <span class="kt">C</span> <span class="n">m</span> <span class="kr">where</span>
+<div class="highlight-haskell"><div class="highlight"><pre><span class="kr">class</span> <span class="kt">C</span> <span class="n">m</span> <span class="kr">where</span>
   <span class="n">foo</span> <span class="ow">::</span> <span class="n">m</span> <span class="nb">()</span>
 </pre></div>
 </div>
@@ -168,7 +169,7 @@ Apple の新しい <code class="docutils literal"><span class="pre">nm</span></c
 <li><p class="first"><a class="reference internal" href="glasgow_exts.html#ghc-flag--XDefaultSignatures"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-XDefaultSignatures</span></code></a> を使ってプログラムで GHC 8.0.1 では正しく型検査ができないものがありましたが，
 GHC 8.0.2 はこれをリジェクトするようになりました．
 それを示す例を以下に挙げます．</p>
-<div class="highlight-haskell"><div class="highlight"><pre><span></span><span class="kr">class</span> <span class="kt">Monad</span> <span class="n">m</span> <span class="ow">=&gt;</span> <span class="kt">MonadSupply</span> <span class="n">m</span> <span class="kr">where</span>
+<div class="highlight-haskell"><div class="highlight"><pre><span class="kr">class</span> <span class="kt">Monad</span> <span class="n">m</span> <span class="ow">=&gt;</span> <span class="kt">MonadSupply</span> <span class="n">m</span> <span class="kr">where</span>
   <span class="n">fresh</span> <span class="ow">::</span> <span class="n">m</span> <span class="kt">Integer</span>
   <span class="kr">default</span> <span class="n">fresh</span> <span class="ow">::</span> <span class="p">(</span><span class="kt">MonadTrans</span> <span class="n">t</span><span class="p">,</span> <span class="kt">MonadSupply</span> <span class="n">m</span><span class="p">)</span> <span class="ow">=&gt;</span> <span class="n">t</span> <span class="n">m</span> <span class="kt">Integer</span>
   <span class="n">fresh</span> <span class="ow">=</span> <span class="n">lift</span> <span class="n">fresh</span>
@@ -178,7 +179,7 @@ GHC 8.0.2 はこれをリジェクトするようになりました．
 </div>
 <p>デフォルトのタイプシグネチャの <code class="docutils literal"><span class="pre">m</span></code> とデフォルトのタイプシグネチャではない部分の <code class="docutils literal"><span class="pre">m</span></code> は全く違う使い方です．
 これを(後方互換性のある方法で)修正するには以下のように書きます．</p>
-<div class="highlight-haskell"><div class="highlight"><pre><span></span><span class="kr">class</span> <span class="kt">Monad</span> <span class="n">m</span> <span class="ow">=&gt;</span> <span class="kt">MonadSupply</span> <span class="n">m</span> <span class="kr">where</span>
+<div class="highlight-haskell"><div class="highlight"><pre><span class="kr">class</span> <span class="kt">Monad</span> <span class="n">m</span> <span class="ow">=&gt;</span> <span class="kt">MonadSupply</span> <span class="n">m</span> <span class="kr">where</span>
   <span class="n">fresh</span> <span class="ow">::</span> <span class="n">m</span> <span class="kt">Integer</span>
   <span class="kr">default</span> <span class="n">fresh</span> <span class="ow">::</span> <span class="p">(</span><span class="kt">MonadTrans</span> <span class="n">t</span><span class="p">,</span> <span class="kt">MonadSupply</span> <span class="n">m&#39;</span><span class="p">,</span> <span class="n">m</span> <span class="o">~</span> <span class="n">t</span> <span class="n">m&#39;</span><span class="p">)</span> <span class="ow">=&gt;</span> <span class="n">m</span> <span class="kt">Integer</span>
                    <span class="c1">-- Same &#39;m Integer&#39; after the &#39;=&gt;&#39;</span>
@@ -190,7 +191,7 @@ GHC 8.0.2 はこれをリジェクトするようになりました．
 <ul>
 <li><p class="first">デフォルトの型クラスメソッド実装とオーバーラッピングインスタンスを組み合わせているプログラムの一部は
 型検査に失敗するようになりました．以下はその例です．</p>
-<div class="highlight-haskell"><div class="highlight"><pre><span></span><span class="kr">class</span> <span class="kt">Foo</span> <span class="n">a</span> <span class="kr">where</span>
+<div class="highlight-haskell"><div class="highlight"><pre><span class="kr">class</span> <span class="kt">Foo</span> <span class="n">a</span> <span class="kr">where</span>
   <span class="n">foo</span> <span class="ow">::</span> <span class="n">a</span> <span class="ow">-&gt;</span> <span class="p">[</span><span class="n">a</span><span class="p">]</span>
   <span class="n">foo</span> <span class="kr">_</span> <span class="ow">=</span> <span class="kt">[]</span>
 
@@ -200,7 +201,7 @@ GHC 8.0.2 はこれをリジェクトするようになりました．
 </div>
 <p>問題はオーバーラッピングインスタンス <code class="docutils literal"><span class="pre">Foo</span> <span class="pre">Int</span></code> に明示的にオーバーラッピングを示すマークが付いていないことです．
 これを修正するには，単に <code class="docutils literal"><span class="pre">OVERLAPPING</span></code> プラグマを加えるだけです．</p>
-<div class="highlight-haskell"><div class="highlight"><pre><span></span><span class="kr">instance</span> <span class="cm">{-# OVERLAPPING #-}</span> <span class="kt">Foo</span> <span class="kt">Int</span>
+<div class="highlight-haskell"><div class="highlight"><pre><span class="kr">instance</span> <span class="cm">{-# OVERLAPPING #-}</span> <span class="kt">Foo</span> <span class="kt">Int</span>
 </pre></div>
 </div>
 </li>
@@ -209,7 +210,7 @@ GHC 8.0.2 はこれをリジェクトするようになりました．
 <li><p class="first">GHC はデフォルト規則に関して，より Haskell 2010 Report に近くなりました．
 その結果，GHC はバージョン 8.0.1 以前には受け入れていたいくつかのデフォルト規則を拒絶するようになりました．
 たとえば，以下は拒絶されます．</p>
-<div class="highlight-haskell"><div class="highlight"><pre><span></span><span class="kr">module</span> <span class="nn">Foo</span> <span class="kr">where</span>
+<div class="highlight-haskell"><div class="highlight"><pre><span class="kr">module</span> <span class="nn">Foo</span> <span class="kr">where</span>
 <span class="kr">default</span> <span class="p">(</span><span class="kt">Bool</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -312,7 +313,7 @@ GHC が超えてしまうことがありました(<a class="reference external" 
 <ul>
 <li><p class="first"><code class="docutils literal"><span class="pre">addModFinalizer</span></code> は当該のスプライスポイントにおけるローカル型付け環境を表すようになりました．
 これにより以下のように <code class="docutils literal"><span class="pre">reify</span></code> から現在の宣言グループにおけるローカルおよびトップレベルの定義が見えるようになります．</p>
-<div class="highlight-none"><div class="highlight"><pre><span></span>f x = $(addModFinalizer (reify &#39;x &gt;&gt;= runIO . print) &gt;&gt; [| x |])
+<div class="highlight-none"><div class="highlight"><pre>f x = $(addModFinalizer (reify &#39;x &gt;&gt;= runIO . print) &gt;&gt; [| x |])
 </pre></div>
 </div>
 </li>
@@ -349,12 +350,12 @@ GHC が超えてしまうことがありました(<a class="reference external" 
         <li class="right" >
           <a href="8.0.1-notes.html" title="3. バージョン 8.0.1 のリリースノート"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">GHC 8.0.2 Users Guide</a> &#187;</li> 
+        <li class="nav-item nav-item-0"><a href="index.html">GHC 8.0.2 Users Guide</a> &raquo;</li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">
-        &#169; Copyright 2015, GHC Team.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.5.2.
+        &copy; Copyright 2015, GHC Team.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.6.
     </div>
   </body>
 </html>
