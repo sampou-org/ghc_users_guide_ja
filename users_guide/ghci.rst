@@ -5335,6 +5335,14 @@ GHCi のコマンドはすべて「 ``:`` 」ではじまり，1つのコマン�
 
     :ghci-cmd:`:uses` コマンドを使うには :ghci-cmd:`:set +c` を設定しておく必要があります．
 
+..
+   .. ghci-cmd:: :! ⟨command⟩
+
+       .. index::
+	  single: shell command; in GHCi
+
+       Executes the shell command ⟨command⟩.
+
 .. ghci-cmd:: :! ⟨command⟩
 
     .. index::
@@ -5343,23 +5351,42 @@ GHCi のコマンドはすべて「 ``:`` 」ではじまり，1つのコマン�
     シェルコマンド ⟨command⟩ を実行します．
 
 
+..
+   .. _ghci-set:
+
+   ``:set`` and ``:seti`` commands
+   -------------------------------
+
+   .. index::
+      single: :set; command in GHCi
+      single: :seti
+
+   The :ghci-cmd:`:set` command sets two types of options: GHCi options, which
+   begin with "``+``", and "command-line" options, which begin with "``-``".
+
 .. _ghci-set:
 
-The ``:set`` and ``:seti`` commands
------------------------------------
+``:set`` コマンドと ``:seti`` コマンド
+--------------------------------------
 
 .. index::
-   single: :set; command in GHCi
+   single: :set; GHCiでの〜コマンド
    single: :seti
 
-The :ghci-cmd:`:set` command sets two types of options: GHCi options, which
-begin with "``+``", and "command-line" options, which begin with "``-``".
+:ghci-cmd:`:set` コマンドでは2種類のオプションを設定できます．
+「 ``+``」で始まるオプションと「 ``-`` 」で始まる「コマンドライン」オプションです．
+
+..
+   .. note::
+       At the moment, the :ghci-cmd:`:set` command doesn't support any kind of
+       quoting in its arguments: quotes will not be removed and cannot be used
+       to group words together. For example, ``:set -DFOO='BAR BAZ'`` will not
+       do what you expect.
 
 .. note::
-    At the moment, the :ghci-cmd:`:set` command doesn't support any kind of
-    quoting in its arguments: quotes will not be removed and cannot be used
-    to group words together. For example, ``:set -DFOO='BAR BAZ'`` will not
-    do what you expect.
+    現在のところ :ghci-cmd:`:set` コマンドは引数における引用符の使用を一切サポートしていません．
+    引用符は削除されませんし，複数の単語を一つにまとめるのに使うこともできません．
+    たとえば ``:set -DFOO='BAR BAZ'`` は期待した通りには動かないでしょう．
 
 GHCi options
 ~~~~~~~~~~~~
