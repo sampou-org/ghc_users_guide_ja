@@ -104,7 +104,7 @@
 <li><a class="reference internal" href="#ghci-commands">5.7. GHCi のコマンド群</a></li>
 <li><a class="reference internal" href="#set-seti">5.8. <code class="docutils literal"><span class="pre">:set</span></code> コマンドと <code class="docutils literal"><span class="pre">:seti</span></code> コマンド</a><ul>
 <li><a class="reference internal" href="#id38">5.8.1. GHCi のオプション</a></li>
-<li><a class="reference internal" href="#setting-ghc-command-line-options-in-ghci">5.8.2. Setting GHC command-line options in GHCi</a></li>
+<li><a class="reference internal" href="#ghcighc">5.8.2. GHCiからGHCのコマンドラインオプションを設定する</a></li>
 <li><a class="reference internal" href="#setting-options-for-interactive-evaluation-only">5.8.3. Setting options for interactive evaluation only</a></li>
 </ul>
 </li>
@@ -271,7 +271,7 @@ GHCiを起動するコマンドラインで <a class="reference internal" href="
 </pre></div>
 </div>
 <p>あるいは，GHCiの中で <a class="reference internal" href="#ghci-cmd-:set"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:set</span></code></a> コマンドで指定できます
-(<a class="reference internal" href="#ghci-cmd-line-options"><span>Setting GHC command-line options in GHCi</span></a> 参照) <a class="footnote-reference" href="#id11" id="id10">[4]</a></p>
+(<a class="reference internal" href="#ghci-cmd-line-options"><span>GHCiからGHCのコマンドラインオプションを設定する</span></a> 参照) <a class="footnote-reference" href="#id11" id="id10">[4]</a></p>
 <p>GHCiは，このように依存関係を追ってロードすべきモジュールを見つけようとするので，
 モジュールごとに，1つのソースファイルがなければなりません．
 この規則の唯一の例外はパッケージ由来のモジュールで，それには <code class="docutils literal"><span class="pre">Prelude</span></code> のほか
@@ -2342,24 +2342,22 @@ GhciFind.hs:(57,62)-(57,66)
 </dd></dl>
 
 </div>
-<div class="section" id="setting-ghc-command-line-options-in-ghci">
-<span id="ghci-cmd-line-options"></span><h3>5.8.2. Setting GHC command-line options in GHCi<a class="headerlink" href="#setting-ghc-command-line-options-in-ghci" title="Permalink to this headline">¶</a></h3>
-<p>Normal GHC command-line options may also be set using <a class="reference internal" href="#ghci-cmd-:set"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:set</span></code></a>. For
-example, to turn on <a class="reference internal" href="using-warnings.html#ghc-flag--Wmissing-signatures"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-Wmissing-signatures</span></code></a>, you would say:</p>
+<div class="section" id="ghcighc">
+<span id="ghci-cmd-line-options"></span><h3>5.8.2. GHCiからGHCのコマンドラインオプションを設定する<a class="headerlink" href="#ghcighc" title="Permalink to this headline">¶</a></h3>
+<p>通常のGHCのコマンドラインオプションを <a class="reference internal" href="#ghci-cmd-:set"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:set</span></code></a> を使って設定することもできます．
+たとえば <a class="reference internal" href="using-warnings.html#ghc-flag--Wmissing-signatures"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-Wmissing-signatures</span></code></a> を有効にするには以下のようにします．</p>
 <div class="highlight-none"><div class="highlight"><pre>Prelude&gt; :set -Wmissing-signatures
 </pre></div>
 </div>
-<p>Any GHC command-line option that is designated as dynamic (see the table
-in <a class="reference internal" href="flags.html#flag-reference"><span>Flag reference</span></a>), may be set using <a class="reference internal" href="#ghci-cmd-:set"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:set</span></code></a>. To unset an
-option, you can set the reverse option:</p>
+<p>GHCのコマンドラインオプションのうち，動的なオプション(<a class="reference internal" href="flags.html#flag-reference"><span>Flag reference</span></a> にある一覧表を参照してください)
+として設計されているものは <a class="reference internal" href="#ghci-cmd-:set"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:set</span></code></a> を使って有効にすることができます．
+オプションを無効にするには，逆の効果を持つオプションを有効すればできます．</p>
 <div class="highlight-none" id="index-30"><div class="highlight"><pre>Prelude&gt; :set -Wno-incomplete-patterns -XNoMultiParamTypeClasses
 </pre></div>
 </div>
-<p><a class="reference internal" href="flags.html#flag-reference"><span>Flag reference</span></a> lists the reverse for each option where
-applicable.</p>
-<p>Certain static options (<a class="reference internal" href="phases.html#ghc-flag--package"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-package</span></code></a>, <a class="reference internal" href="phases.html#ghc-flag--I"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-I</span></code></a>, <a class="reference internal" href="separate_compilation.html#ghc-flag--i"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-i</span></code></a>,
-and <a class="reference internal" href="phases.html#ghc-flag--l"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-l</span></code></a> in particular) will also work, but some may not take effect
-until the next reload.</p>
+<p><a class="reference internal" href="flags.html#flag-reference"><span>Flag reference</span></a> には，可能なオプション全てについて逆の効果を持つオプションが一覧してあります．</p>
+<p>いくつかの静的なオプション(特に <a class="reference internal" href="phases.html#ghc-flag--package"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-package</span></code></a> ， <a class="reference internal" href="phases.html#ghc-flag--I"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-I</span></code></a> ， <a class="reference internal" href="separate_compilation.html#ghc-flag--i"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-i</span></code></a>
+， <a class="reference internal" href="phases.html#ghc-flag--l"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-l</span></code></a> )も使えるが，次にリロードするまで効果を発揮しないものもある．</p>
 </div>
 <div class="section" id="setting-options-for-interactive-evaluation-only">
 <span id="ghci-interactive-options"></span><span id="index-31"></span><h3>5.8.3. Setting options for interactive evaluation only<a class="headerlink" href="#setting-options-for-interactive-evaluation-only" title="Permalink to this headline">¶</a></h3>
