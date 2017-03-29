@@ -5505,38 +5505,73 @@ GHCi のオプションは :ghci-cmd:`:set` で有効 :ghci-cmd:`:unset` で無�
     入力されたのが単一の式なら，束縛されるのは変数 ``it`` だけです．
     
 
+..
+   .. _ghci-cmd-line-options:
+
+   Setting GHC command-line options in GHCi
+   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 .. _ghci-cmd-line-options:
 
-Setting GHC command-line options in GHCi
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+GHCiからGHCのコマンドラインオプションを設定する
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Normal GHC command-line options may also be set using :ghci-cmd:`:set`. For
-example, to turn on :ghc-flag:`-Wmissing-signatures`, you would say:
+..
+   Normal GHC command-line options may also be set using :ghci-cmd:`:set`. For
+   example, to turn on :ghc-flag:`-Wmissing-signatures`, you would say:
+
+   .. code-block:: none
+
+       Prelude> :set -Wmissing-signatures
+
+通常のGHCのコマンドラインオプションを :ghci-cmd:`:set` を使って設定することもできます．
+たとえば :ghc-flag:`-Wmissing-signatures` を有効にするには以下のようにします．
 
 .. code-block:: none
 
     Prelude> :set -Wmissing-signatures
 
-Any GHC command-line option that is designated as dynamic (see the table
-in :ref:`flag-reference`), may be set using :ghci-cmd:`:set`. To unset an
-option, you can set the reverse option:
+..
+   Any GHC command-line option that is designated as dynamic (see the table
+   in :ref:`flag-reference`), may be set using :ghci-cmd:`:set`. To unset an
+   option, you can set the reverse option:
+
+   .. index::
+      single: dynamic; options
+
+   .. code-block:: none
+
+       Prelude> :set -Wno-incomplete-patterns -XNoMultiParamTypeClasses
+
+   :ref:`flag-reference` lists the reverse for each option where
+   applicable.
+
+GHCのコマンドラインオプションのうち，動的なオプション(:ref:`flag-reference` にある一覧表を参照してください)
+として設計されているものは :ghci-cmd:`:set` を使って有効にすることができます．
+オプションを無効にするには，逆の効果を持つオプションを有効すればできます．
 
 .. index::
-   single: dynamic; options
+   single: 動的; 〜オプション
 
 .. code-block:: none
 
     Prelude> :set -Wno-incomplete-patterns -XNoMultiParamTypeClasses
 
-:ref:`flag-reference` lists the reverse for each option where
-applicable.
+:ref:`flag-reference` には，可能なオプション全てについて逆の効果を持つオプションが一覧してあります．
 
-Certain static options (:ghc-flag:`-package`, :ghc-flag:`-I`, :ghc-flag:`-i`,
-and :ghc-flag:`-l` in particular) will also work, but some may not take effect
-until the next reload.
+..
+   Certain static options (:ghc-flag:`-package`, :ghc-flag:`-I`, :ghc-flag:`-i`,
+   and :ghc-flag:`-l` in particular) will also work, but some may not take effect
+   until the next reload.
+
+   .. index::
+      single: static; options
+
+いくつかの静的なオプション(特に :ghc-flag:`-package` ， :ghc-flag:`-I` ， :ghc-flag:`-i`
+， :ghc-flag:`-l` )も使えるが，次にリロードするまで効果を発揮しないものもある．
 
 .. index::
-   single: static; options
+   single: 静的; 〜オプション
 
 .. _ghci-interactive-options:
 
