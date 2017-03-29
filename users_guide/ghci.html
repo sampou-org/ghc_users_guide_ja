@@ -103,7 +103,7 @@
 </li>
 <li><a class="reference internal" href="#ghci-commands">5.7. GHCi のコマンド群</a></li>
 <li><a class="reference internal" href="#set-seti">5.8. <code class="docutils literal"><span class="pre">:set</span></code> コマンドと <code class="docutils literal"><span class="pre">:seti</span></code> コマンド</a><ul>
-<li><a class="reference internal" href="#ghci-options">5.8.1. GHCi options</a></li>
+<li><a class="reference internal" href="#id38">5.8.1. GHCi のオプション</a></li>
 <li><a class="reference internal" href="#setting-ghc-command-line-options-in-ghci">5.8.2. Setting GHC command-line options in GHCi</a></li>
 <li><a class="reference internal" href="#setting-options-for-interactive-evaluation-only">5.8.3. Setting options for interactive evaluation only</a></li>
 </ul>
@@ -1048,7 +1048,7 @@ GHCi に対する <code class="docutils literal"><span class="pre">-prof</span><
 デバッグ機能を有効にするのにフラグは必要ありません．
 1つ重要な制限があります．
 それは，ブレイクポイントとステップ実行は解釈実行されているモジュールでしか使えないということです．
-コンパイル済みのコードはデバッガからは見えません <a class="footnote-reference" href="#id38" id="id23">[5]</a> ．</p>
+コンパイル済みのコードはデバッガからは見えません <a class="footnote-reference" href="#id39" id="id23">[5]</a> ．</p>
 <p>このデバッガが提供する機能は以下のとおりです．</p>
 <ul class="simple">
 <li>プログラム中の関数定義や式にブレイクポイントを設定する機能．
@@ -1120,7 +1120,7 @@ right :: [Integer] = _
 </div>
 <p><a class="reference internal" href="#ghci-cmd-:list"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:list</span></code></a> コマンドは，現在のブレイクポイントの周囲のコードを表示します．
 出力デバイスがサポートしている場合は，注目している部分式がボールド体で表示されます．</p>
-<p>GHCiは，ブレイクポイントを置いた式の自由変数 <a class="footnote-reference" href="#id39" id="id25">[6]</a> (<code class="docutils literal"><span class="pre">a</span></code> ， <code class="docutils literal"><span class="pre">left</span></code> ， <code class="docutils literal"><span class="pre">right</span></code>)
+<p>GHCiは，ブレイクポイントを置いた式の自由変数 <a class="footnote-reference" href="#id40" id="id25">[6]</a> (<code class="docutils literal"><span class="pre">a</span></code> ， <code class="docutils literal"><span class="pre">left</span></code> ， <code class="docutils literal"><span class="pre">right</span></code>)
 に対する束縛および当該式の結果(<code class="docutils literal"><span class="pre">_result</span></code>)に対する束縛も提供しています．
 これらの変数は，GHCi上で普通に定義する他の変数と同じです．
 プロンプトで入力する式の中で使ったり， <a class="reference internal" href="#ghci-cmd-:type"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:type</span></code></a> コマンドで型を確認するなどが可能です．</p>
@@ -2296,55 +2296,49 @@ GhciFind.hs:(57,62)-(57,66)
 引用符は削除されませんし，複数の単語を一つにまとめるのに使うこともできません．
 たとえば <code class="docutils literal"><span class="pre">:set</span> <span class="pre">-DFOO='BAR</span> <span class="pre">BAZ'</span></code> は期待した通りには動かないでしょう．</p>
 </div>
-<div class="section" id="ghci-options">
-<h3>5.8.1. GHCi options<a class="headerlink" href="#ghci-options" title="Permalink to this headline">¶</a></h3>
-<p id="index-26">GHCi options may be set using <a class="reference internal" href="#ghci-cmd-:set"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:set</span></code></a> and unset using <a class="reference internal" href="#ghci-cmd-:unset"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:unset</span></code></a>.</p>
-<p>The available GHCi options are:</p>
+<div class="section" id="id38">
+<h3>5.8.1. GHCi のオプション<a class="headerlink" href="#id38" title="Permalink to this headline">¶</a></h3>
+<p id="index-26">GHCi のオプションは <a class="reference internal" href="#ghci-cmd-:set"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:set</span></code></a> で有効 <a class="reference internal" href="#ghci-cmd-:unset"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:unset</span></code></a> で無効にできます．</p>
+<p>利用可能な GHCi オプションは以下のとおりです．</p>
 <dl class="ghci-cmd">
 <dt id="ghci-cmd-:set +c">
 <code class="descname">:set +c</code><a class="headerlink" href="#ghci-cmd-:set +c" title="Permalink to this definition">¶</a></dt>
-<dd><p>Collect type and location information after loading modules.
-The commands <a class="reference internal" href="#ghci-cmd-:all-types"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:all-types</span></code></a>, <a class="reference internal" href="#ghci-cmd-:loc-at"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:loc-at</span></code></a>,
-<a class="reference internal" href="#ghci-cmd-:type-at"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:type-at</span></code></a>, and <a class="reference internal" href="#ghci-cmd-:uses"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:uses</span></code></a> require <code class="docutils literal"><span class="pre">+c</span></code> to be active.</p>
+<dd><p>モジュールをロードした後に型と位置情報を収集します．
+<a class="reference internal" href="#ghci-cmd-:all-types"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:all-types</span></code></a> ， <a class="reference internal" href="#ghci-cmd-:loc-at"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:loc-at</span></code></a> ，
+<a class="reference internal" href="#ghci-cmd-:type-at"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:type-at</span></code></a> ， <a class="reference internal" href="#ghci-cmd-:uses"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:uses</span></code></a> の各コマンドを使うには <code class="docutils literal"><span class="pre">+c</span></code> が有効になっていなければなりません．</p>
 </dd></dl>
 
 <dl class="ghci-cmd">
 <dt id="ghci-cmd-:set +m">
 <code class="descname">:set +m</code><a class="headerlink" href="#ghci-cmd-:set +m" title="Permalink to this definition">¶</a></dt>
-<dd><p id="index-27">Enable parsing of multiline commands. A multiline command is
-prompted for when the current input line contains open layout
-contexts (see <a class="reference internal" href="#ghci-multiline"><span>複数行入力</span></a>).</p>
+<dd><p id="index-27">複数行にわたるコマンドのパースを可能にします．
+複数行コマンドは，現在の入力行が閉じていないレイアウト文脈を含んでいる場合に受け付けます
+(<a class="reference internal" href="#ghci-multiline"><span>複数行入力</span></a> 参照)．</p>
 </dd></dl>
 
 <dl class="ghci-cmd">
 <dt id="ghci-cmd-:set +r">
 <code class="descname">:set +r</code><a class="headerlink" href="#ghci-cmd-:set +r" title="Permalink to this definition">¶</a></dt>
-<dd><p id="index-28">Normally, any evaluation of top-level expressions (otherwise known
-as CAFs or Constant Applicative Forms) in loaded modules is retained
-between evaluations. Turning on <code class="docutils literal"><span class="pre">+r</span></code> causes all evaluation of
-top-level expressions to be discarded after each evaluation (they
-are still retained <em>during</em> a single evaluation).</p>
-<p>This option may help if the evaluated top-level expressions are
-consuming large amounts of space, or if you need repeatable
-performance measurements.</p>
+<dd><p id="index-28">通常，ロードしたモジュールにあるトップレベルの式(CAFあるいは定数適用形式ともいう)
+を評価した結果は，複数回の評価をまたがって保持されます．
+<code class="docutils literal"><span class="pre">+r</span></code> を有効にすると，トップレベルの式の評価結果は評価が終了するごとに捨てるようになります
+(それでも1回の評価の <em>間は</em> 保持されます)．</p>
+<p>このオプションは，評価済みのトップレベル式が大量のメモリを消費するときや，再現性のある実行性能を計測したいときに便利です．</p>
 </dd></dl>
 
 <dl class="ghci-cmd">
 <dt id="ghci-cmd-:set +s">
 <code class="descname">:set +s</code><a class="headerlink" href="#ghci-cmd-:set +s" title="Permalink to this definition">¶</a></dt>
-<dd><p>Display some stats after evaluating each expression, including the
-elapsed time and number of bytes allocated. NOTE: the allocation
-figure is only accurate to the size of the storage manager&#8217;s
-allocation area, because it is calculated at every GC. Hence, you
-might see values of zero if no GC has occurred.</p>
+<dd><p>式を1つ評価するごとに，経過時間や確保されたバイト数の統計情報を表示します．
+注意: 確保されたバイト数はGC毎に計算されるので，記憶領域管理器の確保領域の大きさ程度の精度しかありません．
+そういうわけ，GCが起らなかったら，値として0が表示されることもあります．</p>
 </dd></dl>
 
 <dl class="ghci-cmd">
 <dt id="ghci-cmd-:set +t">
 <code class="descname">:set +t</code><a class="headerlink" href="#ghci-cmd-:set +t" title="Permalink to this definition">¶</a></dt>
-<dd><p id="index-29">Display the type of each variable bound after a statement is entered
-at the prompt. If the statement is a single expression, then the
-only variable binding will be for the variable <code class="docutils literal"><span class="pre">it</span></code>.</p>
+<dd><p id="index-29">プロンプトに文を入力したとき，束縛された変数それぞれの型を表示します．
+入力されたのが単一の式なら，束縛されるのは変数 <code class="docutils literal"><span class="pre">it</span></code> だけです．</p>
 </dd></dl>
 
 </div>
@@ -2629,14 +2623,14 @@ program thus:</p>
 </div>
 </dd>
 </dl>
-<table class="docutils footnote" frame="void" id="id38" rules="none">
+<table class="docutils footnote" frame="void" id="id39" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
 <tr><td class="label"><a class="fn-backref" href="#id23">[5]</a></td><td>Note that packages only contain compiled code, so debugging a package
 requires finding its source and loading that directly.</td></tr>
 </tbody>
 </table>
-<table class="docutils footnote" frame="void" id="id39" rules="none">
+<table class="docutils footnote" frame="void" id="id40" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
 <tr><td class="label"><a class="fn-backref" href="#id25">[6]</a></td><td>We originally provided bindings for all variables in scope, rather
