@@ -105,7 +105,7 @@
 <li><a class="reference internal" href="#set-seti">5.8. <code class="docutils literal"><span class="pre">:set</span></code> コマンドと <code class="docutils literal"><span class="pre">:seti</span></code> コマンド</a><ul>
 <li><a class="reference internal" href="#id38">5.8.1. GHCi のオプション</a></li>
 <li><a class="reference internal" href="#ghcighc">5.8.2. GHCiからGHCのコマンドラインオプションを設定する</a></li>
-<li><a class="reference internal" href="#setting-options-for-interactive-evaluation-only">5.8.3. Setting options for interactive evaluation only</a></li>
+<li><a class="reference internal" href="#ghci-interactive-options">5.8.3. 対話式評価についてのみのオプションを設定する</a></li>
 </ul>
 </li>
 <li><a class="reference internal" href="#the-ghci-and-haskeline-files">5.9. The <code class="docutils literal"><span class="pre">.ghci</span></code> and <code class="docutils literal"><span class="pre">.haskeline</span></code> files</a><ul>
@@ -1048,7 +1048,7 @@ GHCi に対する <code class="docutils literal"><span class="pre">-prof</span><
 デバッグ機能を有効にするのにフラグは必要ありません．
 1つ重要な制限があります．
 それは，ブレイクポイントとステップ実行は解釈実行されているモジュールでしか使えないということです．
-コンパイル済みのコードはデバッガからは見えません <a class="footnote-reference" href="#id39" id="id23">[5]</a> ．</p>
+コンパイル済みのコードはデバッガからは見えません <a class="footnote-reference" href="#id40" id="id23">[5]</a> ．</p>
 <p>このデバッガが提供する機能は以下のとおりです．</p>
 <ul class="simple">
 <li>プログラム中の関数定義や式にブレイクポイントを設定する機能．
@@ -1120,7 +1120,7 @@ right :: [Integer] = _
 </div>
 <p><a class="reference internal" href="#ghci-cmd-:list"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:list</span></code></a> コマンドは，現在のブレイクポイントの周囲のコードを表示します．
 出力デバイスがサポートしている場合は，注目している部分式がボールド体で表示されます．</p>
-<p>GHCiは，ブレイクポイントを置いた式の自由変数 <a class="footnote-reference" href="#id40" id="id25">[6]</a> (<code class="docutils literal"><span class="pre">a</span></code> ， <code class="docutils literal"><span class="pre">left</span></code> ， <code class="docutils literal"><span class="pre">right</span></code>)
+<p>GHCiは，ブレイクポイントを置いた式の自由変数 <a class="footnote-reference" href="#id41" id="id25">[6]</a> (<code class="docutils literal"><span class="pre">a</span></code> ， <code class="docutils literal"><span class="pre">left</span></code> ， <code class="docutils literal"><span class="pre">right</span></code>)
 に対する束縛および当該式の結果(<code class="docutils literal"><span class="pre">_result</span></code>)に対する束縛も提供しています．
 これらの変数は，GHCi上で普通に定義する他の変数と同じです．
 プロンプトで入力する式の中で使ったり， <a class="reference internal" href="#ghci-cmd-:type"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:type</span></code></a> コマンドで型を確認するなどが可能です．</p>
@@ -2128,7 +2128,7 @@ bar
 <dd><p><a class="reference internal" href="#ghci-cmd-:set"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:set</span></code></a> と似ていますが <a class="reference internal" href="#ghci-cmd-:seti"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:seti</span></code></a> で設定されたオプションはプロンプトに入力された式とコマンドのみに影響し，
 <a class="reference internal" href="#ghci-cmd-:load"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:load</span></code></a> でロードされたモジュールには影響しません
 (対照的に <a class="reference internal" href="#ghci-cmd-:set"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:set</span></code></a> で設定されたオプションはあらゆるところで適用されます)．
-<a class="reference internal" href="#ghci-interactive-options"><span>Setting options for interactive evaluation only</span></a> を参照してください．</p>
+<a class="reference internal" href="#ghci-interactive-options"><span>対話式評価についてのみのオプションを設定する</span></a> を参照してください．</p>
 <p>引数がなければ，プロンプトに入力される式とコマンドに適用されるオプションの集合を表示します．</p>
 </dd></dl>
 
@@ -2358,33 +2358,28 @@ GhciFind.hs:(57,62)-(57,66)
 <p><a class="reference internal" href="flags.html#flag-reference"><span>Flag reference</span></a> には，可能なオプション全てについて逆の効果を持つオプションが一覧してあります．</p>
 <p>いくつかの静的なオプション(特に <a class="reference internal" href="phases.html#ghc-flag--package"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-package</span></code></a> ， <a class="reference internal" href="phases.html#ghc-flag--I"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-I</span></code></a> ， <a class="reference internal" href="separate_compilation.html#ghc-flag--i"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-i</span></code></a>
 ， <a class="reference internal" href="phases.html#ghc-flag--l"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-l</span></code></a> )も使えるが，次にリロードするまで効果を発揮しないものもある．</p>
-</div>
-<div class="section" id="setting-options-for-interactive-evaluation-only">
-<span id="ghci-interactive-options"></span><span id="index-31"></span><h3>5.8.3. Setting options for interactive evaluation only<a class="headerlink" href="#setting-options-for-interactive-evaluation-only" title="Permalink to this headline">¶</a></h3>
-<p>GHCi actually maintains <em>two</em> sets of options:</p>
+<span class="target" id="index-31"></span></div>
+<div class="section" id="ghci-interactive-options">
+<span id="id39"></span><h3>5.8.3. 対話式評価についてのみのオプションを設定する<a class="headerlink" href="#ghci-interactive-options" title="Permalink to this headline">¶</a></h3>
+<p>GHCiは実は <em>2つ</em> のオプション集合を保持しています．</p>
 <ul class="simple">
-<li>The <em>loading options</em> apply when loading modules</li>
-<li>The <em>interactive options</em> apply when evaluating expressions and
-commands typed at the GHCi prompt.</li>
+<li>モジュールのロード時に適用する <em>ロード時オプション</em></li>
+<li>GHCiのプロンプトに入力された式やコマンドを評価するときに適用する <em>対話時オプション</em></li>
 </ul>
-<p>The <a class="reference internal" href="#ghci-cmd-:set"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:set</span></code></a> command modifies both, but there is also a
-<a class="reference internal" href="#ghci-cmd-:seti"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:seti</span></code></a> command (for &#8220;set interactive&#8221;) that affects only the
-interactive options set.</p>
-<p>It is often useful to change the interactive options, without having
-that option apply to loaded modules too. For example</p>
+<p><a class="reference internal" href="#ghci-cmd-:set"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:set</span></code></a> コマンドは両方を変更しますが
+<a class="reference internal" href="#ghci-cmd-:seti"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:seti</span></code></a> コマンドは(&#8220;set interactive&#8221;の略)は対話時オプションにのみ影響します．</p>
+<p>このコマンドは，ロード済みモジュールには適用することなく，対話時オプションを変更するのに便利です．
+たとえば，</p>
 <div class="highlight-none"><div class="highlight"><pre>:seti -XMonoLocalBinds
 </pre></div>
 </div>
-<p>It would be undesirable if <a class="reference internal" href="glasgow_exts.html#ghc-flag--XMonoLocalBinds"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-XMonoLocalBinds</span></code></a> were to apply to loaded
-modules too: that might cause a compilation error, but more commonly it
-will cause extra recompilation, because GHC will think that it needs to
-recompile the module because the flags have changed.</p>
-<p>If you are setting language options in your <code class="docutils literal"><span class="pre">.ghci</span></code> file, it is good
-practice to use <a class="reference internal" href="#ghci-cmd-:seti"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:seti</span></code></a> rather than <a class="reference internal" href="#ghci-cmd-:set"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:set</span></code></a>, unless you
-really do want them to apply to all modules you load in GHCi.</p>
-<p>The two sets of options can be inspected using the <a class="reference internal" href="#ghci-cmd-:set"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:set</span></code></a> and
-<a class="reference internal" href="#ghci-cmd-:seti"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:seti</span></code></a> commands respectively, with no arguments. For example, in a
-clean GHCi session we might see something like this:</p>
+<p><a class="reference internal" href="glasgow_exts.html#ghc-flag--XMonoLocalBinds"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-XMonoLocalBinds</span></code></a> がロード済みモジュールに適用されてしまうと
+コンパイルエラーが起こるので望ましくありません．
+もっとよくあるのは，フラグが変ったのでモジュールの再コンパイルが必要とGHCが発生するというものです．</p>
+<p><code class="docutils literal"><span class="pre">.ghci</span></code> ファイルで言語オプション設定する場合は，本当にGHCiにロードするモジュール全てに適用したい
+というわけでない限り <a class="reference internal" href="#ghci-cmd-:set"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:set</span></code></a> ではなく <a class="reference internal" href="#ghci-cmd-:seti"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:seti</span></code></a> を使うのが良い習慣です．</p>
+<p>この2つのオプションの集合は <a class="reference internal" href="#ghci-cmd-:set"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:set</span></code></a> と <a class="reference internal" href="#ghci-cmd-:seti"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:seti</span></code></a> を引数なしで使うことでそれぞれ確認できます．
+たとえば，まっさらなGHCiセッションでは次のような表示がでるでしょう．</p>
 <div class="highlight-none"><div class="highlight"><pre>Prelude&gt; :seti
 base language is: Haskell2010
 with the following modifiers:
@@ -2398,14 +2393,13 @@ other dynamic, non-language, flag settings:
 warning settings:
 </pre></div>
 </div>
-<p>The two sets of options are initialised as follows. First, both sets of
-options are initialised as described in <a class="reference internal" href="#ghci-dot-files"><span>The .ghci and .haskeline files</span></a>. Then the
-interactive options are modified as follows:</p>
+<p>2つのオプション集合は以下のように初期化します．
+まず <a class="reference internal" href="#ghci-dot-files"><span>The .ghci and .haskeline files</span></a> にあるように両方のオプション集合を初期化します．
+その後，対話時オプションを以下のように変更します．</p>
 <ul class="simple">
-<li>The option <code class="docutils literal"><span class="pre">-XExtendedDefaultRules</span></code> is enabled, in order to apply
-special defaulting rules to expressions typed at the prompt (see
-<a class="reference internal" href="#extended-default-rules"><span>GHCi でのデフォルト型設定</span></a>).</li>
-<li>The Monomorphism Restriction is disabled (see <a class="reference internal" href="glasgow_exts.html#monomorphism"><span>Switching off the dreaded Monomorphism Restriction</span></a>).</li>
+<li><code class="docutils literal"><span class="pre">-XExtendedDefaultRules</span></code> を有効にし，これは特殊デフォルト化ルールをプロンプトに入力された式に適用するためです
+(<a class="reference internal" href="#extended-default-rules"><span>GHCi でのデフォルト型設定</span></a> 参照)．</li>
+<li>単相性制限を無効にする(<a class="reference internal" href="glasgow_exts.html#monomorphism"><span>Switching off the dreaded Monomorphism Restriction</span></a> 参照)．</li>
 </ul>
 </div>
 </div>
@@ -2429,7 +2423,7 @@ but is usually something like
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
 <p class="last">When setting language options in this file it is usually desirable to use
-<a class="reference internal" href="#ghci-cmd-:seti"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:seti</span></code></a> rather than <a class="reference internal" href="#ghci-cmd-:set"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:set</span></code></a> (see <a class="reference internal" href="#ghci-interactive-options"><span>Setting options for interactive evaluation only</span></a>).</p>
+<a class="reference internal" href="#ghci-cmd-:seti"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:seti</span></code></a> rather than <a class="reference internal" href="#ghci-cmd-:set"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:set</span></code></a> (see <a class="reference internal" href="#ghci-interactive-options"><span>対話式評価についてのみのオプションを設定する</span></a>).</p>
 </div>
 <p>Placing a <code class="file docutils literal"><span class="pre">.ghci</span></code> file in a directory with a Haskell project is a
 useful way to set certain project-wide options so you don&#8217;t have to type
@@ -2621,14 +2615,14 @@ program thus:</p>
 </div>
 </dd>
 </dl>
-<table class="docutils footnote" frame="void" id="id39" rules="none">
+<table class="docutils footnote" frame="void" id="id40" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
 <tr><td class="label"><a class="fn-backref" href="#id23">[5]</a></td><td>Note that packages only contain compiled code, so debugging a package
 requires finding its source and loading that directly.</td></tr>
 </tbody>
 </table>
-<table class="docutils footnote" frame="void" id="id40" rules="none">
+<table class="docutils footnote" frame="void" id="id41" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
 <tr><td class="label"><a class="fn-backref" href="#id25">[6]</a></td><td>We originally provided bindings for all variables in scope, rather
