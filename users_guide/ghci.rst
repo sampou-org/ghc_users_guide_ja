@@ -5573,41 +5573,93 @@ GHCのコマンドラインオプションのうち，動的なオプション(:
 .. index::
    single: 静的; 〜オプション
 
+..
+   .. _ghci-interactive-options:
+
+   Setting options for interactive evaluation only
+   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 .. _ghci-interactive-options:
 
-Setting options for interactive evaluation only
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+対話式評価についてのみのオプションを設定する
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-GHCi actually maintains *two* sets of options:
+..
+   GHCi actually maintains *two* sets of options:
 
--  The *loading options* apply when loading modules
+   -  The *loading options* apply when loading modules
 
--  The *interactive options* apply when evaluating expressions and
-   commands typed at the GHCi prompt.
+   -  The *interactive options* apply when evaluating expressions and
+      commands typed at the GHCi prompt.
 
-The :ghci-cmd:`:set` command modifies both, but there is also a
-:ghci-cmd:`:seti` command (for "set interactive") that affects only the
-interactive options set.
+GHCiは実は *2つ* のオプション集合を保持しています．
 
-It is often useful to change the interactive options, without having
-that option apply to loaded modules too. For example
+-  モジュールのロード時に適用する *ロード時オプション* 
+
+-  GHCiのプロンプトに入力された式やコマンドを評価するときに適用する *対話時オプション*
+
+..
+   The :ghci-cmd:`:set` command modifies both, but there is also a
+   :ghci-cmd:`:seti` command (for "set interactive") that affects only the
+   interactive options set.
+
+:ghci-cmd:`:set` コマンドは両方を変更しますが
+:ghci-cmd:`:seti` コマンドは("set interactive"の略)は対話時オプションにのみ影響します．
+
+..
+   It is often useful to change the interactive options, without having
+   that option apply to loaded modules too. For example
+
+   .. code-block:: none
+
+       :seti -XMonoLocalBinds
+
+このコマンドは，ロード済みモジュールには適用することなく，対話時オプションを変更するのに便利です．
+たとえば，
 
 .. code-block:: none
 
     :seti -XMonoLocalBinds
 
-It would be undesirable if :ghc-flag:`-XMonoLocalBinds` were to apply to loaded
-modules too: that might cause a compilation error, but more commonly it
-will cause extra recompilation, because GHC will think that it needs to
-recompile the module because the flags have changed.
+..
+   It would be undesirable if :ghc-flag:`-XMonoLocalBinds` were to apply to loaded
+   modules too: that might cause a compilation error, but more commonly it
+   will cause extra recompilation, because GHC will think that it needs to
+   recompile the module because the flags have changed.
 
-If you are setting language options in your ``.ghci`` file, it is good
-practice to use :ghci-cmd:`:seti` rather than :ghci-cmd:`:set`, unless you
-really do want them to apply to all modules you load in GHCi.
+:ghc-flag:`-XMonoLocalBinds` がロード済みモジュールに適用されてしまうと
+コンパイルエラーが起こるので望ましくありません．
+もっとよくあるのは，フラグが変ったのでモジュールの再コンパイルが必要とGHCが発生するというものです．
 
-The two sets of options can be inspected using the :ghci-cmd:`:set` and
-:ghci-cmd:`:seti` commands respectively, with no arguments. For example, in a
-clean GHCi session we might see something like this:
+..
+   If you are setting language options in your ``.ghci`` file, it is good
+   practice to use :ghci-cmd:`:seti` rather than :ghci-cmd:`:set`, unless you
+   really do want them to apply to all modules you load in GHCi.
+
+``.ghci`` ファイルで言語オプション設定する場合は，本当にGHCiにロードするモジュール全てに適用したい
+というわけでない限り :ghci-cmd:`:set` ではなく :ghci-cmd:`:seti` を使うのが良い習慣です．
+
+..
+   The two sets of options can be inspected using the :ghci-cmd:`:set` and
+   :ghci-cmd:`:seti` commands respectively, with no arguments. For example, in a
+   clean GHCi session we might see something like this:
+
+   .. code-block:: none
+
+       Prelude> :seti
+       base language is: Haskell2010
+       with the following modifiers:
+	 -XNoMonomorphismRestriction
+	 -XNoDatatypeContexts
+	 -XNondecreasingIndentation
+	 -XExtendedDefaultRules
+       GHCi-specific dynamic flag settings:
+       other dynamic, non-language, flag settings:
+	 -fimplicit-import-qualified
+       warning settings:
+
+この2つのオプションの集合は :ghci-cmd:`:set` と :ghci-cmd:`:seti` を引数なしで使うことでそれぞれ確認できます．
+たとえば，まっさらなGHCiセッションでは次のような表示がでるでしょう．
 
 .. code-block:: none
 
@@ -5623,15 +5675,25 @@ clean GHCi session we might see something like this:
       -fimplicit-import-qualified
     warning settings:
 
-The two sets of options are initialised as follows. First, both sets of
-options are initialised as described in :ref:`ghci-dot-files`. Then the
-interactive options are modified as follows:
+..
+   The two sets of options are initialised as follows. First, both sets of
+   options are initialised as described in :ref:`ghci-dot-files`. Then the
+   interactive options are modified as follows:
 
--  The option ``-XExtendedDefaultRules`` is enabled, in order to apply
-   special defaulting rules to expressions typed at the prompt (see
-   :ref:`extended-default-rules`).
+   -  The option ``-XExtendedDefaultRules`` is enabled, in order to apply
+      special defaulting rules to expressions typed at the prompt (see
+      :ref:`extended-default-rules`).
 
--  The Monomorphism Restriction is disabled (see :ref:`monomorphism`).
+   -  The Monomorphism Restriction is disabled (see :ref:`monomorphism`).
+
+2つのオプション集合は以下のように初期化します．
+まず :ref:`ghci-dot-files` にあるように両方のオプション集合を初期化します．
+その後，対話時オプションを以下のように変更します．
+
+-  ``-XExtendedDefaultRules`` を有効にし，これは特殊デフォルト化ルールをプロンプトに入力された式に適用するためです
+   (:ref:`extended-default-rules` 参照)．
+
+-  単相性制限を無効にする(:ref:`monomorphism` 参照)．
 
 .. _ghci-dot-files:
 
