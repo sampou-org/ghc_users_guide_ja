@@ -5388,63 +5388,122 @@ GHCi のコマンドはすべて「 ``:`` 」ではじまり，1つのコマン�
     引用符は削除されませんし，複数の単語を一つにまとめるのに使うこともできません．
     たとえば ``:set -DFOO='BAR BAZ'`` は期待した通りには動かないでしょう．
 
-GHCi options
-~~~~~~~~~~~~
+..
+   GHCi options
+   ~~~~~~~~~~~~
+
+   .. index::
+      single: options; GHCi
+
+   GHCi options may be set using :ghci-cmd:`:set` and unset using :ghci-cmd:`:unset`.
+
+   The available GHCi options are:
+
+GHCi のオプション
+~~~~~~~~~~~~~~~~~
 
 .. index::
-   single: options; GHCi
+   single: オプション; GHCiの〜
 
-GHCi options may be set using :ghci-cmd:`:set` and unset using :ghci-cmd:`:unset`.
+GHCi のオプションは :ghci-cmd:`:set` で有効 :ghci-cmd:`:unset` で無効にできます．
 
-The available GHCi options are:
+利用可能な GHCi オプションは以下のとおりです．
+
+..
+   .. ghci-cmd:: :set +c
+
+       Collect type and location information after loading modules.
+       The commands :ghci-cmd:`:all-types`, :ghci-cmd:`:loc-at`,
+       :ghci-cmd:`:type-at`, and :ghci-cmd:`:uses` require ``+c`` to be active.
 
 .. ghci-cmd:: :set +c
 
-    Collect type and location information after loading modules.
-    The commands :ghci-cmd:`:all-types`, :ghci-cmd:`:loc-at`,
-    :ghci-cmd:`:type-at`, and :ghci-cmd:`:uses` require ``+c`` to be active.
+    モジュールをロードした後に型と位置情報を収集します．
+    :ghci-cmd:`:all-types` ， :ghci-cmd:`:loc-at` ，
+    :ghci-cmd:`:type-at` ， :ghci-cmd:`:uses` の各コマンドを使うには ``+c`` が有効になっていなければなりません．
+
+..
+   .. ghci-cmd:: :set +m
+
+       .. index::
+	  single: multiline input; in GHCi
+
+       Enable parsing of multiline commands. A multiline command is
+       prompted for when the current input line contains open layout
+       contexts (see :ref:`ghci-multiline`).
 
 .. ghci-cmd:: :set +m
 
     .. index::
-       single: multiline input; in GHCi
+       single: 複数行入力; GHCiでの〜
 
-    Enable parsing of multiline commands. A multiline command is
-    prompted for when the current input line contains open layout
-    contexts (see :ref:`ghci-multiline`).
+    複数行にわたるコマンドのパースを可能にします．
+    複数行コマンドは，現在の入力行が閉じていないレイアウト文脈を含んでいる場合に受け付けます
+    (:ref:`ghci-multiline` 参照)．
+
+..
+   .. ghci-cmd:: :set +r
+
+       .. index::
+	  single: CAFs; in GHCi
+	  single: Constant Applicative Form
+
+       Normally, any evaluation of top-level expressions (otherwise known
+       as CAFs or Constant Applicative Forms) in loaded modules is retained
+       between evaluations. Turning on ``+r`` causes all evaluation of
+       top-level expressions to be discarded after each evaluation (they
+       are still retained *during* a single evaluation).
+
+       This option may help if the evaluated top-level expressions are
+       consuming large amounts of space, or if you need repeatable
+       performance measurements.
 
 .. ghci-cmd:: :set +r
 
     .. index::
-       single: CAFs; in GHCi
-       single: Constant Applicative Form
+       single: CAF; GHCiでのCAF
+       single: 定数適用形式(Constant Applicative Form)
 
-    Normally, any evaluation of top-level expressions (otherwise known
-    as CAFs or Constant Applicative Forms) in loaded modules is retained
-    between evaluations. Turning on ``+r`` causes all evaluation of
-    top-level expressions to be discarded after each evaluation (they
-    are still retained *during* a single evaluation).
+    通常，ロードしたモジュールにあるトップレベルの式(CAFあるいは定数適用形式ともいう)
+    を評価した結果は，複数回の評価をまたがって保持されます．
+    ``+r`` を有効にすると，トップレベルの式の評価結果は評価が終了するごとに捨てるようになります
+    (それでも1回の評価の *間は* 保持されます)．
 
-    This option may help if the evaluated top-level expressions are
-    consuming large amounts of space, or if you need repeatable
-    performance measurements.
+    このオプションは，評価済みのトップレベル式が大量のメモリを消費するときや，再現性のある実行性能を計測したいときに便利です．
+
+..
+   .. ghci-cmd:: :set +s
+
+       Display some stats after evaluating each expression, including the
+       elapsed time and number of bytes allocated. NOTE: the allocation
+       figure is only accurate to the size of the storage manager's
+       allocation area, because it is calculated at every GC. Hence, you
+       might see values of zero if no GC has occurred.
 
 .. ghci-cmd:: :set +s
 
-    Display some stats after evaluating each expression, including the
-    elapsed time and number of bytes allocated. NOTE: the allocation
-    figure is only accurate to the size of the storage manager's
-    allocation area, because it is calculated at every GC. Hence, you
-    might see values of zero if no GC has occurred.
+    式を1つ評価するごとに，経過時間や確保されたバイト数の統計情報を表示します．
+    注意: 確保されたバイト数はGC毎に計算されるので，記憶領域管理器の確保領域の大きさ程度の精度しかありません．
+    そういうわけ，GCが起らなかったら，値として0が表示されることもあります．
+
+..
+   .. ghci-cmd:: :set +t
+
+       .. index::
+	  single: displaying type; in GHCi
+
+       Display the type of each variable bound after a statement is entered
+       at the prompt. If the statement is a single expression, then the
+       only variable binding will be for the variable ``it``.
 
 .. ghci-cmd:: :set +t
 
     .. index::
        single: displaying type; in GHCi
 
-    Display the type of each variable bound after a statement is entered
-    at the prompt. If the statement is a single expression, then the
-    only variable binding will be for the variable ``it``.
+    プロンプトに文を入力したとき，束縛された変数それぞれの型を表示します．
+    入力されたのが単一の式なら，束縛されるのは変数 ``it`` だけです．
+    
 
 .. _ghci-cmd-line-options:
 
