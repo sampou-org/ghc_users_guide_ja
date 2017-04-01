@@ -5922,19 +5922,34 @@ GHCiマクロを定義する場合，名前が組み込みのコマンドと衝�
 
    定義されたマクロを使って ``:type 3`` となります．
 
+..
+   .. _dot-haskeline-file:
+
+   The ``.haskeline`` file
+   ~~~~~~~~~~~~~~~~~~~~~~~
+
+   .. index::
+      single: .haskeline; file
+      single: startup; files, GHCi
+
+   GHCi uses `Haskeline <https://hackage.haskell.org/package/haskeline>`__ under
+   the hood. You can configure it to, among other
+   things, prune duplicates from GHCi history. See:
+   `Haskeline user preferences <http://trac.haskell.org/haskeline/wiki/UserPrefs>`__.
+
 .. _dot-haskeline-file:
 
-The ``.haskeline`` file
+``.haskeline`` ファイル
 ~~~~~~~~~~~~~~~~~~~~~~~
 
 .. index::
-   single: .haskeline; file
-   single: startup; files, GHCi
+   single: .haskeline; 〜ファイル
+   single: 開始時; 〜ファイル, GHCiの〜
 
-GHCi uses `Haskeline <https://hackage.haskell.org/package/haskeline>`__ under
-the hood. You can configure it to, among other
-things, prune duplicates from GHCi history. See:
-`Haskeline user preferences <http://trac.haskell.org/haskeline/wiki/UserPrefs>`__.
+GHCi は内部で `Haskeline <https://hackage.haskell.org/package/haskeline>`__ を使っています．
+他のものと同じように，これを設定することで，GHCiの履歴中の重複を取り除けます．
+`Haskeline user preferences <http://trac.haskell.org/haskeline/wiki/UserPrefs>`__
+を参照してください．
 
 .. _ghci-obj:
 
