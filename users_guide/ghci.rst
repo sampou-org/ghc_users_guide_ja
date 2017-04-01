@@ -5951,29 +5951,52 @@ GHCi は内部で `Haskeline <https://hackage.haskell.org/package/haskeline>`__ 
 `Haskeline user preferences <http://trac.haskell.org/haskeline/wiki/UserPrefs>`__
 を参照してください．
 
+..
+   .. _ghci-obj:
+
+   Compiling to object code inside GHCi
+   ------------------------------------
+
+   By default, GHCi compiles Haskell source code into byte-code that is
+   interpreted by the runtime system. GHCi can also compile Haskell code to
+   object code: to turn on this feature, use the :ghc-flag:`-fobject-code` flag
+   either on the command line or with :ghci-cmd:`:set` (the option :ghc-flag:`-fbyte-code`
+   restores byte-code compilation again). Compiling to object code takes
+   longer, but typically the code will execute 10-20 times faster than
+   byte-code.
+
 .. _ghci-obj:
 
-Compiling to object code inside GHCi
-------------------------------------
+GHCi内でオブジェクトコードにコンパイルする
+------------------------------------------
 
-By default, GHCi compiles Haskell source code into byte-code that is
-interpreted by the runtime system. GHCi can also compile Haskell code to
-object code: to turn on this feature, use the :ghc-flag:`-fobject-code` flag
-either on the command line or with :ghci-cmd:`:set` (the option :ghc-flag:`-fbyte-code`
-restores byte-code compilation again). Compiling to object code takes
-longer, but typically the code will execute 10-20 times faster than
-byte-code.
+デフォルトでは，GHCiはHaskellのソースをバイトコードにコンパイルして，ランタイムシステムがそれを解釈実行します．
+GHCiはHaskellのコードをオブジェクトコードにコンパイルすることもできます．それには :ghc-flag:`-fobject-code` フラグを，
+コマンドラインで使うか :ghci-cmd:`:set` で設定します
+(:ghc-flag:`-fbyte-code` を設定すると元のバイトコードコンパイルが復帰します)．
+オブジェクトコードへのコンパイルには時間が余分にかかりますが，通常オブジェクトコードの実行は，バイトコードの実行の10〜20倍速くなります．
 
-Compiling to object code inside GHCi is particularly useful if you are
-developing a compiled application, because the :ghci-cmd:`:reload` command
-typically runs much faster than restarting GHC with :ghc-flag:`--make` from the
-command-line, because all the interface files are already cached in
-memory.
+..
+   Compiling to object code inside GHCi is particularly useful if you are developing a compiled application,
+   because the :ghci-cmd:`:reload` command
+   typically runs much faster than restarting GHC with :ghc-flag:`--make` from the
+   command-line, because all the interface files are already cached in
+   memory.
 
-There are disadvantages to compiling to object-code: you can't set
-breakpoints in object-code modules, for example. Only the exports of an
-object-code module will be visible in GHCi, rather than all top-level
-bindings as in interpreted modules.
+GHCi内でオブジェクトコードにコンパイルする機能はコンパイル形式のアプリケーションを開発する場合に特に便利です．
+通常 :ghci-cmd:`:reload` を使うほうが，コマンドラインでGHCを :ghc-flag:`--make` オプション付きで再起動するよりずっと速いからです．
+これはインターフェイスファイルがすべてメモリにキャッシュされているからです．
+
+..
+   There are disadvantages to compiling to object-code: you can't set
+   breakpoints in object-code modules, for example. Only the exports of an
+   object-code module will be visible in GHCi, rather than all top-level
+   bindings as in interpreted modules.
+
+オブジェクトコードにコンパイルしてしまうことには欠点もあります．
+たとえば，オブジェクトコードモジュールにはブレイクポイントを設定することはできません．
+オブジェクトコードモジュールではエクスポートされたものしか見えませんが，
+解釈実行されているモジュールでは，トップレベルの束縛はすべてGHCiでは可視になります．
 
 .. _external-interpreter:
 
