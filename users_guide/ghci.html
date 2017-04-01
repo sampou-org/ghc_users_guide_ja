@@ -108,8 +108,8 @@
 <li><a class="reference internal" href="#ghci-interactive-options">5.8.3. 対話式評価についてのみのオプションを設定する</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#the-ghci-and-haskeline-files">5.9. The <code class="docutils literal"><span class="pre">.ghci</span></code> and <code class="docutils literal"><span class="pre">.haskeline</span></code> files</a><ul>
-<li><a class="reference internal" href="#the-ghci-files">5.9.1. The <code class="docutils literal"><span class="pre">.ghci</span></code> files</a></li>
+<li><a class="reference internal" href="#ghci-haskeline">5.9. <code class="docutils literal"><span class="pre">.ghci</span></code> ファイルと <code class="docutils literal"><span class="pre">.haskeline</span></code> ファイル</a><ul>
+<li><a class="reference internal" href="#dot-ghci-files">5.9.1. <code class="docutils literal"><span class="pre">.ghci</span></code> ファイル</a></li>
 <li><a class="reference internal" href="#the-haskeline-file">5.9.2. The <code class="docutils literal"><span class="pre">.haskeline</span></code> file</a></li>
 </ul>
 </li>
@@ -540,7 +540,7 @@ Prelude&gt; g (*) 1 [1..3]
 このような複数行コマンドは任意のGHCiコマンドについて用いることができます．
 このときレイアウト規則が有効であることに注意してください．
 複数行コマンドの主な目的は，モジュールのロードの代替にすることではなく，
-.ghciファイル(<a class="reference internal" href="#ghci-dot-files"><span>The .ghci and .haskeline files</span></a> 参照)での定義を読みやすく保守しやするするためです．</p>
+.ghciファイル(<a class="reference internal" href="#ghci-dot-files"><span>.ghci ファイルと .haskeline ファイル</span></a> 参照)での定義を読みやすく保守しやするするためです．</p>
 <p>Any exceptions raised during the evaluation or execution of the
 文を評価または実行している間に発生した例外は，GHCiのコマンド行インターフェイスによって捕捉され，
 表示されます(例外について詳しくはライブラリドキュメント <code class="docutils literal"><span class="pre">Control.Exception</span></code>
@@ -1048,7 +1048,7 @@ GHCi に対する <code class="docutils literal"><span class="pre">-prof</span><
 デバッグ機能を有効にするのにフラグは必要ありません．
 1つ重要な制限があります．
 それは，ブレイクポイントとステップ実行は解釈実行されているモジュールでしか使えないということです．
-コンパイル済みのコードはデバッガからは見えません <a class="footnote-reference" href="#id40" id="id23">[5]</a> ．</p>
+コンパイル済みのコードはデバッガからは見えません <a class="footnote-reference" href="#id41" id="id23">[5]</a> ．</p>
 <p>このデバッガが提供する機能は以下のとおりです．</p>
 <ul class="simple">
 <li>プログラム中の関数定義や式にブレイクポイントを設定する機能．
@@ -1120,7 +1120,7 @@ right :: [Integer] = _
 </div>
 <p><a class="reference internal" href="#ghci-cmd-:list"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:list</span></code></a> コマンドは，現在のブレイクポイントの周囲のコードを表示します．
 出力デバイスがサポートしている場合は，注目している部分式がボールド体で表示されます．</p>
-<p>GHCiは，ブレイクポイントを置いた式の自由変数 <a class="footnote-reference" href="#id41" id="id25">[6]</a> (<code class="docutils literal"><span class="pre">a</span></code> ， <code class="docutils literal"><span class="pre">left</span></code> ， <code class="docutils literal"><span class="pre">right</span></code>)
+<p>GHCiは，ブレイクポイントを置いた式の自由変数 <a class="footnote-reference" href="#id42" id="id25">[6]</a> (<code class="docutils literal"><span class="pre">a</span></code> ， <code class="docutils literal"><span class="pre">left</span></code> ， <code class="docutils literal"><span class="pre">right</span></code>)
 に対する束縛および当該式の結果(<code class="docutils literal"><span class="pre">_result</span></code>)に対する束縛も提供しています．
 これらの変数は，GHCi上で普通に定義する他の変数と同じです．
 プロンプトで入力する式の中で使ったり， <a class="reference internal" href="#ghci-cmd-:type"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:type</span></code></a> コマンドで型を確認するなどが可能です．</p>
@@ -2394,7 +2394,7 @@ warning settings:
 </pre></div>
 </div>
 <p>2つのオプション集合は以下のように初期化します．
-まず <a class="reference internal" href="#ghci-dot-files"><span>The .ghci and .haskeline files</span></a> にあるように両方のオプション集合を初期化します．
+まず <a class="reference internal" href="#ghci-dot-files"><span>.ghci ファイルと .haskeline ファイル</span></a> にあるように両方のオプション集合を初期化します．
 その後，対話時オプションを以下のように変更します．</p>
 <ul class="simple">
 <li><code class="docutils literal"><span class="pre">-XExtendedDefaultRules</span></code> を有効にし，これは特殊デフォルト化ルールをプロンプトに入力された式に適用するためです
@@ -2403,94 +2403,83 @@ warning settings:
 </ul>
 </div>
 </div>
-<div class="section" id="the-ghci-and-haskeline-files">
-<span id="ghci-dot-files"></span><h2>5.9. The <code class="docutils literal"><span class="pre">.ghci</span></code> and <code class="docutils literal"><span class="pre">.haskeline</span></code> files<a class="headerlink" href="#the-ghci-and-haskeline-files" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="the-ghci-files">
-<span id="dot-ghci-files"></span><h3>5.9.1. The <code class="docutils literal"><span class="pre">.ghci</span></code> files<a class="headerlink" href="#the-ghci-files" title="Permalink to this headline">¶</a></h3>
-<p id="index-32">When it starts, unless the <a class="reference internal" href="#ghc-flag--ignore-dot-ghci"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-ignore-dot-ghci</span></code></a> flag is given, GHCi
-reads and executes commands from the following files, in this order, if
-they exist:</p>
+<div class="section" id="ghci-haskeline">
+<span id="ghci-dot-files"></span><h2>5.9. <code class="docutils literal"><span class="pre">.ghci</span></code> ファイルと <code class="docutils literal"><span class="pre">.haskeline</span></code> ファイル<a class="headerlink" href="#ghci-haskeline" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="dot-ghci-files">
+<span id="id40"></span><h3>5.9.1. <code class="docutils literal"><span class="pre">.ghci</span></code> ファイル<a class="headerlink" href="#dot-ghci-files" title="Permalink to this headline">¶</a></h3>
+<span class="target" id="index-32"></span><p>GHCiは起動するとき <a class="reference internal" href="#ghc-flag--ignore-dot-ghci"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-ignore-dot-ghci</span></code></a> フラグが指定されていなければ，以下の各ファイルを順に探し，
+存在すれば，そのファイルに書かれているコマンドを読み込み実行します．</p>
 <ol class="arabic simple">
 <li><code class="file docutils literal"><span class="pre">./.ghci</span></code></li>
-<li><code class="file docutils literal"><em><span class="pre">appdata</span></em><span class="pre">/ghc/ghci.conf</span></code>, where ⟨appdata⟩ depends on your system,
-but is usually something like
-<code class="file docutils literal"><span class="pre">C:/Documents</span> <span class="pre">and</span> <span class="pre">Settings/user/Application</span> <span class="pre">Data</span></code></li>
-<li>On Unix: <code class="file docutils literal"><span class="pre">$HOME/.ghc/ghci.conf</span></code></li>
+<li><code class="file docutils literal"><em><span class="pre">appdata</span></em><span class="pre">/ghc/ghci.conf</span></code> ただし ⟨appdata⟩ はシステムに依存します．
+通常は <code class="file docutils literal"><span class="pre">C:Documents</span> <span class="pre">and</span> <span class="pre">SettingsuserApplication</span> <span class="pre">Data</span></code> のようなところです．</li>
+<li>Unixでは <code class="file docutils literal"><span class="pre">$HOME/.ghc/ghci.conf</span></code></li>
 <li><code class="file docutils literal"><span class="pre">$HOME/.ghci</span></code></li>
 </ol>
-<p>The <code class="file docutils literal"><span class="pre">ghci.conf</span></code> file is most useful for turning on favourite options
-(e.g. <code class="docutils literal"><span class="pre">:set</span> <span class="pre">+s</span></code>), and defining useful macros.</p>
+<p><code class="file docutils literal"><span class="pre">ghci.conf</span></code> ファイルは，お気に入りのオプション(たとえば <code class="docutils literal"><span class="pre">:set</span> <span class="pre">+s</span></code>)を有効にしたり便利なマクロを定義するのに向いています．</p>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
-<p class="last">When setting language options in this file it is usually desirable to use
-<a class="reference internal" href="#ghci-cmd-:seti"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:seti</span></code></a> rather than <a class="reference internal" href="#ghci-cmd-:set"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:set</span></code></a> (see <a class="reference internal" href="#ghci-interactive-options"><span>対話式評価についてのみのオプションを設定する</span></a>).</p>
+<p class="last">このファイルで言語オプションを設定する場合は，通常は <a class="reference internal" href="#ghci-cmd-:seti"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:seti</span></code></a> のほうが
+<a class="reference internal" href="#ghci-cmd-:set"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:set</span></code></a> より適しています(<a class="reference internal" href="#ghci-interactive-options"><span>対話式評価についてのみのオプションを設定する</span></a> 参照)．</p>
 </div>
-<p>Placing a <code class="file docutils literal"><span class="pre">.ghci</span></code> file in a directory with a Haskell project is a
-useful way to set certain project-wide options so you don&#8217;t have to type
-them every time you start GHCi: eg. if your project uses multi-parameter
-type classes, scoped type variables, and CPP, and has source files in
-three subdirectories A, B and C, you might put the following lines in
-<code class="file docutils literal"><span class="pre">.ghci</span></code>:</p>
+<p><code class="file docutils literal"><span class="pre">.ghci</span></code> ファイルをHaskellプロジェクトのディレクトリに置いて，プロジェクトで使う共通オプションを設定するようにしておくと，
+GHCiを立ち上げるたびにそれを打ち込まなくて済むので便利です．
+たとえば，プロジェクトが多引数の型クラスとスコープのある型変数とCPPを使い，ソースファイルがA，B，Cという3つのサブディレクトリに置いているなら，
+次のような行を <code class="file docutils literal"><span class="pre">.ghci</span></code>: に書くことになるでしょう．</p>
 <div class="highlight-none"><div class="highlight"><pre>:set -XMultiParamTypeClasses -XScopedTypeVariables -cpp
 :set -iA:B:C
 </pre></div>
 </div>
-<p>(Note that strictly speaking the <a class="reference internal" href="separate_compilation.html#ghc-flag--i"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-i</span></code></a> flag is a static one, but in
-fact it works to set it using <a class="reference internal" href="#ghci-cmd-:set"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:set</span></code></a> like this. The changes won&#8217;t take
-effect until the next <a class="reference internal" href="#ghci-cmd-:load"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:load</span></code></a>, though.)</p>
-<p>Once you have a library of GHCi macros, you may want to source them from
-separate files, or you may want to source your <code class="docutils literal"><span class="pre">.ghci</span></code> file into your
-running GHCi session while debugging it</p>
+<p>(厳密には <a class="reference internal" href="separate_compilation.html#ghc-flag--i"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-i</span></code></a> フラグは静的オプションですが，このように <a class="reference internal" href="#ghci-cmd-:set"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:set</span></code></a> コマンドでも有効にできます．
+ただし，この変更は，次に <a class="reference internal" href="#ghci-cmd-:load"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:load</span></code></a> 実行されてはじめて有効になります．)</p>
+<p>GHCiのマクロライブラリを持つようになれば，別のファイルから読み込みたくなります．
+あるいはデバッグに <code class="docutils literal"><span class="pre">.ghci</span></code> ファイルをGHCiセッションから読み込みたくなります．
+そういうときは，</p>
 <div class="highlight-none"><div class="highlight"><pre>:def source readFile
 </pre></div>
 </div>
-<p>With this macro defined in your <code class="docutils literal"><span class="pre">.ghci</span></code> file, you can use
-<code class="docutils literal"><span class="pre">:source</span> <span class="pre">file</span></code> to read GHCi commands from <code class="docutils literal"><span class="pre">file</span></code>. You can find (and
-contribute!-) other suggestions for <code class="docutils literal"><span class="pre">.ghci</span></code> files on this Haskell wiki
-page: <a class="reference external" href="http://haskell.org/haskellwiki/GHC/GHCi">GHC/GHCi</a></p>
-<p>Additionally, any files specified with <a class="reference internal" href="#ghc-flag--ghci-script"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-ghci-script</span></code></a> flags will be
-read after the standard files, allowing the use of custom .ghci files.</p>
-<p>Two command-line options control whether the startup files files are
-read:</p>
+<p>というマクロを <code class="docutils literal"><span class="pre">.ghci</span></code> ファイルに置いておけば
+<code class="docutils literal"><span class="pre">:source</span> <span class="pre">file</span></code> とやるだけでGHCiコマンドを <code class="docutils literal"><span class="pre">file</span></code> から読み込めます．
+Haskell wikiのページ <a class="reference external" href="http://haskell.org/haskellwiki/GHC/GHCi">GHC/GHCi</a>
+では，他にも <cite>.ghci</cite> に関する助言が読めますし，貢献もできます．</p>
+<p>さらに，標準ファイルが読み込まれた後に <a class="reference internal" href="#ghc-flag--ghci-script"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-ghci-script</span></code></a> フラグで指定されたファイルが読み込まれます．
+これによって，自分専用の .ghci ファイルが使えます．</p>
+<p>どの開始時ファイルを読み込むかを制御するためのコマンドラインオプションが2つあります．</p>
 <dl class="ghc-flag">
 <dt id="ghc-flag--ignore-dot-ghci">
 <code class="descname">-ignore-dot-ghci</code><code class="descclassname"> </code><a class="headerlink" href="#ghc-flag--ignore-dot-ghci" title="Permalink to this definition">¶</a></dt>
-<dd><p>Don&#8217;t read either <code class="file docutils literal"><span class="pre">./.ghci</span></code> or the other startup files when
-starting up.</p>
+<dd><p>開始時に <code class="file docutils literal"><span class="pre">./.ghci</span></code> および他の開始時ファイルを読み込みません．</p>
 </dd></dl>
 
 <dl class="ghc-flag">
 <dt id="ghc-flag--ghci-script">
 <code class="descname">-ghci-script</code><code class="descclassname"> </code><a class="headerlink" href="#ghc-flag--ghci-script" title="Permalink to this definition">¶</a></dt>
-<dd><p>Read a specific file after the usual startup files. Maybe be
-specified repeatedly for multiple inputs.</p>
+<dd><p>通常の開始時ファイルを読み込んだ後に，指定したファイルを読み込みます．
+複数の入力は指定を繰り返せば可能です．</p>
 </dd></dl>
 
-<p>When defining GHCi macros, there is some important behavior you should
-be aware of when names may conflict with built-in commands, especially
-regarding tab completion.</p>
-<p>For example, consider if you had a macro named <code class="docutils literal"><span class="pre">:time</span></code> and in the
-shell, typed <code class="docutils literal"><span class="pre">:t</span> <span class="pre">3</span></code> — what should happen? The current algorithm we use
-for completing commands is:</p>
+<p>GHCiマクロを定義する場合，名前が組み込みのコマンドと衝突する可能性があります．
+そのときの振る舞いについて，特にTAB補完に関して知っておくべきことがあります．</p>
+<p>たとえば <code class="docutils literal"><span class="pre">:time</span></code> というマクロを定義したとして，プロンプトで <code class="docutils literal"><span class="pre">:t</span> <span class="pre">3</span></code> とタイプしたとき何が起るべきでしょう．
+コマンド補完のアルゴリズムは現在のところ以下のようになっています．</p>
 <ol class="arabic simple">
-<li>First, look up an exact match on the name from the defined macros.</li>
-<li>Look for the exact match on the name in the built-in command list.</li>
-<li>Do a prefix lookup on the list of built-in commands - if a built-in
-command matches, but a macro is defined with the same name as the
-built-in defined, pick the macro.</li>
-<li>Do a prefix lookup on the list of built-in commands.</li>
-<li>Do a prefix lookup on the list of defined macros.</li>
+<li>定義済みマクロの中から完全一致のものを探索．</li>
+<li>組み込みコマンド一覧の中から完全一致のものを探索．</li>
+<li>組み込みコマンド一覧の中から前方一致のものを探索．
+該当する組み込みコマンドがあり，さらにそれと同名のマクロも見つかれば，マクロのほうを選択．</li>
+<li>組み込みコマンド一覧の中から前方一致のものを探索．</li>
+<li>定義済みマクロの一覧の中から前方一致のものを探索．</li>
 </ol>
-<p>Here are some examples:</p>
+<p>例をいくつか示します．</p>
 <ol class="arabic">
-<li><p class="first">You have a macro <code class="docutils literal"><span class="pre">:time</span></code> and enter <code class="docutils literal"><span class="pre">:t</span> <span class="pre">3</span></code></p>
-<p>You get <code class="docutils literal"><span class="pre">:type</span> <span class="pre">3</span></code></p>
+<li><p class="first"><code class="docutils literal"><span class="pre">:time</span></code> というマクロがあり <code class="docutils literal"><span class="pre">:t</span> <span class="pre">3</span></code> と入力すると</p>
+<p><code class="docutils literal"><span class="pre">:type</span> <span class="pre">3</span></code> となります．</p>
 </li>
-<li><p class="first">You have a macro <code class="docutils literal"><span class="pre">:type</span></code> and enter <code class="docutils literal"><span class="pre">:t</span> <span class="pre">3</span></code></p>
-<p>You get <code class="docutils literal"><span class="pre">:type</span> <span class="pre">3</span></code> with your defined macro, not the builtin.</p>
+<li><p class="first"><code class="docutils literal"><span class="pre">:type</span></code> というマクロがあり <code class="docutils literal"><span class="pre">:t</span> <span class="pre">3</span></code> と入力すると</p>
+<p>組み込みのものではなく，定義されたマクロを使って <code class="docutils literal"><span class="pre">:type</span> <span class="pre">3</span></code> となります．</p>
 </li>
-<li><p class="first">You have a macro <code class="docutils literal"><span class="pre">:time</span></code> and a macro <code class="docutils literal"><span class="pre">:type</span></code>, and enter <code class="docutils literal"><span class="pre">:t</span> <span class="pre">3</span></code></p>
-<p>You get <code class="docutils literal"><span class="pre">:type</span> <span class="pre">3</span></code> with your defined macro.</p>
+<li><p class="first"><code class="docutils literal"><span class="pre">:time</span></code> マクロと <code class="docutils literal"><span class="pre">:type</span></code> マクロの両方があり <code class="docutils literal"><span class="pre">:t</span> <span class="pre">3</span></code> と入力すると</p>
+<p>定義されたマクロを使って <code class="docutils literal"><span class="pre">:type</span> <span class="pre">3</span></code> となります．</p>
 </li>
 </ol>
 </div>
@@ -2615,14 +2604,14 @@ program thus:</p>
 </div>
 </dd>
 </dl>
-<table class="docutils footnote" frame="void" id="id40" rules="none">
+<table class="docutils footnote" frame="void" id="id41" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
 <tr><td class="label"><a class="fn-backref" href="#id23">[5]</a></td><td>Note that packages only contain compiled code, so debugging a package
 requires finding its source and loading that directly.</td></tr>
 </tbody>
 </table>
-<table class="docutils footnote" frame="void" id="id41" rules="none">
+<table class="docutils footnote" frame="void" id="id42" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
 <tr><td class="label"><a class="fn-backref" href="#id25">[6]</a></td><td>We originally provided bindings for all variables in scope, rather
