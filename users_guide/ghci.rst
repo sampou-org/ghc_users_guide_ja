@@ -5998,48 +5998,100 @@ GHCi内でオブジェクトコードにコンパイルする機能はコンパ�
 オブジェクトコードモジュールではエクスポートされたものしか見えませんが，
 解釈実行されているモジュールでは，トップレベルの束縛はすべてGHCiでは可視になります．
 
+..
+   .. _external-interpreter:
+
+   Running the interpreter in a separate process
+   ---------------------------------------------
+
+   Normally GHCi runs the interpreted code in the same process as GHC
+   itself, on top of the same RTS and sharing the same heap.  However, if
+   the flag :ghc-flag:`-fexternal-interpreter` is given, then GHC will spawn a
+   separate process for running interpreted code, and communicate with it
+   using messages over a pipe.
+
 .. _external-interpreter:
 
-Running the interpreter in a separate process
----------------------------------------------
+インタプリタを別プロセスで走らせる
+----------------------------------
 
-Normally GHCi runs the interpreted code in the same process as GHC
-itself, on top of the same RTS and sharing the same heap.  However, if
-the flag :ghc-flag:`-fexternal-interpreter` is given, then GHC will spawn a
-separate process for running interpreted code, and communicate with it
-using messages over a pipe.
+通常GHCiは解釈実行されるコードをGHCそれ自身と同じプロセスで走らせます．
+すなわち，GHCと同じRTS上で走らせ，同じヒープ領域を共有します．
+しかし :ghc-flag:`-fexternal-interpreter` フラグを与えると，GHCは別プロセスを起こしてそちらで解釈実行コードを走らせます．
+そのプロセスとの通信にはパイプ上のメッセージを使います．
+
+..
+   .. ghc-flag:: -fexternal-interpreter
+
+       :since: 8.0.1
+
+       Run interpreted code (for GHCi, Template Haskell, Quasi-quoting,
+       or Annotations) in a separate process.  The interpreter will run
+       in profiling mode if :ghc-flag:`-prof` is in effect, and in
+       dynamically-linked mode if :ghc-flag:`-dynamic` is in effect.
+
+       There are a couple of caveats that will hopefully be removed in
+       the future: this option is currently not implemented on Windows
+       (it is a no-op), and the external interpreter does not support the
+       GHCi debugger, so breakpoints and single-stepping don't work with
+       :ghc-flag:`-fexternal-interpreter`.
+
+       See also the :ghc-flag:`-pgmi` (:ref:`replacing-phases`) and :ghc-flag:`-opti`
+       (:ref:`forcing-options-through`) flags.
 
 .. ghc-flag:: -fexternal-interpreter
 
     :since: 8.0.1
 
-    Run interpreted code (for GHCi, Template Haskell, Quasi-quoting,
-    or Annotations) in a separate process.  The interpreter will run
-    in profiling mode if :ghc-flag:`-prof` is in effect, and in
-    dynamically-linked mode if :ghc-flag:`-dynamic` is in effect.
+    別プロセスで(GHCi，Template Haskell，準クォートあるいはアノテーション)の解釈実行コードを走らせます．
+    解釈実行器は :ghc-flag:`-prof` フラグが有効になっていれば，プロファイルモードで動作し，
+    :ghc-flag:`-dynamic` フラグが有効になっていれば，動的リンクモードで動作します．
 
-    There are a couple of caveats that will hopefully be removed in
-    the future: this option is currently not implemented on Windows
-    (it is a no-op), and the external interpreter does not support the
-    GHCi debugger, so breakpoints and single-stepping don't work with
-    :ghc-flag:`-fexternal-interpreter`.
+    ..
+       There are a couple of caveats that will hopefully be removed in
+       the future: this option is currently not implemented on Windows
+       (it is a no-op), and the external interpreter does not support the
+       GHCi debugger, so breakpoints and single-stepping don't work with
+       :ghc-flag:`-fexternal-interpreter`.
 
-    See also the :ghc-flag:`-pgmi` (:ref:`replacing-phases`) and :ghc-flag:`-opti`
-    (:ref:`forcing-options-through`) flags.
+    このオプションには欠陥がいくつか残っています(将来，除去されるでしょう)．
+    現時点ではこのオプションはWindowsでは実現していません(指定しても何も起こりません)．
+    また，別プロセスできどうした解釈実行器はGHCiデバッガをサポートしていませんので，
+    :ghc-flag:`-fexternal-interpreter` を指定してもブレイクポイントを設定したり，ステップ実行を行うことはできません．
 
-Why might we want to do this?  The main reason is that the RTS running
-the interpreted code can be a different flavour (profiling or
-dynamically-linked) from GHC itself.  So for example:
+    ..
+       See also the :ghc-flag:`-pgmi` (:ref:`replacing-phases`) and :ghc-flag:`-opti`
+       (:ref:`forcing-options-through`) flags.
 
-- We can use the profiler to collect stack traces when using GHCi (see
-  :ref:`ghci-stack-traces`).
+    :ghc-flag:`-pgmi` (:ref:`replacing-phases`) および :ghc-flag:`-opti`
+    (:ref:`forcing-options-through`) フラグも参照してください．
 
-- When compiling Template Haskell code with :ghc-flag:`-prof` we don't need to
-  compile the modules without :ghc-flag:`-prof` first (see :ref:`th-profiling`)
-  because we can run the profiled object code in the interpreter.
+..
+   Why might we want to do this?  The main reason is that the RTS running
+   the interpreted code can be a different flavour (profiling or
+   dynamically-linked) from GHC itself.  So for example:
 
-This feature is experimental in GHC 8.0.x, but it may become the
-default in future releases.
+   - We can use the profiler to collect stack traces when using GHCi (see
+     :ref:`ghci-stack-traces`).
+
+   - When compiling Template Haskell code with :ghc-flag:`-prof` we don't need to
+     compile the modules without :ghc-flag:`-prof` first (see :ref:`th-profiling`)
+     because we can run the profiled object code in the interpreter.
+
+   This feature is experimental in GHC 8.0.x, but it may become the
+   default in future releases.
+
+なぜこの機能が必要なのでしょうか．
+主な理由は，解釈実行するコードを走らせる RTS と GHC そのものとでは(プロファイリングや動的リンクかどうかなど)異なる性質のものだからです．
+たとえば，
+
+- GHCi使用時にはプロファイラを使ってスタックトレースを収集できます(:ref:`ghci-stack-traces` 参照)．
+
+- Template Haskell のコードを :ghc-flag:`-prof` でコンパイルする場合，先にモジュールを :ghc-flag:`-prof` なしで
+  コンパイルする必要はありません(:ref:`th-profiling` 参照)．
+  解釈実行器でプロファイル設定されたオブジェクトコードを走らせることが可能だからです．
+
+GHC 8.0.x ではこの機能は実験的なものですが，将来のリリースではデフォルト機能になる予定です．
 
 .. _ghci-faq:
 
