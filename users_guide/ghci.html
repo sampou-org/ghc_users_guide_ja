@@ -115,7 +115,7 @@
 </li>
 <li><a class="reference internal" href="#ghci-obj">5.10. GHCi内でオブジェクトコードにコンパイルする</a></li>
 <li><a class="reference internal" href="#external-interpreter">5.11. インタプリタを別プロセスで走らせる</a></li>
-<li><a class="reference internal" href="#faq-and-things-to-watch-out-for">5.12. FAQ and Things To Watch Out For</a></li>
+<li><a class="reference internal" href="#faq">5.12. FAQ と注意事項</a></li>
 </ul>
 </li>
 </ul>
@@ -301,7 +301,7 @@ GHCiを起動するコマンドラインで <a class="reference internal" href="
 </div>
 <div class="section" id="ghci-compiled">
 <span id="id13"></span><h2>5.3. コンパイル済みコードをロードする<a class="headerlink" href="#ghci-compiled" title="Permalink to this headline">¶</a></h2>
-<span class="target" id="index-5"></span><p>HaskellのソースモジュールをGHCiにロードすると，通常はバイトコードに変換され，解釈実行器で実行されます．
+<span class="target" id="index-5"></span><p>HaskellのソースモジュールをGHCiにロードすると，通常はバイトコードに変換され，インタプリタで実行されます．
 しかし，GHCiでは解釈実行されるコードはコンパイル済みコードと一緒に実行することもできます．
 実際，GHCiは起動すると通常は <code class="docutils literal"><span class="pre">base</span></code> パッケージのコンパイル済みのものをロードします．
 その中には <code class="docutils literal"><span class="pre">Prelude</span></code> モジュールが含まれています．</p>
@@ -309,7 +309,7 @@ GHCiを起動するコマンドラインで <a class="reference internal" href="
 コンパイル済みコードは解釈実行されるコードに比べて大体10倍速いですが，生成するのに2倍の時間がかります
 (最適化が有効ならもっと長くなるでしょう)．
 そのため、プログラムのあまり変更されない部分をコンパイルしておき，
-活発に開発されている部分には解釈実行器を使ことにすればいいわけです．</p>
+活発に開発されている部分にはインタプリタを使ことにすればいいわけです．</p>
 <p><a class="reference internal" href="#ghci-cmd-:load"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:load</span></code></a> でソースモジュールをロードするとき，GHCiは通常対応する
 コンパイル済みのオブジェクトファイルを探します．
 可能ならソースコードの解釈実行よりも優先してそれを使います．
@@ -419,7 +419,7 @@ Compiling A                ( A.hs, interpreted )
 <p class="last">GHCi はコンパイル済みの版が最新であることが確かな場合にしか，
 コンパイル済みオブジェクトファイルを使わないので，
 大きいプロジェクトでは，ときどき <code class="docutils literal"><span class="pre">ghc</span> <span class="pre">--make</span></code> を実行してプロジェクト全体をコンパイルし
-(たとえば，昼食を食べに行く前にね)，解釈実行器を使って作業を続けるというのが良い方法です．
+(たとえば，昼食を食べに行く前にね)，インタプリタを使って作業を続けるというのが良い方法です．
 コードを変更したときは，そのモジュールは解釈実行されますが，プロジェクト中の他の部分は
 変わらずコンパイル済みのものが使われます．</p>
 </div>
@@ -2524,11 +2524,11 @@ GHCiはHaskellのコードをオブジェクトコードにコンパイルする
 </tbody>
 </table>
 <p>別プロセスで(GHCi，Template Haskell，準クォートあるいはアノテーション)の解釈実行コードを走らせます．
-解釈実行器は <a class="reference internal" href="profiling.html#ghc-flag--prof"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-prof</span></code></a> フラグが有効になっていれば，プロファイルモードで動作し，
+インタプリタは <a class="reference internal" href="profiling.html#ghc-flag--prof"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-prof</span></code></a> フラグが有効になっていれば，プロファイルモードで動作し，
 <a class="reference internal" href="phases.html#ghc-flag--dynamic"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-dynamic</span></code></a> フラグが有効になっていれば，動的リンクモードで動作します．</p>
 <p>このオプションには欠陥がいくつか残っています(将来，除去されるでしょう)．
 現時点ではこのオプションはWindowsでは実現していません(指定しても何も起こりません)．
-また，別プロセスできどうした解釈実行器はGHCiデバッガをサポートしていませんので，
+また，別プロセスできどうしたインタプリタはGHCiデバッガをサポートしていませんので，
 <a class="reference internal" href="#ghc-flag--fexternal-interpreter"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-fexternal-interpreter</span></code></a> を指定してもブレイクポイントを設定したり，ステップ実行を行うことはできません．</p>
 <p><a class="reference internal" href="phases.html#ghc-flag--pgmi"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-pgmi</span></code></a> (<a class="reference internal" href="phases.html#replacing-phases"><span>Replacing the program for one or more phases</span></a>) および <a class="reference internal" href="phases.html#ghc-flag--opti"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-opti</span></code></a>
 (<a class="reference internal" href="phases.html#forcing-options-through"><span>Forcing options to a particular phase</span></a>) フラグも参照してください．</p>
@@ -2545,51 +2545,50 @@ GHCiはHaskellのコードをオブジェクトコードにコンパイルする
 </ul>
 <p>GHC 8.0.x ではこの機能は実験的なものですが，将来のリリースではデフォルト機能になる予定です．</p>
 </div>
-<div class="section" id="faq-and-things-to-watch-out-for">
-<span id="ghci-faq"></span><h2>5.12. FAQ and Things To Watch Out For<a class="headerlink" href="#faq-and-things-to-watch-out-for" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="faq">
+<span id="ghci-faq"></span><h2>5.12. FAQ と注意事項<a class="headerlink" href="#faq" title="Permalink to this headline">¶</a></h2>
 <dl class="docutils">
-<dt>The interpreter can&#8217;t load modules with foreign export declarations!</dt>
-<dd>Unfortunately not. We haven&#8217;t implemented it yet. Please compile any
-offending modules by hand before loading them into GHCi.</dd>
+<dt>インタプリタはforeign export宣言のあるモジュールをロードできません！</dt>
+<dd>残念ながらその通りです．まだその機能は実装していません．その問題のあるモジュールは手でコンパイルしてからGHCiにロードしてください．</dd>
 </dl>
-<p><a class="reference internal" href="using-optimisation.html#ghc-flag--O"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-O</span></code></a> doesn&#8217;t work with GHCi!</p>
+<p>GHCiで <a class="reference internal" href="using-optimisation.html#ghc-flag--O"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-O</span></code></a> が効きません！</p>
 <blockquote>
-<div><p id="index-34">For technical reasons, the bytecode compiler doesn&#8217;t interact well
-with one of the optimisation passes, so we have disabled
-optimisation when using the interpreter. This isn&#8217;t a great loss:
-you&#8217;ll get a much bigger win by compiling the bits of your code that
-need to go fast, rather than interpreting them with optimisation
-turned on.</p>
+<div><p id="index-34">技術的な理由から，バイトコードコンパイラは最適化過程と上手くやりとりできないので，
+インタプリタを使う場合には最適化を無効にしてあります．
+だからといって大した問題にはなりません．
+高速実行が必要になるようなコードはコンパイルしておけば，最適化を有効にして解釈実行するよりずっと速いからです．</p>
 </div></blockquote>
 <dl class="docutils">
-<dt>Unboxed tuples don&#8217;t work with GHCi</dt>
-<dd>That&#8217;s right. You can always compile a module that uses unboxed
-tuples and load it into GHCi, however. (Incidentally the previous
-point, namely that <a class="reference internal" href="using-optimisation.html#ghc-flag--O"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-O</span></code></a> is incompatible with GHCi, is because the
-bytecode compiler can&#8217;t deal with unboxed tuples).</dd>
-<dt>Concurrent threads don&#8217;t carry on running when GHCi is waiting for input.</dt>
-<dd>This should work, as long as your GHCi was built with the
-<a class="reference internal" href="phases.html#ghc-flag--threaded"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-threaded</span></code></a> switch, which is the default. Consult whoever supplied
-your GHCi installation.</dd>
-<dt>After using <code class="docutils literal"><span class="pre">getContents</span></code>, I can&#8217;t use <code class="docutils literal"><span class="pre">stdin</span></code>, until I do <code class="docutils literal"><span class="pre">:load</span></code> or <code class="docutils literal"><span class="pre">:reload</span></code></dt>
-<dd><p class="first">This is the defined behaviour of <code class="docutils literal"><span class="pre">getContents</span></code>: it puts the stdin
-Handle in a state known as semi-closed, wherein any further I/O
-operations on it are forbidden. Because I/O state is retained
-between computations, the semi-closed state persists until the next
-<a class="reference internal" href="#ghci-cmd-:load"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:load</span></code></a> or <a class="reference internal" href="#ghci-cmd-:reload"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:reload</span></code></a> command.</p>
-<p class="last">You can make <code class="docutils literal"><span class="pre">stdin</span></code> reset itself after every evaluation by giving
-GHCi the command <code class="docutils literal"><span class="pre">:set</span> <span class="pre">+r</span></code>. This works because <code class="docutils literal"><span class="pre">stdin</span></code> is just a
-top-level expression that can be reverted to its unevaluated state
-in the same way as any other top-level expression (CAF).</p>
+<dt>GHCiで非ボックス化タプルが使えません．</dt>
+<dd>その通りです．ただし，非ボックス化タプルを使うモジュールをコンパイルしてからGHCiにロードすることはできます．
+(ちなみに，上記の <a class="reference internal" href="using-optimisation.html#ghc-flag--O"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-O</span></code></a> がGHCiで使えなにのは，バイトコードコンパイラが非ボックス化タプルを扱えないからです．)</dd>
+</dl>
+<dl class="docutils">
+<dt>GHCiが入力待ちのとき，裏で並行スレッドが走っててくれない．</dt>
+<dd>GHCiが <a class="reference internal" href="phases.html#ghc-flag--threaded"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-threaded</span></code></a> スイッチを有効(デフォルト)にしてコンパイルされたものであれば，ちゃんと機能するはずです．
+GHCiをインストールしてくれた人に相談してください．</dd>
+</dl>
+<dl class="docutils">
+<dt><code class="docutils literal"><span class="pre">getContents</span></code> を使うと，その後 <code class="docutils literal"><span class="pre">:load</span></code> あるいは <code class="docutils literal"><span class="pre">:reload</span></code> しないと <code class="docutils literal"><span class="pre">stdin</span></code> が使えません．</dt>
+<dd><p class="first">これは <code class="docutils literal"><span class="pre">getContents</span></code> 定義どおりの振る舞いです．
+<code class="docutils literal"><span class="pre">getContents</span></code> は <code class="docutils literal"><span class="pre">stdin</span></code> ハンドルをセミクローズドという状態にします．
+この状態のハンドル上ではいかなるＩ／Ｏ操作もできません．
+計算と計算の間ではＩ／Ｏの状態は保持されるので，次に <a class="reference internal" href="#ghci-cmd-:load"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:load</span></code></a> コマンド，あるいは，
+<a class="reference internal" href="#ghci-cmd-:reload"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:reload</span></code></a> コマンドを実行するまではセミクローズド状態が続きます．</p>
+<p class="last">GHCiの <code class="docutils literal"><span class="pre">:set</span> <span class="pre">+r</span></code> というコマンドを使えば <code class="docutils literal"><span class="pre">stdin</span></code> が毎回元の状態に復元するようにできます．
+これがうまく行くのは <code class="docutils literal"><span class="pre">stdin</span></code> が単なるトップレベルの式で，他のトップレベルの式(CAF)と同様の方法で未評価状態に戻せるからです．</p>
 </dd>
-<dt>I can&#8217;t use <code class="kbd docutils literal"><span class="pre">Control-C</span></code> to interrupt computations in GHCi on Windows.</dt>
-<dd>See <a class="reference internal" href="win32-dlls.html#ghci-windows"><span>Running GHCi on Windows</span></a>.</dd>
-<dt>The default buffering mode is different in GHCi to GHC.</dt>
-<dd><p class="first">In GHC, the stdout handle is line-buffered by default. However, in
-GHCi we turn off the buffering on stdout, because this is normally
-what you want in an interpreter: output appears as it is generated.</p>
-<p>If you want line-buffered behaviour, as in GHC, you can start your
-program thus:</p>
+</dl>
+<dl class="docutils">
+<dt>Windows で <code class="kbd docutils literal"><span class="pre">Control-C</span></code> を使って計算を中断できません．</dt>
+<dd><a class="reference internal" href="win32-dlls.html#ghci-windows"><span>Running GHCi on Windows</span></a> を参照してください．</dd>
+</dl>
+<dl class="docutils">
+<dt>GHCi と GHC とで，デフォルトのバッファリングモードが異なります．</dt>
+<dd><p class="first">GHC では <code class="docutils literal"><span class="pre">stdout</span></code> ハンドルは行バッファモードになっています．
+他方，GHCi では <code class="docutils literal"><span class="pre">stdout</span></code> のバッファリングはオフになっています．
+出力がすぐに見えるというのが，インタプリタに期待する動作だからです．</p>
+<p>GHCiで行バッファモードが必要ときは，プログラムを以下のように始めるとよいでしょう．</p>
 <div class="last highlight-haskell"><div class="highlight"><pre><span class="nf">main</span> <span class="ow">=</span> <span class="kr">do</span> <span class="p">{</span> <span class="n">hSetBuffering</span> <span class="n">stdout</span> <span class="kt">LineBuffering</span><span class="p">;</span> <span class="o">...</span> <span class="p">}</span>
 </pre></div>
 </div>
@@ -2598,17 +2597,14 @@ program thus:</p>
 <table class="docutils footnote" frame="void" id="id43" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
-<tr><td class="label"><a class="fn-backref" href="#id23">[5]</a></td><td>Note that packages only contain compiled code, so debugging a package
-requires finding its source and loading that directly.</td></tr>
+<tr><td class="label"><a class="fn-backref" href="#id23">[5]</a></td><td>パッケージはコンパイル済みのコードだけを含んでいるので，パッケージのデバッグにはソースコードを探してそれを直接ロードしなければならないことに注意してください．</td></tr>
 </tbody>
 </table>
 <table class="docutils footnote" frame="void" id="id44" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
-<tr><td class="label"><a class="fn-backref" href="#id25">[6]</a></td><td>We originally provided bindings for all variables in scope, rather
-than just the free variables of the expression, but found that this
-affected performance considerably, hence the current restriction to
-just the free variables.</td></tr>
+<tr><td class="label"><a class="fn-backref" href="#id25">[6]</a></td><td>もともと，当該式の自由変数だけではなく，スコープ内にあるすべての変数の束縛を提供していました．
+しかし，実行性能に大いに影響することが判明したので，それ以来，自由変数のみに制限しています．</td></tr>
 </tbody>
 </table>
 </div>
