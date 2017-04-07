@@ -1051,7 +1051,6 @@ GHCiがプロンプトで受け付ける文の構文は，Haskellのdo式にお�
    more information on exceptions, see the module ``Control.Exception`` in
    the libraries :base-ref:`documentation <Control-Exception.html>`).
 
-Any exceptions raised during the evaluation or execution of the
 文を評価または実行している間に発生した例外は，GHCiのコマンド行インターフェイスによって捕捉され，
 表示されます(例外について詳しくはライブラリドキュメント ``Control.Exception``
 モジュールのライブラリ :base-ref:`文書 <Control-Exception.html>` を参照してください)．
