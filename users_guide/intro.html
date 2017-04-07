@@ -7,7 +7,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>2. GHC の紹介 &mdash; Glasgow Haskell Compiler &lt;release&gt; Users Guide</title>
+    <title>2. GHC の紹介 &#8212; Glasgow Haskell Compiler &lt;release&gt; Users Guide</title>
     
     <link rel="stylesheet" href="_static/ghc-theme.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -18,13 +18,15 @@
         VERSION:     '8.0.2',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
-        HAS_SOURCE:  true
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
       };
     </script>
     <script type="text/javascript" src="_static/jquery.js"></script>
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
-    <link rel="top" title="Glasgow Haskell Compiler &lt;release&gt; Users Guide" href="index.html" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="3. バージョン 8.0.1 のリリースノート" href="8.0.1-notes.html" />
     <link rel="prev" title="1. The Glasgow Haskell Compiler License" href="license.html" /> 
   </head>
@@ -45,7 +47,7 @@
         <li class="right" >
           <a href="license.html" title="1. The Glasgow Haskell Compiler License"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">GHC 8.0.2 Users Guide</a> &raquo;</li> 
+        <li class="nav-item nav-item-0"><a href="index.html">GHC 8.0.2 Users Guide</a> &#187;</li> 
       </ul>
     </div>
 
@@ -71,21 +73,18 @@
   <div role="note" aria-label="source link">
     <h3>This Page</h3>
     <ul class="this-page-menu">
-      <li><a href="_sources/intro.txt"
+      <li><a href="_sources/intro.rst.txt"
             rel="nofollow">Show Source</a></li>
     </ul>
    </div>
 <div id="searchbox" style="display: none" role="search">
   <h3>Quick search</h3>
     <form class="search" action="search.html" method="get">
-      <input type="text" name="q" />
-      <input type="submit" value="Go" />
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
       <input type="hidden" name="check_keywords" value="yes" />
       <input type="hidden" name="area" value="default" />
     </form>
-    <p class="searchtip" style="font-size: 90%">
-    Enter search terms or a module, class or function name.
-    </p>
 </div>
 <script type="text/javascript">$('#searchbox').show(0);</script>
         </div>
@@ -104,10 +103,10 @@ GHCはプログラミング言語
 用の対話式インタプリタ・一括処理式コンパイラです．</p>
 <p>GHCには主に2つの構成要素があります．
 1つは，GHCiとも呼ぶ対話方式のHaskellインタプリタで，これについては
-<a class="reference internal" href="ghci.html#ghci"><span>GHCiを使う</span></a>
+<span class="xref std std-ref">ghci</span>
 で説明します．
 もう1つは，一括処理方式のコンパイラで，これについては
-<a class="reference internal" href="using.html#using-ghc"><span>Using GHC</span></a>
+<a class="reference internal" href="using.html#using-ghc"><span class="std std-ref">Using GHC</span></a>
 で説明します．
 GHCは実際のところは単一のプログラムで，起動時のオプション指定によって，対話方式のインタプリタになったり，一括処理方式のコンパイラになったりします．</p>
 <p>一括処理のコンパイラはGHCiと並行して使えます．
@@ -119,7 +118,7 @@ GHCは実際のところは単一のプログラムで，起動時のオプシ�
 たとえば，並行性，外部関数インタフェース，例外，それにさまざまな型システムの拡張などです．
 型システムの拡張には，多引数の型クラス，局所的な全称/存在量化，関数従属，スコープを持つ型変数，明示的な非ボックス化型などの拡張があります．
 これらの言語拡張については全て
-<a class="reference internal" href="lang.html#ghc-language-features"><span>GHC Language Features</span></a>
+<a class="reference internal" href="lang.html#ghc-language-features"><span class="std std-ref">GHC Language Features</span></a>
 で説明します．</p>
 <p>GHCには広範囲にわたって最適化を行う機構があり，そのつもりになれば（そして，時間に余裕があるなら）GHCでそうとう速いコードを生成できます．
 それとは反対に，デフォルトのオプションは生成するコードを過度に最適化しようとはせずに，なるべく速くコンパイルできるように調整されています．
@@ -127,7 +126,7 @@ GHCは実際のところは単一のプログラムで，起動時のオプシ�
 <p>GHCのプロファイリングシステムは「コスト集約点スタック」をサポートしています．
 コスト集約点スタックとはHaskellプログラムのプロフィールをコールグラフ状の構造として見るためのものです．
 詳しくは
-<a class="reference internal" href="profiling.html#profiling"><span>Profiling</span></a>
+<a class="reference internal" href="profiling.html#profiling"><span class="std std-ref">Profiling</span></a>
 を参照してください．</p>
 <p>GHCには多数のライブラリが付属しています．
 これらのライブラリについて別の文書で説明されています．</p>
@@ -201,7 +200,7 @@ GHC APIを使っていたり，GHCの実装に関して質問があれば，遠�
 プログラマ用インターフェイスを変更することはありません．
 しかし，新しいパッチレベルリリースを古いリリースに上書きインストールした場合，
 古いライブラリに対してコンパイルされたコードは全てコンパイルし直さなければなりません．</p>
-<p>メジャーリリース <code class="docutils literal"><span class="pre">x.y.z</span></code> では <code class="docutils literal"><span class="pre">__GLASGOW_HASKELL__</span></code> (<a class="reference internal" href="phases.html#c-pre-processor"><span>Options affecting the C pre-processor</span></a> 参照)
+<p>メジャーリリース <code class="docutils literal"><span class="pre">x.y.z</span></code> では <code class="docutils literal"><span class="pre">__GLASGOW_HASKELL__</span></code> (<a class="reference internal" href="phases.html#c-pre-processor"><span class="std std-ref">Options affecting the C pre-processor</span></a> 参照)
 の値は <code class="docutils literal"><span class="pre">xy</span></code> (ただし， <cite>y</cite> が一桁のときは前に <code class="docutils literal"><span class="pre">0</span></code> を置きます．たとえば，GHCバージョン6.8.2
 では， <code class="docutils literal"><span class="pre">__GLASGOW_HASKELL__==608</span></code>) となります．</p>
 <span class="target" id="index-3"></span><p>現在の安定版ブランチのスナップショットリリースを作成して，
@@ -236,11 +235,11 @@ GHC APIを使っていたり，GHCの実装に関して質問があれば，遠�
 メジャーリリース番号との間でだけ大小・等値比較を行ってください．</p>
 </div></blockquote>
 <p>手元のGHCのバージョン番号は <code class="docutils literal"><span class="pre">ghc</span></code> を <code class="docutils literal"><span class="pre">--version</span></code> フラグ付きで起動すれば判ります
-(<a class="reference internal" href="using.html#options-help"><span>Verbosity options</span></a> 参照)．</p>
+(<a class="reference internal" href="using.html#options-help"><span class="std std-ref">Verbosity options</span></a> 参照)．</p>
 <p>コンパイラのバージョンはコンパイルするコードの中でチェックできます．
 これは CPP のマクロ <code class="docutils literal"><span class="pre">MIN_VERSION_GLASGOW_HASKELL</span></code> を使います
 (このマクロは <code class="xref std std-ghc-flag docutils literal"><span class="pre">-XCPP</span></code> が指定されたときのみ有効です)．
-詳しくは <a class="reference internal" href="phases.html#standard-cpp-macros"><span>Standard CPP macros</span></a> を参照してください．</p>
+詳しくは <a class="reference internal" href="phases.html#standard-cpp-macros"><span class="std std-ref">Standard CPP macros</span></a> を参照してください．</p>
 </div>
 </div>
 
@@ -262,12 +261,12 @@ GHC APIを使っていたり，GHCの実装に関して質問があれば，遠�
         <li class="right" >
           <a href="license.html" title="1. The Glasgow Haskell Compiler License"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">GHC 8.0.2 Users Guide</a> &raquo;</li> 
+        <li class="nav-item nav-item-0"><a href="index.html">GHC 8.0.2 Users Guide</a> &#187;</li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">
-        &copy; Copyright 2015, GHC Team.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.6.
+        &#169; Copyright 2015, GHC Team.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.5.2.
     </div>
   </body>
 </html>

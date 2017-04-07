@@ -7,7 +7,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>17. Known bugs and infelicities &mdash; Glasgow Haskell Compiler &lt;release&gt; Users Guide</title>
+    <title>17. Known bugs and infelicities &#8212; Glasgow Haskell Compiler &lt;release&gt; Users Guide</title>
     
     <link rel="stylesheet" href="_static/ghc-theme.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -18,13 +18,15 @@
         VERSION:     '8.0.2',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
-        HAS_SOURCE:  true
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
       };
     </script>
     <script type="text/javascript" src="_static/jquery.js"></script>
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
-    <link rel="top" title="Glasgow Haskell Compiler &lt;release&gt; Users Guide" href="index.html" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="18. Care and feeding of your GHC Users Guide" href="editing-guide.html" />
     <link rel="prev" title="16. Running GHC on Win32 systems" href="win32-dlls.html" /> 
   </head>
@@ -45,7 +47,7 @@
         <li class="right" >
           <a href="win32-dlls.html" title="16. Running GHC on Win32 systems"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">GHC 8.0.2 Users Guide</a> &raquo;</li> 
+        <li class="nav-item nav-item-0"><a href="index.html">GHC 8.0.2 Users Guide</a> &#187;</li> 
       </ul>
     </div>
 
@@ -88,21 +90,18 @@
   <div role="note" aria-label="source link">
     <h3>This Page</h3>
     <ul class="this-page-menu">
-      <li><a href="_sources/bugs.txt"
+      <li><a href="_sources/bugs.rst.txt"
             rel="nofollow">Show Source</a></li>
     </ul>
    </div>
 <div id="searchbox" style="display: none" role="search">
   <h3>Quick search</h3>
     <form class="search" action="search.html" method="get">
-      <input type="text" name="q" />
-      <input type="submit" value="Go" />
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
       <input type="hidden" name="check_keywords" value="yes" />
       <input type="hidden" name="area" value="default" />
     </form>
-    <p class="searchtip" style="font-size: 90%">
-    Enter search terms or a module, class or function name.
-    </p>
 </div>
 <script type="text/javascript">$('#searchbox').show(0);</script>
         </div>
@@ -119,7 +118,7 @@
 <span id="vs-haskell-defn"></span><h2>17.1. Haskell&nbsp;standards vs.&nbsp;Glasgow Haskell: language non-compliance<a class="headerlink" href="#haskell-standards-vs-glasgow-haskell-language-non-compliance" title="Permalink to this headline">¶</a></h2>
 <p id="index-0">This section lists Glasgow Haskell infelicities in its implementation of
 Haskell&nbsp;98 and Haskell&nbsp;2010. See also the “when things go wrong” section
-(<a class="reference internal" href="gone_wrong.html#wrong"><span>What to do when something goes wrong</span></a>) for information about crashes, space leaks, and other
+(<a class="reference internal" href="gone_wrong.html#wrong"><span class="std std-ref">What to do when something goes wrong</span></a>) for information about crashes, space leaks, and other
 undesirable phenomena.</p>
 <p>The limitations here are listed in Haskell Report order (roughly).</p>
 <div class="section" id="divergence-from-haskell-98-and-haskell-2010">
@@ -150,7 +149,7 @@ must be indented further to the right than the enclosing context&#8221; is
 relaxed to allow the nested context to be at the same level as the
 enclosing context, if the enclosing context is a <code class="docutils literal"><span class="pre">do</span></code> expression.</p>
 <p>For example, the following code is accepted by GHC:</p>
-<div class="highlight-haskell"><div class="highlight"><pre><span class="nf">main</span> <span class="ow">=</span> <span class="kr">do</span> <span class="n">args</span> <span class="ow">&lt;-</span> <span class="n">getArgs</span>
+<div class="highlight-haskell"><div class="highlight"><pre><span></span><span class="nf">main</span> <span class="ow">=</span> <span class="kr">do</span> <span class="n">args</span> <span class="ow">&lt;-</span> <span class="n">getArgs</span>
           <span class="kr">if</span> <span class="n">null</span> <span class="n">args</span> <span class="kr">then</span> <span class="n">return</span> <span class="kt">[]</span> <span class="kr">else</span> <span class="kr">do</span>
           <span class="n">ps</span> <span class="ow">&lt;-</span> <span class="n">mapM</span> <span class="n">process</span> <span class="n">args</span>
           <span class="n">mapM</span> <span class="n">print</span> <span class="n">ps</span>
@@ -163,11 +162,11 @@ extension.</p>
 required by Haskell&nbsp;98 (but not by Haskell&nbsp;2010). For example,
 according to the Haskell&nbsp;98 report, the following expression is
 legal:</p>
-<div class="highlight-haskell"><div class="highlight"><pre><span class="kr">let</span> <span class="n">x</span> <span class="ow">=</span> <span class="mi">42</span> <span class="kr">in</span> <span class="n">x</span> <span class="o">==</span> <span class="mi">42</span> <span class="o">==</span> <span class="kt">True</span>
+<div class="highlight-haskell"><div class="highlight"><pre><span></span><span class="kr">let</span> <span class="n">x</span> <span class="ow">=</span> <span class="mi">42</span> <span class="kr">in</span> <span class="n">x</span> <span class="o">==</span> <span class="mi">42</span> <span class="o">==</span> <span class="kt">True</span>
 </pre></div>
 </div>
 <p>and parses as:</p>
-<div class="highlight-haskell"><div class="highlight"><pre><span class="p">(</span><span class="kr">let</span> <span class="n">x</span> <span class="ow">=</span> <span class="mi">42</span> <span class="kr">in</span> <span class="n">x</span> <span class="o">==</span> <span class="mi">42</span><span class="p">)</span> <span class="o">==</span> <span class="kt">True</span>
+<div class="highlight-haskell"><div class="highlight"><pre><span></span><span class="p">(</span><span class="kr">let</span> <span class="n">x</span> <span class="ow">=</span> <span class="mi">42</span> <span class="kr">in</span> <span class="n">x</span> <span class="o">==</span> <span class="mi">42</span><span class="p">)</span> <span class="o">==</span> <span class="kt">True</span>
 </pre></div>
 </div>
 <p>because according to the report, the <code class="docutils literal"><span class="pre">let</span></code> expression “extends as
@@ -175,7 +174,7 @@ far to the right as possible”. Since it can&#8217;t extend past the second
 equals sign without causing a parse error (<code class="docutils literal"><span class="pre">==</span></code> is non-fix), the
 <code class="docutils literal"><span class="pre">let</span></code>-expression must terminate there. GHC simply gobbles up the
 whole expression, parsing like this:</p>
-<div class="highlight-haskell"><div class="highlight"><pre><span class="p">(</span><span class="kr">let</span> <span class="n">x</span> <span class="ow">=</span> <span class="mi">42</span> <span class="kr">in</span> <span class="n">x</span> <span class="o">==</span> <span class="mi">42</span> <span class="o">==</span> <span class="kt">True</span><span class="p">)</span>
+<div class="highlight-haskell"><div class="highlight"><pre><span></span><span class="p">(</span><span class="kr">let</span> <span class="n">x</span> <span class="ow">=</span> <span class="mi">42</span> <span class="kr">in</span> <span class="n">x</span> <span class="o">==</span> <span class="mi">42</span> <span class="o">==</span> <span class="kt">True</span><span class="p">)</span>
 </pre></div>
 </div>
 </li>
@@ -190,7 +189,7 @@ before only expressions that could potentially be applied as a function.</p>
 <span id="infelicities-exprs-pats"></span><h4>17.1.1.3. Expressions and patterns<a class="headerlink" href="#expressions-and-patterns" title="Permalink to this headline">¶</a></h4>
 <p>In its default mode, GHC makes some programs slightly more defined than
 they should be. For example, consider</p>
-<div class="highlight-haskell"><div class="highlight"><pre><span class="nf">f</span> <span class="ow">::</span> <span class="p">[</span><span class="n">a</span><span class="p">]</span> <span class="ow">-&gt;</span> <span class="n">b</span> <span class="ow">-&gt;</span> <span class="n">b</span>
+<div class="highlight-haskell"><div class="highlight"><pre><span></span><span class="nf">f</span> <span class="ow">::</span> <span class="p">[</span><span class="n">a</span><span class="p">]</span> <span class="ow">-&gt;</span> <span class="n">b</span> <span class="ow">-&gt;</span> <span class="n">b</span>
 <span class="nf">f</span> <span class="kt">[]</span> <span class="ow">=</span> <span class="ne">error</span> <span class="s">&quot;urk&quot;</span>
 <span class="nf">f</span> <span class="p">(</span><span class="n">x</span><span class="kt">:</span><span class="n">xs</span><span class="p">)</span> <span class="ow">=</span> <span class="nf">\</span><span class="n">v</span> <span class="ow">-&gt;</span> <span class="n">v</span>
 
@@ -199,7 +198,7 @@ they should be. For example, consider</p>
 </div>
 <p>This should call <code class="docutils literal"><span class="pre">error</span></code> but actually prints <code class="docutils literal"><span class="pre">True</span></code>. Reason: GHC
 eta-expands <code class="docutils literal"><span class="pre">f</span></code> to</p>
-<div class="highlight-haskell"><div class="highlight"><pre><span class="nf">f</span> <span class="ow">::</span> <span class="p">[</span><span class="n">a</span><span class="p">]</span> <span class="ow">-&gt;</span> <span class="n">b</span> <span class="ow">-&gt;</span> <span class="n">b</span>
+<div class="highlight-haskell"><div class="highlight"><pre><span></span><span class="nf">f</span> <span class="ow">::</span> <span class="p">[</span><span class="n">a</span><span class="p">]</span> <span class="ow">-&gt;</span> <span class="n">b</span> <span class="ow">-&gt;</span> <span class="n">b</span>
 <span class="nf">f</span> <span class="kt">[]</span>     <span class="n">v</span> <span class="ow">=</span> <span class="ne">error</span> <span class="s">&quot;urk&quot;</span>
 <span class="nf">f</span> <span class="p">(</span><span class="n">x</span><span class="kt">:</span><span class="n">xs</span><span class="p">)</span> <span class="n">v</span> <span class="ow">=</span> <span class="n">v</span>
 </pre></div>
@@ -213,7 +212,7 @@ and is bad for only a few. To suppress this bogus &#8220;optimisation&#8221; use
 <p>In its default mode, GHC does not accept datatype contexts, as it has
 been decided to remove them from the next version of the language
 standard. This behaviour can be controlled with the <code class="docutils literal"><span class="pre">DatatypeContexts</span></code>
-extension. See <a class="reference internal" href="glasgow_exts.html#datatype-contexts"><span>Data type contexts</span></a>.</p>
+extension. See <a class="reference internal" href="glasgow_exts.html#datatype-contexts"><span class="std std-ref">Data type contexts</span></a>.</p>
 </div>
 <div class="section" id="typechecking-of-recursive-binding-groups">
 <span id="infelicities-recursive-groups"></span><h4>17.1.1.5. Typechecking of recursive binding groups<a class="headerlink" href="#typechecking-of-recursive-binding-groups" title="Permalink to this headline">¶</a></h4>
@@ -233,7 +232,7 @@ more general scheme. In GHC <em>the dependency analysis ignores references to
 variables that have an explicit type signature</em>. As a result of this refined
 dependency analysis, the dependency groups are smaller, and more bindings will
 typecheck. For example, consider:</p>
-<div class="highlight-haskell"><div class="highlight"><pre><span class="nf">f</span> <span class="ow">::</span> <span class="kt">Eq</span> <span class="n">a</span> <span class="ow">=&gt;</span> <span class="n">a</span> <span class="ow">-&gt;</span> <span class="kt">Bool</span>
+<div class="highlight-haskell"><div class="highlight"><pre><span></span><span class="nf">f</span> <span class="ow">::</span> <span class="kt">Eq</span> <span class="n">a</span> <span class="ow">=&gt;</span> <span class="n">a</span> <span class="ow">-&gt;</span> <span class="kt">Bool</span>
 <span class="nf">f</span> <span class="n">x</span> <span class="ow">=</span> <span class="p">(</span><span class="n">x</span> <span class="o">==</span> <span class="n">x</span><span class="p">)</span> <span class="o">||</span> <span class="n">g</span> <span class="kt">True</span> <span class="o">||</span> <span class="n">g</span> <span class="s">&quot;Yes&quot;</span>
 
 <span class="nf">g</span> <span class="n">y</span> <span class="ow">=</span> <span class="p">(</span><span class="n">y</span> <span class="o">&lt;=</span> <span class="n">y</span><span class="p">)</span> <span class="o">||</span> <span class="n">f</span> <span class="kt">True</span>
@@ -243,7 +242,7 @@ typecheck. For example, consider:</p>
 for <code class="docutils literal"><span class="pre">g</span></code> is typechecked first, separately from that for <code class="docutils literal"><span class="pre">f</span></code>, because
 the reference to <code class="docutils literal"><span class="pre">f</span></code> in <code class="docutils literal"><span class="pre">g</span></code>&#8216;s right hand side is ignored by the
 dependency analysis. Then <code class="docutils literal"><span class="pre">g</span></code>&#8216;s type is generalised, to get</p>
-<div class="highlight-haskell"><div class="highlight"><pre><span class="nf">g</span> <span class="ow">::</span> <span class="kt">Ord</span> <span class="n">a</span> <span class="ow">=&gt;</span> <span class="n">a</span> <span class="ow">-&gt;</span> <span class="kt">Bool</span>
+<div class="highlight-haskell"><div class="highlight"><pre><span></span><span class="nf">g</span> <span class="ow">::</span> <span class="kt">Ord</span> <span class="n">a</span> <span class="ow">=&gt;</span> <span class="n">a</span> <span class="ow">-&gt;</span> <span class="kt">Bool</span>
 </pre></div>
 </div>
 <p>Now, the definition for <code class="docutils literal"><span class="pre">f</span></code> is typechecked, with this type for <code class="docutils literal"><span class="pre">g</span></code>
@@ -254,7 +253,7 @@ illegal in Haskell 98 (Section 4.5.2, last sentence). GHC only insists that the
 type signatures of a <em>refined</em> group have identical type signatures; in practice
 this means that only variables bound by the same pattern binding must have the
 same context. For example, this is fine:</p>
-<div class="highlight-haskell"><div class="highlight"><pre><span class="nf">f</span> <span class="ow">::</span> <span class="kt">Eq</span> <span class="n">a</span> <span class="ow">=&gt;</span> <span class="n">a</span> <span class="ow">-&gt;</span> <span class="kt">Bool</span>
+<div class="highlight-haskell"><div class="highlight"><pre><span></span><span class="nf">f</span> <span class="ow">::</span> <span class="kt">Eq</span> <span class="n">a</span> <span class="ow">=&gt;</span> <span class="n">a</span> <span class="ow">-&gt;</span> <span class="kt">Bool</span>
 <span class="nf">f</span> <span class="n">x</span> <span class="ow">=</span> <span class="p">(</span><span class="n">x</span> <span class="o">==</span> <span class="n">x</span><span class="p">)</span> <span class="o">||</span> <span class="n">g</span> <span class="kt">True</span>
 
 <span class="nf">g</span> <span class="ow">::</span> <span class="kt">Ord</span> <span class="n">a</span> <span class="ow">=&gt;</span> <span class="n">a</span> <span class="ow">-&gt;</span> <span class="kt">Bool</span>
@@ -266,7 +265,7 @@ same context. For example, this is fine:</p>
 <span id="infelicities-modules"></span><h4>17.1.1.6. Module system and interface files<a class="headerlink" href="#module-system-and-interface-files" title="Permalink to this headline">¶</a></h4>
 <p>GHC requires the use of <code class="docutils literal"><span class="pre">hs-boot</span></code> files to cut the recursive loops
 among mutually recursive modules as described in
-<a class="reference internal" href="separate_compilation.html#mutual-recursion"><span>How to compile mutually recursive modules</span></a>. This more of an infelicity than a bug: the
+<a class="reference internal" href="separate_compilation.html#mutual-recursion"><span class="std std-ref">How to compile mutually recursive modules</span></a>. This more of an infelicity than a bug: the
 Haskell Report says (<a class="reference external" href="http://haskell.org/onlinereport/modules.html#sect5.7">Section
 5.7</a>)</p>
 <blockquote>
@@ -284,17 +283,15 @@ compilation are not defined by this Report.&#8221;</div></blockquote>
 <dd><p class="first">The <code class="docutils literal"><span class="pre">Num</span></code> class does not have <code class="docutils literal"><span class="pre">Show</span></code> or <code class="docutils literal"><span class="pre">Eq</span></code> superclasses.</p>
 <p>You can make code that works with both Haskell98/Haskell2010 and GHC
 by:</p>
-<ul class="last">
+<ul class="last simple">
 <li><dl class="first docutils">
 <dt>Whenever you make a <code class="docutils literal"><span class="pre">Num</span></code> instance of a type, also make</dt>
-<dd><p class="first last"><code class="docutils literal"><span class="pre">Show</span></code> and <code class="docutils literal"><span class="pre">Eq</span></code> instances, and</p>
-</dd>
+<dd><code class="docutils literal"><span class="pre">Show</span></code> and <code class="docutils literal"><span class="pre">Eq</span></code> instances, and</dd>
 </dl>
 </li>
 <li><dl class="first docutils">
 <dt>Whenever you give a function, instance or class a <code class="docutils literal"><span class="pre">Num</span> <span class="pre">t</span></code></dt>
-<dd><p class="first last">constraint, also give it <code class="docutils literal"><span class="pre">Show</span> <span class="pre">t</span></code> and <code class="docutils literal"><span class="pre">Eq</span> <span class="pre">t</span></code> constraints.</p>
-</dd>
+<dd>constraint, also give it <code class="docutils literal"><span class="pre">Show</span> <span class="pre">t</span></code> and <code class="docutils literal"><span class="pre">Eq</span> <span class="pre">t</span></code> constraints.</dd>
 </dl>
 </li>
 </ul>
@@ -304,30 +301,27 @@ by:</p>
 therefore does not have default methods for the <code class="docutils literal"><span class="pre">bit</span></code>, <code class="docutils literal"><span class="pre">testBit</span></code>
 and <code class="docutils literal"><span class="pre">popCount</span></code> methods.</p>
 <p>You can make code that works with both Haskell 2010 and GHC by:</p>
-<ul class="last">
+<ul class="last simple">
 <li><dl class="first docutils">
 <dt>Whenever you make a <code class="docutils literal"><span class="pre">Bits</span></code> instance of a type, also make a</dt>
-<dd><p class="first last"><code class="docutils literal"><span class="pre">Num</span></code> instance, and</p>
-</dd>
+<dd><code class="docutils literal"><span class="pre">Num</span></code> instance, and</dd>
 </dl>
 </li>
 <li><dl class="first docutils">
 <dt>Whenever you give a function, instance or class a <code class="docutils literal"><span class="pre">Bits</span> <span class="pre">t</span></code></dt>
-<dd><p class="first last">constraint, also give it a <code class="docutils literal"><span class="pre">Num</span> <span class="pre">t</span></code> constraint, and</p>
-</dd>
+<dd>constraint, also give it a <code class="docutils literal"><span class="pre">Num</span> <span class="pre">t</span></code> constraint, and</dd>
 </dl>
 </li>
 <li><dl class="first docutils">
 <dt>Always define the <code class="docutils literal"><span class="pre">bit</span></code>, <code class="docutils literal"><span class="pre">testBit</span></code> and <code class="docutils literal"><span class="pre">popCount</span></code> methods</dt>
-<dd><p class="first last">in <code class="docutils literal"><span class="pre">Bits</span></code> instances.</p>
-</dd>
+<dd>in <code class="docutils literal"><span class="pre">Bits</span></code> instances.</dd>
 </dl>
 </li>
 </ul>
 </dd>
 <dt>Extra instances</dt>
 <dd><p class="first">The following extra instances are defined:</p>
-<div class="last highlight-haskell"><div class="highlight"><pre><span class="kr">instance</span> <span class="kt">Functor</span> <span class="p">((</span><span class="ow">-&gt;</span><span class="p">)</span> <span class="n">r</span><span class="p">)</span>
+<div class="last highlight-haskell"><div class="highlight"><pre><span></span><span class="kr">instance</span> <span class="kt">Functor</span> <span class="p">((</span><span class="ow">-&gt;</span><span class="p">)</span> <span class="n">r</span><span class="p">)</span>
 <span class="kr">instance</span> <span class="kt">Monad</span> <span class="p">((</span><span class="ow">-&gt;</span><span class="p">)</span> <span class="n">r</span><span class="p">)</span>
 <span class="kr">instance</span> <span class="kt">Functor</span> <span class="p">((,)</span> <span class="n">a</span><span class="p">)</span>
 <span class="kr">instance</span> <span class="kt">Functor</span> <span class="p">(</span><span class="kt">Either</span> <span class="n">a</span><span class="p">)</span>
@@ -337,7 +331,7 @@ and <code class="docutils literal"><span class="pre">popCount</span></code> meth
 </dd>
 <dt>Multiply-defined array elements not checked</dt>
 <dd><p class="first">This code fragment should elicit a fatal error, but it does not:</p>
-<div class="highlight-haskell"><div class="highlight"><pre><span class="nf">main</span> <span class="ow">=</span> <span class="n">print</span> <span class="p">(</span><span class="n">array</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span> <span class="p">[(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">),</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">3</span><span class="p">)])</span>
+<div class="highlight-haskell"><div class="highlight"><pre><span></span><span class="nf">main</span> <span class="ow">=</span> <span class="n">print</span> <span class="p">(</span><span class="n">array</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span> <span class="p">[(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">),</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">3</span><span class="p">)])</span>
 </pre></div>
 </div>
 <p class="last">GHC&#8217;s implementation of <code class="docutils literal"><span class="pre">array</span></code> takes the value of an array slot
@@ -359,15 +353,15 @@ stuck on it.</p>
 <dt><code class="docutils literal"><span class="pre">splitAt</span></code> semantics</dt>
 <dd><p class="first"><code class="docutils literal"><span class="pre">Data.List.splitAt</span></code> is more strict than specified in the Report.
 Specifically, the Report specifies that</p>
-<div class="highlight-haskell"><div class="highlight"><pre><span class="nf">splitAt</span> <span class="n">n</span> <span class="n">xs</span> <span class="ow">=</span> <span class="p">(</span><span class="n">take</span> <span class="n">n</span> <span class="n">xs</span><span class="p">,</span> <span class="n">drop</span> <span class="n">n</span> <span class="n">xs</span><span class="p">)</span>
+<div class="highlight-haskell"><div class="highlight"><pre><span></span><span class="nf">splitAt</span> <span class="n">n</span> <span class="n">xs</span> <span class="ow">=</span> <span class="p">(</span><span class="n">take</span> <span class="n">n</span> <span class="n">xs</span><span class="p">,</span> <span class="n">drop</span> <span class="n">n</span> <span class="n">xs</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>which implies that</p>
-<div class="highlight-haskell"><div class="highlight"><pre><span class="nf">splitAt</span> <span class="n">undefined</span> <span class="n">undefined</span> <span class="ow">=</span> <span class="p">(</span><span class="n">undefined</span><span class="p">,</span> <span class="n">undefined</span><span class="p">)</span>
+<div class="highlight-haskell"><div class="highlight"><pre><span></span><span class="nf">splitAt</span> <span class="n">undefined</span> <span class="n">undefined</span> <span class="ow">=</span> <span class="p">(</span><span class="n">undefined</span><span class="p">,</span> <span class="n">undefined</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>but GHC&#8217;s implementation is strict in its first argument, so</p>
-<div class="last highlight-haskell"><div class="highlight"><pre><span class="nf">splitAt</span> <span class="n">undefined</span> <span class="kt">[]</span> <span class="ow">=</span> <span class="n">undefined</span>
+<div class="last highlight-haskell"><div class="highlight"><pre><span></span><span class="nf">splitAt</span> <span class="n">undefined</span> <span class="kt">[]</span> <span class="ow">=</span> <span class="n">undefined</span>
 </pre></div>
 </div>
 </dd>
@@ -377,7 +371,7 @@ string should only include parentheses which are necessary to unambiguously
 parse the result. For historical reasons, <code class="docutils literal"><span class="pre">Show</span></code> instances derived by GHC
 include parentheses around records despite the fact that record syntax
 binds more tightly than function application; e.g.,</p>
-<div class="last highlight-haskell"><div class="highlight"><pre><span class="kr">data</span> <span class="kt">Hello</span> <span class="ow">=</span> <span class="kt">Hello</span> <span class="p">{</span> <span class="n">aField</span> <span class="ow">::</span> <span class="kt">Int</span> <span class="p">}</span> <span class="kr">deriving</span> <span class="p">(</span><span class="kt">Show</span><span class="p">)</span>
+<div class="last highlight-haskell"><div class="highlight"><pre><span></span><span class="kr">data</span> <span class="kt">Hello</span> <span class="ow">=</span> <span class="kt">Hello</span> <span class="p">{</span> <span class="n">aField</span> <span class="ow">::</span> <span class="kt">Int</span> <span class="p">}</span> <span class="kr">deriving</span> <span class="p">(</span><span class="kt">Show</span><span class="p">)</span>
 
 <span class="c1">-- GHC produces...</span>
 <span class="nf">show</span> <span class="p">(</span><span class="kt">Just</span> <span class="p">(</span><span class="kt">Hello</span> <span class="p">{</span><span class="n">aField</span><span class="ow">=</span><span class="mi">42</span><span class="p">}))</span> <span class="o">==</span> <span class="s">&quot;Just (Hello {aField=42})&quot;</span>
@@ -391,7 +385,7 @@ binds more tightly than function application; e.g.,</p>
 <dd><p class="first">GHC&#8217;s implementation of the <code class="docutils literal"><span class="pre">Read</span></code> class for integral types
 accepts hexadecimal and octal literals (the code in the Haskell 98
 report doesn&#8217;t). So, for example,</p>
-<div class="highlight-haskell"><div class="highlight"><pre><span class="nf">read</span> <span class="s">&quot;0xf00&quot;</span> <span class="ow">::</span> <span class="kt">Int</span>
+<div class="highlight-haskell"><div class="highlight"><pre><span></span><span class="nf">read</span> <span class="s">&quot;0xf00&quot;</span> <span class="ow">::</span> <span class="kt">Int</span>
 </pre></div>
 </div>
 <p>works in GHC.</p>
@@ -401,7 +395,7 @@ too.</p>
 </dd>
 <dt><code class="docutils literal"><span class="pre">isAlpha</span></code></dt>
 <dd><p class="first">The Haskell 98 definition of <code class="docutils literal"><span class="pre">isAlpha</span></code> is:</p>
-<div class="highlight-haskell"><div class="highlight"><pre><span class="nf">isAlpha</span> <span class="n">c</span> <span class="ow">=</span> <span class="n">isUpper</span> <span class="n">c</span> <span class="o">||</span> <span class="n">isLower</span> <span class="n">c</span>
+<div class="highlight-haskell"><div class="highlight"><pre><span></span><span class="nf">isAlpha</span> <span class="n">c</span> <span class="ow">=</span> <span class="n">isUpper</span> <span class="n">c</span> <span class="o">||</span> <span class="n">isLower</span> <span class="n">c</span>
 </pre></div>
 </div>
 <p class="last">GHC&#8217;s implementation diverges from the Haskell 98 definition in the
@@ -491,18 +485,18 @@ context switch. This is especially true of programs using STM, which
 may deadlock after observing inconsistent state. See <a class="reference external" href="http://ghc.haskell.org/trac/ghc/ticket/367">Trac #367</a>
 for further discussion.</p>
 <p>If you are hit by this, you may want to compile the affected module
-with <a class="reference internal" href="using-optimisation.html#ghc-flag--fomit-yields"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-fno-omit-yields</span></code></a> (see <a class="reference internal" href="using-optimisation.html#options-f"><span>-f*: platform-independent flags</span></a>).
+with <a class="reference internal" href="using-optimisation.html#ghc-flag--fomit-yields"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-fno-omit-yields</span></code></a> (see <a class="reference internal" href="using-optimisation.html#options-f"><span class="std std-ref">-f*: platform-independent flags</span></a>).
 This flag ensures that yield points are inserted at every function entrypoint
 (at the expense of a bit of performance).</p>
 </li>
 <li><p class="first">GHC does not allow you to have a data type with a context that
 mentions type variables that are not data type parameters. For
 example:</p>
-<div class="highlight-haskell"><div class="highlight"><pre><span class="kr">data</span> <span class="kt">C</span> <span class="n">a</span> <span class="n">b</span> <span class="ow">=&gt;</span> <span class="kt">T</span> <span class="n">a</span> <span class="ow">=</span> <span class="kt">MkT</span> <span class="n">a</span>
+<div class="highlight-haskell"><div class="highlight"><pre><span></span><span class="kr">data</span> <span class="kt">C</span> <span class="n">a</span> <span class="n">b</span> <span class="ow">=&gt;</span> <span class="kt">T</span> <span class="n">a</span> <span class="ow">=</span> <span class="kt">MkT</span> <span class="n">a</span>
 </pre></div>
 </div>
 <p>so that <code class="docutils literal"><span class="pre">MkT</span></code>&#8216;s type is</p>
-<div class="highlight-haskell"><div class="highlight"><pre><span class="kt">MkT</span> <span class="ow">::</span> <span class="n">forall</span> <span class="n">a</span> <span class="n">b</span><span class="o">.</span> <span class="kt">C</span> <span class="n">a</span> <span class="n">b</span> <span class="ow">=&gt;</span> <span class="n">a</span> <span class="ow">-&gt;</span> <span class="kt">T</span> <span class="n">a</span>
+<div class="highlight-haskell"><div class="highlight"><pre><span></span><span class="kt">MkT</span> <span class="ow">::</span> <span class="n">forall</span> <span class="n">a</span> <span class="n">b</span><span class="o">.</span> <span class="kt">C</span> <span class="n">a</span> <span class="n">b</span> <span class="ow">=&gt;</span> <span class="n">a</span> <span class="ow">-&gt;</span> <span class="kt">T</span> <span class="n">a</span>
 </pre></div>
 </div>
 <p>In principle, with a suitable class declaration with a functional
@@ -513,7 +507,7 @@ data type.</p>
 </li>
 <li><p class="first">GHC&#8217;s inliner can be persuaded into non-termination using the
 standard way to encode recursion via a data type:</p>
-<div class="highlight-haskell"><div class="highlight"><pre><span class="kr">data</span> <span class="kt">U</span> <span class="ow">=</span> <span class="kt">MkU</span> <span class="p">(</span><span class="kt">U</span> <span class="ow">-&gt;</span> <span class="kt">Bool</span><span class="p">)</span>
+<div class="highlight-haskell"><div class="highlight"><pre><span></span><span class="kr">data</span> <span class="kt">U</span> <span class="ow">=</span> <span class="kt">MkU</span> <span class="p">(</span><span class="kt">U</span> <span class="ow">-&gt;</span> <span class="kt">Bool</span><span class="p">)</span>
 
 <span class="nf">russel</span> <span class="ow">::</span> <span class="kt">U</span> <span class="ow">-&gt;</span> <span class="kt">Bool</span>
 <span class="nf">russel</span> <span class="n">u</span><span class="o">@</span><span class="p">(</span><span class="kt">MkU</span> <span class="n">p</span><span class="p">)</span> <span class="ow">=</span> <span class="n">not</span> <span class="o">$</span> <span class="n">p</span> <span class="n">u</span>
@@ -523,7 +517,7 @@ standard way to encode recursion via a data type:</p>
 </pre></div>
 </div>
 <p>The non-termination is reported like this:</p>
-<div class="highlight-none"><div class="highlight"><pre>ghc: panic! (the &#39;impossible&#39; happened)
+<div class="highlight-none"><div class="highlight"><pre><span></span>ghc: panic! (the &#39;impossible&#39; happened)
   (GHC version 7.10.1 for x86_64-unknown-linux):
     Simplifier ticks exhausted
   When trying UnfoldingDone x_alB
@@ -549,7 +543,7 @@ the worst case, referential transparency is violated, because for
 example <code class="docutils literal"><span class="pre">let</span> <span class="pre">x</span> <span class="pre">=</span> <span class="pre">E1</span> <span class="pre">in</span> <span class="pre">E2</span></code> can evaluate to a different value than
 <code class="docutils literal"><span class="pre">E2[E1/x]</span></code>.</p>
 <p id="index-5">One workaround is to use the <a class="reference internal" href="using.html#ghc-flag--msse2"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-msse2</span></code></a> option (see
-<a class="reference internal" href="using.html#options-platform"><span>Platform-specific Flags</span></a>), which generates code to use the SSE2
+<a class="reference internal" href="using.html#options-platform"><span class="std std-ref">Platform-specific Flags</span></a>), which generates code to use the SSE2
 instruction set instead of the x87 instruction set. SSE2 code uses
 the correct precision for all floating-point operations, and so gives
 deterministic results. However, note that this only works with
@@ -562,7 +556,7 @@ unless you built GHC yourself.</p>
 non-obvious changes in evaluation ordering which may hide exceptions, even
 with <a class="reference internal" href="using-optimisation.html#ghc-flag--fpedantic-bottoms"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-fpedantic-bottoms</span></code></a> (see, e.g., <a class="reference external" href="http://ghc.haskell.org/trac/ghc/ticket/7411">Trac #7411</a>). For
 instance,</p>
-<div class="highlight-haskell"><div class="highlight"><pre><span class="kr">import</span> <span class="nn">Control.Exception</span>
+<div class="highlight-haskell"><div class="highlight"><pre><span></span><span class="kr">import</span> <span class="nn">Control.Exception</span>
 <span class="kr">import</span> <span class="nn">Control.DeepSeq</span>
 <span class="nf">main</span> <span class="ow">=</span> <span class="kr">do</span>
     <span class="n">evaluate</span> <span class="p">((</span><span class="sc">&#39;a&#39;</span> <span class="kt">:</span> <span class="n">undefined</span><span class="p">)</span> <span class="p">`</span><span class="n">deepseq</span><span class="p">`</span> <span class="n">return</span> <span class="nb">()</span> <span class="ow">::</span> <span class="kt">IO</span> <span class="nb">()</span><span class="p">)</span>
@@ -575,7 +569,7 @@ with <code class="docutils literal"><span class="pre">-O</span> <span class="pre
 </li>
 <li><p class="first">Programs compiled with <a class="reference internal" href="using-warnings.html#ghc-flag--fdefer-type-errors"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-fdefer-type-errors</span></code></a> may fail a bit
 more eagerly than one might expect. For instance,</p>
-<div class="highlight-haskell"><div class="highlight"><pre><span class="cm">{-# OPTIONS_GHC -fdefer-type-errors #-}</span>
+<div class="highlight-haskell"><div class="highlight"><pre><span></span><span class="cm">{-# OPTIONS_GHC -fdefer-type-errors #-}</span>
 <span class="nf">main</span> <span class="ow">=</span> <span class="kr">do</span>
   <span class="n">putStrLn</span> <span class="s">&quot;Hi there.&quot;</span>
   <span class="n">putStrLn</span> <span class="kt">True</span>
@@ -609,7 +603,7 @@ is).</p>
 <li><p class="first">On Windows, there&#8217;s a GNU ld/BFD bug whereby it emits bogus PE object
 files that have more than 0xffff relocations. When GHCi tries to load
 a package affected by this bug, you get an error message of the form</p>
-<div class="highlight-none"><div class="highlight"><pre>Loading package javavm ... linking ... WARNING: Overflown relocation field (# relocs found: 30765)
+<div class="highlight-none"><div class="highlight"><pre><span></span>Loading package javavm ... linking ... WARNING: Overflown relocation field (# relocs found: 30765)
 </pre></div>
 </div>
 <p>The last time we looked, this bug still wasn&#8217;t fixed in the BFD
@@ -642,12 +636,12 @@ it.</p>
         <li class="right" >
           <a href="win32-dlls.html" title="16. Running GHC on Win32 systems"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">GHC 8.0.2 Users Guide</a> &raquo;</li> 
+        <li class="nav-item nav-item-0"><a href="index.html">GHC 8.0.2 Users Guide</a> &#187;</li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">
-        &copy; Copyright 2015, GHC Team.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.6.
+        &#169; Copyright 2015, GHC Team.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.5.2.
     </div>
   </body>
 </html>
