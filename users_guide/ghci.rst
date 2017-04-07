@@ -1040,7 +1040,6 @@ GHCiがプロンプトで受け付ける文の構文は，Haskellのdo式にお�
    not to replace module loading but to make definitions in .ghci-files
    (see :ref:`ghci-dot-files`) more readable and maintainable.
 
-Such multiline commands can be used with any GHCi command, and note that
 このような複数行コマンドは任意のGHCiコマンドについて用いることができます．
 このときレイアウト規則が有効であることに注意してください．
 複数行コマンドの主な目的は，モジュールのロードの代替にすることではなく，
