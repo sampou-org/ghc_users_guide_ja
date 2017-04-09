@@ -60,10 +60,10 @@
 <li><a class="reference internal" href="#id2">7.1.2. オプションの概要</a><ul>
 <li><a class="reference internal" href="#id3">7.1.2.1. コマンドライン引数</a></li>
 <li><a class="reference internal" href="#source-file-options">7.1.2.2. ソースファイル中のコマンドラインオプション</a></li>
-<li><a class="reference internal" href="#setting-options-in-ghci">7.1.2.3. Setting options in GHCi</a></li>
+<li><a class="reference internal" href="#ghci">7.1.2.3. GHCiからオプションを設定する</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#static-dynamic-and-mode-options">7.1.3. Static, Dynamic, and Mode options</a></li>
+<li><a class="reference internal" href="#static-dynamic-flags">7.1.3. 静的オプション，動的オプション，モード指定オプション</a></li>
 <li><a class="reference internal" href="#meaningful-file-suffixes">7.1.4. Meaningful file suffixes</a></li>
 <li><a class="reference internal" href="#modes-of-operation">7.1.5. Modes of operation</a><ul>
 <li><a class="reference internal" href="#using-ghc-make">7.1.5.1. Using <code class="docutils literal"><span class="pre">ghc</span></code> <code class="docutils literal"><span class="pre">--make</span></code></a></li>
@@ -194,7 +194,7 @@ Windowsでは <code class="docutils literal"><span class="pre">Data\Person.hs</s
 </pre></div>
 </div>
 <p><code class="docutils literal"><span class="pre">OPTIONS_GHC</span></code> は <em>ファイルヘッダプラグマ</em> (<a class="reference internal" href="glasgow_exts.html#options-pragma"><span>OPTIONS_GHC pragma</span></a> 参照)です．</p>
-<p><code class="docutils literal"><span class="pre">OPTIONS_GHC</span></code> プラグマ中で使えるのは <em>動的</em> フラグだけです(<a class="reference internal" href="#static-dynamic-flags"><span>Static, Dynamic, and Mode options</span></a> 参照)．</p>
+<p><code class="docutils literal"><span class="pre">OPTIONS_GHC</span></code> プラグマ中で使えるのは <em>動的</em> フラグだけです(<a class="reference internal" href="#static-dynamic-flags"><span>静的オプション，動的オプション，モード指定オプション</span></a> 参照)．</p>
 <p>コマンドシェルからこのソースオプションを取得するわけではなく，
 コンパイラが内部的に保持しているコマンドライン引数配列に含めるだけであることに注意してください．
 そのため <code class="docutils literal"><span class="pre">OPTIONS_GHC</span></code> の中でワイルドカードを使おうとすると残念なことになります．</p>
@@ -208,31 +208,25 @@ Windowsでは <code class="docutils literal"><span class="pre">Data\Person.hs</s
 (<a class="reference internal" href="separate_compilation.html#ghc-flag--keep-hc-file"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-keep-hc-file</span></code></a> を使っていて，モジュールに <code class="docutils literal"><span class="pre">OPTION</span></code> フラグがあるなら，
 生成した <code class="docutils literal"><span class="pre">.hc</span></code> ファイルには <code class="docutils literal"><span class="pre">OPTIONS_GHC</span></code> が置かれます．)</p>
 </div>
-<div class="section" id="setting-options-in-ghci">
-<h3>7.1.2.3. Setting options in GHCi<a class="headerlink" href="#setting-options-in-ghci" title="Permalink to this headline">¶</a></h3>
-<p>Options may also be modified from within GHCi, using the <a class="reference internal" href="ghci.html#ghci-cmd-:set"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:set</span></code></a>
-command.</p>
+<div class="section" id="ghci">
+<h3>7.1.2.3. GHCiからオプションを設定する<a class="headerlink" href="#ghci" title="Permalink to this headline">¶</a></h3>
+<p>GHCi内から <a class="reference internal" href="ghci.html#ghci-cmd-:set"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:set</span></code></a> コマンドを使ってオプションを変更することもできます．</p>
 </div>
 </div>
-<div class="section" id="static-dynamic-and-mode-options">
-<span id="static-dynamic-flags"></span><h2>7.1.3. Static, Dynamic, and Mode options<a class="headerlink" href="#static-dynamic-and-mode-options" title="Permalink to this headline">¶</a></h2>
-<p id="index-4">Each of GHC&#8217;s command line options is classified as static, dynamic or
-mode:</p>
+<div class="section" id="static-dynamic-flags">
+<span id="id5"></span><h2>7.1.3. 静的オプション，動的オプション，モード指定オプション<a class="headerlink" href="#static-dynamic-flags" title="Permalink to this headline">¶</a></h2>
+<p id="index-4">GHCのコマンドラインオプションは，静的オプション，動的オプション，モード指定オプションのいずれかに分類されます．</p>
 <blockquote>
-<div><p>For example, <a class="reference internal" href="#ghc-flag---make"><code class="xref std std-ghc-flag docutils literal"><span class="pre">--make</span></code></a> or <a class="reference internal" href="#ghc-flag--E"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-E</span></code></a>. There may only be a single mode
-flag on the command line. The available modes are listed in
-<a class="reference internal" href="#modes"><span>Modes of operation</span></a>.</p>
-<p>Most non-mode flags fall into this category. A dynamic flag may be
-used on the command line, in a <code class="docutils literal"><span class="pre">OPTIONS_GHC</span></code> pragma in a source
-file, or set using <a class="reference internal" href="ghci.html#ghci-cmd-:set"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:set</span></code></a> in GHCi.</p>
-<p>A few flags are &#8220;static&#8221;, which means they can only be used on the
-command-line, and remain in force over the entire GHC/GHCi run.</p>
+<div><p><a class="reference internal" href="#ghc-flag---make"><code class="xref std std-ghc-flag docutils literal"><span class="pre">--make</span></code></a> や <a class="reference internal" href="#ghc-flag--E"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-E</span></code></a> はモード指定フラグです．モード指定フラグはコマンドラインで1つだけ指定できます．
+利用可能なモードの一覧は <a class="reference internal" href="#modes"><span>Modes of operation</span></a> にあります．</p>
+<p>モード指定フラグではない大部分のフラグは動的フラグに分類されます．
+動的フラグは，コマンドライン，ソースファイルの <code class="docutils literal"><span class="pre">OPTIONS_GHC</span></code> プラグマ，
+GHCi内の <a class="reference internal" href="ghci.html#ghci-cmd-:set"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:set</span></code></a> コマンドのいずれの方法でも設定できます．</p>
+<p>残りのすこしばかりのフラグが静的フラグに分類されます．これらのフラグはコマンドラインでのみ使用可能で，1回のGHC/GHCiの実行を通し有効です．</p>
 </div></blockquote>
-<p>The flag reference tables (<a class="reference internal" href="flags.html#flag-reference"><span>Flag reference</span></a>) lists the status of
-each flag.</p>
-<p>There are a few flags that are static except that they can also be used
-with GHCi&#8217;s <a class="reference internal" href="ghci.html#ghci-cmd-:set"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:set</span></code></a> command; these are listed as “static/<code class="docutils literal"><span class="pre">:set</span></code>”
-in the table.</p>
+<p>フラグの参照表は(<a class="reference internal" href="flags.html#flag-reference"><span>Flag reference</span></a>)にはそれぞれどのフラグがどれに分類されているかが判るようになっています．</p>
+<p>静的でありながら，GHCiの <a class="reference internal" href="ghci.html#ghci-cmd-:set"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:set</span></code></a> コマンドで設定できるフラグも少しながらあります．
+これは参照表では「static/<code class="docutils literal"><span class="pre">:set</span></code>」と表記されています．</p>
 </div>
 <div class="section" id="meaningful-file-suffixes">
 <span id="file-suffixes"></span><h2>7.1.4. Meaningful file suffixes<a class="headerlink" href="#meaningful-file-suffixes" title="Permalink to this headline">¶</a></h2>
