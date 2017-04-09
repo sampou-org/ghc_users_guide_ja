@@ -1,59 +1,114 @@
+..
+   .. _using-ghc:
+
+   Using GHC
+   =========
+
+   .. index::
+      single: GHC, using
+      single: using GHC
+
 .. _using-ghc:
 
-Using GHC
+GHCを使う
 =========
 
 .. index::
-   single: GHC, using
-   single: using GHC
+   single: GHC, 〜を使う
+   single: GHCを使う
 
-Getting started: compiling programs
------------------------------------
+..
+   Getting started: compiling programs
+   -----------------------------------
 
-In this chapter you'll find a complete reference to the GHC command-line
-syntax, including all 400+ flags. It's a large and complex system, and
-there are lots of details, so it can be quite hard to figure out how to
-get started. With that in mind, this introductory section provides a
-quick introduction to the basic usage of GHC for compiling a Haskell
-program, before the following sections dive into the full syntax.
+   In this chapter you'll find a complete reference to the GHC command-line
+   syntax, including all 400+ flags. It's a large and complex system, and
+   there are lots of details, so it can be quite hard to figure out how to
+   get started. With that in mind, this introductory section provides a
+   quick introduction to the basic usage of GHC for compiling a Haskell
+   program, before the following sections dive into the full syntax.
 
-Let's create a Hello World program, and compile and run it. First,
-create a file :file:`hello.hs` containing the Haskell code: ::
+始めよう: プログラムをコンパイルする
+------------------------------------
+
+この章では，400を超えるフラグを含むGHCのコマンドライン構文の完全なリファレンスを示します．
+GHCは大きく複雑なシステムで，大量の詳細がありますのですので，どう始めてよいのかが判りにくでしょう．
+これを踏まえて，この節ではHaskellプログラムをコンパイルするためのGHCの基本的な使い方をざっと紹介します．
+これを読んでから，以降の節での完全な構文の解説に飛び込むのがいいでしょう．
+
+..
+   Let's create a Hello World program, and compile and run it. First,
+   create a file :file:`hello.hs` containing the Haskell code: ::
+
+       main = putStrLn "Hello, World!"
+
+   To compile the program, use GHC like this:
+
+   .. code-block:: sh
+
+       $ ghc hello.hs
+
+   (where ``$`` represents the prompt: don't type it). GHC will compile the
+   source file :file:`hello.hs`, producing an object file :file:`hello.o` and an
+   interface file :file:`hello.hi`, and then it will link the object file to
+   the libraries that come with GHC to produce an executable called
+   :file:`hello` on Unix/Linux/Mac, or :file:`hello.exe` on Windows.
+
+Hello World プログラムを作って，これをコンパイルして，走らせてみましょう．
+まず，以下のHaskellコードを含む :file:`hello.hs` を作成しましょう．
 
     main = putStrLn "Hello, World!"
 
-To compile the program, use GHC like this:
+このプログラムをコンパイルするには以下のようにGHCを使います．
 
 .. code-block:: sh
 
     $ ghc hello.hs
 
-(where ``$`` represents the prompt: don't type it). GHC will compile the
-source file :file:`hello.hs`, producing an object file :file:`hello.o` and an
-interface file :file:`hello.hi`, and then it will link the object file to
-the libraries that come with GHC to produce an executable called
-:file:`hello` on Unix/Linux/Mac, or :file:`hello.exe` on Windows.
+(ここで ``$`` はシェルのプロンプトですので，タイプする必要はありません．)
+GHCはソースファイル :file:`hello.hs` をコンパイルして，オブジェクトファイル :file:`hello.o` と
+インターフェイス :file:`hello.hi` を生成してから，オブジェクトをGHC付属のライブラリとリンクして，
+Unix/Linux/Mac では :file:`hello` という実行可能ファイルを Windowsでは :file:`hello.exe` という実行ファイルを生成します．
 
-By default GHC will be very quiet about what it is doing, only printing
-error messages. If you want to see in more detail what's going on behind
-the scenes, add :ghc-flag:`-v` to the command line.
+..
+   By default GHC will be very quiet about what it is doing, only printing
+   error messages. If you want to see in more detail what's going on behind
+   the scenes, add :ghc-flag:`-v` to the command line.
 
-Then we can run the program like this:
+   Then we can run the program like this:
+
+   .. code-block:: sh
+
+       $ ./hello
+       Hello World!
+
+デフォルトではGHCは自身の動作について寡黙で，表示するのはエラーメッセージだけです．
+裏で何が行われているか詳細をみたいときには，コマンドラインに :ghc-flag:`-v` を追加すれば良いでしょう．
+
+コンパイルができたら，以下のようにすればプログラムを実行できます．
 
 .. code-block:: sh
 
     $ ./hello
     Hello World!
 
-If your program contains multiple modules, then you only need to tell
-GHC the name of the source file containing the ``Main`` module, and GHC
-will examine the ``import`` declarations to find the other modules that
-make up the program and find their source files. This means that, with
-the exception of the ``Main`` module, every source file should be named
-after the module name that it contains (with dots replaced by directory
-separators). For example, the module ``Data.Person`` would be in the
-file ``Data/Person.hs`` on Unix/Linux/Mac, or ``Data\Person.hs`` on
-Windows.
+..
+   If your program contains multiple modules, then you only need to tell
+   GHC the name of the source file containing the ``Main`` module, and GHC
+   will examine the ``import`` declarations to find the other modules that
+   make up the program and find their source files. This means that, with
+   the exception of the ``Main`` module, every source file should be named
+   after the module name that it contains (with dots replaced by directory
+   separators). For example, the module ``Data.Person`` would be in the
+   file ``Data/Person.hs`` on Unix/Linux/Mac, or ``Data\Person.hs`` on
+   Windows.
+
+プログラムが複数のモジュールから構成されている場合でも，単に ``Main`` モジュールのファイル名を指定するだけですみます．
+GHCは ``Main`` モジュールの ``import`` 宣言を見て，プログラムを構成するその他のモジュールを見つけ，そのソースファイルを探します．
+したがって ``Main`` モジュールを除くモジュールのソースファイルはモジュール名を反映していなければなりません
+(ドットはディレクトリ区切り子に変換します)．
+たとえば ``Data.Person`` モジュールは，Unix/Linux/Macでは ``Data/Person.hs`` というファイルに，
+Windowsでは ``Data\Person.hs`` というファイルに置くことになります．
 
 Options overview
 ----------------
