@@ -59,7 +59,7 @@
 <li><a class="reference internal" href="#id1">7.1.1. 始めよう: プログラムをコンパイルする</a></li>
 <li><a class="reference internal" href="#id2">7.1.2. オプションの概要</a><ul>
 <li><a class="reference internal" href="#id3">7.1.2.1. コマンドライン引数</a></li>
-<li><a class="reference internal" href="#command-line-options-in-source-files">7.1.2.2. Command line options in source files</a></li>
+<li><a class="reference internal" href="#source-file-options">7.1.2.2. ソースファイル中のコマンドラインオプション</a></li>
 <li><a class="reference internal" href="#setting-options-in-ghci">7.1.2.3. Setting options in GHCi</a></li>
 </ul>
 </li>
@@ -181,37 +181,32 @@ Windowsでは <code class="docutils literal"><span class="pre">Data\Person.hs</s
 <div><code class="docutils literal"><span class="pre">-O1</span></code> に連動する <code class="docutils literal"><span class="pre">-fspecialise</span></code> は <code class="docutils literal"><span class="pre">-fno-specialise</span></code> で上書きされてしまうので有効になりません．</div></blockquote>
 </div>
 </div>
-<div class="section" id="command-line-options-in-source-files">
-<span id="source-file-options"></span><h3>7.1.2.2. Command line options in source files<a class="headerlink" href="#command-line-options-in-source-files" title="Permalink to this headline">¶</a></h3>
-<p id="index-3">Sometimes it is useful to make the connection between a source file and
-the command-line options it requires quite tight. For instance, if a
-Haskell source file deliberately uses name shadowing, it should be
-compiled with the <code class="docutils literal"><span class="pre">-Wno-name-shadowing</span></code> option. Rather than
-maintaining the list of per-file options in a <code class="docutils literal"><span class="pre">Makefile</span></code>, it is
-possible to do this directly in the source file using the
-<code class="docutils literal"><span class="pre">OPTIONS_GHC</span></code> <a class="reference internal" href="glasgow_exts.html#options-pragma"><span>pragma</span></a></p>
+<div class="section" id="source-file-options">
+<span id="id4"></span><h3>7.1.2.2. ソースファイル中のコマンドラインオプション<a class="headerlink" href="#source-file-options" title="Permalink to this headline">¶</a></h3>
+<p id="index-3">ソースファイルとコマンドラインを強く結びつけた方が便利なことがあります．
+たとえば，意図して名前のシャドーイングをおこなっているHaskellソースがあれば，
+そのファイルについては <code class="docutils literal"><span class="pre">-Wno-name-shadowing</span></code> オプション付きでコンパイルすべきです．
+<code class="docutils literal"><span class="pre">Makefile</span></code> をつかって，ファイルごとのオプション一覧を管理する代りに，
+<code class="docutils literal"><span class="pre">OPTIONS_GHC</span></code> <a class="reference internal" href="glasgow_exts.html#options-pragma"><span>pragma</span></a> を使ってソースファイルに直接書いておけます．</p>
 <div class="highlight-haskell"><div class="highlight"><pre><span class="cm">{-# OPTIONS_GHC -Wno-name-shadowing #-}</span>
 <span class="kr">module</span> <span class="nn">X</span> <span class="kr">where</span>
 <span class="o">...</span>
 </pre></div>
 </div>
-<p><code class="docutils literal"><span class="pre">OPTIONS_GHC</span></code> is a <em>file-header pragma</em> (see <a class="reference internal" href="glasgow_exts.html#options-pragma"><span>OPTIONS_GHC pragma</span></a>).</p>
-<p>Only <em>dynamic</em> flags can be used in an <code class="docutils literal"><span class="pre">OPTIONS_GHC</span></code> pragma (see
-<a class="reference internal" href="#static-dynamic-flags"><span>Static, Dynamic, and Mode options</span></a>).</p>
-<p>Note that your command shell does not get to the source file options,
-they are just included literally in the array of command-line arguments
-the compiler maintains internally, so you&#8217;ll be desperately disappointed
-if you try to glob etc. inside <code class="docutils literal"><span class="pre">OPTIONS_GHC</span></code>.</p>
+<p><code class="docutils literal"><span class="pre">OPTIONS_GHC</span></code> は <em>ファイルヘッダプラグマ</em> (<a class="reference internal" href="glasgow_exts.html#options-pragma"><span>OPTIONS_GHC pragma</span></a> 参照)です．</p>
+<p><code class="docutils literal"><span class="pre">OPTIONS_GHC</span></code> プラグマ中で使えるのは <em>動的</em> フラグだけです(<a class="reference internal" href="#static-dynamic-flags"><span>Static, Dynamic, and Mode options</span></a> 参照)．</p>
+<p>コマンドシェルからこのソースオプションを取得するわけではなく，
+コンパイラが内部的に保持しているコマンドライン引数配列に含めるだけであることに注意してください．
+そのため <code class="docutils literal"><span class="pre">OPTIONS_GHC</span></code> の中でワイルドカードを使おうとすると残念なことになります．</p>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
-<p class="last">The contents of <code class="docutils literal"><span class="pre">OPTIONS_GHC</span></code> are appended to the command-line
-options, so options given in the source file override those given on the
-command-line.</p>
+<p class="last"><code class="docutils literal"><span class="pre">OPTIONS_GHC</span></code> の内容はコマンドラインオプションの後に連結するので，
+コマンドラインで与えられたオプションがソースファイルオプションで上書きされます．</p>
 </div>
-<p>It is not recommended to move all the contents of your Makefiles into
-your source files, but in some circumstances, the <code class="docutils literal"><span class="pre">OPTIONS_GHC</span></code> pragma
-is the Right Thing. (If you use <a class="reference internal" href="separate_compilation.html#ghc-flag--keep-hc-file"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-keep-hc-file</span></code></a> and have <code class="docutils literal"><span class="pre">OPTION</span></code> flags in
-your module, the <code class="docutils literal"><span class="pre">OPTIONS_GHC</span></code> will get put into the generated <code class="docutils literal"><span class="pre">.hc</span></code> file).</p>
+<p>Makefile の内容をすべてソースファイルに移すのは推奨しませんが，
+場合によっては <code class="docutils literal"><span class="pre">OPTIONS_GHC</span></code> プラグマを使うのが正しいやり方になります．
+(<a class="reference internal" href="separate_compilation.html#ghc-flag--keep-hc-file"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-keep-hc-file</span></code></a> を使っていて，モジュールに <code class="docutils literal"><span class="pre">OPTION</span></code> フラグがあるなら，
+生成した <code class="docutils literal"><span class="pre">.hc</span></code> ファイルには <code class="docutils literal"><span class="pre">OPTIONS_GHC</span></code> が置かれます．)</p>
 </div>
 <div class="section" id="setting-options-in-ghci">
 <h3>7.1.2.3. Setting options in GHCi<a class="headerlink" href="#setting-options-in-ghci" title="Permalink to this headline">¶</a></h3>
@@ -451,7 +446,7 @@ then it defaults to the number of processors.</p>
 can be used with <code class="docutils literal"><span class="pre">--make</span></code>, but note that any options you give on the
 command line will apply to all the source files compiled, so if you want
 any options to apply to a single source file only, you&#8217;ll need to use an
-<code class="docutils literal"><span class="pre">OPTIONS_GHC</span></code> pragma (see <a class="reference internal" href="#source-file-options"><span>Command line options in source files</span></a>).</p>
+<code class="docutils literal"><span class="pre">OPTIONS_GHC</span></code> pragma (see <a class="reference internal" href="#source-file-options"><span>ソースファイル中のコマンドラインオプション</span></a>).</p>
 <p>If the program needs to be linked with additional objects (say, some
 auxiliary C code), then the object files can be given on the command
 line and GHC will include them when linking the executable.</p>
