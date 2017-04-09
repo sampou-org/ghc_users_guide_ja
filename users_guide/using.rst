@@ -215,45 +215,84 @@ GHCを起動する構文は以下の形式になります．
 
         ``-O1`` に連動する ``-fspecialise`` は ``-fno-specialise`` で上書きされてしまうので有効になりません．
 
+..
+   .. _source-file-options:
+
+   Command line options in source files
+   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+   .. index::
+      single: source-file options
+
+   Sometimes it is useful to make the connection between a source file and
+   the command-line options it requires quite tight. For instance, if a
+   Haskell source file deliberately uses name shadowing, it should be
+   compiled with the ``-Wno-name-shadowing`` option. Rather than
+   maintaining the list of per-file options in a ``Makefile``, it is
+   possible to do this directly in the source file using the
+   ``OPTIONS_GHC`` :ref:`pragma <options-pragma>` ::
+
+       {-# OPTIONS_GHC -Wno-name-shadowing #-}
+       module X where
+       ...
+
+   ``OPTIONS_GHC`` is a *file-header pragma* (see :ref:`options-pragma`).
+
 .. _source-file-options:
 
-Command line options in source files
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+ソースファイル中のコマンドラインオプション
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 .. index::
-   single: source-file options
+   single: ソースファイルオプション
 
-Sometimes it is useful to make the connection between a source file and
-the command-line options it requires quite tight. For instance, if a
-Haskell source file deliberately uses name shadowing, it should be
-compiled with the ``-Wno-name-shadowing`` option. Rather than
-maintaining the list of per-file options in a ``Makefile``, it is
-possible to do this directly in the source file using the
-``OPTIONS_GHC`` :ref:`pragma <options-pragma>` ::
+ソースファイルとコマンドラインを強く結びつけた方が便利なことがあります．
+たとえば，意図して名前のシャドーイングをおこなっているHaskellソースがあれば，
+そのファイルについては ``-Wno-name-shadowing`` オプション付きでコンパイルすべきです．
+``Makefile`` をつかって，ファイルごとのオプション一覧を管理する代りに，
+``OPTIONS_GHC`` :ref:`pragma <options-pragma>` を使ってソースファイルに直接書いておけます． ::
 
     {-# OPTIONS_GHC -Wno-name-shadowing #-}
     module X where
     ...
 
-``OPTIONS_GHC`` is a *file-header pragma* (see :ref:`options-pragma`).
+``OPTIONS_GHC`` は *ファイルヘッダプラグマ* (:ref:`options-pragma` 参照)です．
 
-Only *dynamic* flags can be used in an ``OPTIONS_GHC`` pragma (see
-:ref:`static-dynamic-flags`).
+..
+   Only *dynamic* flags can be used in an ``OPTIONS_GHC`` pragma (see
+   :ref:`static-dynamic-flags`).
 
-Note that your command shell does not get to the source file options,
-they are just included literally in the array of command-line arguments
-the compiler maintains internally, so you'll be desperately disappointed
-if you try to glob etc. inside ``OPTIONS_GHC``.
+   Note that your command shell does not get to the source file options,
+   they are just included literally in the array of command-line arguments
+   the compiler maintains internally, so you'll be desperately disappointed
+   if you try to glob etc. inside ``OPTIONS_GHC``.
+
+``OPTIONS_GHC`` プラグマ中で使えるのは *動的* フラグだけです(:ref:`static-dynamic-flags` 参照)．
+
+コマンドシェルからこのソースオプションを取得するわけではなく，
+コンパイラが内部的に保持しているコマンドライン引数配列に含めるだけであることに注意してください．
+そのため ``OPTIONS_GHC`` の中でワイルドカードを使おうとすると残念なことになります．
+
+..
+   .. note::
+      The contents of ``OPTIONS_GHC`` are appended to the command-line
+      options, so options given in the source file override those given on the
+      command-line.
 
 .. note::
-   The contents of ``OPTIONS_GHC`` are appended to the command-line
-   options, so options given in the source file override those given on the
-   command-line.
+   ``OPTIONS_GHC`` の内容はコマンドラインオプションの後に連結するので，
+   コマンドラインで与えられたオプションがソースファイルオプションで上書きされます．
 
-It is not recommended to move all the contents of your Makefiles into
-your source files, but in some circumstances, the ``OPTIONS_GHC`` pragma
-is the Right Thing. (If you use :ghc-flag:`-keep-hc-file` and have ``OPTION`` flags in
-your module, the ``OPTIONS_GHC`` will get put into the generated ``.hc`` file).
+..
+   It is not recommended to move all the contents of your Makefiles into
+   your source files, but in some circumstances, the ``OPTIONS_GHC`` pragma
+   is the Right Thing. (If you use :ghc-flag:`-keep-hc-file` and have ``OPTION`` flags in
+   your module, the ``OPTIONS_GHC`` will get put into the generated ``.hc`` file).
+
+Makefile の内容をすべてソースファイルに移すのは推奨しませんが，
+場合によっては ``OPTIONS_GHC`` プラグマを使うのが正しいやり方になります．
+(:ghc-flag:`-keep-hc-file` を使っていて，モジュールに ``OPTION`` フラグがあるなら，
+生成した ``.hc`` ファイルには ``OPTIONS_GHC`` が置かれます．)
 
 Setting options in GHCi
 ~~~~~~~~~~~~~~~~~~~~~~~
