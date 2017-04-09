@@ -57,8 +57,8 @@
   <ul>
 <li><a class="reference internal" href="#">7.1. GHCを使う</a><ul>
 <li><a class="reference internal" href="#id1">7.1.1. 始めよう: プログラムをコンパイルする</a></li>
-<li><a class="reference internal" href="#options-overview">7.1.2. Options overview</a><ul>
-<li><a class="reference internal" href="#command-line-arguments">7.1.2.1. Command-line arguments</a></li>
+<li><a class="reference internal" href="#id2">7.1.2. オプションの概要</a><ul>
+<li><a class="reference internal" href="#id3">7.1.2.1. コマンドライン引数</a></li>
 <li><a class="reference internal" href="#command-line-options-in-source-files">7.1.2.2. Command line options in source files</a></li>
 <li><a class="reference internal" href="#setting-options-in-ghci">7.1.2.3. Setting options in GHCi</a></li>
 </ul>
@@ -148,40 +148,37 @@ GHCは <code class="docutils literal"><span class="pre">Main</span></code> モ�
 たとえば <code class="docutils literal"><span class="pre">Data.Person</span></code> モジュールは，Unix/Linux/Macでは <code class="docutils literal"><span class="pre">Data/Person.hs</span></code> というファイルに，
 Windowsでは <code class="docutils literal"><span class="pre">Data\Person.hs</span></code> というファイルに置くことになります．</p>
 </div>
-<div class="section" id="options-overview">
-<h2>7.1.2. Options overview<a class="headerlink" href="#options-overview" title="Permalink to this headline">¶</a></h2>
-<p>GHC&#8217;s behaviour is controlled by options, which for historical reasons
-are also sometimes referred to as command-line flags or arguments.
-Options can be specified in three ways:</p>
-<div class="section" id="command-line-arguments">
-<h3>7.1.2.1. Command-line arguments<a class="headerlink" href="#command-line-arguments" title="Permalink to this headline">¶</a></h3>
-<p id="index-1">An invocation of GHC takes the following form:</p>
+<div class="section" id="id2">
+<h2>7.1.2. オプションの概要<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h2>
+<p>GHCの振る舞いはオプションによって制御します．
+歴史的理由からオプションのことをコマンドラインフラグとかコマンドライン引数ともいいます．
+オプションの指定方法は3つあります．</p>
+<div class="section" id="id3">
+<h3>7.1.2.1. コマンドライン引数<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h3>
+<p id="index-1">GHCを起動する構文は以下の形式になります．</p>
 <div class="highlight-none"><div class="highlight"><pre>ghc [argument...]
 </pre></div>
 </div>
-<p>Command-line arguments are either options or file names.</p>
-<p>Command-line options begin with <code class="docutils literal"><span class="pre">-</span></code>. They may <em>not</em> be grouped:
-<code class="docutils literal"><span class="pre">-vO</span></code> is different from <code class="docutils literal"><span class="pre">-v</span> <span class="pre">-O</span></code>. Options need not precede filenames:
-e.g., <code class="docutils literal"><span class="pre">ghc</span> <span class="pre">*.o</span> <span class="pre">-o</span> <span class="pre">foo</span></code>. All options are processed and then applied to
-all files; you cannot, for example, invoke
-<code class="docutils literal"><span class="pre">ghc</span> <span class="pre">-c</span> <span class="pre">-O1</span> <span class="pre">Foo.hs</span> <span class="pre">-O2</span> <span class="pre">Bar.hs</span></code> to apply different optimisation levels
-to the files <code class="docutils literal"><span class="pre">Foo.hs</span></code> and <code class="docutils literal"><span class="pre">Bar.hs</span></code>.</p>
+<p>コマンドライン引数はオプションもしくはファイル名です．</p>
+<p>コマンドラインオプションは <code class="docutils literal"><span class="pre">-</span></code> で始まります．
+これをひとまとめにすることは**できません**．
+<code class="docutils literal"><span class="pre">-vO</span></code> と <code class="docutils literal"><span class="pre">-v</span> <span class="pre">-O</span></code> とは違うものであるということです．
+オプションをファイル名より前で指定する必要はありません．
+たとえば <code class="docutils literal"><span class="pre">ghc</span> <span class="pre">*.o</span> <span class="pre">-o</span> <span class="pre">foo</span></code> のようにできます．
+すべてのオプションを処理してから，それらをすべてのファイルに適用します．
+そのため <code class="docutils literal"><span class="pre">ghc</span> <span class="pre">-c</span> <span class="pre">-O1</span> <span class="pre">Foo.hs</span> <span class="pre">-O2</span> <span class="pre">Bar.hs</span></code> とやって <code class="docutils literal"><span class="pre">Foo.hs</span></code> と <code class="docutils literal"><span class="pre">Bar.hs</span></code> に異なる最適化水準を適用することはできません．</p>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
-<p id="index-2">Note that command-line options are <em>order-dependent</em>, with arguments being
-evaluated from left-to-right. This can have seemingly strange effects in the
-presence of flag implication. For instance, consider
-<code class="xref std std-ghc-flag docutils literal"><span class="pre">-fno-specialise</span></code> and <a class="reference internal" href="using-optimisation.html#ghc-flag--O1"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-O1</span></code></a> (which implies
-<a class="reference internal" href="using-optimisation.html#ghc-flag--fspecialise"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-fspecialise</span></code></a>). These two command lines mean very different
-things:</p>
+<p id="index-2">コマンドラインオプションは <em>順序依存</em> であることに注意してください．引数は左から右へ評価されます．
+このことによって，フラグの連動がある場合おかしな効果があらわれことがあります．
+たとえば <code class="xref std std-ghc-flag docutils literal"><span class="pre">-fno-specialise</span></code> と <a class="reference internal" href="using-optimisation.html#ghc-flag--O1"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-O1</span></code></a> (このフラグにより <a class="reference internal" href="using-optimisation.html#ghc-flag--fspecialise"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-fspecialise</span></code></a> が有効になる) とを考えてみましょう．
+つぎの2つのコマンドラインは全く別ものです．</p>
 <p><code class="docutils literal"><span class="pre">-fno-specialise</span> <span class="pre">-O1</span></code></p>
 <blockquote>
-<div><code class="docutils literal"><span class="pre">-fspecialise</span></code> will be enabled as the <code class="docutils literal"><span class="pre">-fno-specialise</span></code> is overriden
-by the <code class="docutils literal"><span class="pre">-O1</span></code>.</div></blockquote>
+<div><code class="docutils literal"><span class="pre">-fno-specialise</span></code> に  <code class="docutils literal"><span class="pre">-O1</span></code> が上書きして <code class="docutils literal"><span class="pre">-fspecialise</span></code> が有効になります．</div></blockquote>
 <p><code class="docutils literal"><span class="pre">-O1</span> <span class="pre">-fno-specialise</span></code></p>
 <blockquote class="last">
-<div><code class="docutils literal"><span class="pre">-fspecialise</span></code> will not be enabled, since the <code class="docutils literal"><span class="pre">-fno-specialise</span></code>
-overrides the <code class="docutils literal"><span class="pre">-fspecialise</span></code> implied by <code class="docutils literal"><span class="pre">-O1</span></code>.</div></blockquote>
+<div><code class="docutils literal"><span class="pre">-O1</span></code> に連動する <code class="docutils literal"><span class="pre">-fspecialise</span></code> は <code class="docutils literal"><span class="pre">-fno-specialise</span></code> で上書きされてしまうので有効になりません．</div></blockquote>
 </div>
 </div>
 <div class="section" id="command-line-options-in-source-files">
