@@ -110,57 +110,110 @@ GHCは ``Main`` モジュールの ``import`` 宣言を見て，プログラム�
 たとえば ``Data.Person`` モジュールは，Unix/Linux/Macでは ``Data/Person.hs`` というファイルに，
 Windowsでは ``Data\Person.hs`` というファイルに置くことになります．
 
-Options overview
+..
+   Options overview
+   ----------------
+
+   GHC's behaviour is controlled by options, which for historical reasons
+   are also sometimes referred to as command-line flags or arguments.
+   Options can be specified in three ways:
+
+オプションの概要
 ----------------
 
-GHC's behaviour is controlled by options, which for historical reasons
-are also sometimes referred to as command-line flags or arguments.
-Options can be specified in three ways:
+GHCの振る舞いはオプションによって制御します．
+歴史的理由からオプションのことをコマンドラインフラグとかコマンドライン引数ともいいます．
+オプションの指定方法は3つあります．
 
-Command-line arguments
-~~~~~~~~~~~~~~~~~~~~~~
+..
+   Command-line arguments
+   ~~~~~~~~~~~~~~~~~~~~~~
+
+   .. index::
+      single: structure, command-line
+      single: command-line; arguments
+      single: arguments; command-line
+
+   An invocation of GHC takes the following form:
+
+   .. code-block:: none
+
+       ghc [argument...]
+
+   Command-line arguments are either options or file names.
+
+コマンドライン引数
+~~~~~~~~~~~~~~~~~~
 
 .. index::
-   single: structure, command-line
-   single: command-line; arguments
-   single: arguments; command-line
+   single: 構造, コマンドラインの〜
+   single: コマンドライン; 〜引数
+   single: 引数; コマンドライン〜
 
-An invocation of GHC takes the following form:
+GHCを起動する構文は以下の形式になります．
 
 .. code-block:: none
 
     ghc [argument...]
 
-Command-line arguments are either options or file names.
+コマンドライン引数はオプションもしくはファイル名です．
 
-Command-line options begin with ``-``. They may *not* be grouped:
-``-vO`` is different from ``-v -O``. Options need not precede filenames:
-e.g., ``ghc *.o -o foo``. All options are processed and then applied to
-all files; you cannot, for example, invoke
-``ghc -c -O1 Foo.hs -O2 Bar.hs`` to apply different optimisation levels
-to the files ``Foo.hs`` and ``Bar.hs``.
+..
+   Command-line options begin with ``-``. They may *not* be grouped:
+   ``-vO`` is different from ``-v -O``. Options need not precede filenames:
+   e.g., ``ghc *.o -o foo``. All options are processed and then applied to
+   all files; you cannot, for example, invoke
+   ``ghc -c -O1 Foo.hs -O2 Bar.hs`` to apply different optimisation levels
+   to the files ``Foo.hs`` and ``Bar.hs``.
+
+コマンドラインオプションは ``-`` で始まります．
+これをひとまとめにすることは**できません**．
+``-vO`` と ``-v -O`` とは違うものであるということです．
+オプションをファイル名より前で指定する必要はありません．
+たとえば ``ghc *.o -o foo`` のようにできます．
+すべてのオプションを処理してから，それらをすべてのファイルに適用します．
+そのため ``ghc -c -O1 Foo.hs -O2 Bar.hs`` とやって ``Foo.hs`` と ``Bar.hs`` に異なる最適化水準を適用することはできません．
+
+..
+   .. note::
+
+       .. index::
+	  single: command-line; order of arguments
+
+       Note that command-line options are *order-dependent*, with arguments being
+       evaluated from left-to-right. This can have seemingly strange effects in the
+       presence of flag implication. For instance, consider
+       :ghc-flag:`-fno-specialise` and :ghc-flag:`-O1` (which implies
+       :ghc-flag:`-fspecialise`). These two command lines mean very different
+       things:
+
+       ``-fno-specialise -O1``
+
+	   ``-fspecialise`` will be enabled as the ``-fno-specialise`` is overriden
+	   by the ``-O1``.
+
+       ``-O1 -fno-specialise``
+
+	   ``-fspecialise`` will not be enabled, since the ``-fno-specialise``
+	   overrides the ``-fspecialise`` implied by ``-O1``.
 
 .. note::
 
     .. index::
-       single: command-line; order of arguments
+       single: コマンドライン; 〜における引数の順序
 
-    Note that command-line options are *order-dependent*, with arguments being
-    evaluated from left-to-right. This can have seemingly strange effects in the
-    presence of flag implication. For instance, consider
-    :ghc-flag:`-fno-specialise` and :ghc-flag:`-O1` (which implies
-    :ghc-flag:`-fspecialise`). These two command lines mean very different
-    things:
+    コマンドラインオプションは *順序依存* であることに注意してください．引数は左から右へ評価されます．
+    このことによって，フラグの連動がある場合おかしな効果があらわれことがあります．
+    たとえば :ghc-flag:`-fno-specialise` と :ghc-flag:`-O1` (このフラグにより :ghc-flag:`-fspecialise` が有効になる) とを考えてみましょう．
+    つぎの2つのコマンドラインは全く別ものです．
 
     ``-fno-specialise -O1``
 
-        ``-fspecialise`` will be enabled as the ``-fno-specialise`` is overriden
-        by the ``-O1``.
+        ``-fno-specialise`` に  ``-O1`` が上書きして ``-fspecialise`` が有効になります．
 
     ``-O1 -fno-specialise``
 
-        ``-fspecialise`` will not be enabled, since the ``-fno-specialise``
-        overrides the ``-fspecialise`` implied by ``-O1``.
+        ``-O1`` に連動する ``-fspecialise`` は ``-fno-specialise`` で上書きされてしまうので有効になりません．
 
 .. _source-file-options:
 
