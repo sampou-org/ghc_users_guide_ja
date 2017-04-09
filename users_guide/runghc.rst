@@ -92,21 +92,39 @@ runghc は以下のフラグを受け付けます．
 - ``--help``: 使い方情報を表示します．
 - ``--version``: バージョン情報を表示します．
 
-GHC Flags
+..
+   GHC Flags
+   ---------
+
+   As discussed earlier, use ``--`` or ``--ghc-arg=<arg>`` to disambiguate GHC
+   flags when needed. For example, ``-f`` is recognized by runghc, therefore to
+   pass ``-fliberate-case`` to GHC use any of the following:
+
+   - ``runghc -- -fliberate-case``
+   - ``runghc --ghc-arg=-fliberate-case``
+
+   Note that any non-flag arguments are never passed to GHC. An unused non-flag
+   argument will be considered as the name of the program to run. If a GHC flag
+   takes an argument use ``--ghc-arg=<arg>`` to pass the argument to GHC.
+   For example, if you want to pass ``-package foo`` to GHC use any of the
+   following:
+
+   - ``runghc -package --ghc-arg=foo Main.hs``
+   - ``runghc --ghc-arg=-package --ghc-arg=foo Main.hs``
+
+GHCフラグ
 ---------
 
-As discussed earlier, use ``--`` or ``--ghc-arg=<arg>`` to disambiguate GHC
-flags when needed. For example, ``-f`` is recognized by runghc, therefore to
-pass ``-fliberate-case`` to GHC use any of the following:
+前述のように ``--`` や ``--ghc-arg=<arg>`` を使えば GHC フラグが必要なときに曖昧にならないようにできます．
+たとえば ``-f`` は runghc も認識するフラグですから ``-fliberate-case`` を GHC に渡すには以下のどちらかを使います．
 
 - ``runghc -- -fliberate-case``
 - ``runghc --ghc-arg=-fliberate-case``
 
-Note that any non-flag arguments are never passed to GHC. An unused non-flag
-argument will be considered as the name of the program to run. If a GHC flag
-takes an argument use ``--ghc-arg=<arg>`` to pass the argument to GHC.
-For example, if you want to pass ``-package foo`` to GHC use any of the
-following:
+フラグではない引数がGHCに渡ることはないということに注意してください．
+使われないフラグではない引数は，実行すべきプログラムの名前として扱います．
+GHCフラグが引数を取る場合 ``--ghc-arg=<arg>`` を使ってGHCにその引数を渡します．
+たとえば ``-package foo`` を GHC に渡したいときには，以下のどちらかを使います．
 
 - ``runghc -package --ghc-arg=foo Main.hs``
 - ``runghc --ghc-arg=-package --ghc-arg=foo Main.hs``
