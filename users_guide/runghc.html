@@ -56,7 +56,7 @@
 <li><a class="reference internal" href="#">6. runghc を使う</a><ul>
 <li><a class="reference internal" href="#runghc-introduction">6.1. 使い方</a></li>
 <li><a class="reference internal" href="#id3">6.2. runghc フラグ</a></li>
-<li><a class="reference internal" href="#ghc-flags">6.3. GHC Flags</a></li>
+<li><a class="reference internal" href="#ghc">6.3. GHCフラグ</a></li>
 </ul>
 </li>
 </ul>
@@ -126,20 +126,18 @@ runghcもGHCも両方ともに認識するフラグでGHCに渡したいフラ�
 <li><code class="docutils literal"><span class="pre">--version</span></code>: バージョン情報を表示します．</li>
 </ul>
 </div>
-<div class="section" id="ghc-flags">
-<h2>6.3. GHC Flags<a class="headerlink" href="#ghc-flags" title="Permalink to this headline">¶</a></h2>
-<p>As discussed earlier, use <code class="docutils literal"><span class="pre">--</span></code> or <code class="docutils literal"><span class="pre">--ghc-arg=&lt;arg&gt;</span></code> to disambiguate GHC
-flags when needed. For example, <code class="docutils literal"><span class="pre">-f</span></code> is recognized by runghc, therefore to
-pass <code class="docutils literal"><span class="pre">-fliberate-case</span></code> to GHC use any of the following:</p>
+<div class="section" id="ghc">
+<h2>6.3. GHCフラグ<a class="headerlink" href="#ghc" title="Permalink to this headline">¶</a></h2>
+<p>前述のように <code class="docutils literal"><span class="pre">--</span></code> や <code class="docutils literal"><span class="pre">--ghc-arg=&lt;arg&gt;</span></code> を使えば GHC フラグが必要なときに曖昧にならないようにできます．
+たとえば <code class="docutils literal"><span class="pre">-f</span></code> は runghc も認識するフラグですから <code class="docutils literal"><span class="pre">-fliberate-case</span></code> を GHC に渡すには以下のどちらかを使います．</p>
 <ul class="simple">
 <li><code class="docutils literal"><span class="pre">runghc</span> <span class="pre">--</span> <span class="pre">-fliberate-case</span></code></li>
 <li><code class="docutils literal"><span class="pre">runghc</span> <span class="pre">--ghc-arg=-fliberate-case</span></code></li>
 </ul>
-<p>Note that any non-flag arguments are never passed to GHC. An unused non-flag
-argument will be considered as the name of the program to run. If a GHC flag
-takes an argument use <code class="docutils literal"><span class="pre">--ghc-arg=&lt;arg&gt;</span></code> to pass the argument to GHC.
-For example, if you want to pass <code class="docutils literal"><span class="pre">-package</span> <span class="pre">foo</span></code> to GHC use any of the
-following:</p>
+<p>フラグではない引数がGHCに渡ることはないということに注意してください．
+使われないフラグではない引数は，実行すべきプログラムの名前として扱います．
+GHCフラグが引数を取る場合 <code class="docutils literal"><span class="pre">--ghc-arg=&lt;arg&gt;</span></code> を使ってGHCにその引数を渡します．
+たとえば <code class="docutils literal"><span class="pre">-package</span> <span class="pre">foo</span></code> を GHC に渡したいときには，以下のどちらかを使います．</p>
 <ul class="simple">
 <li><code class="docutils literal"><span class="pre">runghc</span> <span class="pre">-package</span> <span class="pre">--ghc-arg=foo</span> <span class="pre">Main.hs</span></code></li>
 <li><code class="docutils literal"><span class="pre">runghc</span> <span class="pre">--ghc-arg=-package</span> <span class="pre">--ghc-arg=foo</span> <span class="pre">Main.hs</span></code></li>
