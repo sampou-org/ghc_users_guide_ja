@@ -294,42 +294,75 @@ Makefile の内容をすべてソースファイルに移すのは推奨しま�
 (:ghc-flag:`-keep-hc-file` を使っていて，モジュールに ``OPTION`` フラグがあるなら，
 生成した ``.hc`` ファイルには ``OPTIONS_GHC`` が置かれます．)
 
-Setting options in GHCi
-~~~~~~~~~~~~~~~~~~~~~~~
+..
+   Setting options in GHCi
+   ~~~~~~~~~~~~~~~~~~~~~~~
 
-Options may also be modified from within GHCi, using the :ghci-cmd:`:set`
-command.
+   Options may also be modified from within GHCi, using the :ghci-cmd:`:set` command.
+
+GHCiからオプションを設定する
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+GHCi内から :ghci-cmd:`:set` コマンドを使ってオプションを変更することもできます．
+
+..
+   .. _static-dynamic-flags:
+
+   Static, Dynamic, and Mode options
+   ---------------------------------
+
+   .. index::
+      single: static; options
+      single: dynamic; options
+      single: mode; options
+
+   Each of GHC's command line options is classified as static, dynamic or
+   mode:
+
+       For example, :ghc-flag:`--make` or :ghc-flag:`-E`. There may only be a single mode
+       flag on the command line. The available modes are listed in
+       :ref:`modes`.
+
+       Most non-mode flags fall into this category. A dynamic flag may be
+       used on the command line, in a ``OPTIONS_GHC`` pragma in a source
+       file, or set using :ghci-cmd:`:set` in GHCi.
+
+       A few flags are "static", which means they can only be used on the
+       command-line, and remain in force over the entire GHC/GHCi run.
+
+   The flag reference tables (:ref:`flag-reference`) lists the status of
+   each flag.
 
 .. _static-dynamic-flags:
 
-Static, Dynamic, and Mode options
----------------------------------
+静的オプション，動的オプション，モード指定オプション
+----------------------------------------------------
 
 .. index::
-   single: static; options
-   single: dynamic; options
-   single: mode; options
+   single: 静的; 〜オプション
+   single: 動的; 〜オプション
+   single: モード指定; 〜オプション
 
-Each of GHC's command line options is classified as static, dynamic or
-mode:
+GHCのコマンドラインオプションは，静的オプション，動的オプション，モード指定オプションのいずれかに分類されます．
 
-    For example, :ghc-flag:`--make` or :ghc-flag:`-E`. There may only be a single mode
-    flag on the command line. The available modes are listed in
-    :ref:`modes`.
+    :ghc-flag:`--make` や :ghc-flag:`-E` はモード指定フラグです．モード指定フラグはコマンドラインで1つだけ指定できます．
+    利用可能なモードの一覧は :ref:`modes` にあります．
 
-    Most non-mode flags fall into this category. A dynamic flag may be
-    used on the command line, in a ``OPTIONS_GHC`` pragma in a source
-    file, or set using :ghci-cmd:`:set` in GHCi.
+    モード指定フラグではない大部分のフラグは動的フラグに分類されます．
+    動的フラグは，コマンドライン，ソースファイルの ``OPTIONS_GHC`` プラグマ，
+    GHCi内の :ghci-cmd:`:set` コマンドのいずれの方法でも設定できます．
 
-    A few flags are "static", which means they can only be used on the
-    command-line, and remain in force over the entire GHC/GHCi run.
+    残りのすこしばかりのフラグが静的フラグに分類されます．これらのフラグはコマンドラインでのみ使用可能で，1回のGHC/GHCiの実行を通し有効です．
 
-The flag reference tables (:ref:`flag-reference`) lists the status of
-each flag.
+フラグの参照表は(:ref:`flag-reference`)にはそれぞれどのフラグがどれに分類されているかが判るようになっています．
 
-There are a few flags that are static except that they can also be used
-with GHCi's :ghci-cmd:`:set` command; these are listed as “static/\ ``:set``\ ”
-in the table.
+..
+   There are a few flags that are static except that they can also be used
+   with GHCi's :ghci-cmd:`:set` command; these are listed as “static/\ ``:set``\ ”
+   in the table.
+
+静的でありながら，GHCiの :ghci-cmd:`:set` コマンドで設定できるフラグも少しながらあります．
+これは参照表では「static/\ ``:set``\ 」と表記されています．
 
 .. _file-suffixes:
 
