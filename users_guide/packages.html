@@ -7,7 +7,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>7.9. Packages &#8212; Glasgow Haskell Compiler &lt;release&gt; Users Guide</title>
+    <title>7.9. Packages &mdash; Glasgow Haskell Compiler &lt;release&gt; Users Guide</title>
     
     <link rel="stylesheet" href="_static/ghc-theme.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -18,15 +18,14 @@
         VERSION:     '8.0.2',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
-        HAS_SOURCE:  true,
-        SOURCELINK_SUFFIX: '.txt'
+        HAS_SOURCE:  true
       };
     </script>
     <script type="text/javascript" src="_static/jquery.js"></script>
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
-    <link rel="index" title="Index" href="genindex.html" />
-    <link rel="search" title="Search" href="search.html" />
+    <link rel="top" title="Glasgow Haskell Compiler &lt;release&gt; Users Guide" href="index.html" />
+    <link rel="up" title="7. Using GHC" href="usage.html" />
     <link rel="next" title="7.10. GHC Backends" href="codegens.html" />
     <link rel="prev" title="7.8. Filenames and separate compilation" href="separate_compilation.html" /> 
   </head>
@@ -47,8 +46,8 @@
         <li class="right" >
           <a href="separate_compilation.html" title="7.8. Filenames and separate compilation"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">GHC 8.0.2 Users Guide</a> &#187;</li>
-          <li class="nav-item nav-item-1"><a href="usage.html" accesskey="U">7. Using GHC</a> &#187;</li> 
+        <li class="nav-item nav-item-0"><a href="index.html">GHC 8.0.2 Users Guide</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="usage.html" accesskey="U">7. Using GHC</a> &raquo;</li> 
       </ul>
     </div>
 
@@ -83,18 +82,21 @@
   <div role="note" aria-label="source link">
     <h3>This Page</h3>
     <ul class="this-page-menu">
-      <li><a href="_sources/packages.rst.txt"
+      <li><a href="_sources/packages.txt"
             rel="nofollow">Show Source</a></li>
     </ul>
    </div>
 <div id="searchbox" style="display: none" role="search">
   <h3>Quick search</h3>
     <form class="search" action="search.html" method="get">
-      <div><input type="text" name="q" /></div>
-      <div><input type="submit" value="Go" /></div>
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
       <input type="hidden" name="check_keywords" value="yes" />
       <input type="hidden" name="area" value="default" />
     </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
 </div>
 <script type="text/javascript">$('#searchbox').show(0);</script>
         </div>
@@ -115,7 +117,7 @@ be obtained from
 <p>Using a package couldn&#8217;t be simpler: if you&#8217;re using <code class="docutils literal"><span class="pre">--make</span></code> or GHCi,
 then most of the installed packages will be automatically available to
 your program without any further options. The exceptions to this rule
-are covered below in <a class="reference internal" href="#using-packages"><span class="std std-ref">Using Packages</span></a>.</p>
+are covered below in <a class="reference internal" href="#using-packages"><span>Using Packages</span></a>.</p>
 <p>Building your own packages is also quite straightforward: we provide the
 <a class="reference external" href="http://www.haskell.org/cabal/">Cabal</a> infrastructure which automates
 the process of configuring, building, installing and distributing a
@@ -130,9 +132,9 @@ for example).</p>
 <p id="index-1">GHC only knows about packages that are <em>installed</em>. Installed packages live in
 package databases. For details on package databases and how to control which
 package databases or specific set of packages are visible to GHC, see
-<a class="reference internal" href="#package-databases"><span class="std std-ref">Package Databases</span></a>.</p>
+<a class="reference internal" href="#package-databases"><span>Package Databases</span></a>.</p>
 <p>To see which packages are currently available, use the <code class="docutils literal"><span class="pre">ghc-pkg</span> <span class="pre">list</span></code> command:</p>
-<div class="highlight-none"><div class="highlight"><pre><span></span>$ ghc-pkg list
+<div class="highlight-none"><div class="highlight"><pre>$ ghc-pkg list
 /usr/lib/ghc-6.12.1/package.conf.d:
     Cabal-1.7.4
     array-0.2.0.1
@@ -200,10 +202,10 @@ exposed/hidden status of packages is only relevant when using <code class="docut
 package can be either trusted or not trusted (distrusted). By default
 packages are distrusted. This property of a package only plays a role
 when compiling code using GHC&#8217;s Safe Haskell feature (see
-<a class="reference internal" href="safe_haskell.html#safe-haskell"><span class="std std-ref">Safe Haskell</span></a>) with the <code class="docutils literal"><span class="pre">-fpackage-trust</span></code> flag enabled.</p>
+<a class="reference internal" href="safe_haskell.html#safe-haskell"><span>Safe Haskell</span></a>) with the <code class="docutils literal"><span class="pre">-fpackage-trust</span></code> flag enabled.</p>
 <p>To see which modules are provided by a package use the <code class="docutils literal"><span class="pre">ghc-pkg</span></code>
-command (see <a class="reference internal" href="#package-management"><span class="std std-ref">Package management (the ghc-pkg command)</span></a>):</p>
-<div class="highlight-none"><div class="highlight"><pre><span></span>$ ghc-pkg field network exposed-modules
+command (see <a class="reference internal" href="#package-management"><span>Package management (the ghc-pkg command)</span></a>):</p>
+<div class="highlight-none"><div class="highlight"><pre>$ ghc-pkg field network exposed-modules
 exposed-modules: Network.BSD,
                  Network.CGI,
                  Network.Socket,
@@ -228,12 +230,12 @@ last one overrides the previous ones. On the other hand, if
 versions of a package by using the <cite>-package</cite> option multiple times with
 different versions of the same package.</p>
 <p><cite>-package</cite> supports thinning and renaming described in
-<a class="reference internal" href="#package-thinning-and-renaming"><span class="std std-ref">Thinning and renaming modules</span></a>.</p>
+<a class="reference internal" href="#package-thinning-and-renaming"><span>Thinning and renaming modules</span></a>.</p>
 <p>The <code class="docutils literal"><span class="pre">-package</span> <span class="pre">⟨pkg⟩</span></code> option also causes package ⟨pkg⟩ to be linked into
 the resulting executable or shared object. Whether a packages&#8217;
 library is linked statically or dynamically is controlled by the
 flag pair <a class="reference internal" href="phases.html#ghc-flag--static"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-static</span></code></a>/ <a class="reference internal" href="phases.html#ghc-flag--dynamic"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-dynamic</span></code></a>.</p>
-<p>In <a class="reference internal" href="using.html#ghc-flag---make"><code class="xref std std-ghc-flag docutils literal"><span class="pre">--make</span></code></a> mode and <a class="reference internal" href="using.html#ghc-flag---interactive"><code class="xref std std-ghc-flag docutils literal"><span class="pre">--interactive</span></code></a> mode (see <a class="reference internal" href="using.html#modes"><span class="std std-ref">Modes of operation</span></a>),
+<p>In <a class="reference internal" href="using.html#ghc-flag---make"><code class="xref std std-ghc-flag docutils literal"><span class="pre">--make</span></code></a> mode and <a class="reference internal" href="using.html#ghc-flag---interactive"><code class="xref std std-ghc-flag docutils literal"><span class="pre">--interactive</span></code></a> mode (see <a class="reference internal" href="using.html#modes"><span>Modes of operation</span></a>),
 the compiler normally determines which packages are required by the
 current Haskell modules, and links only those. In batch mode
 however, the dependency information isn&#8217;t available, and explicit
@@ -245,12 +247,12 @@ discover a dependency on it, so it has to be mentioned explicitly.</p>
 <p>For example, to link a program consisting of objects <code class="docutils literal"><span class="pre">Foo.o</span></code> and
 <code class="docutils literal"><span class="pre">Main.o</span></code>, where we made use of the <code class="docutils literal"><span class="pre">network</span></code> package, we need to
 give GHC the <code class="docutils literal"><span class="pre">-package</span></code> flag thus:</p>
-<div class="highlight-sh"><div class="highlight"><pre><span></span>$ ghc -o myprog Foo.o Main.o -package network
+<div class="highlight-sh"><div class="highlight"><pre>$ ghc -o myprog Foo.o Main.o -package network
 </pre></div>
 </div>
 <p>The same flag is necessary even if we compiled the modules from
 source, because GHC still reckons it&#8217;s in batch mode:</p>
-<div class="highlight-sh"><div class="highlight"><pre><span></span>$ ghc -o myprog Foo.hs Main.hs -package network
+<div class="highlight-sh"><div class="highlight"><pre>$ ghc -o myprog Foo.hs Main.hs -package network
 </pre></div>
 </div>
 </dd></dl>
@@ -265,7 +267,7 @@ rather than by name. This is a more robust way
 to name packages, and can be used to select packages that would
 otherwise be shadowed. Cabal passes <code class="docutils literal"><span class="pre">-package-id</span></code> flags to GHC.
 <code class="docutils literal"><span class="pre">-package-id</span></code> supports thinning and renaming described in
-<a class="reference internal" href="#package-thinning-and-renaming"><span class="std std-ref">Thinning and renaming modules</span></a>.</p>
+<a class="reference internal" href="#package-thinning-and-renaming"><span>Thinning and renaming modules</span></a>.</p>
 </dd></dl>
 
 <dl class="ghc-flag">
@@ -340,7 +342,7 @@ this library name to generate more unit IDs.</p>
 trusted by GHC. This command functions in a very similar way
 to the <a class="reference internal" href="phases.html#ghc-flag--package"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-package</span></code></a> command but in addition sets the selected
 packages to be trusted by GHC, regardless of the contents of the
-package database. (see <a class="reference internal" href="safe_haskell.html#safe-haskell"><span class="std std-ref">Safe Haskell</span></a>).</p>
+package database. (see <a class="reference internal" href="safe_haskell.html#safe-haskell"><span>Safe Haskell</span></a>).</p>
 </dd></dl>
 
 <dl class="ghc-flag">
@@ -350,7 +352,7 @@ package database. (see <a class="reference internal" href="safe_haskell.html#saf
 distrusted by GHC. This command functions in a very similar
 way to the <a class="reference internal" href="phases.html#ghc-flag--package"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-package</span></code></a> command but in addition sets the selected
 packages to be distrusted by GHC, regardless of the contents of the
-package database. (see <a class="reference internal" href="safe_haskell.html#safe-haskell"><span class="std std-ref">Safe Haskell</span></a>).</p>
+package database. (see <a class="reference internal" href="safe_haskell.html#safe-haskell"><span>Safe Haskell</span></a>).</p>
 </dd></dl>
 
 <dl class="ghc-flag">
@@ -362,7 +364,7 @@ require to be trusted (including <code class="docutils literal"><span class="pre
 trusted using <a class="reference internal" href="safe_haskell.html#ghc-flag--trust"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-trust</span></code></a> options. This option does not change the
 exposed/hidden status of a package, so it isn&#8217;t equivalent to
 applying <a class="reference internal" href="safe_haskell.html#ghc-flag--distrust"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-distrust</span></code></a> to all packages on the system. (see
-<a class="reference internal" href="safe_haskell.html#safe-haskell"><span class="std std-ref">Safe Haskell</span></a>).</p>
+<a class="reference internal" href="safe_haskell.html#safe-haskell"><span>Safe Haskell</span></a>).</p>
 </dd></dl>
 
 </div>
@@ -372,7 +374,7 @@ applying <a class="reference internal" href="safe_haskell.html#ghc-flag--distrus
 in package <code class="docutils literal"><span class="pre">main</span></code>. Omitting the <a class="reference internal" href="#ghc-flag--this-unit-id"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-this-unit-id</span></code></a> flag compiles
 code for package <code class="docutils literal"><span class="pre">main</span></code>. Failure to do so leads to a somewhat obscure
 link-time error of the form:</p>
-<div class="highlight-none"><div class="highlight"><pre><span></span>/usr/bin/ld: Undefined symbols:
+<div class="highlight-none"><div class="highlight"><pre>/usr/bin/ld: Undefined symbols:
 _ZCMain_main_closure
 </pre></div>
 </div>
@@ -400,7 +402,7 @@ triple: package, module, and name.</p>
 <p>When incorporating packages from multiple sources, you may end up in a
 situation where multiple packages publish modules with the same name.
 Previously, the only way to distinguish between these modules was to use
-<a class="reference internal" href="glasgow_exts.html#package-qualified-imports"><span class="std std-ref">Package-qualified imports</span></a>. However, since GHC 7.10, the
+<a class="reference internal" href="glasgow_exts.html#package-qualified-imports"><span>Package-qualified imports</span></a>. However, since GHC 7.10, the
 <a class="reference internal" href="phases.html#ghc-flag--package"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-package</span></code></a> flags (and their variants) have been extended to allow a
 user to explicitly control what modules a package brings into scope, by
 analogy to the import lists that users can attach to module imports.</p>
@@ -430,7 +432,7 @@ unless there was a <code class="docutils literal"><span class="pre">Bool</span><
 Hiding a package also clears all of its renamings.</p>
 <p>You can use renaming to provide an alternate prelude, e.g.
 <code class="docutils literal"><span class="pre">-hide-all-packages</span> <span class="pre">-package</span> <span class="pre">&quot;basic-prelude</span> <span class="pre">(BasicPrelude</span> <span class="pre">as</span> <span class="pre">Prelude)&quot;</span></code>,
-in lieu of the <a class="reference internal" href="glasgow_exts.html#rebindable-syntax"><span class="std std-ref">Rebindable syntax and the implicit Prelude import</span></a> extension.</p>
+in lieu of the <a class="reference internal" href="glasgow_exts.html#rebindable-syntax"><span>Rebindable syntax and the implicit Prelude import</span></a> extension.</p>
 </div>
 <div class="section" id="package-databases">
 <span id="id4"></span><h2>7.9.5. Package Databases<a class="headerlink" href="#package-databases" title="Permalink to this headline">¶</a></h2>
@@ -440,7 +442,7 @@ contains a file for each package, together with a binary cache of the
 package data in the file <code class="file docutils literal"><span class="pre">package.cache</span></code>. Normally you won&#8217;t need to
 look at or modify the contents of a package database directly; all
 management of package databases can be done through the <strong class="command">ghc-pkg</strong> tool
-(see <a class="reference internal" href="#package-management"><span class="std std-ref">Package management (the ghc-pkg command)</span></a>).</p>
+(see <a class="reference internal" href="#package-management"><span>Package management (the ghc-pkg command)</span></a>).</p>
 <p>GHC knows about two package databases in particular:</p>
 <ul class="simple">
 <li>The <em>global package database</em>, which comes with your GHC installation,
@@ -450,7 +452,7 @@ be <code class="docutils literal"><span class="pre">$HOME/.ghc/arch-os-version/p
 be something like
 <code class="docutils literal"><span class="pre">C:\Documents&nbsp;And&nbsp;Settings\user\ghc\package.conf.d</span></code>. The
 <code class="docutils literal"><span class="pre">ghc-pkg</span></code> tool knows where this file should be located, and will
-create it if it doesn&#8217;t exist (see <a class="reference internal" href="#package-management"><span class="std std-ref">Package management (the ghc-pkg command)</span></a>).</li>
+create it if it doesn&#8217;t exist (see <a class="reference internal" href="#package-management"><span>Package management (the ghc-pkg command)</span></a>).</li>
 </ul>
 <p><em>Package database stack:</em> Package databases are arranged in a stack structure.
 When GHC starts up it adds the global and the user package databases to the
@@ -534,12 +536,12 @@ package databases. This list of package databases, used by GHC and ghc-pkg,
 specifies a stack of package databases from top to bottom. This order was
 chosen to match the behaviour of the <span class="target" id="index-5"></span><code class="xref std std-envvar docutils literal"><span class="pre">PATH</span></code> environment variable
 where entries earlier in the PATH override ones that come later. See
-<a class="reference internal" href="#package-databases"><span class="std std-ref">Package Databases</span></a> for details on how the package database stack is
+<a class="reference internal" href="#package-databases"><span>Package Databases</span></a> for details on how the package database stack is
 used.</p>
 <p>Normally <cite>GHC_PACKAGE_PATH</cite> replaces the default package stack. For
 example, all of the following commands are equivalent, creating a stack with
 db1 at the top followed by db2 (use <code class="docutils literal"><span class="pre">;</span></code> instead of <code class="docutils literal"><span class="pre">:</span></code> on Windows):</p>
-<div class="highlight-none"><div class="highlight"><pre><span></span>$ ghc -clear-package-db -package-db db2.conf -package-db db1.conf
+<div class="highlight-none"><div class="highlight"><pre>$ ghc -clear-package-db -package-db db2.conf -package-db db1.conf
 $ env GHC_PACKAGE_PATH=db1.conf:db2.conf ghc
 $ env GHC_PACKAGE_PATH=db2.conf ghc -package-db db1.conf
 </pre></div>
@@ -548,7 +550,7 @@ $ env GHC_PACKAGE_PATH=db2.conf ghc -package-db db1.conf
 (i.e. the user and global package databases, in that order) are appended
 to the path. For example, to augment the usual set of packages with a
 database of your own, you could say (on Unix):</p>
-<div class="highlight-none"><div class="highlight"><pre><span></span>$ export GHC_PACKAGE_PATH=$HOME/.my-ghc-packages.conf:
+<div class="highlight-none"><div class="highlight"><pre>$ export GHC_PACKAGE_PATH=$HOME/.my-ghc-packages.conf:
 </pre></div>
 </div>
 <p>To check whether your <cite>GHC_PACKAGE_PATH</cite> setting is doing the right
@@ -566,7 +568,7 @@ They are intended to be managed by build/package tools, to enable <code class="d
 <code class="docutils literal"><span class="pre">ghci</span></code> to automatically use an environment created by the tool.</p>
 <p>The file contains package IDs and optionally package databases, one directive
 per line:</p>
-<div class="highlight-none"><div class="highlight"><pre><span></span>clear-package-db
+<div class="highlight-none"><div class="highlight"><pre>clear-package-db
 global-package-db
 user-package-db
 package-db db.d/
@@ -578,7 +580,7 @@ package-id id_n
 </div>
 <p>If such a package environment is found, it is equivalent to passing these
 command line arguments to <code class="docutils literal"><span class="pre">ghc</span></code>:</p>
-<div class="highlight-none"><div class="highlight"><pre><span></span>-hide-all-packages
+<div class="highlight-none"><div class="highlight"><pre>-hide-all-packages
 -clear-package-db
 -global-package-db
 -user-package-db
@@ -632,7 +634,7 @@ active package environment.</p>
 ID&#8221;), which distinguishes it from all other installed packages on the
 system. To see the installed package IDs associated with each installed
 package, use <code class="docutils literal"><span class="pre">ghc-pkg</span> <span class="pre">list</span> <span class="pre">-v</span></code>:</p>
-<div class="highlight-none"><div class="highlight"><pre><span></span>$ ghc-pkg list -v
+<div class="highlight-none"><div class="highlight"><pre>$ ghc-pkg list -v
 using cache: /usr/lib/ghc-6.12.1/package.conf.d/package.cache
 /usr/lib/ghc-6.12.1/package.conf.d
    Cabal-1.7.4 (Cabal-1.7.4-48f5247e06853af93593883240e11238)
@@ -648,7 +650,7 @@ ends in a hash string derived from the compiled package. Dependencies
 between packages are expressed in terms of installed package IDs, rather
 than just packages and versions. For example, take a look at the
 dependencies of the <code class="docutils literal"><span class="pre">haskell98</span></code> package:</p>
-<div class="highlight-none"><div class="highlight"><pre><span></span>$ ghc-pkg field haskell98 depends
+<div class="highlight-none"><div class="highlight"><pre>$ ghc-pkg field haskell98 depends
 depends: array-0.2.0.1-9cbf76a576b6ee9c1f880cf171a0928d
          base-4.2.0.0-247bb20cde37c3ef4093ee124e04bc1c
          directory-1.0.0.2-f51711bc872c35ce4a453aa19c799008
@@ -671,7 +673,7 @@ are broken in this way are shown in the <code class="docutils literal"><span cla
 in red (if possible) or otherwise surrounded by braces. In the following
 example, we have recompiled and reinstalled the <code class="docutils literal"><span class="pre">filepath</span></code> package,
 and this has caused various dependencies including <code class="docutils literal"><span class="pre">Cabal</span></code> to break:</p>
-<div class="highlight-none"><div class="highlight"><pre><span></span>$ ghc-pkg list
+<div class="highlight-none"><div class="highlight"><pre>$ ghc-pkg list
 WARNING: there are broken packages.  Run &#39;ghc-pkg check&#39; for more details.
 /usr/lib/ghc-6.12.1/package.conf.d:
     {Cabal-1.7.4}
@@ -683,7 +685,7 @@ WARNING: there are broken packages.  Run &#39;ghc-pkg check&#39; for more detail
 <p>Additionally, <code class="docutils literal"><span class="pre">ghc-pkg</span> <span class="pre">list</span></code> reminds you that there are broken
 packages and suggests <code class="docutils literal"><span class="pre">ghc-pkg</span> <span class="pre">check</span></code>, which displays more information
 about the nature of the failure:</p>
-<div class="highlight-none"><div class="highlight"><pre><span></span>$ ghc-pkg check
+<div class="highlight-none"><div class="highlight"><pre>$ ghc-pkg check
 There are problems in package ghc-6.12.1:
   dependency &quot;filepath-1.1.0.1-87511764eb0af2bce4db05e702750e63&quot; doesn&#39;t exist
 There are problems in package haskeline-0.6.2:
@@ -722,7 +724,7 @@ re-install GHC.</p>
 <p id="index-7">The <strong class="command">ghc-pkg</strong> tool is for querying and modifying package databases. To
 see what package databases are in use, use <code class="docutils literal"><span class="pre">ghc-pkg</span> <span class="pre">list</span></code>. The stack
 of databases that <strong class="command">ghc-pkg</strong> knows about can be modified using the
-<span class="target" id="index-8"></span><a class="reference internal" href="#envvar-GHC_PACKAGE_PATH"><code class="xref std std-envvar docutils literal"><span class="pre">GHC_PACKAGE_PATH</span></code></a> environment variable (see <a class="reference internal" href="#ghc-package-path"><span class="std std-ref">The GHC_PACKAGE_PATH environment variable</span></a>,
+<span class="target" id="index-8"></span><a class="reference internal" href="#envvar-GHC_PACKAGE_PATH"><code class="xref std std-envvar docutils literal"><span class="pre">GHC_PACKAGE_PATH</span></code></a> environment variable (see <a class="reference internal" href="#ghc-package-path"><span>The GHC_PACKAGE_PATH environment variable</span></a>,
 and using <a class="reference internal" href="#ghc-flag--package-db"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-package-db</span></code></a> options on the <strong class="command">ghc-pkg</strong> command line.</p>
 <p>When asked to modify a database, <code class="docutils literal"><span class="pre">ghc-pkg</span></code> modifies the global
 database by default. Specifying <code class="docutils literal"><span class="pre">--user</span></code> causes it to act on the user
@@ -757,7 +759,7 @@ already exist.</dd>
 <dd><p class="first">Reads a package specification from ⟨file⟩ (which may be &#8220;<code class="docutils literal"><span class="pre">-</span></code>&#8221;
 to indicate standard input), and adds it to the database of
 installed packages. The syntax of ⟨file⟩ is given in
-<a class="reference internal" href="#installed-pkg-info"><span class="std std-ref">InstalledPackageInfo: a package specification</span></a>.</p>
+<a class="reference internal" href="#installed-pkg-info"><span>InstalledPackageInfo: a package specification</span></a>.</p>
 <p class="last">The package specification must be a package that isn&#8217;t already
 installed.</p>
 </dd>
@@ -793,7 +795,7 @@ output of <code class="docutils literal"><span class="pre">ghc-pkg</span> <span 
 </dd>
 <dt><code class="docutils literal"><span class="pre">ghc-pkg</span> <span class="pre">find-module</span> <span class="pre">⟨M⟩</span> <span class="pre">[--simple-output]</span></code></dt>
 <dd><p class="first">This option lists registered packages exposing module ⟨M⟩. Examples:</p>
-<div class="highlight-haskell"><div class="highlight"><pre><span></span><span class="o">$</span> <span class="n">ghc</span><span class="o">-</span><span class="n">pkg</span> <span class="n">find</span><span class="o">-</span><span class="kr">module</span> <span class="nn">Var</span>
+<div class="highlight-haskell"><div class="highlight"><pre><span class="o">$</span> <span class="n">ghc</span><span class="o">-</span><span class="n">pkg</span> <span class="n">find</span><span class="o">-</span><span class="kr">module</span> <span class="nn">Var</span>
 <span class="nf">c</span><span class="kt">:/</span><span class="n">fptools</span><span class="o">/</span><span class="n">validate</span><span class="o">/</span><span class="n">ghc</span><span class="o">/</span><span class="n">driver</span><span class="o">/</span><span class="n">package</span><span class="o">.</span><span class="n">conf</span><span class="o">.</span><span class="n">inplace</span><span class="kt">:</span>
     <span class="p">(</span><span class="n">ghc</span><span class="o">-</span><span class="mf">6.9</span><span class="o">.</span><span class="mi">20080428</span><span class="p">)</span>
 
@@ -809,7 +811,7 @@ output of <code class="docutils literal"><span class="pre">ghc-pkg</span> <span 
 <dt><code class="docutils literal"><span class="pre">ghc-pkg</span> <span class="pre">describe</span> <span class="pre">⟨P⟩</span></code></dt>
 <dd><p class="first">Emit the full description of the specified package. The description
 is in the form of an <code class="docutils literal"><span class="pre">InstalledPackageInfo</span></code>, the same as the input
-file format for <code class="docutils literal"><span class="pre">ghc-pkg</span> <span class="pre">register</span></code>. See <a class="reference internal" href="#installed-pkg-info"><span class="std std-ref">InstalledPackageInfo: a package specification</span></a>
+file format for <code class="docutils literal"><span class="pre">ghc-pkg</span> <span class="pre">register</span></code>. See <a class="reference internal" href="#installed-pkg-info"><span>InstalledPackageInfo: a package specification</span></a>
 for details.</p>
 <p class="last">If the pattern matches multiple packages, the description for each
 package is emitted, separated by the string <code class="docutils literal"><span class="pre">---</span></code> on a line by
@@ -823,7 +825,7 @@ commas</dd>
 <dd><p class="first">Generate a graph of the package dependencies in a form suitable for
 input for the <a class="reference external" href="http://www.graphviz.org/">graphviz</a> tools. For
 example, to generate a PDF of the dependency graph:</p>
-<div class="last highlight-haskell"><div class="highlight"><pre><span></span><span class="nf">ghc</span><span class="o">-</span><span class="n">pkg</span> <span class="n">dot</span> <span class="o">|</span> <span class="n">tred</span> <span class="o">|</span> <span class="n">dot</span> <span class="o">-</span><span class="kt">Tpdf</span> <span class="o">&gt;</span><span class="n">pkgs</span><span class="o">.</span><span class="n">pdf</span>
+<div class="last highlight-haskell"><div class="highlight"><pre><span class="nf">ghc</span><span class="o">-</span><span class="n">pkg</span> <span class="n">dot</span> <span class="o">|</span> <span class="n">tred</span> <span class="o">|</span> <span class="n">dot</span> <span class="o">-</span><span class="kt">Tpdf</span> <span class="o">&gt;</span><span class="n">pkgs</span><span class="o">.</span><span class="n">pdf</span>
 </pre></div>
 </div>
 </dd>
@@ -854,7 +856,7 @@ systems.</p>
 in <code class="docutils literal"><span class="pre">list</span></code>, <code class="docutils literal"><span class="pre">describe</span></code>, and <code class="docutils literal"><span class="pre">field</span></code>, where a <code class="docutils literal"><span class="pre">'*'</span></code> indicates open
 substring ends (<code class="docutils literal"><span class="pre">prefix*</span></code>, <code class="docutils literal"><span class="pre">*suffix</span></code>, <code class="docutils literal"><span class="pre">*infix*</span></code>). Examples (output
 omitted):</p>
-<div class="highlight-haskell"><div class="highlight"><pre><span></span>-- list all regex-related packages
+<div class="highlight-haskell"><div class="highlight"><pre>-- list all regex-related packages
 ghc-pkg list &#39;*regex*&#39; --ignore-case
 -- list all string-related packages
 ghc-pkg list &#39;*string*&#39; --ignore-case
@@ -935,7 +937,7 @@ of configuration, then you might have to fall back to the low-level
 mechanisms, so a few hints for those brave souls follow.</p>
 <p>You need to build an &#8220;installed package info&#8221; file for passing to
 <code class="docutils literal"><span class="pre">ghc-pkg</span></code> when installing your package. The contents of this file are
-described in <a class="reference internal" href="#installed-pkg-info"><span class="std std-ref">InstalledPackageInfo: a package specification</span></a>.</p>
+described in <a class="reference internal" href="#installed-pkg-info"><span>InstalledPackageInfo: a package specification</span></a>.</p>
 <p>The Haskell code in a package may be built into one or more archive
 libraries (e.g. <code class="docutils literal"><span class="pre">libHSfoo.a</span></code>), or a single shared object (e.g.
 <code class="docutils literal"><span class="pre">libHSfoo.dll/.so/.dylib</span></code>). The restriction to a single shared object
@@ -945,7 +947,7 @@ intra-shared-object-call call (inter-shared-object calls require an
 extra indirection).</p>
 <ul>
 <li><p class="first">Building a static library is done by using the <strong class="command">ar</strong> tool, like so:</p>
-<div class="highlight-sh"><div class="highlight"><pre><span></span>ar cqs libHSfoo-1.0.a A.o B.o C.o ...
+<div class="highlight-sh"><div class="highlight"><pre>ar cqs libHSfoo-1.0.a A.o B.o C.o ...
 </pre></div>
 </div>
 <p>where <code class="docutils literal"><span class="pre">A.o</span></code>, <code class="docutils literal"><span class="pre">B.o</span></code> and so on are the compiled Haskell modules,
@@ -968,7 +970,7 @@ except the GHC package itself.</p>
 <p>The <code class="docutils literal"><span class="pre">HSfoo.o</span></code> file is built by Cabal automatically; use
 <code class="docutils literal"><span class="pre">--disable-library-for-ghci</span></code> to disable it. To build one manually,
 the following GNU <code class="docutils literal"><span class="pre">ld</span></code> command can be used:</p>
-<div class="highlight-sh"><div class="highlight"><pre><span></span>ld -r --whole-archive -o HSfoo.o libHSfoo.a
+<div class="highlight-sh"><div class="highlight"><pre>ld -r --whole-archive -o HSfoo.o libHSfoo.a
 </pre></div>
 </div>
 <p>(replace <code class="docutils literal"><span class="pre">--whole-archive</span></code> with <code class="docutils literal"><span class="pre">-all_load</span></code> on MacOS X)</p>
@@ -984,22 +986,22 @@ versions of GHC and that therefore are most likely incompatible with
 respect to calling conventions, (2) it must be different from the
 static name otherwise we would not be able to control the linker as
 precisely as necessary to make the <a class="reference internal" href="phases.html#ghc-flag--static"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-static</span></code></a>/<a class="reference internal" href="phases.html#ghc-flag--dynamic"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-dynamic</span></code></a>
-flags work, see <a class="reference internal" href="phases.html#options-linker"><span class="std std-ref">Options affecting linking</span></a>.</p>
-<div class="highlight-sh"><div class="highlight"><pre><span></span>ghc -shared libHSfoo-1.0-ghcGHCVersion.so A.o B.o C.o
+flags work, see <a class="reference internal" href="phases.html#options-linker"><span>Options affecting linking</span></a>.</p>
+<div class="highlight-sh"><div class="highlight"><pre>ghc -shared libHSfoo-1.0-ghcGHCVersion.so A.o B.o C.o
 </pre></div>
 </div>
 <p>Using GHC&#8217;s version number in the shared object name allows different
 library versions compiled by different GHC versions to be installed
 in standard system locations, e.g. under *nix <code class="docutils literal"><span class="pre">/usr/lib</span></code>. To obtain
 the version number of GHC invoke <code class="docutils literal"><span class="pre">ghc</span> <span class="pre">--numeric-version</span></code> and use
-its output in place of ⟨GHCVersion⟩. See also <a class="reference internal" href="phases.html#options-codegen"><span class="std std-ref">Options affecting code generation</span></a>
+its output in place of ⟨GHCVersion⟩. See also <a class="reference internal" href="phases.html#options-codegen"><span>Options affecting code generation</span></a>
 on how object files must be prepared for shared object linking.</p>
 </li>
 </ul>
 <p>To compile a module which is to be part of a new package, use the
 <code class="docutils literal"><span class="pre">-package-name</span></code> (to identify the name of the package) and
 <code class="docutils literal"><span class="pre">-library-name</span></code> (to identify the version and the version hashes of its
-identities.) options (<a class="reference internal" href="#using-packages"><span class="std std-ref">Using Packages</span></a>). Failure to use these
+identities.) options (<a class="reference internal" href="#using-packages"><span>Using Packages</span></a>). Failure to use these
 options when compiling a package will probably result in disaster, but
 you will only discover later when you attempt to import modules from the
 package. At this point GHC will complain that the package name it was
@@ -1022,7 +1024,7 @@ Cabal package distributed with GHC.</p>
 functions <code class="docutils literal"><span class="pre">parseInstalledPackageInfo</span></code> and <code class="docutils literal"><span class="pre">showInstalledPackageInfo</span></code>
 read and write this syntax respectively. Here&#8217;s an example of the
 <code class="docutils literal"><span class="pre">InstalledPackageInfo</span></code> for the <code class="docutils literal"><span class="pre">unix</span></code> package:</p>
-<div class="highlight-none"><div class="highlight"><pre><span></span>$ ghc-pkg describe unix
+<div class="highlight-none"><div class="highlight"><pre>$ ghc-pkg describe unix
 name: unix
 version: 2.3.1.0
 id: unix-2.3.1.0-de7803f1a8cd88d2161b29b083c94240
@@ -1288,13 +1290,13 @@ HTML for this package.</p>
         <li class="right" >
           <a href="separate_compilation.html" title="7.8. Filenames and separate compilation"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">GHC 8.0.2 Users Guide</a> &#187;</li>
-          <li class="nav-item nav-item-1"><a href="usage.html" >7. Using GHC</a> &#187;</li> 
+        <li class="nav-item nav-item-0"><a href="index.html">GHC 8.0.2 Users Guide</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="usage.html" >7. Using GHC</a> &raquo;</li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">
-        &#169; Copyright 2015, GHC Team.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.5.2.
+        &copy; Copyright 2015, GHC Team.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.6.
     </div>
   </body>
 </html>

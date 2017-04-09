@@ -7,7 +7,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>7.2. Warnings and sanity-checking &#8212; Glasgow Haskell Compiler &lt;release&gt; Users Guide</title>
+    <title>7.2. Warnings and sanity-checking &mdash; Glasgow Haskell Compiler &lt;release&gt; Users Guide</title>
     
     <link rel="stylesheet" href="_static/ghc-theme.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -18,15 +18,14 @@
         VERSION:     '8.0.2',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
-        HAS_SOURCE:  true,
-        SOURCELINK_SUFFIX: '.txt'
+        HAS_SOURCE:  true
       };
     </script>
     <script type="text/javascript" src="_static/jquery.js"></script>
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
-    <link rel="index" title="Index" href="genindex.html" />
-    <link rel="search" title="Search" href="search.html" />
+    <link rel="top" title="Glasgow Haskell Compiler &lt;release&gt; Users Guide" href="index.html" />
+    <link rel="up" title="7. Using GHC" href="usage.html" />
     <link rel="next" title="7.3. Optimisation (code improvement)" href="using-optimisation.html" />
     <link rel="prev" title="7.1. Using GHC" href="using.html" /> 
   </head>
@@ -47,8 +46,8 @@
         <li class="right" >
           <a href="using.html" title="7.1. Using GHC"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">GHC 8.0.2 Users Guide</a> &#187;</li>
-          <li class="nav-item nav-item-1"><a href="usage.html" accesskey="U">7. Using GHC</a> &#187;</li> 
+        <li class="nav-item nav-item-0"><a href="index.html">GHC 8.0.2 Users Guide</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="usage.html" accesskey="U">7. Using GHC</a> &raquo;</li> 
       </ul>
     </div>
 
@@ -63,18 +62,21 @@
   <div role="note" aria-label="source link">
     <h3>This Page</h3>
     <ul class="this-page-menu">
-      <li><a href="_sources/using-warnings.rst.txt"
+      <li><a href="_sources/using-warnings.txt"
             rel="nofollow">Show Source</a></li>
     </ul>
    </div>
 <div id="searchbox" style="display: none" role="search">
   <h3>Quick search</h3>
     <form class="search" action="search.html" method="get">
-      <div><input type="text" name="q" /></div>
-      <div><input type="submit" value="Go" /></div>
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
       <input type="hidden" name="check_keywords" value="yes" />
       <input type="hidden" name="area" value="default" />
     </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
 </div>
 <script type="text/javascript">$('#searchbox').show(0);</script>
         </div>
@@ -233,7 +235,7 @@ recognised.</p>
 <code class="descname">-Wtyped-holes</code><code class="descclassname"> </code><a class="headerlink" href="#ghc-flag--Wtyped-holes" title="Permalink to this definition">¶</a></dt>
 <dd><p>Determines whether the compiler reports typed holes warnings. Has no
 effect unless typed holes errors are deferred until runtime. See
-<a class="reference internal" href="glasgow_exts.html#typed-holes"><span class="std std-ref">Typed Holes</span></a> and <a class="reference internal" href="glasgow_exts.html#defer-type-errors"><span class="std std-ref">Deferring type errors to runtime</span></a></p>
+<a class="reference internal" href="glasgow_exts.html#typed-holes"><span>Typed Holes</span></a> and <a class="reference internal" href="glasgow_exts.html#defer-type-errors"><span>Deferring type errors to runtime</span></a></p>
 <p>This warning is on by default.</p>
 </dd></dl>
 
@@ -241,7 +243,7 @@ effect unless typed holes errors are deferred until runtime. See
 <dt id="ghc-flag--Wtype-errors">
 <code class="descname">-Wtype-errors</code><code class="descclassname"> </code><a class="headerlink" href="#ghc-flag--Wtype-errors" title="Permalink to this definition">¶</a></dt>
 <dd><p>Causes a warning to be reported when a type error is deferred until
-runtime. See <a class="reference internal" href="glasgow_exts.html#defer-type-errors"><span class="std std-ref">Deferring type errors to runtime</span></a></p>
+runtime. See <a class="reference internal" href="glasgow_exts.html#defer-type-errors"><span>Deferring type errors to runtime</span></a></p>
 <p>This warning is on by default.</p>
 </dd></dl>
 
@@ -260,7 +262,7 @@ runtime. See <a class="reference internal" href="glasgow_exts.html#defer-type-er
 you get a warning (instead of an error). At runtime, if you use a
 value that depends on a type error, you get a runtime error; but you
 can run any type-correct parts of your code just fine. See
-<a class="reference internal" href="glasgow_exts.html#defer-type-errors"><span class="std std-ref">Deferring type errors to runtime</span></a></p>
+<a class="reference internal" href="glasgow_exts.html#defer-type-errors"><span>Deferring type errors to runtime</span></a></p>
 </dd></dl>
 
 <dl class="ghc-flag">
@@ -268,10 +270,10 @@ can run any type-correct parts of your code just fine. See
 <code class="descname">-fdefer-typed-holes</code><code class="descclassname"> </code><a class="headerlink" href="#ghc-flag--fdefer-typed-holes" title="Permalink to this definition">¶</a></dt>
 <dd><p>Defer typed holes errors (errors about names with a leading underscore
 (e.g., “_”, “_foo”, “_bar”)) until runtime. This will turn the errors
-produced by <a class="reference internal" href="glasgow_exts.html#typed-holes"><span class="std std-ref">typed holes</span></a> into warnings. Using a value
+produced by <a class="reference internal" href="glasgow_exts.html#typed-holes"><span>typed holes</span></a> into warnings. Using a value
 that depends on a typed hole produces a runtime error, the same as
-<a class="reference internal" href="#ghc-flag--fdefer-type-errors"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-fdefer-type-errors</span></code></a> (which implies this option). See <a class="reference internal" href="glasgow_exts.html#typed-holes"><span class="std std-ref">Typed Holes</span></a>
-and <a class="reference internal" href="glasgow_exts.html#defer-type-errors"><span class="std std-ref">Deferring type errors to runtime</span></a>.</p>
+<a class="reference internal" href="#ghc-flag--fdefer-type-errors"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-fdefer-type-errors</span></code></a> (which implies this option). See <a class="reference internal" href="glasgow_exts.html#typed-holes"><span>Typed Holes</span></a>
+and <a class="reference internal" href="glasgow_exts.html#defer-type-errors"><span>Deferring type errors to runtime</span></a>.</p>
 <p>Implied by <a class="reference internal" href="#ghc-flag--fdefer-type-errors"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-fdefer-type-errors</span></code></a>. See also <a class="reference internal" href="#ghc-flag--Wtyped-holes"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-Wtyped-holes</span></code></a>.</p>
 </dd></dl>
 
@@ -282,7 +284,7 @@ and <a class="reference internal" href="glasgow_exts.html#defer-type-errors"><sp
 until runtime. This will turn variable-out-of-scope errors into warnings.
 Using a value that depends on a typed hole produces a runtime error,
 the same as <a class="reference internal" href="#ghc-flag--fdefer-type-errors"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-fdefer-type-errors</span></code></a> (which implies this option).
-See <a class="reference internal" href="glasgow_exts.html#typed-holes"><span class="std std-ref">Typed Holes</span></a> and <a class="reference internal" href="glasgow_exts.html#defer-type-errors"><span class="std std-ref">Deferring type errors to runtime</span></a>.</p>
+See <a class="reference internal" href="glasgow_exts.html#typed-holes"><span>Typed Holes</span></a> and <a class="reference internal" href="glasgow_exts.html#defer-type-errors"><span>Deferring type errors to runtime</span></a>.</p>
 <p>Implied by <a class="reference internal" href="#ghc-flag--fdefer-type-errors"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-fdefer-type-errors</span></code></a>. See also <code class="xref std std-ghc-flag docutils literal"><span class="pre">-Wdeferred-out-of-scope-variables</span></code>.</p>
 </dd></dl>
 
@@ -293,7 +295,7 @@ See <a class="reference internal" href="glasgow_exts.html#typed-holes"><span cla
 signatures as warnings. Has no effect unless
 <a class="reference internal" href="glasgow_exts.html#ghc-flag--XPartialTypeSignatures"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-XPartialTypeSignatures</span></code></a> is enabled, which controls whether
 errors should be generated for holes in types or not. See
-<a class="reference internal" href="glasgow_exts.html#partial-type-signatures"><span class="std std-ref">Partial Type Signatures</span></a>.</p>
+<a class="reference internal" href="glasgow_exts.html#partial-type-signatures"><span>Partial Type Signatures</span></a>.</p>
 <p>This warning is on by default.</p>
 </dd></dl>
 
@@ -336,7 +338,7 @@ be specialised as it calls other functions that are themselves not specialised.<
 <code class="descname">-Wwarnings-deprecations</code><code class="descclassname"> </code><a class="headerlink" href="#ghc-flag--Wwarnings-deprecations" title="Permalink to this definition">¶</a></dt>
 <dd><p id="index-1">Causes a warning to be emitted when a module, function or type with
 a <code class="docutils literal"><span class="pre">WARNING</span></code> or <code class="docutils literal"><span class="pre">DEPRECATED</span> <span class="pre">pragma</span></code> is used. See
-<a class="reference internal" href="glasgow_exts.html#warning-deprecated-pragma"><span class="std std-ref">WARNING and DEPRECATED pragmas</span></a> for more details on the pragmas.</p>
+<a class="reference internal" href="glasgow_exts.html#warning-deprecated-pragma"><span>WARNING and DEPRECATED pragmas</span></a> for more details on the pragmas.</p>
 <p>This option is on by default.</p>
 </dd></dl>
 
@@ -470,11 +472,11 @@ it will be treated as <code class="docutils literal"><span class="pre">ccall</sp
 <code class="descname">-Wdodgy-foreign-imports</code><code class="descclassname"> </code><a class="headerlink" href="#ghc-flag--Wdodgy-foreign-imports" title="Permalink to this definition">¶</a></dt>
 <dd><p>Causes a warning to be emitted for foreign imports of the following
 form:</p>
-<div class="highlight-haskell"><div class="highlight"><pre><span></span><span class="nf">foreign</span> <span class="kr">import</span> <span class="s">&quot;f&quot;</span> <span class="nn">f</span> <span class="ow">::</span> <span class="kt">FunPtr</span> <span class="n">t</span>
+<div class="highlight-haskell"><div class="highlight"><pre><span class="nf">foreign</span> <span class="kr">import</span> <span class="s">&quot;f&quot;</span> <span class="nn">f</span> <span class="ow">::</span> <span class="kt">FunPtr</span> <span class="n">t</span>
 </pre></div>
 </div>
 <p>on the grounds that it probably should be</p>
-<div class="highlight-haskell"><div class="highlight"><pre><span></span><span class="nf">foreign</span> <span class="kr">import</span> <span class="s">&quot;&amp;f&quot;</span> <span class="nn">f</span> <span class="ow">::</span> <span class="kt">FunPtr</span> <span class="n">t</span>
+<div class="highlight-haskell"><div class="highlight"><pre><span class="nf">foreign</span> <span class="kr">import</span> <span class="s">&quot;&amp;f&quot;</span> <span class="nn">f</span> <span class="ow">::</span> <span class="kt">FunPtr</span> <span class="n">t</span>
 </pre></div>
 </div>
 <p>The first form declares that `f` is a (pure) C function that takes
@@ -526,7 +528,7 @@ exported.</li>
 <code class="descname">-Wduplicate-constraints</code><code class="descclassname"> </code><a class="headerlink" href="#ghc-flag--Wduplicate-constraints" title="Permalink to this definition">¶</a></dt>
 <dd><p id="index-6">Have the compiler warn about duplicate constraints in a type
 signature. For example</p>
-<div class="highlight-haskell"><div class="highlight"><pre><span></span><span class="nf">f</span> <span class="ow">::</span> <span class="p">(</span><span class="kt">Eq</span> <span class="n">a</span><span class="p">,</span> <span class="kt">Show</span> <span class="n">a</span><span class="p">,</span> <span class="kt">Eq</span> <span class="n">a</span><span class="p">)</span> <span class="ow">=&gt;</span> <span class="n">a</span> <span class="ow">-&gt;</span> <span class="n">a</span>
+<div class="highlight-haskell"><div class="highlight"><pre><span class="nf">f</span> <span class="ow">::</span> <span class="p">(</span><span class="kt">Eq</span> <span class="n">a</span><span class="p">,</span> <span class="kt">Show</span> <span class="n">a</span><span class="p">,</span> <span class="kt">Eq</span> <span class="n">a</span><span class="p">)</span> <span class="ow">=&gt;</span> <span class="n">a</span> <span class="ow">-&gt;</span> <span class="n">a</span>
 </pre></div>
 </div>
 <p>The warning will indicate the duplicated <code class="docutils literal"><span class="pre">Eq</span> <span class="pre">a</span></code> constraint.</p>
@@ -549,7 +551,7 @@ signature. For example</p>
 signature. In particular:</p>
 <ul>
 <li><p class="first">A redundant constraint within the type signature itself:</p>
-<div class="highlight-haskell"><div class="highlight"><pre><span></span><span class="nf">f</span> <span class="ow">::</span> <span class="p">(</span><span class="kt">Eq</span> <span class="n">a</span><span class="p">,</span> <span class="kt">Ord</span> <span class="n">a</span><span class="p">)</span> <span class="ow">=&gt;</span> <span class="n">a</span> <span class="ow">-&gt;</span> <span class="n">a</span>
+<div class="highlight-haskell"><div class="highlight"><pre><span class="nf">f</span> <span class="ow">::</span> <span class="p">(</span><span class="kt">Eq</span> <span class="n">a</span><span class="p">,</span> <span class="kt">Ord</span> <span class="n">a</span><span class="p">)</span> <span class="ow">=&gt;</span> <span class="n">a</span> <span class="ow">-&gt;</span> <span class="n">a</span>
 </pre></div>
 </div>
 <p>The warning will indicate the redundant <code class="docutils literal"><span class="pre">Eq</span> <span class="pre">a</span></code> constraint: it
@@ -557,7 +559,7 @@ is subsumed by the <code class="docutils literal"><span class="pre">Ord</span> <
 </li>
 <li><p class="first">A constraint in the type signature is not used in the code it
 covers:</p>
-<div class="highlight-haskell"><div class="highlight"><pre><span></span><span class="nf">f</span> <span class="ow">::</span> <span class="kt">Eq</span> <span class="n">a</span> <span class="ow">=&gt;</span> <span class="n">a</span> <span class="ow">-&gt;</span> <span class="n">a</span> <span class="ow">-&gt;</span> <span class="kt">Bool</span>
+<div class="highlight-haskell"><div class="highlight"><pre><span class="nf">f</span> <span class="ow">::</span> <span class="kt">Eq</span> <span class="n">a</span> <span class="ow">=&gt;</span> <span class="n">a</span> <span class="ow">-&gt;</span> <span class="n">a</span> <span class="ow">-&gt;</span> <span class="kt">Bool</span>
 <span class="nf">f</span> <span class="n">x</span> <span class="n">y</span> <span class="ow">=</span> <span class="kt">True</span>
 </pre></div>
 </div>
@@ -574,7 +576,7 @@ constrained signature than necessary, perhaps to leave yourself
 wiggle-room for changing the implementation without changing the
 API. In that case, you can suppress the warning on a per-function
 basis, using a call in a dead binding. For example:</p>
-<div class="highlight-haskell"><div class="highlight"><pre><span></span><span class="nf">f</span> <span class="ow">::</span> <span class="kt">Eq</span> <span class="n">a</span> <span class="ow">=&gt;</span> <span class="n">a</span> <span class="ow">-&gt;</span> <span class="n">a</span> <span class="ow">-&gt;</span> <span class="kt">Bool</span>
+<div class="highlight-haskell"><div class="highlight"><pre><span class="nf">f</span> <span class="ow">::</span> <span class="kt">Eq</span> <span class="n">a</span> <span class="ow">=&gt;</span> <span class="n">a</span> <span class="ow">-&gt;</span> <span class="n">a</span> <span class="ow">-&gt;</span> <span class="kt">Bool</span>
 <span class="nf">f</span> <span class="n">x</span> <span class="n">y</span> <span class="ow">=</span> <span class="kt">True</span>
 <span class="kr">where</span>
     <span class="kr">_</span> <span class="ow">=</span> <span class="n">x</span> <span class="o">==</span> <span class="n">x</span>  <span class="c1">-- Suppress the redundant-constraint warning for (Eq a)</span>
@@ -637,7 +639,7 @@ imports of the module being compiled).</p>
 pattern-match might fail at runtime. The function <code class="docutils literal"><span class="pre">g</span></code> below will
 fail when applied to non-empty lists, so the compiler will emit a
 warning about this when <a class="reference internal" href="#ghc-flag--Wincomplete-patterns"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-Wincomplete-patterns</span></code></a> is enabled.</p>
-<div class="highlight-haskell"><div class="highlight"><pre><span></span><span class="nf">g</span> <span class="kt">[]</span> <span class="ow">=</span> <span class="mi">2</span>
+<div class="highlight-haskell"><div class="highlight"><pre><span class="nf">g</span> <span class="kt">[]</span> <span class="ow">=</span> <span class="mi">2</span>
 </pre></div>
 </div>
 <p>This option isn&#8217;t enabled by default because it can be a bit noisy,
@@ -647,7 +649,7 @@ functions, and it is switched on by <a class="reference internal" href="#ghc-fla
 <p>The flag <a class="reference internal" href="#ghc-flag--Wincomplete-uni-patterns"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-Wincomplete-uni-patterns</span></code></a> is similar, except that
 it applies only to lambda-expressions and pattern bindings,
 constructs that only allow a single pattern:</p>
-<div class="highlight-haskell"><div class="highlight"><pre><span></span><span class="nf">h</span> <span class="ow">=</span> <span class="nf">\</span><span class="kt">[]</span> <span class="ow">-&gt;</span> <span class="mi">2</span>
+<div class="highlight-haskell"><div class="highlight"><pre><span class="nf">h</span> <span class="ow">=</span> <span class="nf">\</span><span class="kt">[]</span> <span class="ow">-&gt;</span> <span class="mi">2</span>
 <span class="kt">Just</span> <span class="n">k</span> <span class="ow">=</span> <span class="n">f</span> <span class="n">y</span>
 </pre></div>
 </div>
@@ -679,7 +681,7 @@ pattern match, for the sake of future readers of your code.</p>
 <dd><p id="index-12">The function <code class="docutils literal"><span class="pre">f</span></code> below will fail when applied to <code class="docutils literal"><span class="pre">Bar</span></code>, so the
 compiler will emit a warning about this when
 <a class="reference internal" href="#ghc-flag--Wincomplete-record-updates"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-Wincomplete-record-updates</span></code></a> is enabled.</p>
-<div class="highlight-haskell"><div class="highlight"><pre><span></span><span class="kr">data</span> <span class="kt">Foo</span> <span class="ow">=</span> <span class="kt">Foo</span> <span class="p">{</span> <span class="n">x</span> <span class="ow">::</span> <span class="kt">Int</span> <span class="p">}</span>
+<div class="highlight-haskell"><div class="highlight"><pre><span class="kr">data</span> <span class="kt">Foo</span> <span class="ow">=</span> <span class="kt">Foo</span> <span class="p">{</span> <span class="n">x</span> <span class="ow">::</span> <span class="kt">Int</span> <span class="p">}</span>
          <span class="o">|</span> <span class="kt">Bar</span>
 
 <span class="nf">f</span> <span class="ow">::</span> <span class="kt">Foo</span> <span class="ow">-&gt;</span> <span class="kt">Foo</span>
@@ -706,7 +708,7 @@ programmer error.</p>
 <dd><p id="index-14">This flag warns if you use an unqualified <code class="docutils literal"><span class="pre">import</span></code> declaration
 that does not explicitly list the entities brought into scope. For
 example</p>
-<div class="highlight-haskell"><div class="highlight"><pre><span></span><span class="kr">module</span> <span class="nn">M</span> <span class="kr">where</span>
+<div class="highlight-haskell"><div class="highlight"><pre><span class="kr">module</span> <span class="nn">M</span> <span class="kr">where</span>
   <span class="kr">import</span> <span class="nn">X</span><span class="p">(</span> <span class="n">f</span> <span class="p">)</span>
   <span class="kr">import</span> <span class="nn">Y</span>
   <span class="kr">import</span> <span class="k">qualified</span> <span class="nn">Z</span>
@@ -728,7 +730,7 @@ declaration is missing one or more methods, and the corresponding
 class declaration has no default declaration for them.</p>
 <p>The warning is suppressed if the method name begins with an
 underscore. Here&#8217;s an example where this is useful:</p>
-<div class="highlight-haskell"><div class="highlight"><pre><span></span><span class="kr">class</span> <span class="kt">C</span> <span class="n">a</span> <span class="kr">where</span>
+<div class="highlight-haskell"><div class="highlight"><pre><span class="kr">class</span> <span class="kt">C</span> <span class="n">a</span> <span class="kr">where</span>
     <span class="n">_simpleFn</span> <span class="ow">::</span> <span class="n">a</span> <span class="ow">-&gt;</span> <span class="kt">String</span>
     <span class="n">complexFn</span> <span class="ow">::</span> <span class="n">a</span> <span class="ow">-&gt;</span> <span class="n">a</span> <span class="ow">-&gt;</span> <span class="kt">String</span>
     <span class="n">complexFn</span> <span class="n">x</span> <span class="n">y</span> <span class="ow">=</span> <span class="o">...</span> <span class="n">_simpleFn</span> <span class="o">...</span>
@@ -739,7 +741,7 @@ underscore. Here&#8217;s an example where this is useful:</p>
 can define either <code class="docutils literal"><span class="pre">complexFn</span></code> or <code class="docutils literal"><span class="pre">_simpleFn</span></code>.</p>
 <p>The <code class="docutils literal"><span class="pre">MINIMAL</span></code> pragma can be used to change which combination of
 methods will be required for instances of a particular class. See
-<a class="reference internal" href="glasgow_exts.html#minimal-pragma"><span class="std std-ref">MINIMAL pragma</span></a>.</p>
+<a class="reference internal" href="glasgow_exts.html#minimal-pragma"><span>MINIMAL pragma</span></a>.</p>
 </dd></dl>
 
 <dl class="ghc-flag">
@@ -808,7 +810,7 @@ of what would be a recursive call in
 <code class="docutils literal"><span class="pre">f</span> <span class="pre">=</span> <span class="pre">...</span> <span class="pre">let</span> <span class="pre">f</span> <span class="pre">=</span> <span class="pre">id</span> <span class="pre">in</span> <span class="pre">...</span> <span class="pre">f</span> <span class="pre">...</span></code>.</p>
 <p>The warning is suppressed for names beginning with an underscore.
 For example</p>
-<div class="highlight-haskell"><div class="highlight"><pre><span></span><span class="nf">f</span> <span class="n">x</span> <span class="ow">=</span> <span class="kr">do</span> <span class="p">{</span> <span class="n">_ignore</span> <span class="ow">&lt;-</span> <span class="n">this</span><span class="p">;</span> <span class="n">_ignore</span> <span class="ow">&lt;-</span> <span class="n">that</span><span class="p">;</span> <span class="n">return</span> <span class="p">(</span><span class="n">the</span> <span class="n">other</span><span class="p">)</span> <span class="p">}</span>
+<div class="highlight-haskell"><div class="highlight"><pre><span class="nf">f</span> <span class="n">x</span> <span class="ow">=</span> <span class="kr">do</span> <span class="p">{</span> <span class="n">_ignore</span> <span class="ow">&lt;-</span> <span class="n">this</span><span class="p">;</span> <span class="n">_ignore</span> <span class="ow">&lt;-</span> <span class="n">that</span><span class="p">;</span> <span class="n">return</span> <span class="p">(</span><span class="n">the</span> <span class="n">other</span><span class="p">)</span> <span class="p">}</span>
 </pre></div>
 </div>
 </dd></dl>
@@ -826,7 +828,7 @@ called an orphan module.</p>
 <p>The trouble with orphans is that GHC must pro-actively read the
 interface files for all orphan modules, just in case their instances
 or rules play a role, whether or not the module&#8217;s interface would
-otherwise be of any use. See <a class="reference internal" href="separate_compilation.html#orphan-modules"><span class="std std-ref">Orphan modules and instance declarations</span></a> for details.</p>
+otherwise be of any use. See <a class="reference internal" href="separate_compilation.html#orphan-modules"><span>Orphan modules and instance declarations</span></a> for details.</p>
 <p>The flag <a class="reference internal" href="#ghc-flag--Worphans"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-Worphans</span></code></a> warns about user-written orphan rules or
 instances.</p>
 </dd></dl>
@@ -836,7 +838,7 @@ instances.</p>
 <code class="descname">-Woverlapping-patterns</code><code class="descclassname"> </code><a class="headerlink" href="#ghc-flag--Woverlapping-patterns" title="Permalink to this definition">¶</a></dt>
 <dd><p id="index-24">By default, the compiler will warn you if a set of patterns are
 overlapping, e.g.,</p>
-<div class="highlight-haskell"><div class="highlight"><pre><span></span><span class="nf">f</span> <span class="ow">::</span> <span class="kt">String</span> <span class="ow">-&gt;</span> <span class="kt">Int</span>
+<div class="highlight-haskell"><div class="highlight"><pre><span class="nf">f</span> <span class="ow">::</span> <span class="kt">String</span> <span class="ow">-&gt;</span> <span class="kt">Int</span>
 <span class="nf">f</span> <span class="kt">[]</span>     <span class="ow">=</span> <span class="mi">0</span>
 <span class="nf">f</span> <span class="p">(</span><span class="kr">_</span><span class="kt">:</span><span class="n">xs</span><span class="p">)</span> <span class="ow">=</span> <span class="mi">1</span>
 <span class="nf">f</span> <span class="s">&quot;2&quot;</span>    <span class="ow">=</span> <span class="mi">2</span>
@@ -889,7 +891,7 @@ explicit warning that it is being applied.</p>
 <dd><p id="index-28">Warn if a promoted data constructor is used without a tick preceding
 its name.</p>
 <p>For example:</p>
-<div class="highlight-haskell"><div class="highlight"><pre><span></span><span class="kr">data</span> <span class="kt">Nat</span> <span class="ow">=</span> <span class="kt">Succ</span> <span class="kt">Nat</span> <span class="o">|</span> <span class="kt">Zero</span>
+<div class="highlight-haskell"><div class="highlight"><pre><span class="kr">data</span> <span class="kt">Nat</span> <span class="ow">=</span> <span class="kt">Succ</span> <span class="kt">Nat</span> <span class="o">|</span> <span class="kt">Zero</span>
 
 <span class="kr">data</span> <span class="kt">Vec</span> <span class="n">n</span> <span class="n">s</span> <span class="kr">where</span>
   <span class="kt">Nil</span>  <span class="ow">::</span> <span class="kt">Vec</span> <span class="kt">Zero</span> <span class="n">a</span>
@@ -928,7 +930,7 @@ selectively disable the warning.</p>
 least one used variable that is used</li>
 </ul>
 <p>For example:</p>
-<div class="highlight-haskell"><div class="highlight"><pre><span></span><span class="kr">module</span> <span class="nn">A</span> <span class="p">(</span><span class="nf">f</span><span class="p">)</span> <span class="kr">where</span>
+<div class="highlight-haskell"><div class="highlight"><pre><span class="kr">module</span> <span class="nn">A</span> <span class="p">(</span><span class="nf">f</span><span class="p">)</span> <span class="kr">where</span>
 <span class="nf">f</span> <span class="ow">=</span> <span class="kr">let</span> <span class="p">(</span><span class="n">p</span><span class="p">,</span><span class="n">q</span><span class="p">)</span> <span class="ow">=</span> <span class="n">rhs1</span> <span class="kr">in</span> <span class="n">t</span> <span class="n">p</span>  <span class="c1">-- No warning: q is unused, but is locally bound</span>
 <span class="nf">t</span> <span class="ow">=</span> <span class="n">rhs3</span>                     <span class="c1">-- No warning: f is used, and hence so is t</span>
 <span class="nf">g</span> <span class="ow">=</span> <span class="n">h</span> <span class="n">x</span>                      <span class="c1">-- Warning: g unused</span>
@@ -943,7 +945,7 @@ least one used variable that is used</li>
 <dt id="ghc-flag--Wunused-local-binds">
 <code class="descname">-Wunused-local-binds</code><code class="descclassname"> </code><a class="headerlink" href="#ghc-flag--Wunused-local-binds" title="Permalink to this definition">¶</a></dt>
 <dd><p id="index-31">Report any local definitions which are unused. For example:</p>
-<div class="highlight-haskell"><div class="highlight"><pre><span></span><span class="kr">module</span> <span class="nn">A</span> <span class="p">(</span><span class="nf">f</span><span class="p">)</span> <span class="kr">where</span>
+<div class="highlight-haskell"><div class="highlight"><pre><span class="kr">module</span> <span class="nn">A</span> <span class="p">(</span><span class="nf">f</span><span class="p">)</span> <span class="kr">where</span>
 <span class="nf">f</span> <span class="ow">=</span> <span class="kr">let</span> <span class="p">(</span><span class="n">p</span><span class="p">,</span><span class="n">q</span><span class="p">)</span> <span class="ow">=</span> <span class="n">rhs1</span> <span class="kr">in</span> <span class="n">t</span> <span class="n">p</span>  <span class="c1">-- Warning: q is unused</span>
 <span class="nf">g</span> <span class="ow">=</span> <span class="n">h</span> <span class="n">x</span>                      <span class="c1">-- No warning: g is unused, but is a top-level binding</span>
 </pre></div>
@@ -955,7 +957,7 @@ least one used variable that is used</li>
 <code class="descname">-Wunused-pattern-binds</code><code class="descclassname"> </code><a class="headerlink" href="#ghc-flag--Wunused-pattern-binds" title="Permalink to this definition">¶</a></dt>
 <dd><p id="index-32">Warn if a pattern binding binds no variables at all, unless it is a
 lone, possibly-banged, wild-card pattern. For example:</p>
-<div class="highlight-haskell"><div class="highlight"><pre><span></span><span class="kt">Just</span> <span class="kr">_</span> <span class="ow">=</span> <span class="n">rhs3</span>    <span class="c1">-- Warning: unused pattern binding</span>
+<div class="highlight-haskell"><div class="highlight"><pre><span class="kt">Just</span> <span class="kr">_</span> <span class="ow">=</span> <span class="n">rhs3</span>    <span class="c1">-- Warning: unused pattern binding</span>
 <span class="p">(</span><span class="kr">_</span><span class="p">,</span> <span class="kr">_</span><span class="p">)</span> <span class="ow">=</span> <span class="n">rhs4</span>    <span class="c1">-- Warning: unused pattern binding</span>
 <span class="kr">_</span>  <span class="ow">=</span> <span class="n">rhs3</span>        <span class="c1">-- No warning: lone wild-card pattern</span>
 <span class="o">!</span><span class="kr">_</span> <span class="ow">=</span> <span class="n">rhs4</span>        <span class="c1">-- No warning: banged wild-card pattern; behaves like seq</span>
@@ -984,7 +986,7 @@ declarations, which are anonymous in Haskell.</p>
 including patterns consisting of a single variable. For instance
 <code class="docutils literal"><span class="pre">f</span> <span class="pre">x</span> <span class="pre">y</span> <span class="pre">=</span> <span class="pre">[]</span></code> would report <code class="docutils literal"><span class="pre">x</span></code> and <code class="docutils literal"><span class="pre">y</span></code> as unused. The warning
 is suppressed if the variable name begins with an underscore, thus:</p>
-<div class="highlight-haskell"><div class="highlight"><pre><span></span><span class="nf">f</span> <span class="n">_x</span> <span class="ow">=</span> <span class="kt">True</span>
+<div class="highlight-haskell"><div class="highlight"><pre><span class="nf">f</span> <span class="n">_x</span> <span class="ow">=</span> <span class="kt">True</span>
 </pre></div>
 </div>
 <p>Note that <a class="reference internal" href="#ghc-flag--Wunused-matches"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-Wunused-matches</span></code></a> does not warn about variables which
@@ -1004,11 +1006,11 @@ statement in the <code class="docutils literal"><span class="pre">do</span></cod
 not bound to anything. The warning is suppressed by explicitly
 mentioning in the source code that your program is throwing
 something away:</p>
-<div class="highlight-haskell"><div class="highlight"><pre><span></span><span class="kr">do</span> <span class="p">{</span> <span class="kr">_</span> <span class="ow">&lt;-</span> <span class="n">mapM</span> <span class="n">popInt</span> <span class="n">xs</span> <span class="p">;</span> <span class="n">return</span> <span class="mi">10</span> <span class="p">}</span>
+<div class="highlight-haskell"><div class="highlight"><pre><span class="kr">do</span> <span class="p">{</span> <span class="kr">_</span> <span class="ow">&lt;-</span> <span class="n">mapM</span> <span class="n">popInt</span> <span class="n">xs</span> <span class="p">;</span> <span class="n">return</span> <span class="mi">10</span> <span class="p">}</span>
 </pre></div>
 </div>
 <p>Of course, in this particular situation you can do even better:</p>
-<div class="highlight-haskell"><div class="highlight"><pre><span></span><span class="kr">do</span> <span class="p">{</span> <span class="n">mapM_</span> <span class="n">popInt</span> <span class="n">xs</span> <span class="p">;</span> <span class="n">return</span> <span class="mi">10</span> <span class="p">}</span>
+<div class="highlight-haskell"><div class="highlight"><pre><span class="kr">do</span> <span class="p">{</span> <span class="n">mapM_</span> <span class="n">popInt</span> <span class="n">xs</span> <span class="p">;</span> <span class="n">return</span> <span class="mi">10</span> <span class="p">}</span>
 </pre></div>
 </div>
 </dd></dl>
@@ -1018,12 +1020,12 @@ something away:</p>
 <code class="descname">-Wunused-type-patterns</code><code class="descclassname"> </code><a class="headerlink" href="#ghc-flag--Wunused-type-patterns" title="Permalink to this definition">¶</a></dt>
 <dd><p id="index-36">Report all unused type variables which arise from patterns in type family
 and data family instances. For instance:</p>
-<div class="highlight-haskell"><div class="highlight"><pre><span></span><span class="kr">type</span> <span class="kr">instance</span> <span class="kt">F</span> <span class="n">x</span> <span class="n">y</span> <span class="ow">=</span> <span class="kt">[]</span>
+<div class="highlight-haskell"><div class="highlight"><pre><span class="kr">type</span> <span class="kr">instance</span> <span class="kt">F</span> <span class="n">x</span> <span class="n">y</span> <span class="ow">=</span> <span class="kt">[]</span>
 </pre></div>
 </div>
 <p>would report <code class="docutils literal"><span class="pre">x</span></code> and <code class="docutils literal"><span class="pre">y</span></code> as unused. The warning is suppressed if the
 type variable name begins with an underscore, like so:</p>
-<div class="highlight-haskell"><div class="highlight"><pre><span></span><span class="kr">type</span> <span class="kr">instance</span> <span class="kt">F</span> <span class="n">_x</span> <span class="n">_y</span> <span class="ow">=</span> <span class="kt">[]</span>
+<div class="highlight-haskell"><div class="highlight"><pre><span class="kr">type</span> <span class="kr">instance</span> <span class="kt">F</span> <span class="n">_x</span> <span class="n">_y</span> <span class="ow">=</span> <span class="kt">[]</span>
 </pre></div>
 </div>
 <p>Unlike <a class="reference internal" href="#ghc-flag--Wunused-matches"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-Wunused-matches</span></code></a>, <code class="xref std std-ghc-flag docutils literal"><span class="pre">-Wunused-type-variables</span></code> is
@@ -1038,7 +1040,7 @@ documentation harder to read.</p>
 <code class="descname">-Wunused-foralls</code><code class="descclassname"> </code><a class="headerlink" href="#ghc-flag--Wunused-foralls" title="Permalink to this definition">¶</a></dt>
 <dd><p id="index-37">Report all unused type variables which arise from explicit, user-written
 <code class="docutils literal"><span class="pre">forall</span></code> statements. For instance:</p>
-<div class="highlight-haskell"><div class="highlight"><pre><span></span><span class="nf">g</span> <span class="ow">::</span> <span class="n">forall</span> <span class="n">a</span> <span class="n">b</span> <span class="n">c</span><span class="o">.</span> <span class="p">(</span><span class="n">b</span> <span class="ow">-&gt;</span> <span class="n">b</span><span class="p">)</span>
+<div class="highlight-haskell"><div class="highlight"><pre><span class="nf">g</span> <span class="ow">::</span> <span class="n">forall</span> <span class="n">a</span> <span class="n">b</span> <span class="n">c</span><span class="o">.</span> <span class="p">(</span><span class="n">b</span> <span class="ow">-&gt;</span> <span class="n">b</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>would report <code class="docutils literal"><span class="pre">a</span></code> and <code class="docutils literal"><span class="pre">c</span></code> as unused.</p>
@@ -1056,12 +1058,12 @@ of the same monad constructor), but which is not then &#8220;unpacked&#8221; by
 binding the result. The warning is suppressed by explicitly
 mentioning in the source code that your program is throwing
 something away:</p>
-<div class="highlight-haskell"><div class="highlight"><pre><span></span><span class="kr">do</span> <span class="p">{</span> <span class="kr">_</span> <span class="ow">&lt;-</span> <span class="n">return</span> <span class="p">(</span><span class="n">popInt</span> <span class="mi">10</span><span class="p">)</span> <span class="p">;</span> <span class="n">return</span> <span class="mi">10</span> <span class="p">}</span>
+<div class="highlight-haskell"><div class="highlight"><pre><span class="kr">do</span> <span class="p">{</span> <span class="kr">_</span> <span class="ow">&lt;-</span> <span class="n">return</span> <span class="p">(</span><span class="n">popInt</span> <span class="mi">10</span><span class="p">)</span> <span class="p">;</span> <span class="n">return</span> <span class="mi">10</span> <span class="p">}</span>
 </pre></div>
 </div>
 <p>For almost all sensible programs this will indicate a bug, and you
 probably intended to write:</p>
-<div class="highlight-haskell"><div class="highlight"><pre><span></span><span class="kr">do</span> <span class="p">{</span> <span class="n">popInt</span> <span class="mi">10</span> <span class="p">;</span> <span class="n">return</span> <span class="mi">10</span> <span class="p">}</span>
+<div class="highlight-haskell"><div class="highlight"><pre><span class="kr">do</span> <span class="p">{</span> <span class="n">popInt</span> <span class="mi">10</span> <span class="p">;</span> <span class="n">return</span> <span class="mi">10</span> <span class="p">}</span>
 </pre></div>
 </div>
 </dd></dl>
@@ -1071,7 +1073,7 @@ probably intended to write:</p>
 <code class="descname">-Winline-rule-shadowing</code><code class="descclassname"> </code><a class="headerlink" href="#ghc-flag--Winline-rule-shadowing" title="Permalink to this definition">¶</a></dt>
 <dd><p>Warn if a rewrite RULE might fail to fire because the function might
 be inlined before the rule has a chance to fire. See
-<a class="reference internal" href="glasgow_exts.html#rules-inline"><span class="std std-ref">How rules interact with INLINE/NOINLINE pragmas</span></a>.</p>
+<a class="reference internal" href="glasgow_exts.html#rules-inline"><span>How rules interact with INLINE/NOINLINE pragmas</span></a>.</p>
 </dd></dl>
 
 <p>If you&#8217;re feeling really paranoid, the <a class="reference internal" href="debugging.html#ghc-flag--dcore-lint"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-dcore-lint</span></code></a> option is a good choice.
@@ -1097,13 +1099,13 @@ sanity, not yours.)</p>
         <li class="right" >
           <a href="using.html" title="7.1. Using GHC"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">GHC 8.0.2 Users Guide</a> &#187;</li>
-          <li class="nav-item nav-item-1"><a href="usage.html" >7. Using GHC</a> &#187;</li> 
+        <li class="nav-item nav-item-0"><a href="index.html">GHC 8.0.2 Users Guide</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="usage.html" >7. Using GHC</a> &raquo;</li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">
-        &#169; Copyright 2015, GHC Team.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.5.2.
+        &copy; Copyright 2015, GHC Team.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.6.
     </div>
   </body>
 </html>

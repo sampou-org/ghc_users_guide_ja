@@ -7,7 +7,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>GHC &#8212; Glasgow Haskell Compiler &lt;release&gt; Users Guide</title>
+    <title>GHC &mdash; Glasgow Haskell Compiler &lt;release&gt; Users Guide</title>
     
     <link rel="stylesheet" href="_static/ghc-theme.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -18,15 +18,13 @@
         VERSION:     '8.0.2',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
-        HAS_SOURCE:  true,
-        SOURCELINK_SUFFIX: '.txt'
+        HAS_SOURCE:  true
       };
     </script>
     <script type="text/javascript" src="_static/jquery.js"></script>
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
-    <link rel="index" title="Index" href="genindex.html" />
-    <link rel="search" title="Search" href="search.html" /> 
+    <link rel="top" title="Glasgow Haskell Compiler &lt;release&gt; Users Guide" href="index.html" /> 
   </head>
   <body role="document">
 <div class="logo">
@@ -39,7 +37,7 @@
         <li class="right" style="margin-right: 10px">
           <a href="genindex.html" title="General Index"
              accesskey="I">index</a></li>
-        <li class="nav-item nav-item-0"><a href="index.html">GHC 8.0.2 Users Guide</a> &#187;</li> 
+        <li class="nav-item nav-item-0"><a href="index.html">GHC 8.0.2 Users Guide</a> &raquo;</li> 
       </ul>
     </div>
 
@@ -87,18 +85,21 @@
   <div role="note" aria-label="source link">
     <h3>This Page</h3>
     <ul class="this-page-menu">
-      <li><a href="_sources/ghc.rst.txt"
+      <li><a href="_sources/ghc.txt"
             rel="nofollow">Show Source</a></li>
     </ul>
    </div>
 <div id="searchbox" style="display: none" role="search">
   <h3>Quick search</h3>
     <form class="search" action="search.html" method="get">
-      <div><input type="text" name="q" /></div>
-      <div><input type="submit" value="Go" /></div>
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
       <input type="hidden" name="check_keywords" value="yes" />
       <input type="hidden" name="area" value="default" />
     </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
 </div>
 <script type="text/javascript">$('#searchbox').show(0);</script>
         </div>
@@ -113,7 +114,7 @@
 <h1>GHC<a class="headerlink" href="#ghc" title="Permalink to this headline">¶</a></h1>
 <div class="section" id="synopsis">
 <h2>Synopsis<a class="headerlink" href="#synopsis" title="Permalink to this headline">¶</a></h2>
-<div class="highlight-haskell"><div class="highlight"><pre><span></span><span class="nf">ghc</span> <span class="p">[</span><span class="n">option</span><span class="o">|</span><span class="n">filename</span><span class="p">]</span>
+<div class="highlight-haskell"><div class="highlight"><pre><span class="nf">ghc</span> <span class="p">[</span><span class="n">option</span><span class="o">|</span><span class="n">filename</span><span class="p">]</span>
 <span class="nf">ghci</span> <span class="p">[</span><span class="n">option</span><span class="o">|</span><span class="n">filename</span><span class="p">]</span>
 </pre></div>
 </div>
@@ -216,9 +217,9 @@ The OPTIONS sections lists the status of each flag.</p>
 <h3>Code generation<a class="headerlink" href="#code-generation" title="Permalink to this headline">¶</a></h3>
 <dl class="docutils">
 <dt><code class="docutils literal"><span class="pre">-fasm</span></code></dt>
-<dd>Use the <a class="reference internal" href="codegens.html#native-code-gen"><span class="std std-ref">native code generator</span></a></dd>
+<dd>Use the <a class="reference internal" href="codegens.html#native-code-gen"><span>native code generator</span></a></dd>
 <dt><code class="docutils literal"><span class="pre">-fllvm</span></code></dt>
-<dd>Compile using the <a class="reference internal" href="codegens.html#llvm-code-gen"><span class="std std-ref">LLVM code generator</span></a></dd>
+<dd>Compile using the <a class="reference internal" href="codegens.html#llvm-code-gen"><span>LLVM code generator</span></a></dd>
 <dt><code class="docutils literal"><span class="pre">-fno-code</span></code></dt>
 <dd>Omit code generation</dd>
 <dt><code class="docutils literal"><span class="pre">-fwrite-interface</span></code></dt>
@@ -392,21 +393,21 @@ The OPTIONS sections lists the status of each flag.</p>
 <dt><code class="docutils literal"><span class="pre">-ghci-script</span></code></dt>
 <dd>Read additional <code class="docutils literal"><span class="pre">.ghci</span></code> files</dd>
 <dt><code class="docutils literal"><span class="pre">-fbreak-on-error</span></code></dt>
-<dd><a class="reference internal" href="ghci.html#ghci-debugger-exceptions"><span class="std std-ref">Break on uncaught exceptions and errors</span></a></dd>
+<dd><a class="reference internal" href="ghci.html#ghci-debugger-exceptions"><span>Break on uncaught exceptions and errors</span></a></dd>
 <dt><code class="docutils literal"><span class="pre">-fbreak-on-exception</span></code></dt>
-<dd><a class="reference internal" href="ghci.html#ghci-debugger-exceptions"><span class="std std-ref">Break on any exception thrown</span></a></dd>
+<dd><a class="reference internal" href="ghci.html#ghci-debugger-exceptions"><span>Break on any exception thrown</span></a></dd>
 <dt><code class="docutils literal"><span class="pre">-fghci-hist-size=⟨n⟩</span></code></dt>
-<dd>Set the number of entries GHCi keeps for <code class="docutils literal"><span class="pre">:history</span></code>. See <a class="reference internal" href="ghci.html#ghci-debugger"><span class="std std-ref">The GHCi Debugger</span></a>.</dd>
+<dd>Set the number of entries GHCi keeps for <code class="docutils literal"><span class="pre">:history</span></code>. See <a class="reference internal" href="ghci.html#ghci-debugger"><span>GHCiのデバッガ</span></a>.</dd>
 <dt><code class="docutils literal"><span class="pre">-fprint-evld-with-show</span></code></dt>
-<dd>Enable usage of <code class="docutils literal"><span class="pre">Show</span></code> instances in <code class="docutils literal"><span class="pre">:print</span></code>. See <a class="reference internal" href="ghci.html#breakpoints"><span class="std std-ref">Breakpoints and inspecting variables</span></a>.</dd>
+<dd>Enable usage of <code class="docutils literal"><span class="pre">Show</span></code> instances in <code class="docutils literal"><span class="pre">:print</span></code>. See <a class="reference internal" href="ghci.html#breakpoints"><span>ブレイクポイントと変数内容の表示</span></a>.</dd>
 <dt><code class="docutils literal"><span class="pre">-fprint-bind-result</span></code></dt>
-<dd><a class="reference internal" href="ghci.html#ghci-stmts"><span class="std std-ref">Turn on printing of binding results in GHCi</span></a></dd>
+<dd><a class="reference internal" href="ghci.html#ghci-stmts"><span>Turn on printing of binding results in GHCi</span></a></dd>
 <dt><code class="docutils literal"><span class="pre">-fno-print-bind-contents</span></code></dt>
-<dd><a class="reference internal" href="ghci.html#breakpoints"><span class="std std-ref">Turn off printing of binding contents in GHCi</span></a></dd>
+<dd><a class="reference internal" href="ghci.html#breakpoints"><span>Turn off printing of binding contents in GHCi</span></a></dd>
 <dt><code class="docutils literal"><span class="pre">-fno-implicit-import-qualified</span></code></dt>
-<dd><a class="reference internal" href="ghci.html#ghci-import-qualified"><span class="std std-ref">Turn off implicit qualified import of everything in GHCi</span></a></dd>
+<dd><a class="reference internal" href="ghci.html#ghci-import-qualified"><span>Turn off implicit qualified import of everything in GHCi</span></a></dd>
 <dt><code class="docutils literal"><span class="pre">-interactive-print</span></code></dt>
-<dd><a class="reference internal" href="ghci.html#ghci-interactive-print"><span class="std std-ref">Select the function to use for printing evaluated expressions in GHCi</span></a></dd>
+<dd><a class="reference internal" href="ghci.html#ghci-interactive-print"><span>Select the function to use for printing evaluated expressions in GHCi</span></a></dd>
 </dl>
 </div>
 <div class="section" id="interface-files">
@@ -419,7 +420,7 @@ The OPTIONS sections lists the status of each flag.</p>
 <dt><code class="docutils literal"><span class="pre">-ddump-minimal-imports</span></code></dt>
 <dd>Dump a minimal set of imports</dd>
 <dt><code class="docutils literal"><span class="pre">--show-iface</span> <span class="pre">⟨file⟩</span></code></dt>
-<dd>See <a class="reference internal" href="using.html#modes"><span class="std std-ref">Modes of operation</span></a>.</dd>
+<dd>See <a class="reference internal" href="using.html#modes"><span>Modes of operation</span></a>.</dd>
 </dl>
 </div>
 <div class="section" id="keeping-intermediate-files">
@@ -441,207 +442,207 @@ The OPTIONS sections lists the status of each flag.</p>
 <dt><code class="docutils literal"><span class="pre">-fconstraint-solver-iterations=⟨n⟩</span></code></dt>
 <dd><em>default: 4.</em> Set the iteration limit for the type-constraint solver. Typically one iteration suffices; so please yell if you find you need to set it higher than the default. Zero means infinity.</dd>
 <dt><code class="docutils literal"><span class="pre">-freduction-depth=⟨n⟩</span></code></dt>
-<dd><em>default: 200.</em> Set the <a class="reference internal" href="glasgow_exts.html#undecidable-instances"><span class="std std-ref">limit for type simplification</span></a>. Zero means infinity.</dd>
+<dd><em>default: 200.</em> Set the <a class="reference internal" href="glasgow_exts.html#undecidable-instances"><span>limit for type simplification</span></a>. Zero means infinity.</dd>
 <dt><code class="docutils literal"><span class="pre">-fcontext-stack=⟨n⟩</span></code></dt>
 <dd>Deprecated. Use <code class="docutils literal"><span class="pre">-freduction-depth=⟨n⟩</span></code> instead.</dd>
 <dt><code class="docutils literal"><span class="pre">-fglasgow-exts</span></code></dt>
-<dd>Deprecated. Enable most language extensions; see <a class="reference internal" href="glasgow_exts.html#options-language"><span class="std std-ref">Language options</span></a> for exactly which ones.</dd>
+<dd>Deprecated. Enable most language extensions; see <a class="reference internal" href="glasgow_exts.html#options-language"><span>Language options</span></a> for exactly which ones.</dd>
 <dt><code class="docutils literal"><span class="pre">-firrefutable-tuples</span></code></dt>
 <dd>Make tuple pattern matching irrefutable</dd>
 <dt><code class="docutils literal"><span class="pre">-fpackage-trust</span></code></dt>
-<dd>Enable <a class="reference internal" href="safe_haskell.html#safe-haskell"><span class="std std-ref">Safe Haskell</span></a> trusted package requirement for trustworthy modules.</dd>
+<dd>Enable <a class="reference internal" href="safe_haskell.html#safe-haskell"><span>Safe Haskell</span></a> trusted package requirement for trustworthy modules.</dd>
 <dt><code class="docutils literal"><span class="pre">-ftype-function-depth=⟨n⟩</span></code></dt>
 <dd>Deprecated. Use <code class="docutils literal"><span class="pre">-freduction-depth=⟨n⟩</span></code> instead.</dd>
 <dt><code class="docutils literal"><span class="pre">-XAllowAmbiguousTypes</span></code></dt>
-<dd>Allow the user to write <a class="reference internal" href="glasgow_exts.html#ambiguity"><span class="std std-ref">ambiguous types</span></a>, and the type inference engine to infer them.</dd>
+<dd>Allow the user to write <a class="reference internal" href="glasgow_exts.html#ambiguity"><span>ambiguous types</span></a>, and the type inference engine to infer them.</dd>
 <dt><code class="docutils literal"><span class="pre">-XArrows</span></code></dt>
-<dd>Enable <a class="reference internal" href="glasgow_exts.html#arrow-notation"><span class="std std-ref">arrow notation</span></a> extension</dd>
+<dd>Enable <a class="reference internal" href="glasgow_exts.html#arrow-notation"><span>arrow notation</span></a> extension</dd>
 <dt><code class="docutils literal"><span class="pre">-XApplicativeDo</span></code></dt>
-<dd>Enable <a class="reference internal" href="glasgow_exts.html#applicative-do"><span class="std std-ref">Applicative do-notation desugaring</span></a></dd>
+<dd>Enable <a class="reference internal" href="glasgow_exts.html#applicative-do"><span>Applicative do-notation desugaring</span></a></dd>
 <dt><code class="docutils literal"><span class="pre">-XAutoDeriveTypeable</span></code></dt>
-<dd>As of GHC 7.10, this option is not needed, and should not be used. Previously this would automatically <a class="reference internal" href="glasgow_exts.html#deriving-typeable"><span class="std std-ref">derive Typeable instances for every datatype and type class declaration</span></a>. Implies <a class="reference internal" href="glasgow_exts.html#ghc-flag--XDeriveDataTypeable"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-XDeriveDataTypeable</span></code></a>.</dd>
+<dd>As of GHC 7.10, this option is not needed, and should not be used. Previously this would automatically <a class="reference internal" href="glasgow_exts.html#deriving-typeable"><span>derive Typeable instances for every datatype and type class declaration</span></a>. Implies <a class="reference internal" href="glasgow_exts.html#ghc-flag--XDeriveDataTypeable"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-XDeriveDataTypeable</span></code></a>.</dd>
 <dt><code class="docutils literal"><span class="pre">-XBangPatterns</span></code></dt>
-<dd>Enable <a class="reference internal" href="glasgow_exts.html#bang-patterns"><span class="std std-ref">bang patterns</span></a>.</dd>
+<dd>Enable <a class="reference internal" href="glasgow_exts.html#bang-patterns"><span>bang patterns</span></a>.</dd>
 <dt><code class="docutils literal"><span class="pre">-XBinaryLiterals</span></code></dt>
-<dd>Enable support for <a class="reference internal" href="glasgow_exts.html#binary-literals"><span class="std std-ref">binary literals</span></a>.</dd>
+<dd>Enable support for <a class="reference internal" href="glasgow_exts.html#binary-literals"><span>binary literals</span></a>.</dd>
 <dt><code class="docutils literal"><span class="pre">-XCApiFFI</span></code></dt>
-<dd>Enable <a class="reference internal" href="ffi-chap.html#ffi-capi"><span class="std std-ref">the CAPI calling convention</span></a>.</dd>
+<dd>Enable <a class="reference internal" href="ffi-chap.html#ffi-capi"><span>the CAPI calling convention</span></a>.</dd>
 <dt><code class="docutils literal"><span class="pre">-XConstrainedClassMethods</span></code></dt>
-<dd>Enable <a class="reference internal" href="glasgow_exts.html#class-method-types"><span class="std std-ref">constrained class methods</span></a>.</dd>
+<dd>Enable <a class="reference internal" href="glasgow_exts.html#class-method-types"><span>constrained class methods</span></a>.</dd>
 <dt><code class="docutils literal"><span class="pre">-XConstraintKinds</span></code></dt>
-<dd>Enable a <a class="reference internal" href="glasgow_exts.html#constraint-kind"><span class="std std-ref">kind of constraints</span></a>.</dd>
+<dd>Enable a <a class="reference internal" href="glasgow_exts.html#constraint-kind"><span>kind of constraints</span></a>.</dd>
 <dt><code class="docutils literal"><span class="pre">-XCPP</span></code></dt>
-<dd>Enable the <a class="reference internal" href="phases.html#c-pre-processor"><span class="std std-ref">C preprocessor</span></a>.</dd>
+<dd>Enable the <a class="reference internal" href="phases.html#c-pre-processor"><span>C preprocessor</span></a>.</dd>
 <dt><code class="docutils literal"><span class="pre">-XDataKinds</span></code></dt>
-<dd>Enable <a class="reference internal" href="glasgow_exts.html#promotion"><span class="std std-ref">datatype promotion</span></a>.</dd>
+<dd>Enable <a class="reference internal" href="glasgow_exts.html#promotion"><span>datatype promotion</span></a>.</dd>
 <dt><code class="docutils literal"><span class="pre">-XDefaultSignatures</span></code></dt>
-<dd>Enable <a class="reference internal" href="glasgow_exts.html#class-default-signatures"><span class="std std-ref">default signatures</span></a>.</dd>
+<dd>Enable <a class="reference internal" href="glasgow_exts.html#class-default-signatures"><span>default signatures</span></a>.</dd>
 <dt><code class="docutils literal"><span class="pre">-XDeriveAnyClass</span></code></dt>
-<dd>Enable <a class="reference internal" href="glasgow_exts.html#derive-any-class"><span class="std std-ref">deriving for any class</span></a>.</dd>
+<dd>Enable <a class="reference internal" href="glasgow_exts.html#derive-any-class"><span>deriving for any class</span></a>.</dd>
 <dt><code class="docutils literal"><span class="pre">-XDeriveDataTypeable</span></code></dt>
-<dd>Enable <code class="docutils literal"><span class="pre">deriving</span></code> for the <a class="reference internal" href="glasgow_exts.html#deriving-typeable"><span class="std std-ref">Data class</span></a>. Implied by <code class="xref std std-ghc-flag docutils literal"><span class="pre">-XAutoDeriveTypeable</span></code>.</dd>
+<dd>Enable <code class="docutils literal"><span class="pre">deriving</span></code> for the <a class="reference internal" href="glasgow_exts.html#deriving-typeable"><span>Data class</span></a>. Implied by <code class="xref std std-ghc-flag docutils literal"><span class="pre">-XAutoDeriveTypeable</span></code>.</dd>
 <dt><code class="docutils literal"><span class="pre">-XDeriveFunctor</span></code></dt>
-<dd>Enable <a class="reference internal" href="glasgow_exts.html#deriving-extra"><span class="std std-ref">deriving for the Functor class</span></a>. Implied by <a class="reference internal" href="glasgow_exts.html#ghc-flag--XDeriveTraversable"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-XDeriveTraversable</span></code></a>.</dd>
+<dd>Enable <a class="reference internal" href="glasgow_exts.html#deriving-extra"><span>deriving for the Functor class</span></a>. Implied by <a class="reference internal" href="glasgow_exts.html#ghc-flag--XDeriveTraversable"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-XDeriveTraversable</span></code></a>.</dd>
 <dt><code class="docutils literal"><span class="pre">-XDeriveFoldable</span></code></dt>
-<dd>Enable <a class="reference internal" href="glasgow_exts.html#deriving-extra"><span class="std std-ref">deriving for the Foldable class</span></a>. Implied by <a class="reference internal" href="glasgow_exts.html#ghc-flag--XDeriveTraversable"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-XDeriveTraversable</span></code></a>.</dd>
+<dd>Enable <a class="reference internal" href="glasgow_exts.html#deriving-extra"><span>deriving for the Foldable class</span></a>. Implied by <a class="reference internal" href="glasgow_exts.html#ghc-flag--XDeriveTraversable"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-XDeriveTraversable</span></code></a>.</dd>
 <dt><code class="docutils literal"><span class="pre">-XDeriveGeneric</span></code></dt>
-<dd>Enable <a class="reference internal" href="glasgow_exts.html#deriving-typeable"><span class="std std-ref">deriving for the Generic class</span></a>.</dd>
+<dd>Enable <a class="reference internal" href="glasgow_exts.html#deriving-typeable"><span>deriving for the Generic class</span></a>.</dd>
 <dt><code class="docutils literal"><span class="pre">-XDeriveGeneric</span></code></dt>
-<dd>Enable <a class="reference internal" href="glasgow_exts.html#deriving-typeable"><span class="std std-ref">deriving for the Generic class</span></a>.</dd>
+<dd>Enable <a class="reference internal" href="glasgow_exts.html#deriving-typeable"><span>deriving for the Generic class</span></a>.</dd>
 <dt><code class="docutils literal"><span class="pre">-XDeriveLift</span></code></dt>
-<dd>Enable <a class="reference internal" href="glasgow_exts.html#deriving-lift"><span class="std std-ref">deriving for the Lift class</span></a></dd>
+<dd>Enable <a class="reference internal" href="glasgow_exts.html#deriving-lift"><span>deriving for the Lift class</span></a></dd>
 <dt><code class="docutils literal"><span class="pre">-XDeriveTraversable</span></code></dt>
-<dd>Enable <a class="reference internal" href="glasgow_exts.html#deriving-extra"><span class="std std-ref">deriving for the Traversable class</span></a>. Implies <a class="reference internal" href="glasgow_exts.html#ghc-flag--XDeriveFunctor"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-XDeriveFunctor</span></code></a> and <a class="reference internal" href="glasgow_exts.html#ghc-flag--XDeriveFoldable"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-XDeriveFoldable</span></code></a>.</dd>
+<dd>Enable <a class="reference internal" href="glasgow_exts.html#deriving-extra"><span>deriving for the Traversable class</span></a>. Implies <a class="reference internal" href="glasgow_exts.html#ghc-flag--XDeriveFunctor"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-XDeriveFunctor</span></code></a> and <a class="reference internal" href="glasgow_exts.html#ghc-flag--XDeriveFoldable"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-XDeriveFoldable</span></code></a>.</dd>
 <dt><code class="docutils literal"><span class="pre">-XDisambiguateRecordFields</span></code></dt>
-<dd>Enable <a class="reference internal" href="glasgow_exts.html#disambiguate-fields"><span class="std std-ref">record field disambiguation</span></a>. Implied by <a class="reference internal" href="glasgow_exts.html#ghc-flag--XRecordWildCards"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-XRecordWildCards</span></code></a>.</dd>
+<dd>Enable <a class="reference internal" href="glasgow_exts.html#disambiguate-fields"><span>record field disambiguation</span></a>. Implied by <a class="reference internal" href="glasgow_exts.html#ghc-flag--XRecordWildCards"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-XRecordWildCards</span></code></a>.</dd>
 <dt><code class="docutils literal"><span class="pre">-XEmptyCase</span></code></dt>
-<dd>Allow <a class="reference internal" href="glasgow_exts.html#empty-case"><span class="std std-ref">empty case alternatives</span></a>.</dd>
+<dd>Allow <a class="reference internal" href="glasgow_exts.html#empty-case"><span>empty case alternatives</span></a>.</dd>
 <dt><code class="docutils literal"><span class="pre">-XEmptyDataDecls</span></code></dt>
 <dd>Enable empty data declarations.</dd>
 <dt><code class="docutils literal"><span class="pre">-XExistentialQuantification</span></code></dt>
-<dd>Enable <a class="reference internal" href="glasgow_exts.html#existential-quantification"><span class="std std-ref">existential quantification</span></a>.</dd>
+<dd>Enable <a class="reference internal" href="glasgow_exts.html#existential-quantification"><span>existential quantification</span></a>.</dd>
 <dt><code class="docutils literal"><span class="pre">-XExplicitForAll</span></code></dt>
-<dd>Enable <a class="reference internal" href="glasgow_exts.html#explicit-foralls"><span class="std std-ref">explicit universal quantification</span></a>. Implied by <a class="reference internal" href="glasgow_exts.html#ghc-flag--XScopedTypeVariables"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-XScopedTypeVariables</span></code></a>, <a class="reference internal" href="glasgow_exts.html#ghc-flag--XLiberalTypeSynonyms"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-XLiberalTypeSynonyms</span></code></a>, <a class="reference internal" href="glasgow_exts.html#ghc-flag--XRankNTypes"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-XRankNTypes</span></code></a> and <a class="reference internal" href="glasgow_exts.html#ghc-flag--XExistentialQuantification"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-XExistentialQuantification</span></code></a>.</dd>
+<dd>Enable <a class="reference internal" href="glasgow_exts.html#explicit-foralls"><span>explicit universal quantification</span></a>. Implied by <a class="reference internal" href="glasgow_exts.html#ghc-flag--XScopedTypeVariables"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-XScopedTypeVariables</span></code></a>, <a class="reference internal" href="glasgow_exts.html#ghc-flag--XLiberalTypeSynonyms"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-XLiberalTypeSynonyms</span></code></a>, <a class="reference internal" href="glasgow_exts.html#ghc-flag--XRankNTypes"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-XRankNTypes</span></code></a> and <a class="reference internal" href="glasgow_exts.html#ghc-flag--XExistentialQuantification"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-XExistentialQuantification</span></code></a>.</dd>
 <dt><code class="docutils literal"><span class="pre">-XExplicitNamespaces</span></code></dt>
-<dd>Enable using the keyword <code class="docutils literal"><span class="pre">type</span></code> to specify the namespace of entries in imports and exports (<a class="reference internal" href="glasgow_exts.html#explicit-namespaces"><span class="std std-ref">Explicit namespaces in import/export</span></a>). Implied by <a class="reference internal" href="glasgow_exts.html#ghc-flag--XTypeOperators"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-XTypeOperators</span></code></a> and <a class="reference internal" href="glasgow_exts.html#ghc-flag--XTypeFamilies"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-XTypeFamilies</span></code></a>.</dd>
+<dd>Enable using the keyword <code class="docutils literal"><span class="pre">type</span></code> to specify the namespace of entries in imports and exports (<a class="reference internal" href="glasgow_exts.html#explicit-namespaces"><span>Explicit namespaces in import/export</span></a>). Implied by <a class="reference internal" href="glasgow_exts.html#ghc-flag--XTypeOperators"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-XTypeOperators</span></code></a> and <a class="reference internal" href="glasgow_exts.html#ghc-flag--XTypeFamilies"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-XTypeFamilies</span></code></a>.</dd>
 <dt><code class="docutils literal"><span class="pre">-XExtendedDefaultRules</span></code></dt>
-<dd>Use GHCi&#8217;s <a class="reference internal" href="ghci.html#extended-default-rules"><span class="std std-ref">extended default rules</span></a> in a normal module.</dd>
+<dd>Use GHCi&#8217;s <a class="reference internal" href="ghci.html#extended-default-rules"><span>extended default rules</span></a> in a normal module.</dd>
 <dt><code class="docutils literal"><span class="pre">-XFlexibleContexts</span></code></dt>
-<dd>Enable <a class="reference internal" href="glasgow_exts.html#flexible-contexts"><span class="std std-ref">flexible contexts</span></a>. Implied by <a class="reference internal" href="glasgow_exts.html#ghc-flag--XImplicitParams"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-XImplicitParams</span></code></a>.</dd>
+<dd>Enable <a class="reference internal" href="glasgow_exts.html#flexible-contexts"><span>flexible contexts</span></a>. Implied by <a class="reference internal" href="glasgow_exts.html#ghc-flag--XImplicitParams"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-XImplicitParams</span></code></a>.</dd>
 <dt><code class="docutils literal"><span class="pre">-XFlexibleInstances</span></code></dt>
-<dd>Enable <a class="reference internal" href="glasgow_exts.html#instance-rules"><span class="std std-ref">flexible instances</span></a>. Implies <a class="reference internal" href="glasgow_exts.html#ghc-flag--XTypeSynonymInstances"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-XTypeSynonymInstances</span></code></a>. Implied by <a class="reference internal" href="glasgow_exts.html#ghc-flag--XImplicitParams"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-XImplicitParams</span></code></a>.</dd>
+<dd>Enable <a class="reference internal" href="glasgow_exts.html#instance-rules"><span>flexible instances</span></a>. Implies <a class="reference internal" href="glasgow_exts.html#ghc-flag--XTypeSynonymInstances"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-XTypeSynonymInstances</span></code></a>. Implied by <a class="reference internal" href="glasgow_exts.html#ghc-flag--XImplicitParams"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-XImplicitParams</span></code></a>.</dd>
 <dt><code class="docutils literal"><span class="pre">-XForeignFunctionInterface</span></code></dt>
-<dd>Enable <a class="reference internal" href="ffi-chap.html#ffi"><span class="std std-ref">foreign function interface</span></a>.</dd>
+<dd>Enable <a class="reference internal" href="ffi-chap.html#ffi"><span>foreign function interface</span></a>.</dd>
 <dt><code class="docutils literal"><span class="pre">-XFunctionalDependencies</span></code></dt>
-<dd>Enable <a class="reference internal" href="glasgow_exts.html#functional-dependencies"><span class="std std-ref">functional dependencies</span></a>. Implies <a class="reference internal" href="glasgow_exts.html#ghc-flag--XMultiParamTypeClasses"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-XMultiParamTypeClasses</span></code></a>.</dd>
+<dd>Enable <a class="reference internal" href="glasgow_exts.html#functional-dependencies"><span>functional dependencies</span></a>. Implies <a class="reference internal" href="glasgow_exts.html#ghc-flag--XMultiParamTypeClasses"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-XMultiParamTypeClasses</span></code></a>.</dd>
 <dt><code class="docutils literal"><span class="pre">-XGADTs</span></code></dt>
-<dd>Enable <a class="reference internal" href="glasgow_exts.html#gadt"><span class="std std-ref">generalised algebraic data types</span></a>. Implies <a class="reference internal" href="glasgow_exts.html#ghc-flag--XGADTSyntax"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-XGADTSyntax</span></code></a> and <a class="reference internal" href="glasgow_exts.html#ghc-flag--XMonoLocalBinds"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-XMonoLocalBinds</span></code></a>.</dd>
+<dd>Enable <a class="reference internal" href="glasgow_exts.html#gadt"><span>generalised algebraic data types</span></a>. Implies <a class="reference internal" href="glasgow_exts.html#ghc-flag--XGADTSyntax"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-XGADTSyntax</span></code></a> and <a class="reference internal" href="glasgow_exts.html#ghc-flag--XMonoLocalBinds"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-XMonoLocalBinds</span></code></a>.</dd>
 <dt><code class="docutils literal"><span class="pre">-XGADTSyntax</span></code></dt>
-<dd>Enable <a class="reference internal" href="glasgow_exts.html#gadt-style"><span class="std std-ref">generalised algebraic data type syntax</span></a>.</dd>
+<dd>Enable <a class="reference internal" href="glasgow_exts.html#gadt-style"><span>generalised algebraic data type syntax</span></a>.</dd>
 <dt><code class="docutils literal"><span class="pre">-XGeneralizedNewtypeDeriving</span></code></dt>
-<dd>Enable <a class="reference internal" href="glasgow_exts.html#newtype-deriving"><span class="std std-ref">newtype deriving</span></a>.</dd>
+<dd>Enable <a class="reference internal" href="glasgow_exts.html#newtype-deriving"><span>newtype deriving</span></a>.</dd>
 <dt><code class="docutils literal"><span class="pre">-XGenerics</span></code></dt>
-<dd>Deprecated, does nothing. No longer enables <a class="reference internal" href="glasgow_exts.html#generic-classes"><span class="std std-ref">generic classes</span></a>. See also GHC&#8217;s support for <a class="reference internal" href="glasgow_exts.html#generic-programming"><span class="std std-ref">generic programming</span></a>.</dd>
+<dd>Deprecated, does nothing. No longer enables <a class="reference internal" href="glasgow_exts.html#generic-classes"><span>generic classes</span></a>. See also GHC&#8217;s support for <a class="reference internal" href="glasgow_exts.html#generic-programming"><span>generic programming</span></a>.</dd>
 <dt><code class="docutils literal"><span class="pre">-XImplicitParams</span></code></dt>
-<dd>Enable <a class="reference internal" href="glasgow_exts.html#implicit-parameters"><span class="std std-ref">Implicit Parameters</span></a>. Implies <a class="reference internal" href="glasgow_exts.html#ghc-flag--XFlexibleContexts"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-XFlexibleContexts</span></code></a> and <a class="reference internal" href="glasgow_exts.html#ghc-flag--XFlexibleInstances"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-XFlexibleInstances</span></code></a>.</dd>
+<dd>Enable <a class="reference internal" href="glasgow_exts.html#implicit-parameters"><span>Implicit Parameters</span></a>. Implies <a class="reference internal" href="glasgow_exts.html#ghc-flag--XFlexibleContexts"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-XFlexibleContexts</span></code></a> and <a class="reference internal" href="glasgow_exts.html#ghc-flag--XFlexibleInstances"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-XFlexibleInstances</span></code></a>.</dd>
 <dt><code class="docutils literal"><span class="pre">-XNoImplicitPrelude</span></code></dt>
 <dd>Don&#8217;t implicitly <code class="docutils literal"><span class="pre">import</span> <span class="pre">Prelude</span></code>. Implied by <a class="reference internal" href="glasgow_exts.html#ghc-flag--XRebindableSyntax"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-XRebindableSyntax</span></code></a>.</dd>
 <dt><code class="docutils literal"><span class="pre">-XImpredicativeTypes</span></code></dt>
-<dd>Enable <a class="reference internal" href="glasgow_exts.html#impredicative-polymorphism"><span class="std std-ref">impredicative types</span></a>. Implies <a class="reference internal" href="glasgow_exts.html#ghc-flag--XRankNTypes"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-XRankNTypes</span></code></a>.</dd>
+<dd>Enable <a class="reference internal" href="glasgow_exts.html#impredicative-polymorphism"><span>impredicative types</span></a>. Implies <a class="reference internal" href="glasgow_exts.html#ghc-flag--XRankNTypes"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-XRankNTypes</span></code></a>.</dd>
 <dt><code class="docutils literal"><span class="pre">-XIncoherentInstances</span></code></dt>
-<dd>Enable <a class="reference internal" href="glasgow_exts.html#instance-overlap"><span class="std std-ref">incoherent instances</span></a>. Implies <a class="reference internal" href="glasgow_exts.html#ghc-flag--XOverlappingInstances"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-XOverlappingInstances</span></code></a>.</dd>
+<dd>Enable <a class="reference internal" href="glasgow_exts.html#instance-overlap"><span>incoherent instances</span></a>. Implies <a class="reference internal" href="glasgow_exts.html#ghc-flag--XOverlappingInstances"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-XOverlappingInstances</span></code></a>.</dd>
 <dt><code class="docutils literal"><span class="pre">-XTypeFamilyDependencies</span></code></dt>
-<dd>Enable <a class="reference internal" href="glasgow_exts.html#injective-ty-fams"><span class="std std-ref">injective type families</span></a>. Implies <a class="reference internal" href="glasgow_exts.html#ghc-flag--XTypeFamilies"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-XTypeFamilies</span></code></a>.</dd>
+<dd>Enable <a class="reference internal" href="glasgow_exts.html#injective-ty-fams"><span>injective type families</span></a>. Implies <a class="reference internal" href="glasgow_exts.html#ghc-flag--XTypeFamilies"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-XTypeFamilies</span></code></a>.</dd>
 <dt><code class="docutils literal"><span class="pre">-XInstanceSigs</span></code></dt>
-<dd>Enable <a class="reference internal" href="glasgow_exts.html#instance-sigs"><span class="std std-ref">instance signatures</span></a>.</dd>
+<dd>Enable <a class="reference internal" href="glasgow_exts.html#instance-sigs"><span>instance signatures</span></a>.</dd>
 <dt><code class="docutils literal"><span class="pre">-XInterruptibleFFI</span></code></dt>
 <dd>Enable interruptible FFI.</dd>
 <dt><code class="docutils literal"><span class="pre">-XKindSignatures</span></code></dt>
-<dd>Enable <a class="reference internal" href="glasgow_exts.html#kinding"><span class="std std-ref">kind signatures</span></a>. Implied by <a class="reference internal" href="glasgow_exts.html#ghc-flag--XTypeFamilies"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-XTypeFamilies</span></code></a> and <a class="reference internal" href="glasgow_exts.html#ghc-flag--XPolyKinds"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-XPolyKinds</span></code></a>.</dd>
+<dd>Enable <a class="reference internal" href="glasgow_exts.html#kinding"><span>kind signatures</span></a>. Implied by <a class="reference internal" href="glasgow_exts.html#ghc-flag--XTypeFamilies"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-XTypeFamilies</span></code></a> and <a class="reference internal" href="glasgow_exts.html#ghc-flag--XPolyKinds"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-XPolyKinds</span></code></a>.</dd>
 <dt><code class="docutils literal"><span class="pre">-XLambdaCase</span></code></dt>
-<dd>Enable <a class="reference internal" href="glasgow_exts.html#lambda-case"><span class="std std-ref">lambda-case expressions</span></a>.</dd>
+<dd>Enable <a class="reference internal" href="glasgow_exts.html#lambda-case"><span>lambda-case expressions</span></a>.</dd>
 <dt><code class="docutils literal"><span class="pre">-XLiberalTypeSynonyms</span></code></dt>
-<dd>Enable <a class="reference internal" href="glasgow_exts.html#type-synonyms"><span class="std std-ref">liberalised type synonyms</span></a>.</dd>
+<dd>Enable <a class="reference internal" href="glasgow_exts.html#type-synonyms"><span>liberalised type synonyms</span></a>.</dd>
 <dt><code class="docutils literal"><span class="pre">-XMagicHash</span></code></dt>
-<dd>Allow <code class="docutils literal"><span class="pre">#</span></code> as a <a class="reference internal" href="glasgow_exts.html#magic-hash"><span class="std std-ref">postfix modifier on identifiers</span></a>.</dd>
+<dd>Allow <code class="docutils literal"><span class="pre">#</span></code> as a <a class="reference internal" href="glasgow_exts.html#magic-hash"><span>postfix modifier on identifiers</span></a>.</dd>
 <dt><code class="docutils literal"><span class="pre">-XMonadComprehensions</span></code></dt>
-<dd>Enable <a class="reference internal" href="glasgow_exts.html#monad-comprehensions"><span class="std std-ref">monad comprehensions</span></a>.</dd>
+<dd>Enable <a class="reference internal" href="glasgow_exts.html#monad-comprehensions"><span>monad comprehensions</span></a>.</dd>
 <dt><code class="docutils literal"><span class="pre">-XMonoLocalBinds</span></code></dt>
-<dd>Enable <a class="reference internal" href="glasgow_exts.html#mono-local-binds"><span class="std std-ref">do not generalise local bindings</span></a>. Implied by <a class="reference internal" href="glasgow_exts.html#ghc-flag--XTypeFamilies"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-XTypeFamilies</span></code></a> and <a class="reference internal" href="glasgow_exts.html#ghc-flag--XGADTs"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-XGADTs</span></code></a>.</dd>
+<dd>Enable <a class="reference internal" href="glasgow_exts.html#mono-local-binds"><span>do not generalise local bindings</span></a>. Implied by <a class="reference internal" href="glasgow_exts.html#ghc-flag--XTypeFamilies"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-XTypeFamilies</span></code></a> and <a class="reference internal" href="glasgow_exts.html#ghc-flag--XGADTs"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-XGADTs</span></code></a>.</dd>
 <dt><code class="docutils literal"><span class="pre">-XNoMonomorphismRestriction</span></code></dt>
-<dd>Disable the <a class="reference internal" href="glasgow_exts.html#monomorphism"><span class="std std-ref">monomorphism restriction</span></a>.</dd>
+<dd>Disable the <a class="reference internal" href="glasgow_exts.html#monomorphism"><span>monomorphism restriction</span></a>.</dd>
 <dt><code class="docutils literal"><span class="pre">-XMultiParamTypeClasses</span></code></dt>
-<dd>Enable <a class="reference internal" href="glasgow_exts.html#multi-param-type-classes"><span class="std std-ref">multi parameter type classes</span></a>. Implied by <a class="reference internal" href="glasgow_exts.html#ghc-flag--XFunctionalDependencies"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-XFunctionalDependencies</span></code></a>.</dd>
+<dd>Enable <a class="reference internal" href="glasgow_exts.html#multi-param-type-classes"><span>multi parameter type classes</span></a>. Implied by <a class="reference internal" href="glasgow_exts.html#ghc-flag--XFunctionalDependencies"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-XFunctionalDependencies</span></code></a>.</dd>
 <dt><code class="docutils literal"><span class="pre">-XMultiWayIf</span></code></dt>
-<dd>Enable <a class="reference internal" href="glasgow_exts.html#multi-way-if"><span class="std std-ref">multi-way if-expressions</span></a>.</dd>
+<dd>Enable <a class="reference internal" href="glasgow_exts.html#multi-way-if"><span>multi-way if-expressions</span></a>.</dd>
 <dt><code class="docutils literal"><span class="pre">-XNamedFieldPuns</span></code></dt>
-<dd>Enable <a class="reference internal" href="glasgow_exts.html#record-puns"><span class="std std-ref">record puns</span></a>.</dd>
+<dd>Enable <a class="reference internal" href="glasgow_exts.html#record-puns"><span>record puns</span></a>.</dd>
 <dt><code class="docutils literal"><span class="pre">-XNamedWildCards</span></code></dt>
-<dd>Enable <a class="reference internal" href="glasgow_exts.html#named-wildcards"><span class="std std-ref">named wildcards</span></a>.</dd>
+<dd>Enable <a class="reference internal" href="glasgow_exts.html#named-wildcards"><span>named wildcards</span></a>.</dd>
 <dt><code class="docutils literal"><span class="pre">-XNegativeLiterals</span></code></dt>
-<dd>Enable support for <a class="reference internal" href="glasgow_exts.html#negative-literals"><span class="std std-ref">negative literals</span></a>.</dd>
+<dd>Enable support for <a class="reference internal" href="glasgow_exts.html#negative-literals"><span>negative literals</span></a>.</dd>
 <dt><code class="docutils literal"><span class="pre">-XNoNPlusKPatterns</span></code></dt>
 <dd>Disable support for <code class="docutils literal"><span class="pre">n+k</span></code> patterns.</dd>
 <dt><code class="docutils literal"><span class="pre">-XNullaryTypeClasses</span></code></dt>
-<dd>Deprecated, does nothing. <a class="reference internal" href="glasgow_exts.html#nullary-type-classes"><span class="std std-ref">nullary (no parameter) type classes</span></a> are now enabled using <a class="reference internal" href="glasgow_exts.html#ghc-flag--XMultiParamTypeClasses"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-XMultiParamTypeClasses</span></code></a>.</dd>
+<dd>Deprecated, does nothing. <a class="reference internal" href="glasgow_exts.html#nullary-type-classes"><span>nullary (no parameter) type classes</span></a> are now enabled using <a class="reference internal" href="glasgow_exts.html#ghc-flag--XMultiParamTypeClasses"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-XMultiParamTypeClasses</span></code></a>.</dd>
 <dt><code class="docutils literal"><span class="pre">-XNumDecimals</span></code></dt>
 <dd>Enable support for &#8216;fractional&#8217; integer literals.</dd>
 <dt><code class="docutils literal"><span class="pre">-XOverlappingInstances</span></code></dt>
-<dd>Enable <a class="reference internal" href="glasgow_exts.html#instance-overlap"><span class="std std-ref">overlapping instances</span></a>.</dd>
+<dd>Enable <a class="reference internal" href="glasgow_exts.html#instance-overlap"><span>overlapping instances</span></a>.</dd>
 <dt><code class="docutils literal"><span class="pre">-XOverloadedLists</span></code></dt>
-<dd>Enable <a class="reference internal" href="glasgow_exts.html#overloaded-lists"><span class="std std-ref">overloaded lists</span></a>.</dd>
+<dd>Enable <a class="reference internal" href="glasgow_exts.html#overloaded-lists"><span>overloaded lists</span></a>.</dd>
 <dt><code class="docutils literal"><span class="pre">-XOverloadedStrings</span></code></dt>
-<dd>Enable <a class="reference internal" href="glasgow_exts.html#overloaded-strings"><span class="std std-ref">overloaded string literals</span></a>.</dd>
+<dd>Enable <a class="reference internal" href="glasgow_exts.html#overloaded-strings"><span>overloaded string literals</span></a>.</dd>
 <dt><code class="docutils literal"><span class="pre">-XPackageImports</span></code></dt>
-<dd>Enable <a class="reference internal" href="glasgow_exts.html#package-imports"><span class="std std-ref">package-qualified imports</span></a>.</dd>
+<dd>Enable <a class="reference internal" href="glasgow_exts.html#package-imports"><span>package-qualified imports</span></a>.</dd>
 <dt><code class="docutils literal"><span class="pre">-XParallelArrays</span></code></dt>
 <dd>Enable parallel arrays. Implies <a class="reference internal" href="glasgow_exts.html#ghc-flag--XParallelListComp"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-XParallelListComp</span></code></a>.</dd>
 <dt><code class="docutils literal"><span class="pre">-XParallelListComp</span></code></dt>
-<dd>Enable <a class="reference internal" href="glasgow_exts.html#parallel-list-comprehensions"><span class="std std-ref">parallel list comprehensions</span></a>. Implied by <code class="xref std std-ghc-flag docutils literal"><span class="pre">-XParallelArrays</span></code>.</dd>
+<dd>Enable <a class="reference internal" href="glasgow_exts.html#parallel-list-comprehensions"><span>parallel list comprehensions</span></a>. Implied by <code class="xref std std-ghc-flag docutils literal"><span class="pre">-XParallelArrays</span></code>.</dd>
 <dt><code class="docutils literal"><span class="pre">-XPartialTypeSignatures</span></code></dt>
-<dd>Enable <a class="reference internal" href="glasgow_exts.html#partial-type-signatures"><span class="std std-ref">partial type signatures</span></a>.</dd>
+<dd>Enable <a class="reference internal" href="glasgow_exts.html#partial-type-signatures"><span>partial type signatures</span></a>.</dd>
 <dt><code class="docutils literal"><span class="pre">-XPatternGuards</span></code></dt>
-<dd>Enable <a class="reference internal" href="glasgow_exts.html#pattern-guards"><span class="std std-ref">pattern guards</span></a>.</dd>
+<dd>Enable <a class="reference internal" href="glasgow_exts.html#pattern-guards"><span>pattern guards</span></a>.</dd>
 <dt><code class="docutils literal"><span class="pre">-XPatternSynonyms</span></code></dt>
-<dd>Enable <a class="reference internal" href="glasgow_exts.html#pattern-synonyms"><span class="std std-ref">pattern synonyms</span></a>.</dd>
+<dd>Enable <a class="reference internal" href="glasgow_exts.html#pattern-synonyms"><span>pattern synonyms</span></a>.</dd>
 <dt><code class="docutils literal"><span class="pre">-XPolyKinds</span></code></dt>
-<dd>Enable <a class="reference internal" href="glasgow_exts.html#kind-polymorphism"><span class="std std-ref">kind polymorphism</span></a>. Implies <a class="reference internal" href="glasgow_exts.html#ghc-flag--XKindSignatures"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-XKindSignatures</span></code></a>.</dd>
+<dd>Enable <a class="reference internal" href="glasgow_exts.html#kind-polymorphism"><span>kind polymorphism</span></a>. Implies <a class="reference internal" href="glasgow_exts.html#ghc-flag--XKindSignatures"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-XKindSignatures</span></code></a>.</dd>
 <dt><code class="docutils literal"><span class="pre">-XPolymorphicComponents</span></code></dt>
-<dd>Enable <a class="reference internal" href="glasgow_exts.html#universal-quantification"><span class="std std-ref">polymorphic components for data constructors</span></a>. Synonym for <a class="reference internal" href="glasgow_exts.html#ghc-flag--XRankNTypes"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-XRankNTypes</span></code></a>.</dd>
+<dd>Enable <a class="reference internal" href="glasgow_exts.html#universal-quantification"><span>polymorphic components for data constructors</span></a>. Synonym for <a class="reference internal" href="glasgow_exts.html#ghc-flag--XRankNTypes"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-XRankNTypes</span></code></a>.</dd>
 <dt><code class="docutils literal"><span class="pre">-XPostfixOperators</span></code></dt>
-<dd>Enable <a class="reference internal" href="glasgow_exts.html#postfix-operators"><span class="std std-ref">postfix operators</span></a>.</dd>
+<dd>Enable <a class="reference internal" href="glasgow_exts.html#postfix-operators"><span>postfix operators</span></a>.</dd>
 <dt><code class="docutils literal"><span class="pre">-XQuasiQuotes</span></code></dt>
-<dd>Enable <a class="reference internal" href="glasgow_exts.html#th-quasiquotation"><span class="std std-ref">quasiquotation</span></a>.</dd>
+<dd>Enable <a class="reference internal" href="glasgow_exts.html#th-quasiquotation"><span>quasiquotation</span></a>.</dd>
 <dt><code class="docutils literal"><span class="pre">-XRank2Types</span></code></dt>
-<dd>Enable <a class="reference internal" href="glasgow_exts.html#universal-quantification"><span class="std std-ref">rank-2 types</span></a>. Synonym for <a class="reference internal" href="glasgow_exts.html#ghc-flag--XRankNTypes"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-XRankNTypes</span></code></a>.</dd>
+<dd>Enable <a class="reference internal" href="glasgow_exts.html#universal-quantification"><span>rank-2 types</span></a>. Synonym for <a class="reference internal" href="glasgow_exts.html#ghc-flag--XRankNTypes"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-XRankNTypes</span></code></a>.</dd>
 <dt><code class="docutils literal"><span class="pre">-XRankNTypes</span></code></dt>
-<dd>Enable <a class="reference internal" href="glasgow_exts.html#universal-quantification"><span class="std std-ref">rank-N types</span></a>. Implied by <a class="reference internal" href="glasgow_exts.html#ghc-flag--XImpredicativeTypes"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-XImpredicativeTypes</span></code></a>.</dd>
+<dd>Enable <a class="reference internal" href="glasgow_exts.html#universal-quantification"><span>rank-N types</span></a>. Implied by <a class="reference internal" href="glasgow_exts.html#ghc-flag--XImpredicativeTypes"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-XImpredicativeTypes</span></code></a>.</dd>
 <dt><code class="docutils literal"><span class="pre">-XRebindableSyntax</span></code></dt>
-<dd>Employ <a class="reference internal" href="glasgow_exts.html#rebindable-syntax"><span class="std std-ref">rebindable syntax</span></a>. Implies <a class="reference internal" href="glasgow_exts.html#ghc-flag--XNoImplicitPrelude"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-XNoImplicitPrelude</span></code></a>.</dd>
+<dd>Employ <a class="reference internal" href="glasgow_exts.html#rebindable-syntax"><span>rebindable syntax</span></a>. Implies <a class="reference internal" href="glasgow_exts.html#ghc-flag--XNoImplicitPrelude"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-XNoImplicitPrelude</span></code></a>.</dd>
 <dt><code class="docutils literal"><span class="pre">-XRecordWildCards</span></code></dt>
-<dd>Enable <a class="reference internal" href="glasgow_exts.html#record-wildcards"><span class="std std-ref">record wildcards</span></a>. Implies <a class="reference internal" href="glasgow_exts.html#ghc-flag--XDisambiguateRecordFields"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-XDisambiguateRecordFields</span></code></a>.</dd>
+<dd>Enable <a class="reference internal" href="glasgow_exts.html#record-wildcards"><span>record wildcards</span></a>. Implies <a class="reference internal" href="glasgow_exts.html#ghc-flag--XDisambiguateRecordFields"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-XDisambiguateRecordFields</span></code></a>.</dd>
 <dt><code class="docutils literal"><span class="pre">-XRecursiveDo</span></code></dt>
-<dd>Enable <a class="reference internal" href="glasgow_exts.html#recursive-do-notation"><span class="std std-ref">recursive do (mdo) notation</span></a>.</dd>
+<dd>Enable <a class="reference internal" href="glasgow_exts.html#recursive-do-notation"><span>recursive do (mdo) notation</span></a>.</dd>
 <dt><code class="docutils literal"><span class="pre">-XRoleAnnotations</span></code></dt>
-<dd>Enable <a class="reference internal" href="glasgow_exts.html#role-annotations"><span class="std std-ref">role annotations</span></a>.</dd>
+<dd>Enable <a class="reference internal" href="glasgow_exts.html#role-annotations"><span>role annotations</span></a>.</dd>
 <dt><code class="docutils literal"><span class="pre">-XSafe</span></code></dt>
-<dd>Enable the <a class="reference internal" href="safe_haskell.html#safe-haskell"><span class="std std-ref">Safe Haskell</span></a> Safe mode.</dd>
+<dd>Enable the <a class="reference internal" href="safe_haskell.html#safe-haskell"><span>Safe Haskell</span></a> Safe mode.</dd>
 <dt><code class="docutils literal"><span class="pre">-XScopedTypeVariables</span></code></dt>
-<dd>Enable <a class="reference internal" href="glasgow_exts.html#scoped-type-variables"><span class="std std-ref">lexically-scoped type variables</span></a>.</dd>
+<dd>Enable <a class="reference internal" href="glasgow_exts.html#scoped-type-variables"><span>lexically-scoped type variables</span></a>.</dd>
 <dt><code class="docutils literal"><span class="pre">-XStandaloneDeriving</span></code></dt>
-<dd>Enable <a class="reference internal" href="glasgow_exts.html#stand-alone-deriving"><span class="std std-ref">standalone deriving</span></a>.</dd>
+<dd>Enable <a class="reference internal" href="glasgow_exts.html#stand-alone-deriving"><span>standalone deriving</span></a>.</dd>
 <dt><code class="docutils literal"><span class="pre">-XStrictData</span></code></dt>
-<dd>Enable <a class="reference internal" href="glasgow_exts.html#strict-data"><span class="std std-ref">default strict datatype fields</span></a>.</dd>
+<dd>Enable <a class="reference internal" href="glasgow_exts.html#strict-data"><span>default strict datatype fields</span></a>.</dd>
 <dt><code class="docutils literal"><span class="pre">-XTemplateHaskell</span></code></dt>
-<dd>Enable <a class="reference internal" href="glasgow_exts.html#template-haskell"><span class="std std-ref">Template Haskell</span></a>.</dd>
+<dd>Enable <a class="reference internal" href="glasgow_exts.html#template-haskell"><span>Template Haskell</span></a>.</dd>
 <dt><code class="docutils literal"><span class="pre">-XTemplateHaskellQuotes</span></code></dt>
-<dd>Enable quotation subset of <a class="reference internal" href="glasgow_exts.html#template-haskell"><span class="std std-ref">Template Haskell</span></a>.</dd>
+<dd>Enable quotation subset of <a class="reference internal" href="glasgow_exts.html#template-haskell"><span>Template Haskell</span></a>.</dd>
 <dt><code class="docutils literal"><span class="pre">-XNoTraditionalRecordSyntax</span></code></dt>
 <dd>Disable support for traditional record syntax (as supported by Haskell 98) <code class="docutils literal"><span class="pre">C</span> <span class="pre">{f</span> <span class="pre">=</span> <span class="pre">x}</span></code></dd>
 <dt><code class="docutils literal"><span class="pre">-XTransformListComp</span></code></dt>
-<dd>Enable <a class="reference internal" href="glasgow_exts.html#generalised-list-comprehensions"><span class="std std-ref">generalised list comprehensions</span></a>.</dd>
+<dd>Enable <a class="reference internal" href="glasgow_exts.html#generalised-list-comprehensions"><span>generalised list comprehensions</span></a>.</dd>
 <dt><code class="docutils literal"><span class="pre">-XTrustworthy</span></code></dt>
-<dd>Enable the <a class="reference internal" href="safe_haskell.html#safe-haskell"><span class="std std-ref">Safe Haskell</span></a> Trustworthy mode.</dd>
+<dd>Enable the <a class="reference internal" href="safe_haskell.html#safe-haskell"><span>Safe Haskell</span></a> Trustworthy mode.</dd>
 <dt><code class="docutils literal"><span class="pre">-XTupleSections</span></code></dt>
-<dd>Enable <a class="reference internal" href="glasgow_exts.html#tuple-sections"><span class="std std-ref">tuple sections</span></a>.</dd>
+<dd>Enable <a class="reference internal" href="glasgow_exts.html#tuple-sections"><span>tuple sections</span></a>.</dd>
 <dt><code class="docutils literal"><span class="pre">-XTypeFamilies</span></code></dt>
-<dd>Enable <a class="reference internal" href="glasgow_exts.html#type-families"><span class="std std-ref">type families</span></a>. Implies <a class="reference internal" href="glasgow_exts.html#ghc-flag--XExplicitNamespaces"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-XExplicitNamespaces</span></code></a>, <a class="reference internal" href="glasgow_exts.html#ghc-flag--XKindSignatures"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-XKindSignatures</span></code></a>, and <a class="reference internal" href="glasgow_exts.html#ghc-flag--XMonoLocalBinds"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-XMonoLocalBinds</span></code></a>.</dd>
+<dd>Enable <a class="reference internal" href="glasgow_exts.html#type-families"><span>type families</span></a>. Implies <a class="reference internal" href="glasgow_exts.html#ghc-flag--XExplicitNamespaces"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-XExplicitNamespaces</span></code></a>, <a class="reference internal" href="glasgow_exts.html#ghc-flag--XKindSignatures"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-XKindSignatures</span></code></a>, and <a class="reference internal" href="glasgow_exts.html#ghc-flag--XMonoLocalBinds"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-XMonoLocalBinds</span></code></a>.</dd>
 <dt><code class="docutils literal"><span class="pre">-XTypeOperators</span></code></dt>
-<dd>Enable <a class="reference internal" href="glasgow_exts.html#type-operators"><span class="std std-ref">type operators</span></a>. Implies <a class="reference internal" href="glasgow_exts.html#ghc-flag--XExplicitNamespaces"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-XExplicitNamespaces</span></code></a>.</dd>
+<dd>Enable <a class="reference internal" href="glasgow_exts.html#type-operators"><span>type operators</span></a>. Implies <a class="reference internal" href="glasgow_exts.html#ghc-flag--XExplicitNamespaces"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-XExplicitNamespaces</span></code></a>.</dd>
 <dt><code class="docutils literal"><span class="pre">-XTypeSynonymInstances</span></code></dt>
-<dd>Enable <a class="reference internal" href="glasgow_exts.html#flexible-instance-head"><span class="std std-ref">type synonyms in instance heads</span></a>. Implied by <a class="reference internal" href="glasgow_exts.html#ghc-flag--XFlexibleInstances"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-XFlexibleInstances</span></code></a>.</dd>
+<dd>Enable <a class="reference internal" href="glasgow_exts.html#flexible-instance-head"><span>type synonyms in instance heads</span></a>. Implied by <a class="reference internal" href="glasgow_exts.html#ghc-flag--XFlexibleInstances"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-XFlexibleInstances</span></code></a>.</dd>
 <dt><code class="docutils literal"><span class="pre">-XUnboxedTuples</span></code></dt>
-<dd>Enable <a class="reference internal" href="glasgow_exts.html#unboxed-tuples"><span class="std std-ref">unboxed tuples</span></a>.</dd>
+<dd>Enable <a class="reference internal" href="glasgow_exts.html#unboxed-tuples"><span>unboxed tuples</span></a>.</dd>
 <dt><code class="docutils literal"><span class="pre">-XUndecidableInstances</span></code></dt>
-<dd>Enable <a class="reference internal" href="glasgow_exts.html#undecidable-instances"><span class="std std-ref">undecidable instances</span></a>.</dd>
+<dd>Enable <a class="reference internal" href="glasgow_exts.html#undecidable-instances"><span>undecidable instances</span></a>.</dd>
 <dt><code class="docutils literal"><span class="pre">-XUnicodeSyntax</span></code></dt>
-<dd>Enable <a class="reference internal" href="glasgow_exts.html#unicode-syntax"><span class="std std-ref">unicode syntax</span></a>.</dd>
+<dd>Enable <a class="reference internal" href="glasgow_exts.html#unicode-syntax"><span>unicode syntax</span></a>.</dd>
 <dt><code class="docutils literal"><span class="pre">-XUnliftedFFITypes</span></code></dt>
 <dd>Enable unlifted FFI types.</dd>
 <dt><code class="docutils literal"><span class="pre">-XUnsafe</span></code></dt>
-<dd>Enable <a class="reference internal" href="safe_haskell.html#safe-haskell"><span class="std std-ref">Safe Haskell</span></a> Unsafe mode.</dd>
+<dd>Enable <a class="reference internal" href="safe_haskell.html#safe-haskell"><span>Safe Haskell</span></a> Unsafe mode.</dd>
 <dt><code class="docutils literal"><span class="pre">-XViewPatterns</span></code></dt>
-<dd>Enable <a class="reference internal" href="glasgow_exts.html#view-patterns"><span class="std std-ref">view patterns</span></a>.</dd>
+<dd>Enable <a class="reference internal" href="glasgow_exts.html#view-patterns"><span>view patterns</span></a>.</dd>
 </dl>
 </div>
 <div class="section" id="linking-options">
@@ -688,7 +689,7 @@ The OPTIONS sections lists the status of each flag.</p>
 <dt><code class="docutils literal"><span class="pre">-debug</span></code></dt>
 <dd>Use the debugging runtime</dd>
 <dt><code class="docutils literal"><span class="pre">-ticky</span></code></dt>
-<dd>For linking, this simply implies <a class="reference internal" href="phases.html#ghc-flag--debug"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-debug</span></code></a>; see <a class="reference internal" href="profiling.html#ticky-ticky"><span class="std std-ref">Using “ticky-ticky” profiling (for implementors)</span></a>.</dd>
+<dd>For linking, this simply implies <a class="reference internal" href="phases.html#ghc-flag--debug"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-debug</span></code></a>; see <a class="reference internal" href="profiling.html#ticky-ticky"><span>Using “ticky-ticky” profiling (for implementors)</span></a>.</dd>
 <dt><code class="docutils literal"><span class="pre">-eventlog</span></code></dt>
 <dd>Enable runtime event tracing</dd>
 <dt><code class="docutils literal"><span class="pre">-fno-gen-manifest</span></code></dt>
@@ -726,17 +727,17 @@ The OPTIONS sections lists the status of each flag.</p>
 <dt><code class="docutils literal"><span class="pre">--help,-?</span></code></dt>
 <dd>Display help</dd>
 <dt><code class="docutils literal"><span class="pre">--interactive</span></code></dt>
-<dd>Interactive mode - normally used by just running <code class="docutils literal"><span class="pre">ghci</span></code>; see <span class="xref std std-ref">ghci</span> for details.</dd>
+<dd>Interactive mode - normally used by just running <code class="docutils literal"><span class="pre">ghci</span></code>; see <a class="reference internal" href="ghci.html#ghci"><span>GHCiを使う</span></a> for details.</dd>
 <dt><code class="docutils literal"><span class="pre">--make</span></code></dt>
-<dd>Build a multi-module Haskell program, automatically figuring out dependencies. Likely to be much easier, and faster, than using <code class="docutils literal"><span class="pre">make</span></code>; see <a class="reference internal" href="using.html#make-mode"><span class="std std-ref">Using ghc &#8211;make</span></a> for details.</dd>
+<dd>Build a multi-module Haskell program, automatically figuring out dependencies. Likely to be much easier, and faster, than using <code class="docutils literal"><span class="pre">make</span></code>; see <a class="reference internal" href="using.html#make-mode"><span>Using ghc &#8211;make</span></a> for details.</dd>
 <dt><code class="docutils literal"><span class="pre">-e</span> <span class="pre">expr</span></code></dt>
-<dd>Evaluate <code class="docutils literal"><span class="pre">expr</span></code>; see <a class="reference internal" href="using.html#eval-mode"><span class="std std-ref">Expression evaluation mode</span></a> for details.</dd>
+<dd>Evaluate <code class="docutils literal"><span class="pre">expr</span></code>; see <a class="reference internal" href="using.html#eval-mode"><span>Expression evaluation mode</span></a> for details.</dd>
 <dt><code class="docutils literal"><span class="pre">--show-iface</span></code></dt>
 <dd>display the contents of an interface file.</dd>
 <dt><code class="docutils literal"><span class="pre">-M</span></code></dt>
-<dd>generate dependency information suitable for use in a <code class="docutils literal"><span class="pre">Makefile</span></code>; see <a class="reference internal" href="separate_compilation.html#makefile-dependencies"><span class="std std-ref">Dependency generation</span></a> for details.</dd>
+<dd>generate dependency information suitable for use in a <code class="docutils literal"><span class="pre">Makefile</span></code>; see <a class="reference internal" href="separate_compilation.html#makefile-dependencies"><span>Dependency generation</span></a> for details.</dd>
 <dt><code class="docutils literal"><span class="pre">--frontend</span> <span class="pre">⟨module⟩</span></code></dt>
-<dd>run GHC with the given frontend plugin; see <a class="reference internal" href="extending_ghc.html#frontend-plugins"><span class="std std-ref">Frontend plugins</span></a> for details.</dd>
+<dd>run GHC with the given frontend plugin; see <a class="reference internal" href="extending_ghc.html#frontend-plugins"><span>Frontend plugins</span></a> for details.</dd>
 <dt><code class="docutils literal"><span class="pre">--supported-extensions,</span> <span class="pre">--supported-languages</span></code></dt>
 <dd>display the supported language extensions</dd>
 <dt><code class="docutils literal"><span class="pre">--show-options</span></code></dt>
@@ -777,7 +778,7 @@ The OPTIONS sections lists the status of each flag.</p>
 <dt><code class="docutils literal"><span class="pre">-fdo-lambda-eta-expansion</span></code></dt>
 <dd>Enable lambda eta-expansion. Always enabled by default.</dd>
 <dt><code class="docutils literal"><span class="pre">-feager-blackholing</span></code></dt>
-<dd>Turn on <a class="reference internal" href="using-concurrent.html#parallel-compile-options"><span class="std std-ref">eager blackholing</span></a></dd>
+<dd>Turn on <a class="reference internal" href="using-concurrent.html#parallel-compile-options"><span>eager blackholing</span></a></dd>
 <dt><code class="docutils literal"><span class="pre">-fenable-rewrite-rules</span></code></dt>
 <dd>Switch on all rewrite rules (including rules generated by automatic specialisation of overloaded functions). Implied by <a class="reference internal" href="using-optimisation.html#ghc-flag--O"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-O</span></code></a>.</dd>
 <dt><code class="docutils literal"><span class="pre">-fexcess-precision</span></code></dt>
@@ -926,7 +927,7 @@ The OPTIONS sections lists the status of each flag.</p>
 <h3>Phases of compilation<a class="headerlink" href="#phases-of-compilation" title="Permalink to this headline">¶</a></h3>
 <dl class="docutils">
 <dt><code class="docutils literal"><span class="pre">-F</span></code></dt>
-<dd>Enable the use of a <a class="reference internal" href="phases.html#pre-processor"><span class="std std-ref">pre-processor</span></a> (set with <a class="reference internal" href="phases.html#ghc-flag--pgmF"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-pgmF</span></code></a>)</dd>
+<dd>Enable the use of a <a class="reference internal" href="phases.html#pre-processor"><span>pre-processor</span></a> (set with <a class="reference internal" href="phases.html#ghc-flag--pgmF"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-pgmF</span></code></a>)</dd>
 <dt><code class="docutils literal"><span class="pre">-E</span></code></dt>
 <dd>Stop after preprocessing (<code class="docutils literal"><span class="pre">.hspp</span></code> file)</dd>
 <dt><code class="docutils literal"><span class="pre">-C</span></code></dt>
@@ -1027,7 +1028,7 @@ The OPTIONS sections lists the status of each flag.</p>
 <dt><code class="docutils literal"><span class="pre">-fno-prof-count-entries</span></code></dt>
 <dd>Do not collect entry counts</dd>
 <dt><code class="docutils literal"><span class="pre">-ticky</span></code></dt>
-<dd><a class="reference internal" href="profiling.html#ticky-ticky"><span class="std std-ref">Turn on ticky-ticky profiling</span></a></dd>
+<dd><a class="reference internal" href="profiling.html#ticky-ticky"><span>Turn on ticky-ticky profiling</span></a></dd>
 </dl>
 </div>
 <div class="section" id="program-coverage">
@@ -1119,9 +1120,9 @@ The OPTIONS sections lists the status of each flag.</p>
 <dt><code class="docutils literal"><span class="pre">-w</span></code></dt>
 <dd>disable all warnings</dd>
 <dt><code class="docutils literal"><span class="pre">-Wall</span></code></dt>
-<dd>enable almost all warnings (details in <a class="reference internal" href="using-warnings.html#options-sanity"><span class="std std-ref">Warnings and sanity-checking</span></a>)</dd>
+<dd>enable almost all warnings (details in <a class="reference internal" href="using-warnings.html#options-sanity"><span>Warnings and sanity-checking</span></a>)</dd>
 <dt><code class="docutils literal"><span class="pre">-Wcompat</span></code></dt>
-<dd>enable future compatibility warnings (details in <a class="reference internal" href="using-warnings.html#options-sanity"><span class="std std-ref">Warnings and sanity-checking</span></a>)</dd>
+<dd>enable future compatibility warnings (details in <a class="reference internal" href="using-warnings.html#options-sanity"><span>Warnings and sanity-checking</span></a>)</dd>
 <dt><code class="docutils literal"><span class="pre">-Werror</span></code></dt>
 <dd>make warnings fatal</dd>
 <dt><code class="docutils literal"><span class="pre">-Wwarn</span></code></dt>
@@ -1131,9 +1132,9 @@ The OPTIONS sections lists the status of each flag.</p>
 <dt><code class="docutils literal"><span class="pre">-fshow-warning-groups</span></code></dt>
 <dd>show which group an emitted warning belongs to.</dd>
 <dt><code class="docutils literal"><span class="pre">-fdefer-type-errors</span></code></dt>
-<dd>Turn type errors into warnings, <a class="reference internal" href="glasgow_exts.html#defer-type-errors"><span class="std std-ref">deferring the error until runtime</span></a>. Implies <a class="reference internal" href="using-warnings.html#ghc-flag--fdefer-typed-holes"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-fdefer-typed-holes</span></code></a> and <a class="reference internal" href="using-warnings.html#ghc-flag--fdefer-out-of-scope-variables"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-fdefer-out-of-scope-variables</span></code></a>. See also <code class="xref std std-ghc-flag docutils literal"><span class="pre">-Wdeferred-type-errors</span></code></dd>
+<dd>Turn type errors into warnings, <a class="reference internal" href="glasgow_exts.html#defer-type-errors"><span>deferring the error until runtime</span></a>. Implies <a class="reference internal" href="using-warnings.html#ghc-flag--fdefer-typed-holes"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-fdefer-typed-holes</span></code></a> and <a class="reference internal" href="using-warnings.html#ghc-flag--fdefer-out-of-scope-variables"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-fdefer-out-of-scope-variables</span></code></a>. See also <code class="xref std std-ghc-flag docutils literal"><span class="pre">-Wdeferred-type-errors</span></code></dd>
 <dt><code class="docutils literal"><span class="pre">-fdefer-typed-holes</span></code></dt>
-<dd>Convert <a class="reference internal" href="glasgow_exts.html#typed-holes"><span class="std std-ref">typed hole</span></a> errors into warnings, <a class="reference internal" href="glasgow_exts.html#defer-type-errors"><span class="std std-ref">deferring the error until runtime</span></a>. Implied by <a class="reference internal" href="using-warnings.html#ghc-flag--fdefer-type-errors"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-fdefer-type-errors</span></code></a>. See also <a class="reference internal" href="using-warnings.html#ghc-flag--Wtyped-holes"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-Wtyped-holes</span></code></a>.</dd>
+<dd>Convert <a class="reference internal" href="glasgow_exts.html#typed-holes"><span>typed hole</span></a> errors into warnings, <a class="reference internal" href="glasgow_exts.html#defer-type-errors"><span>deferring the error until runtime</span></a>. Implied by <a class="reference internal" href="using-warnings.html#ghc-flag--fdefer-type-errors"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-fdefer-type-errors</span></code></a>. See also <a class="reference internal" href="using-warnings.html#ghc-flag--Wtyped-holes"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-Wtyped-holes</span></code></a>.</dd>
 <dt><code class="docutils literal"><span class="pre">-fdefer-out-of-scope-variables</span></code></dt>
 <dd>Convert variable out of scope variables errors into warnings. Implied by <a class="reference internal" href="using-warnings.html#ghc-flag--fdefer-type-errors"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-fdefer-type-errors</span></code></a>. See also <code class="xref std std-ghc-flag docutils literal"><span class="pre">-Wdeferred-out-of-scope-variables</span></code>.</dd>
 <dt><code class="docutils literal"><span class="pre">-fhelpful-errors</span></code></dt>
@@ -1187,13 +1188,13 @@ The OPTIONS sections lists the status of each flag.</p>
 <dt><code class="docutils literal"><span class="pre">-Wname-shadowing</span></code></dt>
 <dd>warn when names are shadowed</dd>
 <dt><code class="docutils literal"><span class="pre">-Wnoncanonical-monad-instances</span></code></dt>
-<dd>warn when <code class="docutils literal"><span class="pre">Applicative</span></code> or <code class="docutils literal"><span class="pre">Monad</span></code> instances have noncanonical definitions of <code class="docutils literal"><span class="pre">return</span></code>, <code class="docutils literal"><span class="pre">pure</span></code>, <code class="docutils literal"><span class="pre">(&gt;&gt;)</span></code>, or <code class="docutils literal"><span class="pre">(*&gt;)</span></code>. See flag description in <a class="reference internal" href="using-warnings.html#options-sanity"><span class="std std-ref">Warnings and sanity-checking</span></a> for more details.</dd>
+<dd>warn when <code class="docutils literal"><span class="pre">Applicative</span></code> or <code class="docutils literal"><span class="pre">Monad</span></code> instances have noncanonical definitions of <code class="docutils literal"><span class="pre">return</span></code>, <code class="docutils literal"><span class="pre">pure</span></code>, <code class="docutils literal"><span class="pre">(&gt;&gt;)</span></code>, or <code class="docutils literal"><span class="pre">(*&gt;)</span></code>. See flag description in <a class="reference internal" href="using-warnings.html#options-sanity"><span>Warnings and sanity-checking</span></a> for more details.</dd>
 <dt><code class="docutils literal"><span class="pre">-Wnoncanonical-monadfail-instances</span></code></dt>
-<dd>warn when <code class="docutils literal"><span class="pre">Monad</span></code> or <code class="docutils literal"><span class="pre">MonadFail</span></code> instances have noncanonical definitions of <code class="docutils literal"><span class="pre">fail</span></code>.See flag description in <a class="reference internal" href="using-warnings.html#options-sanity"><span class="std std-ref">Warnings and sanity-checking</span></a> for more details.</dd>
+<dd>warn when <code class="docutils literal"><span class="pre">Monad</span></code> or <code class="docutils literal"><span class="pre">MonadFail</span></code> instances have noncanonical definitions of <code class="docutils literal"><span class="pre">fail</span></code>.See flag description in <a class="reference internal" href="using-warnings.html#options-sanity"><span>Warnings and sanity-checking</span></a> for more details.</dd>
 <dt><code class="docutils literal"><span class="pre">-Wnoncanonical-monoid-instances</span></code></dt>
-<dd>warn when <code class="docutils literal"><span class="pre">Semigroup</span></code> or <code class="docutils literal"><span class="pre">Monoid</span></code> instances have noncanonical definitions of <code class="docutils literal"><span class="pre">(&lt;&gt;)</span></code> or <code class="docutils literal"><span class="pre">mappend</span></code>. See flag description in <a class="reference internal" href="using-warnings.html#options-sanity"><span class="std std-ref">Warnings and sanity-checking</span></a> for more details.</dd>
+<dd>warn when <code class="docutils literal"><span class="pre">Semigroup</span></code> or <code class="docutils literal"><span class="pre">Monoid</span></code> instances have noncanonical definitions of <code class="docutils literal"><span class="pre">(&lt;&gt;)</span></code> or <code class="docutils literal"><span class="pre">mappend</span></code>. See flag description in <a class="reference internal" href="using-warnings.html#options-sanity"><span>Warnings and sanity-checking</span></a> for more details.</dd>
 <dt><code class="docutils literal"><span class="pre">-Worphans</span></code></dt>
-<dd>warn when the module contains <a class="reference internal" href="separate_compilation.html#orphan-modules"><span class="std std-ref">orphan instance declarations or rewrite rules</span></a></dd>
+<dd>warn when the module contains <a class="reference internal" href="separate_compilation.html#orphan-modules"><span>orphan instance declarations or rewrite rules</span></a></dd>
 <dt><code class="docutils literal"><span class="pre">-Woverlapping-patterns</span></code></dt>
 <dd>warn about overlapping patterns</dd>
 <dt><code class="docutils literal"><span class="pre">-Wtabs</span></code></dt>
@@ -1225,9 +1226,9 @@ The OPTIONS sections lists the status of each flag.</p>
 <dt><code class="docutils literal"><span class="pre">-Wwrong-do-bind</span></code></dt>
 <dd>warn about do bindings that appear to throw away monadic values that you should have bound instead</dd>
 <dt><code class="docutils literal"><span class="pre">-Wunsafe</span></code></dt>
-<dd>warn if the module being compiled is regarded to be unsafe. Should be used to check the safety status of modules when using safe inference. Works on all module types, even those using explicit <a class="reference internal" href="safe_haskell.html#safe-haskell"><span class="std std-ref">Safe Haskell</span></a> modes (such as <a class="reference internal" href="safe_haskell.html#ghc-flag--XTrustworthy"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-XTrustworthy</span></code></a>) and so can be used to have the compiler check any assumptions made.</dd>
+<dd>warn if the module being compiled is regarded to be unsafe. Should be used to check the safety status of modules when using safe inference. Works on all module types, even those using explicit <a class="reference internal" href="safe_haskell.html#safe-haskell"><span>Safe Haskell</span></a> modes (such as <a class="reference internal" href="safe_haskell.html#ghc-flag--XTrustworthy"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-XTrustworthy</span></code></a>) and so can be used to have the compiler check any assumptions made.</dd>
 <dt><code class="docutils literal"><span class="pre">-Wsafe</span></code></dt>
-<dd>warn if the module being compiled is regarded to be safe. Should be used to check the safety status of modules when using safe inference. Works on all module types, even those using explicit <a class="reference internal" href="safe_haskell.html#safe-haskell"><span class="std std-ref">Safe Haskell</span></a> modes (such as <a class="reference internal" href="safe_haskell.html#ghc-flag--XTrustworthy"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-XTrustworthy</span></code></a>) and so can be used to have the compiler check any assumptions made.</dd>
+<dd>warn if the module being compiled is regarded to be safe. Should be used to check the safety status of modules when using safe inference. Works on all module types, even those using explicit <a class="reference internal" href="safe_haskell.html#safe-haskell"><span>Safe Haskell</span></a> modes (such as <a class="reference internal" href="safe_haskell.html#ghc-flag--XTrustworthy"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-XTrustworthy</span></code></a>) and so can be used to have the compiler check any assumptions made.</dd>
 <dt><code class="docutils literal"><span class="pre">-Wtrustworthy-safe</span></code></dt>
 <dd>warn if the module being compiled is marked as <a class="reference internal" href="safe_haskell.html#ghc-flag--XTrustworthy"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-XTrustworthy</span></code></a> but it could instead be marked as <a class="reference internal" href="safe_haskell.html#ghc-flag--XSafe"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-XSafe</span></code></a>, a more informative bound. Can be used to detectonce a Safe Haskell bound can be improved as dependencies are updated.</dd>
 <dt><code class="docutils literal"><span class="pre">-Wwarnings-deprecations</span></code></dt>
@@ -1237,13 +1238,13 @@ The OPTIONS sections lists the status of each flag.</p>
 <dt><code class="docutils literal"><span class="pre">-Wredundant-constraints</span></code></dt>
 <dd>Have the compiler warn about redundant constraints in typesignatures.</dd>
 <dt><code class="docutils literal"><span class="pre">-Wdeferred-type-errors</span></code></dt>
-<dd>Report warnings when <a class="reference internal" href="glasgow_exts.html#defer-type-errors"><span class="std std-ref">deferred type errors</span></a> are enabled. This option is enabled by default. See <a class="reference internal" href="using-warnings.html#ghc-flag--fdefer-type-errors"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-fdefer-type-errors</span></code></a>.</dd>
+<dd>Report warnings when <a class="reference internal" href="glasgow_exts.html#defer-type-errors"><span>deferred type errors</span></a> are enabled. This option is enabled by default. See <a class="reference internal" href="using-warnings.html#ghc-flag--fdefer-type-errors"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-fdefer-type-errors</span></code></a>.</dd>
 <dt><code class="docutils literal"><span class="pre">-Wtyped-holes</span></code></dt>
-<dd>Report warnings when <a class="reference internal" href="glasgow_exts.html#typed-holes"><span class="std std-ref">typed hole</span></a> errors are <a class="reference internal" href="glasgow_exts.html#defer-type-errors"><span class="std std-ref">deferred until runtime</span></a>. See <a class="reference internal" href="using-warnings.html#ghc-flag--fdefer-typed-holes"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-fdefer-typed-holes</span></code></a>.</dd>
+<dd>Report warnings when <a class="reference internal" href="glasgow_exts.html#typed-holes"><span>typed hole</span></a> errors are <a class="reference internal" href="glasgow_exts.html#defer-type-errors"><span>deferred until runtime</span></a>. See <a class="reference internal" href="using-warnings.html#ghc-flag--fdefer-typed-holes"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-fdefer-typed-holes</span></code></a>.</dd>
 <dt><code class="docutils literal"><span class="pre">-Wdeferred-out-of-scope-variables</span></code></dt>
 <dd>Report warnings when variable out-of-scope errors are <span class="xref std std-ref">deferred until runtime</span>. See <a class="reference internal" href="using-warnings.html#ghc-flag--fdefer-out-of-scope-variables"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-fdefer-out-of-scope-variables</span></code></a>.</dd>
 <dt><code class="docutils literal"><span class="pre">-Wpartial-type-signatures</span></code></dt>
-<dd>warn about holes in partial type signatures when <a class="reference internal" href="glasgow_exts.html#ghc-flag--XPartialTypeSignatures"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-XPartialTypeSignatures</span></code></a> is enabled. Not applicable when <code class="xref std std-ghc-flag docutils literal"><span class="pre">-XPartialTypesignatures</span></code> is not enabled, in which case errors are generated for such holes. See <a class="reference internal" href="glasgow_exts.html#partial-type-signatures"><span class="std std-ref">Partial Type Signatures</span></a>.</dd>
+<dd>warn about holes in partial type signatures when <a class="reference internal" href="glasgow_exts.html#ghc-flag--XPartialTypeSignatures"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-XPartialTypeSignatures</span></code></a> is enabled. Not applicable when <code class="xref std std-ghc-flag docutils literal"><span class="pre">-XPartialTypesignatures</span></code> is not enabled, in which case errors are generated for such holes. See <a class="reference internal" href="glasgow_exts.html#partial-type-signatures"><span>Partial Type Signatures</span></a>.</dd>
 <dt><code class="docutils literal"><span class="pre">-Wderiving-typeable</span></code></dt>
 <dd>warn when encountering a request to derive an instance of class <code class="docutils literal"><span class="pre">Typeable</span></code>. As of GHC 7.10, such declarations are unnecessary and are ignored by the compiler because GHC has a custom solver for discharging this type of constraint.</dd>
 </dl>
@@ -1268,12 +1269,12 @@ All rights reserved.</p>
         <li class="right" style="margin-right: 10px">
           <a href="genindex.html" title="General Index"
              >index</a></li>
-        <li class="nav-item nav-item-0"><a href="index.html">GHC 8.0.2 Users Guide</a> &#187;</li> 
+        <li class="nav-item nav-item-0"><a href="index.html">GHC 8.0.2 Users Guide</a> &raquo;</li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">
-        &#169; Copyright 2015, GHC Team.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.5.2.
+        &copy; Copyright 2015, GHC Team.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.6.
     </div>
   </body>
 </html>
