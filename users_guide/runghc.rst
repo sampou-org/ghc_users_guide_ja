@@ -71,15 +71,26 @@ runghcもGHCも両方ともに認識するフラグでGHCに渡したいフラ�
 
 - ``runghc -- -- -hello.hs``
 
-runghc flags
-------------
+..
+   runghc flags
+   ------------
 
-runghc accepts the following flags:
+   runghc accepts the following flags:
 
-- ``-f /path/to/ghc``: tell runghc the path of GHC executable to use to run the program. By default runghc will search for GHC in the directories in the system search path.
-- ``--ghc-arg=<arg>``: Pass an option or argument to GHC
-- ``--help``: print usage information.
-- ``--version``: print version information.
+   - ``-f /path/to/ghc``: tell runghc the path of GHC executable to use to run the program. By default runghc will search for GHC in the directories in the system search path.
+   - ``--ghc-arg=<arg>``: Pass an option or argument to GHC
+   - ``--help``: print usage information.
+   - ``--version``: print version information.
+
+runghc フラグ
+-------------
+
+runghc は以下のフラグを受け付けます．
+
+- ``-f /path/to/ghc``: runghcにプログラムを実行するGHC実行ファイルを教えます．デフォルトでは，runghc はシステムの検索パスを探します．
+- ``--ghc-arg=<arg>``: GHCへオプションまたは引数を渡します．
+- ``--help``: 使い方情報を表示します．
+- ``--version``: バージョン情報を表示します．
 
 GHC Flags
 ---------
