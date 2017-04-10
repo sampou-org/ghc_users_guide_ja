@@ -364,55 +364,103 @@ GHCのコマンドラインオプションは，静的オプション，動的�
 静的でありながら，GHCiの :ghci-cmd:`:set` コマンドで設定できるフラグも少しながらあります．
 これは参照表では「static/\ ``:set``\ 」と表記されています．
 
+..
+   .. _file-suffixes:
+
+   Meaningful file suffixes
+   ------------------------
+
+   .. index::
+      single: suffixes, file
+      single: file suffixes for GHC
+
+   File names with "meaningful" suffixes (e.g., ``.lhs`` or ``.o``) cause
+   the "right thing" to happen to those files.
+
 .. _file-suffixes:
 
-Meaningful file suffixes
-------------------------
+重要な意味のあるファイル接尾辞
+------------------------------
 
 .. index::
-   single: suffixes, file
-   single: file suffixes for GHC
+   single: 接尾辞, ファイルの〜
+   single: GHC用のファイル接尾辞
 
-File names with "meaningful" suffixes (e.g., ``.lhs`` or ``.o``) cause
-the "right thing" to happen to those files.
+「意味のある」接尾辞 (たとえば ``.lhs`` あるいは ``.o``)の付いたファイルは，それにしたがって「適切な」方法で処理されます．
+
+..
+   ``.hs``
+       A Haskell module.
+
+   ``.lhs``
+       .. index::
+	  single: lhs file extension
+
+       A “literate Haskell” module.
+
+   ``.hspp``
+       A file created by the preprocessor.
+
+   ``.hi``
+       A Haskell interface file, probably compiler-generated.
+
+   ``.hc``
+       Intermediate C file produced by the Haskell compiler.
+
+   ``.c``
+       A C file not produced by the Haskell compiler.
+
+   ``.ll``
+       An llvm-intermediate-language source file, usually produced by the
+       compiler.
+
+   ``.bc``
+       An llvm-intermediate-language bitcode file, usually produced by the
+       compiler.
+
+   ``.s``
+       An assembly-language source file, usually produced by the compiler.
+
+   ``.o``
+       An object file, produced by an assembler.
+
+   Files with other suffixes (or without suffixes) are passed straight to
+   the linker.
 
 ``.hs``
-    A Haskell module.
+    Haskellモジュール．
 
 ``.lhs``
     .. index::
-       single: lhs file extension
+       single: lhsというファイル拡張子
 
-    A “literate Haskell” module.
+    「文芸的Haskell」モジュール．
 
 ``.hspp``
-    A file created by the preprocessor.
+    プリプロセッサが生成したファイル．
 
 ``.hi``
-    A Haskell interface file, probably compiler-generated.
+    Haskellインターフェイスファイル，コンパイラが生成したものであることが多い．
 
 ``.hc``
-    Intermediate C file produced by the Haskell compiler.
+    Haskellコンパイラが生成した中間のCファイル．
 
 ``.c``
-    A C file not produced by the Haskell compiler.
+    Haskellコンパイラが生成したCファイル以外のCファイル．
 
 ``.ll``
-    An llvm-intermediate-language source file, usually produced by the
-    compiler.
+    中間言語llvmのソースファイル．通常コンパイラが生成する．
 
 ``.bc``
-    An llvm-intermediate-language bitcode file, usually produced by the
-    compiler.
+    中間言語llvmのビットコードファイル．通常コンパイラが生成する．
 
 ``.s``
-    An assembly-language source file, usually produced by the compiler.
+    アセンブリ言語のソースファイル．通常コンパイラが生成する．
 
 ``.o``
-    An object file, produced by an assembler.
+    アセンブラが生成するオブジェクトファイル．
 
-Files with other suffixes (or without suffixes) are passed straight to
-the linker.
+これ以外の接尾辞が付く(あるいは接尾辞の付かない)ファイルは直接リンカに渡されます．
 
 .. _modes:
 
