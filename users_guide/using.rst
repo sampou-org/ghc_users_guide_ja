@@ -462,141 +462,282 @@ GHCのコマンドラインオプションは，静的オプション，動的�
 
 これ以外の接尾辞が付く(あるいは接尾辞の付かない)ファイルは直接リンカに渡されます．
 
+..
+   .. _modes:
+
+   Modes of operation
+   ------------------
+
+   .. index::
+      single: help options
+
+   GHC's behaviour is firstly controlled by a mode flag. Only one of these
+   flags may be given, but it does not necessarily need to be the first
+   option on the command-line. For instance,
+
+   .. code-block:: none
+
+       $ ghc Main.hs --make -o my-application
+
 .. _modes:
 
-Modes of operation
-------------------
+実行モード
+----------
 
 .. index::
-   single: help options
+   single: helpオプション
 
-GHC's behaviour is firstly controlled by a mode flag. Only one of these
-flags may be given, but it does not necessarily need to be the first
-option on the command-line. For instance,
+GHCの振る舞いはまずモード指定フラグで制御します．
+モード指定フラグは1つしか与えられませんが，コマンドラインにおいて最初のオプションである必要はありません．
+以下は指定例です．
 
 .. code-block:: none
 
     $ ghc Main.hs --make -o my-application
 
-If no mode flag is present, then GHC will enter :ghc-flag:`--make` mode
-(:ref:`make-mode`) if there are any Haskell source files given on the
-command line, or else it will link the objects named on the command line
-to produce an executable.
+..
+   If no mode flag is present, then GHC will enter :ghc-flag:`--make` mode
+   (:ref:`make-mode`) if there are any Haskell source files given on the
+   command line, or else it will link the objects named on the command line
+   to produce an executable.
 
-The available mode flags are:
+モード指定フラグがない場合，コマンドラインでHaskellのソースファイルが指定されていれば :ghc-flag:`--make`
+モード(:ref:`make-mode`)になり，そうでなければ，コマンドライン中で指定さたオブジェクトをリンクして実行可能ファイルを生成します．
+
+..
+   The available mode flags are:
+
+   .. ghc-flag:: --interactive
+
+       .. index::
+	  single: interactive mode
+	  single: GHCi
+
+       Interactive mode, which is also available as :program:`ghci`. Interactive
+       mode is described in more detail in :ref:`ghci`.
+
+以下のモード指定フラグが利用可能です．
 
 .. ghc-flag:: --interactive
 
     .. index::
-       single: interactive mode
+       single: 対話モード
        single: GHCi
 
-    Interactive mode, which is also available as :program:`ghci`. Interactive
-    mode is described in more detail in :ref:`ghci`.
+    対話モード． :program:`ghci` としても使えます．
+    対話モードの詳しい説明は :ref:`ghci` を参照してください．
+
+..
+   .. ghc-flag:: --make
+
+       .. index::
+	  single: make mode; of GHC
+
+       In this mode, GHC will build a multi-module Haskell program
+       automatically, figuring out dependencies for itself. If you have a
+       straightforward Haskell program, this is likely to be much easier,
+       and faster, than using :command:`make`. Make mode is described in
+       :ref:`make-mode`.
+
+       This mode is the default if there are any Haskell source files
+       mentioned on the command line, and in this case the :ghc-flag:`--make`
+       option can be omitted.
 
 .. ghc-flag:: --make
 
     .. index::
-       single: make mode; of GHC
+       single: makeモード; GHCの〜
 
-    In this mode, GHC will build a multi-module Haskell program
-    automatically, figuring out dependencies for itself. If you have a
-    straightforward Haskell program, this is likely to be much easier,
-    and faster, than using :command:`make`. Make mode is described in
-    :ref:`make-mode`.
+    このモードではGHCは複数のモジュールからなるHaskellプログラムを依存性を解析しながら自動的にビルドします．
+    単純なHaskellプログラムなら，これは :command:`make` を使うよりずっと簡単でしかも速くビルドできます．
+    makeモードについては :ref:`make-mode` で解説しています．
 
-    This mode is the default if there are any Haskell source files
-    mentioned on the command line, and in this case the :ghc-flag:`--make`
-    option can be omitted.
+    コマンドラインでHaskellのソースコードを指定した場合は，このモードがデフォルトになります．
+    その場合 :ghc-flag:`--make` オプションは省略できます．
+
+..
+   .. ghc-flag:: -e ⟨expr⟩
+
+       .. index::
+	  single: eval mode; of GHC
+
+       Expression-evaluation mode. This is very similar to interactive
+       mode, except that there is a single expression to evaluate (⟨expr⟩)
+       which is given on the command line. See :ref:`eval-mode` for more
+       details.
 
 .. ghc-flag:: -e ⟨expr⟩
 
     .. index::
-       single: eval mode; of GHC
+       single: evalモード; GHCの〜
 
-    Expression-evaluation mode. This is very similar to interactive
-    mode, except that there is a single expression to evaluate (⟨expr⟩)
-    which is given on the command line. See :ref:`eval-mode` for more
-    details.
+    式評価モード．対話モードとほぼ同じですが，
+    評価する式(⟨expr⟩)は1つだけで，コマンドラインで与えます．
+    詳細については :ref:`eval-mode` を参照してください．
+
+..
+   .. ghc-flag:: -E
+		 -C
+		 -S
+		 -c
+
+       This is the traditional batch-compiler mode, in which GHC can
+       compile source files one at a time, or link objects together into an
+       executable. See :ref:`options-order`.
 
 .. ghc-flag:: -E
               -C
               -S
               -c
 
-    This is the traditional batch-compiler mode, in which GHC can
-    compile source files one at a time, or link objects together into an
-    executable. See :ref:`options-order`.
+    これは伝統的なバッチ処理コンパイラモードです．GHCは1度に1つのソースファイルをコンパイルするか，
+    オブジェクトファイルをリンクして1つの実行可能ファイルを生成します．
+    :ref:`options-order` を参照してください．
+
+..
+   .. ghc-flag:: -M
+
+       .. index::
+	   single: dependency-generation mode; of GHC
+
+       Dependency-generation mode. In this mode, GHC can be used to
+       generate dependency information suitable for use in a ``Makefile``.
+       See :ref:`makefile-dependencies`.
 
 .. ghc-flag:: -M
 
     .. index::
-        single: dependency-generation mode; of GHC
+        single: 依存性生成モード; GHCの〜
 
-    Dependency-generation mode. In this mode, GHC can be used to
-    generate dependency information suitable for use in a ``Makefile``.
-    See :ref:`makefile-dependencies`.
+    依存性生成モード．このモードでは，GHCを使って ``Makefile`` ファイルで使うのに適した依存性情報を生成できます．
+    :ref:`makefile-dependencies` を参照してください．
+
+..
+   .. ghc-flag:: --frontend <module>
+
+       .. index::
+	   single: frontend plugins; using
+
+       Run GHC using the given frontend plugin. See :ref:`frontend_plugins` for
+       details.
 
 .. ghc-flag:: --frontend <module>
 
     .. index::
-        single: frontend plugins; using
+        single: フロントエンドプラグイン; 〜を使う
 
-    Run GHC using the given frontend plugin. See :ref:`frontend_plugins` for
-    details.
+    指定したフロントエンドプラグインを使ってGHCを走らせます．詳細は :ref:`frontend_plugins` を参照してください．
+
+..
+   .. ghc-flag:: --mk-dll
+
+       .. index::
+	  single: DLL-creation mode
+
+       DLL-creation mode (Windows only). See :ref:`win32-dlls-create`.
 
 .. ghc-flag:: --mk-dll
 
     .. index::
-       single: DLL-creation mode
+       single: DLL作成モード
 
-    DLL-creation mode (Windows only). See :ref:`win32-dlls-create`.
+    DLL作成モード(Windows のみ)． :ref:`win32-dlls-create` を参照してください．
+
+..
+   .. ghc-flag:: --help
+		 -?
+
+       Cause GHC to spew a long usage message to standard output and then
+       exit.
 
 .. ghc-flag:: --help
               -?
 
-    Cause GHC to spew a long usage message to standard output and then
-    exit.
+    GHC は使い方に関する長いメッセージを標準出力に吐いて，終了します．
+
+..
+   .. ghc-flag:: --show-iface ⟨file⟩
+
+       Read the interface in ⟨file⟩ and dump it as text to ``stdout``. For
+       example ``ghc --show-iface M.hi``.
 
 .. ghc-flag:: --show-iface ⟨file⟩
 
-    Read the interface in ⟨file⟩ and dump it as text to ``stdout``. For
-    example ``ghc --show-iface M.hi``.
+    ⟨file⟩ 中のインターフェイスを読んで，それをテキストとして ``stdout`` にダンプします．
+    たとえば ``ghc --show-iface M.hi`` のように使います．
+
+..
+   .. ghc-flag:: --supported-extensions
+		 --supported-languages
+
+       Print the supported language extensions.
 
 .. ghc-flag:: --supported-extensions
               --supported-languages
 
-    Print the supported language extensions.
+    サポートしている言語拡張を表示します．
+
+..
+   .. ghc-flag:: --show-options
+
+       Print the supported command line options. This flag can be used for
+       autocompletion in a shell.
 
 .. ghc-flag:: --show-options
 
-    Print the supported command line options. This flag can be used for
-    autocompletion in a shell.
+    サポートしているコマンドラインオプションを表示します．シェルでの自動補完のために使えます．
+
+..
+   .. ghc-flag:: --info
+
+       Print information about the compiler.
 
 .. ghc-flag:: --info
 
-    Print information about the compiler.
+    コンパイラに関する情報を表示します．
+
+..
+   .. ghc-flag:: --version
+		 -V
+
+       Print a one-line string including GHC's version number.
 
 .. ghc-flag:: --version
               -V
 
-    Print a one-line string including GHC's version number.
+    GHCのバージョン番号を含む1行の文字列を表示します．
+
+..
+   .. ghc-flag:: --numeric-version
+
+       Print GHC's numeric version number only.
 
 .. ghc-flag:: --numeric-version
 
-    Print GHC's numeric version number only.
+    GHCのバージョンを数値でのみ表示します．
+
+..
+   .. ghc-flag:: --print-libdir
+
+       .. index::
+	  single: libdir
+
+       Print the path to GHC's library directory. This is the top of the
+       directory tree containing GHC's libraries, interfaces, and include
+       files (usually something like ``/usr/local/lib/ghc-5.04`` on Unix).
+       This is the value of ``$libdir`` in the package
+       configuration file (see :ref:`packages`).
 
 .. ghc-flag:: --print-libdir
 
     .. index::
        single: libdir
 
-    Print the path to GHC's library directory. This is the top of the
-    directory tree containing GHC's libraries, interfaces, and include
-    files (usually something like ``/usr/local/lib/ghc-5.04`` on Unix).
-    This is the value of ``$libdir`` in the package
-    configuration file (see :ref:`packages`).
-
+    GHCライブラリディレクトリのパスを表示します．
+    このパスはGHCのライブラリ，インターフェイス，インクルードファイルが置かれているディレクトリツリーの最上位です
+    (通常 Unix では ``/usr/local/lib/ghcl`` のような場所です)．
+    これはパッケージの設定ファイル(:ref:`packages` 参照)における ``$libdir`` の値です．
+       
 .. _make-mode:
 
 Using ``ghc`` ``--make``
