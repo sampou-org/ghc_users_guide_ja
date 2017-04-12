@@ -65,8 +65,8 @@
 </li>
 <li><a class="reference internal" href="#static-dynamic-flags">7.1.3. 静的オプション，動的オプション，モード指定オプション</a></li>
 <li><a class="reference internal" href="#file-suffixes">7.1.4. 重要な意味のあるファイル接尾辞</a></li>
-<li><a class="reference internal" href="#modes-of-operation">7.1.5. Modes of operation</a><ul>
-<li><a class="reference internal" href="#using-ghc-make">7.1.5.1. Using <code class="docutils literal"><span class="pre">ghc</span></code> <code class="docutils literal"><span class="pre">--make</span></code></a></li>
+<li><a class="reference internal" href="#modes">7.1.5. 実行モード</a><ul>
+<li><a class="reference internal" href="#ghc-make">7.1.5.1. <code class="docutils literal"><span class="pre">ghc</span></code> <code class="docutils literal"><span class="pre">--make</span></code> を使う</a></li>
 <li><a class="reference internal" href="#expression-evaluation-mode">7.1.5.2. Expression evaluation mode</a></li>
 <li><a class="reference internal" href="#batch-compiler-mode">7.1.5.3. Batch compiler mode</a><ul>
 <li><a class="reference internal" href="#overriding-the-default-behaviour-for-a-file">7.1.5.3.1. Overriding the default behaviour for a file</a></li>
@@ -218,7 +218,7 @@ Windowsでは <code class="docutils literal"><span class="pre">Data\Person.hs</s
 <p id="index-4">GHCのコマンドラインオプションは，静的オプション，動的オプション，モード指定オプションのいずれかに分類されます．</p>
 <blockquote>
 <div><p><a class="reference internal" href="#ghc-flag---make"><code class="xref std std-ghc-flag docutils literal"><span class="pre">--make</span></code></a> や <a class="reference internal" href="#ghc-flag--E"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-E</span></code></a> はモード指定フラグです．モード指定フラグはコマンドラインで1つだけ指定できます．
-利用可能なモードの一覧は <a class="reference internal" href="#modes"><span>Modes of operation</span></a> にあります．</p>
+利用可能なモードの一覧は <a class="reference internal" href="#modes"><span>実行モード</span></a> にあります．</p>
 <p>モード指定フラグではない大部分のフラグは動的フラグに分類されます．
 動的フラグは，コマンドライン，ソースファイルの <code class="docutils literal"><span class="pre">OPTIONS_GHC</span></code> プラグマ，
 GHCi内の <a class="reference internal" href="ghci.html#ghci-cmd-:set"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:set</span></code></a> コマンドのいずれの方法でも設定できます．</p>
@@ -256,46 +256,40 @@ GHCi内の <a class="reference internal" href="ghci.html#ghci-cmd-:set"><code cl
 </dl>
 <p>これ以外の接尾辞が付く(あるいは接尾辞の付かない)ファイルは直接リンカに渡されます．</p>
 </div>
-<div class="section" id="modes-of-operation">
-<span id="modes"></span><h2>7.1.5. Modes of operation<a class="headerlink" href="#modes-of-operation" title="Permalink to this headline">¶</a></h2>
-<p id="index-7">GHC&#8217;s behaviour is firstly controlled by a mode flag. Only one of these
-flags may be given, but it does not necessarily need to be the first
-option on the command-line. For instance,</p>
+<div class="section" id="modes">
+<span id="id7"></span><h2>7.1.5. 実行モード<a class="headerlink" href="#modes" title="Permalink to this headline">¶</a></h2>
+<p id="index-7">GHCの振る舞いはまずモード指定フラグで制御します．
+モード指定フラグは1つしか与えられませんが，コマンドラインにおいて最初のオプションである必要はありません．
+以下は指定例です．</p>
 <div class="highlight-none"><div class="highlight"><pre>$ ghc Main.hs --make -o my-application
 </pre></div>
 </div>
-<p>If no mode flag is present, then GHC will enter <a class="reference internal" href="#ghc-flag---make"><code class="xref std std-ghc-flag docutils literal"><span class="pre">--make</span></code></a> mode
-(<a class="reference internal" href="#make-mode"><span>Using ghc &#8211;make</span></a>) if there are any Haskell source files given on the
-command line, or else it will link the objects named on the command line
-to produce an executable.</p>
-<p>The available mode flags are:</p>
+<p>モード指定フラグがない場合，コマンドラインでHaskellのソースファイルが指定されていれば <a class="reference internal" href="#ghc-flag---make"><code class="xref std std-ghc-flag docutils literal"><span class="pre">--make</span></code></a>
+モード(<a class="reference internal" href="#make-mode"><span>ghc &#8211;make を使う</span></a>)になり，そうでなければ，コマンドライン中で指定さたオブジェクトをリンクして実行可能ファイルを生成します．</p>
+<p>以下のモード指定フラグが利用可能です．</p>
 <dl class="ghc-flag">
 <dt id="ghc-flag---interactive">
 <code class="descname">--interactive</code><code class="descclassname"> </code><a class="headerlink" href="#ghc-flag---interactive" title="Permalink to this definition">¶</a></dt>
-<dd><p id="index-8">Interactive mode, which is also available as <strong class="program">ghci</strong>. Interactive
-mode is described in more detail in <a class="reference internal" href="ghci.html#ghci"><span>GHCiを使う</span></a>.</p>
+<dd><p id="index-8">対話モード． <strong class="program">ghci</strong> としても使えます．
+対話モードの詳しい説明は <a class="reference internal" href="ghci.html#ghci"><span>GHCiを使う</span></a> を参照してください．</p>
 </dd></dl>
 
 <dl class="ghc-flag">
 <dt id="ghc-flag---make">
 <code class="descname">--make</code><code class="descclassname"> </code><a class="headerlink" href="#ghc-flag---make" title="Permalink to this definition">¶</a></dt>
-<dd><p id="index-9">In this mode, GHC will build a multi-module Haskell program
-automatically, figuring out dependencies for itself. If you have a
-straightforward Haskell program, this is likely to be much easier,
-and faster, than using <strong class="command">make</strong>. Make mode is described in
-<a class="reference internal" href="#make-mode"><span>Using ghc &#8211;make</span></a>.</p>
-<p>This mode is the default if there are any Haskell source files
-mentioned on the command line, and in this case the <a class="reference internal" href="#ghc-flag---make"><code class="xref std std-ghc-flag docutils literal"><span class="pre">--make</span></code></a>
-option can be omitted.</p>
+<dd><p id="index-9">このモードではGHCは複数のモジュールからなるHaskellプログラムを依存性を解析しながら自動的にビルドします．
+単純なHaskellプログラムなら，これは <strong class="command">make</strong> を使うよりずっと簡単でしかも速くビルドできます．
+makeモードについては <a class="reference internal" href="#make-mode"><span>ghc &#8211;make を使う</span></a> で解説しています．</p>
+<p>コマンドラインでHaskellのソースコードを指定した場合は，このモードがデフォルトになります．
+その場合 <a class="reference internal" href="#ghc-flag---make"><code class="xref std std-ghc-flag docutils literal"><span class="pre">--make</span></code></a> オプションは省略できます．</p>
 </dd></dl>
 
 <dl class="ghc-flag">
 <dt id="ghc-flag--e">
 <code class="descname">-e</code><code class="descclassname"> ⟨expr⟩</code><a class="headerlink" href="#ghc-flag--e" title="Permalink to this definition">¶</a></dt>
-<dd><p id="index-10">Expression-evaluation mode. This is very similar to interactive
-mode, except that there is a single expression to evaluate (⟨expr⟩)
-which is given on the command line. See <a class="reference internal" href="#eval-mode"><span>Expression evaluation mode</span></a> for more
-details.</p>
+<dd><p id="index-10">式評価モード．対話モードとほぼ同じですが，
+評価する式(⟨expr⟩)は1つだけで，コマンドラインで与えます．
+詳細については <a class="reference internal" href="#eval-mode"><span>Expression evaluation mode</span></a> を参照してください．</p>
 </dd></dl>
 
 <dl class="ghc-flag">
@@ -307,30 +301,28 @@ details.</p>
 <code class="descname">-S</code><code class="descclassname"> </code><a class="headerlink" href="#ghc-flag--S" title="Permalink to this definition">¶</a></dt>
 <dt id="ghc-flag--c">
 <code class="descname">-c</code><code class="descclassname"> </code><a class="headerlink" href="#ghc-flag--c" title="Permalink to this definition">¶</a></dt>
-<dd><p>This is the traditional batch-compiler mode, in which GHC can
-compile source files one at a time, or link objects together into an
-executable. See <a class="reference internal" href="#options-order"><span>Batch compiler mode</span></a>.</p>
+<dd><p>これは伝統的なバッチ処理コンパイラモードです．GHCは1度に1つのソースファイルをコンパイルするか，
+オブジェクトファイルをリンクして1つの実行可能ファイルを生成します．
+<a class="reference internal" href="#options-order"><span>Batch compiler mode</span></a> を参照してください．</p>
 </dd></dl>
 
 <dl class="ghc-flag">
 <dt id="ghc-flag--M">
 <code class="descname">-M</code><code class="descclassname"> </code><a class="headerlink" href="#ghc-flag--M" title="Permalink to this definition">¶</a></dt>
-<dd><p id="index-11">Dependency-generation mode. In this mode, GHC can be used to
-generate dependency information suitable for use in a <code class="docutils literal"><span class="pre">Makefile</span></code>.
-See <a class="reference internal" href="separate_compilation.html#makefile-dependencies"><span>Dependency generation</span></a>.</p>
+<dd><p id="index-11">依存性生成モード．このモードでは，GHCを使って <code class="docutils literal"><span class="pre">Makefile</span></code> ファイルで使うのに適した依存性情報を生成できます．
+<a class="reference internal" href="separate_compilation.html#makefile-dependencies"><span>Dependency generation</span></a> を参照してください．</p>
 </dd></dl>
 
 <dl class="ghc-flag">
 <dt id="ghc-flag---frontend">
 <code class="descname">--frontend</code><code class="descclassname"> ⟨module⟩</code><a class="headerlink" href="#ghc-flag---frontend" title="Permalink to this definition">¶</a></dt>
-<dd><p id="index-12">Run GHC using the given frontend plugin. See <a class="reference internal" href="extending_ghc.html#frontend-plugins"><span>Frontend plugins</span></a> for
-details.</p>
+<dd><p id="index-12">指定したフロントエンドプラグインを使ってGHCを走らせます．詳細は <a class="reference internal" href="extending_ghc.html#frontend-plugins"><span>Frontend plugins</span></a> を参照してください．</p>
 </dd></dl>
 
 <dl class="ghc-flag">
 <dt id="ghc-flag---mk-dll">
 <code class="descname">--mk-dll</code><code class="descclassname"> </code><a class="headerlink" href="#ghc-flag---mk-dll" title="Permalink to this definition">¶</a></dt>
-<dd><p id="index-13">DLL-creation mode (Windows only). See <a class="reference internal" href="win32-dlls.html#win32-dlls-create"><span>Creating a DLL</span></a>.</p>
+<dd><p id="index-13">DLL作成モード(Windows のみ)． <a class="reference internal" href="win32-dlls.html#win32-dlls-create"><span>Creating a DLL</span></a> を参照してください．</p>
 </dd></dl>
 
 <dl class="ghc-flag">
@@ -338,15 +330,14 @@ details.</p>
 <code class="descname">--help</code><code class="descclassname"> </code><a class="headerlink" href="#ghc-flag---help" title="Permalink to this definition">¶</a></dt>
 <dt id="ghc-flag--?">
 <code class="descname">-?</code><code class="descclassname"> </code><a class="headerlink" href="#ghc-flag--?" title="Permalink to this definition">¶</a></dt>
-<dd><p>Cause GHC to spew a long usage message to standard output and then
-exit.</p>
+<dd><p>GHC は使い方に関する長いメッセージを標準出力に吐いて，終了します．</p>
 </dd></dl>
 
 <dl class="ghc-flag">
 <dt id="ghc-flag---show-iface">
 <code class="descname">--show-iface</code><code class="descclassname"> ⟨file⟩</code><a class="headerlink" href="#ghc-flag---show-iface" title="Permalink to this definition">¶</a></dt>
-<dd><p>Read the interface in ⟨file⟩ and dump it as text to <code class="docutils literal"><span class="pre">stdout</span></code>. For
-example <code class="docutils literal"><span class="pre">ghc</span> <span class="pre">--show-iface</span> <span class="pre">M.hi</span></code>.</p>
+<dd><p>⟨file⟩ 中のインターフェイスを読んで，それをテキストとして <code class="docutils literal"><span class="pre">stdout</span></code> にダンプします．
+たとえば <code class="docutils literal"><span class="pre">ghc</span> <span class="pre">--show-iface</span> <span class="pre">M.hi</span></code> のように使います．</p>
 </dd></dl>
 
 <dl class="ghc-flag">
@@ -354,20 +345,19 @@ example <code class="docutils literal"><span class="pre">ghc</span> <span class=
 <code class="descname">--supported-extensions</code><code class="descclassname"> </code><a class="headerlink" href="#ghc-flag---supported-extensions" title="Permalink to this definition">¶</a></dt>
 <dt id="ghc-flag---supported-languages">
 <code class="descname">--supported-languages</code><code class="descclassname"> </code><a class="headerlink" href="#ghc-flag---supported-languages" title="Permalink to this definition">¶</a></dt>
-<dd><p>Print the supported language extensions.</p>
+<dd><p>サポートしている言語拡張を表示します．</p>
 </dd></dl>
 
 <dl class="ghc-flag">
 <dt id="ghc-flag---show-options">
 <code class="descname">--show-options</code><code class="descclassname"> </code><a class="headerlink" href="#ghc-flag---show-options" title="Permalink to this definition">¶</a></dt>
-<dd><p>Print the supported command line options. This flag can be used for
-autocompletion in a shell.</p>
+<dd><p>サポートしているコマンドラインオプションを表示します．シェルでの自動補完のために使えます．</p>
 </dd></dl>
 
 <dl class="ghc-flag">
 <dt id="ghc-flag---info">
 <code class="descname">--info</code><code class="descclassname"> </code><a class="headerlink" href="#ghc-flag---info" title="Permalink to this definition">¶</a></dt>
-<dd><p>Print information about the compiler.</p>
+<dd><p>コンパイラに関する情報を表示します．</p>
 </dd></dl>
 
 <dl class="ghc-flag">
@@ -375,89 +365,76 @@ autocompletion in a shell.</p>
 <code class="descname">--version</code><code class="descclassname"> </code><a class="headerlink" href="#ghc-flag---version" title="Permalink to this definition">¶</a></dt>
 <dt id="ghc-flag--V">
 <code class="descname">-V</code><code class="descclassname"> </code><a class="headerlink" href="#ghc-flag--V" title="Permalink to this definition">¶</a></dt>
-<dd><p>Print a one-line string including GHC&#8217;s version number.</p>
+<dd><p>GHCのバージョン番号を含む1行の文字列を表示します．</p>
 </dd></dl>
 
 <dl class="ghc-flag">
 <dt id="ghc-flag---numeric-version">
 <code class="descname">--numeric-version</code><code class="descclassname"> </code><a class="headerlink" href="#ghc-flag---numeric-version" title="Permalink to this definition">¶</a></dt>
-<dd><p>Print GHC&#8217;s numeric version number only.</p>
+<dd><p>GHCのバージョンを数値でのみ表示します．</p>
 </dd></dl>
 
 <dl class="ghc-flag">
 <dt id="ghc-flag---print-libdir">
 <code class="descname">--print-libdir</code><code class="descclassname"> </code><a class="headerlink" href="#ghc-flag---print-libdir" title="Permalink to this definition">¶</a></dt>
-<dd><p id="index-14">Print the path to GHC&#8217;s library directory. This is the top of the
-directory tree containing GHC&#8217;s libraries, interfaces, and include
-files (usually something like <code class="docutils literal"><span class="pre">/usr/local/lib/ghc-5.04</span></code> on Unix).
-This is the value of <code class="docutils literal"><span class="pre">$libdir</span></code> in the package
-configuration file (see <a class="reference internal" href="packages.html#packages"><span>Packages</span></a>).</p>
+<dd><p id="index-14">GHCライブラリディレクトリのパスを表示します．
+このパスはGHCのライブラリ，インターフェイス，インクルードファイルが置かれているディレクトリツリーの最上位です
+(通常 Unix では <code class="docutils literal"><span class="pre">/usr/local/lib/ghc-8.0.2</span></code> のような場所です)．
+これはパッケージの設定ファイル(<a class="reference internal" href="packages.html#packages"><span>Packages</span></a> 参照)における <code class="docutils literal"><span class="pre">$libdir</span></code> の値です．</p>
 </dd></dl>
 
-<div class="section" id="using-ghc-make">
-<span id="make-mode"></span><h3>7.1.5.1. Using <code class="docutils literal"><span class="pre">ghc</span></code> <code class="docutils literal"><span class="pre">--make</span></code><a class="headerlink" href="#using-ghc-make" title="Permalink to this headline">¶</a></h3>
-<p id="index-15">In this mode, GHC will build a multi-module Haskell program by following
-dependencies from one or more root modules (usually just <code class="docutils literal"><span class="pre">Main</span></code>). For
-example, if your <code class="docutils literal"><span class="pre">Main</span></code> module is in a file called <code class="file docutils literal"><span class="pre">Main.hs</span></code>, you
-could compile and link the program like this:</p>
+<div class="section" id="ghc-make">
+<span id="make-mode"></span><h3>7.1.5.1. <code class="docutils literal"><span class="pre">ghc</span></code> <code class="docutils literal"><span class="pre">--make</span></code> を使う<a class="headerlink" href="#ghc-make" title="Permalink to this headline">¶</a></h3>
+<p id="index-15">このモードではGHCは複数のモジュールからなるHaskellプログラムをビルドします．
+このとき，GHCは1つ以上のルートモジュール(通常は <code class="docutils literal"><span class="pre">Main</span></code> のみ)から依存性を追跡します．
+たとえば <code class="docutils literal"><span class="pre">Main</span></code> モジュールが <code class="file docutils literal"><span class="pre">Main.hs</span></code> というファイルに置かれているとき，
+次のようにすればこのプログラムをコンパイルリンクできます．</p>
 <div class="highlight-none"><div class="highlight"><pre>ghc --make Main.hs
 </pre></div>
 </div>
-<p>In fact, GHC enters make mode automatically if there are any Haskell
-source files on the command line and no other mode is specified, so in
-this case we could just type</p>
+<p>実際には，コマンドライン中に1つでもHaskellソースファイルがあり，他のモードが指定されていなければ，GHCは自動的にmakeモードになります．
+したがって，これ例では以下のようにタイプするだけでよいのです．</p>
 <div class="highlight-none"><div class="highlight"><pre>ghc Main.hs
 </pre></div>
 </div>
-<p>Any number of source file names or module names may be specified; GHC
-will figure out all the modules in the program by following the imports
-from these initial modules. It will then attempt to compile each module
-which is out of date, and finally, if there is a <code class="docutils literal"><span class="pre">Main</span></code> module, the
-program will also be linked into an executable.</p>
-<p>The main advantages to using <code class="docutils literal"><span class="pre">ghc</span> <span class="pre">--make</span></code> over traditional
-<code class="docutils literal"><span class="pre">Makefile</span></code>s are:</p>
+<p>ソースファイル名やモジュール名はいくつでも指定できます．
+GHCは，指定されたこれらの初期ファイルからインポートを追いかけて，プログラムに含まれるすべてのモジュールを見つけだします．
+次に，最新ではないモジュールの再コンパイルを試み，最後に <code class="docutils literal"><span class="pre">Main</span></code> モジュールがあれば，プログラムをリンクして実行可能形式にします．</p>
+<p>伝統的な <code class="docutils literal"><span class="pre">Makefile</span></code> に対して <code class="docutils literal"><span class="pre">ghc</span> <span class="pre">--make</span></code> を使う利点は，以下のようなことです．</p>
 <ul>
-<li><p class="first">GHC doesn&#8217;t have to be restarted for each compilation, which means it
-can cache information between compilations. Compiling a multi-module
-program with <code class="docutils literal"><span class="pre">ghc</span> <span class="pre">--make</span></code> can be up to twice as fast as running
-<code class="docutils literal"><span class="pre">ghc</span></code> individually on each source file.</p>
+<li><p class="first">コンパイルごとにGHCを再起動する必要がないので，それぞれのコンパイル間で情報をキャッシュできます．
+複数のモジュールからなるプログラムを <code class="docutils literal"><span class="pre">ghc</span> <span class="pre">--make</span></code> でコンパイルする方が，
+個々のソースファイルを1つずつコンパイルするより2倍も速くなることがあります．</p>
 </li>
-<li><p class="first">You don&#8217;t have to write a <code class="docutils literal"><span class="pre">Makefile</span></code>.</p>
+<li><p class="first"><code class="docutils literal"><span class="pre">Makefile</span></code> を書かなくて済みます．</p>
 </li>
-<li id="index-16"><p class="first">GHC re-calculates the dependencies each time it is invoked, so the
-dependencies never get out of sync with the source.</p>
+<li id="index-16"><p class="first">GHCは起動されるごとに依存関係を再計算するので，
+ソースとの整合性が失われることはありません．</p>
 </li>
-<li><p class="first">Using the <a class="reference internal" href="#ghc-flag--j"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-j</span></code></a> flag, you can compile modules in parallel. Specify
-<code class="docutils literal"><span class="pre">-j⟨N⟩</span></code> to compile ⟨N⟩ jobs in parallel. If N is omitted,
-then it defaults to the number of processors.</p>
+<li><p class="first"><a class="reference internal" href="#ghc-flag--j"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-j</span></code></a> フラグを使えば，モジュールを並列にコンパイルできます．
+<code class="docutils literal"><span class="pre">-j⟨N⟩</span></code> と指定すれば ⟨N⟩ 個のジョブが並列に走ります．N を省略した場合は，デフォルトではプロセッサの数になります．</p>
 </li>
 </ul>
-<p>Any of the command-line options described in the rest of this chapter
-can be used with <code class="docutils literal"><span class="pre">--make</span></code>, but note that any options you give on the
-command line will apply to all the source files compiled, so if you want
-any options to apply to a single source file only, you&#8217;ll need to use an
-<code class="docutils literal"><span class="pre">OPTIONS_GHC</span></code> pragma (see <a class="reference internal" href="#source-file-options"><span>ソースファイル中のコマンドラインオプション</span></a>).</p>
-<p>If the program needs to be linked with additional objects (say, some
-auxiliary C code), then the object files can be given on the command
-line and GHC will include them when linking the executable.</p>
-<p>For backward compatibility with existing make scripts, when used in
-combination with <a class="reference internal" href="#ghc-flag--c"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-c</span></code></a>, the linking phase is omitted (same as
-<code class="docutils literal"><span class="pre">--make</span> <span class="pre">-no-link</span></code>).</p>
-<p>Note that GHC can only follow dependencies if it has the source file
-available, so if your program includes a module for which there is no
-source file, even if you have an object and an interface file for the
-module, then GHC will complain. The exception to this rule is for
-package modules, which may or may not have source files.</p>
-<p>The source files for the program don&#8217;t all need to be in the same
-directory; the <a class="reference internal" href="separate_compilation.html#ghc-flag--i"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-i</span></code></a> option can be used to add directories to the
-search path (see <a class="reference internal" href="separate_compilation.html#search-path"><span>The search path</span></a>).</p>
+<p>この章でこれ以降に解説するコマンドラインオプションはどれも <code class="docutils literal"><span class="pre">--make</span></code> オプションと共用できます．
+ただし，コマンドラインから与えれらたオプションはコンパイルするすべてのソースファイルに適用されるので，
+個別のファイルにだけ適用したいオプションについては <code class="docutils literal"><span class="pre">OPTIONS_GHC</span></code> プラグマを使う必要があります(<a class="reference internal" href="#source-file-options"><span>ソースファイル中のコマンドラインオプション</span></a> 参照)．</p>
+<p>プログラムを追加のオブジェクト(たとえば，補助的なCのコード)とリンクする必要があるなら，
+そのオブジェクトファイルをコマンド行で与えれば，GHCは実行可能ファイルをリンクするときに指定されたオブジェクトを含めます．</p>
+<p>既存の make スクリプトとの後方互換性確保のため <a class="reference internal" href="#ghc-flag--c"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-c</span></code></a> と組み合わせて使うと，リンクのフェーズは省略します
+(<code class="docutils literal"><span class="pre">--make</span> <span class="pre">-no-link</span></code> を指定したのと同じ)．</p>
+<p>GHC はソースファイルがあるときにしか依存性を追跡できないので，
+ソースファイルのないモジュールがプログラムに含まれていると，
+たとえそのモジュールのオブジェクトファイルとインターフェイスファイルがあっても，
+GHCは文句をいうことに注意してください．
+ただし，パッケージモジュールの場合は例外で，このときはソースファイルはあってもなくてもかまいません．</p>
+<p>プログラムのソースファイルはすべて同一のディレクトリにある必要はありません．
+<a class="reference internal" href="separate_compilation.html#ghc-flag--i"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-i</span></code></a> オプションを使って探索パスを追加できます(<a class="reference internal" href="separate_compilation.html#search-path"><span>The search path</span></a> 参照)．</p>
 <dl class="ghc-flag">
 <dt id="ghc-flag--j">
 <code class="descname">-j</code><code class="descclassname"> [N]</code><a class="headerlink" href="#ghc-flag--j" title="Permalink to this definition">¶</a></dt>
-<dd><p>Perform compilation in parallel when possible. GHC will use up to ⟨N⟩
-threads during compilation. If N is omitted, then it defaults to the
-number of processors. Note that compilation of a module may not begin
-until its dependencies have been built.</p>
+<dd><p>可能であればコンパイルを並列で行います．GHC はコンパイル中に ⟨N⟩ 個までのスレッドを使います．
+N の指定が省略されたばあいは，デフォルト値はプロセッサ数です．
+モジュールのコンパイルは，それが依存しているモジュールのコンパイルが済んでから開始するということに注意してください．</p>
 </dd></dl>
 
 </div>
@@ -584,7 +561,7 @@ compile a Haskell module in the file <code class="docutils literal"><span class=
 <div class="section" id="verbosity-options">
 <span id="options-help"></span><h2>7.1.6. Verbosity options<a class="headerlink" href="#verbosity-options" title="Permalink to this headline">¶</a></h2>
 <p id="index-18">See also the <code class="docutils literal"><span class="pre">--help</span></code>, <code class="docutils literal"><span class="pre">--version</span></code>, <code class="docutils literal"><span class="pre">--numeric-version</span></code>, and
-<code class="docutils literal"><span class="pre">--print-libdir</span></code> modes in <a class="reference internal" href="#modes"><span>Modes of operation</span></a>.</p>
+<code class="docutils literal"><span class="pre">--print-libdir</span></code> modes in <a class="reference internal" href="#modes"><span>実行モード</span></a>.</p>
 <dl class="ghc-flag">
 <dt id="ghc-flag--v">
 <code class="descname">-v</code><code class="descclassname"> </code><a class="headerlink" href="#ghc-flag--v" title="Permalink to this definition">¶</a></dt>
