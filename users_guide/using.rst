@@ -738,88 +738,167 @@ GHCの振る舞いはまずモード指定フラグで制御します．
     (通常 Unix では ``/usr/local/lib/ghc-8.0.2`` のような場所です)．
     これはパッケージの設定ファイル(:ref:`packages` 参照)における ``$libdir`` の値です．
        
+..
+   .. _make-mode:
+
+   Using ``ghc`` ``--make``
+   ~~~~~~~~~~~~~~~~~~~~~~~~
+
+   .. index::
+      single: --make; mode of GHC
+      single: separate compilation
+
+   In this mode, GHC will build a multi-module Haskell program by following
+   dependencies from one or more root modules (usually just ``Main``). For
+   example, if your ``Main`` module is in a file called :file:`Main.hs`, you
+   could compile and link the program like this:
+
+   .. code-block:: none
+
+       ghc --make Main.hs
+
 .. _make-mode:
 
-Using ``ghc`` ``--make``
-~~~~~~~~~~~~~~~~~~~~~~~~
+``ghc`` ``--make`` を使う
+~~~~~~~~~~~~~~~~~~~~~~~~~
 
 .. index::
-   single: --make; mode of GHC
-   single: separate compilation
+   single: --make; GHCの〜モード
+   single: 分割コンパイル
 
-In this mode, GHC will build a multi-module Haskell program by following
-dependencies from one or more root modules (usually just ``Main``). For
-example, if your ``Main`` module is in a file called :file:`Main.hs`, you
-could compile and link the program like this:
+このモードではGHCは複数のモジュールからなるHaskellプログラムをビルドします．
+このとき，GHCは1つ以上のルートモジュール(通常は ``Main`` のみ)から依存性を追跡します．
+たとえば ``Main`` モジュールが :file:`Main.hs` というファイルに置かれているとき，
+次のようにすればこのプログラムをコンパイルリンクできます．
 
 .. code-block:: none
 
     ghc --make Main.hs
 
-In fact, GHC enters make mode automatically if there are any Haskell
-source files on the command line and no other mode is specified, so in
-this case we could just type
+..
+   In fact, GHC enters make mode automatically if there are any Haskell
+   source files on the command line and no other mode is specified, so in
+   this case we could just type
+
+   .. code-block:: none
+
+       ghc Main.hs
+
+   Any number of source file names or module names may be specified; GHC
+   will figure out all the modules in the program by following the imports
+   from these initial modules. It will then attempt to compile each module
+   which is out of date, and finally, if there is a ``Main`` module, the
+   program will also be linked into an executable.
+
+実際には，コマンドライン中に1つでもHaskellソースファイルがあり，他のモードが指定されていなければ，GHCは自動的にmakeモードになります．
+したがって，これ例では以下のようにタイプするだけでよいのです．
 
 .. code-block:: none
 
     ghc Main.hs
 
-Any number of source file names or module names may be specified; GHC
-will figure out all the modules in the program by following the imports
-from these initial modules. It will then attempt to compile each module
-which is out of date, and finally, if there is a ``Main`` module, the
-program will also be linked into an executable.
+ソースファイル名やモジュール名はいくつでも指定できます．
+GHCは，指定されたこれらの初期ファイルからインポートを追いかけて，プログラムに含まれるすべてのモジュールを見つけだします．
+次に，最新ではないモジュールの再コンパイルを試み，最後に ``Main`` モジュールがあれば，プログラムをリンクして実行可能形式にします．
 
-The main advantages to using ``ghc --make`` over traditional
-``Makefile``\s are:
+..
+   The main advantages to using ``ghc --make`` over traditional
+   ``Makefile``\s are:
 
--  GHC doesn't have to be restarted for each compilation, which means it
-   can cache information between compilations. Compiling a multi-module
-   program with ``ghc --make`` can be up to twice as fast as running
-   ``ghc`` individually on each source file.
+   -  GHC doesn't have to be restarted for each compilation, which means it
+      can cache information between compilations. Compiling a multi-module
+      program with ``ghc --make`` can be up to twice as fast as running
+      ``ghc`` individually on each source file.
 
--  You don't have to write a ``Makefile``.
+   -  You don't have to write a ``Makefile``.
+
+      .. index::
+	 single: Makefiles; avoiding
+
+   -  GHC re-calculates the dependencies each time it is invoked, so the
+      dependencies never get out of sync with the source.
+
+   -  Using the :ghc-flag:`-j` flag, you can compile modules in parallel. Specify
+      ``-j⟨N⟩`` to compile ⟨N⟩ jobs in parallel. If N is omitted,
+      then it defaults to the number of processors.
+
+伝統的な ``Makefile`` に対して ``ghc --make`` を使う利点は，以下のようなことです．
+
+-  コンパイルごとにGHCを再起動する必要がないので，それぞれのコンパイル間で情報をキャッシュできます．
+   複数のモジュールからなるプログラムを ``ghc --make`` でコンパイルする方が，
+   個々のソースファイルを1つずつコンパイルするより2倍も速くなることがあります．
+
+-  ``Makefile`` を書かなくて済みます．
 
    .. index::
-      single: Makefiles; avoiding
+      single: Makefile; 〜の回避
 
--  GHC re-calculates the dependencies each time it is invoked, so the
-   dependencies never get out of sync with the source.
+-  GHCは起動されるごとに依存関係を再計算するので，
+   ソースとの整合性が失われることはありません．
 
--  Using the :ghc-flag:`-j` flag, you can compile modules in parallel. Specify
-   ``-j⟨N⟩`` to compile ⟨N⟩ jobs in parallel. If N is omitted,
-   then it defaults to the number of processors.
+-  :ghc-flag:`-j` フラグを使えば，モジュールを並列にコンパイルできます．
+   ``-j⟨N⟩`` と指定すれば ⟨N⟩ 個のジョブが並列に走ります．N を省略した場合は，デフォルトではプロセッサの数になります．
 
-Any of the command-line options described in the rest of this chapter
-can be used with ``--make``, but note that any options you give on the
-command line will apply to all the source files compiled, so if you want
-any options to apply to a single source file only, you'll need to use an
-``OPTIONS_GHC`` pragma (see :ref:`source-file-options`).
+..
+   Any of the command-line options described in the rest of this chapter
+   can be used with ``--make``, but note that any options you give on the
+   command line will apply to all the source files compiled, so if you want
+   any options to apply to a single source file only, you'll need to use an
+   ``OPTIONS_GHC`` pragma (see :ref:`source-file-options`).
 
-If the program needs to be linked with additional objects (say, some
-auxiliary C code), then the object files can be given on the command
-line and GHC will include them when linking the executable.
+この章でこれ以降に解説するコマンドラインオプションはどれも ``--make`` オプションと共用できます．
+ただし，コマンドラインから与えれらたオプションはコンパイルするすべてのソースファイルに適用されるので，
+個別のファイルにだけ適用したいオプションについては ``OPTIONS_GHC`` プラグマを使う必要があります(:ref:`source-file-options` 参照)．
 
-For backward compatibility with existing make scripts, when used in
-combination with :ghc-flag:`-c`, the linking phase is omitted (same as
-``--make -no-link``).
+..
+   If the program needs to be linked with additional objects (say, some
+   auxiliary C code), then the object files can be given on the command
+   line and GHC will include them when linking the executable.
 
-Note that GHC can only follow dependencies if it has the source file
-available, so if your program includes a module for which there is no
-source file, even if you have an object and an interface file for the
-module, then GHC will complain. The exception to this rule is for
-package modules, which may or may not have source files.
+プログラムを追加のオブジェクト(たとえば，補助的なCのコード)とリンクする必要があるなら，
+そのオブジェクトファイルをコマンド行で与えれば，GHCは実行可能ファイルをリンクするときに指定されたオブジェクトを含めます．
 
-The source files for the program don't all need to be in the same
-directory; the :ghc-flag:`-i` option can be used to add directories to the
-search path (see :ref:`search-path`).
+..
+   For backward compatibility with existing make scripts, when used in
+   combination with :ghc-flag:`-c`, the linking phase is omitted (same as
+   ``--make -no-link``).
+
+既存の make スクリプトとの後方互換性確保のため :ghc-flag:`-c` と組み合わせて使うと，リンクのフェーズは省略します
+(``--make -no-link`` を指定したのと同じ)．
+
+..
+   Note that GHC can only follow dependencies if it has the source file
+   available, so if your program includes a module for which there is no
+   source file, even if you have an object and an interface file for the
+   module, then GHC will complain. The exception to this rule is for
+   package modules, which may or may not have source files.
+
+GHC はソースファイルがあるときにしか依存性を追跡できないので，
+ソースファイルのないモジュールがプログラムに含まれていると，
+たとえそのモジュールのオブジェクトファイルとインターフェイスファイルがあっても，
+GHCは文句をいうことに注意してください．
+ただし，パッケージモジュールの場合は例外で，このときはソースファイルはあってもなくてもかまいません．
+
+..
+   The source files for the program don't all need to be in the same
+   directory; the :ghc-flag:`-i` option can be used to add directories to the
+   search path (see :ref:`search-path`).
+
+   .. ghc-flag:: -j [N]
+
+       Perform compilation in parallel when possible. GHC will use up to ⟨N⟩
+       threads during compilation. If N is omitted, then it defaults to the
+       number of processors. Note that compilation of a module may not begin
+       until its dependencies have been built.
+
+プログラムのソースファイルはすべて同一のディレクトリにある必要はありません．
+:ghc-flag:`-i` オプションを使って探索パスを追加できます(:ref:`search-path` 参照)．
 
 .. ghc-flag:: -j [N]
 
-    Perform compilation in parallel when possible. GHC will use up to ⟨N⟩
-    threads during compilation. If N is omitted, then it defaults to the
-    number of processors. Note that compilation of a module may not begin
-    until its dependencies have been built.
+    可能であればコンパイルを並列で行います．GHC はコンパイル中に ⟨N⟩ 個までのスレッドを使います．
+    N の指定が省略されたばあいは，デフォルト値はプロセッサ数です．
+    モジュールのコンパイルは，それが依存しているモジュールのコンパイルが済んでから開始するということに注意してください．
 
 .. _eval-mode:
 
