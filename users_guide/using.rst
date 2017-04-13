@@ -900,32 +900,64 @@ GHCは文句をいうことに注意してください．
     N の指定が省略されたばあいは，デフォルト値はプロセッサ数です．
     モジュールのコンパイルは，それが依存しているモジュールのコンパイルが済んでから開始するということに注意してください．
 
+..
+   .. _eval-mode:
+
+   Expression evaluation mode
+   ~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 .. _eval-mode:
 
-Expression evaluation mode
-~~~~~~~~~~~~~~~~~~~~~~~~~~
+式評価モード
+~~~~~~~~~~~~
 
-This mode is very similar to interactive mode, except that there is a
-single expression to evaluate which is specified on the command line as
-an argument to the ``-e`` option:
+..
+   This mode is very similar to interactive mode, except that there is a
+   single expression to evaluate which is specified on the command line as
+   an argument to the ``-e`` option:
+
+   .. code-block:: none
+
+       ghc -e expr
+
+このモードは対話モードとほぼ同じですが，評価する式は1つだけで，コマンドラインから ``-e`` オプションの引数として指定します．
 
 .. code-block:: none
 
     ghc -e expr
 
-Haskell source files may be named on the command line, and they will be
-loaded exactly as in interactive mode. The expression is evaluated in
-the context of the loaded modules.
+..
+   Haskell source files may be named on the command line, and they will be
+   loaded exactly as in interactive mode. The expression is evaluated in
+   the context of the loaded modules.
 
-For example, to load and run a Haskell program containing a module
-``Main``, we might say:
+   For example, to load and run a Haskell program containing a module
+   ``Main``, we might say:
+
+   .. code-block:: none
+
+       ghc -e Main.main Main.hs
+
+   or we can just use this mode to evaluate expressions in the context of
+   the ``Prelude``:
+
+   .. code-block:: none
+
+       $ ghc -e "interact (unlines.map reverse.lines)"
+       hello
+       olleh
+
+コマンドラインで Haskell のソースファイルを指定することもできます．
+指定したファイルは対話モードと全く同じようにロードします．
+指定した式はロードしたモジュールの文脈で評価します．
+
+たとえば ``Main`` というモジュールを含む Haskell プログラムをロードして走らせるには，次のようにすればよいでしょう．
 
 .. code-block:: none
 
     ghc -e Main.main Main.hs
 
-or we can just use this mode to evaluate expressions in the context of
-the ``Prelude``:
+また，このモードを使えば，単に式を ``Prelude`` の文脈で評価できます．
 
 .. code-block:: none
 
