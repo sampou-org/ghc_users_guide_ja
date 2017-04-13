@@ -67,7 +67,7 @@
 <li><a class="reference internal" href="#file-suffixes">7.1.4. 重要な意味のあるファイル接尾辞</a></li>
 <li><a class="reference internal" href="#modes">7.1.5. 実行モード</a><ul>
 <li><a class="reference internal" href="#ghc-make">7.1.5.1. <code class="docutils literal"><span class="pre">ghc</span></code> <code class="docutils literal"><span class="pre">--make</span></code> を使う</a></li>
-<li><a class="reference internal" href="#expression-evaluation-mode">7.1.5.2. Expression evaluation mode</a></li>
+<li><a class="reference internal" href="#eval-mode">7.1.5.2. 式評価モード</a></li>
 <li><a class="reference internal" href="#batch-compiler-mode">7.1.5.3. Batch compiler mode</a><ul>
 <li><a class="reference internal" href="#overriding-the-default-behaviour-for-a-file">7.1.5.3.1. Overriding the default behaviour for a file</a></li>
 </ul>
@@ -289,7 +289,7 @@ makeモードについては <a class="reference internal" href="#make-mode"><sp
 <code class="descname">-e</code><code class="descclassname"> ⟨expr⟩</code><a class="headerlink" href="#ghc-flag--e" title="Permalink to this definition">¶</a></dt>
 <dd><p id="index-10">式評価モード．対話モードとほぼ同じですが，
 評価する式(⟨expr⟩)は1つだけで，コマンドラインで与えます．
-詳細については <a class="reference internal" href="#eval-mode"><span>Expression evaluation mode</span></a> を参照してください．</p>
+詳細については <a class="reference internal" href="#eval-mode"><span>式評価モード</span></a> を参照してください．</p>
 </dd></dl>
 
 <dl class="ghc-flag">
@@ -438,24 +438,20 @@ N の指定が省略されたばあいは，デフォルト値はプロセッサ
 </dd></dl>
 
 </div>
-<div class="section" id="expression-evaluation-mode">
-<span id="eval-mode"></span><h3>7.1.5.2. Expression evaluation mode<a class="headerlink" href="#expression-evaluation-mode" title="Permalink to this headline">¶</a></h3>
-<p>This mode is very similar to interactive mode, except that there is a
-single expression to evaluate which is specified on the command line as
-an argument to the <code class="docutils literal"><span class="pre">-e</span></code> option:</p>
+<div class="section" id="eval-mode">
+<span id="id8"></span><h3>7.1.5.2. 式評価モード<a class="headerlink" href="#eval-mode" title="Permalink to this headline">¶</a></h3>
+<p>このモードは対話モードとほぼ同じですが，評価する式は1つだけで，コマンドラインから <code class="docutils literal"><span class="pre">-e</span></code> オプションの引数として指定します．</p>
 <div class="highlight-none"><div class="highlight"><pre>ghc -e expr
 </pre></div>
 </div>
-<p>Haskell source files may be named on the command line, and they will be
-loaded exactly as in interactive mode. The expression is evaluated in
-the context of the loaded modules.</p>
-<p>For example, to load and run a Haskell program containing a module
-<code class="docutils literal"><span class="pre">Main</span></code>, we might say:</p>
+<p>コマンドラインで Haskell のソースファイルを指定することもできます．
+指定したファイルは対話モードと全く同じようにロードします．
+指定した式はロードしたモジュールの文脈で評価します．</p>
+<p>たとえば <code class="docutils literal"><span class="pre">Main</span></code> というモジュールを含む Haskell プログラムをロードして走らせるには，次のようにすればよいでしょう．</p>
 <div class="highlight-none"><div class="highlight"><pre>ghc -e Main.main Main.hs
 </pre></div>
 </div>
-<p>or we can just use this mode to evaluate expressions in the context of
-the <code class="docutils literal"><span class="pre">Prelude</span></code>:</p>
+<p>また，このモードを使えば，単に式を <code class="docutils literal"><span class="pre">Prelude</span></code> の文脈で評価できます．</p>
 <div class="highlight-none"><div class="highlight"><pre>$ ghc -e &quot;interact (unlines.map reverse.lines)&quot;
 hello
 olleh
