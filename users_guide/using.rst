@@ -965,33 +965,79 @@ GHCは文句をいうことに注意してください．
     hello
     olleh
 
+..
+   .. _options-order:
+
+   Batch compiler mode
+   ~~~~~~~~~~~~~~~~~~~
+
+   In *batch mode*, GHC will compile one or more source files given on the
+   command line.
+
 .. _options-order:
 
-Batch compiler mode
-~~~~~~~~~~~~~~~~~~~
+一括コンパイラモード
+~~~~~~~~~~~~~~~~~~~~
 
-In *batch mode*, GHC will compile one or more source files given on the
-command line.
+*一括処理モード* で GHC はコマンドラインで指定した1つ以上のソースファイルをコンパイルします．
 
-The first phase to run is determined by each input-file suffix, and the
-last phase is determined by a flag. If no relevant flag is present, then
-go all the way through to linking. This table summarises:
+..
+   The first phase to run is determined by each input-file suffix, and the
+   last phase is determined by a flag. If no relevant flag is present, then
+   go all the way through to linking. This table summarises:
+
+   +-----------------------------------+------------------------------+----------------------------+---------------------------+
+   | Phase of the compilation system   | Suffix saying “start here”   | Flag saying “stop after”   | (suffix of) output file   |
+   +===================================+==============================+============================+===========================+
+   | literate pre-processor            | ``.lhs``                     |                            | ``.hs``                   |
+   +-----------------------------------+------------------------------+----------------------------+---------------------------+
+   | C pre-processor (opt.)            | ``.hs`` (with ``-cpp``)      | ``-E``                     | ``.hspp``                 |
+   +-----------------------------------+------------------------------+----------------------------+---------------------------+
+   | Haskell compiler                  | ``.hs``                      | ``-C``, ``-S``             | ``.hc``, ``.s``           |
+   +-----------------------------------+------------------------------+----------------------------+---------------------------+
+   | C compiler (opt.)                 | ``.hc`` or ``.c``            | ``-S``                     | ``.s``                    |
+   +-----------------------------------+------------------------------+----------------------------+---------------------------+
+   | assembler                         | ``.s``                       | ``-c``                     | ``.o``                    |
+   +-----------------------------------+------------------------------+----------------------------+---------------------------+
+   | linker                            | ⟨other⟩                      |                            | ``a.out``                 |
+   +-----------------------------------+------------------------------+----------------------------+---------------------------+
+
+複数ある段階のどこから始めるかは，それぞれのファイルの接尾辞によって決まります．
+どこで終るかはフラグで指定します．
+特にフラグによる指定がなければ，リンクまでの全ての段階を実行します．
+以下の表にまとめておきます．
 
 +-----------------------------------+------------------------------+----------------------------+---------------------------+
-| Phase of the compilation system   | Suffix saying “start here”   | Flag saying “stop after”   | (suffix of) output file   |
+| コンパイルシステムの段階          | 「ここから開始」の接尾辞     | 「ここで終了」のフラグ     | 出力ファイルの接尾辞      |
 +===================================+==============================+============================+===========================+
-| literate pre-processor            | ``.lhs``                     |                            | ``.hs``                   |
+| 文芸形式プリプロセッサ            | ``.lhs``                     |                            | ``.hs``                   |
 +-----------------------------------+------------------------------+----------------------------+---------------------------+
-| C pre-processor (opt.)            | ``.hs`` (with ``-cpp``)      | ``-E``                     | ``.hspp``                 |
+| C プリプロセッサ(省略可)          | ``.hs`` (``-cpp`` を使う)    | ``-E``                     | ``.hspp``                 |
 +-----------------------------------+------------------------------+----------------------------+---------------------------+
-| Haskell compiler                  | ``.hs``                      | ``-C``, ``-S``             | ``.hc``, ``.s``           |
+| Haskell コンパイラ                | ``.hs``                      | ``-C``, ``-S``             | ``.hc``, ``.s``           |
 +-----------------------------------+------------------------------+----------------------------+---------------------------+
-| C compiler (opt.)                 | ``.hc`` or ``.c``            | ``-S``                     | ``.s``                    |
+| C コンパイラ(省略可)              | ``.hc`` or ``.c``            | ``-S``                     | ``.s``                    |
 +-----------------------------------+------------------------------+----------------------------+---------------------------+
-| assembler                         | ``.s``                       | ``-c``                     | ``.o``                    |
+| アセンブラ                        | ``.s``                       | ``-c``                     | ``.o``                    |
 +-----------------------------------+------------------------------+----------------------------+---------------------------+
-| linker                            | ⟨other⟩                      |                            | ``a.out``                 |
+| リンカ                            | ⟨other⟩                      |                            | ``a.out``                 |
 +-----------------------------------+------------------------------+----------------------------+---------------------------+
+
+..
+   .. index::
+      single: -C
+      single: -E
+      single: -S
+      single: -c
+
+   Thus, a common invocation would be:
+
+   .. code-block:: none
+
+       ghc -c Foo.hs
+
+   to compile the Haskell source file ``Foo.hs`` to an object file
+   ``Foo.o``.
 
 .. index::
    single: -C
@@ -999,45 +1045,77 @@ go all the way through to linking. This table summarises:
    single: -S
    single: -c
 
-Thus, a common invocation would be:
+そういうわけで，多くの場合，次のように起動します．
 
 .. code-block:: none
 
     ghc -c Foo.hs
 
-to compile the Haskell source file ``Foo.hs`` to an object file
-``Foo.o``.
+これで，Haskellのソースファイルが ``Foo.hs`` をコンパイルすると，オブジェクトファイル ``Foo.o`` が生成されます．
+
+..
+   .. note::
+      What the Haskell compiler proper produces depends on what backend
+      code generator is used. See :ref:`code-generators` for more details.
 
 .. note::
-   What the Haskell compiler proper produces depends on what backend
-   code generator is used. See :ref:`code-generators` for more details.
+   Haskellのコンパイラが実際に出力するのが何かはバックエンドのコード生成器が何であるかによります．
+   詳細については :ref:`code-generators` を参照してください．
+
+..
+   .. note::
+      Pre-processing is optional, the :ghc-flag:`-cpp` flag turns it
+      on. See :ref:`c-pre-processor` for more details.
 
 .. note::
-   Pre-processing is optional, the :ghc-flag:`-cpp` flag turns it
-   on. See :ref:`c-pre-processor` for more details.
+   C のプリプロセッサは省略可能で :ghc-flag:`-cpp` フラグを指定すれば有効になります．
+   詳細については :ref:`c-pre-processor` を参照してください．
+
+..
+   .. note::
+      The option :ghc-flag:`-E` runs just the pre-processing passes of
+      the compiler, dumping the result in a file.
 
 .. note::
-   The option :ghc-flag:`-E` runs just the pre-processing passes of
-   the compiler, dumping the result in a file.
+   :ghc-flag:`-E` オプションを指定するとコンパイラのプリプロセス段階だけが実行され結果がファイルに出力されます．
+
+..
+   .. note::
+      The option :ghc-flag:`-C` is only available when GHC is built in
+      unregisterised mode. See :ref:`unreg` for more details.
 
 .. note::
-   The option :ghc-flag:`-C` is only available when GHC is built in
-   unregisterised mode. See :ref:`unreg` for more details.
+   :ghc-flag:`-C` オプションはGHCが未登録モードでビルドされているときにだけ利用可能です．
+   詳細については :ref:`unreg` を参照してください．
+
+..
+   .. _overriding-suffixes:
+
+   Overriding the default behaviour for a file
+   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+   As described above, the way in which a file is processed by GHC depends
+   on its suffix. This behaviour can be overridden using the :ghc-flag:`-x` option:
+
+   .. ghc-flag:: -x <suffix>
+
+       Causes all files following this option on the command line to be
+       processed as if they had the suffix ⟨suffix⟩. For example, to
+       compile a Haskell module in the file ``M.my-hs``, use
+       ``ghc -c -x hs M.my-hs``.
 
 .. _overriding-suffixes:
 
-Overriding the default behaviour for a file
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ファイルに対するデフォルトの振る舞いを上書きする
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-As described above, the way in which a file is processed by GHC depends
-on its suffix. This behaviour can be overridden using the :ghc-flag:`-x` option:
+上述のように，GHCがファイルを処理する方法はファイルの接頭辞で決まります．
+この振る舞いは :ghc-flag:`-x` オプションで変更できます．
 
 .. ghc-flag:: -x <suffix>
 
-    Causes all files following this option on the command line to be
-    processed as if they had the suffix ⟨suffix⟩. For example, to
-    compile a Haskell module in the file ``M.my-hs``, use
-    ``ghc -c -x hs M.my-hs``.
+    コマンドラインにおいて，このオプションに続くすべてのファイルに指定した接尾辞 ⟨suffix⟩ が付いているものとして扱います．
+    たとえば ``M.my-hs`` というファイルにある Haskell モジュールをコンパイルするには ``ghc -c -x hs M.my-hs`` とします．
 
 .. _options-help:
 
