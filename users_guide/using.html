@@ -68,8 +68,8 @@
 <li><a class="reference internal" href="#modes">7.1.5. 実行モード</a><ul>
 <li><a class="reference internal" href="#ghc-make">7.1.5.1. <code class="docutils literal"><span class="pre">ghc</span></code> <code class="docutils literal"><span class="pre">--make</span></code> を使う</a></li>
 <li><a class="reference internal" href="#eval-mode">7.1.5.2. 式評価モード</a></li>
-<li><a class="reference internal" href="#batch-compiler-mode">7.1.5.3. Batch compiler mode</a><ul>
-<li><a class="reference internal" href="#overriding-the-default-behaviour-for-a-file">7.1.5.3.1. Overriding the default behaviour for a file</a></li>
+<li><a class="reference internal" href="#options-order">7.1.5.3. 一括コンパイラモード</a><ul>
+<li><a class="reference internal" href="#overriding-suffixes">7.1.5.3.1. ファイルに対するデフォルトの振る舞いを上書きする</a></li>
 </ul>
 </li>
 </ul>
@@ -303,7 +303,7 @@ makeモードについては <a class="reference internal" href="#make-mode"><sp
 <code class="descname">-c</code><code class="descclassname"> </code><a class="headerlink" href="#ghc-flag--c" title="Permalink to this definition">¶</a></dt>
 <dd><p>これは伝統的なバッチ処理コンパイラモードです．GHCは1度に1つのソースファイルをコンパイルするか，
 オブジェクトファイルをリンクして1つの実行可能ファイルを生成します．
-<a class="reference internal" href="#options-order"><span>Batch compiler mode</span></a> を参照してください．</p>
+<a class="reference internal" href="#options-order"><span>一括コンパイラモード</span></a> を参照してください．</p>
 </dd></dl>
 
 <dl class="ghc-flag">
@@ -458,13 +458,13 @@ olleh
 </pre></div>
 </div>
 </div>
-<div class="section" id="batch-compiler-mode">
-<span id="options-order"></span><h3>7.1.5.3. Batch compiler mode<a class="headerlink" href="#batch-compiler-mode" title="Permalink to this headline">¶</a></h3>
-<p>In <em>batch mode</em>, GHC will compile one or more source files given on the
-command line.</p>
-<p>The first phase to run is determined by each input-file suffix, and the
-last phase is determined by a flag. If no relevant flag is present, then
-go all the way through to linking. This table summarises:</p>
+<div class="section" id="options-order">
+<span id="id9"></span><h3>7.1.5.3. 一括コンパイラモード<a class="headerlink" href="#options-order" title="Permalink to this headline">¶</a></h3>
+<p><em>一括処理モード</em> で GHC はコマンドラインで指定した1つ以上のソースファイルをコンパイルします．</p>
+<p>複数ある段階のどこから始めるかは，それぞれのファイルの接尾辞によって決まります．
+どこで終るかはフラグで指定します．
+特にフラグによる指定がなければ，リンクまでの全ての段階を実行します．
+以下の表にまとめておきます．</p>
 <table border="1" class="docutils">
 <colgroup>
 <col width="29%" />
@@ -473,82 +473,78 @@ go all the way through to linking. This table summarises:</p>
 <col width="23%" />
 </colgroup>
 <thead valign="bottom">
-<tr class="row-odd"><th class="head">Phase of the compilation system</th>
-<th class="head">Suffix saying “start here”</th>
-<th class="head">Flag saying “stop after”</th>
-<th class="head">(suffix of) output file</th>
+<tr class="row-odd"><th class="head">コンパイルシステムの段階</th>
+<th class="head">「ここから開始」の接尾辞</th>
+<th class="head">「ここで終了」のフラグ</th>
+<th class="head">出力ファイルの接尾辞</th>
 </tr>
 </thead>
 <tbody valign="top">
-<tr class="row-even"><td>literate pre-processor</td>
+<tr class="row-even"><td>文芸形式プリプロセッサ</td>
 <td><code class="docutils literal"><span class="pre">.lhs</span></code></td>
 <td>&nbsp;</td>
 <td><code class="docutils literal"><span class="pre">.hs</span></code></td>
 </tr>
-<tr class="row-odd"><td>C pre-processor (opt.)</td>
-<td><code class="docutils literal"><span class="pre">.hs</span></code> (with <code class="docutils literal"><span class="pre">-cpp</span></code>)</td>
+<tr class="row-odd"><td>C プリプロセッサ(省略可)</td>
+<td><code class="docutils literal"><span class="pre">.hs</span></code> (<code class="docutils literal"><span class="pre">-cpp</span></code> を使う)</td>
 <td><code class="docutils literal"><span class="pre">-E</span></code></td>
 <td><code class="docutils literal"><span class="pre">.hspp</span></code></td>
 </tr>
-<tr class="row-even"><td>Haskell compiler</td>
+<tr class="row-even"><td>Haskell コンパイラ</td>
 <td><code class="docutils literal"><span class="pre">.hs</span></code></td>
 <td><code class="docutils literal"><span class="pre">-C</span></code>, <code class="docutils literal"><span class="pre">-S</span></code></td>
 <td><code class="docutils literal"><span class="pre">.hc</span></code>, <code class="docutils literal"><span class="pre">.s</span></code></td>
 </tr>
-<tr class="row-odd"><td>C compiler (opt.)</td>
+<tr class="row-odd"><td>C コンパイラ(省略可)</td>
 <td><code class="docutils literal"><span class="pre">.hc</span></code> or <code class="docutils literal"><span class="pre">.c</span></code></td>
 <td><code class="docutils literal"><span class="pre">-S</span></code></td>
 <td><code class="docutils literal"><span class="pre">.s</span></code></td>
 </tr>
-<tr class="row-even"><td>assembler</td>
+<tr class="row-even"><td>アセンブラ</td>
 <td><code class="docutils literal"><span class="pre">.s</span></code></td>
 <td><code class="docutils literal"><span class="pre">-c</span></code></td>
 <td><code class="docutils literal"><span class="pre">.o</span></code></td>
 </tr>
-<tr class="row-odd"><td>linker</td>
+<tr class="row-odd"><td>リンカ</td>
 <td>⟨other⟩</td>
 <td>&nbsp;</td>
 <td><code class="docutils literal"><span class="pre">a.out</span></code></td>
 </tr>
 </tbody>
 </table>
-<p id="index-17">Thus, a common invocation would be:</p>
+<p id="index-17">そういうわけで，多くの場合，次のように起動します．</p>
 <div class="highlight-none"><div class="highlight"><pre>ghc -c Foo.hs
 </pre></div>
 </div>
-<p>to compile the Haskell source file <code class="docutils literal"><span class="pre">Foo.hs</span></code> to an object file
-<code class="docutils literal"><span class="pre">Foo.o</span></code>.</p>
+<p>これで，Haskellのソースファイルが <code class="docutils literal"><span class="pre">Foo.hs</span></code> をコンパイルすると，オブジェクトファイル <code class="docutils literal"><span class="pre">Foo.o</span></code> が生成されます．</p>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
-<p class="last">What the Haskell compiler proper produces depends on what backend
-code generator is used. See <a class="reference internal" href="codegens.html#code-generators"><span>GHC Backends</span></a> for more details.</p>
+<p class="last">Haskellのコンパイラが実際に出力するのが何かはバックエンドのコード生成器が何であるかによります．
+詳細については <a class="reference internal" href="codegens.html#code-generators"><span>GHC Backends</span></a> を参照してください．</p>
 </div>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
-<p class="last">Pre-processing is optional, the <a class="reference internal" href="phases.html#ghc-flag--cpp"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-cpp</span></code></a> flag turns it
-on. See <a class="reference internal" href="phases.html#c-pre-processor"><span>Options affecting the C pre-processor</span></a> for more details.</p>
+<p class="last">C のプリプロセッサは省略可能で <a class="reference internal" href="phases.html#ghc-flag--cpp"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-cpp</span></code></a> フラグを指定すれば有効になります．
+詳細については <a class="reference internal" href="phases.html#c-pre-processor"><span>Options affecting the C pre-processor</span></a> を参照してください．</p>
 </div>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
-<p class="last">The option <a class="reference internal" href="#ghc-flag--E"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-E</span></code></a> runs just the pre-processing passes of
-the compiler, dumping the result in a file.</p>
+<p class="last"><a class="reference internal" href="#ghc-flag--E"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-E</span></code></a> オプションを指定するとコンパイラのプリプロセス段階だけが実行され結果がファイルに出力されます．</p>
 </div>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
-<p class="last">The option <a class="reference internal" href="#ghc-flag--C"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-C</span></code></a> is only available when GHC is built in
-unregisterised mode. See <a class="reference internal" href="codegens.html#unreg"><span>Unregisterised compilation</span></a> for more details.</p>
+<p class="last"><a class="reference internal" href="#ghc-flag--C"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-C</span></code></a> オプションはGHCが未登録モードでビルドされているときにだけ利用可能です．
+詳細については <a class="reference internal" href="codegens.html#unreg"><span>Unregisterised compilation</span></a> を参照してください．</p>
 </div>
-<div class="section" id="overriding-the-default-behaviour-for-a-file">
-<span id="overriding-suffixes"></span><h4>7.1.5.3.1. Overriding the default behaviour for a file<a class="headerlink" href="#overriding-the-default-behaviour-for-a-file" title="Permalink to this headline">¶</a></h4>
-<p>As described above, the way in which a file is processed by GHC depends
-on its suffix. This behaviour can be overridden using the <a class="reference internal" href="#ghc-flag--x"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-x</span></code></a> option:</p>
+<div class="section" id="overriding-suffixes">
+<span id="id10"></span><h4>7.1.5.3.1. ファイルに対するデフォルトの振る舞いを上書きする<a class="headerlink" href="#overriding-suffixes" title="Permalink to this headline">¶</a></h4>
+<p>上述のように，GHCがファイルを処理する方法はファイルの接頭辞で決まります．
+この振る舞いは <a class="reference internal" href="#ghc-flag--x"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-x</span></code></a> オプションで変更できます．</p>
 <dl class="ghc-flag">
 <dt id="ghc-flag--x">
 <code class="descname">-x</code><code class="descclassname"> ⟨suffix⟩</code><a class="headerlink" href="#ghc-flag--x" title="Permalink to this definition">¶</a></dt>
-<dd><p>Causes all files following this option on the command line to be
-processed as if they had the suffix ⟨suffix⟩. For example, to
-compile a Haskell module in the file <code class="docutils literal"><span class="pre">M.my-hs</span></code>, use
-<code class="docutils literal"><span class="pre">ghc</span> <span class="pre">-c</span> <span class="pre">-x</span> <span class="pre">hs</span> <span class="pre">M.my-hs</span></code>.</p>
+<dd><p>コマンドラインにおいて，このオプションに続くすべてのファイルに指定した接尾辞 ⟨suffix⟩ が付いているものとして扱います．
+たとえば <code class="docutils literal"><span class="pre">M.my-hs</span></code> というファイルにある Haskell モジュールをコンパイルするには <code class="docutils literal"><span class="pre">ghc</span> <span class="pre">-c</span> <span class="pre">-x</span> <span class="pre">hs</span> <span class="pre">M.my-hs</span></code> とします．</p>
 </dd></dl>
 
 </div>
