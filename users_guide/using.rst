@@ -1117,86 +1117,188 @@ GHCは文句をいうことに注意してください．
     コマンドラインにおいて，このオプションに続くすべてのファイルに指定した接尾辞 ⟨suffix⟩ が付いているものとして扱います．
     たとえば ``M.my-hs`` というファイルにある Haskell モジュールをコンパイルするには ``ghc -c -x hs M.my-hs`` とします．
 
+..
+   .. _options-help:
+
+   Verbosity options
+   -----------------
+
+   .. index::
+      single: verbosity options
+
+   See also the ``--help``, ``--version``, ``--numeric-version``, and
+   ``--print-libdir`` modes in :ref:`modes`.
+
 .. _options-help:
 
-Verbosity options
------------------
+多弁性に関するオプション
+------------------------
 
 .. index::
-   single: verbosity options
+   single: 多弁性オプション
 
-See also the ``--help``, ``--version``, ``--numeric-version``, and
-``--print-libdir`` modes in :ref:`modes`.
+:ref:`modes` にある ``--help`` ， ``--version`` ， ``--numeric-version`` ， ``--print-libdir`` の各モードについても参照してください．
+
+..
+   .. ghc-flag:: -v
+
+       The :ghc-flag:`-v` option makes GHC *verbose*: it reports its version number
+       and shows (on stderr) exactly how it invokes each phase of the
+       compilation system. Moreover, it passes the ``-v`` flag to most
+       phases; each reports its version number (and possibly some other
+       information).
+
+       Please, oh please, use the ``-v`` option when reporting bugs!
+       Knowing that you ran the right bits in the right order is always the
+       first thing we want to verify.
 
 .. ghc-flag:: -v
 
-    The :ghc-flag:`-v` option makes GHC *verbose*: it reports its version number
-    and shows (on stderr) exactly how it invokes each phase of the
-    compilation system. Moreover, it passes the ``-v`` flag to most
-    phases; each reports its version number (and possibly some other
-    information).
+    :ghc-flag:`-v` オプションにより GHC は *多弁* になります．
+    GHCはバージョン番号を報告し，コンパイルシステムの各段階ごとに，どのように起動したかを(標準エラー出力に)表示します．
+    さらに，ほととんどの段階に ``-v`` フラグを渡し，それぞれがバージョン番号(やそれ以外の情報)を報告します．
 
-    Please, oh please, use the ``-v`` option when reporting bugs!
-    Knowing that you ran the right bits in the right order is always the
-    first thing we want to verify.
+    バグ報告するときは，お願いですから ``-v`` を使ってください．
+    正しいことが正しい順序でおこなわれていることを先ず確認したいからです．
+
+..
+   .. ghc-flag:: -v ⟨n⟩
+       :noindex:
+
+       To provide more control over the compiler's verbosity, the ``-v``
+       flag takes an optional numeric argument. Specifying ``-v`` on its
+       own is equivalent to ``-v3``, and the other levels have the
+       following meanings:
+
+       ``-v0``
+	   Disable all non-essential messages (this is the default).
+
+       ``-v1``
+	   Minimal verbosity: print one line per compilation (this is the
+	   default when :ghc-flag:`--make` or :ghc-flag:`--interactive` is on).
+
+       ``-v2``
+	   Print the name of each compilation phase as it is executed.
+	   (equivalent to :ghc-flag:`-dshow-passes`).
+
+       ``-v3``
+	   The same as ``-v2``, except that in addition the full command
+	   line (if appropriate) for each compilation phase is also
+	   printed.
+
+       ``-v4``
+	   The same as ``-v3`` except that the intermediate program
+	   representation after each compilation phase is also printed
+	   (excluding preprocessed and C/assembly files).
 
 .. ghc-flag:: -v ⟨n⟩
     :noindex:
 
-    To provide more control over the compiler's verbosity, the ``-v``
-    flag takes an optional numeric argument. Specifying ``-v`` on its
-    own is equivalent to ``-v3``, and the other levels have the
-    following meanings:
+    より細かく多弁性を制御するために ``-v`` は省略可能は数値引数を与えられるようになっています．
+    ``-v`` を単独で指定するのは ``-v3`` を指定するのと同じです．その他のレベルには以下のものがあります．
+    
 
     ``-v0``
-        Disable all non-essential messages (this is the default).
+        本質的ではない全てのメッセージを無効にします(これがデフォルト)．
 
     ``-v1``
-        Minimal verbosity: print one line per compilation (this is the
-        default when :ghc-flag:`--make` or :ghc-flag:`--interactive` is on).
+        最小限の多弁性．コンパイルごとに1行表示します(:ghc-flag:`--make` あるいは :ghc-flag:`--interactive` が指定されたときはこれがデフォルト)．
 
     ``-v2``
-        Print the name of each compilation phase as it is executed.
-        (equivalent to :ghc-flag:`-dshow-passes`).
+        各コンパイル段階を実行するときに，その段階の名前が表示されます(:ghc-flag:`-dshow-passes` を指定したのと同じ)．
 
     ``-v3``
-        The same as ``-v2``, except that in addition the full command
-        line (if appropriate) for each compilation phase is also
-        printed.
+        各コンパイル段階について完全なコマンドライン(あれば)を表示します．それ以外は ``-v2`` と同じです．
 
     ``-v4``
-        The same as ``-v3`` except that the intermediate program
-        representation after each compilation phase is also printed
-        (excluding preprocessed and C/assembly files).
+        各コンパイル段階が終った後に (プリプロセッサの結果およびC/アセンブリファイルを除く) その段階での中間形式でプログラムを表示します．
+
+..
+   .. ghc-flag:: -fprint-potential-instances
+
+       When GHC can't find an instance for a class, it displays a short
+       list of some in the instances it knows about. With this flag it
+       prints *all* the instances it knows about.
 
 .. ghc-flag:: -fprint-potential-instances
 
-    When GHC can't find an instance for a class, it displays a short
-    list of some in the instances it knows about. With this flag it
-    prints *all* the instances it knows about.
+    GHC はクラスのインスタンスを見つけられなかったら，判っているインスタンスのうちいくつかを並べて表示します．
+    このフラグが指定されているときには，判っているインスタンスを *すべて* 表示します．
 
+..
+   The following flags control the way in which GHC displays types in error
+   messages and in GHCi:
 
-The following flags control the way in which GHC displays types in error
-messages and in GHCi:
+   .. ghc-flag:: -fprint-unicode-syntax
+
+       When enabled GHC prints type signatures using the unicode symbols from the
+       :ghc-flag:`-XUnicodeSyntax` extension. For instance,
+
+       .. code-block:: none
+
+	   ghci> :set -fprint-unicode-syntax
+	   ghci> :t (>>)
+	   (>>) :: ∀ (m :: * → *) a b. Monad m ⇒ m a → m b → m b
+
+以下のフラグはGHCのエラーメッセージとGHCiとにおける型情報の表示方法を制御するものです．
 
 .. ghc-flag:: -fprint-unicode-syntax
 
-    When enabled GHC prints type signatures using the unicode symbols from the
-    :ghc-flag:`-XUnicodeSyntax` extension. For instance,
-
+    このフラグが有効になっていれば，GHC は型シグネチャを言語拡張 :ghc-flag:`-XUnicodeSyntax` 由来のユニコード記号を使って表示します．
+    たとえば，以下のような表示になります．
+    
     .. code-block:: none
 
         ghci> :set -fprint-unicode-syntax
         ghci> :t (>>)
         (>>) :: ∀ (m :: * → *) a b. Monad m ⇒ m a → m b → m b
 
+..
+   .. _pretty-printing-types:
+
+   .. ghc-flag:: -fprint-explicit-foralls
+
+       Using :ghc-flag:`-fprint-explicit-foralls` makes
+       GHC print explicit ``forall`` quantification at the top level of a
+       type; normally this is suppressed. For example, in GHCi:
+
+       .. code-block:: none
+
+	   ghci> let f x = x
+	   ghci> :t f
+	   f :: a -> a
+	   ghci> :set -fprint-explicit-foralls
+	   ghci> :t f
+	   f :: forall a. a -> a
+
+       However, regardless of the flag setting, the quantifiers are printed
+       under these circumstances:
+
+       -  For nested ``foralls``, e.g.
+
+	  .. code-block:: none
+
+	      ghci> :t GHC.ST.runST
+	      GHC.ST.runST :: (forall s. GHC.ST.ST s a) -> a
+
+       -  If any of the quantified type variables has a kind that mentions
+	  a kind variable, e.g.
+
+	  .. code-block:: none
+
+	      ghci> :i Data.Type.Equality.sym
+	      Data.Type.Equality.sym ::
+		forall (k :: BOX) (a :: k) (b :: k).
+		(a Data.Type.Equality.:~: b) -> b Data.Type.Equality.:~: a
+		      -- Defined in Data.Type.Equality
+
 .. _pretty-printing-types:
     
 .. ghc-flag:: -fprint-explicit-foralls
 
-    Using :ghc-flag:`-fprint-explicit-foralls` makes
-    GHC print explicit ``forall`` quantification at the top level of a
-    type; normally this is suppressed. For example, in GHCi:
+    :ghc-flag:`-fprint-explicit-foralls` を指定すると
+    GHC は型のトップレベルに，通常は表示されない ``forall`` 量化子を表示します．
+    GHCi では，たとえば，以下のようになります．
 
     .. code-block:: none
 
@@ -1207,18 +1309,16 @@ messages and in GHCi:
         ghci> :t f
         f :: forall a. a -> a
 
-    However, regardless of the flag setting, the quantifiers are printed
-    under these circumstances:
+    ただし，このフラグの設定いかんにかかわらず，以下の場合には量化子が表示されます．
 
-    -  For nested ``foralls``, e.g.
+    -  入れ子になった ``forall`` 
 
        .. code-block:: none
 
            ghci> :t GHC.ST.runST
            GHC.ST.runST :: (forall s. GHC.ST.ST s a) -> a
 
-    -  If any of the quantified type variables has a kind that mentions
-       a kind variable, e.g.
+    -  量化子付きの型変数のどれかがカインド変数で言及されているカインドをもつ
 
        .. code-block:: none
 
@@ -1228,11 +1328,27 @@ messages and in GHCi:
              (a Data.Type.Equality.:~: b) -> b Data.Type.Equality.:~: a
                    -- Defined in Data.Type.Equality
 
+..
+   .. ghc-flag:: -fprint-explicit-kinds
+
+       Using :ghc-flag:`-fprint-explicit-kinds` makes GHC print kind arguments in
+       types, which are normally suppressed. This can be important when you
+       are using kind polymorphism. For example:
+
+       .. code-block:: none
+
+	   ghci> :set -XPolyKinds
+	   ghci> data T a = MkT
+	   ghci> :t MkT
+	   MkT :: forall (k :: BOX) (a :: k). T a
+	   ghci> :set -fprint-explicit-foralls
+	   ghci> :t MkT
+	   MkT :: forall (k :: BOX) (a :: k). T k a
+
 .. ghc-flag:: -fprint-explicit-kinds
 
-    Using :ghc-flag:`-fprint-explicit-kinds` makes GHC print kind arguments in
-    types, which are normally suppressed. This can be important when you
-    are using kind polymorphism. For example:
+    :ghc-flag:`-fprint-explicit-kinds` を指定すると，通常は表示されないカインドが型に表示されます．
+    カインド多相を使っているときには重要な機能です．
 
     .. code-block:: none
 
@@ -1244,11 +1360,29 @@ messages and in GHCi:
         ghci> :t MkT
         MkT :: forall (k :: BOX) (a :: k). T k a
 
+..
+   .. ghc-flag:: -fprint-explicit-runtime-reps
+
+       When :ghc-flag:`-fprint-explicit-runtime-reps` is enabled, GHC prints
+       ``RuntimeRep`` type variables for runtime-representation-polymorphic types.
+       Otherwise GHC will default these to ``PtrRepLifted``. For example,
+
+       .. code-block:: none
+
+	   ghci> :t ($)
+	   ($) :: (a -> b) -> a -> b
+	   ghci> :set -fprint-explicit-runtime-reps
+	   ghci> :t ($)
+	   ($)
+	     :: forall (r :: GHC.Types.RuntimeRep) a (b :: TYPE r).
+		(a -> b) -> a -> b
+
 .. ghc-flag:: -fprint-explicit-runtime-reps
 
-    When :ghc-flag:`-fprint-explicit-runtime-reps` is enabled, GHC prints
-    ``RuntimeRep`` type variables for runtime-representation-polymorphic types.
-    Otherwise GHC will default these to ``PtrRepLifted``. For example,
+    :ghc-flag:`-fprint-explicit-runtime-reps` が有効になっていると，
+    GHC は実行時表現多相型について ``RuntimeRep`` 型変数を表示します．
+    このフラグが有効になっていなければデフォルトでは ``PtrRepLifted`` になります．
+    以下はその表示例です．
 
     .. code-block:: none
 
@@ -1260,35 +1394,83 @@ messages and in GHCi:
           :: forall (r :: GHC.Types.RuntimeRep) a (b :: TYPE r).
              (a -> b) -> a -> b
 
+..
+   .. ghc-flag:: -fprint-explicit-coercions
+
+       Using :ghc-flag:`-fprint-explicit-coercions` makes GHC print coercions in
+       types. When trying to prove the equality between types of different
+       kinds, GHC uses type-level coercions. Users will rarely need to
+       see these, as they are meant to be internal.
+
 .. ghc-flag:: -fprint-explicit-coercions
 
-    Using :ghc-flag:`-fprint-explicit-coercions` makes GHC print coercions in
-    types. When trying to prove the equality between types of different
-    kinds, GHC uses type-level coercions. Users will rarely need to
-    see these, as they are meant to be internal.
+    :ghc-flag:`-fprint-explicit-coercions` を指定すると GHC は型の変換を表示します．
+    異なるカインドの型間の相等性を証明しようとすると，GHC は型レベルの変換を使います．
+    ユーザがこれ見なければならなくなるのは稀です．あくまでもコンパイラ内部のできごとだからです．
+
+..
+   .. ghc-flag:: -fprint-equality-relations
+
+       Using :ghc-flag:`-fprint-equality-relations` tells GHC to distinguish between
+       its equality relations when printing. For example, ``~`` is homogeneous
+       lifted equality (the kinds of its arguments are the same) while
+       ``~~`` is heterogeneous lifted equality (the kinds of its arguments
+       might be different) and ``~#`` is heterogeneous unlifted equality,
+       the internal equality relation used in GHC's solver. Generally,
+       users should not need to worry about the subtleties here; ``~`` is
+       probably what you want. Without :ghc-flag:`-fprint-equality-relations`, GHC
+       prints all of these as ``~``. See also :ref:`equality-constraints`.
 
 .. ghc-flag:: -fprint-equality-relations
 
-    Using :ghc-flag:`-fprint-equality-relations` tells GHC to distinguish between
-    its equality relations when printing. For example, ``~`` is homogeneous
-    lifted equality (the kinds of its arguments are the same) while
-    ``~~`` is heterogeneous lifted equality (the kinds of its arguments
-    might be different) and ``~#`` is heterogeneous unlifted equality,
-    the internal equality relation used in GHC's solver. Generally,
-    users should not need to worry about the subtleties here; ``~`` is
-    probably what you want. Without :ghc-flag:`-fprint-equality-relations`, GHC
-    prints all of these as ``~``. See also :ref:`equality-constraints`.
+    :ghc-flag:`-fprint-equality-relations` を使って GHC に表示の際に相等性の関係を識別するよう指示できます．
+    たとえば ``~`` 均質な持ち上げ(2つの引数は同じカインドをもつ)相等性関係であり，
+    ``~~`` は異質な持ち上げ(2つの引数の型が異なる)相等性関係であり，
+    ``~#`` は異質な持ち上げていないGHC内部のソルバで使われる相等性関係です．
+    一般にユーザはこの微妙な部分について気を配る必要があるべきではなく， ``~`` が
+    ユーザが欲っしているものでしょう．
+    :ghc-flag:`-fprint-equality-relations` が指定されていなければ，GHCはすべて ``~`` として表示します．
+    :ref:`equality-constraints` も参照してください．
+
+..
+   .. ghc-flag:: -fprint-expanded-synonyms
+
+       When enabled, GHC also prints type-synonym-expanded types in type
+       errors. For example, with this type synonyms: ::
+
+	   type Foo = Int
+	   type Bar = Bool
+	   type MyBarST s = ST s Bar
+
+       This error message:
+
+       .. code-block:: none
+
+	   Couldn't match type 'Int' with 'Bool'
+	   Expected type: ST s Foo
+	     Actual type: MyBarST s
+
+       Becomes this:
+
+       .. code-block:: none
+
+	   Couldn't match type 'Int' with 'Bool'
+	   Expected type: ST s Foo
+	     Actual type: MyBarST s
+	   Type synonyms expanded:
+	   Expected type: ST s Int
+	     Actual type: ST s Bool
 
 .. ghc-flag:: -fprint-expanded-synonyms
 
-    When enabled, GHC also prints type-synonym-expanded types in type
-    errors. For example, with this type synonyms: ::
+    これが有効になっていれば，GHC は型エラーメッセージで型シノニムを展開した型も表示します．
+    たとえば，以下のような型シノニムがあったとしましょう． ::
 
         type Foo = Int
         type Bar = Bool
         type MyBarST s = ST s Bar
 
-    This error message:
+    以下のような型エラーメッセージ
 
     .. code-block:: none
 
@@ -1296,7 +1478,7 @@ messages and in GHCi:
         Expected type: ST s Foo
           Actual type: MyBarST s
 
-    Becomes this:
+    が以下のような型エラーメッセージになります．
 
     .. code-block:: none
 
@@ -1307,17 +1489,55 @@ messages and in GHCi:
         Expected type: ST s Int
           Actual type: ST s Bool
 
+..
+   .. ghc-flag:: -fprint-typechecker-elaboration
+
+       When enabled, GHC also prints extra information from the typechecker in
+       warnings. For example: ::
+
+	   main :: IO ()
+	   main = do
+	     return $ let a = "hello" in a
+	     return ()
+
+       This warning message:
+
+       .. code-block:: none
+
+	   A do-notation statement discarded a result of type ‘[Char]’
+	   Suppress this warning by saying
+	     ‘_ <- ($) return let a = "hello" in a’
+	   or by using the flag -fno-warn-unused-do-bind
+
+       Becomes this:
+
+       .. code-block:: none
+
+	   A do-notation statement discarded a result of type ‘[Char]’
+	   Suppress this warning by saying
+	     ‘_ <- ($)
+		     return
+		     let
+		       AbsBinds [] []
+			 {Exports: [a <= a
+				      <>]
+			  Exported types: a :: [Char]
+					  [LclId, Str=DmdType]
+			  Binds: a = "hello"}
+		     in a’
+	   or by using the flag -fno-warn-unused-do-bind
+
 .. ghc-flag:: -fprint-typechecker-elaboration
 
-    When enabled, GHC also prints extra information from the typechecker in
-    warnings. For example: ::
+    これが有効であれば GHC は警告メッセージで型検査器よりの追加の情報を表示します．
+    たとえば， ::
 
         main :: IO ()
         main = do
           return $ let a = "hello" in a
           return ()
 
-    This warning message:
+    であるとします．以下の警告メッセージは
 
     .. code-block:: none
 
@@ -1326,7 +1546,7 @@ messages and in GHCi:
           ‘_ <- ($) return let a = "hello" in a’
         or by using the flag -fno-warn-unused-do-bind
 
-    Becomes this:
+    は以下のように表示されるようになります．
 
     .. code-block:: none
 
@@ -1344,25 +1564,57 @@ messages and in GHCi:
                   in a’
         or by using the flag -fno-warn-unused-do-bind
 
+..
+   .. ghc-flag:: -ferror-spans
+
+       Causes GHC to emit the full source span of the syntactic entity
+       relating to an error message. Normally, GHC emits the source
+       location of the start of the syntactic entity only.
+
+       For example:
+
+       .. code-block:: none
+
+	   test.hs:3:6: parse error on input `where'
+
+       becomes:
+
+       .. code-block:: none
+
+	   test296.hs:3:6-10: parse error on input `where'
+
+       And multi-line spans are possible too:
+
+       .. code-block:: none
+
+	   test.hs:(5,4)-(6,7):
+	       Conflicting definitions for `a'
+	       Bound at: test.hs:5:4
+			 test.hs:6:7
+	       In the binding group for: a, b, a
+
+       Note that line numbers start counting at one, but column numbers
+       start at zero. This choice was made to follow existing convention
+       (i.e. this is how Emacs does it).
+
 .. ghc-flag:: -ferror-spans
 
-    Causes GHC to emit the full source span of the syntactic entity
-    relating to an error message. Normally, GHC emits the source
-    location of the start of the syntactic entity only.
+    これを有効にすると，GHC はエラーメッセージに関連する構文上の実体のソースコード上の範囲を表示します．
+    通常 GHC は構文上の実体のソースコードの開始位置だけを表示します．
 
-    For example:
+    たとえば，
 
     .. code-block:: none
 
         test.hs:3:6: parse error on input `where'
 
-    becomes:
+    という表示だったものが，
 
     .. code-block:: none
 
         test296.hs:3:6-10: parse error on input `where'
 
-    And multi-line spans are possible too:
+    のような表示になります．また，範囲は複数行にまたがることもあるので，その場合は
 
     .. code-block:: none
 
@@ -1372,20 +1624,32 @@ messages and in GHCi:
                       test.hs:6:7
             In the binding group for: a, b, a
 
-    Note that line numbers start counting at one, but column numbers
-    start at zero. This choice was made to follow existing convention
-    (i.e. this is how Emacs does it).
+    のようになります．行番号は1から数えますが，カラム番号は0から数えることに注意してください．
+    このような数えかたになっているのは，既存のよくある慣習(たとえば Emacs)にしたがったからです．
+
+..
+   .. ghc-flag:: -H <size>
+
+       Set the minimum size of the heap to ⟨size⟩. This option is
+       equivalent to ``+RTS -Hsize``, see :ref:`rts-options-gc`.
 
 .. ghc-flag:: -H <size>
 
-    Set the minimum size of the heap to ⟨size⟩. This option is
-    equivalent to ``+RTS -Hsize``, see :ref:`rts-options-gc`.
+    ヒープの最小サイズを ⟨size⟩ に設定します．このオプションは
+    ``+RTS -Hsize`` と同じです． :ref:`rts-options-gc` を参照してください．
+
+..
+   .. ghc-flag:: -Rghc-timing
+
+       Prints a one-line summary of timing statistics for the GHC run. This
+       option is equivalent to ``+RTS -tstderr``, see
+       :ref:`rts-options-gc`.
 
 .. ghc-flag:: -Rghc-timing
 
-    Prints a one-line summary of timing statistics for the GHC run. This
-    option is equivalent to ``+RTS -tstderr``, see
-    :ref:`rts-options-gc`.
+    GHC の実行に要した時間について統計情報を1行にまとめて表示します．
+    このオプションは ``+RTS -tstderr`` と同じです．
+    :ref:`rts-options-gc` を参照してください．
 
 .. _options-platform:
 
