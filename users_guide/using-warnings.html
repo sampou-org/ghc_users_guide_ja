@@ -721,14 +721,11 @@ GHC はこの警告の一部として，推論できた型を報告します．
 <dl class="ghc-flag">
 <dt id="ghc-flag--Wname-shadowing">
 <code class="descname">-Wname-shadowing</code><code class="descclassname"> </code><a class="headerlink" href="#ghc-flag--Wname-shadowing" title="Permalink to this definition">¶</a></dt>
-<dd><p id="index-22">This option causes a warning to be emitted whenever an inner-scope
-value has the same name as an outer-scope value, i.e. the inner
-value shadows the outer one. This can catch typographical errors
-that turn into hard-to-find bugs, e.g., in the inadvertent capture
-of what would be a recursive call in
-<code class="docutils literal"><span class="pre">f</span> <span class="pre">=</span> <span class="pre">...</span> <span class="pre">let</span> <span class="pre">f</span> <span class="pre">=</span> <span class="pre">id</span> <span class="pre">in</span> <span class="pre">...</span> <span class="pre">f</span> <span class="pre">...</span></code>.</p>
-<p>The warning is suppressed for names beginning with an underscore.
-For example</p>
+<dd><p id="index-22">このオプションを有効にすると，内側のスコープの値と同じ名前の値が外側のスコープにあるとき，
+すなわち，内側の名前が外側の名前を隠すときに警告を発行する．
+この警告によって，ミスタイプによる見つけにくいバグを捕捉できることがある．
+たとえば <code class="docutils literal"><span class="pre">f</span> <span class="pre">=</span> <span class="pre">...</span> <span class="pre">let</span> <span class="pre">f</span> <span class="pre">=</span> <span class="pre">id</span> <span class="pre">in</span> <span class="pre">...</span> <span class="pre">f</span> <span class="pre">...</span></code> において，再帰呼び出しであるはずのものがそうなっていないことが捕捉されます．</p>
+<p>この警告は，以下のようにアンダースコアで始まる名前については発行されません．</p>
 <div class="highlight-haskell"><div class="highlight"><pre><span class="nf">f</span> <span class="n">x</span> <span class="ow">=</span> <span class="kr">do</span> <span class="p">{</span> <span class="n">_ignore</span> <span class="ow">&lt;-</span> <span class="n">this</span><span class="p">;</span> <span class="n">_ignore</span> <span class="ow">&lt;-</span> <span class="n">that</span><span class="p">;</span> <span class="n">return</span> <span class="p">(</span><span class="n">the</span> <span class="n">other</span><span class="p">)</span> <span class="p">}</span>
 </pre></div>
 </div>
