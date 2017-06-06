@@ -722,7 +722,7 @@ GHC はこの警告の一部として，推論できた型を報告します．
 <dt id="ghc-flag--Wname-shadowing">
 <code class="descname">-Wname-shadowing</code><code class="descclassname"> </code><a class="headerlink" href="#ghc-flag--Wname-shadowing" title="Permalink to this definition">¶</a></dt>
 <dd><p id="index-22">このオプションを有効にすると，内側のスコープの値と同じ名前の値が外側のスコープにあるとき，
-すなわち，内側の名前が外側の名前を隠すときに警告を発行する．
+すなわち，内側の名前が外側の名前を隠す(シャドウする)ときに警告を発行する．
 この警告によって，ミスタイプによる見つけにくいバグを捕捉できることがある．
 たとえば <code class="docutils literal"><span class="pre">f</span> <span class="pre">=</span> <span class="pre">...</span> <span class="pre">let</span> <span class="pre">f</span> <span class="pre">=</span> <span class="pre">id</span> <span class="pre">in</span> <span class="pre">...</span> <span class="pre">f</span> <span class="pre">...</span></code> において，再帰呼び出しであるはずのものがそうなっていないことが捕捉されます．</p>
 <p>この警告は，以下のようにアンダースコアで始まる名前については発行されません．</p>
@@ -734,35 +734,30 @@ GHC はこの警告の一部として，推論できた型を報告します．
 <dl class="ghc-flag">
 <dt id="ghc-flag--Worphans">
 <code class="descname">-Worphans</code><code class="descclassname"> </code><a class="headerlink" href="#ghc-flag--Worphans" title="Permalink to this definition">¶</a></dt>
-<dd><p id="index-23">These flags cause a warning to be emitted whenever the module
-contains an &#8220;orphan&#8221; instance declaration or rewrite rule. An
-instance declaration is an orphan if it appears in a module in which
-neither the class nor the type being instanced are declared in the
-same module. A rule is an orphan if it is a rule for a function
-declared in another module. A module containing any orphans is
-called an orphan module.</p>
-<p>The trouble with orphans is that GHC must pro-actively read the
-interface files for all orphan modules, just in case their instances
-or rules play a role, whether or not the module&#8217;s interface would
-otherwise be of any use. See <a class="reference internal" href="separate_compilation.html#orphan-modules"><span>Orphan modules and instance declarations</span></a> for details.</p>
-<p>The flag <a class="reference internal" href="#ghc-flag--Worphans"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-Worphans</span></code></a> warns about user-written orphan rules or
-instances.</p>
+<dd><p id="index-23">このフラグが有効なら，モジュールに「孤立した」インスタンス宣言あるいは書き換え規則があるときに警告を発行します．
+インスタンス宣言が孤立しているとは，インスタンス宣言があるモジュールに，対応するクラスも具体化された型も定義されていないということです．
+書き換え規則が孤立しているとは，別のモジュールで宣言されている関数に対する規則であるということです．
+孤立したインスタンス宣言や書き換え規則を含むモジュールを孤立モジュールと呼びます．</p>
+<p>孤立インスタンスや孤立規則の問題は，インスタンスや規則が役割を果さなければならない場合にそなえて，
+他には何の役に立たなくても GHC はすべての孤立モジュールに対するインターフェイスファイルを積極的に読み込んでおかなければならないことです．
+詳細については <a class="reference internal" href="separate_compilation.html#orphan-modules"><span>Orphan modules and instance declarations</span></a> を参照してください．</p>
+<p>この <a class="reference internal" href="#ghc-flag--Worphans"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-Worphans</span></code></a> フラグは，ユーザが書いた孤立インスタンスや孤立規則について警告をだします．</p>
 </dd></dl>
 
 <dl class="ghc-flag">
 <dt id="ghc-flag--Woverlapping-patterns">
 <code class="descname">-Woverlapping-patterns</code><code class="descclassname"> </code><a class="headerlink" href="#ghc-flag--Woverlapping-patterns" title="Permalink to this definition">¶</a></dt>
-<dd><p id="index-24">By default, the compiler will warn you if a set of patterns are
-overlapping, e.g.,</p>
+<dd><p id="index-24">デフォルトで，コンパイラはパターンが重複しているときに警告を発行します．
+例をあげると</p>
 <div class="highlight-haskell"><div class="highlight"><pre><span class="nf">f</span> <span class="ow">::</span> <span class="kt">String</span> <span class="ow">-&gt;</span> <span class="kt">Int</span>
 <span class="nf">f</span> <span class="kt">[]</span>     <span class="ow">=</span> <span class="mi">0</span>
 <span class="nf">f</span> <span class="p">(</span><span class="kr">_</span><span class="kt">:</span><span class="n">xs</span><span class="p">)</span> <span class="ow">=</span> <span class="mi">1</span>
 <span class="nf">f</span> <span class="s">&quot;2&quot;</span>    <span class="ow">=</span> <span class="mi">2</span>
 </pre></div>
 </div>
-<p>where the last pattern match in <code class="docutils literal"><span class="pre">f</span></code> won&#8217;t ever be reached, as the
-second pattern overlaps it. More often than not, redundant patterns
-is a programmer mistake/error, so this option is enabled by default.</p>
+<p>ここで <code class="docutils literal"><span class="pre">f</span></code> の最後のパターン照合に至ることは決してありません．
+2つめのパターンが重なっているからです．
+冗長なパターンはプログラマの誤りであることが，そうでないことよりも多いので，このオプションはデフォルトで有効になっています．</p>
 </dd></dl>
 
 <dl class="ghc-flag">
