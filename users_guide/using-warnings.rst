@@ -1352,10 +1352,10 @@ GHC では，いくつものオプションを使って，コンパイル中の�
 .. ghc-flag:: -Wname-shadowing
 
     .. index::
-       single: shadowing, warning
+       single: シャドウ, 〜警告
 
     このオプションを有効にすると，内側のスコープの値と同じ名前の値が外側のスコープにあるとき，
-    すなわち，内側の名前が外側の名前を隠すときに警告を発行する．
+    すなわち，内側の名前が外側の名前を隠す(シャドウする)ときに警告を発行する．
     この警告によって，ミスタイプによる見つけにくいバグを捕捉できることがある．
     たとえば ``f = ... let f = id in ... f ...`` において，再帰呼び出しであるはずのものがそうなっていないことが捕捉されます．
 
@@ -1392,21 +1392,16 @@ GHC では，いくつものオプションを使って，コンパイル中の�
        single: 孤立インスタンス, 〜警告
        single: 孤立規則, 〜警告
 
-    These flags cause a warning to be emitted whenever the module
-    contains an "orphan" instance declaration or rewrite rule. An
-    instance declaration is an orphan if it appears in a module in which
-    neither the class nor the type being instanced are declared in the
-    same module. A rule is an orphan if it is a rule for a function
-    declared in another module. A module containing any orphans is
-    called an orphan module.
+    このフラグが有効なら，モジュールに「孤立した」インスタンス宣言あるいは書き換え規則があるときに警告を発行します．
+    インスタンス宣言が孤立しているとは，インスタンス宣言があるモジュールに，対応するクラスも具体化された型も定義されていないということです．
+    書き換え規則が孤立しているとは，別のモジュールで宣言されている関数に対する規則であるということです．   
+    孤立したインスタンス宣言や書き換え規則を含むモジュールを孤立モジュールと呼びます．
 
-    The trouble with orphans is that GHC must pro-actively read the
-    interface files for all orphan modules, just in case their instances
-    or rules play a role, whether or not the module's interface would
-    otherwise be of any use. See :ref:`orphan-modules` for details.
+    孤立インスタンスや孤立規則の問題は，インスタンスや規則が役割を果さなければならない場合にそなえて，
+    他には何の役に立たなくても GHC はすべての孤立モジュールに対するインターフェイスファイルを積極的に読み込んでおかなければならないことです．
+    詳細については :ref:`orphan-modules` を参照してください．
 
-    The flag :ghc-flag:`-Worphans` warns about user-written orphan rules or
-    instances.
+    この :ghc-flag:`-Worphans` フラグは，ユーザが書いた孤立インスタンスや孤立規則について警告をだします．
 
 ..
    .. ghc-flag:: -Woverlapping-patterns
@@ -1430,20 +1425,20 @@ GHC では，いくつものオプションを使って，コンパイル中の�
 .. ghc-flag:: -Woverlapping-patterns
 
     .. index::
-       single: overlapping patterns, warning
-       single: patterns, overlapping
+       single: 重複パターン, 〜警告
+       single: パターン, 重複〜
 
-    By default, the compiler will warn you if a set of patterns are
-    overlapping, e.g., ::
+    デフォルトで，コンパイラはパターンが重複しているときに警告を発行します．
+    例をあげると ::
 
         f :: String -> Int
         f []     = 0
         f (_:xs) = 1
         f "2"    = 2
 
-    where the last pattern match in ``f`` won't ever be reached, as the
-    second pattern overlaps it. More often than not, redundant patterns
-    is a programmer mistake/error, so this option is enabled by default.
+    ここで ``f`` の最後のパターン照合に至ることは決してありません．
+    2つめのパターンが重なっているからです．
+    冗長なパターンはプログラマの誤りであることが，そうでないことよりも多いので，このオプションはデフォルトで有効になっています．
 
 ..
    .. ghc-flag:: -Wtabs
