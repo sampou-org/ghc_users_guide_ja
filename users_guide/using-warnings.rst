@@ -1354,15 +1354,12 @@ GHC では，いくつものオプションを使って，コンパイル中の�
     .. index::
        single: shadowing, warning
 
-    This option causes a warning to be emitted whenever an inner-scope
-    value has the same name as an outer-scope value, i.e. the inner
-    value shadows the outer one. This can catch typographical errors
-    that turn into hard-to-find bugs, e.g., in the inadvertent capture
-    of what would be a recursive call in
-    ``f = ... let f = id in ... f ...``.
+    このオプションを有効にすると，内側のスコープの値と同じ名前の値が外側のスコープにあるとき，
+    すなわち，内側の名前が外側の名前を隠すときに警告を発行する．
+    この警告によって，ミスタイプによる見つけにくいバグを捕捉できることがある．
+    たとえば ``f = ... let f = id in ... f ...`` において，再帰呼び出しであるはずのものがそうなっていないことが捕捉されます．
 
-    The warning is suppressed for names beginning with an underscore.
-    For example ::
+    この警告は，以下のようにアンダースコアで始まる名前については発行されません． ::
 
         f x = do { _ignore <- this; _ignore <- that; return (the other) }
 
@@ -1392,8 +1389,8 @@ GHC では，いくつものオプションを使って，コンパイル中の�
 .. ghc-flag:: -Worphans
 
     .. index::
-       single: orphan instances, warning
-       single: orphan rules, warning
+       single: 孤立インスタンス, 〜警告
+       single: 孤立規則, 〜警告
 
     These flags cause a warning to be emitted whenever the module
     contains an "orphan" instance declaration or rewrite rule. An
