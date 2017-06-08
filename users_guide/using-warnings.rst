@@ -1451,9 +1451,9 @@ GHC では，いくつものオプションを使って，コンパイル中の�
 .. ghc-flag:: -Wtabs
 
     .. index::
-       single: tabs, warning
+       single: タブ, 〜警告
 
-    Have the compiler warn if there are tabs in your source file.
+    コンパイラはソースファイルにタブ文字が含まれていると警告をだします．
 
 ..
    .. ghc-flag:: -Wtype-defaults
@@ -1475,18 +1475,14 @@ GHC では，いくつものオプションを使って，コンパイル中の�
 .. ghc-flag:: -Wtype-defaults
 
     .. index::
-       single: defaulting mechanism, warning
+       single: デフォルト化機構, 〜警告
 
-    Have the compiler warn/inform you where in your source the Haskell
-    defaulting mechanism for numeric types kicks in. This is useful
-    information when converting code from a context that assumed one
-    default into one with another, e.g., the ‘default default’ for
-    Haskell 1.4 caused the otherwise unconstrained value ``1`` to be
-    given the type ``Int``, whereas Haskell 98 and later defaults it to
-    ``Integer``. This may lead to differences in performance and
-    behaviour, hence the usefulness of being non-silent about this.
+    数値型に対するデフォルト化機構が発動したときに警告/通知します．
+    これは，あるデフォルトを前提としたコードを別のデフォルトの下のコードに変換するときに便利な情報です．
+    たとえば ``1`` という値に特に制約がなければ，Haskell 1.4 の「デフォルトのデフォルト」では，これは ``Int`` 型ですが，Haskell 98 では ``Integer``です．
+    この違いは実行性能と挙動に影響を与える可能性があるので，通知があると便利です．
 
-    This warning is off by default.
+    この警告はデフォルトでは無効です．
 
 ..
    .. ghc-flag:: -Wmonomorphism-restriction
