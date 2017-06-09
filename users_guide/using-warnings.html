@@ -771,7 +771,7 @@ GHC はこの警告の一部として，推論できた型を報告します．
 <code class="descname">-Wtype-defaults</code><code class="descclassname"> </code><a class="headerlink" href="#ghc-flag--Wtype-defaults" title="Permalink to this definition">¶</a></dt>
 <dd><p id="index-26">数値型に対するデフォルト化機構が発動したときに警告/通知します．
 これは，あるデフォルトを前提としたコードを別のデフォルトの下のコードに変換するときに便利な情報です．
-たとえば <code class="docutils literal"><span class="pre">1</span></code> という値に特に制約がなければ，Haskell 1.4 の「デフォルトのデフォルト」では，これは <code class="docutils literal"><span class="pre">Int</span></code> 型ですが，Haskell 98 では <a href="#id2"><span class="problematic" id="id3">``</span></a>Integer``です．
+たとえば <code class="docutils literal"><span class="pre">1</span></code> という値に特に制約がなければ，Haskell 1.4 の「デフォルトのデフォルト」では，これは <code class="docutils literal"><span class="pre">Int</span></code> 型ですが，Haskell 98 では <code class="docutils literal"><span class="pre">Integer</span></code> です．
 この違いは実行性能と挙動に影響を与える可能性があるので，通知があると便利です．</p>
 <p>この警告はデフォルトでは無効です．</p>
 </dd></dl>
@@ -779,25 +779,22 @@ GHC はこの警告の一部として，推論できた型を報告します．
 <dl class="ghc-flag">
 <dt id="ghc-flag--Wmonomorphism-restriction">
 <code class="descname">-Wmonomorphism-restriction</code><code class="descclassname"> </code><a class="headerlink" href="#ghc-flag--Wmonomorphism-restriction" title="Permalink to this definition">¶</a></dt>
-<dd><p id="index-27">Have the compiler warn/inform you where in your source the Haskell
-Monomorphism Restriction is applied. If applied silently the MR can
-give rise to unexpected behaviour, so it can be helpful to have an
-explicit warning that it is being applied.</p>
-<p>This warning is off by default.</p>
+<dd><p id="index-27">単相性制限が適用される Haskell のコードがあるとコンパイラがそれを警告/通知します．
+単相性制限が暗黙に適用されると予期せぬ振る舞いになる可能性がある場合には，単相性制限が適用されたことを明示的に警告してくれると便利です．</p>
+<p>この警告はデフォルトで無効です．</p>
 </dd></dl>
 
 <dl class="ghc-flag">
 <dt id="ghc-flag--Wunsupported-llvm-version">
 <code class="descname">-Wunsupported-llvm-version</code><code class="descclassname"> </code><a class="headerlink" href="#ghc-flag--Wunsupported-llvm-version" title="Permalink to this definition">¶</a></dt>
-<dd><p>Warn when using <a class="reference internal" href="phases.html#ghc-flag--fllvm"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-fllvm</span></code></a> with an unsupported version of LLVM.</p>
+<dd><p><a class="reference internal" href="phases.html#ghc-flag--fllvm"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-fllvm</span></code></a> フラグでサポートされていないバージョンの LLVM を使おうとすると警告がでます．</p>
 </dd></dl>
 
 <dl class="ghc-flag">
 <dt id="ghc-flag--Wunticked-promoted-constructors">
 <code class="descname">-Wunticked-promoted-constructors</code><code class="descclassname"> </code><a class="headerlink" href="#ghc-flag--Wunticked-promoted-constructors" title="Permalink to this definition">¶</a></dt>
-<dd><p id="index-28">Warn if a promoted data constructor is used without a tick preceding
-its name.</p>
-<p>For example:</p>
+<dd><p id="index-28">昇格したデータ構成子をアポストロフィの前置なしに使うと警告を出します．</p>
+<p>例をあげると</p>
 <div class="highlight-haskell"><div class="highlight"><pre><span class="kr">data</span> <span class="kt">Nat</span> <span class="ow">=</span> <span class="kt">Succ</span> <span class="kt">Nat</span> <span class="o">|</span> <span class="kt">Zero</span>
 
 <span class="kr">data</span> <span class="kt">Vec</span> <span class="n">n</span> <span class="n">s</span> <span class="kr">where</span>
@@ -805,16 +802,15 @@ its name.</p>
   <span class="kt">Cons</span> <span class="ow">::</span> <span class="n">a</span> <span class="ow">-&gt;</span> <span class="kt">Vec</span> <span class="n">n</span> <span class="n">a</span> <span class="ow">-&gt;</span> <span class="kt">Vec</span> <span class="p">(</span><span class="kt">Succ</span> <span class="n">n</span><span class="p">)</span> <span class="n">a</span>
 </pre></div>
 </div>
-<p>Will raise two warnings because <code class="docutils literal"><span class="pre">Zero</span></code> and <code class="docutils literal"><span class="pre">Succ</span></code> are not
-written as <code class="docutils literal"><span class="pre">'Zero</span></code> and <code class="docutils literal"><span class="pre">'Succ</span></code>.</p>
-<p>This warning is is enabled by default in <a class="reference internal" href="#ghc-flag--Wall"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-Wall</span></code></a> mode.</p>
+<p>これは <code class="docutils literal"><span class="pre">Zero</span></code> および <code class="docutils literal"><span class="pre">Succ</span></code> がそれぞれ <code class="docutils literal"><span class="pre">'Zero</span></code> および <code class="docutils literal"><span class="pre">'Succ</span></code> と書いていないので2箇所で警告がでます．</p>
+<p>この警告は <a class="reference internal" href="#ghc-flag--Wall"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-Wall</span></code></a> モードではデフォルトで有効になっています．</p>
 </dd></dl>
 
 <dl class="ghc-flag">
 <dt id="ghc-flag--Wunused-binds">
 <code class="descname">-Wunused-binds</code><code class="descclassname"> </code><a class="headerlink" href="#ghc-flag--Wunused-binds" title="Permalink to this definition">¶</a></dt>
-<dd><p id="index-29">Report any function definitions (and local bindings) which are
-unused. An alias for</p>
+<dd><p id="index-29">未使用の関数定義(および局所的な束縛)をすべて報告します．
+以下のフラグを3つとも指定するの同じことになります．</p>
 <ul class="simple">
 <li><a class="reference internal" href="#ghc-flag--Wunused-top-binds"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-Wunused-top-binds</span></code></a></li>
 <li><a class="reference internal" href="#ghc-flag--Wunused-local-binds"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-Wunused-local-binds</span></code></a></li>
@@ -825,25 +821,21 @@ unused. An alias for</p>
 <dl class="ghc-flag">
 <dt id="ghc-flag--Wunused-top-binds">
 <code class="descname">-Wunused-top-binds</code><code class="descclassname"> </code><a class="headerlink" href="#ghc-flag--Wunused-top-binds" title="Permalink to this definition">¶</a></dt>
-<dd><p id="index-30">Report any function definitions which are unused.</p>
-<p>More precisely, warn if a binding brings into scope a variable that
-is not used, except if the variable&#8217;s name starts with an
-underscore. The &#8220;starts-with-underscore&#8221; condition provides a way to
-selectively disable the warning.</p>
-<p>A variable is regarded as &#8220;used&#8221; if</p>
+<dd><p id="index-30">未使用の関数定義をすべて報告します．</p>
+<p>より正確にいうと，有効範囲に束縛によって持ち込まれた変数が未使用で，かつ，その変数名がアンダースコアで始まっていないときに警告がでます．
+この「アンダースコアで始まる」という条件のおかげで，選択的にこの警告を無効にできます．</p>
+<p>変数が使用されているとは以下の場合です．</p>
 <ul class="simple">
-<li>It is exported, or</li>
-<li>It appears in the right hand side of a binding that binds at
-least one used variable that is used</li>
+<li>エクスポートされている場合，または</li>
+<li>すくなくとも1つの使用されている変数を束縛する右辺に現れている場合</li>
 </ul>
-<p>For example:</p>
+<p>以下に例をあげます．</p>
 <div class="highlight-haskell"><div class="highlight"><pre><span class="kr">module</span> <span class="nn">A</span> <span class="p">(</span><span class="nf">f</span><span class="p">)</span> <span class="kr">where</span>
-<span class="nf">f</span> <span class="ow">=</span> <span class="kr">let</span> <span class="p">(</span><span class="n">p</span><span class="p">,</span><span class="n">q</span><span class="p">)</span> <span class="ow">=</span> <span class="n">rhs1</span> <span class="kr">in</span> <span class="n">t</span> <span class="n">p</span>  <span class="c1">-- No warning: q is unused, but is locally bound</span>
-<span class="nf">t</span> <span class="ow">=</span> <span class="n">rhs3</span>                     <span class="c1">-- No warning: f is used, and hence so is t</span>
-<span class="nf">g</span> <span class="ow">=</span> <span class="n">h</span> <span class="n">x</span>                      <span class="c1">-- Warning: g unused</span>
-<span class="nf">h</span> <span class="ow">=</span> <span class="n">rhs2</span>                     <span class="c1">-- Warning: h is only used in the</span>
-                             <span class="c1">-- right-hand side of another unused binding</span>
-<span class="nf">_w</span> <span class="ow">=</span> <span class="kt">True</span>                    <span class="c1">-- No warning: _w starts with an underscore</span>
+<span class="nf">f</span> <span class="ow">=</span> <span class="kr">let</span> <span class="p">(</span><span class="n">p</span><span class="p">,</span><span class="n">q</span><span class="p">)</span> <span class="ow">=</span> <span class="n">rhs1</span> <span class="kr">in</span> <span class="n">t</span> <span class="n">p</span>  <span class="c1">-- 無警告: q は未使用ですが，局所的な束縛です．</span>
+<span class="nf">t</span> <span class="ow">=</span> <span class="n">rhs3</span>                     <span class="c1">-- 無警告: f は使用されており，したがって，t も使用されています．</span>
+<span class="nf">g</span> <span class="ow">=</span> <span class="n">h</span> <span class="n">x</span>                      <span class="c1">-- 警告: g は未使用です．</span>
+<span class="nf">h</span> <span class="ow">=</span> <span class="n">rhs2</span>                     <span class="c1">-- 警告: h は他の未使用束縛の右辺でしか使われていません．</span>
+<span class="nf">_w</span> <span class="ow">=</span> <span class="kt">True</span>                    <span class="c1">-- 無警告: _w はアンダースコアで始まっています．</span>
 </pre></div>
 </div>
 </dd></dl>
@@ -851,10 +843,10 @@ least one used variable that is used</li>
 <dl class="ghc-flag">
 <dt id="ghc-flag--Wunused-local-binds">
 <code class="descname">-Wunused-local-binds</code><code class="descclassname"> </code><a class="headerlink" href="#ghc-flag--Wunused-local-binds" title="Permalink to this definition">¶</a></dt>
-<dd><p id="index-31">Report any local definitions which are unused. For example:</p>
+<dd><p id="index-31">未使用の局所定義をすべて報告します．たとえば以下のとおりです．</p>
 <div class="highlight-haskell"><div class="highlight"><pre><span class="kr">module</span> <span class="nn">A</span> <span class="p">(</span><span class="nf">f</span><span class="p">)</span> <span class="kr">where</span>
-<span class="nf">f</span> <span class="ow">=</span> <span class="kr">let</span> <span class="p">(</span><span class="n">p</span><span class="p">,</span><span class="n">q</span><span class="p">)</span> <span class="ow">=</span> <span class="n">rhs1</span> <span class="kr">in</span> <span class="n">t</span> <span class="n">p</span>  <span class="c1">-- Warning: q is unused</span>
-<span class="nf">g</span> <span class="ow">=</span> <span class="n">h</span> <span class="n">x</span>                      <span class="c1">-- No warning: g is unused, but is a top-level binding</span>
+<span class="nf">f</span> <span class="ow">=</span> <span class="kr">let</span> <span class="p">(</span><span class="n">p</span><span class="p">,</span><span class="n">q</span><span class="p">)</span> <span class="ow">=</span> <span class="n">rhs1</span> <span class="kr">in</span> <span class="n">t</span> <span class="n">p</span>  <span class="c1">-- 警告: q は未使用です．</span>
+<span class="nf">g</span> <span class="ow">=</span> <span class="n">h</span> <span class="n">x</span>                      <span class="c1">-- 無警告: g は未使用ですが，トップレベルの束縛です．</span>
 </pre></div>
 </div>
 </dd></dl>
@@ -862,61 +854,53 @@ least one used variable that is used</li>
 <dl class="ghc-flag">
 <dt id="ghc-flag--Wunused-pattern-binds">
 <code class="descname">-Wunused-pattern-binds</code><code class="descclassname"> </code><a class="headerlink" href="#ghc-flag--Wunused-pattern-binds" title="Permalink to this definition">¶</a></dt>
-<dd><p id="index-32">Warn if a pattern binding binds no variables at all, unless it is a
-lone, possibly-banged, wild-card pattern. For example:</p>
-<div class="highlight-haskell"><div class="highlight"><pre><span class="kt">Just</span> <span class="kr">_</span> <span class="ow">=</span> <span class="n">rhs3</span>    <span class="c1">-- Warning: unused pattern binding</span>
-<span class="p">(</span><span class="kr">_</span><span class="p">,</span> <span class="kr">_</span><span class="p">)</span> <span class="ow">=</span> <span class="n">rhs4</span>    <span class="c1">-- Warning: unused pattern binding</span>
-<span class="kr">_</span>  <span class="ow">=</span> <span class="n">rhs3</span>        <span class="c1">-- No warning: lone wild-card pattern</span>
-<span class="o">!</span><span class="kr">_</span> <span class="ow">=</span> <span class="n">rhs4</span>        <span class="c1">-- No warning: banged wild-card pattern; behaves like seq</span>
+<dd><p id="index-32">パターン束縛が変数を1つも束縛しないときに警告がでます．
+ただし，単独のワイルドカード(バン付きも含む)のときは警告を出しません．
+以下はその例です．</p>
+<div class="highlight-haskell"><div class="highlight"><pre><span class="kt">Just</span> <span class="kr">_</span> <span class="ow">=</span> <span class="n">rhs3</span>    <span class="c1">-- 警告: 未使用パターン束縛</span>
+<span class="p">(</span><span class="kr">_</span><span class="p">,</span> <span class="kr">_</span><span class="p">)</span> <span class="ow">=</span> <span class="n">rhs4</span>    <span class="c1">-- 警告: 未使用パターン束縛</span>
+<span class="kr">_</span>  <span class="ow">=</span> <span class="n">rhs3</span>        <span class="c1">-- 無警告: 単独ワイルドカードパターン</span>
+<span class="o">!</span><span class="kr">_</span> <span class="ow">=</span> <span class="n">rhs4</span>        <span class="c1">-- 無警告: バン付き単独ワイルドカードパターン，seq と同じ効果があります．</span>
 </pre></div>
 </div>
-<p>The motivation for allowing lone wild-card patterns is they are not
-very different from <code class="docutils literal"><span class="pre">_v</span> <span class="pre">=</span> <span class="pre">rhs3</span></code>, which elicits no warning; and
-they can be useful to add a type constraint, e.g. <code class="docutils literal"><span class="pre">_</span> <span class="pre">=</span> <span class="pre">x::Int</span></code>. A
-lone banged wild-card pattern is useful as an alternative (to
-<code class="docutils literal"><span class="pre">seq</span></code>) way to force evaluation.</p>
+<p>単独のワイルドカードパターンを許容するのは，警告が出ない <code class="docutils literal"><span class="pre">_v</span> <span class="pre">=</span> <span class="pre">rhs3</span></code> と大して違いはないからです．
+また，このようなパターンは型に対する制約を加えるのに便利だからです．たとえば <code class="docutils literal"><span class="pre">_</span> <span class="pre">=</span> <span class="pre">x::Int</span></code> のように使えます．
+単独のバン付きワイルドカードパターンは評価を強制する <code class="docutils literal"><span class="pre">seq</span></code> の代替として便利です．</p>
 </dd></dl>
 
 <dl class="ghc-flag">
 <dt id="ghc-flag--Wunused-imports">
 <code class="descname">-Wunused-imports</code><code class="descclassname"> </code><a class="headerlink" href="#ghc-flag--Wunused-imports" title="Permalink to this definition">¶</a></dt>
-<dd><p id="index-33">Report any modules that are explicitly imported but never used.
-However, the form <code class="docutils literal"><span class="pre">import</span> <span class="pre">M()</span></code> is never reported as an unused
-import, because it is a useful idiom for importing instance
-declarations, which are anonymous in Haskell.</p>
+<dd><p id="index-33">明示的にインポートされながら，使われていないモジュールをすべて報告します．
+ただし <code class="docutils literal"><span class="pre">import</span> <span class="pre">M()</span></code> という形式のインポートについては未使用インポートとしては報告しません．
+これはインスタンス宣言(Haskell では無名)をインポートするための有用なイディオムだからです．</p>
 </dd></dl>
 
 <dl class="ghc-flag">
 <dt id="ghc-flag--Wunused-matches">
 <code class="descname">-Wunused-matches</code><code class="descclassname"> </code><a class="headerlink" href="#ghc-flag--Wunused-matches" title="Permalink to this definition">¶</a></dt>
-<dd><p id="index-34">Report all unused variables which arise from term-level pattern matches,
-including patterns consisting of a single variable. For instance
-<code class="docutils literal"><span class="pre">f</span> <span class="pre">x</span> <span class="pre">y</span> <span class="pre">=</span> <span class="pre">[]</span></code> would report <code class="docutils literal"><span class="pre">x</span></code> and <code class="docutils literal"><span class="pre">y</span></code> as unused. The warning
-is suppressed if the variable name begins with an underscore, thus:</p>
+<dd><p id="index-34">項レベルパターン照合で発生する未使用変数をすべて報告します．
+これには，単一の変数から構成されるパターンも含まれます．
+たとえば <code class="docutils literal"><span class="pre">f</span> <span class="pre">x</span> <span class="pre">y</span> <span class="pre">=</span> <span class="pre">[]</span></code> では <code class="docutils literal"><span class="pre">x</span></code> と <code class="docutils literal"><span class="pre">y</span></code> が未使用と報告されます．
+この警告は変数がアンダースコアで始まる変数の場合，すなわち以下のような場合には抑制されます．</p>
 <div class="highlight-haskell"><div class="highlight"><pre><span class="nf">f</span> <span class="n">_x</span> <span class="ow">=</span> <span class="kt">True</span>
 </pre></div>
 </div>
-<p>Note that <a class="reference internal" href="#ghc-flag--Wunused-matches"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-Wunused-matches</span></code></a> does not warn about variables which
-arise from type-level patterns, as found in type family and data family
-instances. This must be enabled separately through the
-<a class="reference internal" href="#ghc-flag--Wunused-type-patterns"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-Wunused-type-patterns</span></code></a> flag.</p>
+<p><a class="reference internal" href="#ghc-flag--Wunused-matches"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-Wunused-matches</span></code></a> では型族やデータ族のインスタンスに見られるようなトップレベルパターンの変数については警告を出しません．
+このような場合に警告を出すようにするには，別に <a class="reference internal" href="#ghc-flag--Wunused-type-patterns"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-Wunused-type-patterns</span></code></a> フラグを有効にしなければなりません．</p>
 </dd></dl>
 
 <dl class="ghc-flag">
 <dt id="ghc-flag--Wunused-do-bind">
 <code class="descname">-Wunused-do-bind</code><code class="descclassname"> </code><a class="headerlink" href="#ghc-flag--Wunused-do-bind" title="Permalink to this definition">¶</a></dt>
-<dd><p id="index-35">Report expressions occurring in <code class="docutils literal"><span class="pre">do</span></code> and <code class="docutils literal"><span class="pre">mdo</span></code> blocks that
-appear to silently throw information away. For instance
-<code class="docutils literal"><span class="pre">do</span> <span class="pre">{</span> <span class="pre">mapM</span> <span class="pre">popInt</span> <span class="pre">xs</span> <span class="pre">;</span> <span class="pre">return</span> <span class="pre">10</span> <span class="pre">}</span></code> would report the first
-statement in the <code class="docutils literal"><span class="pre">do</span></code> block as suspicious, as it has the type
-<code class="docutils literal"><span class="pre">StackM</span> <span class="pre">[Int]</span></code> and not <code class="docutils literal"><span class="pre">StackM</span> <span class="pre">()</span></code>, but that <code class="docutils literal"><span class="pre">[Int]</span></code> value is
-not bound to anything. The warning is suppressed by explicitly
-mentioning in the source code that your program is throwing
-something away:</p>
+<dd><p id="index-35"><code class="docutils literal"><span class="pre">do</span></code> および <code class="docutils literal"><span class="pre">mdo</span></code> ブロックで情報を黙って捨てているように見える式を報告します．
+たとえば <code class="docutils literal"><span class="pre">do</span> <span class="pre">{</span> <span class="pre">mapM</span> <span class="pre">popInt</span> <span class="pre">xs</span> <span class="pre">;</span> <span class="pre">return</span> <span class="pre">10</span> <span class="pre">}</span></code> の場合 <code class="docutils literal"><span class="pre">do</span></code> ブロックの最初の文があやしいと報告されます．
+型は <code class="docutils literal"><span class="pre">StackM</span> <span class="pre">[Int]</span></code> であって <code class="docutils literal"><span class="pre">StackM</span> <span class="pre">()</span></code> ではないにもかかわらず <code class="docutils literal"><span class="pre">[Int]</span></code> 型の値は何も束縛しないからです．
+この警告は，何かを捨てていることをプログラム中で明示的に示せば抑制されます．</p>
 <div class="highlight-haskell"><div class="highlight"><pre><span class="kr">do</span> <span class="p">{</span> <span class="kr">_</span> <span class="ow">&lt;-</span> <span class="n">mapM</span> <span class="n">popInt</span> <span class="n">xs</span> <span class="p">;</span> <span class="n">return</span> <span class="mi">10</span> <span class="p">}</span>
 </pre></div>
 </div>
-<p>Of course, in this particular situation you can do even better:</p>
+<p>もちろん場合によってはもっと良い方法があります．</p>
 <div class="highlight-haskell"><div class="highlight"><pre><span class="kr">do</span> <span class="p">{</span> <span class="n">mapM_</span> <span class="n">popInt</span> <span class="n">xs</span> <span class="p">;</span> <span class="n">return</span> <span class="mi">10</span> <span class="p">}</span>
 </pre></div>
 </div>
@@ -925,51 +909,43 @@ something away:</p>
 <dl class="ghc-flag">
 <dt id="ghc-flag--Wunused-type-patterns">
 <code class="descname">-Wunused-type-patterns</code><code class="descclassname"> </code><a class="headerlink" href="#ghc-flag--Wunused-type-patterns" title="Permalink to this definition">¶</a></dt>
-<dd><p id="index-36">Report all unused type variables which arise from patterns in type family
-and data family instances. For instance:</p>
+<dd><p id="index-36">型族およびデータ族のインスタンスで発生する未使用型変数をすべて報告します．たとえば</p>
 <div class="highlight-haskell"><div class="highlight"><pre><span class="kr">type</span> <span class="kr">instance</span> <span class="kt">F</span> <span class="n">x</span> <span class="n">y</span> <span class="ow">=</span> <span class="kt">[]</span>
 </pre></div>
 </div>
-<p>would report <code class="docutils literal"><span class="pre">x</span></code> and <code class="docutils literal"><span class="pre">y</span></code> as unused. The warning is suppressed if the
-type variable name begins with an underscore, like so:</p>
+<p>では <code class="docutils literal"><span class="pre">x</span></code> および <code class="docutils literal"><span class="pre">y</span></code> が未使用と報告されます．
+この警告は，型変数名がアンダースコアで始まる場合，たとえば，以下のような場合には抑制されます．</p>
 <div class="highlight-haskell"><div class="highlight"><pre><span class="kr">type</span> <span class="kr">instance</span> <span class="kt">F</span> <span class="n">_x</span> <span class="n">_y</span> <span class="ow">=</span> <span class="kt">[]</span>
 </pre></div>
 </div>
-<p>Unlike <a class="reference internal" href="#ghc-flag--Wunused-matches"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-Wunused-matches</span></code></a>, <code class="xref std std-ghc-flag docutils literal"><span class="pre">-Wunused-type-variables</span></code> is
-not implied by <a class="reference internal" href="#ghc-flag--Wall"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-Wall</span></code></a>. The rationale for this decision is that
-unlike term-level pattern names, type names are often chosen expressly for
-documentation purposes, so using underscores in type names can make the
-documentation harder to read.</p>
+<p><a class="reference internal" href="#ghc-flag--Wunused-matches"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-Wunused-matches</span></code></a> とは違い <code class="xref std std-ghc-flag docutils literal"><span class="pre">-Wunused-type-variables</span></code> は
+<a class="reference internal" href="#ghc-flag--Wall"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-Wall</span></code></a> によって有効になることはありません．
+このようにしてある論拠は，項レベルパターン名とは違い，型名はドキュメントとして意味のある名前が選ばれるからで，
+アンダースコアを付ける(ように仕向ける)と読み難いものになってしまうからです．</p>
 </dd></dl>
 
 <dl class="ghc-flag">
 <dt id="ghc-flag--Wunused-foralls">
 <code class="descname">-Wunused-foralls</code><code class="descclassname"> </code><a class="headerlink" href="#ghc-flag--Wunused-foralls" title="Permalink to this definition">¶</a></dt>
-<dd><p id="index-37">Report all unused type variables which arise from explicit, user-written
-<code class="docutils literal"><span class="pre">forall</span></code> statements. For instance:</p>
+<dd><p id="index-37">ユーザが明示的に書いた <code class="docutils literal"><span class="pre">forall</span></code> 文にある未使用型変数をすべて報告する．たとえば</p>
 <div class="highlight-haskell"><div class="highlight"><pre><span class="nf">g</span> <span class="ow">::</span> <span class="n">forall</span> <span class="n">a</span> <span class="n">b</span> <span class="n">c</span><span class="o">.</span> <span class="p">(</span><span class="n">b</span> <span class="ow">-&gt;</span> <span class="n">b</span><span class="p">)</span>
 </pre></div>
 </div>
-<p>would report <code class="docutils literal"><span class="pre">a</span></code> and <code class="docutils literal"><span class="pre">c</span></code> as unused.</p>
+<p>の場合は <code class="docutils literal"><span class="pre">a</span></code> および <code class="docutils literal"><span class="pre">c</span></code> が未使用として報告される．</p>
 </dd></dl>
 
 <dl class="ghc-flag">
 <dt id="ghc-flag--Wwrong-do-bind">
 <code class="descname">-Wwrong-do-bind</code><code class="descclassname"> </code><a class="headerlink" href="#ghc-flag--Wwrong-do-bind" title="Permalink to this definition">¶</a></dt>
-<dd><p id="index-38">Report expressions occurring in <code class="docutils literal"><span class="pre">do</span></code> and <code class="docutils literal"><span class="pre">mdo</span></code> blocks that
-appear to lack a binding. For instance
-<code class="docutils literal"><span class="pre">do</span> <span class="pre">{</span> <span class="pre">return</span> <span class="pre">(popInt</span> <span class="pre">10)</span> <span class="pre">;</span> <span class="pre">return</span> <span class="pre">10</span> <span class="pre">}</span></code> would report the first
-statement in the <code class="docutils literal"><span class="pre">do</span></code> block as suspicious, as it has the type
-<code class="docutils literal"><span class="pre">StackM</span> <span class="pre">(StackM</span> <span class="pre">Int)</span></code> (which consists of two nested applications
-of the same monad constructor), but which is not then &#8220;unpacked&#8221; by
-binding the result. The warning is suppressed by explicitly
-mentioning in the source code that your program is throwing
-something away:</p>
+<dd><p id="index-38"><code class="docutils literal"><span class="pre">do</span></code> および <code class="docutils literal"><span class="pre">mdo</span></code> ブロックの中で，束縛を欠いているように見える式を報告します．
+たとえば <code class="docutils literal"><span class="pre">do</span> <span class="pre">{</span> <span class="pre">return</span> <span class="pre">(popInt</span> <span class="pre">10)</span> <span class="pre">;</span> <span class="pre">return</span> <span class="pre">10</span> <span class="pre">}</span></code> の場合 <code class="docutils literal"><span class="pre">do</span></code> ブロックにおいて1つめの文は怪しいと報告されます．
+型は <code class="docutils literal"><span class="pre">StackM</span> <span class="pre">(StackM</span> <span class="pre">Int)</span></code> (同じモナド構成子を2重に適用しています)ですが，結果で束縛することで「解かれて」いません．
+この警告は，結果を捨てるように明示するコードを書くことで抑制できます．</p>
 <div class="highlight-haskell"><div class="highlight"><pre><span class="kr">do</span> <span class="p">{</span> <span class="kr">_</span> <span class="ow">&lt;-</span> <span class="n">return</span> <span class="p">(</span><span class="n">popInt</span> <span class="mi">10</span><span class="p">)</span> <span class="p">;</span> <span class="n">return</span> <span class="mi">10</span> <span class="p">}</span>
 </pre></div>
 </div>
-<p>For almost all sensible programs this will indicate a bug, and you
-probably intended to write:</p>
+<p>ほとんどのまともなプログラムでは，このような部分はバグであることを示しています．
+意図はおそらく以下のようになコードでしょう．</p>
 <div class="highlight-haskell"><div class="highlight"><pre><span class="kr">do</span> <span class="p">{</span> <span class="n">popInt</span> <span class="mi">10</span> <span class="p">;</span> <span class="n">return</span> <span class="mi">10</span> <span class="p">}</span>
 </pre></div>
 </div>
@@ -978,14 +954,12 @@ probably intended to write:</p>
 <dl class="ghc-flag">
 <dt id="ghc-flag--Winline-rule-shadowing">
 <code class="descname">-Winline-rule-shadowing</code><code class="descclassname"> </code><a class="headerlink" href="#ghc-flag--Winline-rule-shadowing" title="Permalink to this definition">¶</a></dt>
-<dd><p>Warn if a rewrite RULE might fail to fire because the function might
-be inlined before the rule has a chance to fire. See
-<a class="reference internal" href="glasgow_exts.html#rules-inline"><span>How rules interact with INLINE/NOINLINE pragmas</span></a>.</p>
+<dd><p>関数がインライン展開されてしまって，書き換え規則が発火できない場合に警告を出します．
+<a class="reference internal" href="glasgow_exts.html#rules-inline"><span>How rules interact with INLINE/NOINLINE pragmas</span></a> を参照してください．</p>
 </dd></dl>
 
-<p>If you&#8217;re feeling really paranoid, the <a class="reference internal" href="debugging.html#ghc-flag--dcore-lint"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-dcore-lint</span></code></a> option is a good choice.
-It turns on heavyweight intra-pass sanity-checking within GHC. (It checks GHC&#8217;s
-sanity, not yours.)</p>
+<p>強く固執したいなら <a class="reference internal" href="debugging.html#ghc-flag--dcore-lint"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-dcore-lint</span></code></a> オプションを使う手もあります．
+このオプションでは GHC 内部のパスで強力な整合性検査を行ないます(GHC の整合性検査であって，プログラマの整合性検査ではありませんよ)．</p>
 </div>
 
 
