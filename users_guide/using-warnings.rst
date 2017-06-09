@@ -1479,7 +1479,7 @@ GHC では，いくつものオプションを使って，コンパイル中の�
 
     数値型に対するデフォルト化機構が発動したときに警告/通知します．
     これは，あるデフォルトを前提としたコードを別のデフォルトの下のコードに変換するときに便利な情報です．
-    たとえば ``1`` という値に特に制約がなければ，Haskell 1.4 の「デフォルトのデフォルト」では，これは ``Int`` 型ですが，Haskell 98 では ``Integer``です．
+    たとえば ``1`` という値に特に制約がなければ，Haskell 1.4 の「デフォルトのデフォルト」では，これは ``Int`` 型ですが，Haskell 98 では ``Integer`` です．
     この違いは実行性能と挙動に影響を与える可能性があるので，通知があると便利です．
 
     この警告はデフォルトでは無効です．
@@ -1500,14 +1500,12 @@ GHC では，いくつものオプションを使って，コンパイル中の�
 .. ghc-flag:: -Wmonomorphism-restriction
 
     .. index::
-       single: monomorphism restriction, warning
+       single: 単相性制限, 〜警告
 
-    Have the compiler warn/inform you where in your source the Haskell
-    Monomorphism Restriction is applied. If applied silently the MR can
-    give rise to unexpected behaviour, so it can be helpful to have an
-    explicit warning that it is being applied.
+    単相性制限が適用される Haskell のコードがあるとコンパイラがそれを警告/通知します．
+    単相性制限が暗黙に適用されると予期せぬ振る舞いになる可能性がある場合には，単相性制限が適用されたことを明示的に警告してくれると便利です．
 
-    This warning is off by default.
+    この警告はデフォルトで無効です．
 
 ..
    .. ghc-flag:: -Wunsupported-llvm-version
@@ -1516,7 +1514,7 @@ GHC では，いくつものオプションを使って，コンパイル中の�
 
 .. ghc-flag:: -Wunsupported-llvm-version
 
-    Warn when using :ghc-flag:`-fllvm` with an unsupported version of LLVM.
+    :ghc-flag:`-fllvm` フラグでサポートされていないバージョンの LLVM を使おうとすると警告がでます．
 
 ..
    .. ghc-flag:: -Wunticked-promoted-constructors
@@ -1543,12 +1541,11 @@ GHC では，いくつものオプションを使って，コンパイル中の�
 .. ghc-flag:: -Wunticked-promoted-constructors
 
     .. index::
-       single: promoted constructor, warning
+       single: 昇格データ構成子, 〜警告
 
-    Warn if a promoted data constructor is used without a tick preceding
-    its name.
+    昇格したデータ構成子をアポストロフィの前置なしに使うと警告を出します．
 
-    For example: ::
+    例をあげると ::
 
         data Nat = Succ Nat | Zero
 
@@ -1556,10 +1553,9 @@ GHC では，いくつものオプションを使って，コンパイル中の�
           Nil  :: Vec Zero a
           Cons :: a -> Vec n a -> Vec (Succ n) a
 
-    Will raise two warnings because ``Zero`` and ``Succ`` are not
-    written as ``'Zero`` and ``'Succ``.
+    これは ``Zero`` および ``Succ`` がそれぞれ ``'Zero`` および ``'Succ`` と書いていないので2箇所で警告がでます．
 
-    This warning is is enabled by default in :ghc-flag:`-Wall` mode.
+    この警告は :ghc-flag:`-Wall` モードではデフォルトで有効になっています．
 
 ..
    .. ghc-flag:: -Wunused-binds
@@ -1578,11 +1574,11 @@ GHC では，いくつものオプションを使って，コンパイル中の�
 .. ghc-flag:: -Wunused-binds
 
     .. index::
-       single: unused binds, warning
-       single: binds, unused
+       single: 未使用束縛, 警告
+       single: 束縛, 未使用〜
 
-    Report any function definitions (and local bindings) which are
-    unused. An alias for
+    未使用の関数定義(および局所的な束縛)をすべて報告します．
+    以下のフラグを3つとも指定するの同じことになります．
 
     -  :ghc-flag:`-Wunused-top-binds`
     -  :ghc-flag:`-Wunused-local-binds`
@@ -1622,37 +1618,33 @@ GHC では，いくつものオプションを使って，コンパイル中の�
 .. ghc-flag:: -Wunused-top-binds
 
     .. index::
-       single: unused binds, warning
-       single: binds, unused
+       single: 未使用束縛, 〜警告
+       single: 束縛, 未使用〜
 
-    Report any function definitions which are unused.
+    未使用の関数定義をすべて報告します．
 
-    More precisely, warn if a binding brings into scope a variable that
-    is not used, except if the variable's name starts with an
-    underscore. The "starts-with-underscore" condition provides a way to
-    selectively disable the warning.
+    より正確にいうと，有効範囲に束縛によって持ち込まれた変数が未使用で，かつ，その変数名がアンダースコアで始まっていないときに警告がでます．
+    この「アンダースコアで始まる」という条件のおかげで，選択的にこの警告を無効にできます．
 
-    A variable is regarded as "used" if
+    変数が使用されているとは以下の場合です．
 
-    -  It is exported, or
+    -  エクスポートされている場合，または
 
-    -  It appears in the right hand side of a binding that binds at
-       least one used variable that is used
+    -  すくなくとも1つの使用されている変数を束縛する右辺に現れている場合
 
-    For example: ::
+    以下に例をあげます． ::
 
         module A (f) where
-        f = let (p,q) = rhs1 in t p  -- No warning: q is unused, but is locally bound
-        t = rhs3                     -- No warning: f is used, and hence so is t
-        g = h x                      -- Warning: g unused
-        h = rhs2                     -- Warning: h is only used in the
-                                     -- right-hand side of another unused binding
-        _w = True                    -- No warning: _w starts with an underscore
+        f = let (p,q) = rhs1 in t p  -- 無警告: q は未使用ですが，局所的な束縛です．
+        t = rhs3                     -- 無警告: f は使用されており，したがって，t も使用されています．
+        g = h x                      -- 警告: g は未使用です．
+        h = rhs2                     -- 警告: h は他の未使用束縛の右辺でしか使われていません．
+        _w = True                    -- 無警告: _w はアンダースコアで始まっています．
 
 ..
    .. ghc-flag:: -Wunused-local-binds
 
-       .. index::
+        .. index::
 	  single: unused binds, warning
 	  single: binds, unused
 
@@ -1665,14 +1657,14 @@ GHC では，いくつものオプションを使って，コンパイル中の�
 .. ghc-flag:: -Wunused-local-binds
 
     .. index::
-       single: unused binds, warning
-       single: binds, unused
+       single: 未使用束縛, 〜警告
+       single: 束縛, 未使用〜
 
-    Report any local definitions which are unused. For example: ::
+    未使用の局所定義をすべて報告します．たとえば以下のとおりです． ::
 
         module A (f) where
-        f = let (p,q) = rhs1 in t p  -- Warning: q is unused
-        g = h x                      -- No warning: g is unused, but is a top-level binding
+        f = let (p,q) = rhs1 in t p  -- 警告: q は未使用です．
+        g = h x                      -- 無警告: g は未使用ですが，トップレベルの束縛です．
 
 ..
    .. ghc-flag:: -Wunused-pattern-binds
@@ -1698,22 +1690,21 @@ GHC では，いくつものオプションを使って，コンパイル中の�
 .. ghc-flag:: -Wunused-pattern-binds
 
     .. index::
-       single: unused binds, warning
-       single: binds, unused
+       single: 未使用束縛, 〜警告
+       single: 束縛, 未使用〜
 
-    Warn if a pattern binding binds no variables at all, unless it is a
-    lone, possibly-banged, wild-card pattern. For example: ::
+    パターン束縛が変数を1つも束縛しないときに警告がでます．
+    ただし，単独のワイルドカード(バン付きも含む)のときは警告を出しません．
+    以下はその例です． ::
 
-        Just _ = rhs3    -- Warning: unused pattern binding
-        (_, _) = rhs4    -- Warning: unused pattern binding
-        _  = rhs3        -- No warning: lone wild-card pattern
-        !_ = rhs4        -- No warning: banged wild-card pattern; behaves like seq
+        Just _ = rhs3    -- 警告: 未使用パターン束縛
+        (_, _) = rhs4    -- 警告: 未使用パターン束縛
+        _  = rhs3        -- 無警告: 単独ワイルドカードパターン
+        !_ = rhs4        -- 無警告: バン付き単独ワイルドカードパターン，seq と同じ効果があります．
 
-    The motivation for allowing lone wild-card patterns is they are not
-    very different from ``_v = rhs3``, which elicits no warning; and
-    they can be useful to add a type constraint, e.g. ``_ = x::Int``. A
-    lone banged wild-card pattern is useful as an alternative (to
-    ``seq``) way to force evaluation.
+    単独のワイルドカードパターンを許容するのは，警告が出ない ``_v = rhs3`` と大して違いはないからです．
+    また，このようなパターンは型に対する制約を加えるのに便利だからです．たとえば ``_ = x::Int`` のように使えます．
+    単独のバン付きワイルドカードパターンは評価を強制する ``seq`` の代替として便利です．
 
 ..
    .. ghc-flag:: -Wunused-imports
@@ -1730,13 +1721,12 @@ GHC では，いくつものオプションを使って，コンパイル中の�
 .. ghc-flag:: -Wunused-imports
 
     .. index::
-       single: unused imports, warning
-       single: imports, unused
+       single: 未使用インポート, 〜警告
+       single: インポート, 未使用〜
 
-    Report any modules that are explicitly imported but never used.
-    However, the form ``import M()`` is never reported as an unused
-    import, because it is a useful idiom for importing instance
-    declarations, which are anonymous in Haskell.
+    明示的にインポートされながら，使われていないモジュールをすべて報告します．
+    ただし ``import M()`` という形式のインポートについては未使用インポートとしては報告しません．
+    これはインスタンス宣言(Haskell では無名)をインポートするための有用なイディオムだからです．
 
 ..
    .. ghc-flag:: -Wunused-matches
@@ -1760,20 +1750,18 @@ GHC では，いくつものオプションを使って，コンパイル中の�
 .. ghc-flag:: -Wunused-matches
 
     .. index::
-       single: unused matches, warning
-       single: matches, unused
+       single: 未使用照合, 〜警告
+       single: 照合, 未使用〜
 
-    Report all unused variables which arise from term-level pattern matches,
-    including patterns consisting of a single variable. For instance
-    ``f x y = []`` would report ``x`` and ``y`` as unused. The warning
-    is suppressed if the variable name begins with an underscore, thus: ::
+    項レベルパターン照合で発生する未使用変数をすべて報告します．
+    これには，単一の変数から構成されるパターンも含まれます．
+    たとえば ``f x y = []`` では ``x`` と ``y`` が未使用と報告されます．
+    この警告は変数がアンダースコアで始まる変数の場合，すなわち以下のような場合には抑制されます． ::
 
         f _x = True
 
-    Note that :ghc-flag:`-Wunused-matches` does not warn about variables which
-    arise from type-level patterns, as found in type family and data family
-    instances. This must be enabled separately through the
-    :ghc-flag:`-Wunused-type-patterns` flag.
+    :ghc-flag:`-Wunused-matches` では型族やデータ族のインスタンスに見られるようなトップレベルパターンの変数については警告を出しません．
+    このような場合に警告を出すようにするには，別に :ghc-flag:`-Wunused-type-patterns` フラグを有効にしなければなりません．
 
 ..
    .. ghc-flag:: -Wunused-do-bind
@@ -1800,21 +1788,17 @@ GHC では，いくつものオプションを使って，コンパイル中の�
 .. ghc-flag:: -Wunused-do-bind
 
     .. index::
-       single: unused do binding, warning
-       single: do binding, unused
+       single: 未使用do束縛, 〜警告
+       single: do束縛, 未使用〜
 
-    Report expressions occurring in ``do`` and ``mdo`` blocks that
-    appear to silently throw information away. For instance
-    ``do { mapM popInt xs ; return 10 }`` would report the first
-    statement in the ``do`` block as suspicious, as it has the type
-    ``StackM [Int]`` and not ``StackM ()``, but that ``[Int]`` value is
-    not bound to anything. The warning is suppressed by explicitly
-    mentioning in the source code that your program is throwing
-    something away: ::
+    ``do`` および ``mdo`` ブロックで情報を黙って捨てているように見える式を報告します．
+    たとえば ``do { mapM popInt xs ; return 10 }`` の場合 ``do`` ブロックの最初の文があやしいと報告されます．
+    型は ``StackM [Int]`` であって ``StackM ()`` ではないにもかかわらず ``[Int]`` 型の値は何も束縛しないからです．
+    この警告は，何かを捨てていることをプログラム中で明示的に示せば抑制されます． ::
 
         do { _ <- mapM popInt xs ; return 10 }
 
-    Of course, in this particular situation you can do even better: ::
+    もちろん場合によってはもっと良い方法があります． ::
 
         do { mapM_ popInt xs ; return 10 }
 
@@ -1844,24 +1828,22 @@ GHC では，いくつものオプションを使って，コンパイル中の�
 .. ghc-flag:: -Wunused-type-patterns
 
     .. index::
-       single: unused type patterns, warning
-       single: type patterns, unused
+       single: 未使用型パターン, 〜警告
+       single: 型パターン, 未使用〜
 
-    Report all unused type variables which arise from patterns in type family
-    and data family instances. For instance: ::
-
+    型族およびデータ族のインスタンスで発生する未使用型変数をすべて報告します．たとえば ::
+     
         type instance F x y = []
 
-    would report ``x`` and ``y`` as unused. The warning is suppressed if the
-    type variable name begins with an underscore, like so: ::
+    では ``x`` および ``y`` が未使用と報告されます．
+    この警告は，型変数名がアンダースコアで始まる場合，たとえば，以下のような場合には抑制されます． ::
 
         type instance F _x _y = []
 
-    Unlike :ghc-flag:`-Wunused-matches`, :ghc-flag:`-Wunused-type-variables` is
-    not implied by :ghc-flag:`-Wall`. The rationale for this decision is that
-    unlike term-level pattern names, type names are often chosen expressly for
-    documentation purposes, so using underscores in type names can make the
-    documentation harder to read.
+    :ghc-flag:`-Wunused-matches` とは違い :ghc-flag:`-Wunused-type-variables` は
+    :ghc-flag:`-Wall` によって有効になることはありません．
+    このようにしてある論拠は，項レベルパターン名とは違い，型名はドキュメントとして意味のある名前が選ばれるからで，
+    アンダースコアを付ける(ように仕向ける)と読み難いものになってしまうからです．
 
 ..
    .. ghc-flag:: -Wunused-foralls
@@ -1880,15 +1862,14 @@ GHC では，いくつものオプションを使って，コンパイル中の�
 .. ghc-flag:: -Wunused-foralls
 
     .. index::
-       single: unused foralls, warning
-       single: foralls, unused
+       single: 未使用forall, 〜警告
+       single: forall, 未使用〜
 
-    Report all unused type variables which arise from explicit, user-written
-    ``forall`` statements. For instance: ::
+    ユーザが明示的に書いた ``forall`` 文にある未使用型変数をすべて報告する．たとえば  ::
 
         g :: forall a b c. (b -> b)
 
-    would report ``a`` and ``c`` as unused.
+    の場合は ``a`` および ``c`` が未使用として報告される．
 
 ..
    .. ghc-flag:: -Wwrong-do-bind
@@ -1917,23 +1898,18 @@ GHC では，いくつものオプションを使って，コンパイル中の�
 .. ghc-flag:: -Wwrong-do-bind
 
     .. index::
-       single: apparently erroneous do binding, warning
-       single: do binding, apparently erroneous
+       single: 誤りが疑われるdo束縛, 〜警告
+       single: do束縛, 誤りが疑われる〜
 
-    Report expressions occurring in ``do`` and ``mdo`` blocks that
-    appear to lack a binding. For instance
-    ``do { return (popInt 10) ; return 10 }`` would report the first
-    statement in the ``do`` block as suspicious, as it has the type
-    ``StackM (StackM Int)`` (which consists of two nested applications
-    of the same monad constructor), but which is not then "unpacked" by
-    binding the result. The warning is suppressed by explicitly
-    mentioning in the source code that your program is throwing
-    something away: ::
+    ``do`` および ``mdo`` ブロックの中で，束縛を欠いているように見える式を報告します．
+    たとえば ``do { return (popInt 10) ; return 10 }`` の場合 ``do`` ブロックにおいて1つめの文は怪しいと報告されます．
+    型は ``StackM (StackM Int)`` (同じモナド構成子を2重に適用しています)ですが，結果で束縛することで「解かれて」いません．
+    この警告は，結果を捨てるように明示するコードを書くことで抑制できます． ::
 
         do { _ <- return (popInt 10) ; return 10 }
 
-    For almost all sensible programs this will indicate a bug, and you
-    probably intended to write: ::
+    ほとんどのまともなプログラムでは，このような部分はバグであることを示しています．
+    意図はおそらく以下のようになコードでしょう． ::
 
         do { popInt 10 ; return 10 }
 
@@ -1950,11 +1926,9 @@ GHC では，いくつものオプションを使って，コンパイル中の�
 
 .. ghc-flag:: -Winline-rule-shadowing
 
-    Warn if a rewrite RULE might fail to fire because the function might
-    be inlined before the rule has a chance to fire. See
-    :ref:`rules-inline`.
+    関数がインライン展開されてしまって，書き換え規則が発火できない場合に警告を出します．
+    :ref:`rules-inline` を参照してください．
 
-If you're feeling really paranoid, the :ghc-flag:`-dcore-lint` option is a good choice.
-It turns on heavyweight intra-pass sanity-checking within GHC. (It checks GHC's
-sanity, not yours.)
 
+強く固執したいなら :ghc-flag:`-dcore-lint` オプションを使う手もあります．
+このオプションでは GHC 内部のパスで強力な整合性検査を行ないます(GHC の整合性検査であって，プログラマの整合性検査ではありませんよ)．
