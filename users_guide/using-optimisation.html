@@ -7,7 +7,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>7.3. Optimisation (code improvement) &mdash; Glasgow Haskell Compiler &lt;release&gt; Users Guide</title>
+    <title>7.3. 最適化 (コードの改善) &mdash; Glasgow Haskell Compiler &lt;release&gt; Users Guide</title>
     
     <link rel="stylesheet" href="_static/ghc-theme.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -25,9 +25,9 @@
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
     <link rel="top" title="Glasgow Haskell Compiler &lt;release&gt; Users Guide" href="index.html" />
-    <link rel="up" title="7. Using GHC" href="usage.html" />
+    <link rel="up" title="7. GHCを使う" href="usage.html" />
     <link rel="next" title="7.4. Using Concurrent Haskell" href="using-concurrent.html" />
-    <link rel="prev" title="7.2. Warnings and sanity-checking" href="using-warnings.html" /> 
+    <link rel="prev" title="7.2. 警告と整合性検査" href="using-warnings.html" /> 
   </head>
   <body role="document">
 <div class="logo">
@@ -44,10 +44,10 @@
           <a href="using-concurrent.html" title="7.4. Using Concurrent Haskell"
              accesskey="N">next</a> |</li>
         <li class="right" >
-          <a href="using-warnings.html" title="7.2. Warnings and sanity-checking"
+          <a href="using-warnings.html" title="7.2. 警告と整合性検査"
              accesskey="P">previous</a> |</li>
         <li class="nav-item nav-item-0"><a href="index.html">GHC 8.0.2 Users Guide</a> &raquo;</li>
-          <li class="nav-item nav-item-1"><a href="usage.html" accesskey="U">7. Using GHC</a> &raquo;</li> 
+          <li class="nav-item nav-item-1"><a href="usage.html" accesskey="U">7. GHCを使う</a> &raquo;</li> 
       </ul>
     </div>
 
@@ -55,16 +55,16 @@
         <div class="sphinxsidebarwrapper">
   <h3><a href="index.html">Table Of Contents</a></h3>
   <ul>
-<li><a class="reference internal" href="#">7.3. Optimisation (code improvement)</a><ul>
-<li><a class="reference internal" href="#o-convenient-packages-of-optimisation-flags">7.3.1. <code class="docutils literal"><span class="pre">-O*</span></code>: convenient “packages” of optimisation flags.</a></li>
-<li><a class="reference internal" href="#f-platform-independent-flags">7.3.2. <code class="docutils literal"><span class="pre">-f*</span></code>: platform-independent flags</a></li>
+<li><a class="reference internal" href="#">7.3. 最適化 (コードの改善)</a><ul>
+<li><a class="reference internal" href="#o">7.3.1. <code class="docutils literal"><span class="pre">-O*</span></code>: 便利な最適化フラグの「詰め合わせ」</a></li>
+<li><a class="reference internal" href="#f">7.3.2. <code class="docutils literal"><span class="pre">-f*</span></code>: プラットフォーム非依存のフラグ</a></li>
 </ul>
 </li>
 </ul>
 
   <h4>Previous topic</h4>
   <p class="topless"><a href="using-warnings.html"
-                        title="previous chapter">7.2. Warnings and sanity-checking</a></p>
+                        title="previous chapter">7.2. 警告と整合性検査</a></p>
   <h4>Next topic</h4>
   <p class="topless"><a href="using-concurrent.html"
                         title="next chapter">7.4. Using Concurrent Haskell</a></p>
@@ -96,52 +96,41 @@
         <div class="bodywrapper">
           <div class="body" role="main">
             
-  <div class="section" id="optimisation-code-improvement">
-<span id="options-optimise"></span><h1>7.3. Optimisation (code improvement)<a class="headerlink" href="#optimisation-code-improvement" title="Permalink to this headline">¶</a></h1>
-<p id="index-0">The <code class="docutils literal"><span class="pre">-O*</span></code> options specify convenient &#8220;packages&#8221; of optimisation flags;
-the <code class="docutils literal"><span class="pre">-f*</span></code> options described later on specify <em>individual</em>
-optimisations to be turned on/off; the <code class="docutils literal"><span class="pre">-m*</span></code> options specify
-<em>machine-specific</em> optimisations to be turned on/off.</p>
-<p>Most of these options are boolean and have options to turn them both &#8220;on&#8221; and
-&#8220;off&#8221; (beginning with the prefix <code class="docutils literal"><span class="pre">no-</span></code>). For instance, while <code class="docutils literal"><span class="pre">-fspecialise</span></code>
-enables specialisation, <code class="docutils literal"><span class="pre">-fno-specialise</span></code> disables it. When multiple flags for
-the same option appear in the command-line they are evaluated from left to
-right. For instance, <code class="docutils literal"><span class="pre">-fno-specialise</span> <span class="pre">-fspecialise</span></code> will enable
-specialisation.</p>
-<p>It is important to note that the <code class="docutils literal"><span class="pre">-O*</span></code> flags are roughly equivalent to
-combinations of <code class="docutils literal"><span class="pre">-f*</span></code> flags. For this reason, the effect of the
-<code class="docutils literal"><span class="pre">-O*</span></code> and <code class="docutils literal"><span class="pre">-f*</span></code> flags is dependent upon the order in which they
-occur on the command line.</p>
-<p>For instance, take the example of <code class="docutils literal"><span class="pre">-fno-specialise</span> <span class="pre">-O1</span></code>. Despite the
-<code class="docutils literal"><span class="pre">-fno-specialise</span></code> appearing in the command line, specialisation will
-still be enabled. This is the case as <code class="docutils literal"><span class="pre">-O1</span></code> implies <code class="docutils literal"><span class="pre">-fspecialise</span></code>,
-overriding the previous flag. By contrast, <code class="docutils literal"><span class="pre">-O1</span> <span class="pre">-fno-specialise</span></code> will
-compile without specialisation, as one would expect.</p>
-<div class="section" id="o-convenient-packages-of-optimisation-flags">
-<span id="optimise-pkgs"></span><h2>7.3.1. <code class="docutils literal"><span class="pre">-O*</span></code>: convenient “packages” of optimisation flags.<a class="headerlink" href="#o-convenient-packages-of-optimisation-flags" title="Permalink to this headline">¶</a></h2>
-<p>There are <em>many</em> options that affect the quality of code produced by
-GHC. Most people only have a general goal, something like &#8220;Compile
-quickly&#8221; or &#8220;Make my program run like greased lightning.&#8221; The following
-&#8220;packages&#8221; of optimisations (or lack thereof) should suffice.</p>
-<p>Note that higher optimisation levels cause more cross-module
-optimisation to be performed, which can have an impact on how much of
-your program needs to be recompiled when you change something. This is
-one reason to stick to no-optimisation when developing code.</p>
+  <div class="section" id="options-optimise">
+<span id="id1"></span><h1>7.3. 最適化 (コードの改善)<a class="headerlink" href="#options-optimise" title="Permalink to this headline">¶</a></h1>
+<p id="index-0"><code class="docutils literal"><span class="pre">-O*</span></code> オプションば便利な最適化フラグの「詰め合わせ」を指定するのに使います．
+<em>個別の</em> 最適化を有効/無効にするには，後述する <code class="docutils literal"><span class="pre">-f*</span></code> オプションを使います．
+<em>マシン固有</em> の最適化を有効/無効にするには <code class="docutils literal"><span class="pre">-m*</span></code> オプションを使います．</p>
+<p>こうしたオプションのほとんどは，オプションをオン/オフする論理値になっています(オフにする場合は <code class="docutils literal"><span class="pre">no-</span></code> が前置されます)．
+<code class="docutils literal"><span class="pre">-fspecialise</span></code> は特定化を有効にし，<code class="docutils literal"><span class="pre">-fno-specialise</span></code> は無効にします．
+同じオプションに関して複数のフラグが1つのコマンドラインにあらわれたときは左から右への順で評価されますので，
+<code class="docutils literal"><span class="pre">-fno-specialise</span> <span class="pre">-fspecialise</span></code> という指定では，特定化は有効になります．</p>
+<p><code class="docutils literal"><span class="pre">-O*</span></code> という型のフラグは大まかにいって <code class="docutils literal"><span class="pre">-f*</span></code> という型のフラグの組み合わせを指定しているものになっているということに注意をしてください．
+したがって <code class="docutils literal"><span class="pre">-O*</span></code> フラグと <code class="docutils literal"><span class="pre">-f*</span></code> フラグの効果はコマンドライン中にあらわれる順番に依存します．</p>
+<p><code class="docutils literal"><span class="pre">-fno-specialise</span> <span class="pre">-O1</span></code> を例にとってみましょう．
+コマンドラインに <code class="docutils literal"><span class="pre">-fno-specialise</span></code> があっても，特定化(specialisation)は有効になります．
+これは <code class="docutils literal"><span class="pre">-O1</span></code> が <code class="docutils literal"><span class="pre">-fspecialise</span></code> を有効にするので，先に指定したフラグを上書きしてしまいます．
+これとは対照的に <code class="docutils literal"><span class="pre">-O1</span> <span class="pre">-fno-specialise</span></code> のようにすると予想どおり特定化は発動しません．</p>
+<div class="section" id="o">
+<span id="optimise-pkgs"></span><h2>7.3.1. <code class="docutils literal"><span class="pre">-O*</span></code>: 便利な最適化フラグの「詰め合わせ」<a class="headerlink" href="#o" title="Permalink to this headline">¶</a></h2>
+<p>GHCが生成するコードの質に影響を与えるオプションは <em>大量に</em> あります．
+ほとんどの人にとっては，最適化の目標は「素早くコンパイルする」とか「電光石火のごとく走るプログラムコードを生成する」など一般的なものです．
+したがって，以下にしめすような最適化の「詰め合わせ」を指定(あるいは指定しない)する選択をするだけで十分です．</p>
+<p>最適化のレベルを高くすると，モジュールを跨ぐ最適化が増えます．
+これは，ソースコードを変更したときにどの程度の再コンパイルする必要があるかに大きく影響します．
+これは開発中は最適化をしないようにすることの理由の1つです．</p>
 <dl class="ghc-flag">
 <dt id="ghc-flag--O*">
 <code class="descname">-O*</code><code class="descclassname"> </code><a class="headerlink" href="#ghc-flag--O*" title="Permalink to this definition">¶</a></dt>
-<dd><p>This is taken to mean: “Please compile quickly; I&#8217;m not
-over-bothered about compiled-code quality.” So, for example:
-<code class="docutils literal"><span class="pre">ghc</span> <span class="pre">-c</span> <span class="pre">Foo.hs</span></code></p>
+<dd><p>このフラグの意味は「速くコンパイルしてね，生成したコードのインスタンスについてはうるさいことは言わないから」です．
+たとえば <code class="docutils literal"><span class="pre">ghc</span> <span class="pre">-c</span> <span class="pre">Foo.hs</span></code> のようにします．</p>
 </dd></dl>
 
 <dl class="ghc-flag">
 <dt id="ghc-flag--O0">
 <code class="descname">-O0</code><code class="descclassname"> </code><a class="headerlink" href="#ghc-flag--O0" title="Permalink to this definition">¶</a></dt>
-<dd><p>Means &#8220;turn off all optimisation&#8221;, reverting to the same settings as
-if no <code class="docutils literal"><span class="pre">-O</span></code> options had been specified. Saying <code class="docutils literal"><span class="pre">-O0</span></code> can be
-useful if e.g. <code class="docutils literal"><span class="pre">make</span></code> has inserted a <code class="docutils literal"><span class="pre">-O</span></code> on the command line
-already.</p>
+<dd><p>「すべての最適化を無効にする」という意味です． <code class="docutils literal"><span class="pre">-O``オプションを全く指定しないのと同じ状態にするということです．</span>
+<span class="pre">わざわざ</span> <span class="pre">``-O0</span></code> を指定するのは <code class="docutils literal"><span class="pre">make</span></code> が既に <code class="docutils literal"><span class="pre">-O</span></code> オプションを指定してしまっているときに便利です．</p>
 </dd></dl>
 
 <dl class="ghc-flag">
@@ -149,37 +138,34 @@ already.</p>
 <code class="descname">-O</code><code class="descclassname"> </code><a class="headerlink" href="#ghc-flag--O" title="Permalink to this definition">¶</a></dt>
 <dt id="ghc-flag--O1">
 <code class="descname">-O1</code><code class="descclassname"> </code><a class="headerlink" href="#ghc-flag--O1" title="Permalink to this definition">¶</a></dt>
-<dd><p id="index-1">Means: &#8220;Generate good-quality code without taking too long about
-it.&#8221; Thus, for example: <code class="docutils literal"><span class="pre">ghc</span> <span class="pre">-c</span> <span class="pre">-O</span> <span class="pre">Main.lhs</span></code></p>
+<dd><p id="index-1">「高品質のコードをそれほど時間をかけないで生成する」という意味です．
+<code class="docutils literal"><span class="pre">ghc</span> <span class="pre">-c</span> <span class="pre">-O</span> <span class="pre">Main.lhs</span></code> のように使います．</p>
 </dd></dl>
 
 <dl class="ghc-flag">
 <dt id="ghc-flag--O2">
 <code class="descname">-O2</code><code class="descclassname"> </code><a class="headerlink" href="#ghc-flag--O2" title="Permalink to this definition">¶</a></dt>
-<dd><p id="index-2">Means: &#8220;Apply every non-dangerous optimisation, even if it means
-significantly longer compile times.&#8221;</p>
-<p>The avoided &#8220;dangerous&#8221; optimisations are those that can make
-runtime or space <em>worse</em> if you&#8217;re unlucky. They are normally turned
-on or off individually.</p>
+<dd><p id="index-2">「危険のない最適化をすべて適用する．コンパイルにかなりの時間を書けてもよい」という意味です．</p>
+<p>ここで回避しようとしている「危険な」最適化とは，運が悪ければ，実行時における時間・空間性能を <em>悪化させる</em> 可能性があるということです．
+通常これらの最適化は個別に指定します．</p>
 </dd></dl>
 
 <dl class="ghc-flag">
 <dt id="ghc-flag--Odph">
 <code class="descname">-Odph</code><code class="descclassname"> </code><a class="headerlink" href="#ghc-flag--Odph" title="Permalink to this definition">¶</a></dt>
-<dd><p id="index-3">Enables all <code class="docutils literal"><span class="pre">-O2</span></code> optimisation, sets
-<code class="docutils literal"><span class="pre">-fmax-simplifier-iterations=20</span></code> and <code class="docutils literal"><span class="pre">-fsimplifier-phases=3</span></code>.
-Designed for use with <a class="reference internal" href="parallel.html#dph"><span>Data Parallel Haskell (DPH)</span></a>.</p>
+<dd><p id="index-3">すべての <code class="docutils literal"><span class="pre">-O2</span></code> の最適化を有効にした上で <code class="docutils literal"><span class="pre">-fmax-simplifier-iterations=20</span></code> と <code class="docutils literal"><span class="pre">-fsimplifier-phases=3</span></code> を設定します．
+<a class="reference internal" href="parallel.html#dph"><span>Data Parallel Haskell (DPH)</span></a> を使うときように設計されました．</p>
 </dd></dl>
 
-<p>We don&#8217;t use a <code class="docutils literal"><span class="pre">-O*</span></code> flag for day-to-day work. We use <code class="docutils literal"><span class="pre">-O</span></code> to get
-respectable speed; e.g., when we want to measure something. When we want
-to go for broke, we tend to use <code class="docutils literal"><span class="pre">-O2</span></code> (and we go for lots of coffee
-breaks).</p>
-<p>The easiest way to see what <code class="docutils literal"><span class="pre">-O</span></code> (etc.) “really mean” is to run with
-<a class="reference internal" href="using.html#ghc-flag--v"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-v</span></code></a>, then stand back in amazement.</p>
+<p>日常の作業で <code class="docutils literal"><span class="pre">-O*</span></code> フラグを使うことはありません．
+それなりの速度が必要なときには <code class="docutils literal"><span class="pre">-O</span></code> を使います．
+たとえば，何かを計測したいときなどです．
+ちょっと休憩したいときには <code class="docutils literal"><span class="pre">-O2</span></code> を使い(たっぷりのコーヒーブレイクに行き)ます．</p>
+<p><code class="docutils literal"><span class="pre">-O</span></code> (など)の「実際の意味」を知りたければ <a class="reference internal" href="using.html#ghc-flag--v"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-v</span></code></a> を付ければいいでしょう．
+びっくりして，後ずさりすることになるでしょうね．</p>
 </div>
-<div class="section" id="f-platform-independent-flags">
-<span id="options-f"></span><h2>7.3.2. <code class="docutils literal"><span class="pre">-f*</span></code>: platform-independent flags<a class="headerlink" href="#f-platform-independent-flags" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="f">
+<span id="options-f"></span><h2>7.3.2. <code class="docutils literal"><span class="pre">-f*</span></code>: プラットフォーム非依存のフラグ<a class="headerlink" href="#f" title="Permalink to this headline">¶</a></h2>
 <p id="index-4">These flags turn on and off individual optimisations. Flags marked as
 on by default are enabled by <code class="docutils literal"><span class="pre">-O</span></code>, and as such you shouldn&#8217;t
 need to set any of them explicitly. A flag <code class="docutils literal"><span class="pre">-fwombat</span></code> can be negated
@@ -1099,10 +1085,10 @@ enable SIMD parallelism and friendlier cache behaviour.</p>
           <a href="using-concurrent.html" title="7.4. Using Concurrent Haskell"
              >next</a> |</li>
         <li class="right" >
-          <a href="using-warnings.html" title="7.2. Warnings and sanity-checking"
+          <a href="using-warnings.html" title="7.2. 警告と整合性検査"
              >previous</a> |</li>
         <li class="nav-item nav-item-0"><a href="index.html">GHC 8.0.2 Users Guide</a> &raquo;</li>
-          <li class="nav-item nav-item-1"><a href="usage.html" >7. Using GHC</a> &raquo;</li> 
+          <li class="nav-item nav-item-1"><a href="usage.html" >7. GHCを使う</a> &raquo;</li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">
