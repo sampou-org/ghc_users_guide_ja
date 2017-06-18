@@ -214,21 +214,41 @@ GHCが生成するコードの質に影響を与えるオプションは *大量
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 .. index::
-   single: -f\* options (GHC)
-   single: -fno-\* options (GHC)
+   single: -f\* オプション (GHC)
+   single: -fno-\* オプション (GHC)
 
-These flags turn on and off individual optimisations. Flags marked as
-on by default are enabled by ``-O``, and as such you shouldn't
-need to set any of them explicitly. A flag ``-fwombat`` can be negated
-by saying ``-fno-wombat``. See :ref:`options-f-compact` for a compact
-list.
+これらのフラグは個々の最適化を有効/無効にするのに使います．
+``-O`` を使えば，「デフォルトで有効」となっているフラグをすべて有効にできます．
+したがって，明示的に指定する必要はないはずです．
+``-fwombat`` というフラグの否定は ``-fno-wombat`` です．概略の一覧表は :ref:`options-f-compact` を参照してください．
+
+..
+   .. ghc-flag:: -fcase-merge
+
+       :default: on
+
+       Merge immediately-nested case expressions that scrutinse the same variable.
+       For example, ::
+
+	     case x of
+		Red -> e1
+		_   -> case x of 
+			 Blue -> e2
+			 Green -> e3
+
+       Is transformed to, ::
+
+	     case x of
+		Red -> e1
+		Blue -> e2
+		Green -> e2
 
 .. ghc-flag:: -fcase-merge
 
-    :default: on
+    :default: 有効
 
-    Merge immediately-nested case expressions that scrutinse the same variable.
-    For example, ::
+    直接入れ子になった case 式の検査対象が同じ変数である場合，1つにまとめます．
+    たとえば， ::
 
           case x of
              Red -> e1
@@ -236,96 +256,191 @@ list.
                       Blue -> e2
                       Green -> e3
 
-    Is transformed to, ::
+    は以下のよう変換する． ::
 
           case x of
              Red -> e1
              Blue -> e2
              Green -> e2
 
+..
+   .. ghc-flag:: -fcall-arity
+
+       :default: on
+
+       Enable call-arity analysis.
+
 .. ghc-flag:: -fcall-arity
 
-    :default: on
+    :default: 有効
 
-    Enable call-arity analysis.
+    コール・アリティ解析を有効にします．
+
+..
+   .. ghc-flag:: -fcmm-elim-common-blocks
+
+       :default: on
+
+       Enables the common block elimination optimisation
+       in the code generator. This optimisation attempts to find identical
+       Cmm blocks and eliminate the duplicates.
 
 .. ghc-flag:: -fcmm-elim-common-blocks
 
-    :default: on
+    :default: 有効
 
-    Enables the common block elimination optimisation
-    in the code generator. This optimisation attempts to find identical
-    Cmm blocks and eliminate the duplicates.
+    コード生成器における共通ブロック除去を有効にします．
+    この最適化の目的は，同一の Cmm ブロックを探し，それを除去します．
+
+..
+   .. ghc-flag:: -fcmm-sink
+
+       :default: on
+
+       Enables the sinking pass in the code generator.
+       This optimisation attempts to find identical Cmm blocks and
+       eliminate the duplicates attempts to move variable bindings closer
+       to their usage sites. It also inlines simple expressions like
+       literals or registers.
 
 .. ghc-flag:: -fcmm-sink
 
-    :default: on
+    :default: 有効
 
-    Enables the sinking pass in the code generator.
-    This optimisation attempts to find identical Cmm blocks and
-    eliminate the duplicates attempts to move variable bindings closer
-    to their usage sites. It also inlines simple expressions like
-    literals or registers.
+    コード生成器におけるシンキング(コード位置を後ろにずらすこと)のパスを有効にします．
+    この最適化の目的は Cmm の同一のブロックを探すことです．
+    その重複を除去すれば変数束縛を使う場所に近づけられます．
+    このパスではリテラルやレジスタなどの単純な式を埋め込みます．
+
+..
+   .. ghc-flag:: -fcpr-off
+
+       Switch off CPR analysis in the demand analyser.
 
 .. ghc-flag:: -fcpr-off
 
-    Switch off CPR analysis in the demand analyser.
+    デマンド解析器における CPR 解析を無効にする．
+
+..
+   .. ghc-flag:: -fcse
+
+       :default: on
+
+       Enables the common-sub-expression elimination
+       optimisation. Switching this off can be useful if you have some
+       ``unsafePerformIO`` expressions that you don't want commoned-up.
 
 .. ghc-flag:: -fcse
 
-    :default: on
+    :default: 有効
 
-    Enables the common-sub-expression elimination
-    optimisation. Switching this off can be useful if you have some
-    ``unsafePerformIO`` expressions that you don't want commoned-up.
+    共通部分式除去の最適化を有効にします．
+    共通式としてまとめたくないような ``unsafePerformIO`` 式を使っている場合にはこれを無効にするのが便利です．
+
+..
+   .. ghc-flag:: -fdicts-cheap
+
+       A very experimental flag that makes dictionary-valued expressions
+       seem cheap to the optimiser.
 
 .. ghc-flag:: -fdicts-cheap
 
-    A very experimental flag that makes dictionary-valued expressions
-    seem cheap to the optimiser.
+    かなり実験的なフラグで，辞書を値にもつような式のコストを最適化器が安く見積るようにします．
+
+..
+   .. ghc-flag:: -fdicts-strict
+
+       Make dictionaries strict.
 
 .. ghc-flag:: -fdicts-strict
 
-    Make dictionaries strict.
+    辞書を正格にします．
+
+..
+   .. ghc-flag:: -fdmd-tx-dict-sel
+
+       *On by default for ``-O0``, ``-O``, ``-O2``.*
+
+       Use a special demand transformer for dictionary selectors.
 
 .. ghc-flag:: -fdmd-tx-dict-sel
 
-    *On by default for ``-O0``, ``-O``, ``-O2``.*
+    *オプション ``-O0`` ， ``-O`` ， ``-O2`` のもとではデフォルトで有効*
 
-    Use a special demand transformer for dictionary selectors.
+    辞書選択子ように特別な要求変換子を使います．
+
+..
+   .. ghc-flag:: -fdo-eta-reduction
+
+       :default: on
+
+       Eta-reduce lambda expressions, if doing so gets rid of a whole group of
+       lambdas.
 
 .. ghc-flag:: -fdo-eta-reduction
 
-    :default: on
+    :default: 有効
 
-    Eta-reduce lambda expressions, if doing so gets rid of a whole group of
-    lambdas.
+    λ抽象式をη簡約することで，複数のλ抽象式をまとめて除去できるなら，そうします．
+
+..
+   .. ghc-flag:: -fdo-lambda-eta-expansion
+
+       :default: on
+
+       Eta-expand let-bindings to increase their arity.
 
 .. ghc-flag:: -fdo-lambda-eta-expansion
 
-    :default: on
+    :default: 有効
 
-    Eta-expand let-bindings to increase their arity.
+    アリティを増やすために let 束縛をη展開します．
+
+..
+   .. ghc-flag:: -feager-blackholing
+
+       Usually GHC black-holes a thunk only when it switches threads. This
+       flag makes it do so as soon as the thunk is entered. See `Haskell on
+       a shared-memory
+       multiprocessor <http://research.microsoft.com/en-us/um/people/simonpj/papers/parallel/>`__.
 
 .. ghc-flag:: -feager-blackholing
 
-    Usually GHC black-holes a thunk only when it switches threads. This
-    flag makes it do so as soon as the thunk is entered. See `Haskell on
-    a shared-memory
+    通常 GHC はスレッドを切り替える場合にのみサンクをブラックホール化します．
+    このフラグは，サンクに入ってすぐにこれを行うようにします．
+    以下を参照してください． `Haskell on a shared-memory
     multiprocessor <http://research.microsoft.com/en-us/um/people/simonpj/papers/parallel/>`__.
+
+..
+   .. ghc-flag:: -fexcess-precision
+
+       When this option is given, intermediate floating point values can
+       have a *greater* precision/range than the final type. Generally this
+       is a good thing, but some programs may rely on the exact
+       precision/range of ``Float``/``Double`` values and should not use
+       this option for their compilation.
+
+       Note that the 32-bit x86 native code generator only supports
+       excess-precision mode, so neither ``-fexcess-precision`` nor
+       ``-fno-excess-precision`` has any effect. This is a known bug, see
+       :ref:`bugs-ghc`.
 
 .. ghc-flag:: -fexcess-precision
 
-    When this option is given, intermediate floating point values can
-    have a *greater* precision/range than the final type. Generally this
-    is a good thing, but some programs may rely on the exact
-    precision/range of ``Float``/``Double`` values and should not use
-    this option for their compilation.
+    このオプションを指定すると，中間の浮動小数点数が最終的な型よりも *大きな* 精度/範囲をもつことを許すことになります．
+    このことは一般的には良いことです．
+    しかし ``Float``/``Double`` 値がその精度/範囲に正確におさまっていることに依存するプログラムが存在することもあり，
+    そのようなプログラムにはこのオプションを指定してコンパイルしてはいけません．
 
-    Note that the 32-bit x86 native code generator only supports
-    excess-precision mode, so neither ``-fexcess-precision`` nor
-    ``-fno-excess-precision`` has any effect. This is a known bug, see
-    :ref:`bugs-ghc`.
+    32-bit x86 のネイティブコード生成器は excess-precision モードしかサポートしておらず ``-fexcess-precision`` も
+    ``-fno-excess-precision`` も効果を持ちません．これは既知のバグです． :ref:`bugs-ghc` を参照してください．
+
+..
+   .. ghc-flag:: -fexpose-all-unfoldings
+
+       An experimental flag to expose all unfoldings, even for very large
+       or recursive functions. This allows for all functions to be inlined
+       while usually GHC would avoid inlining larger functions.
 
 .. ghc-flag:: -fexpose-all-unfoldings
 
