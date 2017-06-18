@@ -166,11 +166,10 @@
 </div>
 <div class="section" id="f">
 <span id="options-f"></span><h2>7.3.2. <code class="docutils literal"><span class="pre">-f*</span></code>: プラットフォーム非依存のフラグ<a class="headerlink" href="#f" title="Permalink to this headline">¶</a></h2>
-<p id="index-4">These flags turn on and off individual optimisations. Flags marked as
-on by default are enabled by <code class="docutils literal"><span class="pre">-O</span></code>, and as such you shouldn&#8217;t
-need to set any of them explicitly. A flag <code class="docutils literal"><span class="pre">-fwombat</span></code> can be negated
-by saying <code class="docutils literal"><span class="pre">-fno-wombat</span></code>. See <a class="reference internal" href="flags.html#options-f-compact"><span>Individual optimisations</span></a> for a compact
-list.</p>
+<p id="index-4">これらのフラグは個々の最適化を有効/無効にするのに使います．
+<code class="docutils literal"><span class="pre">-O</span></code> を使えば，「デフォルトで有効」となっているフラグをすべて有効にできます．
+したがって，明示的に指定する必要はないはずです．
+<code class="docutils literal"><span class="pre">-fwombat</span></code> というフラグの否定は <code class="docutils literal"><span class="pre">-fno-wombat</span></code> です．概略の一覧表は <a class="reference internal" href="flags.html#options-f-compact"><span>Individual optimisations</span></a> を参照してください．</p>
 <dl class="ghc-flag">
 <dt id="ghc-flag--fcase-merge">
 <code class="descname">-fcase-merge</code><code class="descclassname"> </code><a class="headerlink" href="#ghc-flag--fcase-merge" title="Permalink to this definition">¶</a></dt>
@@ -178,12 +177,12 @@ list.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Default:</th><td class="field-body">on</td>
+<tr class="field-odd field"><th class="field-name">Default:</th><td class="field-body">有効</td>
 </tr>
 </tbody>
 </table>
-<p>Merge immediately-nested case expressions that scrutinse the same variable.
-For example,</p>
+<p>直接入れ子になった case 式の検査対象が同じ変数である場合，1つにまとめます．
+たとえば，</p>
 <div class="highlight-haskell"><div class="highlight"><pre><span class="kr">case</span> <span class="n">x</span> <span class="kr">of</span>
    <span class="kt">Red</span> <span class="ow">-&gt;</span> <span class="n">e1</span>
    <span class="kr">_</span>   <span class="ow">-&gt;</span> <span class="kr">case</span> <span class="n">x</span> <span class="kr">of</span>
@@ -191,7 +190,7 @@ For example,</p>
             <span class="kt">Green</span> <span class="ow">-&gt;</span> <span class="n">e3</span>
 </pre></div>
 </div>
-<p>Is transformed to,</p>
+<p>は以下のよう変換する．</p>
 <div class="highlight-haskell"><div class="highlight"><pre><span class="kr">case</span> <span class="n">x</span> <span class="kr">of</span>
    <span class="kt">Red</span> <span class="ow">-&gt;</span> <span class="n">e1</span>
    <span class="kt">Blue</span> <span class="ow">-&gt;</span> <span class="n">e2</span>
@@ -207,11 +206,11 @@ For example,</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Default:</th><td class="field-body">on</td>
+<tr class="field-odd field"><th class="field-name">Default:</th><td class="field-body">有効</td>
 </tr>
 </tbody>
 </table>
-<p>Enable call-arity analysis.</p>
+<p>コール・アリティ解析を有効にします．</p>
 </dd></dl>
 
 <dl class="ghc-flag">
@@ -221,13 +220,12 @@ For example,</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Default:</th><td class="field-body">on</td>
+<tr class="field-odd field"><th class="field-name">Default:</th><td class="field-body">有効</td>
 </tr>
 </tbody>
 </table>
-<p>Enables the common block elimination optimisation
-in the code generator. This optimisation attempts to find identical
-Cmm blocks and eliminate the duplicates.</p>
+<p>コード生成器における共通ブロック除去を有効にします．
+この最適化の目的は，同一の Cmm ブロックを探し，それを除去します．</p>
 </dd></dl>
 
 <dl class="ghc-flag">
@@ -237,21 +235,20 @@ Cmm blocks and eliminate the duplicates.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Default:</th><td class="field-body">on</td>
+<tr class="field-odd field"><th class="field-name">Default:</th><td class="field-body">有効</td>
 </tr>
 </tbody>
 </table>
-<p>Enables the sinking pass in the code generator.
-This optimisation attempts to find identical Cmm blocks and
-eliminate the duplicates attempts to move variable bindings closer
-to their usage sites. It also inlines simple expressions like
-literals or registers.</p>
+<p>コード生成器におけるシンキング(コード位置を後ろにずらすこと)のパスを有効にします．
+この最適化の目的は Cmm の同一のブロックを探すことです．
+その重複を除去すれば変数束縛を使う場所に近づけられます．
+このパスではリテラルやレジスタなどの単純な式を埋め込みます．</p>
 </dd></dl>
 
 <dl class="ghc-flag">
 <dt id="ghc-flag--fcpr-off">
 <code class="descname">-fcpr-off</code><code class="descclassname"> </code><a class="headerlink" href="#ghc-flag--fcpr-off" title="Permalink to this definition">¶</a></dt>
-<dd><p>Switch off CPR analysis in the demand analyser.</p>
+<dd><p>デマンド解析器における CPR 解析を無効にする．</p>
 </dd></dl>
 
 <dl class="ghc-flag">
@@ -261,33 +258,31 @@ literals or registers.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Default:</th><td class="field-body">on</td>
+<tr class="field-odd field"><th class="field-name">Default:</th><td class="field-body">有効</td>
 </tr>
 </tbody>
 </table>
-<p>Enables the common-sub-expression elimination
-optimisation. Switching this off can be useful if you have some
-<code class="docutils literal"><span class="pre">unsafePerformIO</span></code> expressions that you don&#8217;t want commoned-up.</p>
+<p>共通部分式除去の最適化を有効にします．
+共通式としてまとめたくないような <code class="docutils literal"><span class="pre">unsafePerformIO</span></code> 式を使っている場合にはこれを無効にするのが便利です．</p>
 </dd></dl>
 
 <dl class="ghc-flag">
 <dt id="ghc-flag--fdicts-cheap">
 <code class="descname">-fdicts-cheap</code><code class="descclassname"> </code><a class="headerlink" href="#ghc-flag--fdicts-cheap" title="Permalink to this definition">¶</a></dt>
-<dd><p>A very experimental flag that makes dictionary-valued expressions
-seem cheap to the optimiser.</p>
+<dd><p>かなり実験的なフラグで，辞書を値にもつような式のコストを最適化器が安く見積るようにします．</p>
 </dd></dl>
 
 <dl class="ghc-flag">
 <dt id="ghc-flag--fdicts-strict">
 <code class="descname">-fdicts-strict</code><code class="descclassname"> </code><a class="headerlink" href="#ghc-flag--fdicts-strict" title="Permalink to this definition">¶</a></dt>
-<dd><p>Make dictionaries strict.</p>
+<dd><p>辞書を正格にします．</p>
 </dd></dl>
 
 <dl class="ghc-flag">
 <dt id="ghc-flag--fdmd-tx-dict-sel">
 <code class="descname">-fdmd-tx-dict-sel</code><code class="descclassname"> </code><a class="headerlink" href="#ghc-flag--fdmd-tx-dict-sel" title="Permalink to this definition">¶</a></dt>
-<dd><p><em>On by default for ``-O0``, ``-O``, ``-O2``.</em></p>
-<p>Use a special demand transformer for dictionary selectors.</p>
+<dd><p><em>オプション ``-O0`` ， ``-O`` ， ``-O2`` のもとではデフォルトで有効</em></p>
+<p>辞書選択子ように特別な要求変換子を使います．</p>
 </dd></dl>
 
 <dl class="ghc-flag">
@@ -297,12 +292,11 @@ seem cheap to the optimiser.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Default:</th><td class="field-body">on</td>
+<tr class="field-odd field"><th class="field-name">Default:</th><td class="field-body">有効</td>
 </tr>
 </tbody>
 </table>
-<p>Eta-reduce lambda expressions, if doing so gets rid of a whole group of
-lambdas.</p>
+<p>λ抽象式をη簡約することで，複数のλ抽象式をまとめて除去できるなら，そうします．</p>
 </dd></dl>
 
 <dl class="ghc-flag">
@@ -312,34 +306,31 @@ lambdas.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Default:</th><td class="field-body">on</td>
+<tr class="field-odd field"><th class="field-name">Default:</th><td class="field-body">有効</td>
 </tr>
 </tbody>
 </table>
-<p>Eta-expand let-bindings to increase their arity.</p>
+<p>アリティを増やすために let 束縛をη展開します．</p>
 </dd></dl>
 
 <dl class="ghc-flag">
 <dt id="ghc-flag--feager-blackholing">
 <code class="descname">-feager-blackholing</code><code class="descclassname"> </code><a class="headerlink" href="#ghc-flag--feager-blackholing" title="Permalink to this definition">¶</a></dt>
-<dd><p>Usually GHC black-holes a thunk only when it switches threads. This
-flag makes it do so as soon as the thunk is entered. See <a class="reference external" href="http://research.microsoft.com/en-us/um/people/simonpj/papers/parallel/">Haskell on
-a shared-memory
+<dd><p>通常 GHC はスレッドを切り替える場合にのみサンクをブラックホール化します．
+このフラグは，サンクに入ってすぐにこれを行うようにします．
+以下を参照してください． <a class="reference external" href="http://research.microsoft.com/en-us/um/people/simonpj/papers/parallel/">Haskell on a shared-memory
 multiprocessor</a>.</p>
 </dd></dl>
 
 <dl class="ghc-flag">
 <dt id="ghc-flag--fexcess-precision">
 <code class="descname">-fexcess-precision</code><code class="descclassname"> </code><a class="headerlink" href="#ghc-flag--fexcess-precision" title="Permalink to this definition">¶</a></dt>
-<dd><p>When this option is given, intermediate floating point values can
-have a <em>greater</em> precision/range than the final type. Generally this
-is a good thing, but some programs may rely on the exact
-precision/range of <code class="docutils literal"><span class="pre">Float</span></code>/<code class="docutils literal"><span class="pre">Double</span></code> values and should not use
-this option for their compilation.</p>
-<p>Note that the 32-bit x86 native code generator only supports
-excess-precision mode, so neither <code class="docutils literal"><span class="pre">-fexcess-precision</span></code> nor
-<code class="docutils literal"><span class="pre">-fno-excess-precision</span></code> has any effect. This is a known bug, see
-<a class="reference internal" href="bugs.html#bugs-ghc"><span>Bugs in GHC</span></a>.</p>
+<dd><p>このオプションを指定すると，中間の浮動小数点数が最終的な型よりも <em>大きな</em> 精度/範囲をもつことを許すことになります．
+このことは一般的には良いことです．
+しかし <code class="docutils literal"><span class="pre">Float</span></code>/<code class="docutils literal"><span class="pre">Double</span></code> 値がその精度/範囲に正確におさまっていることに依存するプログラムが存在することもあり，
+そのようなプログラムにはこのオプションを指定してコンパイルしてはいけません．</p>
+<p>32-bit x86 のネイティブコード生成器は excess-precision モードしかサポートしておらず <code class="docutils literal"><span class="pre">-fexcess-precision</span></code> も
+<code class="docutils literal"><span class="pre">-fno-excess-precision</span></code> も効果を持ちません．これは既知のバグです． <a class="reference internal" href="bugs.html#bugs-ghc"><span>Bugs in GHC</span></a> を参照してください．</p>
 </dd></dl>
 
 <dl class="ghc-flag">
