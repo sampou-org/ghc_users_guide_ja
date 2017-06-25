@@ -444,68 +444,121 @@ GHCが生成するコードの質に影響を与えるオプションは *大量
 
 .. ghc-flag:: -fexpose-all-unfoldings
 
-    An experimental flag to expose all unfoldings, even for very large
-    or recursive functions. This allows for all functions to be inlined
-    while usually GHC would avoid inlining larger functions.
+    実験的なフラグです．非常に大きな関数や再帰関数も含め，すべての展開を露出します．
+    通常GHCは大きい関数をインライン化することを避けますが，このフラグによって，全ての関数がインライン化可能になります．
+
+..
+   .. ghc-flag:: -ffloat-in
+
+       :default: on
+
+       Float let-bindings inwards, nearer their binding
+       site. See `Let-floating: moving bindings to give faster programs
+       (ICFP'96) <http://research.microsoft.com/en-us/um/people/simonpj/papers/float.ps.gz>`__.
+
+       This optimisation moves let bindings closer to their use site. The
+       benefit here is that this may avoid unnecessary allocation if the
+       branch the let is now on is never executed. It also enables other
+       optimisation passes to work more effectively as they have more
+       information locally.
+
+       This optimisation isn't always beneficial though (so GHC applies
+       some heuristics to decide when to apply it). The details get
+       complicated but a simple example is that it is often beneficial to
+       move let bindings outwards so that multiple let bindings can be
+       grouped into a larger single let binding, effectively batching their
+       allocation and helping the garbage collector and allocator.
 
 .. ghc-flag:: -ffloat-in
 
-    :default: on
+    :default: 有効
 
-    Float let-bindings inwards, nearer their binding
-    site. See `Let-floating: moving bindings to give faster programs
-    (ICFP'96) <http://research.microsoft.com/en-us/um/people/simonpj/papers/float.ps.gz>`__.
+    let 束縛を内側，利用位置に近づく方向に移動します．
+    `Let-floating: moving bindings to give faster programs
+    (ICFP'96) <http://research.microsoft.com/en-us/um/people/simonpj/papers/float.ps.gz>`__
+    を参照してください．
+    
+    この最適化は let 束縛を仕様の位置に近づけます．
+    こうすることの利点は，let の移動先の選択肢が実行されない場合，不要なメモリ領域確保を防ぐことができる点です．
+    また，局所的により多くの情報が得られることになるので，他の最適化パスがより効率よく機能できることになります．
 
-    This optimisation moves let bindings closer to their use site. The
-    benefit here is that this may avoid unnecessary allocation if the
-    branch the let is now on is never executed. It also enables other
-    optimisation passes to work more effectively as they have more
-    information locally.
+    この最適化は常によい方向の効果があるというわけではありません．
+    そういうわけで，GHC はこれを適用するかどうかをある種のヒューリスティクスを使って決定しています．
+    詳細は複雑ですが，この最適化がよい効果をもたらさない単純な例としては，let 束縛を外側に移動することで，
+    複数の束縛を1つの大きな束縛にまとめ，メモリ領域の確保を一度に行うことで，ガーベッジコレクタとアロケータが楽になるという場合です．
 
-    This optimisation isn't always beneficial though (so GHC applies
-    some heuristics to decide when to apply it). The details get
-    complicated but a simple example is that it is often beneficial to
-    move let bindings outwards so that multiple let bindings can be
-    grouped into a larger single let binding, effectively batching their
-    allocation and helping the garbage collector and allocator.
+..
+   .. ghc-flag:: -ffull-laziness
+
+       :default: on
+
+       Run the full laziness optimisation (also known as
+       let-floating), which floats let-bindings outside enclosing lambdas,
+       in the hope they will be thereby be computed less often. See
+       `Let-floating: moving bindings to give faster programs
+       (ICFP'96) <http://research.microsoft.com/en-us/um/people/simonpj/papers/float.ps.gz>`__.
+       Full laziness increases sharing, which can lead to increased memory
+       residency.
+
+       .. note::
+	  GHC doesn't implement complete full-laziness. When
+	  optimisation in on, and ``-fno-full-laziness`` is not given, some
+	  transformations that increase sharing are performed, such as
+	  extracting repeated computations from a loop. These are the same
+	  transformations that a fully lazy implementation would do, the
+	  difference is that GHC doesn't consistently apply full-laziness, so
+	  don't rely on it.
 
 .. ghc-flag:: -ffull-laziness
 
-    :default: on
+    :default: 有効
 
-    Run the full laziness optimisation (also known as
-    let-floating), which floats let-bindings outside enclosing lambdas,
-    in the hope they will be thereby be computed less often. See
+    完全遅延性最適化(let-floating ともいいます)を走らせます．
+    これは let 束縛を計算が少くなるようにと願って，それを囲むλ抽象の外へ移動させることです．
+    これについては
     `Let-floating: moving bindings to give faster programs
-    (ICFP'96) <http://research.microsoft.com/en-us/um/people/simonpj/papers/float.ps.gz>`__.
-    Full laziness increases sharing, which can lead to increased memory
-    residency.
+    (ICFP'96) <http://research.microsoft.com/en-us/um/people/simonpj/papers/float.ps.gz>`__
+    を参照してください．共有を促進する完全遅延性はメモリの使用量を増加させることになります．
 
     .. note::
-       GHC doesn't implement complete full-laziness. When
-       optimisation in on, and ``-fno-full-laziness`` is not given, some
-       transformations that increase sharing are performed, such as
-       extracting repeated computations from a loop. These are the same
-       transformations that a fully lazy implementation would do, the
-       difference is that GHC doesn't consistently apply full-laziness, so
-       don't rely on it.
+       GHC は完全遅延性を完全には実装していません．
+       最適化が有効で ``-fno-full-laziness`` が指定されていなければ，
+       共有を促進するある種の変換が実施されます．
+       たとえば，ループの中から繰り返し計算される部分を抽出するといった変換です．
+       この変換は完全遅延の実装で行われるのと同じものですが，GHC は常に完全遅延性を適用するとは限らないので，これに頼ってはいけません．
+
+..
+   .. ghc-flag:: -ffun-to-thunk
+
+       :default: off
+
+       Worker-wrapper removes unused arguments, but usually we do not
+       remove them all, lest it turn a function closure into a thunk,
+       thereby perhaps creating a space leak and/or disrupting inlining.
+       This flag allows worker/wrapper to remove *all* value lambdas.
 
 .. ghc-flag:: -ffun-to-thunk
 
-    :default: off
+    :default: 無効
 
-    Worker-wrapper removes unused arguments, but usually we do not
-    remove them all, lest it turn a function closure into a thunk,
-    thereby perhaps creating a space leak and/or disrupting inlining.
-    This flag allows worker/wrapper to remove *all* value lambdas.
+    worker-wrapper は使われていない引数を削除しますが，通常はクロージャをサンクにしてしまわないように，全部を削除することはしません．
+    そんなことをしてしまうと，スペースリークしたり，インライン化の妨げになるからです．
+    このフラグは worker/wrapper が *すべての* λ抽象値を削除できるようにします．
+
+..
+   .. ghc-flag:: -fignore-asserts
+
+       :default: on
+
+       Causes GHC to ignore uses of the function ``Exception.assert`` in source
+       code (in other words, rewriting ``Exception.assert p e`` to ``e`` (see
+       :ref:`assertions`).
 
 .. ghc-flag:: -fignore-asserts
 
-    :default: on
+    :default: 有効
 
-    Causes GHC to ignore uses of the function ``Exception.assert`` in source
-    code (in other words, rewriting ``Exception.assert p e`` to ``e`` (see
-    :ref:`assertions`).
+    ソースコード中で ``Exception.assert`` を使っていても，GHC はこれを無視し(すなわち ``Exception.assert p e`` を ``e`` に書き換え)ます(:ref:`assertions` を参照してください)．
 
 .. ghc-flag:: -fignore-interface-pragmas
 
