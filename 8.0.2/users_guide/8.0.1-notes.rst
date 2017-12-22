@@ -1,0 +1,1777 @@
+..
+   .. _release-8-0-1:
+
+   Release notes for version 8.0.1
+   ===============================
+
+.. _release-8-0-1:
+
+バージョン 8.0.1 のリリースノート
+=================================
+
+..
+   The significant changes to the various parts of the compiler are listed
+   in the following sections. There have also been numerous bug fixes and
+   performance improvements over the 7.10 branch.
+
+コンパイラのさまざまな部分での重要な変更は以降の節で一覧表にしてあります．
+7.10ブランチに対して大量のバグ修正と性能改善を行いました．
+
+..
+   .. warning::
+
+       Only Cabal versions 1.24 and newer will function properly with this release.
+       (see :ghc-ticket:`11558`). Consequently it will likely be necessary to
+       recompile ``cabal-install`` before installing new packages.
+
+       The reason for this is a change in how packages are identified in GHC
+       8.0. While previous versions of Cabal identified packages to GHC with a
+       package key (with GHC's :ghc-flag:`-this-package-key` argument), GHC 8.0 and
+       later uses installed package IDs in place of package keys.
+
+.. warning::
+
+    このリリースでは，Cabal のバージョン 1.24 以降でないと正しく機能しません(:ghc-ticket:`11558` 参照)．
+    したがって，新しいパッケージをインストールする前に ``cabal-install`` を再コンパイルする必要があります．
+   
+    理由は GHC 8.0 でパッケージの識別方法が変更になったからです．
+    Cabal の以前のバージョンでは，GHCのパッケージを(GHC の :ghc-flag:`-this-package-key` 引数を使って)
+    パッケージキーで識別していましたが，GHC 8.0 以降ではパッケージキーの代りにインストール済みパッケージ
+    ID を使います．
+
+..
+   .. note::
+
+       Users compiling GHC on Mac OS X with XCode 7.3 will need to tell the build
+       system to use the ``nm-classic`` command instead of Apple's new ``nm``
+       implementation as the latter breaks POSIX compliance (see
+       :ghc-ticket:`11744`). This can be done by passing something like
+       ``--with-nm=$(xcrun --find nm-classic)`` to ``configure``.
+
+.. note::
+
+    ユーザーが Mac OS X で XCode 7.3 を使って GHC をコンパイルするには，ビルドシステムに
+    Apple の新しい ``nm`` コマンドではなく ``nm-classic`` コマンドを使うように指示しなければなりません．
+    新しい ``nm`` コマンドは POSIX の規約を破っているからです．
+    (:ghc-ticket:`11744` 参照)．
+    指示は ``configure`` コマンドに ``--with-nm=$(xcrun --find nm-classic)`` のように指定します．
+
+..
+   Highlights
+   ----------
+
+ハイライト
+----------
+
+..
+   The highlights, since the 7.10 series, are:
+
+   - The new :ghc-flag:`-XTypeInType` allows promotion of all types into
+     kinds, allowing kind synonyms, kind families, promoted GADTs, and other
+     goodies.
+
+   - Support for :ref:`record pattern synonyms <record-patsyn>`
+
+   - The :ghc-flag:`-XDeriveAnyClass` extension learned to derive instances for
+     classes with associated types (see :ref:`derive-any-class`)
+
+   - More reliable DWARF debugging information
+
+   - Support for :ref:`injective type families <injective-ty-fams>`
+
+   - Applicative ``do`` notation (see :ref:`applicative-do`)
+
+   - Support for wildcards in data and type family instances
+
+   - :ghc-flag:`-XStrict` and :ghc-flag:`-XStrictData` extensions, allowing modules
+     to be compiled with strict-by-default bindings (see :ref:`strict-haskell`)
+
+   - :ghc-flag:`-XDuplicateRecordFields`, allowing multiple datatypes to declare the same
+     record field names provided they are used unambiguously (see :ref:`duplicate-record-fields`)
+
+   - Support for lightweight
+     :ref:`callstacks and source locations <hascallstack>`
+
+   - User-defined error messages for type errors
+
+   - A rewritten (and greatly improved) pattern exhaustiveness checker
+
+   - GHC can run the interpreter in a separate process (see
+     :ref:`external-interpreter`), and the interpreter can now run profiled
+     code.
+
+   - GHCi now provides access to stack traces when used with
+     :ghc-flag:`-fexternal-interpreter` and :ghc-flag:`-prof` (see
+     :ref:`ghci-stack-traces`).
+
+   - A native code generator for powerpc64 and powerpc64le architectures, support
+     for AIX targets, and significantly improved support on ARM.
+
+   - The reworked users guide you are now reading
+
+   - Support for Windows XP and earlier has been dropped.
+
+   - GHC RTS No longer re-exports POSIX functions under their deprecated
+     names on Windows.
+
+7.10 系列からの変更のハイライトは以下のとおりです．
+
+- 新しい :ghc-flag:`-XTypeInType` 拡張を使えば，すべての型をカインドに昇格でき，
+  カインドシノニム，カインド族，GADTの昇格などの機能が利用できます．
+
+- :ref:`レコードパターンのシノニム <record-patsyn>` のサポート．
+
+- :ghc-flag:`-XDeriveAnyClass` 拡張は関連型を使ってのクラスインスタンス導出ができるようになりました
+  (:ref:`derive-any-class` 参照)．
+
+- DWARF形式のデバッグ情報の信頼性向上．
+
+- :ref:`単射型族 <injective-ty-fams>` のサポート．
+
+- Applicative の ``do`` 記法 (:ref:`applicative-do` 参照)
+
+- データ族および型族のインスタンスにおけるワイルドカードのサポート．
+
+- :ghc-flag:`-XStrict` および :ghc-flag:`-XStrictData` 拡張．
+  デフォルトでモジュールを正格束縛でコンパイルできるようになりました
+  (:ref:`strict-haskell` 参照)．
+
+- :ghc-flag:`-XDuplicateRecordFields` 拡張．
+  使用が曖昧になっていなければ，同じレコードフィールド名をもつ別の型を複数宣言できるようになりました
+  (:ref:`duplicate-record-fields` 参照)．
+
+- 軽量の :ref:`コールスタックおよびソース位置表示機構 <hascallstack>` のサポート．
+
+- ユーザー定義の型エラーメッセージ．
+
+- パターン網羅性検査器を書き直して大幅な改善をしました．
+
+- インタプリタを別プロセスで起動できます(:ref:`external-interpreter` 参照)．
+  また，インタプリタはプロファイル指定したコードを実行できます．
+
+- :ghc-flag:`-fexternal-interpreter` フラグと :ghc-flag:`-prof` フラグを指定すれば，
+  GHCiからスタックトレースにアクセスできるようになりました(:ref:`ghci-stack-traces` 参照)．
+
+- powerpc64 アーキテクチャと powerpc64le アーキテクチャ用のネイティブコード生成器は AIX を
+  サポートするようになりました．また，ARM のサポートも大幅に改善されました．
+
+- いま，お読みのユーザーズガイドは作り直したものです．
+
+- Windows XP 以前のシステムはサポートをしなくなりました．
+
+- Windows ではPOSIXの関数を非推奨になっている名前で再エクスポートすることはしなくなりました．
+
+..
+   Full details
+   ------------
+
+詳細
+----
+
+..
+   Language
+   ~~~~~~~~
+
+言語拡張
+~~~~~~~~
+
+..
+   -  :ghc-flag:`-XTypeInType` supports universal type promotion and merges
+      the type and kind language. This allows, for example, higher-rank
+      kinds, along with kind families and type-level GADTs. Support is still
+      experimental, and it is expected to improve over the next several
+      releases. See :ref:`type-in-type` for the details.
+
+-  :ghc-flag:`-XTypeInType` は全称量化の型昇格および，型とカインド言語のマージをサポートします．
+   これにより，たとえば，カインド族と型レベルGADTと連動して，高階ランクカインドを可能にします．
+   この拡張は現時点ではまだ実験段階で，次のリリース以降なん段階かへて改良する予定です．
+   詳細は :ref:`type-in-type` を参照してください．
+
+..
+   -  The parser now supports Haddock comments on GADT data constructors.
+      For example ::
+
+	   data Expr a where
+	       -- | Just a normal sum
+	       Sum :: Int -> Int -> Expr Int
+
+-  GADT データ構成子についたHaddockのコメントをパースできるようになりました．
+   たとえば以下のとおりです． ::
+
+        data Expr a where
+            -- | Just a normal sum
+            Sum :: Int -> Int -> Expr Int
+
+..
+   -  The new ``base`` constraint :base-ref:`GHC.Stack.HasCallStack <GHC-Stack.html>`
+      can be used by functions to request a partial call-stack. For example ::
+
+	   errorWithCallStack :: HasCallStack => String -> a
+	   errorWithCallStack msg = error (msg ++ "\n" ++ prettyCallStack callStack)
+
+	   ghci> errorWithCallStack "die"
+	   *** Exception: die
+	   CallStack (from HasCallStack):
+	     errorWithCallStack, called at <interactive>:2:1 in interactive:Ghci1
+
+      prints the call-site of ``errorWithCallStack``.
+
+      See :ref:`hascallstack` for a description of ``HasCallStack``.
+
+-  新しく ``base`` 制約 :base-ref:`GHC.Stack.HasCallStack <GHC-Stack.html>`
+   を関数に適用することで，コールスタックの一部を要求できるようになりました．
+   たとえば以下のようにすると ``errorWithCallStack`` のコールサイトがプリントされます． ::
+
+        errorWithCallStack :: HasCallStack => String -> a
+        errorWithCallStack msg = error (msg ++ "\n" ++ prettyCallStack callStack)
+
+        ghci> errorWithCallStack "die"
+        *** Exception: die
+        CallStack (from HasCallStack):
+          errorWithCallStack, called at <interactive>:2:1 in interactive:Ghci1
+
+   ``HasCallStack`` の説明は :ref:`hascallstack` を参照してください．
+
+..
+   -  GHC now supports visible type application, allowing
+      programmers to easily specify how type parameters should be
+      instantiated when calling a function. See
+      :ref:`visible-type-application` for the details.
+
+-  GHC は可視型適用をサポートするようになりました．
+   これにより，関数が呼ばれたときに型パラメータをどう具体化すべきかを
+   プログラマが簡単に指定できるようになりました．
+   詳細は :ref:`visible-type-application` を参照してください．
+
+..
+   -  To conform to the common case, the default role assigned to
+      parameters of datatypes declared in ``hs-boot`` files is
+      ``representational``. However, if the constructor(s) for the datatype
+      are given, it makes sense to do normal role inference. This is now
+      implemented, effectively making the default role for non-abstract
+      datatypes in ``hs-boot`` files to be ``phantom``, like it is in
+      regular Haskell code.
+
+-  一般的な場合に合わせるために，``hs-boot`` ファイルで宣言されているデータ型の
+   パラメータに割り当てるロールは ``representational`` になっています．
+   しかし，データ型構成子が与えられれば，通常のロール推論が意味をなします．
+   この仕組みを実装して，通常の Haskell のコードと同じように ``hs-boot`` ファイルの
+   非抽象データ型のデフォルトロールを事実上 ``phantom`` にしています．
+
+..
+   -  Wildcards can be used in the type arguments of type/data family
+      instance declarations to indicate that the name of a type variable
+      doesn't matter. They will be replaced with new unique type variables.
+      See :ref:`data-instance-declarations` for more details.
+
+-  型/データ族のインスタンス宣言で引数にワイルドカードを使って，型変数の名前には
+   関心がないことを示すせるようになりました．	 
+   ワイルドカードはユニークな型変数に置き換えられます．
+   詳しくは :ref:`data-instance-declarations` を参照してください．
+
+..
+   -  GHC now allows to declare type families as injective. Injectivity
+      information can then be used by the typechecker. See
+      :ref:`injective-ty-fams` for details.
+
+-  GHC では型族を単射として宣言できるようになりました．
+   つまり，型検査器が単射であるという情報を使えるようになりました．
+   詳しくは :ref:`injective-ty-fams` を参照してください．
+
+..
+   -  Due to :ghc-ticket:`security issue <10826>`, Safe Haskell now forbids
+      annotations in programs marked as :ghc-flag:`-XSafe`.
+
+-  :ghc-ticket:`セキュリティ上の問題 <10826>` に対応するために，Safe Haskell
+   プログラム中で :ghc-flag:`-XSafe` の注釈を使うことを禁止するようになりました．
+
+..
+   -  Generic instances can be derived for data types whose constructors have
+      arguments with certain unlifted types. See :ref:`generic-programming` for
+      more details.
+
+-  構成子の引数が確実に非リフト型であるデータ型のジェネリックインスタンスを導出できるようになりました．
+   詳しくは :ref:`generic-programming` を参照してください．
+
+..
+   -  GHC generics can now provide strictness information for fields in a data
+      constructor via the ``Selector`` type class.
+
+-  GHC のジェネリックスは ``Selector`` 経由で，データ構成子のフィールドに関する
+   正格性情報を提供できるようになりました．
+
+..
+   -  The :ghc-flag:`-XDeriveAnyClass` extension now fills in associated type family
+      default instances when deriving a class that contains them.
+
+-  :ghc-flag:`-XDeriveAnyClass` 拡張は関連型族のデフォルトインスタンスを含むクラスを
+   導出したときに，そのインスタンスにある隙間を埋めるようになりました．
+
+..
+   -  Users can now define record pattern synonyms. This allows pattern synonyms
+      to behave more like normal data constructors. For example, ::
+
+	 pattern P :: a -> b -> (a, b)
+	 pattern P{x,y} = (x,y)
+
+      will allow ``P`` to be used like a record data constructor and also defines
+      selector functions ``x :: (a, b) -> a`` and ``y :: (a, b) -> b``.
+
+-  レコードパターンのシノニムを定義できるようになりました．
+   そのおかげで，パターンシノニムがより通常のデータ構成子と同じように振る舞えるようになりました．
+   たとえば， ::
+
+      pattern P :: a -> b -> (a, b)
+      pattern P{x,y} = (x,y)
+
+   とすれば ``P`` はデータ構成子として振る舞えます．
+   また，これで選択子関数 ``x :: (a, b) -> a`` と ``y :: (a, b) -> b`` を定義したことになります．
+
+..
+   -  Pattern synonyms can now be bundled with type constructors. For a pattern
+      synonym ``P`` and a type constructor ``T``, ``P`` can be bundled with ``T``
+      so that when ``T`` is imported ``P`` is also imported. With this change
+      a library author can provide either real data constructors or pattern
+      synonyms in an opaque manner. See :ref:`patsyn-impexp` for details. ::
+
+	 -- Foo.hs
+	 module Foo ( T(P) ) where
+
+	 data T = T
+
+	 pattern P = T
+
+	 -- Baz.hs
+	 module Baz where
+
+	 -- P is imported
+	 import Foo (T(..))
+
+-  パターンシノニムは型構成子と一つにまとめるられるようになりました．
+   パターンシノニム ``P`` と型構成子 ``T`` について ``P`` と ``T`` をひとまとめにして，
+   ``T`` がインポートされたとき ``P`` もインポートされるようにできます．
+   この変更で，ライブラリの作者は実際のデータ構成子かパターンシノニムを不透明なまま
+   提供できるようになりました．
+   詳しくは :ref:`patsyn-impexp` を参照してください． ::
+
+      -- Foo.hs
+      module Foo ( T(P) ) where
+
+      data T = T
+
+      pattern P = T
+
+      -- Baz.hs
+      module Baz where
+
+      -- P is imported
+      import Foo (T(..))
+
+..
+   -  Whenever a data instance is exported, the corresponding data family
+      is exported, too. This allows one to write ::
+
+	-- Foo.hs
+	module Foo where
+
+	data family T a
+
+	-- Bar.hs
+	module Bar where
+
+	import Foo
+
+	data instance T Int = MkT
+
+	-- Baz.hs
+	module Baz where
+
+	import Bar (T(MkT))
+
+      In previous versions of GHC, this required a workaround via an
+      explicit export list in ``Bar``.
+
+-  いったん，データインスタンスをエクスポートすると，対応するデータ族もエクスポートされます．
+   そのおかげで，以下のように書けます． ::
+
+     -- Foo.hs
+     module Foo where
+
+     data family T a
+
+     -- Bar.hs
+     module Bar where
+
+     import Foo
+
+     data instance T Int = MkT
+
+     -- Baz.hs
+     module Baz where
+
+     import Bar (T(MkT))
+
+   以前のバージョンの GHC では ``Bar`` のエクスポートリストに明示的に書く必要がありました．
+
+..
+   -  GHC has grown a :ghc-flag:`-XUndecidableSuperClasses` language extension,
+      which relaxes GHC's recursive superclass check (see :ghc-ticket:`10318`).
+      This allows class definitions which have mutually recursive superclass
+      constraints at the expense of potential non-termination in the solver.
+
+-  GHC は :ghc-flag:`-XUndecidableSuperClasses` 言語拡張をふくらませて，
+   GHC の再帰的スーパークラスの検査を緩めました(:ghc-ticket:`10318` 参照)．
+   こうすることで，相互再帰的に互いのスーパークラスになっている制約をもつクラスを
+   定義できるようになりました．
+   ただし，ソルバーが停止しなくなるかもしれないというリスクはあります．
+
+..
+   -  The compiler is now a bit more conservative in solving constraints previously
+      provided by superclasses (see :ghc-ticket:`11762`). For instance, consider
+      this program,::
+
+	{-# LANGUAGE FlexibleInstances #-}
+	{-# LANGUAGE UndecidableInstances #-}
+
+	class Super a
+	class (Super a) => Left a
+	class (Super a) => Right a
+	instance (Left a) => Right a    -- this is now an error
+
+      GHC now rejects this instance, claiming it cannot deduce the ``Super a``
+      superclass constraint of the ``Right`` typeclass. This stands in contrast to
+      previous releases, which would accept this declaration, using the ``Super a``
+      constraint implied by the ``Left a`` constraint. To fix this simply add the
+      needed superclass constraint explicitly, ::
+
+	instance (Left a, Super a) => Right a
+
+-  コンパイラは前もってスーパークラスで提供された制約を解決するときすこし保守的になりました
+   (:ghc-ticket:`11762` 参照)．
+   たとえば，以下のようなプログラムを考えてみてください． ::
+
+     {-# LANGUAGE FlexibleInstances #-}
+     {-# LANGUAGE UndecidableInstances #-}
+
+     class Super a
+     class (Super a) => Left a
+     class (Super a) => Right a
+     instance (Left a) => Right a    -- this is now an error
+
+   GHC はこのインスタンスを拒絶するようになりました．
+   ``Right`` 型クラスのスーパークラスが ``Super a`` だと推論できないという理由です．
+   以前のリリース版ではこの宣言は受け入れていました．
+   ``Left a`` の制約から ``Super a`` 制約が導けることを使っていたのです．
+   この問題を解決するには単に必要となるスーパークラス制約をはっきり書きます． ::
+
+     instance (Left a, Super a) => Right a
+
+..
+   -  :ghc-flag:`-XDeriveFoldable` and :ghc-flag:`-XDeriveTraversable` now
+      generate code without superfluous ``mempty`` or ``pure`` expressions. As a
+      result, :ghc-flag:`-XDeriveTraversable` now works on datatypes that contain
+      arguments which have unlifted types.
+
+-  :ghc-flag:`-XDeriveFoldable` および :ghc-flag:`-XDeriveTraversable` は
+   過剰な ``mempty`` や ``pure`` 式なしで，コードを生成するようになりました．
+   結果として :ghc-flag:`-XDeriveTraversable` は非リフト型の引数を含むデータ型に対しても
+   機能するようになりました．
+
+..
+   -  Note that the :ghc-flag:`-XImpredicativeTypes` extension, which has been
+      :ghc-wiki:`known <ImpredicativePolymorphism>` to be broken for many years, is even more
+      broken than usual in this release (see :ghc-ticket:`11319`,
+      :ghc-ticket:`11675`, and others). During pre-release testing we encountered
+      a number of projects that broke with confusing type errors due to (often
+      unnecessary) use of :ghc-flag:`-XImpredicativeTypes`. Users of
+      :ghc-flag:`-XImpredicativeTypes` do so at their own risk!
+
+-  長年にわたって壊れていると :ghc-wiki:`判っている <ImpredicativePolymorphism>`
+   :ghc-flag:`-XImpredicativeTypes` 拡張は，今回のリリースでは以前にも増して
+   壊れる機会が増えていることに注意が必要です
+   (:ghc-ticket:`11319` ， :ghc-ticket:`11675` その他を参照)．
+   リリース前のテストで(多くの場合，不必要に) :ghc-flag:`-XImpredicativeTypes` を
+   使ったせいで多数のプロジェクトが壊れました．
+   :ghc-flag:`-XImpredicativeTypes` を使う場合，リスクは自己責任でお願いします．
+
+..
+   Compiler
+   ~~~~~~~~
+
+コンパイラ
+~~~~~~~~~~
+
+..
+   -  The LLVM code generator now supports only LLVM 3.7. This is in contrast to our
+      previous policy where GHC would try to support a range of LLVM versions
+      concurrently. We hope that by supporting a narrower range of versions we can
+      provide more reliable support for each.
+
+-  LLVM コード生成器は LLVM 3.7 だけをサポートするようになりました．
+   これは以前の GHC では，ある範囲のバージョンの LLVM を並行してサポートする
+   という方針であったことと対照的になっています．
+   より狭い範囲のバージョンをサポートすることで，信頼性の高いサポートが
+   できるようになると期待しています．
+
+..
+   -  Warnings can now be controlled with ``-W(no-)...`` flags in addition to
+      the old ``-f(no-)warn...`` ones. This was done as the first part of a
+      rewrite of the warning system to provide better control over warnings,
+      better warning messages, and more common syntax compared to other
+      compilers. The old ``-f``-based warning flags will remain functional for
+      the forseeable future.
+
+-  従来 ``-f(no-)warn...`` で制御していた警告を ``-W(no-)...`` でも制御できるようになりまた．
+   警告システムの書き直しの最初の段階として実現されたものです．
+   この書き直しでは，警告の制御のしやすく，警告メッセージをわかりやすく，
+   他のコンパイラの構文に近づけるという改良を行っています．
+   従来の ``-f`` ベースの警告フラグは，しばらくの間は関数的な性質を維持します．
+
+..
+   -  Added the option :ghc-flag:`-dth-dec-file`. This dumps out a ``.th.hs`` file of
+      all Template Haskell declarations in a corresponding .hs file. The
+      idea is that application developers can check this into their
+      repository so that they can grep for identifiers used elsewhere that
+      were defined in Template Haskell. This is similar to using
+      :ghc-flag:`-ddump-to-file` with :ghc-flag:`-ddump-splices` but it always generates a
+      file instead of being coupled to :ghc-flag:`-ddump-to-file` and only outputs
+      code that does not exist in the .hs file and a comment for the splice
+      location in the original file.
+
+-  :ghc-flag:`-dth-dec-file` オプションを追加しました．
+   これにより，対応する ``.hs`` ファイルにあるすべての Template Haskell 宣言が ``.th.hs``
+   ファイルにダンプ出力されるようになります．
+   アプリケーション開発者がリポジトリでこのファイルをチェックできれば，
+   Template Haskellで定義した識別子がどこで使われているか grep できる，というのが
+   基本的な考え方です．
+   これは :ghc-flag:`-ddump-to-file` を :ghc-flag:`-ddump-splices` とともに使うのと似ていますが，
+   こちらの方が生成するファイルは1つだということが，:ghc-flag:`-ddump-to-file` を使うのとは異なります．
+   ``.hs`` ファイルにはないコードだけを出力し，また，
+   元のファイルでの接合位置をコメントで示してくれます．
+
+..
+   -  Added the option :ghc-flag:`-fprint-expanded-types`. When enabled, GHC also
+      prints type-synonym-expanded types in type errors.
+
+-  :ghc-flag:`-fprint-expanded-types` オプションを追加しました．
+   これを有効にすると，型エラーでは，型シノニムを展開した型も表示します．
+
+..
+   -  Added the option :ghc-flag:`-fcpr-anal`. When enabled, the demand analyser
+      performs CPR analysis. It is implied by :ghc-flag:`-O`. Consequently,
+      :ghc-flag:`-fcpr-off` is now removed, run with :ghc-flag:`-fno-cpr-anal` to get the
+      old :ghc-flag:`-fcpr-off` behaviour.
+
+-  :ghc-flag:`-fcpr-anal` オプションを追加しました．
+   これを有効にすると，デマンド解析器は CPR 解析を行ないます．
+   :ghc-flag:`-O` を指定すると，このオプションは有効になります．
+   そのため :ghc-flag:`-fcpr-off` は削除されましたので，
+   従来の :ghc-flag:`-fcpr-off` の挙動が必要なときには，:ghc-flag:`-fno-cpr-anal` 
+   を指定してください．
+
+..
+   -  Added the option :ghc-flag:`-fworker-wrapper`. When enabled, the worker-wrapper
+      transformation is performed after a strictness analysis pass. It is implied
+      by :ghc-flag:`-O` and by :ghc-flag:`-fstrictness`. It is disabled by :ghc-flag:`-fno-strictness`.
+      Enabling :ghc-flag:`-fworker-wrapper` while strictness analysis is disabled (by
+      :ghc-flag:`-fno-strictness`) has no effect.
+
+-  :ghc-flag:`-fworker-wrapper` オプションを追加しました．
+   これを有効にすると，正格性解析パスが済んだ後でワーカーラッパー変換を行ないます．
+   :ghc-flag:`-O` あるいは :ghc-flag:`-fstrictness` 指定すると，このオプションは有効になります．
+   正格性解析が(:ghc-flag:`-fno-strictness` で)無効になっているときに :ghc-flag:`-fworker-wrapper`
+   を有効にしても効果はありません．
+
+..
+   -  :ghc-flag:`-ddump-strsigs` has been renamed to
+      :ghc-flag:`-ddump-str-signatures`.
+
+-  :ghc-flag:`-ddump-strsigs` は :ghc-flag:`-ddump-str-signatures` という名前にしました．
+
+..
+   -  :ghc-flag:`-XDeriveGeneric` is now less picky about instantiating type
+      arguments when deriving (:ghc-ticket:`11732`). As a consequence, the
+      following code is now legal (whereas before it would have been rejected). ::
+
+	data T a b = T a b
+	deriving instance Generic (T Int b)
+
+-  :ghc-flag:`-XDeriveGeneric` は，導出の際に引数の型の具体化に関して細かい注意点がありました
+   (:ghc-ticket:`11732`)が，これを緩和しました．
+   その結果，以下のコードは正当なコードになります(従来は拒絶していました）． ::
+
+     data T a b = T a b
+     deriving instance Generic (T Int b)
+
+..
+   -  Added the :ghc-flag:`-fmax-pmcheck-iterations` to control how many times
+      the pattern match checker iterates. Since coverage checking is exponential
+      in the general case, setting a default number of iterations prevents memory
+      and performance blowups. By default, the number of iterations is set to
+      2000000 but it can be set with: ``-fmax-pmcheck-iterations=<n>``.
+      If the set number of iterations is exceeded, an informative warning is
+      issued.
+
+-  パターン照合検査器の反復回数を制御するために :ghc-flag:`-fmax-pmcheck-iterations` を追加しました．
+   一般の場合にはカバレッジ検査は指数オーダーになるので，
+   デフォルトの回数はメモリや性能が爆発しないように設定してあります．
+   デフォルトの回数は 2000000 ですが ``-fmax-pmcheck-iterations=<n>`` で変更できます．
+   指定した回数を超過した場合には，その旨の警告を発行します．
+
+..
+   -  :ghc-flag:`-this-package-key` has been renamed again (hopefully for the last time!)
+      to :ghc-flag:`-this-unit-id`.  The renaming was motivated by the fact that
+      the identifier you pass to GHC here doesn't have much to do with packages:
+      you may provide different unit IDs for libraries which are in the same
+      package.  :ghc-flag:`-this-package-key` is deprecated; you should use
+      :ghc-flag:`-this-unit-id` or, if you need compatibility over multiple
+      versions of GHC, :ghc-flag:`-package-name`.
+
+-  :ghc-flag:`-this-package-key` の名前が再度変更されました(これが最後の変更だと思いたいです)．
+   新しい名前は :ghc-flag:`-this-unit-id` です．
+   名前を変更したのは，ここでGHCに渡す識別子は，パッケージに大して影響しないし，
+   同じパッケージのライブラリに異なるユニット ID を与える可能性もあるからです．
+   :ghc-flag:`-this-package-key` は非推奨になりました．
+   :ghc-flag:`-this-unit-id` を使うか，複数のバージョンの GHC 間で可搬にしたければ，
+   :ghc-flag:`-package-name` を使うべきです．
+
+..
+   -  When :ghc-flag:`-fdefer-type-errors` is enabled and an expression fails to
+      typecheck, ``Control.Exception.TypeError`` will now be thrown instead of
+      ``Control.Exception.ErrorCall``.
+
+-  :ghc-flag:`-fdefer-type-errors` が有効で，型検査が失敗したとき，
+   ``Control.Exception.ErrorCall`` ではなく，
+   ``Control.Exception.TypeError`` を投げるようになりました．
+
+..
+   Warnings
+   ^^^^^^^^
+
+警告
+^^^^
+
+..
+   -  When printing an out-of-scope error message, GHC will give helpful advice if
+      the error might be caused by too restrictive imports.
+
+-  out-of-scope (スコープ外)のエラーメッセージを表示する場合，
+   インポートが適切になされていないことが原因のときには，どうすればいいかアドバイスするようになりました．
+
+..
+   -  Warning messages now mention the name of the warning flag which the message is
+      controlled by (:ghc-ticket:`10752`) If the flag was implied via a warning
+      group then the name of the group will also be shown if
+      :ghc-flag:`-fshow-warning-groups` is used.
+
+-  警告メッセージが，それを制御している警告フラグの名前を含むようになりました
+   (:ghc-ticket:`10752`)．
+   :ghc-flag:`-fshow-warning-groups` を使って警告グループ経由でこのフラグが有効にした場合は，
+   その警告グループ名も表示されます．
+
+..
+   -  Added the :ghc-flag:`-Weverything` warning group, along with its opposite
+      :ghc-flag:`-Wno-everything`. This group includes all warnings supported by
+      GHC. This is in contrast to `-Wall` which excludes some stylistic or
+      otherwise controversial warnings.
+
+-  :ghc-flag:`-Weverything` という警告グループと，反対の :ghc-flag:`-Wno-everything`
+   が追加になりました．
+   この警告グループは GHC がサポートする警告をすべて含んでいます．
+   対照的に `-Wall` はいくつかのスタイルにかかわる，あるいは，物議を醸している警告を除外しています．
+
+..
+   -  Added the :ghc-flag:`-Wdefault` warning group, along with its opposite
+      :ghc-flag:`-Wno-default`. This group is defined to be the set of warnings
+      which ``ghc`` enables by default (e.g. when no additional ``-W`` flags are
+      used).
+
+-  :ghc-flag:`-Wdefault` という警告グループと，反対の :ghc-flag:`-Wno-default`
+   が追加になりました．
+   この警告グループは，デフォルトで(つまり，追加で ``-W`` フラグを使用しなかった場合に)
+   ``ghc`` が有効にする警告集合として定義されています．
+
+..
+   -  Added the :ghc-flag:`-Wcompat` warning group (:ghc-ticket:`11000`), along with its opposite
+      :ghc-flag:`-Wno-compat`. Turns on warnings that will be enabled by default in the
+      future, but remain off in normal compilations for the time being. This
+      allows library authors eager to make their code future compatible to adapt
+      to new features before they even generate warnings.
+
+-  :ghc-flag:`-Wcompat` という警告グループ(:ghc-ticket:`11000`)と，反対の :ghc-flag:`-Wno-compat`
+   が追加になりました．
+   将来的にはデフォルトで有効になる予定ですが，
+   当面は通常のコンパイル時には無効になっています．
+   このフラグにより，警告がでる前に，ライブラリ作者が自分のコードの可搬性を積極的に
+   確保し，新しい機能に調整しやすくなります．
+
+..
+   -  Added the :ghc-flag:`-Wmissing-monadfail-instances` flag. When enabled, this
+      will issue a warning if a failable pattern is used in a context that does
+      not have a ``MonadFail`` constraint. This flag represents phase 1 of the
+      `MonadFail Proposal (MFP)
+      <https://prime.haskell.org/wiki/Libraries/Proposals/MonadFail>`__.
+
+-  :ghc-flag:`-Wmissing-monadfail-instances` フラグが追加になりました．
+   これを有効にすると ``MonadFail`` 制約がない文脈で，失敗する可能性のあるパターンが
+   使用されたときに警告が出ます．
+   このフラグは `MonadFailの提案 (MFP)
+   <https://prime.haskell.org/wiki/Libraries/Proposals/MonadFail>`__
+   の最初のフェーズになります．
+
+..
+   -  Added the :ghc-flag:`-Wsemigroup` flag. When enabled, this
+      will issue a warning if a type is an instance of ``Monoid`` but not
+      ``Semigroup``, and when a custom definition ``(<>)`` is made. Fixing these
+      warnings makes sure the definition of ``Semigroup`` as a superclass of
+      ``Monoid`` does not break any code.
+
+-  :ghc-flag:`-Wsemigroup` フラグが追加になりました．
+   これを有効にすると，型が ``Monoid`` のインスタンスだが ``Semigroup`` のインスタンス
+   ではない場合で ``(<>)`` をユーザーが独自に定義している場合に，警告が出ます．
+   この警告がでないようにコードを修正すると ``Monoid`` のスーパークラスとして ``Semigroup`` の
+   定義がコードを壊さないことが確実になります．
+
+..
+   -  After a long hiatus (see :ghc-ticket:`10935`) the
+      :ghc-flag:`-Wmonomorphism-restriction` (formerly
+      :ghc-flag:`-fwarn-monomorphism-restriction`) flag has returned.
+      The functionality of this flag was inadvertently removed by a commit in 2010;
+      this has been fixed and the flag should now issue warnings as it
+      previously did.
+
+-  ながらく使えなくなっていた(:ghc-ticket:`10935` 参照)
+   :ghc-flag:`-Wmonomorphism-restriction` (以前は
+   :ghc-flag:`-fwarn-monomorphism-restriction`) フラグが復活しました．
+   このフラグ機能は 2016 年のとあるコミットでうっかり削除されてしまいました．
+   これを修正し以前と同様に警告が出るようになっています．
+
+..
+   -  Added the options :ghc-flag:`-Wmissed-specialisations` and
+      :ghc-flag:`-Wall-missed-specialisations`. When enabled, the simplifier will
+      produce a warning when a overloaded imported function cannot be
+      specialised (typically due to a missing ``INLINEABLE`` pragma). This
+      is intended to alert users to cases where they apply ``INLINEABLE`` but
+      may not get the speed-up they expect.
+
+-  :ghc-flag:`-Wmissed-specialisations` オプション，および，
+   :ghc-flag:`-Wall-missed-specialisations` を追加しました．
+   これを有効にすると，多重定義された関数をインポートして特定化できないとき
+   (典型的な例は ``INLINEABLE`` プラグマがないとき)警告が出ます．
+   ユーザーが ``INLINEABLE`` を指定しても期待した速度向上が得られない場合があることに
+   気づくようにという意図もあります．
+
+..
+   -  Added the option :ghc-flag:`-Wnoncanonical-monad-instances` and
+      :ghc-flag:`-Wnoncanonical-monadfail-instances` which help detect noncanonical
+      ``Applicative``/``Monad``/``MonadFail`` instance definitions.
+      See flag description in :ref:`options-sanity` for more details.
+
+-  :ghc-flag:`-Wnoncanonical-monad-instances` と
+   :ghc-flag:`-Wnoncanonical-monadfail-instances` を追加しました．
+   これは ``Applicative``/``Monad``/``MonadFail`` インスタンスの定義が正式ではないこと
+   の検出に役立ちます．詳しくは :ref:`options-sanity` のフラグの説明を参照してください．
+
+..
+   -  Added the option :ghc-flag:`-Wnoncanonical-semigroup-instances` which
+      warns of ``Monoid`` instances where ``mappend`` is not defined in term of
+      ``Semigroup``'s ``(<>)`` operation.
+
+-  :ghc-flag:`-Wnoncanonical-semigroup-instances` オプションを追加しました．
+   このオプションは ``mappend`` が ``Semigroup`` の ``(<>)`` 演算を使わずに定義している
+   ``Monoid`` インスタンスがあることを警告します．
+
+..
+   -  Added the :ghc-flag:`-Wmissing-pattern-synonym-signatures`
+      flag. When enabled, this will issue a warning when a pattern
+      synonym definition doesn't have a type signature.  It is turned off
+      by default but enabled by :ghc-flag:`-Wall`.
+
+-  :ghc-flag:`-Wmissing-pattern-synonym-signatures` フラグを追加しました．
+   これを有効にすると，パターンシノニムの定義に型シグネチャがないとの警告が出ます．
+   デフォルトでは無効になっていますが :ghc-flag:`-Wall` が有効になっていると，
+   これも有効になります．
+
+..
+   -  Added the :ghc-flag:`-Wunused-type-patterns` flag to report unused
+      type variables in data and type family instances. This flag is not implied
+      by :ghc-flag:`-Wall`, since :ghc-flag:`-Wunused-type-patterns` will
+      warn about unused type variables even if the types themselves are intended
+      to be used as documentation. If :ghc-flag:`-Wunused-type-patterns` is
+      enabled, one can prefix or replace unused type variables with underscores to
+      avoid warnings.
+
+-  データ族および型族のインスタンスで使われていない型変数があることを警告する
+   :ghc-flag:`-Wunused-type-patterns` フラグを追加しました．
+   このフラグは :ghc-flag:`-Wall` を指定しても有効にはなりません．
+   その理由は :ghc-flag:`-Wunused-type-patterns`
+   が未使用の型変数があると，その型がドキュメントとして使うものであっても，警告を出すからです．
+   :ghc-flag:`-Wunused-type-patterns` が有効であれば，
+   型変数をアンダースコアから始まる名前にするか，アンダースコアそのものに置き換えてしまえば，
+   この警告は出なくなります．
+
+..
+   -  Split off the new flag :ghc-flag:`-Wunused-foralls` from the previously
+      existing flag :ghc-flag:`-Wunused-matches`. :ghc-flag:`-Wunused-foralls`
+      emits a warning in the specific case that a user writes explicit ``forall``
+      syntax with unused type variables, while :ghc-flag:`-Wunused-matches` only
+      warns in the case of unused term-level patterns. Both flags are implied by
+      :ghc-flag:`-W`.
+
+-  従来の :ghc-flag:`-Wunused-matches` から，新しく :ghc-flag:`-Wunused-foralls` を分離しました．
+   このフラグは，ユーザが使われていな型変数に対して明示的に ``forall`` 構文を使うという特別な場合に警告を出します．
+   :ghc-flag:`-Wunused-matches` は項レベルのパターンについてのみ警告を出します．
+   どちらのフラグも，:ghc-flag:`-W` を指定すると有効になります．
+
+..
+   -  :ghc-flag:`-Wmissing-local-sigs` is now deprecated in favor of
+      :ghc-flag:`-Wmissing-local-signatures`.
+
+-  :ghc-flag:`-Wmissing-local-sigs` は非推奨になりました．
+   :ghc-flag:`-Wmissing-local-signatures` を使ってください．
+
+..
+   -  :ghc-flag:`-Wmissing-exported-sigs` is now deprecated in favor of
+      :ghc-flag:`-Wmissing-exported-signatures`.
+
+-  :ghc-flag:`-Wmissing-exported-sigs` は非推奨になりました．
+   :ghc-flag:`-Wmissing-exported-signatures` を使ってください．
+
+..
+   GHCi
+   ~~~~
+
+GHCi
+~~~~
+
+..
+   -  ``Main`` with an explicit module header but without ``main`` is now
+      an error (:ghc-ticket:`7765`).
+
+-  ``Main`` モジュールを明示的に宣言しているのに ``main`` が含まれていないとエラーになります
+   (:ghc-ticket:`7765`)．
+
+..
+   -  The :ghci-cmd:`:back` and :ghci-cmd:`:forward` commands now take an optional count
+      allowing the user to move forward or backward in history several
+      steps at a time.
+
+-  :ghci-cmd:`:back` コマンドおよび :ghci-cmd:`:forward` コマンドでは，
+   ユーザが履歴を一度に複数ステップ移動できるように引数でカウントを渡せるようになりました．
+
+..
+   -  Added commands :ghci-cmd:`:load! <:load>` and :ghci-cmd:`:reload! <:reload>`,
+      effectively setting :ghc-flag:`-fdefer-type-errors` before loading a module and
+      unsetting it after loading if it has not been set before (:ghc-ticket:`8353`).
+
+-  :ghci-cmd:`:load! <:load>` コマンドと :ghci-cmd:`:reload! <:reload>` コマンドを
+   追加しました．
+   これを使うと，モジュールをロードする前に :ghc-flag:`-fdefer-type-errors` フラグが有効になります．
+   このフラグをもともと有効にしていなければ，モジュールのロードが済みしだい，無効に戻ります
+   (:ghc-ticket:`8353`)．
+
+..
+   -  ``ghci -e`` now behaves like :ghc-flag:`ghc -e <-e>` (:ghc-ticket:`9360`).
+
+-  ``ghci -e`` は :ghc-flag:`ghc -e <-e>` と同じ振舞いになりました(:ghc-ticket:`9360`)．
+
+..
+   -  Added support for top-level function declarations (:ghc-ticket:`7253`).
+
+-  トップレベルの関数定義ができるようになりました(:ghc-ticket:`7253`)．
+
+..
+   -  The new commands :ghci-cmd:`:all-types`, :ghci-cmd:`:loc-at`, :ghci-cmd:`:type-at`, and
+      :ghci-cmd:`:uses` designed for editor-integration
+      (such as Emacs' ``haskell-mode``) originally premiered by ``ghci-ng``
+      have been integrated into GHCi (:ghc-ticket:`10874`).
+
+-  新しく :ghci-cmd:`:all-types` コマンド， :ghci-cmd:`:loc-at` コマンド，
+   :ghci-cmd:`:type-at` コマンド， :ghci-cmd:`:uses` コマンドが追加になりました．
+   エディタ（Emacs の ``haskell-mode`` など)との統合を進めるためののもで，
+   もともと ``ghci-ng`` としてデビューしたものが GHCi に統合されました
+   (:ghc-ticket:`10874`)．
+
+..
+   Template Haskell
+   ~~~~~~~~~~~~~~~~
+
+Template Haskell
+~~~~~~~~~~~~~~~~
+
+..
+   -  The new :ghc-flag:`-XTemplateHaskellQuotes` flag allows to use the
+      quotes (not quasi-quotes) subset of ``TemplateHaskell``.  This is
+      particularly useful for use with a stage 1 compiler (i.e. GHC
+      without interpreter support). Also, :ghc-flag:`-XTemplateHaskellQuotes` is
+      considered safe under Safe Haskell.
+
+-  新しく :ghc-flag:`-XTemplateHaskellQuotes` フラグを追加し，
+   ``TemplateHaskell`` のクォート(準クォートではない)のサブセットが使えるようにしました．
+   ステージ１のコンパイラを使うとき(たとえばインタプリタをサポートしないGHCを使うとき)に便利です．
+   また :ghc-flag:`-XTemplateHaskellQuotes` は Safe Haskell でも安全だとみなせます．
+
+..
+   -  The ``__GLASGOW_HASKELL_TH__`` CPP constant denoting support for
+      :ghc-flag:`-XTemplateHaskell` introduced in GHC 7.10.1 has been changed to
+      use the values ``1``/``0`` instead of the previous ``YES``/``NO``
+      values.
+
+-  GHC 7.10.1 で導入された :ghc-flag:`-XTemplateHaskell` のサポートあるかどうかを
+   示す CPP 定数 ``__GLASGOW_HASKELL_TH__`` の値は ``1``/``0`` に変更になりました．
+   従来は ``YES``/``NO`` でした．
+
+..
+   -  Partial type signatures can now be used in splices, see
+      :ref:`pts-where`.
+
+-  部分型シグネチャがスプライスで使えるようになりました．
+   :ref:`pts-where` を参照してください．
+
+..
+   -  Template Haskell now fully supports typed holes and quoting unbound
+      variables.  This means it is now possible to use pattern splices nested
+      inside quotation brackets.
+
+-  Template Haskell は型付きホールと未束縛変数のクォートを完全にサポートするようになりました．
+   これにより，クォートブラケットの内部で，ネストしたパターンスプライスが使えるようになりました．
+
+..
+   -  Template Haskell now supports the use of ``UInfixT`` in types to
+      resolve infix operator fixities, in the same vein as ``UInfixP`` and
+      ``UInfixE`` in patterns and expressions. ``ParensT`` and ``InfixT``
+      have also been introduced, serving the same functions as their
+      pattern and expression counterparts.
+
+-  Template Haskell は，型の中で ``UInfixT`` を使って，型演算子の結合方向を解決できるようになりました．
+   同じような調子で ``UInfixP`` はパターン， ``UInfixE`` は式と対応しています．
+   ``ParensT`` および ``InfixT`` もパターンや式に対応する同様の機能として導入されました．
+
+..
+   - Template Haskell has now explicit support for representing GADTs.  Until
+     now GADTs were encoded using ``NormalC``, ``RecC`` (record syntax) and
+     ``ForallC`` constructors.  Two new constructors - ``GadtC`` and ``RecGadtC`` -
+     are now supported during quoting, splicing and reification.
+
+- Template Haskell がGADTを明示的にサポートするようにしました．
+  従来，GADT は ``NormalC`` と ``RecC`` (レコード構文) および
+  ``ForallC`` 構成子を使ってエンコードしていました．
+  クォート，スプライス，具体化中では，新しい構成子 ``GadtC`` と ``RecGadtC``
+  をサポートするようにしました．
+
+..
+   -  Primitive chars (e.g., ``[| 'a'# |]``) and primitive strings (e.g.,
+      ``[| "abc"# |]``) can now be quoted with Template Haskell. The
+      ``Lit`` data type also has a new constructor, ``CharPrimL``, for
+      primitive char literals.
+
+-  プリミティブ文字(たとえば ``[| 'a'# |]``)やプリミティブ文字列(たとえば，
+   ``[| "abc"# |]``) を Template Haskell でクォートできるようになりました．
+   ``Lit`` データ型もプリミティブ文字リテラル用にあらたに構成子 ``CharPrimL`` を備えるようになりました．
+
+..
+   -  ``addTopDecls`` now accepts annotation pragmas.
+
+-  ``addTopDecls`` がアノテーションプラグマを受け入れるようにしました．
+
+..
+   -  Internally, the implementation of quasi-quotes has been unified with
+      that of normal Template Haskell splices. Under the previous
+      implementation, top-level declaration quasi-quotes did not cause a
+      break in the declaration groups, unlike splices of the form
+      ``$(...)``. This behavior has been preserved under the new
+      implementation, and is now recognized and documented in
+      :ref:`th-syntax`.
+
+-  準クォートの実装は内部的には通常の Template Haskell のスプライスに統合されました．
+   従来の実装では，トップレベル宣言の準クォートは ``$(...)`` 形式のスプライスとはちがって，
+   宣言グループを抜けることはありませんでした．
+   この振舞いは新しい実装でも維持してます．
+   これについては :ref:`th-syntax` で説明してあります．
+
+..
+   -  The ``Lift`` class is now derivable via the :ghc-flag:`-XDeriveLift` extension. See
+      :ref:`deriving-lift` for more information.
+
+-  ``Lift`` クラスが :ghc-flag:`-XDeriveLift` 拡張により導出可能になりました．
+   詳しくは :ref:`deriving-lift` を参照してください．
+
+..
+   -  The ``FamilyD`` data constructor and ``FamFlavour`` data type have
+      been removed. Data families are now represented by ``DataFamilyD`` and
+      open type families are now represented by ``OpenTypeFamilyD`` instead
+      of ``FamilyD``. Common elements of ``OpenTypeFamilyD`` and
+      ``ClosedTypeFamilyD`` have been moved to ``TypeFamilyHead``.
+
+-  データ構成子 ``FamilyD`` と データ型 ``FamFlavour`` を廃止しました．
+   データ族は ``DataFamilyD`` で表現するようになりました．
+   またオープンな型族は ``OpenTypeFamilyD`` で表現し ``FamilyD`` では表現しなくなりました．
+   ``OpenTypeFamilyD`` と ``ClosedTypeFamilyD`` の共通の要素は ``TypeFamilyHead`` となりました．
+
+..
+   -  The representation of ``data``, ``newtype``, ``data instance``, and
+      ``newtype instance`` declarations has been changed to allow for
+      multi-parameter type classes in the ``deriving`` clause. In particular,
+      ``dataD`` and ``newtypeD`` now take a ``CxtQ`` instead of a ``[Name]``
+      for the list of derived classes.
+
+-  ``data``， ``newtype``， ``data instance`` と ``newtype instance`` の宣言は ``deriving``
+   節のマルチパラメータ型クラスに対して利用可能になりました．
+   たとえば，導出されたクラスのリストに対しては， ``dataD`` と ``newtypeD`` は ``[Name]`` ではなく
+   ``CxtQ`` を引数に取るようになりました．
+
+..
+   -  ``isExtEnabled`` can now be used to determine whether a language extension
+      is enabled in the ``Q`` monad. Similarly, ``extsEnabled`` can be used to list
+      all enabled language extensions.
+
+-  ``isExtEnabled`` を使って ``Q`` モナドで言語拡張が利用可能か決定できるようになりました．
+   同様に ``extsEnabled`` を使て利用可能な言語拡張を一覧できるようになりました．
+
+..
+   -  One can now reify the strictness information of a constructors' fields using
+      Template Haskell's ``reifyConStrictness`` function, which takes into account
+      whether flags such as :ghc-flag:`-XStrictData` or
+      :ghc-flag:`-funbox-strict-fields` are enabled.
+
+-  Template Haskell の ``reifyConStrictness`` 関数を使って，構成子の正格性を具体化
+   できるようになりました．
+   この関数は :ghc-flag:`-XStrictData` あるいは :ghc-flag:`-funbox-strict-fields` が
+   有効になっているかを確認します．
+
+..
+   -  Previously, quoting a type signature like ``a -> a`` would produce the
+      abstract syntax for ``forall a. a -> a``. This behavior remains, but it
+      is extended to kinds, too, meaning that ``Proxy a -> Proxy a`` becomes
+      ``forall k (a :: k). Proxy a -> Proxy a``. This change is not intentional,
+      but is forced by the fact that GHC has a hard time telling kinds apart
+      from types. The effect of this change is that round-tripping kind-
+      polymorphic types will now require :ghc-flag:`-XTypeInType`.
+
+-  従来は ``a -> a`` のような型シグネチャをクォートすると ``forall a. a -> a`` に対応する
+   抽象構文が生成されていました．
+   このふるまいは維持していますが，カインドにまで拡張されています．
+   すなわち ``Proxy a -> Proxy a`` が ``forall k (a :: k). Proxy a -> Proxy a`` に
+   なるということです．
+   この変更は意図的なものではなく，GHC にはカインドを型と分別するのは困難なので
+   しかたなく，そうなっています．
+   この変更による影響は，カインド多相型の往復変換には :ghc-flag:`-XTypeInType` 拡張が
+   必要になったということです．
+
+..
+   Runtime system
+   ~~~~~~~~~~~~~~
+
+ランタイムシステム
+~~~~~~~~~~~~~~~~~~
+
+..
+   - We have a shiny new two-step memory allocator for 64-bit platforms (see
+     :ghc-ticket:`9706`). In addition to simplifying the runtime system's
+     implementation this may significantly improve garbage collector performance.
+     Note, however, that Haskell processes will have an apparent virtual memory
+     footprint of a terabyte or so. Don't worry though, most of this amount is merely
+     mapped but uncommitted address space which is not backed by physical memory.
+
+- 64-bit プラットフォーム用にピカピカの2段階メモリアロケーションを備えました(:ghc-ticket:`9706` 参照)．
+  ランタイムシステムの実装を単純になったのに加えて，ガーベッジコレクタの性能が大幅に向上しました．
+  とはいうものの，Haskell のプロセスの仮想メモリのフットプリントが，
+  見掛け上テラバイト級になることもあります．
+  でも心配はいりません．
+  このような大きさでもほとんどの場合，単にマッピングがあるだけで，物理メモリの裏付けがないアドレス空間が
+  コミットされることはありません．
+
+..
+   - Support for performance monitoring with PAPI has been dropped.
+
+- PAPI を使ったパフォーマンス管理はサポートしなくなりました．
+
+..
+   - :rts-flag:`-maxN⟨x⟩ <-maxN>` flag added to complement :rts-flag:`-N`. It will
+     choose to use at most ⟨x⟩ capabilities, limited by the number of processors
+     as :rts-flag:`-N` is.
+
+- :rts-flag:`-N` を補うために :rts-flag:`-maxN⟨x⟩ <-maxN>` フラグを追加しました．
+  :rts-flag:`-N` を指定したときのプロセッサ数を高々 ⟨x⟩ に制限したいときに使ってください．
+
+..
+   - The runtime linker is no longer greedy and will load only the needed objects
+     from archives. This means particularly on Windows packages requiring e.g. C99
+     support will now function properly. As part of this the RTS on Windows
+     no longer re-exports deprecated POSIX functions under the undeprecated names
+     (see :ghc-ticket:`11223`).
+
+- ランタイムリンカは貪欲ではなくなり，アーカイブから必要なオブジェクトのみをロードするようになりました．
+  特に Windows で，たとえば C99 のサポートを要求するパッケージが正しく機能するようになりました．
+  その一環として Windows上の RTS は非推奨の POSIX 関数を非推奨になっていない名前で再エクスポート
+  するようなことはなくなりました(:ghc-ticket:`11223` 参照)．
+
+..
+   - A number of subtle but serious issues in the runtime linker were resolved on
+     ARM (summarized in :ghc-ticket:`11206`).
+
+- ARM 上のランタイムリンカの微妙ですが重大な問題を大量に解決しました
+  (要約が :ghc-ticket:`11206` にあります)．
+
+..
+   Build system
+   ~~~~~~~~~~~~
+
+ビルドシステム
+~~~~~~~~~~~~~~
+
+..
+   -  Nothing changed here.
+
+-  変更はありません．
+
+..
+   Package system
+   ~~~~~~~~~~~~~~
+
+パッケージシステム
+~~~~~~~~~~~~~~~~~~
+
+..
+   -  Various internal changes but nothing user-facing.
+
+-  さまざまな内部変更がありますが，ユーザーから見えるものはありません．
+
+..
+   hsc2hs
+   ~~~~~~
+
+hsc2hs
+~~~~~~
+
+..
+   - :command:`hsc2hs` now supports the ``#alignment`` macro, which can be used to
+     calculate the alignment of a struct in bytes. Previously, ``#alignment``
+     had to be implemented manually via a ``#let`` directive, e.g., ::
+
+	 #let alignment t = "%lu", (unsigned long)offsetof(struct {char x__; t (y__); }, y__)
+
+     As a result, if you have the above directive in your code, it will now emit
+     a warning when compiled with GHC 8.0.
+
+     .. code-block:: none
+
+	 Module.hsc:24:0: warning: "hsc_alignment" redefined [enabled by default]
+	 In file included from dist/build/Module_hsc_make.c:1:0:
+	 /path/to/ghc/lib/template-hsc.h:88:0: note: this is the location of the previous definition
+	  #define hsc_alignment(t...) \
+	  ^
+
+     To make your code free of warnings on GHC 8.0 and still support earlier
+     versions, surround the directive with a pragma checking for the right GHC
+     version. ::
+
+	 #if __GLASGOW_HASKELL__ < 800
+	 #let alignment t = "%lu", (unsigned long)offsetof(struct {char x__; t (y__); }, y__)
+	 #endif
+
+- `hsc2hs` コマンドは ``#alignment`` マクロをサポートするようになりました．
+  このマクロを使ってバイト列中の構造のアライメントを計算できるようになりました．
+  従来 ``#alignment`` は ``#let`` ディレクティブを使って，
+  たとえば以下のように手で実装する必要がありました． ::
+
+      #let alignment t = "%lu", (unsigned long)offsetof(struct {char x__; t (y__); }, y__)
+
+  いまは上のようなディレクティブがあるコードを GHC 8.0 でコンパイルすると以下のような警告がでます．
+
+  .. code-block:: none
+
+   Module.hsc:24:0: warning: "hsc_alignment" redefined [enabled by default]
+   In file included from dist/build/Module_hsc_make.c:1:0:
+   /path/to/ghc/lib/template-hsc.h:88:0: note: this is the location of the previous definition
+    #define hsc_alignment(t...) \
+    ^
+
+  従来のバージョンではこの警告を出し，GHC 8.0 では出ないようにするには，
+  ディレクティブを GHC のバージョンをチェックするディレクティブで囲みます． ::
+
+      #if __GLASGOW_HASKELL__ < 800
+      #let alignment t = "%lu", (unsigned long)offsetof(struct {char x__; t (y__); }, y__)
+      #endif
+
+..
+   Libraries
+   ---------
+
+ライブラリ
+----------
+
+..
+   array
+   ~~~~~
+
+array
+~~~~~
+
+..
+   -  Version number 0.5.1.1 (was 0.5.1.0)
+
+-  バージョン 0.5.1.1 (従来 0.5.1.0)
+
+..
+   .. _lib-base:
+
+   base
+   ~~~~
+
+.. _lib-base:
+
+base
+~~~~
+
+..
+   See ``changelog.md`` in the ``base`` package for full release notes.
+
+完全なリリースノートは ``base`` パッケージになる ``changelog.md`` を参照してください．
+
+..
+   -  Version number 4.9.0.0 (was 4.8.2.0)
+
+-  バージョン 4.9.0.0 (従来 4.8.2.0)
+
+..
+   -  :base-ref:`GHC.Stack <GHC-Stack.html>` exports two new types ``SrcLoc`` and ``CallStack``. A
+      ``SrcLoc`` contains package, module, and file names, as well as start
+      and end positions. A ``CallStack`` is essentially a ``[(String, SrcLoc)]``,
+      sorted by most-recent call.
+
+-  :base-ref:`GHC.Stack <GHC-Stack.html>` モジュールがあらたに2つの型 ``SrcLoc`` と ``CallStack`` を
+   エクスポートするようになりました．
+   ``SrcLoc`` 開始点および終了点に加えて，パッケージ名，モジュール名，ファイル名が含まれています．
+   ``CallStack`` は本質的には ``[(String, SrcLoc)]`` と同じで，もっとも最近呼び出されたものが
+   先にくるようにソートしてあります．
+
+..
+   -  ``error`` and ``undefined`` will now report a partial stack-trace
+      using the new ``CallStack`` feature (and the :ghc-flag:`-prof` stack if
+      available).
+
+-  ``error`` および ``undefined`` が，新しい ``CallStack`` 機能
+   (および有効であれば :ghc-flag:`-prof` スタック)を使って部分的なスタックトレースを
+   報告するようにしました．
+
+..
+   -  A new function, ``interruptible``, was added to ``GHC.IO`` allowing
+      an ``IO`` action to be run such that it can be interrupted by an
+      asynchronous exception, even if exceptions are masked (except if
+      masked with ``interruptibleMask``).
+
+      This was introduced to fix the behavior of ``allowInterrupt``, which
+      would previously incorrectly allow exceptions in uninterruptible
+      regions (see :ghc-ticket:`9516`).
+
+-  あらたに ``interruptible`` 関数を ``GHC.IO`` に加えました．
+   この関数は ``IO`` アクションを非同期例外で割り込めるように走らせます．
+   例外がマスクされていても割り込めます．ただし ``interruptibleMask`` でマスクされていると
+   割り込めません．
+
+   この関数は ``allowInterrupt`` の振る舞いを修正するために導入したものです．
+   従来の ``allowInterrupt`` は割り込み不可範囲での不正な割り込みを許してしまっていました．
+   (:ghc-ticket:`9516` 参照)
+
+..
+   -  Per-thread allocation counters (``setAllocationCounter`` and
+      ``getAllocationCounter``) and limits (``enableAllocationLimit``,
+      ``disableAllocationLimit`` are now available from ``System.Mem``. Previously
+      this functionality was only available from :base-ref:`GHC.Conc <GHC-Stack.html>`.
+
+-  スレッド毎のアロケーションカウンタ (``setAllocationCounter`` と
+   ``getAllocationCounter``) および上限 (``enableAllocationLimit`` ， 
+   ``disableAllocationLimit``) が ``System.Mem`` をインポートすれば使えるようになりました．
+   従来，この機能は :base-ref:`GHC.Conc <GHC-Stack.html>` をインポートしないと使えませんでした．
+
+..
+   - ``forever``, ``filterM``, ``mapAndUnzipM``, ``zipWithM``, ``zipWithM_``,
+     ``replicateM``, and ``replicateM`` were generalized from ``Monad`` to
+     ``Applicative``. If this causes performance regressions, try to make the
+     implementation of ``(*>)`` match that of ``(>>)`` (see :ghc-ticket:`10168`).
+
+- ``forever``，``filterM``，``mapAndUnzipM``，``zipWithM``，``zipWithM_``，
+  ``replicateM`` および ``replicateM`` を ``Monad`` から ``Applicative`` へ一般化しました．
+  これらを使って性能が低下した場合は，``(>>)`` に対応する ``(*>)`` を実装してみてください
+  (:ghc-ticket:`10168` 参照)．
+
+..
+   - Add ``URec``, ``UAddr``, ``UChar``, ``UDouble``, ``UFloat``, ``UInt``, and ``UWord`` to
+     :base-ref:`GHC.Generics <GHC-Generics.html>` as part of making GHC generics
+     capable of handling unlifted types (:ghc-ticket:`10868`)
+
+- ``URec``，``UAddr``，``UChar``，``UDouble``，``UFloat``，``UInt`` および ``UWord`` を
+  :base-ref:`GHC.Generics <GHC-Generics.html>` に追加しました．
+  GHC Generics で非リフト型を扱えるようにするための方策の一部です(:ghc-ticket:`10868`)．
+
+..
+   - Expand ``Floating`` class to include operations that allow for better
+     precision: ``log1p``, ``expm1``, ``log1pexp`` and ``log1mexp``. These are not
+     available from ``Prelude``, but the full class is exported from ``Numeric``.
+
+- ``Floating`` クラスを拡張して，より精度のよい，``log1p``，``expm1``，``log1pexp``，``log1mexp``
+  を使えるようにしました．
+  これらは ``Prelude`` をインポートしても使えません．``Numeric`` をインポートすれば
+  ``Floating`` クラスのすべての機能が使えます．
+
+..
+   - Add ``Data.List.NonEmpty`` and ``Data.Semigroup`` (to become
+     super-class of ``Monoid`` in the future). These modules were
+     provided by the ``semigroups`` package previously. (:ghc-ticket:`10365`)
+
+- ``Data.List.NonEmpty`` と ``Data.Semigroup`` (こちらは将来，
+  ``Monoid``のスーパークラスになる予定) を追加しました．
+  これらのモジュールは従来 ``semigroups`` パッケージで提供されていました(:ghc-ticket:`10365`)．
+
+..
+   - Add ``GHC.TypeLits.TypeError`` and ``ErrorMessage`` to allow users to define
+     custome compile-time error messages (see :ref:`custom-errors` and 
+     the original :ghc-wiki:`proposal <Proposal/CustomTypeErrors>`).
+
+- ``GHC.TypeLits.TypeError`` と ``ErrorMessage`` を追加しました．
+  これを使って独自のコンパイル時エラーメッセージを定義できます(:ref:`custom-errors` および
+  元の :ghc-wiki:`プロポーザル <Proposal/CustomTypeErrors>` を参照してください)．
+
+..
+   - The datatypes in ``GHC.Generics`` now have ``Enum``, ``Bounded``, ``Ix``,
+     ``Functor``, ``Applicative``, ``Monad``, ``MonadFix``, ``MonadPlus``, ``MonadZip``,
+     ``Foldable``, ``Foldable``, ``Traversable``, ``Generic1``, and ``Data`` instances
+     as appropriate. (:ghc-ticket:`9043`)
+
+- ``GHC.Generics`` 内のデータ型が正しく以下のクラスのインスタンスになるようにしました．
+  ``Enum``，``Bounded``，``Ix``，``Functor``，``Applicative``，``Monad``，``MonadFix``，
+  ``MonadPlus``，``MonadZip``，``Foldable``，``Foldable``，``Traversable``，``Generic1``，``Data``
+  (:ghc-ticket:`9043`)．
+
+..
+   - The ``Generic`` instance for ``Proxy`` is now poly-kinded (see :ghc-ticket:`10775`)
+
+- ``Proxy`` の ``Generic`` インスタンスはカインド多相になりました．(:ghc-ticket:`10775` 参照)
+
+..
+   - The ``IsString`` instance for ``[Char]`` has been modified to eliminate
+     ambiguity arising from overloaded strings and functions like ``(++)``.
+
+- ``[Char]`` の ``IsString`` インスタンスを変更して多重定義した文字列や ``(++)`` 関数
+  で曖昧性がでないようにしました．
+
+..
+   - Move ``Const`` from ``Control.Applicative`` to its own module in
+     ``Data.Functor.Const``. (see :ghc-ticket:`11135`)
+
+- ``Const`` を ``Control.Applicative`` から独自のモジュール ``Data.Functor.Const``
+  に移動しました(:ghc-ticket:`11135` 参照)．
+
+..
+   - Enable ``PolyKinds`` in the ``Data.Functor.Const`` module to give ``Const``
+     the kind ``* -> k -> *`` (see :ghc-ticket:`10039`).
+
+- ``Data.Functor.Const`` モジュール内では ``PolyKinds`` を有効にし，``Const`` の
+  カインドを ``* -> k -> *`` とできるようになりました(see :ghc-ticket:`10039`)．
+
+..
+   - Add the ``TypeError`` datatype to ``Control.Exception``, which represents the
+     error that is thrown when an expression fails to typecheck when run using
+     :ghc-flag:`-fdefer-type-errors`. (see :ghc-ticket:`10284`)
+
+- データ型 ``TypeError`` を ``Control.Exception`` に追加しました．
+  :ghc-flag:`-fdefer-type-errors` フラグで走っている場合，型検査に失敗したときに投げられます
+  (see :ghc-ticket:`10284`)．
+
+..
+   binary
+   ~~~~~~
+
+binary
+~~~~~~
+
+..
+   -  Version number 0.8.3.0 (was 0.7.5.0)
+
+-  バージョン 0.8.3.0 (従来 0.7.5.0)
+
+..
+   bytestring
+   ~~~~~~~~~~
+
+bytestring
+~~~~~~~~~~
+
+..
+   -  Version number 0.10.8.0 (was 0.10.6.0)
+
+-  バージョン 0.10.8.0 (従来 0.10.6.0)
+
+..
+   Cabal
+   ~~~~~
+
+Cabal
+~~~~~
+
+..
+   -  Version number 1.24.0 (was 1.22.5.0)
+
+-  バージョン 1.24.0 (従来 1.22.5.0)
+
+..
+   containers
+   ~~~~~~~~~~
+
+containers
+~~~~~~~~~~
+
+..
+   -  Version number 0.5.7.1 (was 0.5.6.2)
+
+-  バージョン 0.5.7.1 (従来 0.5.6.2)
+
+..
+   deepseq
+   ~~~~~~~
+
+deepseq
+~~~~~~~
+
+..
+   -  Version number 1.4.2.0 (was 1.4.1.1)
+
+-  バージョン 1.4.2.0 (従来 1.4.1.1)
+
+..
+   directory
+   ~~~~~~~~~
+
+directory
+~~~~~~~~~
+
+..
+   -  Version number 1.2.6.2 (was 1.2.2.0)
+
+-  バージョン 1.2.6.2 (従来 1.2.2.0)
+
+..
+   filepath
+   ~~~~~~~~
+
+filepath
+~~~~~~~~
+
+..
+   -  Version number 1.4.1.0 (was 1.4.0.0)
+
+-  バージョン 1.4.1.0 (従来 1.4.0.0)
+
+..
+   ghc
+   ~~~
+
+ghc
+~~~
+
+..
+   -  The ``HsBang`` type has been removed in favour of ``HsSrcBang`` and
+      ``HsImplBang``. Data constructors now always carry around their
+      strictness annotations as the user wrote them, whether from an
+      imported module or not.
+
+-  ``HsBang`` 型を廃止しました．代りに ``HsSrcBang`` と ``HsImplBang`` を使ってください．
+   データ構成子はインポートしたモジュール由来かどうかにかかわらず，
+   ユーザが書いたとおりの正格性アノテーションを常に持ち回ります．
+
+..
+   -  Moved ``startsVarSym``, ``startsVarId``, ``startsConSym``, ``startsConId``,
+      ``startsVarSymASCII``, and ``isVarSymChar`` from ``Lexeme`` to the
+      ``GHC.Lemexe`` module of the ``ghc-boot`` library.
+
+-  ``startsVarSym``，``startsVarId``，``startsConSym``，``startsConId``，
+   ``startsVarSymASCII``，``isVarSymChar`` は ``Lexeme`` モジュールから
+   ``ghc-boot`` ライブラリの ``GHC.Lemexe`` モジュールに移動しました．
+
+..
+   -  Add ``isImport``, ``isDecl``, and ``isStmt`` functions.
+
+-  ``isImport``，``isDecl``，``isStmt`` 関数を追加しました．
+
+..
+   -  The `mi_fix_fn` field of `ModIface` had its type changed from
+      ``OccName -> Fixity`` to ``OccName -> Maybe Fixity``, where a returned value
+      of ``Nothing`` indicates a cache miss. As a result, the types of
+      ``mkIfaceFixCache`` and ``emptyIfaceFixCache`` were also changed to have a
+      return type of ``Maybe Fixity``, and a new ``mi_fix :: OccName -> Fixity``
+      function was introduced which invokes ``mi_fix_fn`` but returns
+      ``defaultFixity`` upon a cache miss.
+
+-  `ModIface` の `mi_fix_fn` フィールドの型を ``OccName -> Fixity`` から
+   ``OccName -> Maybe Fixity`` へ変更しました．
+   返り値が ``Nothing`` であれば，キャッシュミスがあったことが判ります．
+   この変更の結果，``mkIfaceFixCache`` と ``emptyIfaceFixCache`` も返り値の型は
+   ``Maybe Fixity`` になります．
+   また，``mi_fix :: OccName -> Fixity`` という関数を新規に導入しました．
+   この関数は ``mi_fix_fn`` を呼ぶのですが，キャッシュミスのときは， ``defaultFixity``
+   を返します．
+
+..
+   ghc-boot
+   ~~~~~~~~
+
+ghc-boot
+~~~~~~~~
+
+..
+   -  This is an internal package. Use with caution.
+
+-  これは内部パッケージですので，使用は慎重に．
+
+..
+   -  Version number 8.0.1
+
+-  バージョン 8.0.1
+
+-  This package was renamed from ``bin-package-db`` to reflect its new purpose
+   of containing intra-GHC functionality that needs to be shared across
+   multiple GHC boot libraries.
+
+-  複数のGHCブートライブラリにまたがって共有しなければならない，イントラGHC機能を有するという
+   新しい目的を反映して，このパッケージは名前を ``bin-package-db`` から ``ghc-boot`` に
+   改名しました．
+      
+..
+   ghc-boot-th
+   ~~~~~~~~~~~
+
+ghc-boot-th
+~~~~~~~~~~~
+
+..
+   -  This is an internal package. Use with caution.
+
+-  これは内部パッケージですので，使用は慎重に．
+
+..
+   -  Version number 8.0.1
+
+-  バージョン 8.0.1
+
+..
+   -  This package was created to share types and utilities between the ``ghc`` and
+      ``template-haskell`` packages
+
+-  このパッケージは ``ghc`` パッケージと ``template-haskell`` パッケージの間で，
+   型やユーティリティを共有するために作成しました．
+
+..
+   -  Added ``GHC.Lexeme``, which contains functions for determining if a
+      character can be the first letter of a variable or data constructor in
+      Haskell, as defined by GHC. (These functions were moved from ``Lexeme``
+      in ``ghc``.)
+
+-  ``GHC.Lexeme`` を追加しました．
+   このモジュールには，文字が，GHCが定義した，Haskellにおける変数あるいはデータ構成子の一文字目
+   になれるかを判定する関数が含まれています
+   (これらの関数は，``ghc``パッケージの ``Lexeme`` モジュールから移動しました)．
+
+..
+   -  Added ``GHC.LanguageExtensions`` which contains a type listing all
+      supported language extensions.
+
+-  ``GHC.LanguageExtensions`` を追加しました．
+   このモジュールには，サポートされているすべての言語拡張一覧の型が含まれています．
+
+..
+   ghc-prim
+   ~~~~~~~~
+
+ghc-prim
+~~~~~~~~
+
+..
+   -  Version number 0.5.0.0 (was 0.4.0.0)
+
+-  バージョン 0.5.0.0 (従来 0.4.0.0)
+
+..
+   haskell98
+   ~~~~~~~~~
+
+haskell98
+~~~~~~~~~
+
+..
+   -  No longer shipped
+
+-  付属しません．
+
+..
+   haskell2010
+   ~~~~~~~~~~~
+
+haskell2010
+~~~~~~~~~~~
+
+..
+   -  No longer shipped. We hope that this package or something like it will be
+      restored in a future GHC release.
+
+-  付属しません．
+   将来の GHC のリリースでは，このパッケージあるいはそれに類するパッケージが復活すると思います．
+
+..
+   hoopl
+   ~~~~~
+
+hoopl
+~~~~~
+
+..
+   -  Version number 3.10.2.1 (was 3.10.0.2)
+
+-  バージョン 3.10.2.1 (従来 3.10.0.2)
+
+..
+   hpc
+   ~~~
+
+hpc
+~~~
+
+..
+   -  Version number 0.6.0.3 (was 0.6.0.2)
+
+-  バージョン 0.6.0.3 (従来 0.6.0.2)
+
+..
+   integer-gmp
+   ~~~~~~~~~~~
+
+integer-gmp
+~~~~~~~~~~~
+
+..
+   -  Version number 1.0.0.1 (was 0.5.1.0)
+
+-  バージョン 1.0.0.1 (従来 0.5.1.0)
+
+..
+   old-locale
+   ~~~~~~~~~~
+
+old-locale
+~~~~~~~~~~
+
+..
+   -  No longer shipped
+
+-  付属しません．
+
+
+..
+   old-time
+   ~~~~~~~~
+
+old-time
+~~~~~~~~
+
+..
+   -  No longer shipped
+
+-  付属しません．
+
+..
+   process
+   ~~~~~~~
+
+process
+~~~~~~~
+
+..
+   -  Version number 1.4.2.0 (was 1.2.3.0)
+
+-  バージョン 1.4.2.0 (従来 1.2.3.0)
+
+template-haskell
+~~~~~~~~~~~~~~~~
+
+..
+   -  Version number 2.11.0.0 (was 2.10.0.0)
+
+-  バージョン 2.11.0.0 (従来 2.10.0.0)
+
+..
+   -  The ``Lift`` type class for lifting values into Template Haskell
+      splices now has a default signature ``lift :: Data a => a -> Q Exp``,
+      which means that you do not have to provide an explicit
+      implementation of ``lift`` for types which have a ``Data`` instance.
+      To manually use this default implementation, you can use the
+      ``liftData`` function which is now exported from
+      ``Language.Haskell.TH.Syntax``.
+
+-  値を Template Haskell のスプライスに持ち上げるための ``Lift`` 型クラスは
+   デフォルトのシグネチャ ``lift :: Data a => a -> Q Exp`` を備えるようになりました．
+   その結果 ``Data`` インスタンスの型用に ``lift`` を明示的に実装しなくてもよくなりました．
+   ``Language.Haskell.TH.Syntax`` からあらたにエクスポートした ``liftData`` 関数を使って，
+   手作業でこのデフォルト実装が使えます．
+
+..
+   -  ``Info``'s constructors no longer have ``Fixity`` fields. A
+      ``qReifyFixity`` function was added to the ``Quasi`` type class (as
+      well as the ``reifyFixity`` function, specialized for ``Q``) to allow
+      lookup of fixity information for any given ``Name``.
+
+-  ``Info`` の構成子から ``Fixity`` フィールドがなくなりました．
+   ``qReifyFixity`` を追加したので，この関数を使えば
+   (``Q``に特化した ``reifyFixity`` 関数も同様です) ``Quasi`` 型クラス
+   与えられた ``Name`` 用の結合方向情報を検索できるようになりました．
+
+..
+   time
+   ~~~~
+
+time
+~~~~
+
+..
+   -  Version number 1.6.0.1 (was 1.5.0.1)
+
+-  バージョン 1.6.0.1 (従来 1.5.0.1)
+
+..
+   unix
+   ~~~~
+
+unix
+~~~~
+
+..
+   -  Version number 2.7.2.0 (was 2.7.1.0)
+
+-  バージョン 2.7.2.0 (従来 2.7.1.0)
+
+..
+   Win32
+   ~~~~~
+
+Win32
+~~~~~
+
+..
+   -  Version number 2.3.1.1 (was 2.3.1.0)
+
+-  バージョン 2.3.1.1 (従来は 2.3.1.0)
+
+..
+   Known bugs
+   ----------
+
+既知のバグ
+----------
+
+..
+   - The Haddock release shiped with the release currently does not show
+     :ref:`bundled pattern synonyms <patsyn-impexp>` in generated documentation
+     (:ghc-ticket:`11954`).
+
+- この GHC のリリース付属の Haddock で作成した文書では
+  :ref:`バンドルパターンシノニム <patsyn-impexp>` は表示されません
+  (:ghc-ticket:`11954`)．
