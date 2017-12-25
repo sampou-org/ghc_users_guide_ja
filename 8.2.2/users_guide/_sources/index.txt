@@ -5,8 +5,8 @@
    Welcome to the GHC User's Guide
    ===============================
 
-「GHC 利用者の手引き」にようこそ
-================================
+GHC 利用者の手引き にようこそ
+=============================
 
 (翻訳作業中： `GitHub <https://github.com/sampou-org/ghc_users_guide_ja/tree/master/8.2.2/users_guide>`__)
 
