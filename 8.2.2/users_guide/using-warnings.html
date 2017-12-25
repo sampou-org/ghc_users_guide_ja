@@ -1,0 +1,1219 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>7.2. Warnings and sanity-checking &mdash; Glasgow Haskell Compiler 8.2.2 User&#39;s Guide</title>
+    
+    <link rel="stylesheet" href="_static/ghc-theme.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '8.2.2',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="search" type="application/opensearchdescription+xml"
+          title="Search within Glasgow Haskell Compiler 8.2.2 User&#39;s Guide"
+          href="_static/opensearch.xml"/>
+    <link rel="top" title="Glasgow Haskell Compiler 8.2.2 User&#39;s Guide" href="index.html" />
+    <link rel="up" title="7. Using GHC" href="usage.html" />
+    <link rel="next" title="7.3. Optimisation (code improvement)" href="using-optimisation.html" />
+    <link rel="prev" title="7.1. Using GHC" href="using.html" /> 
+  </head>
+  <body>
+<div class="logo">
+    <h1><a href="index.html">Glasgow Haskell Compiler User's Guide</a></h1>
+</div>
+
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="using-optimisation.html" title="7.3. Optimisation (code improvement)"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="using.html" title="7.1. Using GHC"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">GHC 8.2.2 User&#39;s Guide</a> &raquo;</li>
+          <li><a href="usage.html" accesskey="U">7. Using GHC</a> &raquo;</li> 
+      </ul>
+    </div>
+
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="using.html"
+                        title="previous chapter">7.1. Using GHC</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="using-optimisation.html"
+                        title="next chapter">7.3. Optimisation (code improvement)</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/using-warnings.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="warnings-and-sanity-checking">
+<span id="options-sanity"></span><h1>7.2. Warnings and sanity-checking<a class="headerlink" href="using-warnings.html#warnings-and-sanity-checking" title="Permalink to this headline">¶</a></h1>
+<p id="index-0">GHC has a number of options that select which types of non-fatal error
+messages, otherwise known as warnings, can be generated during
+compilation. By default, you get a standard set of warnings which are
+generally likely to indicate bugs in your program. These are:</p>
+<table class="hlist"><tr><td><ul class="simple">
+<li><a class="reference internal" href="using-warnings.html#ghc-flag--Woverlapping-patterns"><tt class="xref std std-ghc-flag docutils literal"><span class="pre">-Woverlapping-patterns</span></tt></a></li>
+<li><a class="reference internal" href="using-warnings.html#ghc-flag--Wwarnings-deprecations"><tt class="xref std std-ghc-flag docutils literal"><span class="pre">-Wwarnings-deprecations</span></tt></a></li>
+<li><a class="reference internal" href="using-warnings.html#ghc-flag--Wdeprecations"><tt class="xref std std-ghc-flag docutils literal"><span class="pre">-Wdeprecations</span></tt></a></li>
+<li><a class="reference internal" href="using-warnings.html#ghc-flag--Wdeprecated-flags"><tt class="xref std std-ghc-flag docutils literal"><span class="pre">-Wdeprecated-flags</span></tt></a></li>
+<li><a class="reference internal" href="using-warnings.html#ghc-flag--Wunrecognised-pragmas"><tt class="xref std std-ghc-flag docutils literal"><span class="pre">-Wunrecognised-pragmas</span></tt></a></li>
+<li><a class="reference internal" href="using-warnings.html#ghc-flag--Wduplicate-constraints"><tt class="xref std std-ghc-flag docutils literal"><span class="pre">-Wduplicate-constraints</span></tt></a></li>
+</ul>
+</td><td><ul class="simple">
+<li><a class="reference internal" href="using-warnings.html#ghc-flag--Wduplicate-exports"><tt class="xref std std-ghc-flag docutils literal"><span class="pre">-Wduplicate-exports</span></tt></a></li>
+<li><a class="reference internal" href="using-warnings.html#ghc-flag--Woverflowed-literals"><tt class="xref std std-ghc-flag docutils literal"><span class="pre">-Woverflowed-literals</span></tt></a></li>
+<li><a class="reference internal" href="using-warnings.html#ghc-flag--Wempty-enumerations"><tt class="xref std std-ghc-flag docutils literal"><span class="pre">-Wempty-enumerations</span></tt></a></li>
+<li><a class="reference internal" href="using-warnings.html#ghc-flag--Wmissing-fields"><tt class="xref std std-ghc-flag docutils literal"><span class="pre">-Wmissing-fields</span></tt></a></li>
+<li><a class="reference internal" href="using-warnings.html#ghc-flag--Wmissing-methods"><tt class="xref std std-ghc-flag docutils literal"><span class="pre">-Wmissing-methods</span></tt></a></li>
+<li><a class="reference internal" href="using-warnings.html#ghc-flag--Wwrong-do-bind"><tt class="xref std std-ghc-flag docutils literal"><span class="pre">-Wwrong-do-bind</span></tt></a></li>
+</ul>
+</td><td><ul class="simple">
+<li><a class="reference internal" href="using-warnings.html#ghc-flag--Wunsupported-calling-conventions"><tt class="xref std std-ghc-flag docutils literal"><span class="pre">-Wunsupported-calling-conventions</span></tt></a></li>
+<li><a class="reference internal" href="using-warnings.html#ghc-flag--Wdodgy-foreign-imports"><tt class="xref std std-ghc-flag docutils literal"><span class="pre">-Wdodgy-foreign-imports</span></tt></a></li>
+<li><a class="reference internal" href="using-warnings.html#ghc-flag--Winline-rule-shadowing"><tt class="xref std std-ghc-flag docutils literal"><span class="pre">-Winline-rule-shadowing</span></tt></a></li>
+<li><a class="reference internal" href="using-warnings.html#ghc-flag--Wunsupported-llvm-version"><tt class="xref std std-ghc-flag docutils literal"><span class="pre">-Wunsupported-llvm-version</span></tt></a></li>
+<li><a class="reference internal" href="using-warnings.html#ghc-flag--Wtabs"><tt class="xref std std-ghc-flag docutils literal"><span class="pre">-Wtabs</span></tt></a></li>
+<li><a class="reference internal" href="using-warnings.html#ghc-flag--Wunrecognised-warning-flags"><tt class="xref std std-ghc-flag docutils literal"><span class="pre">-Wunrecognised-warning-flags</span></tt></a></li>
+</ul>
+</td></tr></table>
+<p>The following flags are simple ways to select standard &#8220;packages&#8221; of warnings:</p>
+<dl class="ghc-flag">
+<dt id="ghc-flag--W">
+<tt class="descname">-W</tt><tt class="descclassname"></tt><a class="headerlink" href="using-warnings.html#ghc-flag--W" title="Permalink to this definition">¶</a></dt>
+<dd><p>Provides the standard warnings plus</p>
+<table class="hlist"><tr><td><ul class="simple">
+<li><a class="reference internal" href="using-warnings.html#ghc-flag--Wunused-binds"><tt class="xref std std-ghc-flag docutils literal"><span class="pre">-Wunused-binds</span></tt></a></li>
+<li><a class="reference internal" href="using-warnings.html#ghc-flag--Wunused-matches"><tt class="xref std std-ghc-flag docutils literal"><span class="pre">-Wunused-matches</span></tt></a></li>
+<li><a class="reference internal" href="using-warnings.html#ghc-flag--Wunused-foralls"><tt class="xref std std-ghc-flag docutils literal"><span class="pre">-Wunused-foralls</span></tt></a></li>
+</ul>
+</td><td><ul class="simple">
+<li><a class="reference internal" href="using-warnings.html#ghc-flag--Wunused-imports"><tt class="xref std std-ghc-flag docutils literal"><span class="pre">-Wunused-imports</span></tt></a></li>
+<li><a class="reference internal" href="using-warnings.html#ghc-flag--Wincomplete-patterns"><tt class="xref std std-ghc-flag docutils literal"><span class="pre">-Wincomplete-patterns</span></tt></a></li>
+<li><a class="reference internal" href="using-warnings.html#ghc-flag--Wdodgy-exports"><tt class="xref std std-ghc-flag docutils literal"><span class="pre">-Wdodgy-exports</span></tt></a></li>
+</ul>
+</td><td><ul class="simple">
+<li><a class="reference internal" href="using-warnings.html#ghc-flag--Wdodgy-imports"><tt class="xref std std-ghc-flag docutils literal"><span class="pre">-Wdodgy-imports</span></tt></a></li>
+<li><a class="reference internal" href="using-warnings.html#ghc-flag--Wunbanged-strict-patterns"><tt class="xref std std-ghc-flag docutils literal"><span class="pre">-Wunbanged-strict-patterns</span></tt></a></li>
+</ul>
+</td></tr></table>
+</dd></dl>
+
+<dl class="ghc-flag">
+<dt id="ghc-flag--Wall">
+<tt class="descname">-Wall</tt><tt class="descclassname"></tt><a class="headerlink" href="using-warnings.html#ghc-flag--Wall" title="Permalink to this definition">¶</a></dt>
+<dd><p>Turns on all warning options that indicate potentially suspicious
+code. The warnings that are <em>not</em> enabled by <a class="reference internal" href="using-warnings.html#ghc-flag--Wall"><tt class="xref std std-ghc-flag docutils literal"><span class="pre">-Wall</span></tt></a> are</p>
+<table class="hlist"><tr><td><ul class="simple">
+<li><a class="reference internal" href="using-warnings.html#ghc-flag--Wincomplete-uni-patterns"><tt class="xref std std-ghc-flag docutils literal"><span class="pre">-Wincomplete-uni-patterns</span></tt></a></li>
+<li><a class="reference internal" href="using-warnings.html#ghc-flag--Wincomplete-record-updates"><tt class="xref std std-ghc-flag docutils literal"><span class="pre">-Wincomplete-record-updates</span></tt></a></li>
+<li><a class="reference internal" href="using-warnings.html#ghc-flag--Wmonomorphism-restriction"><tt class="xref std std-ghc-flag docutils literal"><span class="pre">-Wmonomorphism-restriction</span></tt></a></li>
+<li><a class="reference internal" href="using-warnings.html#ghc-flag--Wimplicit-prelude"><tt class="xref std std-ghc-flag docutils literal"><span class="pre">-Wimplicit-prelude</span></tt></a></li>
+</ul>
+</td><td><ul class="simple">
+<li><a class="reference internal" href="using-warnings.html#ghc-flag--Wmissing-local-signatures"><tt class="xref std std-ghc-flag docutils literal"><span class="pre">-Wmissing-local-signatures</span></tt></a></li>
+<li><a class="reference internal" href="using-warnings.html#ghc-flag--Wmissing-exported-signatures"><tt class="xref std std-ghc-flag docutils literal"><span class="pre">-Wmissing-exported-signatures</span></tt></a></li>
+<li><a class="reference internal" href="using-warnings.html#ghc-flag--Wmissing-import-lists"><tt class="xref std std-ghc-flag docutils literal"><span class="pre">-Wmissing-import-lists</span></tt></a></li>
+</ul>
+</td><td><ul class="simple">
+<li><a class="reference internal" href="using-warnings.html#ghc-flag--Wmissing-home-modules"><tt class="xref std std-ghc-flag docutils literal"><span class="pre">-Wmissing-home-modules</span></tt></a></li>
+<li><a class="reference internal" href="using-warnings.html#ghc-flag--Widentities"><tt class="xref std std-ghc-flag docutils literal"><span class="pre">-Widentities</span></tt></a></li>
+<li><a class="reference internal" href="using-warnings.html#ghc-flag--Wredundant-constraints"><tt class="xref std std-ghc-flag docutils literal"><span class="pre">-Wredundant-constraints</span></tt></a></li>
+</ul>
+</td></tr></table>
+</dd></dl>
+
+<dl class="ghc-flag">
+<dt id="ghc-flag--Wcompat">
+<tt class="descname">-Wcompat</tt><tt class="descclassname"></tt><a class="headerlink" href="using-warnings.html#ghc-flag--Wcompat" title="Permalink to this definition">¶</a></dt>
+<dd><p>Turns on warnings that will be enabled by default in the future, but remain
+off in normal compilations for the time being. This allows library authors
+eager to make their code future compatible to adapt to new features before
+they even generate warnings.</p>
+<p>This currently enables</p>
+<table class="hlist"><tr><td><ul class="simple">
+<li><a class="reference internal" href="using-warnings.html#ghc-flag--Wmissing-monadfail-instances"><tt class="xref std std-ghc-flag docutils literal"><span class="pre">-Wmissing-monadfail-instances</span></tt></a></li>
+</ul>
+</td><td><ul class="simple">
+<li><a class="reference internal" href="using-warnings.html#ghc-flag--Wsemigroup"><tt class="xref std std-ghc-flag docutils literal"><span class="pre">-Wsemigroup</span></tt></a></li>
+</ul>
+</td><td><ul class="simple">
+<li><a class="reference internal" href="using-warnings.html#ghc-flag--Wnoncanonical-monoid-instances"><tt class="xref std std-ghc-flag docutils literal"><span class="pre">-Wnoncanonical-monoid-instances</span></tt></a></li>
+</ul>
+</td></tr></table>
+</dd></dl>
+
+<dl class="ghc-flag">
+<dt id="ghc-flag--Wno-compat">
+<tt class="descname">-Wno-compat</tt><tt class="descclassname"></tt><a class="headerlink" href="using-warnings.html#ghc-flag--Wno-compat" title="Permalink to this definition">¶</a></dt>
+<dd><p>Disables all warnings enabled by <a class="reference internal" href="using-warnings.html#ghc-flag--Wcompat"><tt class="xref std std-ghc-flag docutils literal"><span class="pre">-Wcompat</span></tt></a>.</p>
+</dd></dl>
+
+<dl class="ghc-flag">
+<dt id="ghc-flag--w">
+<tt class="descname">-w</tt><tt class="descclassname"></tt><a class="headerlink" href="using-warnings.html#ghc-flag--w" title="Permalink to this definition">¶</a></dt>
+<dd><p>Turns off all warnings, including the standard ones and those that
+<a class="reference internal" href="using-warnings.html#ghc-flag--Wall"><tt class="xref std std-ghc-flag docutils literal"><span class="pre">-Wall</span></tt></a> doesn&#8217;t enable.</p>
+</dd></dl>
+
+<p>These options control which warnings are considered fatal and cause compilation
+to abort.</p>
+<dl class="ghc-flag">
+<dt id="ghc-flag--Werror">
+<tt class="descname">-Werror</tt><tt class="descclassname"></tt><a class="headerlink" href="using-warnings.html#ghc-flag--Werror" title="Permalink to this definition">¶</a></dt>
+<dd><p>Makes any warning into a fatal error. Useful so that you don&#8217;t miss
+warnings when doing batch compilation.</p>
+</dd></dl>
+
+<dl class="ghc-flag">
+<dt>
+<tt class="descname">-Werror</tt><tt class="descclassname">=⟨wflag⟩</tt></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Implies:</th><td class="field-body"><tt class="docutils literal"><span class="pre">-W&lt;wflag&gt;</span></tt></td>
+</tr>
+</tbody>
+</table>
+<p>Makes a specific warning into a fatal error. The warning will be enabled if
+it hasn&#8217;t been enabled yet.</p>
+</dd></dl>
+
+<dl class="ghc-flag">
+<dt id="ghc-flag--Wwarn">
+<tt class="descname">-Wwarn</tt><tt class="descclassname"></tt><a class="headerlink" href="using-warnings.html#ghc-flag--Wwarn" title="Permalink to this definition">¶</a></dt>
+<dd><p>Warnings are treated only as warnings, not as errors. This is the
+default, but can be useful to negate a <a class="reference internal" href="using-warnings.html#ghc-flag--Werror"><tt class="xref std std-ghc-flag docutils literal"><span class="pre">-Werror</span></tt></a> flag.</p>
+</dd></dl>
+
+<dl class="ghc-flag">
+<dt>
+<tt class="descname">-Wwarn</tt><tt class="descclassname">=⟨wflag⟩</tt></dt>
+<dd><p>Causes a specific warning to be treated as normal warning, not fatal error.</p>
+<p>Note that it doesn&#8217;t fully negate the effects of <tt class="docutils literal"><span class="pre">-Werror=&lt;wflag&gt;</span></tt> - the
+warning will still be enabled.</p>
+</dd></dl>
+
+<p>When a warning is emitted, the specific warning flag which controls
+it is shown.</p>
+<dl class="ghc-flag">
+<dt id="ghc-flag--fshow-warning-groups">
+<tt class="descname">-fshow-warning-groups</tt><tt class="descclassname"></tt><a class="headerlink" href="using-warnings.html#ghc-flag--fshow-warning-groups" title="Permalink to this definition">¶</a></dt>
+<dd><p>When showing which flag controls a warning, also show the
+respective warning group flag(s) that warning is contained in.</p>
+<p>This option is off by default.</p>
+</dd></dl>
+
+<p>The full set of warning options is described below. To turn off any
+warning, simply give the corresponding <tt class="docutils literal"><span class="pre">-Wno-...</span></tt> option on the
+command line. For backwards compatibility with GHC versions prior to 8.0,
+all these warnings can still be controlled with <tt class="docutils literal"><span class="pre">-f(no-)warn-*</span></tt> instead
+of <tt class="docutils literal"><span class="pre">-W(no-)*</span></tt>.</p>
+<dl class="ghc-flag">
+<dt id="ghc-flag--Wunrecognised-warning-flags">
+<tt class="descname">-Wunrecognised-warning-flags</tt><tt class="descclassname"></tt><a class="headerlink" href="using-warnings.html#ghc-flag--Wunrecognised-warning-flags" title="Permalink to this definition">¶</a></dt>
+<dd><p>Enables warnings when the compiler encounters a <tt class="docutils literal"><span class="pre">-W...</span></tt> flag that is not
+recognised.</p>
+<p>This warning is on by default.</p>
+</dd></dl>
+
+<dl class="ghc-flag">
+<dt id="ghc-flag--Wtyped-holes">
+<tt class="descname">-Wtyped-holes</tt><tt class="descclassname"></tt><a class="headerlink" href="using-warnings.html#ghc-flag--Wtyped-holes" title="Permalink to this definition">¶</a></dt>
+<dd><p>Determines whether the compiler reports typed holes warnings. Has no
+effect unless typed holes errors are deferred until runtime. See
+<a class="reference internal" href="glasgow_exts.html#typed-holes"><em>Typed Holes</em></a> and <a class="reference internal" href="glasgow_exts.html#defer-type-errors"><em>Deferring type errors to runtime</em></a></p>
+<p>This warning is on by default.</p>
+</dd></dl>
+
+<dl class="ghc-flag">
+<dt id="ghc-flag--Wtype-errors">
+<tt class="descname">-Wtype-errors</tt><tt class="descclassname"></tt><a class="headerlink" href="using-warnings.html#ghc-flag--Wtype-errors" title="Permalink to this definition">¶</a></dt>
+<dd><p>Causes a warning to be reported when a type error is deferred until
+runtime. See <a class="reference internal" href="glasgow_exts.html#defer-type-errors"><em>Deferring type errors to runtime</em></a></p>
+<p>This warning is on by default.</p>
+</dd></dl>
+
+<dl class="ghc-flag">
+<dt id="ghc-flag--fdefer-type-errors">
+<tt class="descname">-fdefer-type-errors</tt><tt class="descclassname"></tt><a class="headerlink" href="using-warnings.html#ghc-flag--fdefer-type-errors" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Implies:</th><td class="field-body"><a class="reference internal" href="using-warnings.html#ghc-flag--fdefer-typed-holes"><tt class="xref std std-ghc-flag docutils literal"><span class="pre">-fdefer-typed-holes</span></tt></a></td>
+</tr>
+</tbody>
+</table>
+<p>Defer as many type errors as possible until runtime. At compile time
+you get a warning (instead of an error). At runtime, if you use a
+value that depends on a type error, you get a runtime error; but you
+can run any type-correct parts of your code just fine. See
+<a class="reference internal" href="glasgow_exts.html#defer-type-errors"><em>Deferring type errors to runtime</em></a></p>
+</dd></dl>
+
+<dl class="ghc-flag">
+<dt id="ghc-flag--fdefer-typed-holes">
+<tt class="descname">-fdefer-typed-holes</tt><tt class="descclassname"></tt><a class="headerlink" href="using-warnings.html#ghc-flag--fdefer-typed-holes" title="Permalink to this definition">¶</a></dt>
+<dd><p>Defer typed holes errors (errors about names with a leading underscore
+(e.g., “_”, “_foo”, “_bar”)) until runtime. This will turn the errors
+produced by <a class="reference internal" href="glasgow_exts.html#typed-holes"><em>typed holes</em></a> into warnings. Using a value
+that depends on a typed hole produces a runtime error, the same as
+<a class="reference internal" href="using-warnings.html#ghc-flag--fdefer-type-errors"><tt class="xref std std-ghc-flag docutils literal"><span class="pre">-fdefer-type-errors</span></tt></a> (which implies this option). See <a class="reference internal" href="glasgow_exts.html#typed-holes"><em>Typed Holes</em></a>
+and <a class="reference internal" href="glasgow_exts.html#defer-type-errors"><em>Deferring type errors to runtime</em></a>.</p>
+<p>Implied by <a class="reference internal" href="using-warnings.html#ghc-flag--fdefer-type-errors"><tt class="xref std std-ghc-flag docutils literal"><span class="pre">-fdefer-type-errors</span></tt></a>. See also <a class="reference internal" href="using-warnings.html#ghc-flag--Wtyped-holes"><tt class="xref std std-ghc-flag docutils literal"><span class="pre">-Wtyped-holes</span></tt></a>.</p>
+</dd></dl>
+
+<dl class="ghc-flag">
+<dt id="ghc-flag--fdefer-out-of-scope-variables">
+<tt class="descname">-fdefer-out-of-scope-variables</tt><tt class="descclassname"></tt><a class="headerlink" href="using-warnings.html#ghc-flag--fdefer-out-of-scope-variables" title="Permalink to this definition">¶</a></dt>
+<dd><p>Defer variable out-of-scope errors (errors about names without a leading underscore)
+until runtime. This will turn variable-out-of-scope errors into warnings.
+Using a value that depends on a typed hole produces a runtime error,
+the same as <a class="reference internal" href="using-warnings.html#ghc-flag--fdefer-type-errors"><tt class="xref std std-ghc-flag docutils literal"><span class="pre">-fdefer-type-errors</span></tt></a> (which implies this option).
+See <a class="reference internal" href="glasgow_exts.html#typed-holes"><em>Typed Holes</em></a> and <a class="reference internal" href="glasgow_exts.html#defer-type-errors"><em>Deferring type errors to runtime</em></a>.</p>
+<p>Implied by <a class="reference internal" href="using-warnings.html#ghc-flag--fdefer-type-errors"><tt class="xref std std-ghc-flag docutils literal"><span class="pre">-fdefer-type-errors</span></tt></a>. See also <a class="reference internal" href="using-warnings.html#ghc-flag--Wdeferred-out-of-scope-variables"><tt class="xref std std-ghc-flag docutils literal"><span class="pre">-Wdeferred-out-of-scope-variables</span></tt></a>.</p>
+</dd></dl>
+
+<dl class="ghc-flag">
+<dt id="ghc-flag--Wdeferred-out-of-scope-variables">
+<tt class="descname">-Wdeferred-out-of-scope-variables</tt><tt class="descclassname"></tt><a class="headerlink" href="using-warnings.html#ghc-flag--Wdeferred-out-of-scope-variables" title="Permalink to this definition">¶</a></dt>
+<dd><p>Warn when a deferred out-of-scope variable is encountered.</p>
+</dd></dl>
+
+<dl class="ghc-flag">
+<dt id="ghc-flag--Wpartial-type-signatures">
+<tt class="descname">-Wpartial-type-signatures</tt><tt class="descclassname"></tt><a class="headerlink" href="using-warnings.html#ghc-flag--Wpartial-type-signatures" title="Permalink to this definition">¶</a></dt>
+<dd><p>Determines whether the compiler reports holes in partial type
+signatures as warnings. Has no effect unless
+<a class="reference internal" href="glasgow_exts.html#ghc-flag--XPartialTypeSignatures"><tt class="xref std std-ghc-flag docutils literal"><span class="pre">-XPartialTypeSignatures</span></tt></a> is enabled, which controls whether
+errors should be generated for holes in types or not. See
+<a class="reference internal" href="glasgow_exts.html#partial-type-signatures"><em>Partial Type Signatures</em></a>.</p>
+<p>This warning is on by default.</p>
+</dd></dl>
+
+<dl class="ghc-flag">
+<dt id="ghc-flag--fhelpful-errors">
+<tt class="descname">-fhelpful-errors</tt><tt class="descclassname"></tt><a class="headerlink" href="using-warnings.html#ghc-flag--fhelpful-errors" title="Permalink to this definition">¶</a></dt>
+<dd><p>When a name or package is not found in scope, make suggestions for
+the name or package you might have meant instead.</p>
+<p>This option is on by default.</p>
+</dd></dl>
+
+<dl class="ghc-flag">
+<dt id="ghc-flag--Wunrecognised-pragmas">
+<tt class="descname">-Wunrecognised-pragmas</tt><tt class="descclassname"></tt><a class="headerlink" href="using-warnings.html#ghc-flag--Wunrecognised-pragmas" title="Permalink to this definition">¶</a></dt>
+<dd><p>Causes a warning to be emitted when a pragma that GHC doesn&#8217;t
+recognise is used. As well as pragmas that GHC itself uses, GHC also
+recognises pragmas known to be used by other tools, e.g.
+<tt class="docutils literal"><span class="pre">OPTIONS_HUGS</span></tt> and <tt class="docutils literal"><span class="pre">DERIVE</span></tt>.</p>
+<p>This option is on by default.</p>
+</dd></dl>
+
+<dl class="ghc-flag">
+<dt id="ghc-flag--Wmissed-specialisations">
+<tt class="descname">-Wmissed-specialisations</tt><tt class="descclassname"></tt><a class="headerlink" href="using-warnings.html#ghc-flag--Wmissed-specialisations" title="Permalink to this definition">¶</a></dt>
+<dt id="ghc-flag--Wall-missed-specialisations">
+<tt class="descname">-Wall-missed-specialisations</tt><tt class="descclassname"></tt><a class="headerlink" href="using-warnings.html#ghc-flag--Wall-missed-specialisations" title="Permalink to this definition">¶</a></dt>
+<dd><p>Emits a warning if GHC cannot specialise an overloaded function, usually
+because the function needs an <tt class="docutils literal"><span class="pre">INLINABLE</span></tt> pragma. The &#8220;all&#8221; form reports
+all such situations whereas the &#8220;non-all&#8221; form only reports when the
+situation arises during specialisation of an imported function.</p>
+<p>The &#8220;non-all&#8221; form is intended to catch cases where an imported function
+that is marked as <tt class="docutils literal"><span class="pre">INLINABLE</span></tt> (presumably to enable specialisation) cannot
+be specialised as it calls other functions that are themselves not specialised.</p>
+<p>Note that these warnings will not throw errors if used with <a class="reference internal" href="using-warnings.html#ghc-flag--Werror"><tt class="xref std std-ghc-flag docutils literal"><span class="pre">-Werror</span></tt></a>.</p>
+<p>These options are both off by default.</p>
+</dd></dl>
+
+<dl class="ghc-flag">
+<dt id="ghc-flag--Wwarnings-deprecations">
+<tt class="descname">-Wwarnings-deprecations</tt><tt class="descclassname"></tt><a class="headerlink" href="using-warnings.html#ghc-flag--Wwarnings-deprecations" title="Permalink to this definition">¶</a></dt>
+<dd><p id="index-1">Causes a warning to be emitted when a module, function or type with
+a <tt class="docutils literal"><span class="pre">WARNING</span></tt> or <tt class="docutils literal"><span class="pre">DEPRECATED</span> <span class="pre">pragma</span></tt> is used. See
+<a class="reference internal" href="glasgow_exts.html#warning-deprecated-pragma"><em>WARNING and DEPRECATED pragmas</em></a> for more details on the pragmas.</p>
+<p>This option is on by default.</p>
+</dd></dl>
+
+<dl class="ghc-flag">
+<dt id="ghc-flag--Wdeprecations">
+<tt class="descname">-Wdeprecations</tt><tt class="descclassname"></tt><a class="headerlink" href="using-warnings.html#ghc-flag--Wdeprecations" title="Permalink to this definition">¶</a></dt>
+<dd><p id="index-2">Causes a warning to be emitted when a module, function or type with
+a <tt class="docutils literal"><span class="pre">WARNING</span></tt> or <tt class="docutils literal"><span class="pre">DEPRECATED</span> <span class="pre">pragma</span></tt> is used. See
+<a class="reference internal" href="glasgow_exts.html#warning-deprecated-pragma"><em>WARNING and DEPRECATED pragmas</em></a> for more details on the pragmas.
+An alias for <a class="reference internal" href="using-warnings.html#ghc-flag--Wwarnings-deprecations"><tt class="xref std std-ghc-flag docutils literal"><span class="pre">-Wwarnings-deprecations</span></tt></a>.</p>
+<p>This option is on by default.</p>
+</dd></dl>
+
+<dl class="ghc-flag">
+<dt id="ghc-flag--Wamp">
+<tt class="descname">-Wamp</tt><tt class="descclassname"></tt><a class="headerlink" href="using-warnings.html#ghc-flag--Wamp" title="Permalink to this definition">¶</a></dt>
+<dd><p id="index-3">This option is deprecated.</p>
+<p>Caused a warning to be emitted when a definition was in conflict with
+the AMP (Applicative-Monad proosal).</p>
+</dd></dl>
+
+<dl class="ghc-flag">
+<dt id="ghc-flag--Wnoncanonical-monad-instances">
+<tt class="descname">-Wnoncanonical-monad-instances</tt><tt class="descclassname"></tt><a class="headerlink" href="using-warnings.html#ghc-flag--Wnoncanonical-monad-instances" title="Permalink to this definition">¶</a></dt>
+<dd><p>Warn if noncanonical <tt class="docutils literal"><span class="pre">Applicative</span></tt> or <tt class="docutils literal"><span class="pre">Monad</span></tt> instances
+declarations are detected.</p>
+<p>When this warning is enabled, the following conditions are verified:</p>
+<p>In <tt class="docutils literal"><span class="pre">Monad</span></tt> instances declarations warn if any of the following
+conditions does not hold:</p>
+<blockquote>
+<div><ul class="simple">
+<li>If <tt class="docutils literal"><span class="pre">return</span></tt> is defined it must be canonical (i.e. <tt class="docutils literal"><span class="pre">return</span> <span class="pre">=</span> <span class="pre">pure</span></tt>).</li>
+<li>If <tt class="docutils literal"><span class="pre">(&gt;&gt;)</span></tt> is defined it must be canonical (i.e. <tt class="docutils literal"><span class="pre">(&gt;&gt;)</span> <span class="pre">=</span> <span class="pre">(*&gt;)</span></tt>).</li>
+</ul>
+</div></blockquote>
+<p>Moreover, in <tt class="docutils literal"><span class="pre">Applicative</span></tt> instance declarations:</p>
+<blockquote>
+<div><ul class="simple">
+<li>Warn if <tt class="docutils literal"><span class="pre">pure</span></tt> is defined backwards (i.e. <tt class="docutils literal"><span class="pre">pure</span> <span class="pre">=</span> <span class="pre">return</span></tt>).</li>
+<li>Warn if <tt class="docutils literal"><span class="pre">(*&gt;)</span></tt> is defined backwards (i.e. <tt class="docutils literal"><span class="pre">(*&gt;)</span> <span class="pre">=</span> <span class="pre">(&gt;&gt;)</span></tt>).</li>
+</ul>
+</div></blockquote>
+<p>This option is off by default.</p>
+</dd></dl>
+
+<dl class="ghc-flag">
+<dt id="ghc-flag--Wnoncanonical-monadfail-instances">
+<tt class="descname">-Wnoncanonical-monadfail-instances</tt><tt class="descclassname"></tt><a class="headerlink" href="using-warnings.html#ghc-flag--Wnoncanonical-monadfail-instances" title="Permalink to this definition">¶</a></dt>
+<dd><p>Warn if noncanonical <tt class="docutils literal"><span class="pre">Monad</span></tt> or <tt class="docutils literal"><span class="pre">MonadFail</span></tt> instances
+declarations are detected.</p>
+<p>When this warning is enabled, the following conditions are verified:</p>
+<p>In <tt class="docutils literal"><span class="pre">Monad</span></tt> instances declarations warn if any of the following
+conditions does not hold:</p>
+<blockquote>
+<div><ul class="simple">
+<li>If <tt class="docutils literal"><span class="pre">fail</span></tt> is defined it must be canonical
+(i.e. <tt class="docutils literal"><span class="pre">fail</span> <span class="pre">=</span> <span class="pre">Control.Monad.Fail.fail</span></tt>).</li>
+</ul>
+</div></blockquote>
+<p>Moreover, in <tt class="docutils literal"><span class="pre">MonadFail</span></tt> instance declarations:</p>
+<blockquote>
+<div><ul class="simple">
+<li>Warn if <tt class="docutils literal"><span class="pre">fail</span></tt> is defined backwards
+(i.e. <tt class="docutils literal"><span class="pre">fail</span> <span class="pre">=</span> <span class="pre">Control.Monad.fail</span></tt>).</li>
+</ul>
+</div></blockquote>
+<p>See also <a class="reference internal" href="using-warnings.html#ghc-flag--Wmissing-monadfail-instances"><tt class="xref std std-ghc-flag docutils literal"><span class="pre">-Wmissing-monadfail-instances</span></tt></a>.</p>
+<p>This option is off by default.</p>
+</dd></dl>
+
+<dl class="ghc-flag">
+<dt id="ghc-flag--Wnoncanonical-monoid-instances">
+<tt class="descname">-Wnoncanonical-monoid-instances</tt><tt class="descclassname"></tt><a class="headerlink" href="using-warnings.html#ghc-flag--Wnoncanonical-monoid-instances" title="Permalink to this definition">¶</a></dt>
+<dd><p>Warn if noncanonical <tt class="docutils literal"><span class="pre">Semigroup</span></tt> or <tt class="docutils literal"><span class="pre">Monoid</span></tt> instances
+declarations are detected.</p>
+<p>When this warning is enabled, the following conditions are verified:</p>
+<p>In <tt class="docutils literal"><span class="pre">Monoid</span></tt> instances declarations warn if any of the following
+conditions does not hold:</p>
+<blockquote>
+<div><ul class="simple">
+<li>If <tt class="docutils literal"><span class="pre">mappend</span></tt> is defined it must be canonical
+(i.e. <tt class="docutils literal"><span class="pre">mappend</span> <span class="pre">=</span> <span class="pre">(Data.Semigroup.&lt;&gt;)</span></tt>).</li>
+</ul>
+</div></blockquote>
+<p>Moreover, in <tt class="docutils literal"><span class="pre">Semigroup</span></tt> instance declarations:</p>
+<blockquote>
+<div><ul class="simple">
+<li>Warn if <tt class="docutils literal"><span class="pre">(&lt;&gt;)</span></tt> is defined backwards (i.e. <tt class="docutils literal"><span class="pre">(&lt;&gt;)</span> <span class="pre">=</span> <span class="pre">mappend</span></tt>).</li>
+</ul>
+</div></blockquote>
+<p>This warning is off by default. However, it is part of the
+<a class="reference internal" href="using-warnings.html#ghc-flag--Wcompat"><tt class="xref std std-ghc-flag docutils literal"><span class="pre">-Wcompat</span></tt></a> option group.</p>
+</dd></dl>
+
+<dl class="ghc-flag">
+<dt id="ghc-flag--Wmissing-monadfail-instances">
+<tt class="descname">-Wmissing-monadfail-instances</tt><tt class="descclassname"></tt><a class="headerlink" href="using-warnings.html#ghc-flag--Wmissing-monadfail-instances" title="Permalink to this definition">¶</a></dt>
+<dd><p id="index-4">Warn when a failable pattern is used in a do-block that does not have a
+<tt class="docutils literal"><span class="pre">MonadFail</span></tt> instance.</p>
+<p>See also <a class="reference internal" href="using-warnings.html#ghc-flag--Wnoncanonical-monadfail-instances"><tt class="xref std std-ghc-flag docutils literal"><span class="pre">-Wnoncanonical-monadfail-instances</span></tt></a>.</p>
+<p>Being part of the <a class="reference internal" href="using-warnings.html#ghc-flag--Wcompat"><tt class="xref std std-ghc-flag docutils literal"><span class="pre">-Wcompat</span></tt></a> option group, this warning is off by
+default, but will be switched on in a future GHC release, as part of
+the <a class="reference external" href="https://prime.haskell.org/wiki/Libraries/Proposals/MonadFail">MonadFail Proposal (MFP)</a>.</p>
+</dd></dl>
+
+<dl class="ghc-flag">
+<dt id="ghc-flag--Wsemigroup">
+<tt class="descname">-Wsemigroup</tt><tt class="descclassname"></tt><a class="headerlink" href="using-warnings.html#ghc-flag--Wsemigroup" title="Permalink to this definition">¶</a></dt>
+<dd><p id="index-5">Warn when definitions are in conflict with the future inclusion of
+<tt class="docutils literal"><span class="pre">Semigroup</span></tt> into the standard typeclasses.</p>
+<blockquote>
+<div><ol class="arabic simple">
+<li>Instances of <tt class="docutils literal"><span class="pre">Monoid</span></tt> should also be instances of <tt class="docutils literal"><span class="pre">Semigroup</span></tt></li>
+<li>The <tt class="docutils literal"><span class="pre">Semigroup</span></tt> operator <tt class="docutils literal"><span class="pre">(&lt;&gt;)</span></tt> will be in <tt class="docutils literal"><span class="pre">Prelude</span></tt>, which
+clashes with custom local definitions of such an operator</li>
+</ol>
+</div></blockquote>
+<p>Being part of the <a class="reference internal" href="using-warnings.html#ghc-flag--Wcompat"><tt class="xref std std-ghc-flag docutils literal"><span class="pre">-Wcompat</span></tt></a> option group, this warning is off by
+default, but will be switched on in a future GHC release.</p>
+</dd></dl>
+
+<dl class="ghc-flag">
+<dt id="ghc-flag--Wdeprecated-flags">
+<tt class="descname">-Wdeprecated-flags</tt><tt class="descclassname"></tt><a class="headerlink" href="using-warnings.html#ghc-flag--Wdeprecated-flags" title="Permalink to this definition">¶</a></dt>
+<dd><p id="index-6">Causes a warning to be emitted when a deprecated command-line flag
+is used.</p>
+<p>This option is on by default.</p>
+</dd></dl>
+
+<dl class="ghc-flag">
+<dt id="ghc-flag--Wunsupported-calling-conventions">
+<tt class="descname">-Wunsupported-calling-conventions</tt><tt class="descclassname"></tt><a class="headerlink" href="using-warnings.html#ghc-flag--Wunsupported-calling-conventions" title="Permalink to this definition">¶</a></dt>
+<dd><p>Causes a warning to be emitted for foreign declarations that use
+unsupported calling conventions. In particular, if the <tt class="docutils literal"><span class="pre">stdcall</span></tt>
+calling convention is used on an architecture other than i386 then
+it will be treated as <tt class="docutils literal"><span class="pre">ccall</span></tt>.</p>
+</dd></dl>
+
+<dl class="ghc-flag">
+<dt id="ghc-flag--Wdodgy-foreign-imports">
+<tt class="descname">-Wdodgy-foreign-imports</tt><tt class="descclassname"></tt><a class="headerlink" href="using-warnings.html#ghc-flag--Wdodgy-foreign-imports" title="Permalink to this definition">¶</a></dt>
+<dd><p>Causes a warning to be emitted for foreign imports of the following
+form:</p>
+<div class="highlight-haskell"><div class="highlight"><pre><span class="nf">foreign</span> <span class="kr">import</span> <span class="s">&quot;f&quot;</span> <span class="nn">f</span> <span class="ow">::</span> <span class="kt">FunPtr</span> <span class="n">t</span>
+</pre></div>
+</div>
+<p>on the grounds that it probably should be</p>
+<div class="highlight-haskell"><div class="highlight"><pre><span class="nf">foreign</span> <span class="kr">import</span> <span class="s">&quot;&amp;f&quot;</span> <span class="nn">f</span> <span class="ow">::</span> <span class="kt">FunPtr</span> <span class="n">t</span>
+</pre></div>
+</div>
+<p>The first form declares that `f` is a (pure) C function that takes
+no arguments and returns a pointer to a C function with type `t`,
+whereas the second form declares that `f` itself is a C function
+with type `t`. The first declaration is usually a mistake, and one
+that is hard to debug because it results in a crash, hence this
+warning.</p>
+</dd></dl>
+
+<dl class="ghc-flag">
+<dt id="ghc-flag--Wdodgy-exports">
+<tt class="descname">-Wdodgy-exports</tt><tt class="descclassname"></tt><a class="headerlink" href="using-warnings.html#ghc-flag--Wdodgy-exports" title="Permalink to this definition">¶</a></dt>
+<dd><p>Causes a warning to be emitted when a datatype <tt class="docutils literal"><span class="pre">T</span></tt> is exported
+with all constructors, i.e. <tt class="docutils literal"><span class="pre">T(..)</span></tt>, but is it just a type
+synonym.</p>
+<p>Also causes a warning to be emitted when a module is re-exported,
+but that module exports nothing.</p>
+</dd></dl>
+
+<dl class="ghc-flag">
+<dt id="ghc-flag--Wdodgy-imports">
+<tt class="descname">-Wdodgy-imports</tt><tt class="descclassname"></tt><a class="headerlink" href="using-warnings.html#ghc-flag--Wdodgy-imports" title="Permalink to this definition">¶</a></dt>
+<dd><p>Causes a warning to be emitted in the following cases:</p>
+<ul class="simple">
+<li>When a datatype <tt class="docutils literal"><span class="pre">T</span></tt> is imported with all constructors, i.e.
+<tt class="docutils literal"><span class="pre">T(..)</span></tt>, but has been exported abstractly, i.e. <tt class="docutils literal"><span class="pre">T</span></tt>.</li>
+<li>When an <tt class="docutils literal"><span class="pre">import</span></tt> statement hides an entity that is not
+exported.</li>
+</ul>
+</dd></dl>
+
+<dl class="ghc-flag">
+<dt id="ghc-flag--Woverflowed-literals">
+<tt class="descname">-Woverflowed-literals</tt><tt class="descclassname"></tt><a class="headerlink" href="using-warnings.html#ghc-flag--Woverflowed-literals" title="Permalink to this definition">¶</a></dt>
+<dd><p>Causes a warning to be emitted if a literal will overflow, e.g.
+<tt class="docutils literal"><span class="pre">300</span> <span class="pre">::</span> <span class="pre">Word8</span></tt>.</p>
+</dd></dl>
+
+<dl class="ghc-flag">
+<dt id="ghc-flag--Wempty-enumerations">
+<tt class="descname">-Wempty-enumerations</tt><tt class="descclassname"></tt><a class="headerlink" href="using-warnings.html#ghc-flag--Wempty-enumerations" title="Permalink to this definition">¶</a></dt>
+<dd><p>Causes a warning to be emitted if an enumeration is empty, e.g.
+<tt class="docutils literal"><span class="pre">[5</span> <span class="pre">..</span> <span class="pre">3]</span></tt>.</p>
+</dd></dl>
+
+<dl class="ghc-flag">
+<dt id="ghc-flag--Wduplicate-constraints">
+<tt class="descname">-Wduplicate-constraints</tt><tt class="descclassname"></tt><a class="headerlink" href="using-warnings.html#ghc-flag--Wduplicate-constraints" title="Permalink to this definition">¶</a></dt>
+<dd><p id="index-7">Have the compiler warn about duplicate constraints in a type
+signature. For example</p>
+<div class="highlight-haskell"><div class="highlight"><pre><span class="nf">f</span> <span class="ow">::</span> <span class="p">(</span><span class="kt">Eq</span> <span class="n">a</span><span class="p">,</span> <span class="kt">Show</span> <span class="n">a</span><span class="p">,</span> <span class="kt">Eq</span> <span class="n">a</span><span class="p">)</span> <span class="ow">=&gt;</span> <span class="n">a</span> <span class="ow">-&gt;</span> <span class="n">a</span>
+</pre></div>
+</div>
+<p>The warning will indicate the duplicated <tt class="docutils literal"><span class="pre">Eq</span> <span class="pre">a</span></tt> constraint.</p>
+<p>This option is now deprecated in favour of
+<a class="reference internal" href="using-warnings.html#ghc-flag--Wredundant-constraints"><tt class="xref std std-ghc-flag docutils literal"><span class="pre">-Wredundant-constraints</span></tt></a>.</p>
+</dd></dl>
+
+<dl class="ghc-flag">
+<dt id="ghc-flag--Wredundant-constraints">
+<tt class="descname">-Wredundant-constraints</tt><tt class="descclassname"></tt><a class="headerlink" href="using-warnings.html#ghc-flag--Wredundant-constraints" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Since:</th><td class="field-body">8.0</td>
+</tr>
+</tbody>
+</table>
+<p id="index-8">Have the compiler warn about redundant constraints in a type
+signature. In particular:</p>
+<ul>
+<li><p class="first">A redundant constraint within the type signature itself:</p>
+<div class="highlight-haskell"><div class="highlight"><pre><span class="nf">f</span> <span class="ow">::</span> <span class="p">(</span><span class="kt">Eq</span> <span class="n">a</span><span class="p">,</span> <span class="kt">Ord</span> <span class="n">a</span><span class="p">)</span> <span class="ow">=&gt;</span> <span class="n">a</span> <span class="ow">-&gt;</span> <span class="n">a</span>
+</pre></div>
+</div>
+<p>The warning will indicate the redundant <tt class="docutils literal"><span class="pre">Eq</span> <span class="pre">a</span></tt> constraint: it
+is subsumed by the <tt class="docutils literal"><span class="pre">Ord</span> <span class="pre">a</span></tt> constraint.</p>
+</li>
+<li><p class="first">A constraint in the type signature is not used in the code it
+covers:</p>
+<div class="highlight-haskell"><div class="highlight"><pre><span class="nf">f</span> <span class="ow">::</span> <span class="kt">Eq</span> <span class="n">a</span> <span class="ow">=&gt;</span> <span class="n">a</span> <span class="ow">-&gt;</span> <span class="n">a</span> <span class="ow">-&gt;</span> <span class="kt">Bool</span>
+<span class="nf">f</span> <span class="n">x</span> <span class="n">y</span> <span class="ow">=</span> <span class="kt">True</span>
+</pre></div>
+</div>
+<p>The warning will indicate the redundant <tt class="docutils literal"><span class="pre">Eq</span> <span class="pre">a</span></tt> constraint: : it
+is not used by the definition of <tt class="docutils literal"><span class="pre">f</span></tt>.)</p>
+</li>
+</ul>
+<p>Similar warnings are given for a redundant constraint in an instance
+declaration.</p>
+<p>This option is on by default. As usual you can suppress it on a
+per-module basis with <a class="reference internal" href="using-warnings.html#ghc-flag--Wredundant-constraints"><tt class="xref std std-ghc-flag docutils literal"><span class="pre">-Wno-redundant-constraints</span></tt></a>.
+Occasionally you may specifically want a function to have a more
+constrained signature than necessary, perhaps to leave yourself
+wiggle-room for changing the implementation without changing the
+API. In that case, you can suppress the warning on a per-function
+basis, using a call in a dead binding. For example:</p>
+<div class="highlight-haskell"><div class="highlight"><pre><span class="nf">f</span> <span class="ow">::</span> <span class="kt">Eq</span> <span class="n">a</span> <span class="ow">=&gt;</span> <span class="n">a</span> <span class="ow">-&gt;</span> <span class="n">a</span> <span class="ow">-&gt;</span> <span class="kt">Bool</span>
+<span class="nf">f</span> <span class="n">x</span> <span class="n">y</span> <span class="ow">=</span> <span class="kt">True</span>
+<span class="kr">where</span>
+    <span class="kr">_</span> <span class="ow">=</span> <span class="n">x</span> <span class="o">==</span> <span class="n">x</span>  <span class="c1">-- Suppress the redundant-constraint warning for (Eq a)</span>
+</pre></div>
+</div>
+<p>Here the call to <tt class="docutils literal"><span class="pre">(==)</span></tt> makes GHC think that the <tt class="docutils literal"><span class="pre">(Eq</span> <span class="pre">a)</span></tt>
+constraint is needed, so no warning is issued.</p>
+</dd></dl>
+
+<dl class="ghc-flag">
+<dt id="ghc-flag--Wduplicate-exports">
+<tt class="descname">-Wduplicate-exports</tt><tt class="descclassname"></tt><a class="headerlink" href="using-warnings.html#ghc-flag--Wduplicate-exports" title="Permalink to this definition">¶</a></dt>
+<dd><p id="index-9">Have the compiler warn about duplicate entries in export lists. This
+is useful information if you maintain large export lists, and want
+to avoid the continued export of a definition after you&#8217;ve deleted
+(one) mention of it in the export list.</p>
+<p>This option is on by default.</p>
+</dd></dl>
+
+<dl class="ghc-flag">
+<dt id="ghc-flag--Whi-shadowing">
+<tt class="descname">-Whi-shadowing</tt><tt class="descclassname"></tt><a class="headerlink" href="using-warnings.html#ghc-flag--Whi-shadowing" title="Permalink to this definition">¶</a></dt>
+<dd><p id="index-10">Causes the compiler to emit a warning when a module or interface
+file in the current directory is shadowing one with the same module
+name in a library or other directory.</p>
+</dd></dl>
+
+<dl class="ghc-flag">
+<dt id="ghc-flag--Widentities">
+<tt class="descname">-Widentities</tt><tt class="descclassname"></tt><a class="headerlink" href="using-warnings.html#ghc-flag--Widentities" title="Permalink to this definition">¶</a></dt>
+<dd><p>Causes the compiler to emit a warning when a Prelude numeric
+conversion converts a type <tt class="docutils literal"><span class="pre">T</span></tt> to the same type <tt class="docutils literal"><span class="pre">T</span></tt>; such calls are
+probably no-ops and can be omitted. The functions checked for are:
+<tt class="docutils literal"><span class="pre">toInteger</span></tt>, <tt class="docutils literal"><span class="pre">toRational</span></tt>, <tt class="docutils literal"><span class="pre">fromIntegral</span></tt>, and <tt class="docutils literal"><span class="pre">realToFrac</span></tt>.</p>
+</dd></dl>
+
+<dl class="ghc-flag">
+<dt id="ghc-flag--Wimplicit-prelude">
+<tt class="descname">-Wimplicit-prelude</tt><tt class="descclassname"></tt><a class="headerlink" href="using-warnings.html#ghc-flag--Wimplicit-prelude" title="Permalink to this definition">¶</a></dt>
+<dd><p id="index-11">Have the compiler warn if the Prelude is implicitly imported. This
+happens unless either the Prelude module is explicitly imported with
+an <tt class="docutils literal"><span class="pre">import</span> <span class="pre">...</span> <span class="pre">Prelude</span> <span class="pre">...</span></tt> line, or this implicit import is
+disabled (either by <a class="reference internal" href="glasgow_exts.html#ghc-flag--XNoImplicitPrelude"><tt class="xref std std-ghc-flag docutils literal"><span class="pre">-XNoImplicitPrelude</span></tt></a> or a
+<tt class="docutils literal"><span class="pre">LANGUAGE</span> <span class="pre">NoImplicitPrelude</span></tt> pragma).</p>
+<p>Note that no warning is given for syntax that implicitly refers to
+the Prelude, even if <a class="reference internal" href="glasgow_exts.html#ghc-flag--XNoImplicitPrelude"><tt class="xref std std-ghc-flag docutils literal"><span class="pre">-XNoImplicitPrelude</span></tt></a> would change whether it
+refers to the Prelude. For example, no warning is given when <tt class="docutils literal"><span class="pre">368</span></tt>
+means <tt class="docutils literal"><span class="pre">Prelude.fromInteger</span> <span class="pre">(368::Prelude.Integer)</span></tt> (where
+<tt class="docutils literal"><span class="pre">Prelude</span></tt> refers to the actual Prelude module, regardless of the
+imports of the module being compiled).</p>
+<p>This warning is off by default.</p>
+</dd></dl>
+
+<dl class="ghc-flag">
+<dt id="ghc-flag--Wincomplete-patterns">
+<tt class="descname">-Wincomplete-patterns</tt><tt class="descclassname"></tt><a class="headerlink" href="using-warnings.html#ghc-flag--Wincomplete-patterns" title="Permalink to this definition">¶</a></dt>
+<dt id="ghc-flag--Wincomplete-uni-patterns">
+<tt class="descname">-Wincomplete-uni-patterns</tt><tt class="descclassname"></tt><a class="headerlink" href="using-warnings.html#ghc-flag--Wincomplete-uni-patterns" title="Permalink to this definition">¶</a></dt>
+<dd><p id="index-12">The option <a class="reference internal" href="using-warnings.html#ghc-flag--Wincomplete-patterns"><tt class="xref std std-ghc-flag docutils literal"><span class="pre">-Wincomplete-patterns</span></tt></a> warns about places where a
+pattern-match might fail at runtime. The function <tt class="docutils literal"><span class="pre">g</span></tt> below will
+fail when applied to non-empty lists, so the compiler will emit a
+warning about this when <a class="reference internal" href="using-warnings.html#ghc-flag--Wincomplete-patterns"><tt class="xref std std-ghc-flag docutils literal"><span class="pre">-Wincomplete-patterns</span></tt></a> is enabled.</p>
+<div class="highlight-haskell"><div class="highlight"><pre><span class="nf">g</span> <span class="kt">[]</span> <span class="ow">=</span> <span class="mi">2</span>
+</pre></div>
+</div>
+<p>This option isn&#8217;t enabled by default because it can be a bit noisy,
+and it doesn&#8217;t always indicate a bug in the program. However, it&#8217;s
+generally considered good practice to cover all the cases in your
+functions, and it is switched on by <a class="reference internal" href="using-warnings.html#ghc-flag--W"><tt class="xref std std-ghc-flag docutils literal"><span class="pre">-W</span></tt></a>.</p>
+<p>The flag <a class="reference internal" href="using-warnings.html#ghc-flag--Wincomplete-uni-patterns"><tt class="xref std std-ghc-flag docutils literal"><span class="pre">-Wincomplete-uni-patterns</span></tt></a> is similar, except that
+it applies only to lambda-expressions and pattern bindings,
+constructs that only allow a single pattern:</p>
+<div class="highlight-haskell"><div class="highlight"><pre><span class="nf">h</span> <span class="ow">=</span> <span class="nf">\</span><span class="kt">[]</span> <span class="ow">-&gt;</span> <span class="mi">2</span>
+<span class="kt">Just</span> <span class="n">k</span> <span class="ow">=</span> <span class="n">f</span> <span class="n">y</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="ghc-flag">
+<dt id="ghc-flag--fmax-pmcheck-iterations=⟨n⟩">
+<tt class="descname">-fmax-pmcheck-iterations</tt><tt class="descclassname">=⟨n⟩</tt><a class="headerlink" href="using-warnings.html#ghc-flag--fmax-pmcheck-iterations=⟨n⟩" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Default:</th><td class="field-body">2000000</td>
+</tr>
+</tbody>
+</table>
+<p>Sets how many iterations of the pattern-match checker will perform before
+giving up. This limit is to catch cases where pattern-match checking might
+be excessively costly (due to the exponential complexity of coverage
+checking in the general case). It typically shouldn&#8217;t be necessary to set
+this unless GHC informs you that it has exceeded the pattern match checker&#8217;s
+iteration limit (in which case you may want to consider refactoring your
+pattern match, for the sake of future readers of your code.</p>
+</dd></dl>
+
+<dl class="ghc-flag">
+<dt id="ghc-flag--Wincomplete-record-updates">
+<tt class="descname">-Wincomplete-record-updates</tt><tt class="descclassname"></tt><a class="headerlink" href="using-warnings.html#ghc-flag--Wincomplete-record-updates" title="Permalink to this definition">¶</a></dt>
+<dd><p id="index-13">The function <tt class="docutils literal"><span class="pre">f</span></tt> below will fail when applied to <tt class="docutils literal"><span class="pre">Bar</span></tt>, so the
+compiler will emit a warning about this when
+<a class="reference internal" href="using-warnings.html#ghc-flag--Wincomplete-record-updates"><tt class="xref std std-ghc-flag docutils literal"><span class="pre">-Wincomplete-record-updates</span></tt></a> is enabled.</p>
+<div class="highlight-haskell"><div class="highlight"><pre><span class="kr">data</span> <span class="kt">Foo</span> <span class="ow">=</span> <span class="kt">Foo</span> <span class="p">{</span> <span class="n">x</span> <span class="ow">::</span> <span class="kt">Int</span> <span class="p">}</span>
+         <span class="o">|</span> <span class="kt">Bar</span>
+
+<span class="nf">f</span> <span class="ow">::</span> <span class="kt">Foo</span> <span class="ow">-&gt;</span> <span class="kt">Foo</span>
+<span class="nf">f</span> <span class="n">foo</span> <span class="ow">=</span> <span class="n">foo</span> <span class="p">{</span> <span class="n">x</span> <span class="ow">=</span> <span class="mi">6</span> <span class="p">}</span>
+</pre></div>
+</div>
+<p>This option isn&#8217;t enabled by default because it can be very noisy,
+and it often doesn&#8217;t indicate a bug in the program.</p>
+</dd></dl>
+
+<dl class="ghc-flag">
+<dt id="ghc-flag--Wmissing-fields">
+<tt class="descname">-Wmissing-fields</tt><tt class="descclassname"></tt><a class="headerlink" href="using-warnings.html#ghc-flag--Wmissing-fields" title="Permalink to this definition">¶</a></dt>
+<dd><p id="index-14">This option is on by default, and warns you whenever the
+construction of a labelled field constructor isn&#8217;t complete, missing
+initialisers for one or more fields. While not an error (the missing
+fields are initialised with bottoms), it is often an indication of a
+programmer error.</p>
+</dd></dl>
+
+<dl class="ghc-flag">
+<dt id="ghc-flag--Wmissing-import-lists">
+<tt class="descname">-Wmissing-import-lists</tt><tt class="descclassname"></tt><a class="headerlink" href="using-warnings.html#ghc-flag--Wmissing-import-lists" title="Permalink to this definition">¶</a></dt>
+<dd><p id="index-15">This flag warns if you use an unqualified <tt class="docutils literal"><span class="pre">import</span></tt> declaration
+that does not explicitly list the entities brought into scope. For
+example</p>
+<div class="highlight-haskell"><div class="highlight"><pre><span class="kr">module</span> <span class="nn">M</span> <span class="kr">where</span>
+  <span class="kr">import</span> <span class="nn">X</span><span class="p">(</span> <span class="n">f</span> <span class="p">)</span>
+  <span class="kr">import</span> <span class="nn">Y</span>
+  <span class="kr">import</span> <span class="k">qualified</span> <span class="nn">Z</span>
+  <span class="n">p</span> <span class="n">x</span> <span class="ow">=</span> <span class="n">f</span> <span class="n">x</span> <span class="n">x</span>
+</pre></div>
+</div>
+<p>The <a class="reference internal" href="using-warnings.html#ghc-flag--Wmissing-import-lists"><tt class="xref std std-ghc-flag docutils literal"><span class="pre">-Wmissing-import-lists</span></tt></a> flag will warn about the import of
+<tt class="docutils literal"><span class="pre">Y</span></tt> but not <tt class="docutils literal"><span class="pre">X</span></tt> If module <tt class="docutils literal"><span class="pre">Y</span></tt> is later changed to export (say) <tt class="docutils literal"><span class="pre">f</span></tt>,
+then the reference to <tt class="docutils literal"><span class="pre">f</span></tt> in <tt class="docutils literal"><span class="pre">M</span></tt> will become ambiguous. No warning is
+produced for the import of <tt class="docutils literal"><span class="pre">Z</span></tt> because extending <tt class="docutils literal"><span class="pre">Z</span></tt>&#8216;s exports would be
+unlikely to produce ambiguity in <tt class="docutils literal"><span class="pre">M</span></tt>.</p>
+</dd></dl>
+
+<dl class="ghc-flag">
+<dt id="ghc-flag--Wmissing-methods">
+<tt class="descname">-Wmissing-methods</tt><tt class="descclassname"></tt><a class="headerlink" href="using-warnings.html#ghc-flag--Wmissing-methods" title="Permalink to this definition">¶</a></dt>
+<dd><p id="index-16">This option is on by default, and warns you whenever an instance
+declaration is missing one or more methods, and the corresponding
+class declaration has no default declaration for them.</p>
+<p>The warning is suppressed if the method name begins with an
+underscore. Here&#8217;s an example where this is useful:</p>
+<div class="highlight-haskell"><div class="highlight"><pre><span class="kr">class</span> <span class="kt">C</span> <span class="n">a</span> <span class="kr">where</span>
+    <span class="n">_simpleFn</span> <span class="ow">::</span> <span class="n">a</span> <span class="ow">-&gt;</span> <span class="kt">String</span>
+    <span class="n">complexFn</span> <span class="ow">::</span> <span class="n">a</span> <span class="ow">-&gt;</span> <span class="n">a</span> <span class="ow">-&gt;</span> <span class="kt">String</span>
+    <span class="n">complexFn</span> <span class="n">x</span> <span class="n">y</span> <span class="ow">=</span> <span class="o">...</span> <span class="n">_simpleFn</span> <span class="o">...</span>
+</pre></div>
+</div>
+<p>The idea is that: (a) users of the class will only call
+<tt class="docutils literal"><span class="pre">complexFn</span></tt>; never <tt class="docutils literal"><span class="pre">_simpleFn</span></tt>; and (b) instance declarations
+can define either <tt class="docutils literal"><span class="pre">complexFn</span></tt> or <tt class="docutils literal"><span class="pre">_simpleFn</span></tt>.</p>
+<p>The <tt class="docutils literal"><span class="pre">MINIMAL</span></tt> pragma can be used to change which combination of
+methods will be required for instances of a particular class. See
+<a class="reference internal" href="glasgow_exts.html#minimal-pragma"><em>MINIMAL pragma</em></a>.</p>
+</dd></dl>
+
+<dl class="ghc-flag">
+<dt id="ghc-flag--Wmissing-signatures">
+<tt class="descname">-Wmissing-signatures</tt><tt class="descclassname"></tt><a class="headerlink" href="using-warnings.html#ghc-flag--Wmissing-signatures" title="Permalink to this definition">¶</a></dt>
+<dd><p id="index-17">If you would like GHC to check that every top-level function/value
+has a type signature, use the <a class="reference internal" href="using-warnings.html#ghc-flag--Wmissing-signatures"><tt class="xref std std-ghc-flag docutils literal"><span class="pre">-Wmissing-signatures</span></tt></a> option.
+As part of the warning GHC also reports the inferred type. The
+option is off by default.</p>
+</dd></dl>
+
+<dl class="ghc-flag">
+<dt id="ghc-flag--Wmissing-exported-sigs">
+<tt class="descname">-Wmissing-exported-sigs</tt><tt class="descclassname"></tt><a class="headerlink" href="using-warnings.html#ghc-flag--Wmissing-exported-sigs" title="Permalink to this definition">¶</a></dt>
+<dd><p id="index-18">This option is now deprecated in favour of
+<a class="reference internal" href="using-warnings.html#ghc-flag--Wmissing-exported-signatures"><tt class="xref std std-ghc-flag docutils literal"><span class="pre">-Wmissing-exported-signatures</span></tt></a>.</p>
+</dd></dl>
+
+<dl class="ghc-flag">
+<dt id="ghc-flag--Wmissing-exported-signatures">
+<tt class="descname">-Wmissing-exported-signatures</tt><tt class="descclassname"></tt><a class="headerlink" href="using-warnings.html#ghc-flag--Wmissing-exported-signatures" title="Permalink to this definition">¶</a></dt>
+<dd><p id="index-19">If you would like GHC to check that every exported top-level
+function/value has a type signature, but not check unexported
+values, use the <a class="reference internal" href="using-warnings.html#ghc-flag--Wmissing-exported-signatures"><tt class="xref std std-ghc-flag docutils literal"><span class="pre">-Wmissing-exported-signatures</span></tt></a>
+option. This option takes precedence over
+<a class="reference internal" href="using-warnings.html#ghc-flag--Wmissing-signatures"><tt class="xref std std-ghc-flag docutils literal"><span class="pre">-Wmissing-signatures</span></tt></a>. As part of the warning GHC also
+reports the inferred type. The option is off by default.</p>
+</dd></dl>
+
+<dl class="ghc-flag">
+<dt id="ghc-flag--Wmissing-local-sigs">
+<tt class="descname">-Wmissing-local-sigs</tt><tt class="descclassname"></tt><a class="headerlink" href="using-warnings.html#ghc-flag--Wmissing-local-sigs" title="Permalink to this definition">¶</a></dt>
+<dd><p id="index-20">This option is now deprecated in favour of
+<a class="reference internal" href="using-warnings.html#ghc-flag--Wmissing-local-signatures"><tt class="xref std std-ghc-flag docutils literal"><span class="pre">-Wmissing-local-signatures</span></tt></a>.</p>
+</dd></dl>
+
+<dl class="ghc-flag">
+<dt id="ghc-flag--Wmissing-local-signatures">
+<tt class="descname">-Wmissing-local-signatures</tt><tt class="descclassname"></tt><a class="headerlink" href="using-warnings.html#ghc-flag--Wmissing-local-signatures" title="Permalink to this definition">¶</a></dt>
+<dd><p id="index-21">If you use the <a class="reference internal" href="using-warnings.html#ghc-flag--Wmissing-local-signatures"><tt class="xref std std-ghc-flag docutils literal"><span class="pre">-Wmissing-local-signatures</span></tt></a> flag GHC
+will warn you about any polymorphic local bindings. As part of the
+warning GHC also reports the inferred type. The option is off by
+default.</p>
+</dd></dl>
+
+<dl class="ghc-flag">
+<dt id="ghc-flag--Wmissing-pattern-synonym-signatures">
+<tt class="descname">-Wmissing-pattern-synonym-signatures</tt><tt class="descclassname"></tt><a class="headerlink" href="using-warnings.html#ghc-flag--Wmissing-pattern-synonym-signatures" title="Permalink to this definition">¶</a></dt>
+<dd><p id="index-22">If you would like GHC to check that every pattern synonym has a
+type signature, use the
+<a class="reference internal" href="using-warnings.html#ghc-flag--Wmissing-pattern-synonym-signatures"><tt class="xref std std-ghc-flag docutils literal"><span class="pre">-Wmissing-pattern-synonym-signatures</span></tt></a> option. If this
+option is used in conjunction with
+<a class="reference internal" href="using-warnings.html#ghc-flag--Wmissing-exported-signatures"><tt class="xref std std-ghc-flag docutils literal"><span class="pre">-Wmissing-exported-signatures</span></tt></a> then only exported pattern
+synonyms must have a type signature. GHC also reports the inferred
+type. This option is off by default.</p>
+</dd></dl>
+
+<dl class="ghc-flag">
+<dt id="ghc-flag--Wname-shadowing">
+<tt class="descname">-Wname-shadowing</tt><tt class="descclassname"></tt><a class="headerlink" href="using-warnings.html#ghc-flag--Wname-shadowing" title="Permalink to this definition">¶</a></dt>
+<dd><p id="index-23">This option causes a warning to be emitted whenever an inner-scope
+value has the same name as an outer-scope value, i.e. the inner
+value shadows the outer one. This can catch typographical errors
+that turn into hard-to-find bugs, e.g., in the inadvertent capture
+of what would be a recursive call in
+<tt class="docutils literal"><span class="pre">f</span> <span class="pre">=</span> <span class="pre">...</span> <span class="pre">let</span> <span class="pre">f</span> <span class="pre">=</span> <span class="pre">id</span> <span class="pre">in</span> <span class="pre">...</span> <span class="pre">f</span> <span class="pre">...</span></tt>.</p>
+<p>The warning is suppressed for names beginning with an underscore.
+For example</p>
+<div class="highlight-haskell"><div class="highlight"><pre><span class="nf">f</span> <span class="n">x</span> <span class="ow">=</span> <span class="kr">do</span> <span class="p">{</span> <span class="n">_ignore</span> <span class="ow">&lt;-</span> <span class="n">this</span><span class="p">;</span> <span class="n">_ignore</span> <span class="ow">&lt;-</span> <span class="n">that</span><span class="p">;</span> <span class="n">return</span> <span class="p">(</span><span class="n">the</span> <span class="n">other</span><span class="p">)</span> <span class="p">}</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="ghc-flag">
+<dt id="ghc-flag--Worphans">
+<tt class="descname">-Worphans</tt><tt class="descclassname"></tt><a class="headerlink" href="using-warnings.html#ghc-flag--Worphans" title="Permalink to this definition">¶</a></dt>
+<dd><p id="index-24">These flags cause a warning to be emitted whenever the module
+contains an &#8220;orphan&#8221; instance declaration or rewrite rule. An
+instance declaration is an orphan if it appears in a module in which
+neither the class nor the type being instanced are declared in the
+same module. A rule is an orphan if it is a rule for a function
+declared in another module. A module containing any orphans is
+called an orphan module.</p>
+<p>The trouble with orphans is that GHC must pro-actively read the
+interface files for all orphan modules, just in case their instances
+or rules play a role, whether or not the module&#8217;s interface would
+otherwise be of any use. See <a class="reference internal" href="separate_compilation.html#orphan-modules"><em>Orphan modules and instance declarations</em></a> for details.</p>
+<p>The flag <a class="reference internal" href="using-warnings.html#ghc-flag--Worphans"><tt class="xref std std-ghc-flag docutils literal"><span class="pre">-Worphans</span></tt></a> warns about user-written orphan rules or
+instances.</p>
+</dd></dl>
+
+<dl class="ghc-flag">
+<dt id="ghc-flag--Woverlapping-patterns">
+<tt class="descname">-Woverlapping-patterns</tt><tt class="descclassname"></tt><a class="headerlink" href="using-warnings.html#ghc-flag--Woverlapping-patterns" title="Permalink to this definition">¶</a></dt>
+<dd><p id="index-25">By default, the compiler will warn you if a set of patterns are
+overlapping, e.g.,</p>
+<div class="highlight-haskell"><div class="highlight"><pre><span class="nf">f</span> <span class="ow">::</span> <span class="kt">String</span> <span class="ow">-&gt;</span> <span class="kt">Int</span>
+<span class="nf">f</span> <span class="kt">[]</span>     <span class="ow">=</span> <span class="mi">0</span>
+<span class="nf">f</span> <span class="p">(</span><span class="kr">_</span><span class="kt">:</span><span class="n">xs</span><span class="p">)</span> <span class="ow">=</span> <span class="mi">1</span>
+<span class="nf">f</span> <span class="s">&quot;2&quot;</span>    <span class="ow">=</span> <span class="mi">2</span>
+</pre></div>
+</div>
+<p>where the last pattern match in <tt class="docutils literal"><span class="pre">f</span></tt> won&#8217;t ever be reached, as the
+second pattern overlaps it. More often than not, redundant patterns
+is a programmer mistake/error, so this option is enabled by default.</p>
+</dd></dl>
+
+<dl class="ghc-flag">
+<dt id="ghc-flag--Wsimplifiable-class-constraints">
+<tt class="descname">-Wsimplifiable-class-constraints</tt><tt class="descclassname"></tt><a class="headerlink" href="using-warnings.html#ghc-flag--Wsimplifiable-class-constraints" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Since:</th><td class="field-body">8.2</td>
+</tr>
+</tbody>
+</table>
+<p id="index-26">Warn about class constraints in a type signature that can be simplified
+using a top-level instance declaration.  For example:</p>
+<div class="highlight-haskell"><div class="highlight"><pre><span class="nf">f</span> <span class="ow">::</span> <span class="kt">Eq</span> <span class="p">[</span><span class="n">a</span><span class="p">]</span> <span class="ow">=&gt;</span> <span class="n">a</span> <span class="ow">-&gt;</span> <span class="n">a</span>
+</pre></div>
+</div>
+<p>Here the <tt class="docutils literal"><span class="pre">Eq</span> <span class="pre">[a]</span></tt> in the signature overlaps with the top-level
+instance for <tt class="docutils literal"><span class="pre">Eq</span> <span class="pre">[a]</span></tt>.  GHC goes to some efforts to use the former,
+but if it should use the latter, it would then have an
+insoluble <tt class="docutils literal"><span class="pre">Eq</span> <span class="pre">a</span></tt> constraint.  Best avoided by instead writing:</p>
+<div class="highlight-haskell"><div class="highlight"><pre><span class="nf">f</span> <span class="ow">::</span> <span class="kt">Eq</span> <span class="n">a</span> <span class="ow">=&gt;</span> <span class="n">a</span> <span class="ow">-&gt;</span> <span class="n">a</span>
+</pre></div>
+</div>
+<p>This option is on by default. As usual you can suppress it on a
+per-module basis with <a class="reference internal" href="using-warnings.html#ghc-flag--Wsimplifiable-class-constraints"><tt class="xref std std-ghc-flag docutils literal"><span class="pre">-Wno-simplifiable-class-constraints</span></tt></a>.</p>
+</dd></dl>
+
+<dl class="ghc-flag">
+<dt id="ghc-flag--Wtabs">
+<tt class="descname">-Wtabs</tt><tt class="descclassname"></tt><a class="headerlink" href="using-warnings.html#ghc-flag--Wtabs" title="Permalink to this definition">¶</a></dt>
+<dd><p id="index-27">Have the compiler warn if there are tabs in your source file.</p>
+</dd></dl>
+
+<dl class="ghc-flag">
+<dt id="ghc-flag--Wtype-defaults">
+<tt class="descname">-Wtype-defaults</tt><tt class="descclassname"></tt><a class="headerlink" href="using-warnings.html#ghc-flag--Wtype-defaults" title="Permalink to this definition">¶</a></dt>
+<dd><p id="index-28">Have the compiler warn/inform you where in your source the Haskell
+defaulting mechanism for numeric types kicks in. This is useful
+information when converting code from a context that assumed one
+default into one with another, e.g., the ‘default default’ for
+Haskell 1.4 caused the otherwise unconstrained value <tt class="docutils literal"><span class="pre">1</span></tt> to be
+given the type <tt class="docutils literal"><span class="pre">Int</span></tt>, whereas Haskell 98 and later defaults it to
+<tt class="docutils literal"><span class="pre">Integer</span></tt>. This may lead to differences in performance and
+behaviour, hence the usefulness of being non-silent about this.</p>
+<p>This warning is off by default.</p>
+</dd></dl>
+
+<dl class="ghc-flag">
+<dt id="ghc-flag--Wmonomorphism-restriction">
+<tt class="descname">-Wmonomorphism-restriction</tt><tt class="descclassname"></tt><a class="headerlink" href="using-warnings.html#ghc-flag--Wmonomorphism-restriction" title="Permalink to this definition">¶</a></dt>
+<dd><p id="index-29">Have the compiler warn/inform you where in your source the Haskell
+Monomorphism Restriction is applied. If applied silently the MR can
+give rise to unexpected behaviour, so it can be helpful to have an
+explicit warning that it is being applied.</p>
+<p>This warning is off by default.</p>
+</dd></dl>
+
+<dl class="ghc-flag">
+<dt id="ghc-flag--Wunsupported-llvm-version">
+<tt class="descname">-Wunsupported-llvm-version</tt><tt class="descclassname"></tt><a class="headerlink" href="using-warnings.html#ghc-flag--Wunsupported-llvm-version" title="Permalink to this definition">¶</a></dt>
+<dd><p>Warn when using <a class="reference internal" href="phases.html#ghc-flag--fllvm"><tt class="xref std std-ghc-flag docutils literal"><span class="pre">-fllvm</span></tt></a> with an unsupported version of LLVM.</p>
+</dd></dl>
+
+<dl class="ghc-flag">
+<dt id="ghc-flag--Wunticked-promoted-constructors">
+<tt class="descname">-Wunticked-promoted-constructors</tt><tt class="descclassname"></tt><a class="headerlink" href="using-warnings.html#ghc-flag--Wunticked-promoted-constructors" title="Permalink to this definition">¶</a></dt>
+<dd><p id="index-30">Warn if a promoted data constructor is used without a tick preceding
+its name.</p>
+<p>For example:</p>
+<div class="highlight-haskell"><div class="highlight"><pre><span class="kr">data</span> <span class="kt">Nat</span> <span class="ow">=</span> <span class="kt">Succ</span> <span class="kt">Nat</span> <span class="o">|</span> <span class="kt">Zero</span>
+
+<span class="kr">data</span> <span class="kt">Vec</span> <span class="n">n</span> <span class="n">s</span> <span class="kr">where</span>
+  <span class="kt">Nil</span>  <span class="ow">::</span> <span class="kt">Vec</span> <span class="kt">Zero</span> <span class="n">a</span>
+  <span class="kt">Cons</span> <span class="ow">::</span> <span class="n">a</span> <span class="ow">-&gt;</span> <span class="kt">Vec</span> <span class="n">n</span> <span class="n">a</span> <span class="ow">-&gt;</span> <span class="kt">Vec</span> <span class="p">(</span><span class="kt">Succ</span> <span class="n">n</span><span class="p">)</span> <span class="n">a</span>
+</pre></div>
+</div>
+<p>Will raise two warnings because <tt class="docutils literal"><span class="pre">Zero</span></tt> and <tt class="docutils literal"><span class="pre">Succ</span></tt> are not
+written as <tt class="docutils literal"><span class="pre">'Zero</span></tt> and <tt class="docutils literal"><span class="pre">'Succ</span></tt>.</p>
+<p>This warning is enabled by default in <a class="reference internal" href="using-warnings.html#ghc-flag--Wall"><tt class="xref std std-ghc-flag docutils literal"><span class="pre">-Wall</span></tt></a> mode.</p>
+</dd></dl>
+
+<dl class="ghc-flag">
+<dt id="ghc-flag--Wunused-binds">
+<tt class="descname">-Wunused-binds</tt><tt class="descclassname"></tt><a class="headerlink" href="using-warnings.html#ghc-flag--Wunused-binds" title="Permalink to this definition">¶</a></dt>
+<dd><p id="index-31">Report any function definitions (and local bindings) which are
+unused. An alias for</p>
+<ul class="simple">
+<li><a class="reference internal" href="using-warnings.html#ghc-flag--Wunused-top-binds"><tt class="xref std std-ghc-flag docutils literal"><span class="pre">-Wunused-top-binds</span></tt></a></li>
+<li><a class="reference internal" href="using-warnings.html#ghc-flag--Wunused-local-binds"><tt class="xref std std-ghc-flag docutils literal"><span class="pre">-Wunused-local-binds</span></tt></a></li>
+<li><a class="reference internal" href="using-warnings.html#ghc-flag--Wunused-pattern-binds"><tt class="xref std std-ghc-flag docutils literal"><span class="pre">-Wunused-pattern-binds</span></tt></a></li>
+</ul>
+</dd></dl>
+
+<dl class="ghc-flag">
+<dt id="ghc-flag--Wunused-top-binds">
+<tt class="descname">-Wunused-top-binds</tt><tt class="descclassname"></tt><a class="headerlink" href="using-warnings.html#ghc-flag--Wunused-top-binds" title="Permalink to this definition">¶</a></dt>
+<dd><p id="index-32">Report any function definitions which are unused.</p>
+<p>More precisely, warn if a binding brings into scope a variable that
+is not used, except if the variable&#8217;s name starts with an
+underscore. The &#8220;starts-with-underscore&#8221; condition provides a way to
+selectively disable the warning.</p>
+<p>A variable is regarded as &#8220;used&#8221; if</p>
+<ul class="simple">
+<li>It is exported, or</li>
+<li>It appears in the right hand side of a binding that binds at
+least one used variable that is used</li>
+</ul>
+<p>For example:</p>
+<div class="highlight-haskell"><div class="highlight"><pre><span class="kr">module</span> <span class="nn">A</span> <span class="p">(</span><span class="nf">f</span><span class="p">)</span> <span class="kr">where</span>
+<span class="nf">f</span> <span class="ow">=</span> <span class="kr">let</span> <span class="p">(</span><span class="n">p</span><span class="p">,</span><span class="n">q</span><span class="p">)</span> <span class="ow">=</span> <span class="n">rhs1</span> <span class="kr">in</span> <span class="n">t</span> <span class="n">p</span>  <span class="c1">-- No warning: q is unused, but is locally bound</span>
+<span class="nf">t</span> <span class="ow">=</span> <span class="n">rhs3</span>                     <span class="c1">-- No warning: f is used, and hence so is t</span>
+<span class="nf">g</span> <span class="ow">=</span> <span class="n">h</span> <span class="n">x</span>                      <span class="c1">-- Warning: g unused</span>
+<span class="nf">h</span> <span class="ow">=</span> <span class="n">rhs2</span>                     <span class="c1">-- Warning: h is only used in the</span>
+                             <span class="c1">-- right-hand side of another unused binding</span>
+<span class="nf">_w</span> <span class="ow">=</span> <span class="kt">True</span>                    <span class="c1">-- No warning: _w starts with an underscore</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="ghc-flag">
+<dt id="ghc-flag--Wunused-local-binds">
+<tt class="descname">-Wunused-local-binds</tt><tt class="descclassname"></tt><a class="headerlink" href="using-warnings.html#ghc-flag--Wunused-local-binds" title="Permalink to this definition">¶</a></dt>
+<dd><p id="index-33">Report any local definitions which are unused. For example:</p>
+<div class="highlight-haskell"><div class="highlight"><pre><span class="kr">module</span> <span class="nn">A</span> <span class="p">(</span><span class="nf">f</span><span class="p">)</span> <span class="kr">where</span>
+<span class="nf">f</span> <span class="ow">=</span> <span class="kr">let</span> <span class="p">(</span><span class="n">p</span><span class="p">,</span><span class="n">q</span><span class="p">)</span> <span class="ow">=</span> <span class="n">rhs1</span> <span class="kr">in</span> <span class="n">t</span> <span class="n">p</span>  <span class="c1">-- Warning: q is unused</span>
+<span class="nf">g</span> <span class="ow">=</span> <span class="n">h</span> <span class="n">x</span>                      <span class="c1">-- No warning: g is unused, but is a top-level binding</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="ghc-flag">
+<dt id="ghc-flag--Wunused-pattern-binds">
+<tt class="descname">-Wunused-pattern-binds</tt><tt class="descclassname"></tt><a class="headerlink" href="using-warnings.html#ghc-flag--Wunused-pattern-binds" title="Permalink to this definition">¶</a></dt>
+<dd><p id="index-34">Warn if a pattern binding binds no variables at all, unless it is a
+lone, possibly-banged, wild-card pattern. For example:</p>
+<div class="highlight-haskell"><div class="highlight"><pre><span class="kt">Just</span> <span class="kr">_</span> <span class="ow">=</span> <span class="n">rhs3</span>    <span class="c1">-- Warning: unused pattern binding</span>
+<span class="p">(</span><span class="kr">_</span><span class="p">,</span> <span class="kr">_</span><span class="p">)</span> <span class="ow">=</span> <span class="n">rhs4</span>    <span class="c1">-- Warning: unused pattern binding</span>
+<span class="kr">_</span>  <span class="ow">=</span> <span class="n">rhs3</span>        <span class="c1">-- No warning: lone wild-card pattern</span>
+<span class="o">!</span><span class="kr">_</span> <span class="ow">=</span> <span class="n">rhs4</span>        <span class="c1">-- No warning: banged wild-card pattern; behaves like seq</span>
+</pre></div>
+</div>
+<p>The motivation for allowing lone wild-card patterns is they are not
+very different from <tt class="docutils literal"><span class="pre">_v</span> <span class="pre">=</span> <span class="pre">rhs3</span></tt>, which elicits no warning; and
+they can be useful to add a type constraint, e.g. <tt class="docutils literal"><span class="pre">_</span> <span class="pre">=</span> <span class="pre">x::Int</span></tt>. A
+lone banged wild-card pattern is useful as an alternative (to
+<tt class="docutils literal"><span class="pre">seq</span></tt>) way to force evaluation.</p>
+</dd></dl>
+
+<dl class="ghc-flag">
+<dt id="ghc-flag--Wunused-imports">
+<tt class="descname">-Wunused-imports</tt><tt class="descclassname"></tt><a class="headerlink" href="using-warnings.html#ghc-flag--Wunused-imports" title="Permalink to this definition">¶</a></dt>
+<dd><p id="index-35">Report any modules that are explicitly imported but never used.
+However, the form <tt class="docutils literal"><span class="pre">import</span> <span class="pre">M()</span></tt> is never reported as an unused
+import, because it is a useful idiom for importing instance
+declarations, which are anonymous in Haskell.</p>
+</dd></dl>
+
+<dl class="ghc-flag">
+<dt id="ghc-flag--Wunused-matches">
+<tt class="descname">-Wunused-matches</tt><tt class="descclassname"></tt><a class="headerlink" href="using-warnings.html#ghc-flag--Wunused-matches" title="Permalink to this definition">¶</a></dt>
+<dd><p id="index-36">Report all unused variables which arise from term-level pattern matches,
+including patterns consisting of a single variable. For instance
+<tt class="docutils literal"><span class="pre">f</span> <span class="pre">x</span> <span class="pre">y</span> <span class="pre">=</span> <span class="pre">[]</span></tt> would report <tt class="docutils literal"><span class="pre">x</span></tt> and <tt class="docutils literal"><span class="pre">y</span></tt> as unused. The warning
+is suppressed if the variable name begins with an underscore, thus:</p>
+<div class="highlight-haskell"><div class="highlight"><pre><span class="nf">f</span> <span class="n">_x</span> <span class="ow">=</span> <span class="kt">True</span>
+</pre></div>
+</div>
+<p>Note that <a class="reference internal" href="using-warnings.html#ghc-flag--Wunused-matches"><tt class="xref std std-ghc-flag docutils literal"><span class="pre">-Wunused-matches</span></tt></a> does not warn about variables which
+arise from type-level patterns, as found in type family and data family
+instances. This must be enabled separately through the
+<a class="reference internal" href="using-warnings.html#ghc-flag--Wunused-type-patterns"><tt class="xref std std-ghc-flag docutils literal"><span class="pre">-Wunused-type-patterns</span></tt></a> flag.</p>
+</dd></dl>
+
+<dl class="ghc-flag">
+<dt id="ghc-flag--Wunused-do-bind">
+<tt class="descname">-Wunused-do-bind</tt><tt class="descclassname"></tt><a class="headerlink" href="using-warnings.html#ghc-flag--Wunused-do-bind" title="Permalink to this definition">¶</a></dt>
+<dd><p id="index-37">Report expressions occurring in <tt class="docutils literal"><span class="pre">do</span></tt> and <tt class="docutils literal"><span class="pre">mdo</span></tt> blocks that
+appear to silently throw information away. For instance
+<tt class="docutils literal"><span class="pre">do</span> <span class="pre">{</span> <span class="pre">mapM</span> <span class="pre">popInt</span> <span class="pre">xs</span> <span class="pre">;</span> <span class="pre">return</span> <span class="pre">10</span> <span class="pre">}</span></tt> would report the first
+statement in the <tt class="docutils literal"><span class="pre">do</span></tt> block as suspicious, as it has the type
+<tt class="docutils literal"><span class="pre">StackM</span> <span class="pre">[Int]</span></tt> and not <tt class="docutils literal"><span class="pre">StackM</span> <span class="pre">()</span></tt>, but that <tt class="docutils literal"><span class="pre">[Int]</span></tt> value is
+not bound to anything. The warning is suppressed by explicitly
+mentioning in the source code that your program is throwing
+something away:</p>
+<div class="highlight-haskell"><div class="highlight"><pre><span class="kr">do</span> <span class="p">{</span> <span class="kr">_</span> <span class="ow">&lt;-</span> <span class="n">mapM</span> <span class="n">popInt</span> <span class="n">xs</span> <span class="p">;</span> <span class="n">return</span> <span class="mi">10</span> <span class="p">}</span>
+</pre></div>
+</div>
+<p>Of course, in this particular situation you can do even better:</p>
+<div class="highlight-haskell"><div class="highlight"><pre><span class="kr">do</span> <span class="p">{</span> <span class="n">mapM_</span> <span class="n">popInt</span> <span class="n">xs</span> <span class="p">;</span> <span class="n">return</span> <span class="mi">10</span> <span class="p">}</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="ghc-flag">
+<dt id="ghc-flag--Wunused-type-patterns">
+<tt class="descname">-Wunused-type-patterns</tt><tt class="descclassname"></tt><a class="headerlink" href="using-warnings.html#ghc-flag--Wunused-type-patterns" title="Permalink to this definition">¶</a></dt>
+<dd><p id="index-38">Report all unused type variables which arise from patterns in type family
+and data family instances. For instance:</p>
+<div class="highlight-haskell"><div class="highlight"><pre><span class="kr">type</span> <span class="kr">instance</span> <span class="kt">F</span> <span class="n">x</span> <span class="n">y</span> <span class="ow">=</span> <span class="kt">[]</span>
+</pre></div>
+</div>
+<p>would report <tt class="docutils literal"><span class="pre">x</span></tt> and <tt class="docutils literal"><span class="pre">y</span></tt> as unused. The warning is suppressed if the
+type variable name begins with an underscore, like so:</p>
+<div class="highlight-haskell"><div class="highlight"><pre><span class="kr">type</span> <span class="kr">instance</span> <span class="kt">F</span> <span class="n">_x</span> <span class="n">_y</span> <span class="ow">=</span> <span class="kt">[]</span>
+</pre></div>
+</div>
+<p>Unlike <a class="reference internal" href="using-warnings.html#ghc-flag--Wunused-matches"><tt class="xref std std-ghc-flag docutils literal"><span class="pre">-Wunused-matches</span></tt></a>, <a class="reference internal" href="using-warnings.html#ghc-flag--Wunused-type-patterns"><tt class="xref std std-ghc-flag docutils literal"><span class="pre">-Wunused-type-patterns</span></tt></a> is
+not implied by <a class="reference internal" href="using-warnings.html#ghc-flag--Wall"><tt class="xref std std-ghc-flag docutils literal"><span class="pre">-Wall</span></tt></a>. The rationale for this decision is that
+unlike term-level pattern names, type names are often chosen expressly for
+documentation purposes, so using underscores in type names can make the
+documentation harder to read.</p>
+</dd></dl>
+
+<dl class="ghc-flag">
+<dt id="ghc-flag--Wunused-foralls">
+<tt class="descname">-Wunused-foralls</tt><tt class="descclassname"></tt><a class="headerlink" href="using-warnings.html#ghc-flag--Wunused-foralls" title="Permalink to this definition">¶</a></dt>
+<dd><p id="index-39">Report all unused type variables which arise from explicit, user-written
+<tt class="docutils literal"><span class="pre">forall</span></tt> statements. For instance:</p>
+<div class="highlight-haskell"><div class="highlight"><pre><span class="nf">g</span> <span class="ow">::</span> <span class="n">forall</span> <span class="n">a</span> <span class="n">b</span> <span class="n">c</span><span class="o">.</span> <span class="p">(</span><span class="n">b</span> <span class="ow">-&gt;</span> <span class="n">b</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>would report <tt class="docutils literal"><span class="pre">a</span></tt> and <tt class="docutils literal"><span class="pre">c</span></tt> as unused.</p>
+</dd></dl>
+
+<dl class="ghc-flag">
+<dt id="ghc-flag--Wwrong-do-bind">
+<tt class="descname">-Wwrong-do-bind</tt><tt class="descclassname"></tt><a class="headerlink" href="using-warnings.html#ghc-flag--Wwrong-do-bind" title="Permalink to this definition">¶</a></dt>
+<dd><p id="index-40">Report expressions occurring in <tt class="docutils literal"><span class="pre">do</span></tt> and <tt class="docutils literal"><span class="pre">mdo</span></tt> blocks that
+appear to lack a binding. For instance
+<tt class="docutils literal"><span class="pre">do</span> <span class="pre">{</span> <span class="pre">return</span> <span class="pre">(popInt</span> <span class="pre">10)</span> <span class="pre">;</span> <span class="pre">return</span> <span class="pre">10</span> <span class="pre">}</span></tt> would report the first
+statement in the <tt class="docutils literal"><span class="pre">do</span></tt> block as suspicious, as it has the type
+<tt class="docutils literal"><span class="pre">StackM</span> <span class="pre">(StackM</span> <span class="pre">Int)</span></tt> (which consists of two nested applications
+of the same monad constructor), but which is not then &#8220;unpacked&#8221; by
+binding the result. The warning is suppressed by explicitly
+mentioning in the source code that your program is throwing
+something away:</p>
+<div class="highlight-haskell"><div class="highlight"><pre><span class="kr">do</span> <span class="p">{</span> <span class="kr">_</span> <span class="ow">&lt;-</span> <span class="n">return</span> <span class="p">(</span><span class="n">popInt</span> <span class="mi">10</span><span class="p">)</span> <span class="p">;</span> <span class="n">return</span> <span class="mi">10</span> <span class="p">}</span>
+</pre></div>
+</div>
+<p>For almost all sensible programs this will indicate a bug, and you
+probably intended to write:</p>
+<div class="highlight-haskell"><div class="highlight"><pre><span class="kr">do</span> <span class="p">{</span> <span class="n">popInt</span> <span class="mi">10</span> <span class="p">;</span> <span class="n">return</span> <span class="mi">10</span> <span class="p">}</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="ghc-flag">
+<dt id="ghc-flag--Winline-rule-shadowing">
+<tt class="descname">-Winline-rule-shadowing</tt><tt class="descclassname"></tt><a class="headerlink" href="using-warnings.html#ghc-flag--Winline-rule-shadowing" title="Permalink to this definition">¶</a></dt>
+<dd><p>Warn if a rewrite RULE might fail to fire because the function might
+be inlined before the rule has a chance to fire. See
+<a class="reference internal" href="glasgow_exts.html#rules-inline"><em>How rules interact with INLINE/NOINLINE pragmas</em></a>.</p>
+</dd></dl>
+
+<dl class="ghc-flag">
+<dt id="ghc-flag--Wcpp-undef">
+<tt class="descname">-Wcpp-undef</tt><tt class="descclassname"></tt><a class="headerlink" href="using-warnings.html#ghc-flag--Wcpp-undef" title="Permalink to this definition">¶</a></dt>
+<dd><p>This flag passes <tt class="docutils literal"><span class="pre">-Wundef</span></tt> to the C pre-processor (if its being used)
+which causes the pre-processor to warn on uses of the <cite>#if</cite> directive on
+undefined identifiers.</p>
+</dd></dl>
+
+<dl class="ghc-flag">
+<dt id="ghc-flag--Wunbanged-strict-patterns">
+<tt class="descname">-Wunbanged-strict-patterns</tt><tt class="descclassname"></tt><a class="headerlink" href="using-warnings.html#ghc-flag--Wunbanged-strict-patterns" title="Permalink to this definition">¶</a></dt>
+<dd><p>This flag warns whenever you write a pattern that binds a variable whose
+type is unlifted, and yet the pattern is not a bang pattern nor a bare variable.
+See <a class="reference internal" href="glasgow_exts.html#glasgow-unboxed"><em>Unboxed types</em></a> for information about unlifted types.</p>
+</dd></dl>
+
+<dl class="ghc-flag">
+<dt id="ghc-flag--Wmissing-home-modules">
+<tt class="descname">-Wmissing-home-modules</tt><tt class="descclassname"></tt><a class="headerlink" href="using-warnings.html#ghc-flag--Wmissing-home-modules" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Since:</th><td class="field-body">8.2</td>
+</tr>
+</tbody>
+</table>
+<p>When a module provided by the package currently being compiled
+(i.e. the &#8220;home&#8221; package) is imported, but not explicitly listed in
+command line as a target. Useful for Cabal to ensure GHC won&#8217;t
+pick up modules, not listed neither in <tt class="docutils literal"><span class="pre">exposed-modules</span></tt>, nor in
+<tt class="docutils literal"><span class="pre">other-modules</span></tt>.</p>
+</dd></dl>
+
+<p>If you&#8217;re feeling really paranoid, the <a class="reference internal" href="debugging.html#ghc-flag--dcore-lint"><tt class="xref std std-ghc-flag docutils literal"><span class="pre">-dcore-lint</span></tt></a> option is a good choice.
+It turns on heavyweight intra-pass sanity-checking within GHC. (It checks GHC&#8217;s
+sanity, not yours.)</p>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="using-optimisation.html" title="7.3. Optimisation (code improvement)"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="using.html" title="7.1. Using GHC"
+             >previous</a> |</li>
+        <li><a href="index.html">GHC 8.2.2 User&#39;s Guide</a> &raquo;</li>
+          <li><a href="usage.html" >7. Using GHC</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2015, GHC Team.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.3.
+    </div>
+  </body>
+</html>

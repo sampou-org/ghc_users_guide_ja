@@ -1,0 +1,229 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>13. What to do when something goes wrong &mdash; Glasgow Haskell Compiler 8.2.2 User&#39;s Guide</title>
+    
+    <link rel="stylesheet" href="_static/ghc-theme.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '8.2.2',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="search" type="application/opensearchdescription+xml"
+          title="Search within Glasgow Haskell Compiler 8.2.2 User&#39;s Guide"
+          href="_static/opensearch.xml"/>
+    <link rel="top" title="Glasgow Haskell Compiler 8.2.2 User&#39;s Guide" href="index.html" />
+    <link rel="next" title="14. Debugging compiled programs" href="debug-info.html" />
+    <link rel="prev" title="12. Extending and using GHC as a Library" href="extending_ghc.html" /> 
+  </head>
+  <body>
+<div class="logo">
+    <h1><a href="index.html">Glasgow Haskell Compiler User's Guide</a></h1>
+</div>
+
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="debug-info.html" title="14. Debugging compiled programs"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="extending_ghc.html" title="12. Extending and using GHC as a Library"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">GHC 8.2.2 User&#39;s Guide</a> &raquo;</li> 
+      </ul>
+    </div>
+
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="gone_wrong.html#">13. What to do when something goes wrong</a><ul>
+<li><a class="reference internal" href="gone_wrong.html#when-the-compiler-does-the-wrong-thing">13.1. When the compiler “does the wrong thing”</a></li>
+<li><a class="reference internal" href="gone_wrong.html#when-your-program-does-the-wrong-thing">13.2. When your program “does the wrong thing”</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="extending_ghc.html"
+                        title="previous chapter">12. Extending and using GHC as a Library</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="debug-info.html"
+                        title="next chapter">14. Debugging compiled programs</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/gone_wrong.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="what-to-do-when-something-goes-wrong">
+<span id="wrong"></span><h1>13. What to do when something goes wrong<a class="headerlink" href="gone_wrong.html#what-to-do-when-something-goes-wrong" title="Permalink to this headline">¶</a></h1>
+<p id="index-0">If you still have a problem after consulting this section, then you may
+have found a <em>bug</em>—please report it! See <a class="reference internal" href="intro.html#bug-reporting"><em>Reporting bugs in GHC</em></a> for
+details on how to report a bug and a list of things we&#8217;d like to know
+about your bug. If in doubt, send a report — we love mail from irate users
+:-!</p>
+<p>(<a class="reference internal" href="bugs.html#vs-haskell-defn"><em>Haskell&nbsp;standards vs.&nbsp;Glasgow Haskell: language non-compliance</em></a>, which describes Glasgow Haskell&#8217;s shortcomings
+vs.&nbsp;the Haskell language definition, may also be of interest.)</p>
+<div class="section" id="when-the-compiler-does-the-wrong-thing">
+<span id="wrong-compiler"></span><h2>13.1. When the compiler “does the wrong thing”<a class="headerlink" href="gone_wrong.html#when-the-compiler-does-the-wrong-thing" title="Permalink to this headline">¶</a></h2>
+<dl class="docutils" id="index-1">
+<dt>&#8220;Help! The compiler crashed (or panic&#8217;d)!&#8221;</dt>
+<dd>These events are <em>always</em> bugs in the GHC system—please report them.</dd>
+<dt>&#8220;This is a terrible error message.&#8221;</dt>
+<dd>If you think that GHC could have produced a better error message,
+please report it as a bug.</dd>
+<dt>&#8220;What about this warning from the C compiler?&#8221;</dt>
+<dd>For example: <tt class="docutils literal"><span class="pre">…warning:</span> <span class="pre">\`Foo'</span> <span class="pre">declared</span> <span class="pre">\`static'</span> <span class="pre">but</span> <span class="pre">never</span>
+<span class="pre">defined.</span></tt> Unsightly, but shouldn&#8217;t be a problem.</dd>
+<dt>Sensitivity to <tt class="docutils literal"><span class="pre">.hi</span></tt> interface files</dt>
+<dd><p class="first">GHC is very sensitive about interface files. For example, if it
+picks up a non-standard <tt class="docutils literal"><span class="pre">Prelude.hi</span></tt> file, pretty terrible things
+will happen. If you turn on
+<tt class="docutils literal"><span class="pre">-XNoImplicitPrelude</span></tt>-XNoImplicitPrelude option, the compiler will
+almost surely die, unless you know what you are doing.</p>
+<p class="last">Furthermore, as sketched below, you may have big problems running
+programs compiled using unstable interfaces.</p>
+</dd>
+<dt>&#8220;I think GHC is producing incorrect code&#8221;</dt>
+<dd>Unlikely :-) A useful be-more-paranoid option to give to GHC is
+<tt class="docutils literal"><span class="pre">-dcore-lint</span></tt>-dcore-lint option; this causes a “lint” pass to
+check for errors (notably type errors) after each Core-to-Core
+transformation pass. We run with <tt class="docutils literal"><span class="pre">-dcore-lint</span></tt> on all the time; it
+costs about 5% in compile time.</dd>
+<dt>Why did I get a link error?</dt>
+<dd>If the linker complains about not finding <tt class="docutils literal"><span class="pre">_&lt;something&gt;_fast</span></tt>,
+then something is inconsistent: you probably didn&#8217;t compile modules
+in the proper dependency order.</dd>
+<dt>&#8220;Is this line number right?&#8221;</dt>
+<dd><p class="first">On this score, GHC usually does pretty well, especially if you
+&#8220;allow&#8221; it to be off by one or two. In the case of an instance or
+class declaration, the line number may only point you to the
+declaration, not to a specific method.</p>
+<p class="last">Please report line-number errors that you find particularly
+unhelpful.</p>
+</dd>
+</dl>
+</div>
+<div class="section" id="when-your-program-does-the-wrong-thing">
+<span id="wrong-compile"></span><h2>13.2. When your program “does the wrong thing”<a class="headerlink" href="gone_wrong.html#when-your-program-does-the-wrong-thing" title="Permalink to this headline">¶</a></h2>
+<p id="index-2">(For advice about overly slow or memory-hungry Haskell programs, please
+see <a class="reference internal" href="sooner.html#sooner-faster-quicker"><em>Advice on: sooner, faster, smaller, thriftier</em></a>).</p>
+<dl class="docutils">
+<dt>&#8220;Help! My program crashed!&#8221;</dt>
+<dd><p class="first">(e.g., a &#8220;segmentation fault&#8221; or &#8220;core dumped&#8221;) segmentation fault</p>
+<p>If your program has no foreign calls in it, and no calls to
+known-unsafe functions (such as <tt class="docutils literal"><span class="pre">unsafePerformIO</span></tt>) then a crash is
+always a BUG in the GHC system, except in one case: If your program
+is made of several modules, each module must have been compiled
+after any modules on which it depends (unless you use <tt class="docutils literal"><span class="pre">.hi-boot</span></tt>
+files, in which case these <em>must</em> be correct with respect to the
+module source).</p>
+<p>For example, if an interface is lying about the type of an imported
+value then GHC may well generate duff code for the importing module.
+<em>This applies to pragmas inside interfaces too!</em> If the pragma is
+lying (e.g., about the “arity” of a value), then duff code may
+result. Furthermore, arities may change even if types do not.</p>
+<p>In short, if you compile a module and its interface changes, then
+all the modules that import that interface <em>must</em> be re-compiled.</p>
+<p>A useful option to alert you when interfaces change is
+<tt class="docutils literal"><span class="pre">-ddump-hi-diffs</span></tt> option. It will run <tt class="docutils literal"><span class="pre">diff</span></tt> on
+the changed interface file, before and after, when applicable.</p>
+<p id="index-3">If you are using <tt class="docutils literal"><span class="pre">make</span></tt>, GHC can automatically generate the
+dependencies required in order to make sure that every module <em>is</em>
+up-to-date with respect to its imported interfaces. Please see
+<a class="reference internal" href="separate_compilation.html#makefile-dependencies"><em>Dependency generation</em></a>.</p>
+<p>If you are down to your last-compile-before-a-bug-report, we would
+recommend that you add a <tt class="docutils literal"><span class="pre">-dcore-lint</span></tt> option (for extra checking)
+to your compilation options.</p>
+<p>So, before you report a bug because of a core dump, you should
+probably:</p>
+<div class="highlight-haskell"><div class="highlight"><pre><span class="o">%</span> <span class="n">rm</span> <span class="o">*.</span><span class="n">o</span>        <span class="o">#</span> <span class="n">scrub</span> <span class="n">your</span> <span class="n">object</span> <span class="n">files</span>
+<span class="o">%</span> <span class="n">make</span> <span class="n">my_prog</span>  <span class="o">#</span> <span class="n">re</span><span class="o">-</span><span class="n">make</span> <span class="n">your</span> <span class="n">program</span><span class="p">;</span> <span class="n">use</span> <span class="o">-</span><span class="n">ddump</span><span class="o">-</span><span class="n">hi</span><span class="o">-</span><span class="n">diffs</span> <span class="n">to</span> <span class="n">highlight</span> <span class="n">changes</span><span class="p">;</span>
+                <span class="o">#</span> <span class="n">as</span> <span class="n">mentioned</span> <span class="n">above</span><span class="p">,</span> <span class="n">use</span> <span class="o">-</span><span class="n">dcore</span><span class="o">-</span><span class="n">lint</span> <span class="n">to</span> <span class="n">be</span> <span class="n">more</span> <span class="n">paranoid</span>
+<span class="o">%</span> <span class="o">./</span><span class="n">my_prog</span> <span class="o">...</span> <span class="o">#</span> <span class="n">retry</span><span class="o">...</span>
+</pre></div>
+</div>
+<p class="last">Of course, if you have foreign calls in your program then all bets
+are off, because you can trash the heap, the stack, or whatever.</p>
+</dd>
+<dt>&#8220;My program entered an &#8216;absent&#8217; argument.&#8221;</dt>
+<dd>This is definitely caused by a bug in GHC. Please report it (see
+<a class="reference internal" href="intro.html#bug-reporting"><em>Reporting bugs in GHC</em></a>).</dd>
+<dt>&#8220;What&#8217;s with this arithmetic (or floating-point) exception?&#8221;</dt>
+<dd><tt class="docutils literal"><span class="pre">Int</span></tt>, <tt class="docutils literal"><span class="pre">Float</span></tt>, and <tt class="docutils literal"><span class="pre">Double</span></tt> arithmetic is <em>unchecked</em>.
+Overflows, underflows and loss of precision are either silent or
+reported as an exception by the operating system (depending on the
+platform). Divide-by-zero <em>may</em> cause an untrapped exception (please
+report it if it does).</dd>
+</dl>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="debug-info.html" title="14. Debugging compiled programs"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="extending_ghc.html" title="12. Extending and using GHC as a Library"
+             >previous</a> |</li>
+        <li><a href="index.html">GHC 8.2.2 User&#39;s Guide</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2015, GHC Team.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.3.
+    </div>
+  </body>
+</html>

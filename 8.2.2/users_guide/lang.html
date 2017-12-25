@@ -1,0 +1,539 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>10. GHC Language Features &mdash; Glasgow Haskell Compiler 8.2.2 User&#39;s Guide</title>
+    
+    <link rel="stylesheet" href="_static/ghc-theme.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '8.2.2',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="search" type="application/opensearchdescription+xml"
+          title="Search within Glasgow Haskell Compiler 8.2.2 User&#39;s Guide"
+          href="_static/opensearch.xml"/>
+    <link rel="top" title="Glasgow Haskell Compiler 8.2.2 User&#39;s Guide" href="index.html" />
+    <link rel="next" title="10.1. Language options" href="glasgow_exts.html" />
+    <link rel="prev" title="9. Advice on: sooner, faster, smaller, thriftier" href="sooner.html" /> 
+  </head>
+  <body>
+<div class="logo">
+    <h1><a href="index.html">Glasgow Haskell Compiler User's Guide</a></h1>
+</div>
+
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="glasgow_exts.html" title="10.1. Language options"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="sooner.html" title="9. Advice on: sooner, faster, smaller, thriftier"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">GHC 8.2.2 User&#39;s Guide</a> &raquo;</li> 
+      </ul>
+    </div>
+
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="sooner.html"
+                        title="previous chapter">9. Advice on: sooner, faster, smaller, thriftier</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="glasgow_exts.html"
+                        title="next chapter">10.1. Language options</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/lang.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="ghc-language-features">
+<span id="id1"></span><h1>10. GHC Language Features<a class="headerlink" href="lang.html#ghc-language-features" title="Permalink to this headline">¶</a></h1>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="glasgow_exts.html">10.1. Language options</a></li>
+<li class="toctree-l1"><a class="reference internal" href="glasgow_exts.html#unboxed-types-and-primitive-operations">10.2. Unboxed types and primitive operations</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="glasgow_exts.html#unboxed-types">10.2.1. Unboxed types</a></li>
+<li class="toctree-l2"><a class="reference internal" href="glasgow_exts.html#unboxed-type-kinds">10.2.2. Unboxed type kinds</a></li>
+<li class="toctree-l2"><a class="reference internal" href="glasgow_exts.html#unboxed-tuples">10.2.3. Unboxed tuples</a></li>
+<li class="toctree-l2"><a class="reference internal" href="glasgow_exts.html#unboxed-sums">10.2.4. Unboxed sums</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="glasgow_exts.html#syntactic-extensions">10.3. Syntactic extensions</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="glasgow_exts.html#unicode-syntax">10.3.1. Unicode syntax</a></li>
+<li class="toctree-l2"><a class="reference internal" href="glasgow_exts.html#the-magic-hash">10.3.2. The magic hash</a></li>
+<li class="toctree-l2"><a class="reference internal" href="glasgow_exts.html#negative-literals">10.3.3. Negative literals</a></li>
+<li class="toctree-l2"><a class="reference internal" href="glasgow_exts.html#fractional-looking-integer-literals">10.3.4. Fractional looking integer literals</a></li>
+<li class="toctree-l2"><a class="reference internal" href="glasgow_exts.html#binary-integer-literals">10.3.5. Binary integer literals</a></li>
+<li class="toctree-l2"><a class="reference internal" href="glasgow_exts.html#pattern-guards">10.3.6. Pattern guards</a></li>
+<li class="toctree-l2"><a class="reference internal" href="glasgow_exts.html#view-patterns">10.3.7. View patterns</a></li>
+<li class="toctree-l2"><a class="reference internal" href="glasgow_exts.html#n-k-patterns">10.3.8. n+k patterns</a></li>
+<li class="toctree-l2"><a class="reference internal" href="glasgow_exts.html#the-recursive-do-notation">10.3.9. The recursive do-notation</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="glasgow_exts.html#recursive-binding-groups">10.3.9.1. Recursive binding groups</a></li>
+<li class="toctree-l3"><a class="reference internal" href="glasgow_exts.html#the-mdo-notation">10.3.9.2. The <tt class="docutils literal"><span class="pre">mdo</span></tt> notation</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="glasgow_exts.html#applicative-do-notation">10.3.10. Applicative do-notation</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="glasgow_exts.html#existential-patterns-and-gadts">10.3.10.1. Existential patterns and GADTs</a></li>
+<li class="toctree-l3"><a class="reference internal" href="glasgow_exts.html#things-to-watch-out-for">10.3.10.2. Things to watch out for</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="glasgow_exts.html#parallel-list-comprehensions">10.3.11. Parallel List Comprehensions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="glasgow_exts.html#generalised-sql-like-list-comprehensions">10.3.12. Generalised (SQL-like) List Comprehensions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="glasgow_exts.html#monad-comprehensions">10.3.13. Monad comprehensions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="glasgow_exts.html#new-monadic-failure-desugaring-mechanism">10.3.14. New monadic failure desugaring mechanism</a></li>
+<li class="toctree-l2"><a class="reference internal" href="glasgow_exts.html#rebindable-syntax-and-the-implicit-prelude-import">10.3.15. Rebindable syntax and the implicit Prelude import</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="glasgow_exts.html#things-unaffected-by-xrebindablesyntax">10.3.15.1. Things unaffected by <tt class="docutils literal"><span class="pre">-XRebindableSyntax</span></tt></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="glasgow_exts.html#postfix-operators">10.3.16. Postfix operators</a></li>
+<li class="toctree-l2"><a class="reference internal" href="glasgow_exts.html#tuple-sections">10.3.17. Tuple sections</a></li>
+<li class="toctree-l2"><a class="reference internal" href="glasgow_exts.html#lambda-case">10.3.18. Lambda-case</a></li>
+<li class="toctree-l2"><a class="reference internal" href="glasgow_exts.html#empty-case-alternatives">10.3.19. Empty case alternatives</a></li>
+<li class="toctree-l2"><a class="reference internal" href="glasgow_exts.html#multi-way-if-expressions">10.3.20. Multi-way if-expressions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="glasgow_exts.html#local-fixity-declarations">10.3.21. Local Fixity Declarations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="glasgow_exts.html#import-and-export-extensions">10.3.22. Import and export extensions</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="glasgow_exts.html#hiding-things-the-imported-module-doesn-t-export">10.3.22.1. Hiding things the imported module doesn&#8217;t export</a></li>
+<li class="toctree-l3"><a class="reference internal" href="glasgow_exts.html#package-qualified-imports">10.3.22.2. Package-qualified imports</a></li>
+<li class="toctree-l3"><a class="reference internal" href="glasgow_exts.html#safe-imports">10.3.22.3. Safe imports</a></li>
+<li class="toctree-l3"><a class="reference internal" href="glasgow_exts.html#explicit-namespaces-in-import-export">10.3.22.4. Explicit namespaces in import/export</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="glasgow_exts.html#summary-of-stolen-syntax">10.3.23. Summary of stolen syntax</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="glasgow_exts.html#extensions-to-data-types-and-type-synonyms">10.4. Extensions to data types and type synonyms</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="glasgow_exts.html#data-types-with-no-constructors">10.4.1. Data types with no constructors</a></li>
+<li class="toctree-l2"><a class="reference internal" href="glasgow_exts.html#data-type-contexts">10.4.2. Data type contexts</a></li>
+<li class="toctree-l2"><a class="reference internal" href="glasgow_exts.html#infix-type-constructors-classes-and-type-variables">10.4.3. Infix type constructors, classes, and type variables</a></li>
+<li class="toctree-l2"><a class="reference internal" href="glasgow_exts.html#type-operators">10.4.4. Type operators</a></li>
+<li class="toctree-l2"><a class="reference internal" href="glasgow_exts.html#liberalised-type-synonyms">10.4.5. Liberalised type synonyms</a></li>
+<li class="toctree-l2"><a class="reference internal" href="glasgow_exts.html#existentially-quantified-data-constructors">10.4.6. Existentially quantified data constructors</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="glasgow_exts.html#why-existential">10.4.6.1. Why existential?</a></li>
+<li class="toctree-l3"><a class="reference internal" href="glasgow_exts.html#existentials-and-type-classes">10.4.6.2. Existentials and type classes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="glasgow_exts.html#record-constructors">10.4.6.3. Record Constructors</a></li>
+<li class="toctree-l3"><a class="reference internal" href="glasgow_exts.html#restrictions">10.4.6.4. Restrictions</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="glasgow_exts.html#declaring-data-types-with-explicit-constructor-signatures">10.4.7. Declaring data types with explicit constructor signatures</a></li>
+<li class="toctree-l2"><a class="reference internal" href="glasgow_exts.html#generalised-algebraic-data-types-gadts">10.4.8. Generalised Algebraic Data Types (GADTs)</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="glasgow_exts.html#extensions-to-the-record-system">10.5. Extensions to the record system</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="glasgow_exts.html#traditional-record-syntax">10.5.1. Traditional record syntax</a></li>
+<li class="toctree-l2"><a class="reference internal" href="glasgow_exts.html#record-field-disambiguation">10.5.2. Record field disambiguation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="glasgow_exts.html#duplicate-record-fields">10.5.3. Duplicate record fields</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="glasgow_exts.html#selector-functions">10.5.3.1. Selector functions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="glasgow_exts.html#record-updates">10.5.3.2. Record updates</a></li>
+<li class="toctree-l3"><a class="reference internal" href="glasgow_exts.html#import-and-export-of-record-fields">10.5.3.3. Import and export of record fields</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="glasgow_exts.html#record-puns">10.5.4. Record puns</a></li>
+<li class="toctree-l2"><a class="reference internal" href="glasgow_exts.html#record-wildcards">10.5.5. Record wildcards</a></li>
+<li class="toctree-l2"><a class="reference internal" href="glasgow_exts.html#record-field-selector-polymorphism">10.5.6. Record field selector polymorphism</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="glasgow_exts.html#solving-hasfield-constraints">10.5.6.1. Solving HasField constraints</a></li>
+<li class="toctree-l3"><a class="reference internal" href="glasgow_exts.html#virtual-record-fields">10.5.6.2. Virtual record fields</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="glasgow_exts.html#extensions-to-the-deriving-mechanism">10.6. Extensions to the &#8220;deriving&#8221; mechanism</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="glasgow_exts.html#inferred-context-for-deriving-clauses">10.6.1. Inferred context for deriving clauses</a></li>
+<li class="toctree-l2"><a class="reference internal" href="glasgow_exts.html#stand-alone-deriving-declarations">10.6.2. Stand-alone deriving declarations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="glasgow_exts.html#deriving-instances-of-extra-classes-data-etc">10.6.3. Deriving instances of extra classes (<tt class="docutils literal"><span class="pre">Data</span></tt>, etc.)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="glasgow_exts.html#deriving-functor-instances">10.6.4. Deriving <tt class="docutils literal"><span class="pre">Functor</span></tt> instances</a></li>
+<li class="toctree-l2"><a class="reference internal" href="glasgow_exts.html#deriving-foldable-instances">10.6.5. Deriving <tt class="docutils literal"><span class="pre">Foldable</span></tt> instances</a></li>
+<li class="toctree-l2"><a class="reference internal" href="glasgow_exts.html#deriving-traversable-instances">10.6.6. Deriving <tt class="docutils literal"><span class="pre">Traversable</span></tt> instances</a></li>
+<li class="toctree-l2"><a class="reference internal" href="glasgow_exts.html#deriving-data-instances">10.6.7. Deriving <tt class="docutils literal"><span class="pre">Data</span></tt> instances</a></li>
+<li class="toctree-l2"><a class="reference internal" href="glasgow_exts.html#deriving-typeable-instances">10.6.8. Deriving <tt class="docutils literal"><span class="pre">Typeable</span></tt> instances</a></li>
+<li class="toctree-l2"><a class="reference internal" href="glasgow_exts.html#deriving-lift-instances">10.6.9. Deriving <tt class="docutils literal"><span class="pre">Lift</span></tt> instances</a></li>
+<li class="toctree-l2"><a class="reference internal" href="glasgow_exts.html#generalised-derived-instances-for-newtypes">10.6.10. Generalised derived instances for newtypes</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="glasgow_exts.html#generalising-the-deriving-clause">10.6.10.1. Generalising the deriving clause</a></li>
+<li class="toctree-l3"><a class="reference internal" href="glasgow_exts.html#a-more-precise-specification">10.6.10.2. A more precise specification</a></li>
+<li class="toctree-l3"><a class="reference internal" href="glasgow_exts.html#associated-type-families">10.6.10.3. Associated type families</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="glasgow_exts.html#deriving-any-other-class">10.6.11. Deriving any other class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="glasgow_exts.html#deriving-strategies">10.6.12. Deriving strategies</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="glasgow_exts.html#pattern-synonyms">10.7. Pattern synonyms</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="glasgow_exts.html#record-pattern-synonyms">10.7.1. Record Pattern Synonyms</a></li>
+<li class="toctree-l2"><a class="reference internal" href="glasgow_exts.html#syntax-and-scoping-of-pattern-synonyms">10.7.2. Syntax and scoping of pattern synonyms</a></li>
+<li class="toctree-l2"><a class="reference internal" href="glasgow_exts.html#import-and-export-of-pattern-synonyms">10.7.3. Import and export of pattern synonyms</a></li>
+<li class="toctree-l2"><a class="reference internal" href="glasgow_exts.html#typing-of-pattern-synonyms">10.7.4. Typing of pattern synonyms</a></li>
+<li class="toctree-l2"><a class="reference internal" href="glasgow_exts.html#matching-of-pattern-synonyms">10.7.5. Matching of pattern synonyms</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="glasgow_exts.html#class-and-instances-declarations">10.8. Class and instances declarations</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="glasgow_exts.html#class-declarations">10.8.1. Class declarations</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="glasgow_exts.html#multi-parameter-type-classes">10.8.1.1. Multi-parameter type classes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="glasgow_exts.html#the-superclasses-of-a-class-declaration">10.8.1.2. The superclasses of a class declaration</a></li>
+<li class="toctree-l3"><a class="reference internal" href="glasgow_exts.html#constrained-class-method-types">10.8.1.3. Constrained class method types</a></li>
+<li class="toctree-l3"><a class="reference internal" href="glasgow_exts.html#default-method-signatures">10.8.1.4. Default method signatures</a></li>
+<li class="toctree-l3"><a class="reference internal" href="glasgow_exts.html#nullary-type-classes">10.8.1.5. Nullary type classes</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="glasgow_exts.html#functional-dependencies">10.8.2. Functional dependencies</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="glasgow_exts.html#rules-for-functional-dependencies">10.8.2.1. Rules for functional dependencies</a></li>
+<li class="toctree-l3"><a class="reference internal" href="glasgow_exts.html#background-on-functional-dependencies">10.8.2.2. Background on functional dependencies</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="glasgow_exts.html#an-attempt-to-use-constructor-classes">10.8.2.2.1. An attempt to use constructor classes</a></li>
+<li class="toctree-l4"><a class="reference internal" href="glasgow_exts.html#adding-functional-dependencies">10.8.2.2.2. Adding functional dependencies</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="glasgow_exts.html#instance-declarations">10.8.3. Instance declarations</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="glasgow_exts.html#instance-resolution">10.8.3.1. Instance resolution</a></li>
+<li class="toctree-l3"><a class="reference internal" href="glasgow_exts.html#relaxed-rules-for-the-instance-head">10.8.3.2. Relaxed rules for the instance head</a></li>
+<li class="toctree-l3"><a class="reference internal" href="glasgow_exts.html#relaxed-rules-for-instance-contexts">10.8.3.3. Relaxed rules for instance contexts</a></li>
+<li class="toctree-l3"><a class="reference internal" href="glasgow_exts.html#instance-termination-rules">10.8.3.4. Instance termination rules</a></li>
+<li class="toctree-l3"><a class="reference internal" href="glasgow_exts.html#undecidable-instances">10.8.3.5. Undecidable instances</a></li>
+<li class="toctree-l3"><a class="reference internal" href="glasgow_exts.html#overlapping-instances">10.8.3.6. Overlapping instances</a></li>
+<li class="toctree-l3"><a class="reference internal" href="glasgow_exts.html#instance-signatures-type-signatures-in-instance-declarations">10.8.3.7. Instance signatures: type signatures in instance declarations</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="glasgow_exts.html#overloaded-string-literals">10.8.4. Overloaded string literals</a></li>
+<li class="toctree-l2"><a class="reference internal" href="glasgow_exts.html#overloaded-labels">10.8.5. Overloaded labels</a></li>
+<li class="toctree-l2"><a class="reference internal" href="glasgow_exts.html#overloaded-lists">10.8.6. Overloaded lists</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="glasgow_exts.html#the-islist-class">10.8.6.1. The <tt class="docutils literal"><span class="pre">IsList</span></tt> class</a></li>
+<li class="toctree-l3"><a class="reference internal" href="glasgow_exts.html#id32">10.8.6.2. Rebindable syntax</a></li>
+<li class="toctree-l3"><a class="reference internal" href="glasgow_exts.html#defaulting">10.8.6.3. Defaulting</a></li>
+<li class="toctree-l3"><a class="reference internal" href="glasgow_exts.html#speculation-about-the-future">10.8.6.4. Speculation about the future</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="glasgow_exts.html#undecidable-or-recursive-superclasses">10.8.7. Undecidable (or recursive) superclasses</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="glasgow_exts.html#type-families">10.9. Type families</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="glasgow_exts.html#data-families">10.9.1. Data families</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="glasgow_exts.html#data-family-declarations">10.9.1.1. Data family declarations</a></li>
+<li class="toctree-l3"><a class="reference internal" href="glasgow_exts.html#data-instance-declarations">10.9.1.2. Data instance declarations</a></li>
+<li class="toctree-l3"><a class="reference internal" href="glasgow_exts.html#overlap-of-data-instances">10.9.1.3. Overlap of data instances</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="glasgow_exts.html#synonym-families">10.9.2. Synonym families</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="glasgow_exts.html#type-family-declarations">10.9.2.1. Type family declarations</a></li>
+<li class="toctree-l3"><a class="reference internal" href="glasgow_exts.html#type-instance-declarations">10.9.2.2. Type instance declarations</a></li>
+<li class="toctree-l3"><a class="reference internal" href="glasgow_exts.html#closed-type-families">10.9.2.3. Closed type families</a></li>
+<li class="toctree-l3"><a class="reference internal" href="glasgow_exts.html#type-family-examples">10.9.2.4. Type family examples</a></li>
+<li class="toctree-l3"><a class="reference internal" href="glasgow_exts.html#compatibility-and-apartness-of-type-family-equations">10.9.2.5. Compatibility and apartness of type family equations</a></li>
+<li class="toctree-l3"><a class="reference internal" href="glasgow_exts.html#decidability-of-type-synonym-instances">10.9.2.6. Decidability of type synonym instances</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="glasgow_exts.html#wildcards-on-the-lhs-of-data-and-type-family-instances">10.9.3. Wildcards on the LHS of data and type family instances</a></li>
+<li class="toctree-l2"><a class="reference internal" href="glasgow_exts.html#associated-data-and-type-families">10.9.4. Associated data and type families</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="glasgow_exts.html#associated-instances">10.9.4.1. Associated instances</a></li>
+<li class="toctree-l3"><a class="reference internal" href="glasgow_exts.html#associated-type-synonym-defaults">10.9.4.2. Associated type synonym defaults</a></li>
+<li class="toctree-l3"><a class="reference internal" href="glasgow_exts.html#scoping-of-class-parameters">10.9.4.3. Scoping of class parameters</a></li>
+<li class="toctree-l3"><a class="reference internal" href="glasgow_exts.html#instance-contexts-and-associated-type-and-data-instances">10.9.4.4. Instance contexts and associated type and data instances</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="glasgow_exts.html#import-and-export">10.9.5. Import and export</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="glasgow_exts.html#examples">10.9.5.1. Examples</a></li>
+<li class="toctree-l3"><a class="reference internal" href="glasgow_exts.html#instances">10.9.5.2. Instances</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="glasgow_exts.html#type-families-and-instance-declarations">10.9.6. Type families and instance declarations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="glasgow_exts.html#injective-type-families">10.9.7. Injective type families</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="glasgow_exts.html#syntax-of-injectivity-annotation">10.9.7.1. Syntax of injectivity annotation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="glasgow_exts.html#verifying-injectivity-annotation-against-type-family-equations">10.9.7.2. Verifying injectivity annotation against type family equations</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="glasgow_exts.html#datatype-promotion">10.10. Datatype promotion</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="glasgow_exts.html#motivation">10.10.1. Motivation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="glasgow_exts.html#overview">10.10.2. Overview</a></li>
+<li class="toctree-l2"><a class="reference internal" href="glasgow_exts.html#distinguishing-between-types-and-constructors">10.10.3. Distinguishing between types and constructors</a></li>
+<li class="toctree-l2"><a class="reference internal" href="glasgow_exts.html#promoted-list-and-tuple-types">10.10.4. Promoted list and tuple types</a></li>
+<li class="toctree-l2"><a class="reference internal" href="glasgow_exts.html#promoting-existential-data-constructors">10.10.5. Promoting existential data constructors</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="glasgow_exts.html#kind-polymorphism-and-type-in-type">10.11. Kind polymorphism and Type-in-Type</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="glasgow_exts.html#the-difference-between-xtypeintype-and-xpolykinds">10.11.1. The difference between <tt class="docutils literal"><span class="pre">-XTypeInType</span></tt> and <tt class="docutils literal"><span class="pre">-XPolyKinds</span></tt></a></li>
+<li class="toctree-l2"><a class="reference internal" href="glasgow_exts.html#overview-of-kind-polymorphism">10.11.2. Overview of kind polymorphism</a></li>
+<li class="toctree-l2"><a class="reference internal" href="glasgow_exts.html#overview-of-type-in-type">10.11.3. Overview of Type-in-Type</a></li>
+<li class="toctree-l2"><a class="reference internal" href="glasgow_exts.html#principles-of-kind-inference">10.11.4. Principles of kind inference</a></li>
+<li class="toctree-l2"><a class="reference internal" href="glasgow_exts.html#complete-user-supplied-kind-signatures-and-polymorphic-recursion">10.11.5. Complete user-supplied kind signatures and polymorphic recursion</a></li>
+<li class="toctree-l2"><a class="reference internal" href="glasgow_exts.html#kind-inference-in-closed-type-families">10.11.6. Kind inference in closed type families</a></li>
+<li class="toctree-l2"><a class="reference internal" href="glasgow_exts.html#kind-inference-in-class-instance-declarations">10.11.7. Kind inference in class instance declarations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="glasgow_exts.html#kind-inference-in-type-signatures">10.11.8. Kind inference in type signatures</a></li>
+<li class="toctree-l2"><a class="reference internal" href="glasgow_exts.html#explicit-kind-quantification">10.11.9. Explicit kind quantification</a></li>
+<li class="toctree-l2"><a class="reference internal" href="glasgow_exts.html#kind-indexed-gadts">10.11.10. Kind-indexed GADTs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="glasgow_exts.html#constraints-in-kinds">10.11.11. Constraints in kinds</a></li>
+<li class="toctree-l2"><a class="reference internal" href="glasgow_exts.html#the-kind">10.11.12. The kind <tt class="docutils literal"><span class="pre">*</span></tt></a></li>
+<li class="toctree-l2"><a class="reference internal" href="glasgow_exts.html#inferring-dependency-in-datatype-declarations">10.11.13. Inferring dependency in datatype declarations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="glasgow_exts.html#kind-defaulting-without-xpolykinds">10.11.14. Kind defaulting without <tt class="docutils literal"><span class="pre">-XPolyKinds</span></tt></a></li>
+<li class="toctree-l2"><a class="reference internal" href="glasgow_exts.html#pretty-printing-in-the-presence-of-kind-polymorphism">10.11.15. Pretty-printing in the presence of kind polymorphism</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="glasgow_exts.html#levity-polymorphism">10.12. Levity polymorphism</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="glasgow_exts.html#no-levity-polymorphic-variables-or-arguments">10.12.1. No levity-polymorphic variables or arguments</a></li>
+<li class="toctree-l2"><a class="reference internal" href="glasgow_exts.html#levity-polymorphic-bottoms">10.12.2. Levity-polymorphic bottoms</a></li>
+<li class="toctree-l2"><a class="reference internal" href="glasgow_exts.html#printing-levity-polymorphic-types">10.12.3. Printing levity-polymorphic types</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="glasgow_exts.html#type-level-literals">10.13. Type-Level Literals</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="glasgow_exts.html#runtime-values-for-type-level-literals">10.13.1. Runtime Values for Type-Level Literals</a></li>
+<li class="toctree-l2"><a class="reference internal" href="glasgow_exts.html#computing-with-type-level-naturals">10.13.2. Computing With Type-Level Naturals</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="glasgow_exts.html#constraints-in-types">10.14. Constraints in types</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="glasgow_exts.html#equality-constraints">10.14.1. Equality constraints</a></li>
+<li class="toctree-l2"><a class="reference internal" href="glasgow_exts.html#heterogeneous-equality">10.14.2. Heterogeneous equality</a></li>
+<li class="toctree-l2"><a class="reference internal" href="glasgow_exts.html#unlifted-heterogeneous-equality">10.14.3. Unlifted heterogeneous equality</a></li>
+<li class="toctree-l2"><a class="reference internal" href="glasgow_exts.html#the-coercible-constraint">10.14.4. The <tt class="docutils literal"><span class="pre">Coercible</span></tt> constraint</a></li>
+<li class="toctree-l2"><a class="reference internal" href="glasgow_exts.html#the-constraint-kind">10.14.5. The <tt class="docutils literal"><span class="pre">Constraint</span></tt> kind</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="glasgow_exts.html#extensions-to-type-signatures">10.15. Extensions to type signatures</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="glasgow_exts.html#explicit-universal-quantification-forall">10.15.1. Explicit universal quantification (forall)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="glasgow_exts.html#the-context-of-a-type-signature">10.15.2. The context of a type signature</a></li>
+<li class="toctree-l2"><a class="reference internal" href="glasgow_exts.html#ambiguous-types-and-the-ambiguity-check">10.15.3. Ambiguous types and the ambiguity check</a></li>
+<li class="toctree-l2"><a class="reference internal" href="glasgow_exts.html#explicitly-kinded-quantification">10.15.4. Explicitly-kinded quantification</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="glasgow_exts.html#lexically-scoped-type-variables">10.16. Lexically scoped type variables</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="glasgow_exts.html#id48">10.16.1. Overview</a></li>
+<li class="toctree-l2"><a class="reference internal" href="glasgow_exts.html#declaration-type-signatures">10.16.2. Declaration type signatures</a></li>
+<li class="toctree-l2"><a class="reference internal" href="glasgow_exts.html#expression-type-signatures">10.16.3. Expression type signatures</a></li>
+<li class="toctree-l2"><a class="reference internal" href="glasgow_exts.html#pattern-type-signatures">10.16.4. Pattern type signatures</a></li>
+<li class="toctree-l2"><a class="reference internal" href="glasgow_exts.html#class-and-instance-declarations">10.16.5. Class and instance declarations</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="glasgow_exts.html#bindings-and-generalisation">10.17. Bindings and generalisation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="glasgow_exts.html#switching-off-the-dreaded-monomorphism-restriction">10.17.1. Switching off the dreaded Monomorphism Restriction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="glasgow_exts.html#let-generalisation">10.17.2. Let-generalisation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="glasgow_exts.html#kind-generalisation">10.17.3. Kind generalisation</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="glasgow_exts.html#visible-type-application">10.18. Visible type application</a></li>
+<li class="toctree-l1"><a class="reference internal" href="glasgow_exts.html#implicit-parameters">10.19. Implicit parameters</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="glasgow_exts.html#implicit-parameter-type-constraints">10.19.1. Implicit-parameter type constraints</a></li>
+<li class="toctree-l2"><a class="reference internal" href="glasgow_exts.html#implicit-parameter-bindings">10.19.2. Implicit-parameter bindings</a></li>
+<li class="toctree-l2"><a class="reference internal" href="glasgow_exts.html#implicit-parameters-and-polymorphic-recursion">10.19.3. Implicit parameters and polymorphic recursion</a></li>
+<li class="toctree-l2"><a class="reference internal" href="glasgow_exts.html#implicit-parameters-and-monomorphism">10.19.4. Implicit parameters and monomorphism</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="glasgow_exts.html#arbitrary-rank-polymorphism">10.20. Arbitrary-rank polymorphism</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="glasgow_exts.html#univ">10.20.1. Examples</a></li>
+<li class="toctree-l2"><a class="reference internal" href="glasgow_exts.html#type-inference">10.20.2. Type inference</a></li>
+<li class="toctree-l2"><a class="reference internal" href="glasgow_exts.html#implicit-quantification">10.20.3. Implicit quantification</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="glasgow_exts.html#impredicative-polymorphism">10.21. Impredicative polymorphism</a></li>
+<li class="toctree-l1"><a class="reference internal" href="glasgow_exts.html#typed-holes">10.22. Typed Holes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="glasgow_exts.html#partial-type-signatures">10.23. Partial Type Signatures</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="glasgow_exts.html#syntax">10.23.1. Syntax</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="glasgow_exts.html#type-wildcards">10.23.1.1. Type Wildcards</a></li>
+<li class="toctree-l3"><a class="reference internal" href="glasgow_exts.html#named-wildcards">10.23.1.2. Named Wildcards</a></li>
+<li class="toctree-l3"><a class="reference internal" href="glasgow_exts.html#extra-constraints-wildcard">10.23.1.3. Extra-Constraints Wildcard</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="glasgow_exts.html#where-can-they-occur">10.23.2. Where can they occur?</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="glasgow_exts.html#custom-compile-time-errors">10.24. Custom compile-time errors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="glasgow_exts.html#deferring-type-errors-to-runtime">10.25. Deferring type errors to runtime</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="glasgow_exts.html#enabling-deferring-of-type-errors">10.25.1. Enabling deferring of type errors</a></li>
+<li class="toctree-l2"><a class="reference internal" href="glasgow_exts.html#deferred-type-errors-in-ghci">10.25.2. Deferred type errors in GHCi</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="glasgow_exts.html#template-haskell">10.26. Template Haskell</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="glasgow_exts.html#th-syntax">10.26.1. Syntax</a></li>
+<li class="toctree-l2"><a class="reference internal" href="glasgow_exts.html#using-template-haskell">10.26.2. Using Template Haskell</a></li>
+<li class="toctree-l2"><a class="reference internal" href="glasgow_exts.html#viewing-template-haskell-generated-code">10.26.3. Viewing Template Haskell generated code</a></li>
+<li class="toctree-l2"><a class="reference internal" href="glasgow_exts.html#a-template-haskell-worked-example">10.26.4. A Template Haskell Worked Example</a></li>
+<li class="toctree-l2"><a class="reference internal" href="glasgow_exts.html#using-template-haskell-with-profiling">10.26.5. Using Template Haskell with Profiling</a></li>
+<li class="toctree-l2"><a class="reference internal" href="glasgow_exts.html#template-haskell-quasi-quotation">10.26.6. Template Haskell Quasi-quotation</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="glasgow_exts.html#arrow-notation">10.27. Arrow notation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="glasgow_exts.html#do-notation-for-commands">10.27.1. do-notation for commands</a></li>
+<li class="toctree-l2"><a class="reference internal" href="glasgow_exts.html#conditional-commands">10.27.2. Conditional commands</a></li>
+<li class="toctree-l2"><a class="reference internal" href="glasgow_exts.html#defining-your-own-control-structures">10.27.3. Defining your own control structures</a></li>
+<li class="toctree-l2"><a class="reference internal" href="glasgow_exts.html#primitive-constructs">10.27.4. Primitive constructs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="glasgow_exts.html#differences-with-the-paper">10.27.5. Differences with the paper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="glasgow_exts.html#portability">10.27.6. Portability</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="glasgow_exts.html#bang-patterns-and-strict-haskell">10.28. Bang patterns and Strict Haskell</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="glasgow_exts.html#bang-patterns-informal">10.28.1. Bang patterns</a></li>
+<li class="toctree-l2"><a class="reference internal" href="glasgow_exts.html#strict-by-default-data-types">10.28.2. Strict-by-default data types</a></li>
+<li class="toctree-l2"><a class="reference internal" href="glasgow_exts.html#strict-by-default-pattern-bindings">10.28.3. Strict-by-default pattern bindings</a></li>
+<li class="toctree-l2"><a class="reference internal" href="glasgow_exts.html#modularity">10.28.4. Modularity</a></li>
+<li class="toctree-l2"><a class="reference internal" href="glasgow_exts.html#dynamic-semantics-of-bang-patterns">10.28.5. Dynamic semantics of bang patterns</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="glasgow_exts.html#assertions">10.29. Assertions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="glasgow_exts.html#static-pointers">10.30. Static pointers</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="glasgow_exts.html#using-static-pointers">10.30.1. Using static pointers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="glasgow_exts.html#static-semantics-of-static-pointers">10.30.2. Static semantics of static pointers</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="glasgow_exts.html#pragmas">10.31. Pragmas</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="glasgow_exts.html#language-pragma">10.31.1. LANGUAGE pragma</a></li>
+<li class="toctree-l2"><a class="reference internal" href="glasgow_exts.html#options-ghc-pragma">10.31.2. <tt class="docutils literal"><span class="pre">OPTIONS_GHC</span></tt> pragma</a></li>
+<li class="toctree-l2"><a class="reference internal" href="glasgow_exts.html#include-pragma">10.31.3. <tt class="docutils literal"><span class="pre">INCLUDE</span></tt> pragma</a></li>
+<li class="toctree-l2"><a class="reference internal" href="glasgow_exts.html#warning-and-deprecated-pragmas">10.31.4. <tt class="docutils literal"><span class="pre">WARNING</span></tt> and <tt class="docutils literal"><span class="pre">DEPRECATED</span></tt> pragmas</a></li>
+<li class="toctree-l2"><a class="reference internal" href="glasgow_exts.html#minimal-pragma">10.31.5. MINIMAL pragma</a></li>
+<li class="toctree-l2"><a class="reference internal" href="glasgow_exts.html#inline-and-noinline-pragmas">10.31.6. INLINE and NOINLINE pragmas</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="glasgow_exts.html#inline-pragma">10.31.6.1. INLINE pragma</a></li>
+<li class="toctree-l3"><a class="reference internal" href="glasgow_exts.html#inlinable-pragma">10.31.6.2. INLINABLE pragma</a></li>
+<li class="toctree-l3"><a class="reference internal" href="glasgow_exts.html#noinline-pragma">10.31.6.3. NOINLINE pragma</a></li>
+<li class="toctree-l3"><a class="reference internal" href="glasgow_exts.html#conlike-modifier">10.31.6.4. CONLIKE modifier</a></li>
+<li class="toctree-l3"><a class="reference internal" href="glasgow_exts.html#phase-control">10.31.6.5. Phase control</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="glasgow_exts.html#line-pragma">10.31.7. <tt class="docutils literal"><span class="pre">LINE</span></tt> pragma</a></li>
+<li class="toctree-l2"><a class="reference internal" href="glasgow_exts.html#column-pragma">10.31.8. <tt class="docutils literal"><span class="pre">COLUMN</span></tt> pragma</a></li>
+<li class="toctree-l2"><a class="reference internal" href="glasgow_exts.html#rules-pragma">10.31.9. <tt class="docutils literal"><span class="pre">RULES</span></tt> pragma</a></li>
+<li class="toctree-l2"><a class="reference internal" href="glasgow_exts.html#specialize-pragma">10.31.10. <tt class="docutils literal"><span class="pre">SPECIALIZE</span></tt> pragma</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="glasgow_exts.html#specialize-inline">10.31.10.1. <tt class="docutils literal"><span class="pre">SPECIALIZE</span> <span class="pre">INLINE</span></tt></a></li>
+<li class="toctree-l3"><a class="reference internal" href="glasgow_exts.html#specialize-for-imported-functions">10.31.10.2. <tt class="docutils literal"><span class="pre">SPECIALIZE</span></tt> for imported functions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="glasgow_exts.html#obsolete-specialize-syntax">10.31.10.3. Obsolete <tt class="docutils literal"><span class="pre">SPECIALIZE</span></tt> syntax</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="glasgow_exts.html#specialize-instance-pragma">10.31.11. <tt class="docutils literal"><span class="pre">SPECIALIZE</span></tt> instance pragma</a></li>
+<li class="toctree-l2"><a class="reference internal" href="glasgow_exts.html#unpack-pragma">10.31.12. <tt class="docutils literal"><span class="pre">UNPACK</span></tt> pragma</a></li>
+<li class="toctree-l2"><a class="reference internal" href="glasgow_exts.html#nounpack-pragma">10.31.13. <tt class="docutils literal"><span class="pre">NOUNPACK</span></tt> pragma</a></li>
+<li class="toctree-l2"><a class="reference internal" href="glasgow_exts.html#source-pragma">10.31.14. <tt class="docutils literal"><span class="pre">SOURCE</span></tt> pragma</a></li>
+<li class="toctree-l2"><a class="reference internal" href="glasgow_exts.html#complete-pragmas">10.31.15. <tt class="docutils literal"><span class="pre">COMPLETE</span></tt> pragmas</a></li>
+<li class="toctree-l2"><a class="reference internal" href="glasgow_exts.html#overlapping-overlappable-overlaps-and-incoherent-pragmas">10.31.16. <tt class="docutils literal"><span class="pre">OVERLAPPING</span></tt>, <tt class="docutils literal"><span class="pre">OVERLAPPABLE</span></tt>, <tt class="docutils literal"><span class="pre">OVERLAPS</span></tt>, and <tt class="docutils literal"><span class="pre">INCOHERENT</span></tt> pragmas</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="glasgow_exts.html#rewrite-rules">10.32. Rewrite rules</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="glasgow_exts.html#id87">10.32.1. Syntax</a></li>
+<li class="toctree-l2"><a class="reference internal" href="glasgow_exts.html#semantics">10.32.2. Semantics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="glasgow_exts.html#how-rules-interact-with-inline-noinline-pragmas">10.32.3. How rules interact with <tt class="docutils literal"><span class="pre">INLINE</span></tt>/<tt class="docutils literal"><span class="pre">NOINLINE</span></tt> pragmas</a></li>
+<li class="toctree-l2"><a class="reference internal" href="glasgow_exts.html#how-rules-interact-with-conlike-pragmas">10.32.4. How rules interact with CONLIKE pragmas</a></li>
+<li class="toctree-l2"><a class="reference internal" href="glasgow_exts.html#how-rules-interact-with-class-methods">10.32.5. How rules interact with class methods</a></li>
+<li class="toctree-l2"><a class="reference internal" href="glasgow_exts.html#list-fusion">10.32.6. List fusion</a></li>
+<li class="toctree-l2"><a class="reference internal" href="glasgow_exts.html#specialisation">10.32.7. Specialisation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="glasgow_exts.html#controlling-what-s-going-on-in-rewrite-rules">10.32.8. Controlling what&#8217;s going on in rewrite rules</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="glasgow_exts.html#special-built-in-functions">10.33. Special built-in functions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="glasgow_exts.html#generic-classes">10.34. Generic classes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="glasgow_exts.html#generic-programming">10.35. Generic programming</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="glasgow_exts.html#deriving-representations">10.35.1. Deriving representations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="glasgow_exts.html#writing-generic-functions">10.35.2. Writing generic functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="glasgow_exts.html#unlifted-representation-types">10.35.3. Unlifted representation types</a></li>
+<li class="toctree-l2"><a class="reference internal" href="glasgow_exts.html#generic-defaults">10.35.4. Generic defaults</a></li>
+<li class="toctree-l2"><a class="reference internal" href="glasgow_exts.html#more-information">10.35.5. More information</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="glasgow_exts.html#roles">10.36. Roles</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="glasgow_exts.html#nominal-representational-and-phantom">10.36.1. Nominal, Representational, and Phantom</a></li>
+<li class="toctree-l2"><a class="reference internal" href="glasgow_exts.html#role-inference">10.36.2. Role inference</a></li>
+<li class="toctree-l2"><a class="reference internal" href="glasgow_exts.html#role-annotations">10.36.3. Role annotations</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="glasgow_exts.html#hascallstack">10.37. HasCallStack</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="glasgow_exts.html#compared-with-other-sources-of-stack-traces">10.37.1. Compared with other sources of stack traces</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="parallel.html">10.38. Concurrent and Parallel Haskell</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="parallel.html#concurrent-haskell">10.38.1. Concurrent Haskell</a></li>
+<li class="toctree-l2"><a class="reference internal" href="parallel.html#software-transactional-memory">10.38.2. Software Transactional Memory</a></li>
+<li class="toctree-l2"><a class="reference internal" href="parallel.html#parallel-haskell">10.38.3. Parallel Haskell</a></li>
+<li class="toctree-l2"><a class="reference internal" href="parallel.html#annotating-pure-code-for-parallelism">10.38.4. Annotating pure code for parallelism</a></li>
+<li class="toctree-l2"><a class="reference internal" href="parallel.html#data-parallel-haskell">10.38.5. Data Parallel Haskell</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="safe_haskell.html">10.39. Safe Haskell</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="safe_haskell.html#uses-of-safe-haskell">10.39.1. Uses of Safe Haskell</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="safe_haskell.html#strict-type-safety-good-style">10.39.1.1. Strict type-safety (good style)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="safe_haskell.html#building-secure-systems-restricted-io-monads">10.39.1.2. Building secure systems (restricted IO Monads)</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="safe_haskell.html#safe-language">10.39.2. Safe Language</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="safe_haskell.html#safe-overlapping-instances">10.39.2.1. Safe Overlapping Instances</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="safe_haskell.html#safe-imports">10.39.3. Safe Imports</a></li>
+<li class="toctree-l2"><a class="reference internal" href="safe_haskell.html#trust-and-safe-haskell-modes">10.39.4. Trust and Safe Haskell Modes</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="safe_haskell.html#trust-check-fpackage-trust-disabled">10.39.4.1. Trust check (<tt class="docutils literal"><span class="pre">-fpackage-trust</span></tt> disabled)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="safe_haskell.html#trust-check-fpackage-trust-enabled">10.39.4.2. Trust check (<tt class="docutils literal"><span class="pre">-fpackage-trust</span></tt> enabled)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="safe_haskell.html#example">10.39.4.3. Example</a></li>
+<li class="toctree-l3"><a class="reference internal" href="safe_haskell.html#trustworthy-requirements">10.39.4.4. Trustworthy Requirements</a></li>
+<li class="toctree-l3"><a class="reference internal" href="safe_haskell.html#package-trust">10.39.4.5. Package Trust</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="safe_haskell.html#safe-haskell-inference">10.39.5. Safe Haskell Inference</a></li>
+<li class="toctree-l2"><a class="reference internal" href="safe_haskell.html#safe-haskell-flag-summary">10.39.6. Safe Haskell Flag Summary</a></li>
+<li class="toctree-l2"><a class="reference internal" href="safe_haskell.html#safe-compilation">10.39.7. Safe Compilation</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="glasgow_exts.html" title="10.1. Language options"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="sooner.html" title="9. Advice on: sooner, faster, smaller, thriftier"
+             >previous</a> |</li>
+        <li><a href="index.html">GHC 8.2.2 User&#39;s Guide</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2015, GHC Team.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.3.
+    </div>
+  </body>
+</html>

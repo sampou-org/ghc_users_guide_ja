@@ -1,0 +1,425 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>14. Debugging compiled programs &mdash; Glasgow Haskell Compiler 8.2.2 User&#39;s Guide</title>
+    
+    <link rel="stylesheet" href="_static/ghc-theme.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '8.2.2',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="search" type="application/opensearchdescription+xml"
+          title="Search within Glasgow Haskell Compiler 8.2.2 User&#39;s Guide"
+          href="_static/opensearch.xml"/>
+    <link rel="top" title="Glasgow Haskell Compiler 8.2.2 User&#39;s Guide" href="index.html" />
+    <link rel="next" title="15. Other Haskell utility programs" href="utils.html" />
+    <link rel="prev" title="13. What to do when something goes wrong" href="gone_wrong.html" /> 
+  </head>
+  <body>
+<div class="logo">
+    <h1><a href="index.html">Glasgow Haskell Compiler User's Guide</a></h1>
+</div>
+
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="utils.html" title="15. Other Haskell utility programs"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="gone_wrong.html" title="13. What to do when something goes wrong"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">GHC 8.2.2 User&#39;s Guide</a> &raquo;</li> 
+      </ul>
+    </div>
+
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="debug-info.html#">14. Debugging compiled programs</a><ul>
+<li><a class="reference internal" href="debug-info.html#tutorial">14.1. Tutorial</a></li>
+<li><a class="reference internal" href="debug-info.html#requesting-a-stack-trace-from-haskell-code">14.2. Requesting a stack trace from Haskell code</a></li>
+<li><a class="reference internal" href="debug-info.html#requesting-a-stack-trace-with-sigusr2">14.3. Requesting a stack trace with <tt class="docutils literal"><span class="pre">SIGUSR2</span></tt></a></li>
+<li><a class="reference internal" href="debug-info.html#implementor-s-notes-dwarf-annotations">14.4. Implementor&#8217;s notes: DWARF annotations</a><ul>
+<li><a class="reference internal" href="debug-info.html#debugging-information-entities">14.4.1. Debugging information entities</a><ul>
+<li><a class="reference internal" href="debug-info.html#dw-tag-ghc-src-note">14.4.1.1. <tt class="docutils literal"><span class="pre">DW_TAG_ghc_src_note</span></tt></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="debug-info.html#further-reading">14.5. Further Reading</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="gone_wrong.html"
+                        title="previous chapter">13. What to do when something goes wrong</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="utils.html"
+                        title="next chapter">15. Other Haskell utility programs</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/debug-info.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="debugging-compiled-programs">
+<h1>14. Debugging compiled programs<a class="headerlink" href="debug-info.html#debugging-compiled-programs" title="Permalink to this headline">¶</a></h1>
+<p>Since the 7.10 release GHC can emit a debugging information to help debugging
+tools understand the code that GHC produces. This debugging information is
+useable by most UNIX debugging tools.</p>
+<dl class="ghc-flag">
+<dt id="ghc-flag--g">
+<tt class="descname">-g</tt><tt class="descclassname"></tt><a class="headerlink" href="debug-info.html#ghc-flag--g" title="Permalink to this definition">¶</a></dt>
+<dt id="ghc-flag--g⟨n⟩">
+<tt class="descname">-g⟨n⟩</tt><tt class="descclassname"></tt><a class="headerlink" href="debug-info.html#ghc-flag--g⟨n⟩" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Since:</th><td class="field-body">7.10, numeric levels since 8.0</td>
+</tr>
+</tbody>
+</table>
+<p>Emit debug information in object code. Currently only DWARF debug
+information is supported on x86-64 and i386. Currently debug levels 0
+through 3 are accepted, with 0 disabling debug information production.
+Levels 1 through 3 are functionally equivalent.</p>
+</dd></dl>
+
+<div class="section" id="tutorial">
+<h2>14.1. Tutorial<a class="headerlink" href="debug-info.html#tutorial" title="Permalink to this headline">¶</a></h2>
+<p>Let&#8217;s consider a simple example,</p>
+<div class="highlight-hs"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4
+5
+6
+7
+8</pre></div></td><td class="code"><div class="highlight"><pre> <span class="c1">-- fib.hs</span>
+ <span class="n">fib</span> <span class="ow">::</span> <span class="kt">Int</span> <span class="ow">-&gt;</span> <span class="kt">Int</span>
+ <span class="n">fib</span> <span class="mi">0</span> <span class="ow">=</span> <span class="mi">0</span>
+ <span class="n">fib</span> <span class="mi">1</span> <span class="ow">=</span> <span class="mi">1</span>
+ <span class="n">fib</span> <span class="n">n</span> <span class="ow">=</span> <span class="n">fib</span> <span class="p">(</span><span class="n">n</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="o">+</span> <span class="n">fib</span> <span class="p">(</span><span class="n">n</span><span class="o">-</span><span class="mi">2</span><span class="p">)</span>
+
+ <span class="n">main</span> <span class="ow">::</span> <span class="kt">IO</span> <span class="nb">()</span>
+ <span class="n">main</span> <span class="ow">=</span> <span class="n">print</span> <span class="o">$</span> <span class="n">fib</span> <span class="mi">50</span>
+</pre></div>
+</td></tr></table></div>
+<p>Let&#8217;s first see how execution flows through this program. We start by telling
+GHC that we want debug information,</p>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>ghc -g -rtsopts fib.hs
+</pre></div>
+</div>
+<p>Here we used the <tt class="docutils literal"><span class="pre">-g</span></tt> option to inform GHC that it should add debugging
+information in the produced binary. There are three levels of debugging
+output: <tt class="docutils literal"><span class="pre">-g0</span></tt> (no debugging information, the default), <tt class="docutils literal"><span class="pre">-g1</span></tt> (sufficient for
+basic backtraces), <tt class="docutils literal"><span class="pre">-g2</span></tt> (or just <tt class="docutils literal"><span class="pre">-g</span></tt> for short; emitting everything GHC knows).
+Note that this debugging information does not affect the optimizations performed
+by GHC.</p>
+<div class="admonition tip">
+<p class="first admonition-title">Tip</p>
+<p>Under Mac OS X debug information is kept apart from the executable. After
+compiling the executable you&#8217;ll need to use the <tt class="docutils literal"><span class="pre">dsymutil</span></tt> utility to
+extract the debugging information and place them in the debug archive,</p>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>dsymutil fib
+</pre></div>
+</div>
+<p class="last">This should produce a file named <tt class="docutils literal"><span class="pre">fib.dSYM</span></tt>.</p>
+</div>
+<p>Now let&#8217;s have a look at the flow of control. For this we can just start our
+program under <tt class="docutils literal"><span class="pre">gdb</span></tt> (or an equivalent debugger) as we would any other native
+executable,</p>
+<div class="highlight-none"><div class="highlight"><pre>$ gdb --args ./Fib +RTS -V0
+Reading symbols from Fib...done.
+(gdb) run
+Starting program: /opt/exp/ghc/ghc-dwarf/Fib
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library &quot;/lib/x86_64-linux-gnu/libthread_db.so.1&quot;.
+^C
+Program received signal SIGINT, Interrupt.
+0x000000000064fc7c in cfy4_info () at libraries/integer-gmp/src/GHC/Integer/Type.hs:424
+424     minusInteger x y = inline plusInteger x (inline negateInteger y)
+(gdb)
+</pre></div>
+</div>
+<p>Here we have used the runtime system&#8217;s <tt class="docutils literal"><span class="pre">-V0</span></tt> option to disable the RTS&#8217;s
+periodic timer which may interfere with our debugging session. Upon breaking
+into the program <tt class="docutils literal"><span class="pre">gdb</span></tt> shows us a location in our source program corresponding
+to the current point of execution.</p>
+<p>Moreover, we can ask <tt class="docutils literal"><span class="pre">gdb</span></tt> to tell us the flow of execution that lead us to
+this point in the program,</p>
+<div class="highlight-none"><div class="highlight"><pre>(gdb) bt
+#0  0x000000000064fc7c in cfy4_info () at libraries/integer-gmp/src/GHC/Integer/Type.hs:424
+#1  0x00000000006eb0c0 in ?? ()
+#2  0x000000000064301c in cbuV_info () at libraries/integer-gmp/src/GHC/Integer/Type.hs:323
+#3  0x000000000064311b in integerzmgmp_GHCziIntegerziType_eqInteger_info () at libraries/integer-gmp/src/GHC/Integer/Type.hs:312
+#4  0x0000000000406eca in roz_info () at Fib.hs:2
+#5  0x00000000006eb0c0 in ?? ()
+#6  0x000000000064f075 in cfru_info () at libraries/integer-gmp/src/GHC/Integer/Type.hs:412
+#7  0x00000000006eb0c0 in ?? ()
+#8  0x000000000064f075 in cfru_info () at libraries/integer-gmp/src/GHC/Integer/Type.hs:412
+#9  0x00000000006eb0c0 in ?? ()
+#10 0x000000000064eefe in integerzmgmp_GHCziIntegerziType_plusInteger_info () at libraries/integer-gmp/src/GHC/Integer/Type.hs:393
+...
+#64 0x0000000000643ac8 in integerzmgmp_GHCziIntegerziType_ltIntegerzh_info () at libraries/integer-gmp/src/GHC/Integer/Type.hs:343
+#65 0x00000000004effcc in base_GHCziShow_zdwintegerToString_info () at libraries/base/GHC/Show.hs:443
+#66 0x00000000004f0795 in base_GHCziShow_zdfShowIntegerzuzdcshow_info () at libraries/base/GHC/Show.hs:145
+#67 0x000000000048892b in cdGW_info () at libraries/base/GHC/IO/Handle/Text.hs:595
+#68 0x0000000000419cb2 in base_GHCziBase_thenIO1_info () at libraries/base/GHC/Base.hs:1072
+</pre></div>
+</div>
+<div class="admonition hint">
+<p class="first admonition-title">Hint</p>
+<p>Here we notice the first bit of the stack trace has many unidentified stack
+frames at address <tt class="docutils literal"><span class="pre">0x006eb0c0</span></tt>. If we ask <tt class="docutils literal"><span class="pre">gdb</span></tt> about this location, we
+find that these frames are actually STG update closures,</p>
+<div class="highlight-none"><div class="highlight"><pre>(gdb) print/a 0x006eb0c0
+$1 = 0x6eb0c0 &lt;stg_upd_frame_info&gt;
+</pre></div>
+</div>
+<p class="last">The reason <tt class="docutils literal"><span class="pre">gdb</span></tt> doesn&#8217;t show this symbol name in the backtrace output is an
+infidelity in its interpretation of debug information, which assumes an
+invariant preserved in C but not Haskell programs. Unfortunately it is
+necessary to work around this manually until this behivior is fixed
+upstream.</p>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p>Because of the aggressive optimization that GHC performs to the programs it
+compiles it is quite difficult to pin-point exactly which point in the source
+program a given machine instruction should be attributed to. In fact,
+internally GHC associates each instruction with a <strong>set</strong> of source
+locations. When emitting the standard debug information used by <tt class="docutils literal"><span class="pre">gdb</span></tt> and
+other language-agnostic debugging tools, GHC is forced to heuristically
+choose one location from among this set.</p>
+<p class="last">For this reason we should be cautious when interpretting the source locations
+provided by GDB. While these locations will usually be in some sense
+&#8220;correct&#8221;, they aren&#8217;t always useful. This is why profiling tools targetting
+Haskell should supplement the standard source location information with
+GHC-specific annotations (emitted with <tt class="docutils literal"><span class="pre">-g2</span></tt>) when assigning costs.</p>
+</div>
+<p>Indeed, we can even set breakpoints,</p>
+<div class="highlight-none"><div class="highlight"><pre>(gdb) break fib.hs:4
+Breakpoint 1 at 0x406c60: fib.hs:4. (5 locations)
+(gdb) run
+Starting program: /opt/exp/ghc/ghc-dwarf/Fib
+
+Breakpoint 1, c1RV_info () at Fib.hs:4
+4        fib n = fib (n-1) + fib (n-2)
+(gdb) bt
+#0  c1RV_info () at Fib.hs:4
+#1  0x00000000006eb0c0 in ?? ()
+#2  0x0000000000643ac8 in integerzmgmp_GHCziIntegerziType_ltIntegerzh_info () at libraries/integer-gmp/src/GHC/Integer/Type.hs:343
+#3  0x00000000004effcc in base_GHCziShow_zdwintegerToString_info () at libraries/base/GHC/Show.hs:443
+#4  0x00000000004f0795 in base_GHCziShow_zdfShowIntegerzuzdcshow_info () at libraries/base/GHC/Show.hs:145
+#5  0x000000000048892b in cdGW_info () at libraries/base/GHC/IO/Handle/Text.hs:595
+#6  0x0000000000419cb2 in base_GHCziBase_thenIO1_info () at libraries/base/GHC/Base.hs:1072
+#7  0x00000000006ebcb0 in ?? () at rts/Exception.cmm:332
+#8  0x00000000006e7320 in ?? ()
+(gdb)
+</pre></div>
+</div>
+<p>Due to the nature of GHC&#8217;s heap and the heavy optimization that it performs, it
+is quite difficult to probe the values of bindings at runtime. In this way, the
+debugging experience of a Haskell program with DWARF support is still a bit
+impoverished compared to typical imperative debuggers.</p>
+</div>
+<div class="section" id="requesting-a-stack-trace-from-haskell-code">
+<h2>14.2. Requesting a stack trace from Haskell code<a class="headerlink" href="debug-info.html#requesting-a-stack-trace-from-haskell-code" title="Permalink to this headline">¶</a></h2>
+<p>GHC&#8217;s runtime system has built-in support for collecting stack trace information
+from a running Haskell program. This currently requires that the <tt class="docutils literal"><span class="pre">libdw</span></tt>
+library from the <tt class="docutils literal"><span class="pre">elfutils</span></tt> package is available. Of course, the backtrace
+will be of little use unless debug information is available in the executable
+and its dependent libraries.</p>
+<p>Stack trace functionality is exposed for use by Haskell programs in the
+<a class="reference external" href="../libraries/base-4.10.1.0/GHC-ExecutionStack.html">GHC.ExecutionStack</a> module. See the Haddock
+documentation in this module for details regarding usage.</p>
+</div>
+<div class="section" id="requesting-a-stack-trace-with-sigusr2">
+<h2>14.3. Requesting a stack trace with <tt class="docutils literal"><span class="pre">SIGUSR2</span></tt><a class="headerlink" href="debug-info.html#requesting-a-stack-trace-with-sigusr2" title="Permalink to this headline">¶</a></h2>
+<p>On POSIX-compatible platforms GHC&#8217;s runtime system (when built with <tt class="docutils literal"><span class="pre">libdw</span></tt>
+support) will produce a stack trace on <tt class="docutils literal"><span class="pre">stderr</span></tt> when a <tt class="docutils literal"><span class="pre">SIGUSR2</span></tt> signal is
+received. For instance (using the same <tt class="docutils literal"><span class="pre">fib.hs</span></tt> as above),</p>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>./fib  <span class="p">&amp;</span>  killall -SIGUSR2 fib
+0x7f3176b15dd8    dwfl_thread_getframes <span class="o">(</span>/usr/lib/x86_64-linux-gnu/libdw-0.163.so<span class="o">)</span>
+0x7f3176b1582f    <span class="o">(</span>null<span class="o">)</span> <span class="o">(</span>/usr/lib/x86_64-linux-gnu/libdw-0.163.so<span class="o">)</span>
+0x7f3176b15b57    dwfl_getthreads <span class="o">(</span>/usr/lib/x86_64-linux-gnu/libdw-0.163.so<span class="o">)</span>
+0x7f3176b16150    dwfl_getthread_frames <span class="o">(</span>/usr/lib/x86_64-linux-gnu/libdw-0.163.so<span class="o">)</span>
+      0x6dc857    libdwGetBacktrace <span class="o">(</span>rts/Libdw.c:248.0<span class="o">)</span>
+      0x6e6126    backtrace_handler <span class="o">(</span>rts/posix/Signals.c:541.0<span class="o">)</span>
+0x7f317677017f    <span class="o">(</span>null<span class="o">)</span> <span class="o">(</span>/lib/x86_64-linux-gnu/libc-2.19.so<span class="o">)</span>
+      0x642e1c    integerzmgmp_GHCziIntegerziType_eqIntegerzh_info <span class="o">(</span>libraries/integer-gmp/src/GHC/Integer/Type.hs:320.1<span class="o">)</span>
+      0x643023    integerzmgmp_GHCziIntegerziType_eqInteger_info <span class="o">(</span>libraries/integer-gmp/src/GHC/Integer/Type.hs:312.1<span class="o">)</span>
+      0x406eca    roz_info <span class="o">(</span>/opt/exp/ghc/ghc-dwarf//Fib.hs:2.1<span class="o">)</span>
+      0x6eafc0    stg_upd_frame_info <span class="o">(</span>rts/Updates.cmm:31.1<span class="o">)</span>
+      0x64ee06    integerzmgmp_GHCziIntegerziType_plusInteger_info <span class="o">(</span>libraries/integer-gmp/src/GHC/Integer/Type.hs:393.1<span class="o">)</span>
+      0x6eafc0    stg_upd_frame_info <span class="o">(</span>rts/Updates.cmm:31.1<span class="o">)</span>
+...
+      0x6439d0    integerzmgmp_GHCziIntegerziType_ltIntegerzh_info <span class="o">(</span>libraries/integer-gmp/src/GHC/Integer/Type.hs:343.1<span class="o">)</span>
+      0x4efed4    base_GHCziShow_zdwintegerToString_info <span class="o">(</span>libraries/base/GHC/Show.hs:442.1<span class="o">)</span>
+      0x4f069d    base_GHCziShow_zdfShowIntegerzuzdcshow_info <span class="o">(</span>libraries/base/GHC/Show.hs:145.5<span class="o">)</span>
+      0x488833    base_GHCziIOziHandleziText_zdwa8_info <span class="o">(</span>libraries/base/GHC/IO/Handle/Text.hs:582.1<span class="o">)</span>
+      0x6ebbb0    stg_catch_frame_info <span class="o">(</span>rts/Exception.cmm:370.1<span class="o">)</span>
+      0x6e7220    stg_stop_thread_info <span class="o">(</span>rts/StgStartup.cmm:42.1<span class="o">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="implementor-s-notes-dwarf-annotations">
+<h2>14.4. Implementor&#8217;s notes: DWARF annotations<a class="headerlink" href="debug-info.html#implementor-s-notes-dwarf-annotations" title="Permalink to this headline">¶</a></h2>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Most users don&#8217;t need to worry about the details described in this section.
+This discussion is primarily targeted at tooling authors who need to
+interpret the GHC-specific DWARF annotations contained in compiled binaries.</p>
+</div>
+<p>When invoked with the <tt class="docutils literal"><span class="pre">-g</span></tt> flag GHC will produce standard <a class="reference external" href="http://dwarfstd.org/">DWARF v4</a> debugging information. This format is used by nearly
+all POSIX-compliant targets and can be used by debugging and performance tools
+(e.g. <tt class="docutils literal"><span class="pre">gdb</span></tt>, <tt class="docutils literal"><span class="pre">lldb</span></tt>, and <tt class="docutils literal"><span class="pre">perf</span></tt>) to understand the structure of
+GHC-compiled programs.</p>
+<p>In particular GHC produces the following DWARF sections,</p>
+<dl class="docutils">
+<dt><tt class="docutils literal"><span class="pre">.debug_info</span></tt></dt>
+<dd>Debug information entities (DIEs) describing all of the basic blocks in the
+compiled program.</dd>
+<dt><tt class="docutils literal"><span class="pre">.debug_line</span></tt></dt>
+<dd><p class="first">Line number information necessary to map instruction addresses to line numbers
+in the source program.</p>
+<p class="last">Note that the line information in this section is not nearly as rich as the
+information provided in <tt class="docutils literal"><span class="pre">.debug_info</span></tt>. Whereas <tt class="docutils literal"><span class="pre">.debug_line</span></tt> requires that
+each instruction is assigned exactly one source location, the DIEs in
+<tt class="docutils literal"><span class="pre">.debug_info</span></tt> can be used to identify all relevant sources locations.</p>
+</dd>
+<dt><tt class="docutils literal"><span class="pre">.debug_frames</span></tt></dt>
+<dd>Call frame information (CFI) necessary for stack unwinding to produce a call
+stack trace.</dd>
+<dt><tt class="docutils literal"><span class="pre">.debug_arange</span></tt></dt>
+<dd>Address range information necessary for efficient lookup in debug information.</dd>
+</dl>
+<div class="section" id="debugging-information-entities">
+<h3>14.4.1. Debugging information entities<a class="headerlink" href="debug-info.html#debugging-information-entities" title="Permalink to this headline">¶</a></h3>
+<p>GHC may produce the following standard DIEs in the <tt class="docutils literal"><span class="pre">.debug_info</span></tt> section,</p>
+<dl class="docutils">
+<dt><tt class="docutils literal"><span class="pre">DW_TAG_compile_unit</span></tt></dt>
+<dd>Represents a compilation unit (e.g. a Haskell module).</dd>
+<dt><tt class="docutils literal"><span class="pre">DW_TAG_subprogram</span></tt></dt>
+<dd>Represents a C&#8211; top-level basic block.</dd>
+<dt><tt class="docutils literal"><span class="pre">DW_TAG_lexical_block</span></tt></dt>
+<dd>Represents a C&#8211; basic block. Note that this is a slight departure from the
+intended meaning of this DIE type as it does not necessarily reflect
+lexical scope in the source program.</dd>
+</dl>
+<p>As GHC&#8217;s compilation products don&#8217;t map perfectly onto DWARF constructs,
+GHC takes advantage of the extensibility of the DWARF standard to provide
+additional information.</p>
+<p>Unfortunately DWARF isn&#8217;t expressive enough to fully describe the code
+that GHC produces. This is most apparent in the case of line
+information, where GHC is forced to choose some between a variety of
+possible originating source locations. This limits the usefulness of
+DWARF information with traditional statistical profiling tools. For
+profiling it is recommended that one use the extended debugging
+information. See the <em>Profiling</em> section below.</p>
+<p>In addition to the usual DIEs specified by the DWARF specification, GHC
+produces a variety of others using the vendor-extensibility regions of
+the tag and attribute space.</p>
+<div class="section" id="dw-tag-ghc-src-note">
+<h4>14.4.1.1. <tt class="docutils literal"><span class="pre">DW_TAG_ghc_src_note</span></tt><a class="headerlink" href="debug-info.html#dw-tag-ghc-src-note" title="Permalink to this headline">¶</a></h4>
+<p><tt class="docutils literal"><span class="pre">DW_TAG_ghc_src_note</span></tt> DIEs (tag 0x5b01) are found as children of
+<tt class="docutils literal"><span class="pre">DW_TAG_lexical_block</span></tt> DIEs. They describe source spans which gave rise to the
+block; formally these spans are causally responsible for produced code: changes
+to code in the given span may change the code within the block; conversely
+changes outside the span are guaranteed not to affect the code in the block.</p>
+<p>Spans are described with the following attributes,</p>
+<dl class="docutils">
+<dt><tt class="docutils literal"><span class="pre">DW_AT_ghc_span_file</span></tt> (0x2b00, string)</dt>
+<dd>the name of the source file</dd>
+<dt><tt class="docutils literal"><span class="pre">DW_AT_ghc_span_start_line</span></tt> (0x2b01, integer)</dt>
+<dd>the line number of the beginning of the span</dd>
+<dt><tt class="docutils literal"><span class="pre">DW_AT_ghc_span_start_col</span></tt> (0x2b02, integer)</dt>
+<dd>the column number of the beginning of the span</dd>
+<dt><tt class="docutils literal"><span class="pre">DW_AT_ghc_span_end_line</span></tt> (0x2b03, integer)</dt>
+<dd>the line number of the end of the span</dd>
+<dt><tt class="docutils literal"><span class="pre">DW_AT_ghc_span_end_col</span></tt> (0x2b04, integer)</dt>
+<dd>the column number of the end of the span</dd>
+</dl>
+</div>
+</div>
+</div>
+<div class="section" id="further-reading">
+<h2>14.5. Further Reading<a class="headerlink" href="debug-info.html#further-reading" title="Permalink to this headline">¶</a></h2>
+<p>For more information about the debug information produced by GHC see
+Peter Wortmann&#8217;s PhD thesis, <a class="reference external" href="http://etheses.whiterose.ac.uk/8321/">*Profiling Optimized Haskell: Causal
+Analysis and Implementation*</a>.</p>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="utils.html" title="15. Other Haskell utility programs"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="gone_wrong.html" title="13. What to do when something goes wrong"
+             >previous</a> |</li>
+        <li><a href="index.html">GHC 8.2.2 User&#39;s Guide</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2015, GHC Team.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.3.
+    </div>
+  </body>
+</html>

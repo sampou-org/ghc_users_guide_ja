@@ -1,0 +1,1090 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Welcome to the GHC User’s Guide &mdash; Glasgow Haskell Compiler 8.2.2 User&#39;s Guide</title>
+    
+    <link rel="stylesheet" href="_static/ghc-theme.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '8.2.2',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="search" type="application/opensearchdescription+xml"
+          title="Search within Glasgow Haskell Compiler 8.2.2 User&#39;s Guide"
+          href="_static/opensearch.xml"/>
+    <link rel="top" title="Glasgow Haskell Compiler 8.2.2 User&#39;s Guide" href="index.html#" />
+    <link rel="next" title="1. The Glasgow Haskell Compiler License" href="license.html" /> 
+  </head>
+  <body>
+<div class="logo">
+    <h1><a href="index.html#">Glasgow Haskell Compiler User's Guide</a></h1>
+</div>
+
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="license.html" title="1. The Glasgow Haskell Compiler License"
+             accesskey="N">next</a> |</li>
+        <li><a href="index.html#">GHC 8.2.2 User&#39;s Guide</a> &raquo;</li> 
+      </ul>
+    </div>
+
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html#">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="index.html#">Welcome to the GHC User&#8217;s Guide</a></li>
+<li><a class="reference internal" href="index.html#indices-and-tables">Indices and tables</a></li>
+</ul>
+
+  <h4>Next topic</h4>
+  <p class="topless"><a href="license.html"
+                        title="next chapter">1. The Glasgow Haskell Compiler License</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/index.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="welcome-to-the-ghc-user-s-guide">
+<h1>Welcome to the GHC User&#8217;s Guide<a class="headerlink" href="index.html#welcome-to-the-ghc-user-s-guide" title="Permalink to this headline">¶</a></h1>
+<p>Contents:</p>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="license.html">1. The Glasgow Haskell Compiler License</a></li>
+<li class="toctree-l1"><a class="reference internal" href="intro.html">2. Introduction to GHC</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="intro.html#obtaining-ghc">2.1. Obtaining GHC</a></li>
+<li class="toctree-l2"><a class="reference internal" href="intro.html#meta-information-web-sites-mailing-lists-etc">2.2. Meta-information: Web sites, mailing lists, etc.</a></li>
+<li class="toctree-l2"><a class="reference internal" href="intro.html#reporting-bugs-in-ghc">2.3. Reporting bugs in GHC</a></li>
+<li class="toctree-l2"><a class="reference internal" href="intro.html#ghc-version-numbering-policy">2.4. GHC version numbering policy</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="8.2.1-notes.html">3. Release notes for version 8.2.1</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="8.2.1-notes.html#highlights">3.1. Highlights</a></li>
+<li class="toctree-l2"><a class="reference internal" href="8.2.1-notes.html#full-details">3.2. Full details</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="8.2.1-notes.html#package-system">3.2.1. Package system</a></li>
+<li class="toctree-l3"><a class="reference internal" href="8.2.1-notes.html#language">3.2.2. Language</a></li>
+<li class="toctree-l3"><a class="reference internal" href="8.2.1-notes.html#compiler">3.2.3. Compiler</a></li>
+<li class="toctree-l3"><a class="reference internal" href="8.2.1-notes.html#ghci">3.2.4. GHCi</a></li>
+<li class="toctree-l3"><a class="reference internal" href="8.2.1-notes.html#template-haskell">3.2.5. Template Haskell</a></li>
+<li class="toctree-l3"><a class="reference internal" href="8.2.1-notes.html#runtime-system">3.2.6. Runtime system</a></li>
+<li class="toctree-l3"><a class="reference internal" href="8.2.1-notes.html#hsc2hs">3.2.7. hsc2hs</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="8.2.1-notes.html#libraries">3.3. Libraries</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="8.2.1-notes.html#array">3.3.1. array</a></li>
+<li class="toctree-l3"><a class="reference internal" href="8.2.1-notes.html#base">3.3.2. base</a></li>
+<li class="toctree-l3"><a class="reference internal" href="8.2.1-notes.html#binary">3.3.3. binary</a></li>
+<li class="toctree-l3"><a class="reference internal" href="8.2.1-notes.html#bytestring">3.3.4. bytestring</a></li>
+<li class="toctree-l3"><a class="reference internal" href="8.2.1-notes.html#cabal">3.3.5. Cabal</a></li>
+<li class="toctree-l3"><a class="reference internal" href="8.2.1-notes.html#containers">3.3.6. containers</a></li>
+<li class="toctree-l3"><a class="reference internal" href="8.2.1-notes.html#deepseq">3.3.7. deepseq</a></li>
+<li class="toctree-l3"><a class="reference internal" href="8.2.1-notes.html#directory">3.3.8. directory</a></li>
+<li class="toctree-l3"><a class="reference internal" href="8.2.1-notes.html#filepath">3.3.9. filepath</a></li>
+<li class="toctree-l3"><a class="reference internal" href="8.2.1-notes.html#ghc">3.3.10. ghc</a></li>
+<li class="toctree-l3"><a class="reference internal" href="8.2.1-notes.html#ghc-boot">3.3.11. ghc-boot</a></li>
+<li class="toctree-l3"><a class="reference internal" href="8.2.1-notes.html#ghc-compact">3.3.12. ghc-compact</a></li>
+<li class="toctree-l3"><a class="reference internal" href="8.2.1-notes.html#ghc-prim">3.3.13. ghc-prim</a></li>
+<li class="toctree-l3"><a class="reference internal" href="8.2.1-notes.html#hoopl">3.3.14. hoopl</a></li>
+<li class="toctree-l3"><a class="reference internal" href="8.2.1-notes.html#hpc">3.3.15. hpc</a></li>
+<li class="toctree-l3"><a class="reference internal" href="8.2.1-notes.html#integer-gmp">3.3.16. integer-gmp</a></li>
+<li class="toctree-l3"><a class="reference internal" href="8.2.1-notes.html#process">3.3.17. process</a></li>
+<li class="toctree-l3"><a class="reference internal" href="8.2.1-notes.html#id3">3.3.18. template-haskell</a></li>
+<li class="toctree-l3"><a class="reference internal" href="8.2.1-notes.html#time">3.3.19. time</a></li>
+<li class="toctree-l3"><a class="reference internal" href="8.2.1-notes.html#unix">3.3.20. unix</a></li>
+<li class="toctree-l3"><a class="reference internal" href="8.2.1-notes.html#win32">3.3.21. Win32</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="8.2.1-notes.html#known-bugs">3.4. Known bugs</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="8.2.2-notes.html">4. Release notes for version 8.2.2</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="8.2.2-notes.html#highlights">4.1. Highlights</a></li>
+<li class="toctree-l2"><a class="reference internal" href="8.2.2-notes.html#full-details">4.2. Full details</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="8.2.2-notes.html#package-system">4.2.1. Package system</a></li>
+<li class="toctree-l3"><a class="reference internal" href="8.2.2-notes.html#language">4.2.2. Language</a></li>
+<li class="toctree-l3"><a class="reference internal" href="8.2.2-notes.html#compiler">4.2.3. Compiler</a></li>
+<li class="toctree-l3"><a class="reference internal" href="8.2.2-notes.html#ghci">4.2.4. GHCi</a></li>
+<li class="toctree-l3"><a class="reference internal" href="8.2.2-notes.html#build-system">4.2.5. Build system</a></li>
+<li class="toctree-l3"><a class="reference internal" href="8.2.2-notes.html#runtime-system">4.2.6. Runtime system</a></li>
+<li class="toctree-l3"><a class="reference internal" href="8.2.2-notes.html#hsc2hs">4.2.7. hsc2hs</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="8.2.2-notes.html#libraries">4.3. Libraries</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="8.2.2-notes.html#array">4.3.1. array</a></li>
+<li class="toctree-l3"><a class="reference internal" href="8.2.2-notes.html#base">4.3.2. base</a></li>
+<li class="toctree-l3"><a class="reference internal" href="8.2.2-notes.html#binary">4.3.3. binary</a></li>
+<li class="toctree-l3"><a class="reference internal" href="8.2.2-notes.html#bytestring">4.3.4. bytestring</a></li>
+<li class="toctree-l3"><a class="reference internal" href="8.2.2-notes.html#cabal">4.3.5. Cabal</a></li>
+<li class="toctree-l3"><a class="reference internal" href="8.2.2-notes.html#containers">4.3.6. containers</a></li>
+<li class="toctree-l3"><a class="reference internal" href="8.2.2-notes.html#deepseq">4.3.7. deepseq</a></li>
+<li class="toctree-l3"><a class="reference internal" href="8.2.2-notes.html#directory">4.3.8. directory</a></li>
+<li class="toctree-l3"><a class="reference internal" href="8.2.2-notes.html#filepath">4.3.9. filepath</a></li>
+<li class="toctree-l3"><a class="reference internal" href="8.2.2-notes.html#ghc">4.3.10. ghc</a></li>
+<li class="toctree-l3"><a class="reference internal" href="8.2.2-notes.html#ghc-boot">4.3.11. ghc-boot</a></li>
+<li class="toctree-l3"><a class="reference internal" href="8.2.2-notes.html#ghc-compact">4.3.12. ghc-compact</a></li>
+<li class="toctree-l3"><a class="reference internal" href="8.2.2-notes.html#ghc-prim">4.3.13. ghc-prim</a></li>
+<li class="toctree-l3"><a class="reference internal" href="8.2.2-notes.html#hoopl">4.3.14. hoopl</a></li>
+<li class="toctree-l3"><a class="reference internal" href="8.2.2-notes.html#hpc">4.3.15. hpc</a></li>
+<li class="toctree-l3"><a class="reference internal" href="8.2.2-notes.html#integer-gmp">4.3.16. integer-gmp</a></li>
+<li class="toctree-l3"><a class="reference internal" href="8.2.2-notes.html#process">4.3.17. process</a></li>
+<li class="toctree-l3"><a class="reference internal" href="8.2.2-notes.html#template-haskell">4.3.18. template-haskell</a></li>
+<li class="toctree-l3"><a class="reference internal" href="8.2.2-notes.html#time">4.3.19. time</a></li>
+<li class="toctree-l3"><a class="reference internal" href="8.2.2-notes.html#unix">4.3.20. unix</a></li>
+<li class="toctree-l3"><a class="reference internal" href="8.2.2-notes.html#win32">4.3.21. Win32</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="8.2.2-notes.html#known-bugs">4.4. Known bugs</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="ghci.html">5. Using GHCi</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="ghci.html#introduction-to-ghci">5.1. Introduction to GHCi</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ghci.html#loading-source-files">5.2. Loading source files</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="ghci.html#modules-vs-filenames">5.2.1. Modules vs. filenames</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ghci.html#making-changes-and-recompilation">5.2.2. Making changes and recompilation</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="ghci.html#loading-compiled-code">5.3. Loading compiled code</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ghci.html#interactive-evaluation-at-the-prompt">5.4. Interactive evaluation at the prompt</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="ghci.html#i-o-actions-at-the-prompt">5.4.1. I/O actions at the prompt</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ghci.html#using-do-notation-at-the-prompt">5.4.2. Using <tt class="docutils literal"><span class="pre">do</span></tt> notation at the prompt</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ghci.html#multiline-input">5.4.3. Multiline input</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ghci.html#type-class-and-other-declarations">5.4.4. Type, class and other declarations</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ghci.html#what-s-really-in-scope-at-the-prompt">5.4.5. What&#8217;s really in scope at the prompt?</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="ghci.html#the-effect-of-load-on-what-is-in-scope">5.4.5.1. The effect of <tt class="docutils literal"><span class="pre">:load</span></tt> on what is in scope</a></li>
+<li class="toctree-l4"><a class="reference internal" href="ghci.html#controlling-what-is-in-scope-with-import">5.4.5.2. Controlling what is in scope with <tt class="docutils literal"><span class="pre">import</span></tt></a></li>
+<li class="toctree-l4"><a class="reference internal" href="ghci.html#controlling-what-is-in-scope-with-the-module-command">5.4.5.3. Controlling what is in scope with the <tt class="docutils literal"><span class="pre">:module</span></tt> command</a></li>
+<li class="toctree-l4"><a class="reference internal" href="ghci.html#qualified-names">5.4.5.4. Qualified names</a></li>
+<li class="toctree-l4"><a class="reference internal" href="ghci.html#module-and-load">5.4.5.5. <tt class="docutils literal"><span class="pre">:module</span></tt> and <tt class="docutils literal"><span class="pre">:load</span></tt></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="ghci.html#the-main-and-run-commands">5.4.6. The <tt class="docutils literal"><span class="pre">:main</span></tt> and <tt class="docutils literal"><span class="pre">:run</span></tt> commands</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ghci.html#the-it-variable">5.4.7. The <tt class="docutils literal"><span class="pre">it</span></tt> variable</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ghci.html#type-defaulting-in-ghci">5.4.8. Type defaulting in GHCi</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="ghci.html#interactive-classes">5.4.8.1. Interactive classes</a></li>
+<li class="toctree-l4"><a class="reference internal" href="ghci.html#extended-rules-around-default-declarations">5.4.8.2. Extended rules around <tt class="docutils literal"><span class="pre">default</span></tt> declarations</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="ghci.html#using-a-custom-interactive-printing-function">5.4.9. Using a custom interactive printing function</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ghci.html#stack-traces-in-ghci">5.4.10. Stack Traces in GHCi</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="ghci.html#the-ghci-debugger">5.5. The GHCi Debugger</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="ghci.html#breakpoints-and-inspecting-variables">5.5.1. Breakpoints and inspecting variables</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="ghci.html#setting-breakpoints">5.5.1.1. Setting breakpoints</a></li>
+<li class="toctree-l4"><a class="reference internal" href="ghci.html#listing-and-deleting-breakpoints">5.5.1.2. Listing and deleting breakpoints</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="ghci.html#single-stepping">5.5.2. Single-stepping</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ghci.html#nested-breakpoints">5.5.3. Nested breakpoints</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ghci.html#the-result-variable">5.5.4. The <tt class="docutils literal"><span class="pre">_result</span></tt> variable</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ghci.html#tracing-and-history">5.5.5. Tracing and history</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ghci.html#debugging-exceptions">5.5.6. Debugging exceptions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ghci.html#example-inspecting-functions">5.5.7. Example: inspecting functions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ghci.html#limitations">5.5.8. Limitations</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="ghci.html#invoking-ghci">5.6. Invoking GHCi</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="ghci.html#packages">5.6.1. Packages</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ghci.html#extra-libraries">5.6.2. Extra libraries</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="ghci.html#ghci-commands">5.7. GHCi commands</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ghci.html#the-set-and-seti-commands">5.8. The <tt class="docutils literal"><span class="pre">:set</span></tt> and <tt class="docutils literal"><span class="pre">:seti</span></tt> commands</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="ghci.html#ghci-options">5.8.1. GHCi options</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ghci.html#setting-ghc-command-line-options-in-ghci">5.8.2. Setting GHC command-line options in GHCi</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ghci.html#setting-options-for-interactive-evaluation-only">5.8.3. Setting options for interactive evaluation only</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="ghci.html#the-ghci-and-haskeline-files">5.9. The <tt class="docutils literal"><span class="pre">.ghci</span></tt> and <tt class="docutils literal"><span class="pre">.haskeline</span></tt> files</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="ghci.html#the-ghci-files">5.9.1. The <tt class="docutils literal"><span class="pre">.ghci</span></tt> files</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ghci.html#the-haskeline-file">5.9.2. The <tt class="docutils literal"><span class="pre">.haskeline</span></tt> file</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="ghci.html#compiling-to-object-code-inside-ghci">5.10. Compiling to object code inside GHCi</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ghci.html#running-the-interpreter-in-a-separate-process">5.11. Running the interpreter in a separate process</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ghci.html#faq-and-things-to-watch-out-for">5.12. FAQ and Things To Watch Out For</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="runghc.html">6. Using runghc</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="runghc.html#usage">6.1. Usage</a></li>
+<li class="toctree-l2"><a class="reference internal" href="runghc.html#runghc-flags">6.2. runghc flags</a></li>
+<li class="toctree-l2"><a class="reference internal" href="runghc.html#ghc-flags">6.3. GHC Flags</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="usage.html">7. Using GHC</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="using.html">7.1. Using GHC</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="using.html#getting-started-compiling-programs">7.1.1. Getting started: compiling programs</a></li>
+<li class="toctree-l3"><a class="reference internal" href="using.html#options-overview">7.1.2. Options overview</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="using.html#command-line-arguments">7.1.2.1. Command-line arguments</a></li>
+<li class="toctree-l4"><a class="reference internal" href="using.html#command-line-options-in-source-files">7.1.2.2. Command line options in source files</a></li>
+<li class="toctree-l4"><a class="reference internal" href="using.html#setting-options-in-ghci">7.1.2.3. Setting options in GHCi</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="using.html#static-dynamic-and-mode-options">7.1.3. Static, Dynamic, and Mode options</a></li>
+<li class="toctree-l3"><a class="reference internal" href="using.html#meaningful-file-suffixes">7.1.4. Meaningful file suffixes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="using.html#modes-of-operation">7.1.5. Modes of operation</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="using.html#using-ghc-make">7.1.5.1. Using <tt class="docutils literal"><span class="pre">ghc</span></tt> <tt class="docutils literal"><span class="pre">--make</span></tt></a></li>
+<li class="toctree-l4"><a class="reference internal" href="using.html#expression-evaluation-mode">7.1.5.2. Expression evaluation mode</a></li>
+<li class="toctree-l4"><a class="reference internal" href="using.html#batch-compiler-mode">7.1.5.3. Batch compiler mode</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="using.html#verbosity-options">7.1.6. Verbosity options</a></li>
+<li class="toctree-l3"><a class="reference internal" href="using.html#platform-specific-flags">7.1.7. Platform-specific Flags</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="using-warnings.html">7.2. Warnings and sanity-checking</a></li>
+<li class="toctree-l2"><a class="reference internal" href="using-optimisation.html">7.3. Optimisation (code improvement)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="using-optimisation.html#o-convenient-packages-of-optimisation-flags">7.3.1. <tt class="docutils literal"><span class="pre">-O*</span></tt>: convenient “packages” of optimisation flags.</a></li>
+<li class="toctree-l3"><a class="reference internal" href="using-optimisation.html#f-platform-independent-flags">7.3.2. <tt class="docutils literal"><span class="pre">-f*</span></tt>: platform-independent flags</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="using-concurrent.html">7.4. Using Concurrent Haskell</a></li>
+<li class="toctree-l2"><a class="reference internal" href="using-concurrent.html#using-smp-parallelism">7.5. Using SMP parallelism</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="using-concurrent.html#compile-time-options-for-smp-parallelism">7.5.1. Compile-time options for SMP parallelism</a></li>
+<li class="toctree-l3"><a class="reference internal" href="using-concurrent.html#rts-options-for-smp-parallelism">7.5.2. RTS options for SMP parallelism</a></li>
+<li class="toctree-l3"><a class="reference internal" href="using-concurrent.html#hints-for-using-smp-parallelism">7.5.3. Hints for using SMP parallelism</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="flags.html">7.6. Flag reference</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="flags.html#verbosity-options">7.6.1. Verbosity options</a></li>
+<li class="toctree-l3"><a class="reference internal" href="flags.html#alternative-modes-of-operation">7.6.2. Alternative modes of operation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="flags.html#which-phases-to-run">7.6.3. Which phases to run</a></li>
+<li class="toctree-l3"><a class="reference internal" href="flags.html#redirecting-output">7.6.4. Redirecting output</a></li>
+<li class="toctree-l3"><a class="reference internal" href="flags.html#keeping-intermediate-files">7.6.5. Keeping intermediate files</a></li>
+<li class="toctree-l3"><a class="reference internal" href="flags.html#temporary-files">7.6.6. Temporary files</a></li>
+<li class="toctree-l3"><a class="reference internal" href="flags.html#finding-imports">7.6.7. Finding imports</a></li>
+<li class="toctree-l3"><a class="reference internal" href="flags.html#interface-file-options">7.6.8. Interface file options</a></li>
+<li class="toctree-l3"><a class="reference internal" href="flags.html#recompilation-checking">7.6.9. Recompilation checking</a></li>
+<li class="toctree-l3"><a class="reference internal" href="flags.html#interactive-mode-options">7.6.10. Interactive-mode options</a></li>
+<li class="toctree-l3"><a class="reference internal" href="flags.html#packages">7.6.11. Packages</a></li>
+<li class="toctree-l3"><a class="reference internal" href="flags.html#language-options">7.6.12. Language options</a></li>
+<li class="toctree-l3"><a class="reference internal" href="flags.html#warnings">7.6.13. Warnings</a></li>
+<li class="toctree-l3"><a class="reference internal" href="flags.html#optimisation-levels">7.6.14. Optimisation levels</a></li>
+<li class="toctree-l3"><a class="reference internal" href="flags.html#individual-optimisations">7.6.15. Individual optimisations</a></li>
+<li class="toctree-l3"><a class="reference internal" href="flags.html#profiling-options">7.6.16. Profiling options</a></li>
+<li class="toctree-l3"><a class="reference internal" href="flags.html#program-coverage-options">7.6.17. Program coverage options</a></li>
+<li class="toctree-l3"><a class="reference internal" href="flags.html#c-pre-processor-options">7.6.18. C pre-processor options</a></li>
+<li class="toctree-l3"><a class="reference internal" href="flags.html#code-generation-options">7.6.19. Code generation options</a></li>
+<li class="toctree-l3"><a class="reference internal" href="flags.html#linking-options">7.6.20. Linking options</a></li>
+<li class="toctree-l3"><a class="reference internal" href="flags.html#plugin-options">7.6.21. Plugin options</a></li>
+<li class="toctree-l3"><a class="reference internal" href="flags.html#replacing-phases">7.6.22. Replacing phases</a></li>
+<li class="toctree-l3"><a class="reference internal" href="flags.html#forcing-options-to-particular-phases">7.6.23. Forcing options to particular phases</a></li>
+<li class="toctree-l3"><a class="reference internal" href="flags.html#platform-specific-options">7.6.24. Platform-specific options</a></li>
+<li class="toctree-l3"><a class="reference internal" href="flags.html#compiler-debugging-options">7.6.25. Compiler debugging options</a></li>
+<li class="toctree-l3"><a class="reference internal" href="flags.html#miscellaneous-compiler-options">7.6.26. Miscellaneous compiler options</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="runtime_control.html">7.7. Running a compiled program</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="runtime_control.html#setting-rts-options">7.7.1. Setting RTS options</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="runtime_control.html#setting-rts-options-on-the-command-line">7.7.1.1. Setting RTS options on the command line</a></li>
+<li class="toctree-l4"><a class="reference internal" href="runtime_control.html#setting-rts-options-at-compile-time">7.7.1.2. Setting RTS options at compile time</a></li>
+<li class="toctree-l4"><a class="reference internal" href="runtime_control.html#setting-rts-options-with-the-ghcrts-environment-variable">7.7.1.3. Setting RTS options with the <tt class="docutils literal"><span class="pre">GHCRTS</span></tt> environment variable</a></li>
+<li class="toctree-l4"><a class="reference internal" href="runtime_control.html#hooks-to-change-rts-behaviour">7.7.1.4. &#8220;Hooks&#8221; to change RTS behaviour</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="runtime_control.html#miscellaneous-rts-options">7.7.2. Miscellaneous RTS options</a></li>
+<li class="toctree-l3"><a class="reference internal" href="runtime_control.html#rts-options-to-control-the-garbage-collector">7.7.3. RTS options to control the garbage collector</a></li>
+<li class="toctree-l3"><a class="reference internal" href="runtime_control.html#rts-options-to-produce-runtime-statistics">7.7.4. RTS options to produce runtime statistics</a></li>
+<li class="toctree-l3"><a class="reference internal" href="runtime_control.html#rts-options-for-concurrency-and-parallelism">7.7.5. RTS options for concurrency and parallelism</a></li>
+<li class="toctree-l3"><a class="reference internal" href="runtime_control.html#rts-options-for-profiling">7.7.6. RTS options for profiling</a></li>
+<li class="toctree-l3"><a class="reference internal" href="runtime_control.html#tracing">7.7.7. Tracing</a></li>
+<li class="toctree-l3"><a class="reference internal" href="runtime_control.html#rts-options-for-hackers-debuggers-and-over-interested-souls">7.7.8. RTS options for hackers, debuggers, and over-interested souls</a></li>
+<li class="toctree-l3"><a class="reference internal" href="runtime_control.html#getting-information-about-the-rts">7.7.9. Getting information about the RTS</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="separate_compilation.html">7.8. Filenames and separate compilation</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="separate_compilation.html#haskell-source-files">7.8.1. Haskell source files</a></li>
+<li class="toctree-l3"><a class="reference internal" href="separate_compilation.html#output-files">7.8.2. Output files</a></li>
+<li class="toctree-l3"><a class="reference internal" href="separate_compilation.html#the-search-path">7.8.3. The search path</a></li>
+<li class="toctree-l3"><a class="reference internal" href="separate_compilation.html#redirecting-the-compilation-output-s">7.8.4. Redirecting the compilation output(s)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="separate_compilation.html#keeping-intermediate-files">7.8.5. Keeping Intermediate Files</a></li>
+<li class="toctree-l3"><a class="reference internal" href="separate_compilation.html#redirecting-temporary-files">7.8.6. Redirecting temporary files</a></li>
+<li class="toctree-l3"><a class="reference internal" href="separate_compilation.html#other-options-related-to-interface-files">7.8.7. Other options related to interface files</a></li>
+<li class="toctree-l3"><a class="reference internal" href="separate_compilation.html#the-recompilation-checker">7.8.8. The recompilation checker</a></li>
+<li class="toctree-l3"><a class="reference internal" href="separate_compilation.html#how-to-compile-mutually-recursive-modules">7.8.9. How to compile mutually recursive modules</a></li>
+<li class="toctree-l3"><a class="reference internal" href="separate_compilation.html#module-signatures">7.8.10. Module signatures</a></li>
+<li class="toctree-l3"><a class="reference internal" href="separate_compilation.html#using-make">7.8.11. Using <tt class="docutils literal"><span class="pre">make</span></tt></a></li>
+<li class="toctree-l3"><a class="reference internal" href="separate_compilation.html#dependency-generation">7.8.12. Dependency generation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="separate_compilation.html#orphan-modules-and-instance-declarations">7.8.13. Orphan modules and instance declarations</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="packages.html">7.9. Packages</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="packages.html#using-packages">7.9.1. Using Packages</a></li>
+<li class="toctree-l3"><a class="reference internal" href="packages.html#the-main-package">7.9.2. The <tt class="docutils literal"><span class="pre">main</span></tt> package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="packages.html#consequences-of-packages-for-the-haskell-language">7.9.3. Consequences of packages for the Haskell language</a></li>
+<li class="toctree-l3"><a class="reference internal" href="packages.html#thinning-and-renaming-modules">7.9.4. Thinning and renaming modules</a></li>
+<li class="toctree-l3"><a class="reference internal" href="packages.html#package-databases">7.9.5. Package Databases</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="packages.html#the-ghc-package-path-environment-variable">7.9.5.1. The <tt class="docutils literal"><span class="pre">GHC_PACKAGE_PATH</span></tt> environment variable</a></li>
+<li class="toctree-l4"><a class="reference internal" href="packages.html#package-environments">7.9.5.2. Package environments</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="packages.html#installed-package-ids-dependencies-and-broken-packages">7.9.6. Installed package IDs, dependencies, and broken packages</a></li>
+<li class="toctree-l3"><a class="reference internal" href="packages.html#package-management-the-ghc-pkg-command">7.9.7. Package management (the <tt class="docutils literal"><span class="pre">ghc-pkg</span></tt> command)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="packages.html#building-a-package-from-haskell-source">7.9.8. Building a package from Haskell source</a></li>
+<li class="toctree-l3"><a class="reference internal" href="packages.html#installedpackageinfo-a-package-specification">7.9.9. <tt class="docutils literal"><span class="pre">InstalledPackageInfo</span></tt>: a package specification</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="codegens.html">7.10. GHC Backends</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="codegens.html#native-code-generator-fasm">7.10.1. Native code Generator (<tt class="docutils literal"><span class="pre">-fasm</span></tt>)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="codegens.html#llvm-code-generator-fllvm">7.10.2. LLVM Code Generator (<tt class="docutils literal"><span class="pre">-fllvm</span></tt>)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="codegens.html#c-code-generator-fvia-c">7.10.3. C Code Generator (<tt class="docutils literal"><span class="pre">-fvia-C</span></tt>)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="codegens.html#unregisterised-compilation">7.10.4. Unregisterised compilation</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="phases.html">7.11. Options related to a particular phase</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="phases.html#replacing-the-program-for-one-or-more-phases">7.11.1. Replacing the program for one or more phases</a></li>
+<li class="toctree-l3"><a class="reference internal" href="phases.html#forcing-options-to-a-particular-phase">7.11.2. Forcing options to a particular phase</a></li>
+<li class="toctree-l3"><a class="reference internal" href="phases.html#options-affecting-the-c-pre-processor">7.11.3. Options affecting the C pre-processor</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="phases.html#standard-cpp-macros">7.11.3.1. Standard CPP macros</a></li>
+<li class="toctree-l4"><a class="reference internal" href="phases.html#cpp-and-string-gaps">7.11.3.2. CPP and string gaps</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="phases.html#options-affecting-a-haskell-pre-processor">7.11.4. Options affecting a Haskell pre-processor</a></li>
+<li class="toctree-l3"><a class="reference internal" href="phases.html#options-affecting-code-generation">7.11.5. Options affecting code generation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="phases.html#options-affecting-linking">7.11.6. Options affecting linking</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="shared_libs.html">7.12. Using shared libraries</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="shared_libs.html#building-programs-that-use-shared-libraries">7.12.1. Building programs that use shared libraries</a></li>
+<li class="toctree-l3"><a class="reference internal" href="shared_libs.html#shared-libraries-for-haskell-packages">7.12.2. Shared libraries for Haskell packages</a></li>
+<li class="toctree-l3"><a class="reference internal" href="shared_libs.html#shared-libraries-that-export-a-c-api">7.12.3. Shared libraries that export a C API</a></li>
+<li class="toctree-l3"><a class="reference internal" href="shared_libs.html#finding-shared-libraries-at-runtime">7.12.4. Finding shared libraries at runtime</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="shared_libs.html#unix">7.12.4.1. Unix</a></li>
+<li class="toctree-l4"><a class="reference internal" href="shared_libs.html#mac-os-x">7.12.4.2. Mac OS X</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="debugging.html">7.13. Debugging the compiler</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="debugging.html#dumping-out-compiler-intermediate-structures">7.13.1. Dumping out compiler intermediate structures</a></li>
+<li class="toctree-l3"><a class="reference internal" href="debugging.html#formatting-dumps">7.13.2. Formatting dumps</a></li>
+<li class="toctree-l3"><a class="reference internal" href="debugging.html#suppressing-unwanted-information">7.13.3. Suppressing unwanted information</a></li>
+<li class="toctree-l3"><a class="reference internal" href="debugging.html#checking-for-consistency">7.13.4. Checking for consistency</a></li>
+<li class="toctree-l3"><a class="reference internal" href="debugging.html#checking-for-determinism">7.13.5. Checking for determinism</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="profiling.html">8. Profiling</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="profiling.html#cost-centres-and-cost-centre-stacks">8.1. Cost centres and cost-centre stacks</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="profiling.html#inserting-cost-centres-by-hand">8.1.1. Inserting cost centres by hand</a></li>
+<li class="toctree-l3"><a class="reference internal" href="profiling.html#rules-for-attributing-costs">8.1.2. Rules for attributing costs</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="profiling.html#compiler-options-for-profiling">8.2. Compiler options for profiling</a></li>
+<li class="toctree-l2"><a class="reference internal" href="profiling.html#time-and-allocation-profiling">8.3. Time and allocation profiling</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="profiling.html#json-profile-format">8.3.1. JSON profile format</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="profiling.html#profiling-memory-usage">8.4. Profiling memory usage</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="profiling.html#rts-options-for-heap-profiling">8.4.1. RTS options for heap profiling</a></li>
+<li class="toctree-l3"><a class="reference internal" href="profiling.html#retainer-profiling">8.4.2. Retainer Profiling</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="profiling.html#hints-for-using-retainer-profiling">8.4.2.1. Hints for using retainer profiling</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="profiling.html#biographical-profiling">8.4.3. Biographical Profiling</a></li>
+<li class="toctree-l3"><a class="reference internal" href="profiling.html#actual-memory-residency">8.4.4. Actual memory residency</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="profiling.html#hp2ps-rendering-heap-profiles-to-postscript">8.5. <tt class="docutils literal"><span class="pre">hp2ps</span></tt> &#8211; Rendering heap profiles to PostScript</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="profiling.html#manipulating-the-hp-file">8.5.1. Manipulating the <tt class="docutils literal"><span class="pre">hp</span></tt> file</a></li>
+<li class="toctree-l3"><a class="reference internal" href="profiling.html#zooming-in-on-regions-of-your-profile">8.5.2. Zooming in on regions of your profile</a></li>
+<li class="toctree-l3"><a class="reference internal" href="profiling.html#viewing-the-heap-profile-of-a-running-program">8.5.3. Viewing the heap profile of a running program</a></li>
+<li class="toctree-l3"><a class="reference internal" href="profiling.html#viewing-a-heap-profile-in-real-time">8.5.4. Viewing a heap profile in real time</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="profiling.html#profiling-parallel-and-concurrent-programs">8.6. Profiling Parallel and Concurrent Programs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="profiling.html#observing-code-coverage">8.7. Observing Code Coverage</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="profiling.html#a-small-example-reciprocation">8.7.1. A small example: Reciprocation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="profiling.html#options-for-instrumenting-code-for-coverage">8.7.2. Options for instrumenting code for coverage</a></li>
+<li class="toctree-l3"><a class="reference internal" href="profiling.html#the-hpc-toolkit">8.7.3. The hpc toolkit</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="profiling.html#hpc-report">8.7.3.1. hpc report</a></li>
+<li class="toctree-l4"><a class="reference internal" href="profiling.html#hpc-markup">8.7.3.2. hpc markup</a></li>
+<li class="toctree-l4"><a class="reference internal" href="profiling.html#hpc-sum">8.7.3.3. hpc sum</a></li>
+<li class="toctree-l4"><a class="reference internal" href="profiling.html#hpc-combine">8.7.3.4. hpc combine</a></li>
+<li class="toctree-l4"><a class="reference internal" href="profiling.html#hpc-map">8.7.3.5. hpc map</a></li>
+<li class="toctree-l4"><a class="reference internal" href="profiling.html#hpc-overlay-and-hpc-draft">8.7.3.6. hpc overlay and hpc draft</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="profiling.html#caveats-and-shortcomings-of-haskell-program-coverage">8.7.4. Caveats and Shortcomings of Haskell Program Coverage</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="profiling.html#using-ticky-ticky-profiling-for-implementors">8.8. Using “ticky-ticky” profiling (for implementors)</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="sooner.html">9. Advice on: sooner, faster, smaller, thriftier</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="sooner.html#sooner-producing-a-program-more-quickly">9.1. Sooner: producing a program more quickly</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sooner.html#faster-producing-a-program-that-runs-quicker">9.2. Faster: producing a program that runs quicker</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sooner.html#smaller-producing-a-program-that-is-smaller">9.3. Smaller: producing a program that is smaller</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sooner.html#thriftier-producing-a-program-that-gobbles-less-heap-space">9.4. Thriftier: producing a program that gobbles less heap space</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="lang.html">10. GHC Language Features</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="glasgow_exts.html">10.1. Language options</a></li>
+<li class="toctree-l2"><a class="reference internal" href="glasgow_exts.html#unboxed-types-and-primitive-operations">10.2. Unboxed types and primitive operations</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="glasgow_exts.html#unboxed-types">10.2.1. Unboxed types</a></li>
+<li class="toctree-l3"><a class="reference internal" href="glasgow_exts.html#unboxed-type-kinds">10.2.2. Unboxed type kinds</a></li>
+<li class="toctree-l3"><a class="reference internal" href="glasgow_exts.html#unboxed-tuples">10.2.3. Unboxed tuples</a></li>
+<li class="toctree-l3"><a class="reference internal" href="glasgow_exts.html#unboxed-sums">10.2.4. Unboxed sums</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="glasgow_exts.html#syntactic-extensions">10.3. Syntactic extensions</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="glasgow_exts.html#unicode-syntax">10.3.1. Unicode syntax</a></li>
+<li class="toctree-l3"><a class="reference internal" href="glasgow_exts.html#the-magic-hash">10.3.2. The magic hash</a></li>
+<li class="toctree-l3"><a class="reference internal" href="glasgow_exts.html#negative-literals">10.3.3. Negative literals</a></li>
+<li class="toctree-l3"><a class="reference internal" href="glasgow_exts.html#fractional-looking-integer-literals">10.3.4. Fractional looking integer literals</a></li>
+<li class="toctree-l3"><a class="reference internal" href="glasgow_exts.html#binary-integer-literals">10.3.5. Binary integer literals</a></li>
+<li class="toctree-l3"><a class="reference internal" href="glasgow_exts.html#pattern-guards">10.3.6. Pattern guards</a></li>
+<li class="toctree-l3"><a class="reference internal" href="glasgow_exts.html#view-patterns">10.3.7. View patterns</a></li>
+<li class="toctree-l3"><a class="reference internal" href="glasgow_exts.html#n-k-patterns">10.3.8. n+k patterns</a></li>
+<li class="toctree-l3"><a class="reference internal" href="glasgow_exts.html#the-recursive-do-notation">10.3.9. The recursive do-notation</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="glasgow_exts.html#recursive-binding-groups">10.3.9.1. Recursive binding groups</a></li>
+<li class="toctree-l4"><a class="reference internal" href="glasgow_exts.html#the-mdo-notation">10.3.9.2. The <tt class="docutils literal"><span class="pre">mdo</span></tt> notation</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="glasgow_exts.html#applicative-do-notation">10.3.10. Applicative do-notation</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="glasgow_exts.html#existential-patterns-and-gadts">10.3.10.1. Existential patterns and GADTs</a></li>
+<li class="toctree-l4"><a class="reference internal" href="glasgow_exts.html#things-to-watch-out-for">10.3.10.2. Things to watch out for</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="glasgow_exts.html#parallel-list-comprehensions">10.3.11. Parallel List Comprehensions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="glasgow_exts.html#generalised-sql-like-list-comprehensions">10.3.12. Generalised (SQL-like) List Comprehensions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="glasgow_exts.html#monad-comprehensions">10.3.13. Monad comprehensions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="glasgow_exts.html#new-monadic-failure-desugaring-mechanism">10.3.14. New monadic failure desugaring mechanism</a></li>
+<li class="toctree-l3"><a class="reference internal" href="glasgow_exts.html#rebindable-syntax-and-the-implicit-prelude-import">10.3.15. Rebindable syntax and the implicit Prelude import</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="glasgow_exts.html#things-unaffected-by-xrebindablesyntax">10.3.15.1. Things unaffected by <tt class="docutils literal"><span class="pre">-XRebindableSyntax</span></tt></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="glasgow_exts.html#postfix-operators">10.3.16. Postfix operators</a></li>
+<li class="toctree-l3"><a class="reference internal" href="glasgow_exts.html#tuple-sections">10.3.17. Tuple sections</a></li>
+<li class="toctree-l3"><a class="reference internal" href="glasgow_exts.html#lambda-case">10.3.18. Lambda-case</a></li>
+<li class="toctree-l3"><a class="reference internal" href="glasgow_exts.html#empty-case-alternatives">10.3.19. Empty case alternatives</a></li>
+<li class="toctree-l3"><a class="reference internal" href="glasgow_exts.html#multi-way-if-expressions">10.3.20. Multi-way if-expressions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="glasgow_exts.html#local-fixity-declarations">10.3.21. Local Fixity Declarations</a></li>
+<li class="toctree-l3"><a class="reference internal" href="glasgow_exts.html#import-and-export-extensions">10.3.22. Import and export extensions</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="glasgow_exts.html#hiding-things-the-imported-module-doesn-t-export">10.3.22.1. Hiding things the imported module doesn&#8217;t export</a></li>
+<li class="toctree-l4"><a class="reference internal" href="glasgow_exts.html#package-qualified-imports">10.3.22.2. Package-qualified imports</a></li>
+<li class="toctree-l4"><a class="reference internal" href="glasgow_exts.html#safe-imports">10.3.22.3. Safe imports</a></li>
+<li class="toctree-l4"><a class="reference internal" href="glasgow_exts.html#explicit-namespaces-in-import-export">10.3.22.4. Explicit namespaces in import/export</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="glasgow_exts.html#summary-of-stolen-syntax">10.3.23. Summary of stolen syntax</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="glasgow_exts.html#extensions-to-data-types-and-type-synonyms">10.4. Extensions to data types and type synonyms</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="glasgow_exts.html#data-types-with-no-constructors">10.4.1. Data types with no constructors</a></li>
+<li class="toctree-l3"><a class="reference internal" href="glasgow_exts.html#data-type-contexts">10.4.2. Data type contexts</a></li>
+<li class="toctree-l3"><a class="reference internal" href="glasgow_exts.html#infix-type-constructors-classes-and-type-variables">10.4.3. Infix type constructors, classes, and type variables</a></li>
+<li class="toctree-l3"><a class="reference internal" href="glasgow_exts.html#type-operators">10.4.4. Type operators</a></li>
+<li class="toctree-l3"><a class="reference internal" href="glasgow_exts.html#liberalised-type-synonyms">10.4.5. Liberalised type synonyms</a></li>
+<li class="toctree-l3"><a class="reference internal" href="glasgow_exts.html#existentially-quantified-data-constructors">10.4.6. Existentially quantified data constructors</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="glasgow_exts.html#why-existential">10.4.6.1. Why existential?</a></li>
+<li class="toctree-l4"><a class="reference internal" href="glasgow_exts.html#existentials-and-type-classes">10.4.6.2. Existentials and type classes</a></li>
+<li class="toctree-l4"><a class="reference internal" href="glasgow_exts.html#record-constructors">10.4.6.3. Record Constructors</a></li>
+<li class="toctree-l4"><a class="reference internal" href="glasgow_exts.html#restrictions">10.4.6.4. Restrictions</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="glasgow_exts.html#declaring-data-types-with-explicit-constructor-signatures">10.4.7. Declaring data types with explicit constructor signatures</a></li>
+<li class="toctree-l3"><a class="reference internal" href="glasgow_exts.html#generalised-algebraic-data-types-gadts">10.4.8. Generalised Algebraic Data Types (GADTs)</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="glasgow_exts.html#extensions-to-the-record-system">10.5. Extensions to the record system</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="glasgow_exts.html#traditional-record-syntax">10.5.1. Traditional record syntax</a></li>
+<li class="toctree-l3"><a class="reference internal" href="glasgow_exts.html#record-field-disambiguation">10.5.2. Record field disambiguation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="glasgow_exts.html#duplicate-record-fields">10.5.3. Duplicate record fields</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="glasgow_exts.html#selector-functions">10.5.3.1. Selector functions</a></li>
+<li class="toctree-l4"><a class="reference internal" href="glasgow_exts.html#record-updates">10.5.3.2. Record updates</a></li>
+<li class="toctree-l4"><a class="reference internal" href="glasgow_exts.html#import-and-export-of-record-fields">10.5.3.3. Import and export of record fields</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="glasgow_exts.html#record-puns">10.5.4. Record puns</a></li>
+<li class="toctree-l3"><a class="reference internal" href="glasgow_exts.html#record-wildcards">10.5.5. Record wildcards</a></li>
+<li class="toctree-l3"><a class="reference internal" href="glasgow_exts.html#record-field-selector-polymorphism">10.5.6. Record field selector polymorphism</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="glasgow_exts.html#solving-hasfield-constraints">10.5.6.1. Solving HasField constraints</a></li>
+<li class="toctree-l4"><a class="reference internal" href="glasgow_exts.html#virtual-record-fields">10.5.6.2. Virtual record fields</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="glasgow_exts.html#extensions-to-the-deriving-mechanism">10.6. Extensions to the &#8220;deriving&#8221; mechanism</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="glasgow_exts.html#inferred-context-for-deriving-clauses">10.6.1. Inferred context for deriving clauses</a></li>
+<li class="toctree-l3"><a class="reference internal" href="glasgow_exts.html#stand-alone-deriving-declarations">10.6.2. Stand-alone deriving declarations</a></li>
+<li class="toctree-l3"><a class="reference internal" href="glasgow_exts.html#deriving-instances-of-extra-classes-data-etc">10.6.3. Deriving instances of extra classes (<tt class="docutils literal"><span class="pre">Data</span></tt>, etc.)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="glasgow_exts.html#deriving-functor-instances">10.6.4. Deriving <tt class="docutils literal"><span class="pre">Functor</span></tt> instances</a></li>
+<li class="toctree-l3"><a class="reference internal" href="glasgow_exts.html#deriving-foldable-instances">10.6.5. Deriving <tt class="docutils literal"><span class="pre">Foldable</span></tt> instances</a></li>
+<li class="toctree-l3"><a class="reference internal" href="glasgow_exts.html#deriving-traversable-instances">10.6.6. Deriving <tt class="docutils literal"><span class="pre">Traversable</span></tt> instances</a></li>
+<li class="toctree-l3"><a class="reference internal" href="glasgow_exts.html#deriving-data-instances">10.6.7. Deriving <tt class="docutils literal"><span class="pre">Data</span></tt> instances</a></li>
+<li class="toctree-l3"><a class="reference internal" href="glasgow_exts.html#deriving-typeable-instances">10.6.8. Deriving <tt class="docutils literal"><span class="pre">Typeable</span></tt> instances</a></li>
+<li class="toctree-l3"><a class="reference internal" href="glasgow_exts.html#deriving-lift-instances">10.6.9. Deriving <tt class="docutils literal"><span class="pre">Lift</span></tt> instances</a></li>
+<li class="toctree-l3"><a class="reference internal" href="glasgow_exts.html#generalised-derived-instances-for-newtypes">10.6.10. Generalised derived instances for newtypes</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="glasgow_exts.html#generalising-the-deriving-clause">10.6.10.1. Generalising the deriving clause</a></li>
+<li class="toctree-l4"><a class="reference internal" href="glasgow_exts.html#a-more-precise-specification">10.6.10.2. A more precise specification</a></li>
+<li class="toctree-l4"><a class="reference internal" href="glasgow_exts.html#associated-type-families">10.6.10.3. Associated type families</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="glasgow_exts.html#deriving-any-other-class">10.6.11. Deriving any other class</a></li>
+<li class="toctree-l3"><a class="reference internal" href="glasgow_exts.html#deriving-strategies">10.6.12. Deriving strategies</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="glasgow_exts.html#pattern-synonyms">10.7. Pattern synonyms</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="glasgow_exts.html#record-pattern-synonyms">10.7.1. Record Pattern Synonyms</a></li>
+<li class="toctree-l3"><a class="reference internal" href="glasgow_exts.html#syntax-and-scoping-of-pattern-synonyms">10.7.2. Syntax and scoping of pattern synonyms</a></li>
+<li class="toctree-l3"><a class="reference internal" href="glasgow_exts.html#import-and-export-of-pattern-synonyms">10.7.3. Import and export of pattern synonyms</a></li>
+<li class="toctree-l3"><a class="reference internal" href="glasgow_exts.html#typing-of-pattern-synonyms">10.7.4. Typing of pattern synonyms</a></li>
+<li class="toctree-l3"><a class="reference internal" href="glasgow_exts.html#matching-of-pattern-synonyms">10.7.5. Matching of pattern synonyms</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="glasgow_exts.html#class-and-instances-declarations">10.8. Class and instances declarations</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="glasgow_exts.html#class-declarations">10.8.1. Class declarations</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="glasgow_exts.html#multi-parameter-type-classes">10.8.1.1. Multi-parameter type classes</a></li>
+<li class="toctree-l4"><a class="reference internal" href="glasgow_exts.html#the-superclasses-of-a-class-declaration">10.8.1.2. The superclasses of a class declaration</a></li>
+<li class="toctree-l4"><a class="reference internal" href="glasgow_exts.html#constrained-class-method-types">10.8.1.3. Constrained class method types</a></li>
+<li class="toctree-l4"><a class="reference internal" href="glasgow_exts.html#default-method-signatures">10.8.1.4. Default method signatures</a></li>
+<li class="toctree-l4"><a class="reference internal" href="glasgow_exts.html#nullary-type-classes">10.8.1.5. Nullary type classes</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="glasgow_exts.html#functional-dependencies">10.8.2. Functional dependencies</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="glasgow_exts.html#rules-for-functional-dependencies">10.8.2.1. Rules for functional dependencies</a></li>
+<li class="toctree-l4"><a class="reference internal" href="glasgow_exts.html#background-on-functional-dependencies">10.8.2.2. Background on functional dependencies</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="glasgow_exts.html#instance-declarations">10.8.3. Instance declarations</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="glasgow_exts.html#instance-resolution">10.8.3.1. Instance resolution</a></li>
+<li class="toctree-l4"><a class="reference internal" href="glasgow_exts.html#relaxed-rules-for-the-instance-head">10.8.3.2. Relaxed rules for the instance head</a></li>
+<li class="toctree-l4"><a class="reference internal" href="glasgow_exts.html#relaxed-rules-for-instance-contexts">10.8.3.3. Relaxed rules for instance contexts</a></li>
+<li class="toctree-l4"><a class="reference internal" href="glasgow_exts.html#instance-termination-rules">10.8.3.4. Instance termination rules</a></li>
+<li class="toctree-l4"><a class="reference internal" href="glasgow_exts.html#undecidable-instances">10.8.3.5. Undecidable instances</a></li>
+<li class="toctree-l4"><a class="reference internal" href="glasgow_exts.html#overlapping-instances">10.8.3.6. Overlapping instances</a></li>
+<li class="toctree-l4"><a class="reference internal" href="glasgow_exts.html#instance-signatures-type-signatures-in-instance-declarations">10.8.3.7. Instance signatures: type signatures in instance declarations</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="glasgow_exts.html#overloaded-string-literals">10.8.4. Overloaded string literals</a></li>
+<li class="toctree-l3"><a class="reference internal" href="glasgow_exts.html#overloaded-labels">10.8.5. Overloaded labels</a></li>
+<li class="toctree-l3"><a class="reference internal" href="glasgow_exts.html#overloaded-lists">10.8.6. Overloaded lists</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="glasgow_exts.html#the-islist-class">10.8.6.1. The <tt class="docutils literal"><span class="pre">IsList</span></tt> class</a></li>
+<li class="toctree-l4"><a class="reference internal" href="glasgow_exts.html#id32">10.8.6.2. Rebindable syntax</a></li>
+<li class="toctree-l4"><a class="reference internal" href="glasgow_exts.html#defaulting">10.8.6.3. Defaulting</a></li>
+<li class="toctree-l4"><a class="reference internal" href="glasgow_exts.html#speculation-about-the-future">10.8.6.4. Speculation about the future</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="glasgow_exts.html#undecidable-or-recursive-superclasses">10.8.7. Undecidable (or recursive) superclasses</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="glasgow_exts.html#type-families">10.9. Type families</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="glasgow_exts.html#data-families">10.9.1. Data families</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="glasgow_exts.html#data-family-declarations">10.9.1.1. Data family declarations</a></li>
+<li class="toctree-l4"><a class="reference internal" href="glasgow_exts.html#data-instance-declarations">10.9.1.2. Data instance declarations</a></li>
+<li class="toctree-l4"><a class="reference internal" href="glasgow_exts.html#overlap-of-data-instances">10.9.1.3. Overlap of data instances</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="glasgow_exts.html#synonym-families">10.9.2. Synonym families</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="glasgow_exts.html#type-family-declarations">10.9.2.1. Type family declarations</a></li>
+<li class="toctree-l4"><a class="reference internal" href="glasgow_exts.html#type-instance-declarations">10.9.2.2. Type instance declarations</a></li>
+<li class="toctree-l4"><a class="reference internal" href="glasgow_exts.html#closed-type-families">10.9.2.3. Closed type families</a></li>
+<li class="toctree-l4"><a class="reference internal" href="glasgow_exts.html#type-family-examples">10.9.2.4. Type family examples</a></li>
+<li class="toctree-l4"><a class="reference internal" href="glasgow_exts.html#compatibility-and-apartness-of-type-family-equations">10.9.2.5. Compatibility and apartness of type family equations</a></li>
+<li class="toctree-l4"><a class="reference internal" href="glasgow_exts.html#decidability-of-type-synonym-instances">10.9.2.6. Decidability of type synonym instances</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="glasgow_exts.html#wildcards-on-the-lhs-of-data-and-type-family-instances">10.9.3. Wildcards on the LHS of data and type family instances</a></li>
+<li class="toctree-l3"><a class="reference internal" href="glasgow_exts.html#associated-data-and-type-families">10.9.4. Associated data and type families</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="glasgow_exts.html#associated-instances">10.9.4.1. Associated instances</a></li>
+<li class="toctree-l4"><a class="reference internal" href="glasgow_exts.html#associated-type-synonym-defaults">10.9.4.2. Associated type synonym defaults</a></li>
+<li class="toctree-l4"><a class="reference internal" href="glasgow_exts.html#scoping-of-class-parameters">10.9.4.3. Scoping of class parameters</a></li>
+<li class="toctree-l4"><a class="reference internal" href="glasgow_exts.html#instance-contexts-and-associated-type-and-data-instances">10.9.4.4. Instance contexts and associated type and data instances</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="glasgow_exts.html#import-and-export">10.9.5. Import and export</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="glasgow_exts.html#examples">10.9.5.1. Examples</a></li>
+<li class="toctree-l4"><a class="reference internal" href="glasgow_exts.html#instances">10.9.5.2. Instances</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="glasgow_exts.html#type-families-and-instance-declarations">10.9.6. Type families and instance declarations</a></li>
+<li class="toctree-l3"><a class="reference internal" href="glasgow_exts.html#injective-type-families">10.9.7. Injective type families</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="glasgow_exts.html#syntax-of-injectivity-annotation">10.9.7.1. Syntax of injectivity annotation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="glasgow_exts.html#verifying-injectivity-annotation-against-type-family-equations">10.9.7.2. Verifying injectivity annotation against type family equations</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="glasgow_exts.html#datatype-promotion">10.10. Datatype promotion</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="glasgow_exts.html#motivation">10.10.1. Motivation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="glasgow_exts.html#overview">10.10.2. Overview</a></li>
+<li class="toctree-l3"><a class="reference internal" href="glasgow_exts.html#distinguishing-between-types-and-constructors">10.10.3. Distinguishing between types and constructors</a></li>
+<li class="toctree-l3"><a class="reference internal" href="glasgow_exts.html#promoted-list-and-tuple-types">10.10.4. Promoted list and tuple types</a></li>
+<li class="toctree-l3"><a class="reference internal" href="glasgow_exts.html#promoting-existential-data-constructors">10.10.5. Promoting existential data constructors</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="glasgow_exts.html#kind-polymorphism-and-type-in-type">10.11. Kind polymorphism and Type-in-Type</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="glasgow_exts.html#the-difference-between-xtypeintype-and-xpolykinds">10.11.1. The difference between <tt class="docutils literal"><span class="pre">-XTypeInType</span></tt> and <tt class="docutils literal"><span class="pre">-XPolyKinds</span></tt></a></li>
+<li class="toctree-l3"><a class="reference internal" href="glasgow_exts.html#overview-of-kind-polymorphism">10.11.2. Overview of kind polymorphism</a></li>
+<li class="toctree-l3"><a class="reference internal" href="glasgow_exts.html#overview-of-type-in-type">10.11.3. Overview of Type-in-Type</a></li>
+<li class="toctree-l3"><a class="reference internal" href="glasgow_exts.html#principles-of-kind-inference">10.11.4. Principles of kind inference</a></li>
+<li class="toctree-l3"><a class="reference internal" href="glasgow_exts.html#complete-user-supplied-kind-signatures-and-polymorphic-recursion">10.11.5. Complete user-supplied kind signatures and polymorphic recursion</a></li>
+<li class="toctree-l3"><a class="reference internal" href="glasgow_exts.html#kind-inference-in-closed-type-families">10.11.6. Kind inference in closed type families</a></li>
+<li class="toctree-l3"><a class="reference internal" href="glasgow_exts.html#kind-inference-in-class-instance-declarations">10.11.7. Kind inference in class instance declarations</a></li>
+<li class="toctree-l3"><a class="reference internal" href="glasgow_exts.html#kind-inference-in-type-signatures">10.11.8. Kind inference in type signatures</a></li>
+<li class="toctree-l3"><a class="reference internal" href="glasgow_exts.html#explicit-kind-quantification">10.11.9. Explicit kind quantification</a></li>
+<li class="toctree-l3"><a class="reference internal" href="glasgow_exts.html#kind-indexed-gadts">10.11.10. Kind-indexed GADTs</a></li>
+<li class="toctree-l3"><a class="reference internal" href="glasgow_exts.html#constraints-in-kinds">10.11.11. Constraints in kinds</a></li>
+<li class="toctree-l3"><a class="reference internal" href="glasgow_exts.html#the-kind">10.11.12. The kind <tt class="docutils literal"><span class="pre">*</span></tt></a></li>
+<li class="toctree-l3"><a class="reference internal" href="glasgow_exts.html#inferring-dependency-in-datatype-declarations">10.11.13. Inferring dependency in datatype declarations</a></li>
+<li class="toctree-l3"><a class="reference internal" href="glasgow_exts.html#kind-defaulting-without-xpolykinds">10.11.14. Kind defaulting without <tt class="docutils literal"><span class="pre">-XPolyKinds</span></tt></a></li>
+<li class="toctree-l3"><a class="reference internal" href="glasgow_exts.html#pretty-printing-in-the-presence-of-kind-polymorphism">10.11.15. Pretty-printing in the presence of kind polymorphism</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="glasgow_exts.html#levity-polymorphism">10.12. Levity polymorphism</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="glasgow_exts.html#no-levity-polymorphic-variables-or-arguments">10.12.1. No levity-polymorphic variables or arguments</a></li>
+<li class="toctree-l3"><a class="reference internal" href="glasgow_exts.html#levity-polymorphic-bottoms">10.12.2. Levity-polymorphic bottoms</a></li>
+<li class="toctree-l3"><a class="reference internal" href="glasgow_exts.html#printing-levity-polymorphic-types">10.12.3. Printing levity-polymorphic types</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="glasgow_exts.html#type-level-literals">10.13. Type-Level Literals</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="glasgow_exts.html#runtime-values-for-type-level-literals">10.13.1. Runtime Values for Type-Level Literals</a></li>
+<li class="toctree-l3"><a class="reference internal" href="glasgow_exts.html#computing-with-type-level-naturals">10.13.2. Computing With Type-Level Naturals</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="glasgow_exts.html#constraints-in-types">10.14. Constraints in types</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="glasgow_exts.html#equality-constraints">10.14.1. Equality constraints</a></li>
+<li class="toctree-l3"><a class="reference internal" href="glasgow_exts.html#heterogeneous-equality">10.14.2. Heterogeneous equality</a></li>
+<li class="toctree-l3"><a class="reference internal" href="glasgow_exts.html#unlifted-heterogeneous-equality">10.14.3. Unlifted heterogeneous equality</a></li>
+<li class="toctree-l3"><a class="reference internal" href="glasgow_exts.html#the-coercible-constraint">10.14.4. The <tt class="docutils literal"><span class="pre">Coercible</span></tt> constraint</a></li>
+<li class="toctree-l3"><a class="reference internal" href="glasgow_exts.html#the-constraint-kind">10.14.5. The <tt class="docutils literal"><span class="pre">Constraint</span></tt> kind</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="glasgow_exts.html#extensions-to-type-signatures">10.15. Extensions to type signatures</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="glasgow_exts.html#explicit-universal-quantification-forall">10.15.1. Explicit universal quantification (forall)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="glasgow_exts.html#the-context-of-a-type-signature">10.15.2. The context of a type signature</a></li>
+<li class="toctree-l3"><a class="reference internal" href="glasgow_exts.html#ambiguous-types-and-the-ambiguity-check">10.15.3. Ambiguous types and the ambiguity check</a></li>
+<li class="toctree-l3"><a class="reference internal" href="glasgow_exts.html#explicitly-kinded-quantification">10.15.4. Explicitly-kinded quantification</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="glasgow_exts.html#lexically-scoped-type-variables">10.16. Lexically scoped type variables</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="glasgow_exts.html#id48">10.16.1. Overview</a></li>
+<li class="toctree-l3"><a class="reference internal" href="glasgow_exts.html#declaration-type-signatures">10.16.2. Declaration type signatures</a></li>
+<li class="toctree-l3"><a class="reference internal" href="glasgow_exts.html#expression-type-signatures">10.16.3. Expression type signatures</a></li>
+<li class="toctree-l3"><a class="reference internal" href="glasgow_exts.html#pattern-type-signatures">10.16.4. Pattern type signatures</a></li>
+<li class="toctree-l3"><a class="reference internal" href="glasgow_exts.html#class-and-instance-declarations">10.16.5. Class and instance declarations</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="glasgow_exts.html#bindings-and-generalisation">10.17. Bindings and generalisation</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="glasgow_exts.html#switching-off-the-dreaded-monomorphism-restriction">10.17.1. Switching off the dreaded Monomorphism Restriction</a></li>
+<li class="toctree-l3"><a class="reference internal" href="glasgow_exts.html#let-generalisation">10.17.2. Let-generalisation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="glasgow_exts.html#kind-generalisation">10.17.3. Kind generalisation</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="glasgow_exts.html#visible-type-application">10.18. Visible type application</a></li>
+<li class="toctree-l2"><a class="reference internal" href="glasgow_exts.html#implicit-parameters">10.19. Implicit parameters</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="glasgow_exts.html#implicit-parameter-type-constraints">10.19.1. Implicit-parameter type constraints</a></li>
+<li class="toctree-l3"><a class="reference internal" href="glasgow_exts.html#implicit-parameter-bindings">10.19.2. Implicit-parameter bindings</a></li>
+<li class="toctree-l3"><a class="reference internal" href="glasgow_exts.html#implicit-parameters-and-polymorphic-recursion">10.19.3. Implicit parameters and polymorphic recursion</a></li>
+<li class="toctree-l3"><a class="reference internal" href="glasgow_exts.html#implicit-parameters-and-monomorphism">10.19.4. Implicit parameters and monomorphism</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="glasgow_exts.html#arbitrary-rank-polymorphism">10.20. Arbitrary-rank polymorphism</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="glasgow_exts.html#univ">10.20.1. Examples</a></li>
+<li class="toctree-l3"><a class="reference internal" href="glasgow_exts.html#type-inference">10.20.2. Type inference</a></li>
+<li class="toctree-l3"><a class="reference internal" href="glasgow_exts.html#implicit-quantification">10.20.3. Implicit quantification</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="glasgow_exts.html#impredicative-polymorphism">10.21. Impredicative polymorphism</a></li>
+<li class="toctree-l2"><a class="reference internal" href="glasgow_exts.html#typed-holes">10.22. Typed Holes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="glasgow_exts.html#partial-type-signatures">10.23. Partial Type Signatures</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="glasgow_exts.html#syntax">10.23.1. Syntax</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="glasgow_exts.html#type-wildcards">10.23.1.1. Type Wildcards</a></li>
+<li class="toctree-l4"><a class="reference internal" href="glasgow_exts.html#named-wildcards">10.23.1.2. Named Wildcards</a></li>
+<li class="toctree-l4"><a class="reference internal" href="glasgow_exts.html#extra-constraints-wildcard">10.23.1.3. Extra-Constraints Wildcard</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="glasgow_exts.html#where-can-they-occur">10.23.2. Where can they occur?</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="glasgow_exts.html#custom-compile-time-errors">10.24. Custom compile-time errors</a></li>
+<li class="toctree-l2"><a class="reference internal" href="glasgow_exts.html#deferring-type-errors-to-runtime">10.25. Deferring type errors to runtime</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="glasgow_exts.html#enabling-deferring-of-type-errors">10.25.1. Enabling deferring of type errors</a></li>
+<li class="toctree-l3"><a class="reference internal" href="glasgow_exts.html#deferred-type-errors-in-ghci">10.25.2. Deferred type errors in GHCi</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="glasgow_exts.html#template-haskell">10.26. Template Haskell</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="glasgow_exts.html#th-syntax">10.26.1. Syntax</a></li>
+<li class="toctree-l3"><a class="reference internal" href="glasgow_exts.html#using-template-haskell">10.26.2. Using Template Haskell</a></li>
+<li class="toctree-l3"><a class="reference internal" href="glasgow_exts.html#viewing-template-haskell-generated-code">10.26.3. Viewing Template Haskell generated code</a></li>
+<li class="toctree-l3"><a class="reference internal" href="glasgow_exts.html#a-template-haskell-worked-example">10.26.4. A Template Haskell Worked Example</a></li>
+<li class="toctree-l3"><a class="reference internal" href="glasgow_exts.html#using-template-haskell-with-profiling">10.26.5. Using Template Haskell with Profiling</a></li>
+<li class="toctree-l3"><a class="reference internal" href="glasgow_exts.html#template-haskell-quasi-quotation">10.26.6. Template Haskell Quasi-quotation</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="glasgow_exts.html#arrow-notation">10.27. Arrow notation</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="glasgow_exts.html#do-notation-for-commands">10.27.1. do-notation for commands</a></li>
+<li class="toctree-l3"><a class="reference internal" href="glasgow_exts.html#conditional-commands">10.27.2. Conditional commands</a></li>
+<li class="toctree-l3"><a class="reference internal" href="glasgow_exts.html#defining-your-own-control-structures">10.27.3. Defining your own control structures</a></li>
+<li class="toctree-l3"><a class="reference internal" href="glasgow_exts.html#primitive-constructs">10.27.4. Primitive constructs</a></li>
+<li class="toctree-l3"><a class="reference internal" href="glasgow_exts.html#differences-with-the-paper">10.27.5. Differences with the paper</a></li>
+<li class="toctree-l3"><a class="reference internal" href="glasgow_exts.html#portability">10.27.6. Portability</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="glasgow_exts.html#bang-patterns-and-strict-haskell">10.28. Bang patterns and Strict Haskell</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="glasgow_exts.html#bang-patterns-informal">10.28.1. Bang patterns</a></li>
+<li class="toctree-l3"><a class="reference internal" href="glasgow_exts.html#strict-by-default-data-types">10.28.2. Strict-by-default data types</a></li>
+<li class="toctree-l3"><a class="reference internal" href="glasgow_exts.html#strict-by-default-pattern-bindings">10.28.3. Strict-by-default pattern bindings</a></li>
+<li class="toctree-l3"><a class="reference internal" href="glasgow_exts.html#modularity">10.28.4. Modularity</a></li>
+<li class="toctree-l3"><a class="reference internal" href="glasgow_exts.html#dynamic-semantics-of-bang-patterns">10.28.5. Dynamic semantics of bang patterns</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="glasgow_exts.html#assertions">10.29. Assertions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="glasgow_exts.html#static-pointers">10.30. Static pointers</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="glasgow_exts.html#using-static-pointers">10.30.1. Using static pointers</a></li>
+<li class="toctree-l3"><a class="reference internal" href="glasgow_exts.html#static-semantics-of-static-pointers">10.30.2. Static semantics of static pointers</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="glasgow_exts.html#pragmas">10.31. Pragmas</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="glasgow_exts.html#language-pragma">10.31.1. LANGUAGE pragma</a></li>
+<li class="toctree-l3"><a class="reference internal" href="glasgow_exts.html#options-ghc-pragma">10.31.2. <tt class="docutils literal"><span class="pre">OPTIONS_GHC</span></tt> pragma</a></li>
+<li class="toctree-l3"><a class="reference internal" href="glasgow_exts.html#include-pragma">10.31.3. <tt class="docutils literal"><span class="pre">INCLUDE</span></tt> pragma</a></li>
+<li class="toctree-l3"><a class="reference internal" href="glasgow_exts.html#warning-and-deprecated-pragmas">10.31.4. <tt class="docutils literal"><span class="pre">WARNING</span></tt> and <tt class="docutils literal"><span class="pre">DEPRECATED</span></tt> pragmas</a></li>
+<li class="toctree-l3"><a class="reference internal" href="glasgow_exts.html#minimal-pragma">10.31.5. MINIMAL pragma</a></li>
+<li class="toctree-l3"><a class="reference internal" href="glasgow_exts.html#inline-and-noinline-pragmas">10.31.6. INLINE and NOINLINE pragmas</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="glasgow_exts.html#inline-pragma">10.31.6.1. INLINE pragma</a></li>
+<li class="toctree-l4"><a class="reference internal" href="glasgow_exts.html#inlinable-pragma">10.31.6.2. INLINABLE pragma</a></li>
+<li class="toctree-l4"><a class="reference internal" href="glasgow_exts.html#noinline-pragma">10.31.6.3. NOINLINE pragma</a></li>
+<li class="toctree-l4"><a class="reference internal" href="glasgow_exts.html#conlike-modifier">10.31.6.4. CONLIKE modifier</a></li>
+<li class="toctree-l4"><a class="reference internal" href="glasgow_exts.html#phase-control">10.31.6.5. Phase control</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="glasgow_exts.html#line-pragma">10.31.7. <tt class="docutils literal"><span class="pre">LINE</span></tt> pragma</a></li>
+<li class="toctree-l3"><a class="reference internal" href="glasgow_exts.html#column-pragma">10.31.8. <tt class="docutils literal"><span class="pre">COLUMN</span></tt> pragma</a></li>
+<li class="toctree-l3"><a class="reference internal" href="glasgow_exts.html#rules-pragma">10.31.9. <tt class="docutils literal"><span class="pre">RULES</span></tt> pragma</a></li>
+<li class="toctree-l3"><a class="reference internal" href="glasgow_exts.html#specialize-pragma">10.31.10. <tt class="docutils literal"><span class="pre">SPECIALIZE</span></tt> pragma</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="glasgow_exts.html#specialize-inline">10.31.10.1. <tt class="docutils literal"><span class="pre">SPECIALIZE</span> <span class="pre">INLINE</span></tt></a></li>
+<li class="toctree-l4"><a class="reference internal" href="glasgow_exts.html#specialize-for-imported-functions">10.31.10.2. <tt class="docutils literal"><span class="pre">SPECIALIZE</span></tt> for imported functions</a></li>
+<li class="toctree-l4"><a class="reference internal" href="glasgow_exts.html#obsolete-specialize-syntax">10.31.10.3. Obsolete <tt class="docutils literal"><span class="pre">SPECIALIZE</span></tt> syntax</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="glasgow_exts.html#specialize-instance-pragma">10.31.11. <tt class="docutils literal"><span class="pre">SPECIALIZE</span></tt> instance pragma</a></li>
+<li class="toctree-l3"><a class="reference internal" href="glasgow_exts.html#unpack-pragma">10.31.12. <tt class="docutils literal"><span class="pre">UNPACK</span></tt> pragma</a></li>
+<li class="toctree-l3"><a class="reference internal" href="glasgow_exts.html#nounpack-pragma">10.31.13. <tt class="docutils literal"><span class="pre">NOUNPACK</span></tt> pragma</a></li>
+<li class="toctree-l3"><a class="reference internal" href="glasgow_exts.html#source-pragma">10.31.14. <tt class="docutils literal"><span class="pre">SOURCE</span></tt> pragma</a></li>
+<li class="toctree-l3"><a class="reference internal" href="glasgow_exts.html#complete-pragmas">10.31.15. <tt class="docutils literal"><span class="pre">COMPLETE</span></tt> pragmas</a></li>
+<li class="toctree-l3"><a class="reference internal" href="glasgow_exts.html#overlapping-overlappable-overlaps-and-incoherent-pragmas">10.31.16. <tt class="docutils literal"><span class="pre">OVERLAPPING</span></tt>, <tt class="docutils literal"><span class="pre">OVERLAPPABLE</span></tt>, <tt class="docutils literal"><span class="pre">OVERLAPS</span></tt>, and <tt class="docutils literal"><span class="pre">INCOHERENT</span></tt> pragmas</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="glasgow_exts.html#rewrite-rules">10.32. Rewrite rules</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="glasgow_exts.html#id87">10.32.1. Syntax</a></li>
+<li class="toctree-l3"><a class="reference internal" href="glasgow_exts.html#semantics">10.32.2. Semantics</a></li>
+<li class="toctree-l3"><a class="reference internal" href="glasgow_exts.html#how-rules-interact-with-inline-noinline-pragmas">10.32.3. How rules interact with <tt class="docutils literal"><span class="pre">INLINE</span></tt>/<tt class="docutils literal"><span class="pre">NOINLINE</span></tt> pragmas</a></li>
+<li class="toctree-l3"><a class="reference internal" href="glasgow_exts.html#how-rules-interact-with-conlike-pragmas">10.32.4. How rules interact with CONLIKE pragmas</a></li>
+<li class="toctree-l3"><a class="reference internal" href="glasgow_exts.html#how-rules-interact-with-class-methods">10.32.5. How rules interact with class methods</a></li>
+<li class="toctree-l3"><a class="reference internal" href="glasgow_exts.html#list-fusion">10.32.6. List fusion</a></li>
+<li class="toctree-l3"><a class="reference internal" href="glasgow_exts.html#specialisation">10.32.7. Specialisation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="glasgow_exts.html#controlling-what-s-going-on-in-rewrite-rules">10.32.8. Controlling what&#8217;s going on in rewrite rules</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="glasgow_exts.html#special-built-in-functions">10.33. Special built-in functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="glasgow_exts.html#generic-classes">10.34. Generic classes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="glasgow_exts.html#generic-programming">10.35. Generic programming</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="glasgow_exts.html#deriving-representations">10.35.1. Deriving representations</a></li>
+<li class="toctree-l3"><a class="reference internal" href="glasgow_exts.html#writing-generic-functions">10.35.2. Writing generic functions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="glasgow_exts.html#unlifted-representation-types">10.35.3. Unlifted representation types</a></li>
+<li class="toctree-l3"><a class="reference internal" href="glasgow_exts.html#generic-defaults">10.35.4. Generic defaults</a></li>
+<li class="toctree-l3"><a class="reference internal" href="glasgow_exts.html#more-information">10.35.5. More information</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="glasgow_exts.html#roles">10.36. Roles</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="glasgow_exts.html#nominal-representational-and-phantom">10.36.1. Nominal, Representational, and Phantom</a></li>
+<li class="toctree-l3"><a class="reference internal" href="glasgow_exts.html#role-inference">10.36.2. Role inference</a></li>
+<li class="toctree-l3"><a class="reference internal" href="glasgow_exts.html#role-annotations">10.36.3. Role annotations</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="glasgow_exts.html#hascallstack">10.37. HasCallStack</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="glasgow_exts.html#compared-with-other-sources-of-stack-traces">10.37.1. Compared with other sources of stack traces</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="parallel.html">10.38. Concurrent and Parallel Haskell</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="parallel.html#concurrent-haskell">10.38.1. Concurrent Haskell</a></li>
+<li class="toctree-l3"><a class="reference internal" href="parallel.html#software-transactional-memory">10.38.2. Software Transactional Memory</a></li>
+<li class="toctree-l3"><a class="reference internal" href="parallel.html#parallel-haskell">10.38.3. Parallel Haskell</a></li>
+<li class="toctree-l3"><a class="reference internal" href="parallel.html#annotating-pure-code-for-parallelism">10.38.4. Annotating pure code for parallelism</a></li>
+<li class="toctree-l3"><a class="reference internal" href="parallel.html#data-parallel-haskell">10.38.5. Data Parallel Haskell</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="safe_haskell.html">10.39. Safe Haskell</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="safe_haskell.html#uses-of-safe-haskell">10.39.1. Uses of Safe Haskell</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="safe_haskell.html#strict-type-safety-good-style">10.39.1.1. Strict type-safety (good style)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="safe_haskell.html#building-secure-systems-restricted-io-monads">10.39.1.2. Building secure systems (restricted IO Monads)</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="safe_haskell.html#safe-language">10.39.2. Safe Language</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="safe_haskell.html#safe-overlapping-instances">10.39.2.1. Safe Overlapping Instances</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="safe_haskell.html#safe-imports">10.39.3. Safe Imports</a></li>
+<li class="toctree-l3"><a class="reference internal" href="safe_haskell.html#trust-and-safe-haskell-modes">10.39.4. Trust and Safe Haskell Modes</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="safe_haskell.html#trust-check-fpackage-trust-disabled">10.39.4.1. Trust check (<tt class="docutils literal"><span class="pre">-fpackage-trust</span></tt> disabled)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="safe_haskell.html#trust-check-fpackage-trust-enabled">10.39.4.2. Trust check (<tt class="docutils literal"><span class="pre">-fpackage-trust</span></tt> enabled)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="safe_haskell.html#example">10.39.4.3. Example</a></li>
+<li class="toctree-l4"><a class="reference internal" href="safe_haskell.html#trustworthy-requirements">10.39.4.4. Trustworthy Requirements</a></li>
+<li class="toctree-l4"><a class="reference internal" href="safe_haskell.html#package-trust">10.39.4.5. Package Trust</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="safe_haskell.html#safe-haskell-inference">10.39.5. Safe Haskell Inference</a></li>
+<li class="toctree-l3"><a class="reference internal" href="safe_haskell.html#safe-haskell-flag-summary">10.39.6. Safe Haskell Flag Summary</a></li>
+<li class="toctree-l3"><a class="reference internal" href="safe_haskell.html#safe-compilation">10.39.7. Safe Compilation</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="ffi-chap.html">11. Foreign function interface (FFI)</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="ffi-chap.html#ghc-extensions-to-the-ffi-addendum">11.1. GHC extensions to the FFI Addendum</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="ffi-chap.html#unboxed-types">11.1.1. Unboxed types</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ffi-chap.html#newtype-wrapping-of-the-io-monad">11.1.2. Newtype wrapping of the IO monad</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ffi-chap.html#primitive-imports">11.1.3. Primitive imports</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ffi-chap.html#interruptible-foreign-calls">11.1.4. Interruptible foreign calls</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ffi-chap.html#the-capi-calling-convention">11.1.5. The CAPI calling convention</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ffi-chap.html#hs-thread-done">11.1.6. <tt class="docutils literal"><span class="pre">hs_thread_done()</span></tt></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="ffi-chap.html#using-the-ffi-with-ghc">11.2. Using the FFI with GHC</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="ffi-chap.html#using-foreign-export-and-foreign-import-ccall-wrapper-with-ghc">11.2.1. Using <tt class="docutils literal"><span class="pre">foreign</span> <span class="pre">export</span></tt> and <tt class="docutils literal"><span class="pre">foreign</span> <span class="pre">import</span> <span class="pre">ccall</span> <span class="pre">&quot;wrapper&quot;</span></tt> with GHC</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="ffi-chap.html#using-your-own-main">11.2.1.1. Using your own <tt class="docutils literal"><span class="pre">main()</span></tt></a></li>
+<li class="toctree-l4"><a class="reference internal" href="ffi-chap.html#making-a-haskell-library-that-can-be-called-from-foreign-code">11.2.1.2. Making a Haskell library that can be called from foreign code</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="ffi-chap.html#using-header-files">11.2.2. Using header files</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ffi-chap.html#memory-allocation">11.2.3. Memory Allocation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ffi-chap.html#multi-threading-and-the-ffi">11.2.4. Multi-threading and the FFI</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="ffi-chap.html#foreign-imports-and-multi-threading">11.2.4.1. Foreign imports and multi-threading</a></li>
+<li class="toctree-l4"><a class="reference internal" href="ffi-chap.html#the-relationship-between-haskell-threads-and-os-threads">11.2.4.2. The relationship between Haskell threads and OS threads</a></li>
+<li class="toctree-l4"><a class="reference internal" href="ffi-chap.html#foreign-exports-and-multi-threading">11.2.4.3. Foreign exports and multi-threading</a></li>
+<li class="toctree-l4"><a class="reference internal" href="ffi-chap.html#on-the-use-of-hs-exit">11.2.4.4. On the use of <tt class="docutils literal"><span class="pre">hs_exit()</span></tt></a></li>
+<li class="toctree-l4"><a class="reference internal" href="ffi-chap.html#waking-up-haskell-threads-from-c">11.2.4.5. Waking up Haskell threads from C</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="ffi-chap.html#floating-point-and-the-ffi">11.2.5. Floating point and the FFI</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="extending_ghc.html">12. Extending and using GHC as a Library</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="extending_ghc.html#source-annotations">12.1. Source annotations</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="extending_ghc.html#annotating-values">12.1.1. Annotating values</a></li>
+<li class="toctree-l3"><a class="reference internal" href="extending_ghc.html#annotating-types">12.1.2. Annotating types</a></li>
+<li class="toctree-l3"><a class="reference internal" href="extending_ghc.html#annotating-modules">12.1.3. Annotating modules</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="extending_ghc.html#using-ghc-as-a-library">12.2. Using GHC as a Library</a></li>
+<li class="toctree-l2"><a class="reference internal" href="extending_ghc.html#compiler-plugins">12.3. Compiler Plugins</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="extending_ghc.html#using-compiler-plugins">12.3.1. Using compiler plugins</a></li>
+<li class="toctree-l3"><a class="reference internal" href="extending_ghc.html#writing-compiler-plugins">12.3.2. Writing compiler plugins</a></li>
+<li class="toctree-l3"><a class="reference internal" href="extending_ghc.html#core-plugins-in-more-detail">12.3.3. Core plugins in more detail</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="extending_ghc.html#manipulating-bindings">12.3.3.1. Manipulating bindings</a></li>
+<li class="toctree-l4"><a class="reference internal" href="extending_ghc.html#using-annotations">12.3.3.2. Using Annotations</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="extending_ghc.html#typechecker-plugins">12.3.4. Typechecker plugins</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="extending_ghc.html#constraint-solving-with-plugins">12.3.4.1. Constraint solving with plugins</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="extending_ghc.html#frontend-plugins">12.3.5. Frontend plugins</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="gone_wrong.html">13. What to do when something goes wrong</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="gone_wrong.html#when-the-compiler-does-the-wrong-thing">13.1. When the compiler “does the wrong thing”</a></li>
+<li class="toctree-l2"><a class="reference internal" href="gone_wrong.html#when-your-program-does-the-wrong-thing">13.2. When your program “does the wrong thing”</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="debug-info.html">14. Debugging compiled programs</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="debug-info.html#tutorial">14.1. Tutorial</a></li>
+<li class="toctree-l2"><a class="reference internal" href="debug-info.html#requesting-a-stack-trace-from-haskell-code">14.2. Requesting a stack trace from Haskell code</a></li>
+<li class="toctree-l2"><a class="reference internal" href="debug-info.html#requesting-a-stack-trace-with-sigusr2">14.3. Requesting a stack trace with <tt class="docutils literal"><span class="pre">SIGUSR2</span></tt></a></li>
+<li class="toctree-l2"><a class="reference internal" href="debug-info.html#implementor-s-notes-dwarf-annotations">14.4. Implementor&#8217;s notes: DWARF annotations</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="debug-info.html#debugging-information-entities">14.4.1. Debugging information entities</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="debug-info.html#dw-tag-ghc-src-note">14.4.1.1. <tt class="docutils literal"><span class="pre">DW_TAG_ghc_src_note</span></tt></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="debug-info.html#further-reading">14.5. Further Reading</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="utils.html">15. Other Haskell utility programs</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="utils.html#yacc-for-haskell-happy">15.1. &#8220;Yacc for Haskell&#8221;: <tt class="docutils literal"><span class="pre">happy</span></tt></a></li>
+<li class="toctree-l2"><a class="reference internal" href="utils.html#writing-haskell-interfaces-to-c-code-hsc2hs">15.2. Writing Haskell interfaces to C code: <tt class="docutils literal"><span class="pre">hsc2hs</span></tt></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="utils.html#command-line-syntax">15.2.1. command line syntax</a></li>
+<li class="toctree-l3"><a class="reference internal" href="utils.html#input-syntax">15.2.2. Input syntax</a></li>
+<li class="toctree-l3"><a class="reference internal" href="utils.html#custom-constructs">15.2.3. Custom constructs</a></li>
+<li class="toctree-l3"><a class="reference internal" href="utils.html#cross-compilation">15.2.4. Cross-compilation</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="win32-dlls.html">16. Running GHC on Win32 systems</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="win32-dlls.html#starting-ghc-on-windows-platforms">16.1. Starting GHC on Windows platforms</a></li>
+<li class="toctree-l2"><a class="reference internal" href="win32-dlls.html#running-ghci-on-windows">16.2. Running GHCi on Windows</a></li>
+<li class="toctree-l2"><a class="reference internal" href="win32-dlls.html#interacting-with-the-terminal">16.3. Interacting with the terminal</a></li>
+<li class="toctree-l2"><a class="reference internal" href="win32-dlls.html#differences-in-library-behaviour">16.4. Differences in library behaviour</a></li>
+<li class="toctree-l2"><a class="reference internal" href="win32-dlls.html#using-ghc-and-other-ghc-compiled-executables-with-cygwin">16.5. Using GHC (and other GHC-compiled executables) with Cygwin</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="win32-dlls.html#background">16.5.1. Background</a></li>
+<li class="toctree-l3"><a class="reference internal" href="win32-dlls.html#the-problem">16.5.2. The problem</a></li>
+<li class="toctree-l3"><a class="reference internal" href="win32-dlls.html#things-to-do">16.5.3. Things to do</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="win32-dlls.html#building-and-using-win32-dlls">16.6. Building and using Win32 DLLs</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="win32-dlls.html#creating-a-dll">16.6.1. Creating a DLL</a></li>
+<li class="toctree-l3"><a class="reference internal" href="win32-dlls.html#making-dlls-to-be-called-from-other-languages">16.6.2. Making DLLs to be called from other languages</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="win32-dlls.html#using-from-vba">16.6.2.1. Using from VBA</a></li>
+<li class="toctree-l4"><a class="reference internal" href="win32-dlls.html#using-from-c">16.6.2.2. Using from C++</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="bugs.html">17. Known bugs and infelicities</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="bugs.html#haskell-standards-vs-glasgow-haskell-language-non-compliance">17.1. Haskell&nbsp;standards vs.&nbsp;Glasgow Haskell: language non-compliance</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="bugs.html#divergence-from-haskell-98-and-haskell-2010">17.1.1. Divergence from Haskell&nbsp;98 and Haskell&nbsp;2010</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="bugs.html#lexical-syntax">17.1.1.1. Lexical syntax</a></li>
+<li class="toctree-l4"><a class="reference internal" href="bugs.html#context-free-syntax">17.1.1.2. Context-free syntax</a></li>
+<li class="toctree-l4"><a class="reference internal" href="bugs.html#expressions-and-patterns">17.1.1.3. Expressions and patterns</a></li>
+<li class="toctree-l4"><a class="reference internal" href="bugs.html#declarations-and-bindings">17.1.1.4. Declarations and bindings</a></li>
+<li class="toctree-l4"><a class="reference internal" href="bugs.html#typechecking-of-recursive-binding-groups">17.1.1.5. Typechecking of recursive binding groups</a></li>
+<li class="toctree-l4"><a class="reference internal" href="bugs.html#module-system-and-interface-files">17.1.1.6. Module system and interface files</a></li>
+<li class="toctree-l4"><a class="reference internal" href="bugs.html#numbers-basic-types-and-built-in-classes">17.1.1.7. Numbers, basic types, and built-in classes</a></li>
+<li class="toctree-l4"><a class="reference internal" href="bugs.html#in-prelude-support">17.1.1.8. In <tt class="docutils literal"><span class="pre">Prelude</span></tt> support</a></li>
+<li class="toctree-l4"><a class="reference internal" href="bugs.html#the-foreign-function-interface">17.1.1.9. The Foreign Function Interface</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="bugs.html#ghc-s-interpretation-of-undefined-behaviour-in-haskell-98-and-haskell-2010">17.1.2. GHC&#8217;s interpretation of undefined behaviour in Haskell&nbsp;98 and Haskell&nbsp;2010</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="bugs.html#known-bugs-or-infelicities">17.2. Known bugs or infelicities</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="bugs.html#bugs-in-ghc">17.2.1. Bugs in GHC</a></li>
+<li class="toctree-l3"><a class="reference internal" href="bugs.html#bugs-in-ghci-the-interactive-ghc">17.2.2. Bugs in GHCi (the interactive GHC)</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="eventlog-formats.html">18. Eventlog encodings</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="eventlog-formats.html#heap-profiler-event-log-output">18.1. Heap profiler event log output</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="eventlog-formats.html#metadata-event-types">18.1.1. Metadata event types</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="eventlog-formats.html#beginning-of-sample-stream">18.1.1.1. Beginning of sample stream</a></li>
+<li class="toctree-l4"><a class="reference internal" href="eventlog-formats.html#cost-centre-definitions">18.1.1.2. Cost centre definitions</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="eventlog-formats.html#sample-event-types">18.1.2. Sample event types</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="eventlog-formats.html#cost-centre-break-down">18.1.2.1. Cost-centre break-down</a></li>
+<li class="toctree-l4"><a class="reference internal" href="eventlog-formats.html#string-break-down">18.1.2.2. String break-down</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="editing-guide.html">19. Care and feeding of your GHC User&#8217;s Guide</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="editing-guide.html#basics">19.1. Basics</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="editing-guide.html#headings">19.1.1. Headings</a></li>
+<li class="toctree-l3"><a class="reference internal" href="editing-guide.html#formatting-code">19.1.2. Formatting code</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="editing-guide.html#haskell">19.1.2.1. Haskell</a></li>
+<li class="toctree-l4"><a class="reference internal" href="editing-guide.html#other-languages">19.1.2.2. Other languages</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="editing-guide.html#links">19.1.3. Links</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="editing-guide.html#within-the-user-s-guide">19.1.3.1. Within the User&#8217;s Guide</a></li>
+<li class="toctree-l4"><a class="reference internal" href="editing-guide.html#to-ghc-trac-resources">19.1.3.2. To GHC Trac resources</a></li>
+<li class="toctree-l4"><a class="reference internal" href="editing-guide.html#to-external-resources">19.1.3.3. To external resources</a></li>
+<li class="toctree-l4"><a class="reference internal" href="editing-guide.html#to-core-library-haddock-documentation">19.1.3.4. To core library Haddock documentation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="editing-guide.html#math">19.1.3.5. Math</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="editing-guide.html#index-entries">19.1.4. Index entries</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="editing-guide.html#citations">19.2. Citations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="editing-guide.html#admonitions">19.3. Admonitions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="editing-guide.html#documenting-command-line-options-and-ghci-commands">19.4. Documenting command-line options and GHCi commands</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="editing-guide.html#command-line-options">19.4.1. Command-line options</a></li>
+<li class="toctree-l3"><a class="reference internal" href="editing-guide.html#ghci-commands">19.4.2. GHCi commands</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="editing-guide.html#style-conventions">19.5. Style Conventions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="editing-guide.html#ghc-command-line-options-reference">19.6. GHC command-line options reference</a></li>
+<li class="toctree-l2"><a class="reference internal" href="editing-guide.html#rest-reference-materials">19.7. ReST reference materials</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div class="section" id="indices-and-tables">
+<h1>Indices and tables<a class="headerlink" href="index.html#indices-and-tables" title="Permalink to this headline">¶</a></h1>
+<ul class="simple">
+<li><a class="reference internal" href="genindex.html"><em>Index</em></a></li>
+<li><a class="reference internal" href="search.html"><em>Search Page</em></a></li>
+</ul>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="license.html" title="1. The Glasgow Haskell Compiler License"
+             >next</a> |</li>
+        <li><a href="index.html#">GHC 8.2.2 User&#39;s Guide</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2015, GHC Team.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.3.
+    </div>
+  </body>
+</html>

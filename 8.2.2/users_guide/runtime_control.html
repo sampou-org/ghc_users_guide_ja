@@ -1,0 +1,1357 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>7.7. Running a compiled program &mdash; Glasgow Haskell Compiler 8.2.2 User&#39;s Guide</title>
+    
+    <link rel="stylesheet" href="_static/ghc-theme.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '8.2.2',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="search" type="application/opensearchdescription+xml"
+          title="Search within Glasgow Haskell Compiler 8.2.2 User&#39;s Guide"
+          href="_static/opensearch.xml"/>
+    <link rel="top" title="Glasgow Haskell Compiler 8.2.2 User&#39;s Guide" href="index.html" />
+    <link rel="up" title="7. Using GHC" href="usage.html" />
+    <link rel="next" title="7.8. Filenames and separate compilation" href="separate_compilation.html" />
+    <link rel="prev" title="7.6. Flag reference" href="flags.html" /> 
+  </head>
+  <body>
+<div class="logo">
+    <h1><a href="index.html">Glasgow Haskell Compiler User's Guide</a></h1>
+</div>
+
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="separate_compilation.html" title="7.8. Filenames and separate compilation"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="flags.html" title="7.6. Flag reference"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">GHC 8.2.2 User&#39;s Guide</a> &raquo;</li>
+          <li><a href="usage.html" accesskey="U">7. Using GHC</a> &raquo;</li> 
+      </ul>
+    </div>
+
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="runtime_control.html#">7.7. Running a compiled program</a><ul>
+<li><a class="reference internal" href="runtime_control.html#setting-rts-options">7.7.1. Setting RTS options</a><ul>
+<li><a class="reference internal" href="runtime_control.html#setting-rts-options-on-the-command-line">7.7.1.1. Setting RTS options on the command line</a></li>
+<li><a class="reference internal" href="runtime_control.html#setting-rts-options-at-compile-time">7.7.1.2. Setting RTS options at compile time</a></li>
+<li><a class="reference internal" href="runtime_control.html#setting-rts-options-with-the-ghcrts-environment-variable">7.7.1.3. Setting RTS options with the <tt class="docutils literal"><span class="pre">GHCRTS</span></tt> environment variable</a></li>
+<li><a class="reference internal" href="runtime_control.html#hooks-to-change-rts-behaviour">7.7.1.4. &#8220;Hooks&#8221; to change RTS behaviour</a><ul>
+<li><a class="reference internal" href="runtime_control.html#runtime-events">7.7.1.4.1. Runtime events</a></li>
+<li><a class="reference internal" href="runtime_control.html#event-log-output">7.7.1.4.2. Event log output</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="runtime_control.html#miscellaneous-rts-options">7.7.2. Miscellaneous RTS options</a></li>
+<li><a class="reference internal" href="runtime_control.html#rts-options-to-control-the-garbage-collector">7.7.3. RTS options to control the garbage collector</a></li>
+<li><a class="reference internal" href="runtime_control.html#rts-options-to-produce-runtime-statistics">7.7.4. RTS options to produce runtime statistics</a></li>
+<li><a class="reference internal" href="runtime_control.html#rts-options-for-concurrency-and-parallelism">7.7.5. RTS options for concurrency and parallelism</a></li>
+<li><a class="reference internal" href="runtime_control.html#rts-options-for-profiling">7.7.6. RTS options for profiling</a></li>
+<li><a class="reference internal" href="runtime_control.html#tracing">7.7.7. Tracing</a></li>
+<li><a class="reference internal" href="runtime_control.html#rts-options-for-hackers-debuggers-and-over-interested-souls">7.7.8. RTS options for hackers, debuggers, and over-interested souls</a></li>
+<li><a class="reference internal" href="runtime_control.html#getting-information-about-the-rts">7.7.9. Getting information about the RTS</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="flags.html"
+                        title="previous chapter">7.6. Flag reference</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="separate_compilation.html"
+                        title="next chapter">7.8. Filenames and separate compilation</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/runtime_control.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="running-a-compiled-program">
+<span id="runtime-control"></span><h1>7.7. Running a compiled program<a class="headerlink" href="runtime_control.html#running-a-compiled-program" title="Permalink to this headline">¶</a></h1>
+<p id="index-0">To make an executable program, the GHC system compiles your code and
+then links it with a non-trivial runtime system (RTS), which handles
+storage management, thread scheduling, profiling, and so on.</p>
+<p>The RTS has a lot of options to control its behaviour. For example, you
+can change the context-switch interval, the default size of the heap,
+and enable heap profiling. These options can be passed to the runtime
+system in a variety of different ways; the next section
+(<a class="reference internal" href="runtime_control.html#setting-rts-options"><em>Setting RTS options</em></a>) describes the various methods, and the
+following sections describe the RTS options themselves.</p>
+<div class="section" id="setting-rts-options">
+<span id="id1"></span><h2>7.7.1. Setting RTS options<a class="headerlink" href="runtime_control.html#setting-rts-options" title="Permalink to this headline">¶</a></h2>
+<p id="index-1">There are four ways to set RTS options:</p>
+<ul class="simple">
+<li>on the command line between <tt class="docutils literal"><span class="pre">+RTS</span> <span class="pre">...</span> <span class="pre">-RTS</span></tt>, when running the
+program (<a class="reference internal" href="runtime_control.html#rts-opts-cmdline"><em>Setting RTS options on the command line</em></a>)</li>
+<li>at compile-time, using <a class="reference internal" href="phases.html#ghc-flag--with-rtsopts=⟨opts⟩"><tt class="xref std std-ghc-flag docutils literal"><span class="pre">-with-rtsopts=⟨opts⟩</span></tt></a>
+(<a class="reference internal" href="runtime_control.html#rts-opts-compile-time"><em>Setting RTS options at compile time</em></a>)</li>
+<li>with the environment variable <span class="target" id="index-2"></span><a class="reference internal" href="runtime_control.html#envvar-GHCRTS"><tt class="xref std std-envvar docutils literal"><span class="pre">GHCRTS</span></tt></a>
+(<a class="reference internal" href="runtime_control.html#rts-options-environment"><em>Setting RTS options with the GHCRTS environment variable</em></a>)</li>
+<li>by overriding &#8220;hooks&#8221; in the runtime system (<a class="reference internal" href="runtime_control.html#rts-hooks"><em>&#8220;Hooks&#8221; to change RTS behaviour</em></a>)</li>
+</ul>
+<div class="section" id="setting-rts-options-on-the-command-line">
+<span id="rts-opts-cmdline"></span><h3>7.7.1.1. Setting RTS options on the command line<a class="headerlink" href="runtime_control.html#setting-rts-options-on-the-command-line" title="Permalink to this headline">¶</a></h3>
+<p id="index-3">If you set the <a class="reference internal" href="phases.html#ghc-flag--rtsopts[=⟨none|some|all⟩]"><tt class="xref std std-ghc-flag docutils literal"><span class="pre">-rtsopts[=⟨none|some|all⟩]</span></tt></a> flag appropriately when
+linking (see <a class="reference internal" href="phases.html#options-linker"><em>Options affecting linking</em></a>), you can give RTS options on the command
+line when running your program.</p>
+<p>When your Haskell program starts up, the RTS extracts command-line
+arguments bracketed between <tt class="docutils literal"><span class="pre">+RTS</span></tt> and <tt class="docutils literal"><span class="pre">-RTS</span></tt> as its own. For example:</p>
+<div class="highlight-none"><div class="highlight"><pre>$ ghc prog.hs -rtsopts
+[1 of 1] Compiling Main             ( prog.hs, prog.o )
+Linking prog ...
+$ ./prog -f +RTS -H32m -S -RTS -h foo bar
+</pre></div>
+</div>
+<p>The RTS will snaffle <tt class="docutils literal"><span class="pre">-H32m</span> <span class="pre">-S</span></tt> for itself, and the remaining
+arguments <tt class="docutils literal"><span class="pre">-f</span> <span class="pre">-h</span> <span class="pre">foo</span> <span class="pre">bar</span></tt> will be available to your program if/when it
+calls <tt class="docutils literal"><span class="pre">System.Environment.getArgs</span></tt>.</p>
+<p>No <tt class="docutils literal"><span class="pre">-RTS</span></tt> option is required if the runtime-system options extend to
+the end of the command line, as in this example:</p>
+<div class="highlight-none"><div class="highlight"><pre>% hls -ltr /usr/etc +RTS -A5m
+</pre></div>
+</div>
+<p>If you absolutely positively want all the rest of the options in a
+command line to go to the program (and not the RTS), use a
+<tt class="docutils literal"><span class="pre">--RTS</span></tt>.</p>
+<p>As always, for RTS options that take ⟨size⟩s: If the last character of
+⟨size⟩ is a K or k, multiply by 1000; if an M or m, by 1,000,000; if a G
+or G, by 1,000,000,000. (And any wraparound in the counters is <em>your</em>
+fault!)</p>
+<p>Giving a <tt class="docutils literal"><span class="pre">+RTS</span> <span class="pre">-?</span></tt> RTS option option will print out the RTS
+options actually available in your program (which vary, depending on how
+you compiled).</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Since GHC is itself compiled by GHC, you can change RTS options in
+the compiler using the normal <tt class="docutils literal"><span class="pre">+RTS</span> <span class="pre">...</span> <span class="pre">-RTS</span></tt> combination. For instance, to set
+the maximum heap size for a compilation to 128M, you would add
+<tt class="docutils literal"><span class="pre">+RTS</span> <span class="pre">-M128m</span> <span class="pre">-RTS</span></tt> to the command line.</p>
+</div>
+</div>
+<div class="section" id="setting-rts-options-at-compile-time">
+<span id="rts-opts-compile-time"></span><h3>7.7.1.2. Setting RTS options at compile time<a class="headerlink" href="runtime_control.html#setting-rts-options-at-compile-time" title="Permalink to this headline">¶</a></h3>
+<p>GHC lets you change the default RTS options for a program at compile
+time, using the <tt class="docutils literal"><span class="pre">-with-rtsopts</span></tt> flag (<a class="reference internal" href="phases.html#options-linker"><em>Options affecting linking</em></a>). A common
+use for this is to give your program a default heap and/or stack size
+that is greater than the default. For example, to set <tt class="docutils literal"><span class="pre">-H128m</span> <span class="pre">-K64m</span></tt>,
+link with <tt class="docutils literal"><span class="pre">-with-rtsopts=&quot;-H128m</span> <span class="pre">-K64m&quot;</span></tt>.</p>
+</div>
+<div class="section" id="setting-rts-options-with-the-ghcrts-environment-variable">
+<span id="rts-options-environment"></span><h3>7.7.1.3. Setting RTS options with the <tt class="docutils literal"><span class="pre">GHCRTS</span></tt> environment variable<a class="headerlink" href="runtime_control.html#setting-rts-options-with-the-ghcrts-environment-variable" title="Permalink to this headline">¶</a></h3>
+<span class="target" id="index-4"></span><dl class="envvar">
+<dt id="envvar-GHCRTS">
+<tt class="descname">GHCRTS</tt><a class="headerlink" href="runtime_control.html#envvar-GHCRTS" title="Permalink to this definition">¶</a></dt>
+<dd><p>If the <tt class="docutils literal"><span class="pre">-rtsopts</span></tt> flag is set to something other than <tt class="docutils literal"><span class="pre">none</span></tt> when
+linking, RTS options are also taken from the environment variable
+<span class="target" id="index-5"></span><a class="reference internal" href="runtime_control.html#envvar-GHCRTS"><tt class="xref std std-envvar docutils literal"><span class="pre">GHCRTS</span></tt></a>. For example, to set the maximum heap size to 2G
+for all GHC-compiled programs (using an <tt class="docutils literal"><span class="pre">sh</span></tt>-like shell):</p>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">GHCRTS</span><span class="o">=</span><span class="s1">&#39;-M2G&#39;</span>
+<span class="nb">export </span>GHCRTS
+</pre></div>
+</div>
+<p>RTS options taken from the <span class="target" id="index-6"></span><a class="reference internal" href="runtime_control.html#envvar-GHCRTS"><tt class="xref std std-envvar docutils literal"><span class="pre">GHCRTS</span></tt></a> environment variable can be
+overridden by options given on the command line.</p>
+</dd></dl>
+
+<div class="admonition tip">
+<p class="first admonition-title">Tip</p>
+<p class="last">Setting something like <tt class="docutils literal"><span class="pre">GHCRTS=-M2G</span></tt> in your environment is a
+handy way to avoid Haskell programs growing beyond the real memory in
+your machine, which is easy to do by accident and can cause the machine
+to slow to a crawl until the OS decides to kill the process (and you
+hope it kills the right one).</p>
+</div>
+</div>
+<div class="section" id="hooks-to-change-rts-behaviour">
+<span id="rts-hooks"></span><h3>7.7.1.4. &#8220;Hooks&#8221; to change RTS behaviour<a class="headerlink" href="runtime_control.html#hooks-to-change-rts-behaviour" title="Permalink to this headline">¶</a></h3>
+<p id="index-7">GHC lets you exercise rudimentary control over certain RTS settings for
+any given program, by compiling in a &#8220;hook&#8221; that is called by the
+run-time system. The RTS contains stub definitions for these hooks, but
+by writing your own version and linking it on the GHC command line, you
+can override the defaults.</p>
+<p>Owing to the vagaries of DLL linking, these hooks don&#8217;t work under
+Windows when the program is built dynamically.</p>
+<div class="section" id="runtime-events">
+<h4>7.7.1.4.1. Runtime events<a class="headerlink" href="runtime_control.html#runtime-events" title="Permalink to this headline">¶</a></h4>
+<p>You can change the messages printed when the runtime system &#8220;blows up,&#8221;
+e.g., on stack overflow. The hooks for these are as follows:</p>
+<dl class="function">
+<dt id="c.OutOfHeapHook">
+void <tt class="descname">OutOfHeapHook</tt><big>(</big>unsigned<em>&nbsp;long</em>, unsigned<em>&nbsp;long</em><big>)</big><a class="headerlink" href="runtime_control.html#c.OutOfHeapHook" title="Permalink to this definition">¶</a></dt>
+<dd><p>The heap-overflow message.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="c.StackOverflowHook">
+void <tt class="descname">StackOverflowHook</tt><big>(</big>long<em>&nbsp;int</em><big>)</big><a class="headerlink" href="runtime_control.html#c.StackOverflowHook" title="Permalink to this definition">¶</a></dt>
+<dd><p>The stack-overflow message.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="c.MallocFailHook">
+void <tt class="descname">MallocFailHook</tt><big>(</big>long<em>&nbsp;int</em><big>)</big><a class="headerlink" href="runtime_control.html#c.MallocFailHook" title="Permalink to this definition">¶</a></dt>
+<dd><p>The message printed if <tt class="docutils literal"><span class="pre">malloc</span></tt> fails.</p>
+</dd></dl>
+
+</div>
+<div class="section" id="event-log-output">
+<h4>7.7.1.4.2. Event log output<a class="headerlink" href="runtime_control.html#event-log-output" title="Permalink to this headline">¶</a></h4>
+<p>Furthermore GHC lets you specify the way event log data (see <a class="reference internal" href="profiling.html#rts-flag--l"><tt class="xref std std-rts-flag docutils literal"><span class="pre">-l</span></tt></a>) is
+written through a custom <a class="reference internal" href="runtime_control.html#c.EventLogWriter" title="EventLogWriter"><tt class="xref c c-type docutils literal"><span class="pre">EventLogWriter</span></tt></a>:</p>
+<dl class="type">
+<dt id="c.EventLogWriter">
+<tt class="descname">EventLogWriter</tt><a class="headerlink" href="runtime_control.html#c.EventLogWriter" title="Permalink to this definition">¶</a></dt>
+<dd><p>A sink of event-log data.</p>
+<dl class="member">
+<dt id="c.EventLogWriter.initEventLogWriter">
+void <tt class="descname">initEventLogWriter</tt><big>(</big>void<big>)</big><a class="headerlink" href="runtime_control.html#c.EventLogWriter.initEventLogWriter" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initializes your <a class="reference internal" href="runtime_control.html#c.EventLogWriter" title="EventLogWriter"><tt class="xref c c-type docutils literal"><span class="pre">EventLogWriter</span></tt></a>. This is optional.</p>
+</dd></dl>
+
+<dl class="member">
+<dt id="c.EventLogWriter.writeEventLog">
+bool <tt class="descname">writeEventLog</tt><big>(</big>void<em>&nbsp;*eventlog</em>, size_t<em>&nbsp;eventlog_size</em><big>)</big><a class="headerlink" href="runtime_control.html#c.EventLogWriter.writeEventLog" title="Permalink to this definition">¶</a></dt>
+<dd><p>Hands buffered event log data to your event log writer.
+Required for a custom <a class="reference internal" href="runtime_control.html#c.EventLogWriter" title="EventLogWriter"><tt class="xref c c-type docutils literal"><span class="pre">EventLogWriter</span></tt></a>.</p>
+</dd></dl>
+
+<dl class="member">
+<dt id="c.EventLogWriter.flushEventLog">
+void <tt class="descname">flushEventLog</tt><big>(</big>void<big>)</big><a class="headerlink" href="runtime_control.html#c.EventLogWriter.flushEventLog" title="Permalink to this definition">¶</a></dt>
+<dd><p>Flush buffers (if any) of your custom <a class="reference internal" href="runtime_control.html#c.EventLogWriter" title="EventLogWriter"><tt class="xref c c-type docutils literal"><span class="pre">EventLogWriter</span></tt></a>. This can
+be <tt class="docutils literal"><span class="pre">NULL</span></tt>.</p>
+</dd></dl>
+
+<dl class="member">
+<dt id="c.EventLogWriter.stopEventLogWriter">
+void <tt class="descname">stopEventLogWriter</tt><big>(</big>void<big>)</big><a class="headerlink" href="runtime_control.html#c.EventLogWriter.stopEventLogWriter" title="Permalink to this definition">¶</a></dt>
+<dd><p>Called when event logging is about to stop. This can be <tt class="docutils literal"><span class="pre">NULL</span></tt>.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+</div>
+</div>
+<div class="section" id="miscellaneous-rts-options">
+<span id="rts-options-misc"></span><h2>7.7.2. Miscellaneous RTS options<a class="headerlink" href="runtime_control.html#miscellaneous-rts-options" title="Permalink to this headline">¶</a></h2>
+<dl class="rts-flag">
+<dt id="rts-flag---install-signal-handlers=⟨yes|no⟩">
+<tt class="descname">--install-signal-handlers</tt><tt class="descclassname">=⟨yes|no⟩</tt><a class="headerlink" href="runtime_control.html#rts-flag---install-signal-handlers=⟨yes|no⟩" title="Permalink to this definition">¶</a></dt>
+<dd><p>If yes (the default), the RTS installs signal handlers to catch
+things like <tt class="kbd docutils literal"><span class="pre">Ctrl-C</span></tt>. This option is primarily useful for when you are
+using the Haskell code as a DLL, and want to set your own signal
+handlers.</p>
+<p>Note that even with <tt class="docutils literal"><span class="pre">--install-signal-handlers=no</span></tt>, the RTS
+interval timer signal is still enabled. The timer signal is either
+SIGVTALRM or SIGALRM, depending on the RTS configuration and OS
+capabilities. To disable the timer signal, use the <tt class="docutils literal"><span class="pre">-V0</span></tt> RTS
+option (see above).</p>
+</dd></dl>
+
+<dl class="rts-flag">
+<dt id="rts-flag--xm ⟨address⟩">
+<tt class="descname">-xm</tt><tt class="descclassname"> ⟨address⟩</tt><a class="headerlink" href="runtime_control.html#rts-flag--xm ⟨address⟩" title="Permalink to this definition">¶</a></dt>
+<dd><div class="admonition warning" id="index-8">
+<p class="first admonition-title">Warning</p>
+<p class="last">This option is for working around memory allocation
+problems only. Do not use unless GHCi fails with a message like
+“<tt class="docutils literal"><span class="pre">failed</span> <span class="pre">to</span> <span class="pre">mmap()</span> <span class="pre">memory</span> <span class="pre">below</span> <span class="pre">2Gb</span></tt>”. If you need to use this
+option to get GHCi working on your machine, please file a bug.</p>
+</div>
+<p>On 64-bit machines, the RTS needs to allocate memory in the low 2Gb
+of the address space. Support for this across different operating
+systems is patchy, and sometimes fails. This option is there to give
+the RTS a hint about where it should be able to allocate memory in
+the low 2Gb of the address space. For example,
+<tt class="docutils literal"><span class="pre">+RTS</span> <span class="pre">-xm20000000</span> <span class="pre">-RTS</span></tt> would hint that the RTS should allocate
+starting at the 0.5Gb mark. The default is to use the OS&#8217;s built-in
+support for allocating memory in the low 2Gb if available (e.g.
+<tt class="docutils literal"><span class="pre">mmap</span></tt> with <tt class="docutils literal"><span class="pre">MAP_32BIT</span></tt> on Linux), or otherwise <tt class="docutils literal"><span class="pre">-xm40000000</span></tt>.</p>
+</dd></dl>
+
+<dl class="rts-flag">
+<dt id="rts-flag--xq ⟨size⟩">
+<tt class="descname">-xq</tt><tt class="descclassname"> ⟨size⟩</tt><a class="headerlink" href="runtime_control.html#rts-flag--xq ⟨size⟩" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Default:</th><td class="field-body">100k</td>
+</tr>
+</tbody>
+</table>
+<p>This option relates to allocation limits; for more about this see
+<a class="reference external" href="../libraries/base-4.10.1.0/GHC-Conc.html#v%3AenableAllocationLimit">enableAllocationLimit</a>.
+When a thread hits its allocation limit, the RTS throws an exception
+to the thread, and the thread gets an additional quota of allocation
+before the exception is raised again, the idea being so that the
+thread can execute its exception handlers. The <tt class="docutils literal"><span class="pre">-xq</span></tt> controls the
+size of this additional quota.</p>
+</dd></dl>
+
+</div>
+<div class="section" id="rts-options-to-control-the-garbage-collector">
+<span id="rts-options-gc"></span><h2>7.7.3. RTS options to control the garbage collector<a class="headerlink" href="runtime_control.html#rts-options-to-control-the-garbage-collector" title="Permalink to this headline">¶</a></h2>
+<p id="index-9">There are several options to give you precise control over garbage
+collection. Hopefully, you won&#8217;t need any of these in normal operation,
+but there are several things that can be tweaked for maximum
+performance.</p>
+<dl class="rts-flag">
+<dt id="rts-flag--A ⟨size⟩">
+<tt class="descname">-A</tt><tt class="descclassname"> ⟨size⟩</tt><a class="headerlink" href="runtime_control.html#rts-flag--A ⟨size⟩" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Default:</th><td class="field-body">1MB</td>
+</tr>
+</tbody>
+</table>
+<p id="index-10">Set the allocation area size used by the garbage
+collector. The allocation area (actually generation 0 step 0) is
+fixed and is never resized (unless you use <a class="reference internal" href="runtime_control.html#rts-flag--H [⟨size⟩]"><tt class="xref std std-rts-flag docutils literal"><span class="pre">-H</span> <span class="pre">[⟨size⟩]</span></tt></a>, below).</p>
+<p>Increasing the allocation area size may or may not give better
+performance (a bigger allocation area means worse cache behaviour
+but fewer garbage collections and less promotion).</p>
+<p>With only 1 generation (e.g. <tt class="docutils literal"><span class="pre">-G1</span></tt>, see <a class="reference internal" href="runtime_control.html#rts-flag--G ⟨generations⟩"><tt class="xref std std-rts-flag docutils literal"><span class="pre">-G</span> <span class="pre">⟨generations⟩</span></tt></a>) the
+<tt class="docutils literal"><span class="pre">-A</span></tt> option specifies the minimum allocation area, since the actual size
+of the allocation area will be resized according to the amount of data in
+the heap (see <a class="reference internal" href="runtime_control.html#rts-flag--F ⟨factor⟩"><tt class="xref std std-rts-flag docutils literal"><span class="pre">-F</span> <span class="pre">⟨factor⟩</span></tt></a>, below).</p>
+</dd></dl>
+
+<dl class="rts-flag">
+<dt id="rts-flag--AL ⟨size⟩">
+<tt class="descname">-AL</tt><tt class="descclassname"> ⟨size⟩</tt><a class="headerlink" href="runtime_control.html#rts-flag--AL ⟨size⟩" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Default:</th><td class="field-body"><a class="reference internal" href="runtime_control.html#rts-flag--A ⟨size⟩"><tt class="xref std std-rts-flag docutils literal"><span class="pre">-A</span></tt></a> value</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Since:</th><td class="field-body">8.2.1</td>
+</tr>
+</tbody>
+</table>
+<p id="index-11">Sets the limit on the total size of &#8220;large objects&#8221; (objects
+larger than about 3KB) that can be allocated before a GC is
+triggered. By default this limit is the same as the <a class="reference internal" href="runtime_control.html#rts-flag--A ⟨size⟩"><tt class="xref std std-rts-flag docutils literal"><span class="pre">-A</span></tt></a> value.</p>
+<p>Large objects are not allocated from the normal allocation area
+set by the <tt class="docutils literal"><span class="pre">-A</span></tt> flag, which is why there is a separate limit for
+these.  Large objects tend to be much rarer than small objects, so
+most programs hit the <tt class="docutils literal"><span class="pre">-A</span></tt> limit before the <tt class="docutils literal"><span class="pre">-AL</span></tt> limit.  However,
+the <tt class="docutils literal"><span class="pre">-A</span></tt> limit is per-capability, whereas the <tt class="docutils literal"><span class="pre">-AL</span></tt> limit is global,
+so as <tt class="docutils literal"><span class="pre">-N</span></tt> gets larger it becomes more likely that we hit the
+<tt class="docutils literal"><span class="pre">-AL</span></tt> limit first.  To counteract this, it might be necessary to
+use a larger <tt class="docutils literal"><span class="pre">-AL</span></tt> limit when using a large <tt class="docutils literal"><span class="pre">-N</span></tt>.</p>
+<p>To see whether you&#8217;re making good use of all the memory reseverd
+for the allocation area (<tt class="docutils literal"><span class="pre">-A</span></tt> times <tt class="docutils literal"><span class="pre">-N</span></tt>), look at the output of
+<tt class="docutils literal"><span class="pre">+RTS</span> <span class="pre">-S</span></tt> and check whether the amount of memory allocated between
+GCs is equal to <tt class="docutils literal"><span class="pre">-A</span></tt> times <tt class="docutils literal"><span class="pre">-N</span></tt>. If not, there are two possible
+remedies: use <tt class="docutils literal"><span class="pre">-n</span></tt> to set a nursery chunk size, or use <tt class="docutils literal"><span class="pre">-AL</span></tt> to
+increase the limit for large objects.</p>
+</dd></dl>
+
+<dl class="rts-flag">
+<dt id="rts-flag--O ⟨size⟩">
+<tt class="descname">-O</tt><tt class="descclassname"> ⟨size⟩</tt><a class="headerlink" href="runtime_control.html#rts-flag--O ⟨size⟩" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Default:</th><td class="field-body">1m</td>
+</tr>
+</tbody>
+</table>
+<p id="index-12">Set the minimum size of the old generation. The old generation is collected
+whenever it grows to this size or the value of the <a class="reference internal" href="runtime_control.html#rts-flag--F ⟨factor⟩"><tt class="xref std std-rts-flag docutils literal"><span class="pre">-F</span> <span class="pre">⟨factor⟩</span></tt></a>
+option multiplied by the size of the live data at the previous major
+collection, whichever is larger.</p>
+</dd></dl>
+
+<dl class="rts-flag">
+<dt id="rts-flag--n ⟨size⟩">
+<tt class="descname">-n</tt><tt class="descclassname"> ⟨size⟩</tt><a class="headerlink" href="runtime_control.html#rts-flag--n ⟨size⟩" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Default:</th><td class="field-body">4m with <a class="reference internal" href="runtime_control.html#rts-flag--A ⟨size⟩"><tt class="xref std std-rts-flag docutils literal"><span class="pre">-A16m</span></tt></a> or larger, otherwise 0.</td>
+</tr>
+</tbody>
+</table>
+<p id="index-13">[Example: <tt class="docutils literal"><span class="pre">-n4m</span></tt> ] When set to a non-zero value, this
+option divides the allocation area (<tt class="docutils literal"><span class="pre">-A</span></tt> value) into chunks of the
+specified size. During execution, when a processor exhausts its
+current chunk, it is given another chunk from the pool until the
+pool is exhausted, at which point a collection is triggered.</p>
+<p>This option is only useful when running in parallel (<tt class="docutils literal"><span class="pre">-N2</span></tt> or
+greater). It allows the processor cores to make better use of the
+available allocation area, even when cores are allocating at
+different rates. Without <tt class="docutils literal"><span class="pre">-n</span></tt>, each core gets a fixed-size
+allocation area specified by the <tt class="docutils literal"><span class="pre">-A</span></tt>, and the first core to
+exhaust its allocation area triggers a GC across all the cores. This
+can result in a collection happening when the allocation areas of
+some cores are only partially full, so the purpose of the <tt class="docutils literal"><span class="pre">-n</span></tt> is
+to allow cores that are allocating faster to get more of the
+allocation area. This means less frequent GC, leading a lower GC
+overhead for the same heap size.</p>
+<p>This is particularly useful in conjunction with larger <tt class="docutils literal"><span class="pre">-A</span></tt>
+values, for example <tt class="docutils literal"><span class="pre">-A64m</span> <span class="pre">-n4m</span></tt> is a useful combination on larger core
+counts (8+).</p>
+</dd></dl>
+
+<dl class="rts-flag">
+<dt id="rts-flag--c">
+<tt class="descname">-c</tt><tt class="descclassname"></tt><a class="headerlink" href="runtime_control.html#rts-flag--c" title="Permalink to this definition">¶</a></dt>
+<dd><p id="index-14">Use a compacting algorithm for collecting the oldest generation. By
+default, the oldest generation is collected using a copying
+algorithm; this option causes it to be compacted in-place instead.
+The compaction algorithm is slower than the copying algorithm, but
+the savings in memory use can be considerable.</p>
+<p>For a given heap size (using the <a class="reference internal" href="using.html#ghc-flag--H ⟨size⟩"><tt class="xref std std-ghc-flag docutils literal"><span class="pre">-H</span> <span class="pre">⟨size⟩</span></tt></a> option), compaction
+can in fact reduce the GC cost by allowing fewer GCs to be performed. This
+is more likely when the ratio of live data to heap size is high, say
+greater than 30%.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Compaction doesn&#8217;t currently work when a single generation is
+requested using the <tt class="docutils literal"><span class="pre">-G1</span></tt> option.</p>
+</div>
+</dd></dl>
+
+<dl class="rts-flag">
+<dt id="rts-flag--c ⟨n⟩">
+<tt class="descname">-c</tt><tt class="descclassname"> ⟨n⟩</tt><a class="headerlink" href="runtime_control.html#rts-flag--c ⟨n⟩" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Default:</th><td class="field-body">30</td>
+</tr>
+</tbody>
+</table>
+<p>Automatically enable compacting collection when the live data exceeds ⟨n⟩%
+of the maximum heap size (see the <a class="reference internal" href="runtime_control.html#rts-flag--M ⟨size⟩"><tt class="xref std std-rts-flag docutils literal"><span class="pre">-M</span> <span class="pre">⟨size⟩</span></tt></a> option). Note that
+the maximum heap size is unlimited by default, so this option has no effect
+unless the maximum heap size is set with <a class="reference internal" href="runtime_control.html#rts-flag--M ⟨size⟩"><tt class="xref std std-rts-flag docutils literal"><span class="pre">-M</span> <span class="pre">⟨size⟩</span></tt></a>.</p>
+</dd></dl>
+
+<dl class="rts-flag">
+<dt id="rts-flag--F ⟨factor⟩">
+<tt class="descname">-F</tt><tt class="descclassname"> ⟨factor⟩</tt><a class="headerlink" href="runtime_control.html#rts-flag--F ⟨factor⟩" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Default:</th><td class="field-body">2</td>
+</tr>
+</tbody>
+</table>
+<p id="index-15">This option controls the amount of memory reserved for
+the older generations (and in the case of a two space collector the
+size of the allocation area) as a factor of the amount of live data.
+For example, if there was 2M of live data in the oldest generation
+when we last collected it, then by default we&#8217;ll wait until it grows
+to 4M before collecting it again.</p>
+<p>The default seems to work well here. If you have plenty of memory, it is
+usually better to use <tt class="docutils literal"><span class="pre">-H</span> <span class="pre">⟨size⟩</span></tt> (see <a class="reference internal" href="runtime_control.html#rts-flag--H [⟨size⟩]"><tt class="xref std std-rts-flag docutils literal"><span class="pre">-H</span> <span class="pre">[⟨size⟩]</span></tt></a>) than to
+increase <a class="reference internal" href="runtime_control.html#rts-flag--F ⟨factor⟩"><tt class="xref std std-rts-flag docutils literal"><span class="pre">-F</span> <span class="pre">⟨factor⟩</span></tt></a>.</p>
+<p>The <a class="reference internal" href="runtime_control.html#rts-flag--F ⟨factor⟩"><tt class="xref std std-rts-flag docutils literal"><span class="pre">-F</span> <span class="pre">⟨factor⟩</span></tt></a> setting will be automatically reduced by the garbage
+collector when the maximum heap size (the <a class="reference internal" href="runtime_control.html#rts-flag--M ⟨size⟩"><tt class="xref std std-rts-flag docutils literal"><span class="pre">-M</span> <span class="pre">⟨size⟩</span></tt></a> setting) is approaching.</p>
+</dd></dl>
+
+<dl class="rts-flag">
+<dt id="rts-flag--G ⟨generations⟩">
+<tt class="descname">-G</tt><tt class="descclassname"> ⟨generations⟩</tt><a class="headerlink" href="runtime_control.html#rts-flag--G ⟨generations⟩" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Default:</th><td class="field-body">2</td>
+</tr>
+</tbody>
+</table>
+<p id="index-16">Set the number of generations used by the garbage
+collector. The default of 2 seems to be good, but the garbage
+collector can support any number of generations. Anything larger
+than about 4 is probably not a good idea unless your program runs
+for a <em>long</em> time, because the oldest generation will hardly ever
+get collected.</p>
+<p>Specifying 1 generation with <tt class="docutils literal"><span class="pre">+RTS</span> <span class="pre">-G1</span></tt> gives you a simple 2-space
+collector, as you would expect. In a 2-space collector, the <a class="reference internal" href="runtime_control.html#rts-flag--A ⟨size⟩"><tt class="xref std std-rts-flag docutils literal"><span class="pre">-A</span>
+<span class="pre">⟨size⟩</span></tt></a> option specifies the <em>minimum</em> allocation area size, since the
+allocation area will grow with the amount of live data in the heap. In a
+multi-generational collector the allocation area is a fixed size (unless
+you use the <a class="reference internal" href="runtime_control.html#rts-flag--H [⟨size⟩]"><tt class="xref std std-rts-flag docutils literal"><span class="pre">-H</span> <span class="pre">[⟨size⟩]</span></tt></a> option).</p>
+</dd></dl>
+
+<dl class="rts-flag">
+<dt id="rts-flag--qg ⟨gen⟩">
+<tt class="descname">-qg</tt><tt class="descclassname"> ⟨gen⟩</tt><a class="headerlink" href="runtime_control.html#rts-flag--qg ⟨gen⟩" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Default:</th><td class="field-body">0</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Since:</th><td class="field-body">6.12.1</td>
+</tr>
+</tbody>
+</table>
+<p>Use parallel GC in generation ⟨gen⟩ and higher. Omitting ⟨gen⟩ turns off the
+parallel GC completely, reverting to sequential GC.</p>
+<p>The default parallel GC settings are usually suitable for parallel programs
+(i.e. those using <a class="reference external" href="../libraries/base-4.10.1.0/GHC-Conc.html#v:par">par</a>, Strategies, or with
+multiple threads). However, it is sometimes beneficial to enable the
+parallel GC for a single-threaded sequential program too, especially if the
+program has a large amount of heap data and GC is a significant fraction of
+runtime. To use the parallel GC in a sequential program, enable the parallel
+runtime with a suitable <a class="reference internal" href="using-concurrent.html#rts-flag--N ⟨x⟩"><tt class="xref std std-rts-flag docutils literal"><span class="pre">-N</span> <span class="pre">⟨x⟩</span></tt></a> option, and additionally it might
+be beneficial to restrict parallel GC to the old generation with <tt class="docutils literal"><span class="pre">-qg1</span></tt>.</p>
+</dd></dl>
+
+<dl class="rts-flag">
+<dt id="rts-flag--qb ⟨gen⟩">
+<tt class="descname">-qb</tt><tt class="descclassname"> ⟨gen⟩</tt><a class="headerlink" href="runtime_control.html#rts-flag--qb ⟨gen⟩" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Default:</th><td class="field-body">1 for <a class="reference internal" href="runtime_control.html#rts-flag--A ⟨size⟩"><tt class="xref std std-rts-flag docutils literal"><span class="pre">-A</span></tt></a> &lt; 32M, 0 otherwise</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Since:</th><td class="field-body">6.12.1</td>
+</tr>
+</tbody>
+</table>
+<p>Use load-balancing in the parallel GC in generation ⟨gen⟩ and higher.
+Omitting ⟨gen⟩ disables load-balancing entirely.</p>
+<p>Load-balancing shares out the work of GC between the available
+cores. This is a good idea when the heap is large and we need to
+parallelise the GC work, however it is also pessimal for the short
+young-generation collections in a parallel program, because it can
+harm locality by moving data from the cache of the CPU where is it
+being used to the cache of another CPU. Hence the default is to do
+load-balancing only in the old-generation. In fact, for a parallel
+program it is sometimes beneficial to disable load-balancing
+entirely with <tt class="docutils literal"><span class="pre">-qb</span></tt>.</p>
+</dd></dl>
+
+<dl class="rts-flag">
+<dt id="rts-flag--qn ⟨x⟩">
+<tt class="descname">-qn</tt><tt class="descclassname"> ⟨x⟩</tt><a class="headerlink" href="runtime_control.html#rts-flag--qn ⟨x⟩" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Default:</th><td class="field-body">the value of <a class="reference internal" href="using-concurrent.html#rts-flag--N ⟨x⟩"><tt class="xref std std-rts-flag docutils literal"><span class="pre">-N</span></tt></a> or the number of CPU cores,
+whichever is smaller.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Since:</th><td class="field-body">8.2.1</td>
+</tr>
+</tbody>
+</table>
+<p id="index-17">By default, all of the capabilities participate in parallel
+garbage collection.  If we want to use a very large <tt class="docutils literal"><span class="pre">-N</span></tt> value,
+however, this can reduce the performance of the GC.  For this
+reason, the <tt class="docutils literal"><span class="pre">-qn</span></tt> flag can be used to specify a lower number for
+the threads that should participate in GC.  During GC, if there
+are more than this number of workers active, some of them will
+sleep for the duration of the GC.</p>
+<p>The <tt class="docutils literal"><span class="pre">-qn</span></tt> flag may be useful when running with a large <tt class="docutils literal"><span class="pre">-A</span></tt> value
+(so that GC is infrequent), and a large <tt class="docutils literal"><span class="pre">-N</span></tt> value (so as to make
+use of hyperthreaded cores, for example).  For example, on a
+24-core machine with 2 hyperthreads per core, we might use
+<tt class="docutils literal"><span class="pre">-N48</span> <span class="pre">-qn24</span> <span class="pre">-A128m</span></tt> to specify that the mutator should use
+hyperthreads but the GC should only use real cores.  Note that
+this configuration would use 6GB for the allocation area.</p>
+</dd></dl>
+
+<dl class="rts-flag">
+<dt id="rts-flag--H [⟨size⟩]">
+<tt class="descname">-H</tt><tt class="descclassname"> [⟨size⟩]</tt><a class="headerlink" href="runtime_control.html#rts-flag--H [⟨size⟩]" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Default:</th><td class="field-body">0</td>
+</tr>
+</tbody>
+</table>
+<p id="index-18">This option provides a &#8220;suggested heap size&#8221; for the garbage collector.
+Think of <tt class="docutils literal"><span class="pre">-Hsize</span></tt> as a variable <a class="reference internal" href="runtime_control.html#rts-flag--A ⟨size⟩"><tt class="xref std std-rts-flag docutils literal"><span class="pre">-A</span> <span class="pre">⟨size⟩</span></tt></a> option.  It says: I
+want to use at least ⟨size⟩ bytes, so use whatever is left over to increase
+the <tt class="docutils literal"><span class="pre">-A</span></tt> value.</p>
+<p>This option does not put a <em>limit</em> on the heap size: the heap may
+grow beyond the given size as usual.</p>
+<p>If ⟨size⟩ is omitted, then the garbage collector will take the size
+of the heap at the previous GC as the ⟨size⟩. This has the effect of
+allowing for a larger <tt class="docutils literal"><span class="pre">-A</span></tt> value but without increasing the
+overall memory requirements of the program. It can be useful when
+the default small <tt class="docutils literal"><span class="pre">-A</span></tt> value is suboptimal, as it can be in
+programs that create large amounts of long-lived data.</p>
+</dd></dl>
+
+<dl class="rts-flag">
+<dt id="rts-flag--I ⟨seconds⟩">
+<tt class="descname">-I</tt><tt class="descclassname"> ⟨seconds⟩</tt><a class="headerlink" href="runtime_control.html#rts-flag--I ⟨seconds⟩" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Default:</th><td class="field-body">0.3 seconds</td>
+</tr>
+</tbody>
+</table>
+<p id="index-19">In the threaded and SMP versions of the RTS (see
+<a class="reference internal" href="phases.html#ghc-flag--threaded"><tt class="xref std std-ghc-flag docutils literal"><span class="pre">-threaded</span></tt></a>, <a class="reference internal" href="phases.html#options-linker"><em>Options affecting linking</em></a>), a major GC is automatically
+performed if the runtime has been idle (no Haskell computation has
+been running) for a period of time. The amount of idle time which
+must pass before a GC is performed is set by the <tt class="docutils literal"><span class="pre">-I</span> <span class="pre">⟨seconds⟩</span></tt>
+option. Specifying <tt class="docutils literal"><span class="pre">-I0</span></tt> disables the idle GC.</p>
+<p>For an interactive application, it is probably a good idea to use
+the idle GC, because this will allow finalizers to run and
+deadlocked threads to be detected in the idle time when no Haskell
+computation is happening. Also, it will mean that a GC is less
+likely to happen when the application is busy, and so responsiveness
+may be improved. However, if the amount of live data in the heap is
+particularly large, then the idle GC can cause a significant delay,
+and too small an interval could adversely affect interactive
+responsiveness.</p>
+<p>This is an experimental feature, please let us know if it causes
+problems and/or could benefit from further tuning.</p>
+</dd></dl>
+
+<dl class="rts-flag">
+<dt id="rts-flag--ki ⟨size⟩">
+<tt class="descname">-ki</tt><tt class="descclassname"> ⟨size⟩</tt><a class="headerlink" href="runtime_control.html#rts-flag--ki ⟨size⟩" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Default:</th><td class="field-body">1k</td>
+</tr>
+</tbody>
+</table>
+<p id="index-20">Set the initial stack size for new threads.</p>
+<p>Thread stacks (including the main thread&#8217;s stack) live on the heap.
+As the stack grows, new stack chunks are added as required; if the
+stack shrinks again, these extra stack chunks are reclaimed by the
+garbage collector. The default initial stack size is deliberately
+small, in order to keep the time and space overhead for thread
+creation to a minimum, and to make it practical to spawn threads for
+even tiny pieces of work.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">This flag used to be simply <tt class="docutils literal"><span class="pre">-k</span></tt>, but was renamed to <tt class="docutils literal"><span class="pre">-ki</span></tt> in
+GHC 7.2.1. The old name is still accepted for backwards
+compatibility, but that may be removed in a future version.</p>
+</div>
+</dd></dl>
+
+<dl class="rts-flag">
+<dt id="rts-flag--kc ⟨size⟩">
+<tt class="descname">-kc</tt><tt class="descclassname"> ⟨size⟩</tt><a class="headerlink" href="runtime_control.html#rts-flag--kc ⟨size⟩" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Default:</th><td class="field-body">32k</td>
+</tr>
+</tbody>
+</table>
+<p id="index-21">Set the size of &#8220;stack chunks&#8221;. When a thread&#8217;s current stack overflows, a
+new stack chunk is created and added to the thread&#8217;s stack, until the limit
+set by <a class="reference internal" href="runtime_control.html#rts-flag--K ⟨size⟩"><tt class="xref std std-rts-flag docutils literal"><span class="pre">-K</span> <span class="pre">⟨size⟩</span></tt></a> is reached.</p>
+<p>The advantage of smaller stack chunks is that the garbage collector can
+avoid traversing stack chunks if they are known to be unmodified since the
+last collection, so reducing the chunk size means that the garbage
+collector can identify more stack as unmodified, and the GC overhead might
+be reduced. On the other hand, making stack chunks too small adds some
+overhead as there will be more overflow/underflow between chunks. The
+default setting of 32k appears to be a reasonable compromise in most cases.</p>
+</dd></dl>
+
+<dl class="rts-flag">
+<dt id="rts-flag--kb ⟨size⟩">
+<tt class="descname">-kb</tt><tt class="descclassname"> ⟨size⟩</tt><a class="headerlink" href="runtime_control.html#rts-flag--kb ⟨size⟩" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Default:</th><td class="field-body">1k</td>
+</tr>
+</tbody>
+</table>
+<p id="index-22">Sets the stack chunk buffer size. When a stack chunk
+overflows and a new stack chunk is created, some of the data from
+the previous stack chunk is moved into the new chunk, to avoid an
+immediate underflow and repeated overflow/underflow at the boundary.
+The amount of stack moved is set by the <tt class="docutils literal"><span class="pre">-kb</span></tt> option.</p>
+<p>Note that to avoid wasting space, this value should typically be less than
+10% of the size of a stack chunk (<a class="reference internal" href="runtime_control.html#rts-flag--kc ⟨size⟩"><tt class="xref std std-rts-flag docutils literal"><span class="pre">-kc</span> <span class="pre">⟨size⟩</span></tt></a>), because in a
+chain of stack chunks, each chunk will have a gap of unused space of this
+size.</p>
+</dd></dl>
+
+<dl class="rts-flag">
+<dt id="rts-flag--K ⟨size⟩">
+<tt class="descname">-K</tt><tt class="descclassname"> ⟨size⟩</tt><a class="headerlink" href="runtime_control.html#rts-flag--K ⟨size⟩" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Default:</th><td class="field-body">80% of physical memory</td>
+</tr>
+</tbody>
+</table>
+<p id="index-23">Set the maximum stack size for
+an individual thread to ⟨size⟩ bytes. If the thread attempts to
+exceed this limit, it will be sent the <tt class="docutils literal"><span class="pre">StackOverflow</span></tt> exception.
+The limit can be disabled entirely by specifying a size of zero.</p>
+<p>This option is there mainly to stop the program eating up all the
+available memory in the machine if it gets into an infinite loop.</p>
+</dd></dl>
+
+<dl class="rts-flag">
+<dt id="rts-flag--m ⟨n⟩">
+<tt class="descname">-m</tt><tt class="descclassname"> ⟨n⟩</tt><a class="headerlink" href="runtime_control.html#rts-flag--m ⟨n⟩" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Default:</th><td class="field-body">3%</td>
+</tr>
+</tbody>
+</table>
+<p id="index-24">Minimum % ⟨n⟩ of heap which must be available for allocation.</p>
+</dd></dl>
+
+<dl class="rts-flag">
+<dt id="rts-flag--M ⟨size⟩">
+<tt class="descname">-M</tt><tt class="descclassname"> ⟨size⟩</tt><a class="headerlink" href="runtime_control.html#rts-flag--M ⟨size⟩" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Default:</th><td class="field-body">unlimited</td>
+</tr>
+</tbody>
+</table>
+<p id="index-25">Set the maximum heap size to ⟨size⟩ bytes. The
+heap normally grows and shrinks according to the memory requirements
+of the program. The only reason for having this option is to stop
+the heap growing without bound and filling up all the available swap
+space, which at the least will result in the program being summarily
+killed by the operating system.</p>
+<p>The maximum heap size also affects other garbage collection
+parameters: when the amount of live data in the heap exceeds a
+certain fraction of the maximum heap size, compacting collection
+will be automatically enabled for the oldest generation, and the
+<tt class="docutils literal"><span class="pre">-F</span></tt> parameter will be reduced in order to avoid exceeding the
+maximum heap size.</p>
+</dd></dl>
+
+<dl class="rts-flag">
+<dt id="rts-flag--Mgrace=⟨size⟩">
+<tt class="descname">-Mgrace</tt><tt class="descclassname">=⟨size⟩</tt><a class="headerlink" href="runtime_control.html#rts-flag--Mgrace=⟨size⟩" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Default:</th><td class="field-body">1M</td>
+</tr>
+</tbody>
+</table>
+<p id="index-26">If the program&#8217;s heap exceeds the value set by <a class="reference internal" href="runtime_control.html#rts-flag--M ⟨size⟩"><tt class="xref std std-rts-flag docutils literal"><span class="pre">-M</span> <span class="pre">⟨size⟩</span></tt></a>, the
+RTS throws an exception to the program, and the program gets an
+additional quota of allocation before the exception is raised
+again, the idea being so that the program can execute its
+exception handlers. <tt class="docutils literal"><span class="pre">-Mgrace=</span></tt> controls the size of this
+additional quota.</p>
+</dd></dl>
+
+<dl class="rts-flag">
+<dt id="rts-flag---numa">
+<tt class="descname">--numa</tt><tt class="descclassname"></tt><a class="headerlink" href="runtime_control.html#rts-flag---numa" title="Permalink to this definition">¶</a></dt>
+<dt id="rts-flag---numa=&lt;mask&gt;">
+<tt class="descname">--numa</tt><tt class="descclassname">=&lt;mask&gt;</tt><a class="headerlink" href="runtime_control.html#rts-flag---numa=<mask>" title="Permalink to this definition">¶</a></dt>
+<dd><p id="index-27">Enable NUMA-aware memory allocation in the runtime (only available
+with <tt class="docutils literal"><span class="pre">-threaded</span></tt>, and only on Linux currently).</p>
+<p>Background: some systems have a Non-Uniform Memory Architecture,
+whereby main memory is split into banks which are &#8220;local&#8221; to
+specific CPU cores.  Accessing local memory is faster than
+accessing remote memory.  The OS provides APIs for allocating
+local memory and binding threads to particular CPU cores, so that
+we can ensure certain memory accesses are using local memory.</p>
+<p>The <tt class="docutils literal"><span class="pre">--numa</span></tt> option tells the RTS to tune its memory usage to
+maximize local memory accesses.  In particular, the RTS will:</p>
+<blockquote>
+<div><ul class="simple">
+<li>Determine the number of NUMA nodes (N) by querying the OS.</li>
+<li>Manage separate memory pools for each node.</li>
+<li>Map capabilities to NUMA nodes.  Capability C is mapped to
+NUMA node C mod N.</li>
+<li>Bind worker threads on a capability to the appropriate node.</li>
+<li>Allocate the nursery from node-local memory.</li>
+<li>Perform other memory allocation, including in the GC, from
+node-local memory.</li>
+<li>When load-balancing, we prefer to migrate threads to another
+Capability on the same node.</li>
+</ul>
+</div></blockquote>
+<p>The <tt class="docutils literal"><span class="pre">--numa</span></tt> flag is typically beneficial when a program is
+using all cores of a large multi-core NUMA system, with a large
+allocation area (<tt class="docutils literal"><span class="pre">-A</span></tt>).  All memory accesses to the allocation
+area will go to local memory, which can save a significant amount
+of remote memory access.  A runtime speedup on the order of 10%
+is typical, but can vary a lot depending on the hardware and the
+memory behaviour of the program.</p>
+<p>Note that the RTS will not set CPU affinity for bound threads and
+threads entering Haskell from C/C++, so if your program uses bound
+threads you should ensure that each bound thread calls the RTS API
+<cite>rts_setInCallCapability(c,1)</cite> from C/C++ before calling into
+Haskell.  Otherwise there could be a mismatch between the CPU that
+the thread is running on and the memory it is using while running
+Haskell code, which will negate any benefits of <tt class="docutils literal"><span class="pre">--numa</span></tt>.</p>
+<p>If given an explicit &lt;mask&gt;, the &lt;mask&gt; is interpreted as a bitmap
+that indicates the NUMA nodes on which to run the program.  For
+example, <tt class="docutils literal"><span class="pre">--numa=3</span></tt> would run the program on NUMA nodes 0 and 1.</p>
+</dd></dl>
+
+</div>
+<div class="section" id="rts-options-to-produce-runtime-statistics">
+<span id="rts-options-statistics"></span><h2>7.7.4. RTS options to produce runtime statistics<a class="headerlink" href="runtime_control.html#rts-options-to-produce-runtime-statistics" title="Permalink to this headline">¶</a></h2>
+<dl class="rts-flag">
+<dt id="rts-flag--T">
+<tt class="descname">-T</tt><tt class="descclassname"></tt><a class="headerlink" href="runtime_control.html#rts-flag--T" title="Permalink to this definition">¶</a></dt>
+<dt id="rts-flag--t [⟨file⟩]">
+<tt class="descname">-t</tt><tt class="descclassname"> [⟨file⟩]</tt><a class="headerlink" href="runtime_control.html#rts-flag--t [⟨file⟩]" title="Permalink to this definition">¶</a></dt>
+<dt id="rts-flag--s [⟨file⟩]">
+<tt class="descname">-s</tt><tt class="descclassname"> [⟨file⟩]</tt><a class="headerlink" href="runtime_control.html#rts-flag--s [⟨file⟩]" title="Permalink to this definition">¶</a></dt>
+<dt id="rts-flag--S [⟨file⟩]">
+<tt class="descname">-S</tt><tt class="descclassname"> [⟨file⟩]</tt><a class="headerlink" href="runtime_control.html#rts-flag--S [⟨file⟩]" title="Permalink to this definition">¶</a></dt>
+<dt id="rts-flag---machine-readable">
+<tt class="descname">--machine-readable</tt><tt class="descclassname"></tt><a class="headerlink" href="runtime_control.html#rts-flag---machine-readable" title="Permalink to this definition">¶</a></dt>
+<dd><p>These options produce runtime-system statistics, such as the amount
+of time spent executing the program and in the garbage collector,
+the amount of memory allocated, the maximum size of the heap, and so
+on. The three variants give different levels of detail: <tt class="docutils literal"><span class="pre">-T</span></tt>
+collects the data but produces no output <tt class="docutils literal"><span class="pre">-t</span></tt> produces a single
+line of output in the same format as GHC&#8217;s <tt class="docutils literal"><span class="pre">-Rghc-timing</span></tt> option,
+<tt class="docutils literal"><span class="pre">-s</span></tt> produces a more detailed summary at the end of the program,
+and <tt class="docutils literal"><span class="pre">-S</span></tt> additionally produces information about each and every
+garbage collection.</p>
+<p>The output is placed in ⟨file⟩. If ⟨file⟩ is omitted, then the
+output is sent to <tt class="docutils literal"><span class="pre">stderr</span></tt>.</p>
+<p>If you use the <tt class="docutils literal"><span class="pre">-T</span></tt> flag then, you should access the statistics
+using <a class="reference external" href="../libraries/base-4.10.1.0/GHC-Stats.html">GHC.Stats</a>.</p>
+<p>If you use the <tt class="docutils literal"><span class="pre">-t</span></tt> flag then, when your program finishes, you
+will see something like this:</p>
+<div class="highlight-none"><div class="highlight"><pre>&lt;&lt;ghc: 36169392 bytes, 69 GCs, 603392/1065272 avg/max bytes residency (2 samples), 3M in use, 0.00 INIT (0.00 elapsed), 0.02 MUT (0.02 elapsed), 0.07 GC (0.07 elapsed) :ghc&gt;&gt;
+</pre></div>
+</div>
+<p>This tells you:</p>
+<ul class="simple">
+<li>The total number of bytes allocated by the program over the whole
+run.</li>
+<li>The total number of garbage collections performed.</li>
+<li>The average and maximum &#8220;residency&#8221;, which is the amount of live
+data in bytes. The runtime can only determine the amount of live
+data during a major GC, which is why the number of samples
+corresponds to the number of major GCs (and is usually relatively
+small). To get a better picture of the heap profile of your
+program, use the <a class="reference internal" href="runtime_control.html#rts-flag--hT"><tt class="xref std std-rts-flag docutils literal"><span class="pre">-hT</span></tt></a> RTS option (<a class="reference internal" href="runtime_control.html#rts-profiling"><em>RTS options for profiling</em></a>).</li>
+<li>The peak memory the RTS has allocated from the OS.</li>
+<li>The amount of CPU time and elapsed wall clock time while
+initialising the runtime system (INIT), running the program
+itself (MUT, the mutator), and garbage collecting (GC).</li>
+</ul>
+<p>You can also get this in a more future-proof, machine readable
+format, with <tt class="docutils literal"><span class="pre">-t</span> <span class="pre">--machine-readable</span></tt>:</p>
+<div class="highlight-haskell"><div class="highlight"><pre><span class="p">[(</span><span class="s">&quot;bytes allocated&quot;</span><span class="p">,</span> <span class="s">&quot;36169392&quot;</span><span class="p">)</span>
+<span class="p">,(</span><span class="s">&quot;num_GCs&quot;</span><span class="p">,</span> <span class="s">&quot;69&quot;</span><span class="p">)</span>
+<span class="p">,(</span><span class="s">&quot;average_bytes_used&quot;</span><span class="p">,</span> <span class="s">&quot;603392&quot;</span><span class="p">)</span>
+<span class="p">,(</span><span class="s">&quot;max_bytes_used&quot;</span><span class="p">,</span> <span class="s">&quot;1065272&quot;</span><span class="p">)</span>
+<span class="p">,(</span><span class="s">&quot;num_byte_usage_samples&quot;</span><span class="p">,</span> <span class="s">&quot;2&quot;</span><span class="p">)</span>
+<span class="p">,(</span><span class="s">&quot;peak_megabytes_allocated&quot;</span><span class="p">,</span> <span class="s">&quot;3&quot;</span><span class="p">)</span>
+<span class="p">,(</span><span class="s">&quot;init_cpu_seconds&quot;</span><span class="p">,</span> <span class="s">&quot;0.00&quot;</span><span class="p">)</span>
+<span class="p">,(</span><span class="s">&quot;init_wall_seconds&quot;</span><span class="p">,</span> <span class="s">&quot;0.00&quot;</span><span class="p">)</span>
+<span class="p">,(</span><span class="s">&quot;mutator_cpu_seconds&quot;</span><span class="p">,</span> <span class="s">&quot;0.02&quot;</span><span class="p">)</span>
+<span class="p">,(</span><span class="s">&quot;mutator_wall_seconds&quot;</span><span class="p">,</span> <span class="s">&quot;0.02&quot;</span><span class="p">)</span>
+<span class="p">,(</span><span class="s">&quot;GC_cpu_seconds&quot;</span><span class="p">,</span> <span class="s">&quot;0.07&quot;</span><span class="p">)</span>
+<span class="p">,(</span><span class="s">&quot;GC_wall_seconds&quot;</span><span class="p">,</span> <span class="s">&quot;0.07&quot;</span><span class="p">)</span>
+<span class="p">]</span>
+</pre></div>
+</div>
+<p>If you use the <tt class="docutils literal"><span class="pre">-s</span></tt> flag then, when your program finishes, you
+will see something like this (the exact details will vary depending
+on what sort of RTS you have, e.g. you will only see profiling data
+if your RTS is compiled for profiling):</p>
+<div class="highlight-none"><div class="highlight"><pre>    36,169,392 bytes allocated in the heap
+     4,057,632 bytes copied during GC
+     1,065,272 bytes maximum residency (2 sample(s))
+        54,312 bytes maximum slop
+             3 MB total memory in use (0 MB lost due to fragmentation)
+
+Generation 0:    67 collections,     0 parallel,  0.04s,  0.03s elapsed
+Generation 1:     2 collections,     0 parallel,  0.03s,  0.04s elapsed
+
+SPARKS: 359207 (557 converted, 149591 pruned)
+
+INIT  time    0.00s  (  0.00s elapsed)
+MUT   time    0.01s  (  0.02s elapsed)
+GC    time    0.07s  (  0.07s elapsed)
+EXIT  time    0.00s  (  0.00s elapsed)
+Total time    0.08s  (  0.09s elapsed)
+
+%GC time      89.5%  (75.3% elapsed)
+
+Alloc rate    4,520,608,923 bytes per MUT second
+
+Productivity  10.5% of total user, 9.1% of total elapsed
+</pre></div>
+</div>
+<ul>
+<li><p class="first">The &#8220;bytes allocated in the heap&#8221; is the total bytes allocated by
+the program over the whole run.</p>
+</li>
+<li><p class="first">GHC uses a copying garbage collector by default. &#8220;bytes copied
+during GC&#8221; tells you how many bytes it had to copy during garbage
+collection.</p>
+</li>
+<li><p class="first">The maximum space actually used by your program is the &#8220;bytes
+maximum residency&#8221; figure. This is only checked during major
+garbage collections, so it is only an approximation; the number
+of samples tells you how many times it is checked.</p>
+</li>
+<li><p class="first">The &#8220;bytes maximum slop&#8221; tells you the most space that is ever
+wasted due to the way GHC allocates memory in blocks. Slop is
+memory at the end of a block that was wasted. There&#8217;s no way to
+control this; we just like to see how much memory is being lost
+this way.</p>
+</li>
+<li><p class="first">The &#8220;total memory in use&#8221; tells you the peak memory the RTS has
+allocated from the OS.</p>
+</li>
+<li><p class="first">Next there is information about the garbage collections done. For
+each generation it says how many garbage collections were done,
+how many of those collections were done in parallel, the total
+CPU time used for garbage collecting that generation, and the
+total wall clock time elapsed while garbage collecting that
+generation.</p>
+</li>
+<li><p class="first">The <tt class="docutils literal"><span class="pre">SPARKS</span></tt> statistic refers to the use of
+<tt class="docutils literal"><span class="pre">Control.Parallel.par</span></tt> and related functionality in the
+program. Each spark represents a call to <tt class="docutils literal"><span class="pre">par</span></tt>; a spark is
+&#8220;converted&#8221; when it is executed in parallel; and a spark is
+&#8220;pruned&#8221; when it is found to be already evaluated and is
+discarded from the pool by the garbage collector. Any remaining
+sparks are discarded at the end of execution, so &#8220;converted&#8221; plus
+&#8220;pruned&#8221; does not necessarily add up to the total.</p>
+</li>
+<li><p class="first">Next there is the CPU time and wall clock time elapsed broken
+down by what the runtime system was doing at the time. INIT is
+the runtime system initialisation. MUT is the mutator time, i.e.
+the time spent actually running your code. GC is the time spent
+doing garbage collection. RP is the time spent doing retainer
+profiling. PROF is the time spent doing other profiling. EXIT is
+the runtime system shutdown time. And finally, Total is, of
+course, the total.</p>
+<p>%GC time tells you what percentage GC is of Total. &#8220;Alloc rate&#8221;
+tells you the &#8220;bytes allocated in the heap&#8221; divided by the MUT
+CPU time. &#8220;Productivity&#8221; tells you what percentage of the Total
+CPU and wall clock elapsed times are spent in the mutator (MUT).</p>
+</li>
+</ul>
+<p>The <tt class="docutils literal"><span class="pre">-S</span></tt> flag, as well as giving the same output as the <tt class="docutils literal"><span class="pre">-s</span></tt>
+flag, prints information about each GC as it happens:</p>
+<div class="highlight-none"><div class="highlight"><pre>    Alloc    Copied     Live    GC    GC     TOT     TOT  Page Flts
+    bytes     bytes     bytes  user  elap    user    elap
+   528496     47728    141512  0.01  0.02    0.02    0.02    0    0  (Gen:  1)
+[...]
+   524944    175944   1726384  0.00  0.00    0.08    0.11    0    0  (Gen:  0)
+</pre></div>
+</div>
+<p>For each garbage collection, we print:</p>
+<ul class="simple">
+<li>How many bytes we allocated this garbage collection.</li>
+<li>How many bytes we copied this garbage collection.</li>
+<li>How many bytes are currently live.</li>
+<li>How long this garbage collection took (CPU time and elapsed wall
+clock time).</li>
+<li>How long the program has been running (CPU time and elapsed wall
+clock time).</li>
+<li>How many page faults occurred this garbage collection.</li>
+<li>How many page faults occurred since the end of the last garbage
+collection.</li>
+<li>Which generation is being garbage collected.</li>
+</ul>
+</dd></dl>
+
+</div>
+<div class="section" id="rts-options-for-concurrency-and-parallelism">
+<h2>7.7.5. RTS options for concurrency and parallelism<a class="headerlink" href="runtime_control.html#rts-options-for-concurrency-and-parallelism" title="Permalink to this headline">¶</a></h2>
+<p>The RTS options related to concurrency are described in
+<a class="reference internal" href="using-concurrent.html#using-concurrent"><em>Using Concurrent Haskell</em></a>, and those for parallelism in
+<a class="reference internal" href="using-concurrent.html#parallel-options"><em>RTS options for SMP parallelism</em></a>.</p>
+</div>
+<div class="section" id="rts-options-for-profiling">
+<span id="rts-profiling"></span><h2>7.7.6. RTS options for profiling<a class="headerlink" href="runtime_control.html#rts-options-for-profiling" title="Permalink to this headline">¶</a></h2>
+<p>Most profiling runtime options are only available when you compile your
+program for profiling (see <a class="reference internal" href="profiling.html#prof-compiler-options"><em>Compiler options for profiling</em></a>, and
+<a class="reference internal" href="profiling.html#rts-options-heap-prof"><em>RTS options for heap profiling</em></a> for the runtime options). However, there is
+one profiling option that is available for ordinary non-profiled
+executables:</p>
+<dl class="rts-flag">
+<dt id="rts-flag--hT">
+<tt class="descname">-hT</tt><tt class="descclassname"></tt><a class="headerlink" href="runtime_control.html#rts-flag--hT" title="Permalink to this definition">¶</a></dt>
+<dt id="rts-flag--h">
+<tt class="descname">-h</tt><tt class="descclassname"></tt><a class="headerlink" href="runtime_control.html#rts-flag--h" title="Permalink to this definition">¶</a></dt>
+<dd><p>Generates a basic heap profile, in the file <tt class="file docutils literal"><span class="pre">prog.hp</span></tt>. To produce the
+heap profile graph, use <strong class="command">hp2ps</strong> (see <a class="reference internal" href="profiling.html#hp2ps"><em>hp2ps &#8211; Rendering heap profiles to PostScript</em></a>). The basic heap
+profile is broken down by data constructor, with other types of closures
+(functions, thunks, etc.) grouped into broad categories (e.g. <tt class="docutils literal"><span class="pre">FUN</span></tt>,
+<tt class="docutils literal"><span class="pre">THUNK</span></tt>). To get a more detailed profile, use the full profiling support
+(<a class="reference internal" href="profiling.html#profiling"><em>Profiling</em></a>). Can be shortened to <a class="reference internal" href="runtime_control.html#rts-flag--h"><tt class="xref std std-rts-flag docutils literal"><span class="pre">-h</span></tt></a>.</p>
+</dd></dl>
+
+<dl class="rts-flag">
+<dt id="rts-flag--L ⟨n⟩">
+<tt class="descname">-L</tt><tt class="descclassname"> ⟨n⟩</tt><a class="headerlink" href="runtime_control.html#rts-flag--L ⟨n⟩" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Default:</th><td class="field-body">25 characters</td>
+</tr>
+</tbody>
+</table>
+<p>Sets the maximum length of the cost-centre names listed in the heap profile.</p>
+</dd></dl>
+
+</div>
+<div class="section" id="tracing">
+<span id="rts-eventlog"></span><h2>7.7.7. Tracing<a class="headerlink" href="runtime_control.html#tracing" title="Permalink to this headline">¶</a></h2>
+<p id="index-28">When the program is linked with the <a class="reference internal" href="phases.html#ghc-flag--eventlog"><tt class="xref std std-ghc-flag docutils literal"><span class="pre">-eventlog</span></tt></a> option
+(<a class="reference internal" href="phases.html#options-linker"><em>Options affecting linking</em></a>), runtime events can be logged in several ways:</p>
+<ul class="simple">
+<li>In binary format to a file for later analysis by a variety of tools.
+One such tool is
+<a class="reference external" href="http://www.haskell.org/haskellwiki/ThreadScope">ThreadScope</a>,
+which interprets the event log to produce a visual parallel execution
+profile of the program.</li>
+<li>In binary format to customized event log writer. This enables live
+analysis of the events while the program is running.</li>
+<li>As text to standard output, for debugging purposes.</li>
+</ul>
+<dl class="rts-flag">
+<dt id="rts-flag--l ⟨flags⟩">
+<tt class="descname">-l</tt><tt class="descclassname"> ⟨flags⟩</tt><a class="headerlink" href="runtime_control.html#rts-flag--l ⟨flags⟩" title="Permalink to this definition">¶</a></dt>
+<dd><p>Log events in binary format. Without any ⟨flags⟩ specified, this
+logs a default set of events, suitable for use with tools like ThreadScope.</p>
+<p>Per default the events are written to <tt class="file docutils literal"><em><span class="pre">program</span></em><span class="pre">.eventlog</span></tt> though
+the mechanism for writing event log data can be overriden with a custom
+<cite>EventLogWriter</cite>.</p>
+<p>For some special use cases you may want more control over which
+events are included. The ⟨flags⟩ is a sequence of zero or more
+characters indicating which classes of events to log. Currently
+these the classes of events that can be enabled/disabled:</p>
+<ul class="simple">
+<li><tt class="docutils literal"><span class="pre">s</span></tt> — scheduler events, including Haskell thread creation and start/stop
+events. Enabled by default.</li>
+<li><tt class="docutils literal"><span class="pre">g</span></tt> — GC events, including GC start/stop. Enabled by default.</li>
+<li><tt class="docutils literal"><span class="pre">p</span></tt> — parallel sparks (sampled). Enabled by default.</li>
+<li><tt class="docutils literal"><span class="pre">f</span></tt> — parallel sparks (fully accurate). Disabled by default.</li>
+<li><tt class="docutils literal"><span class="pre">u</span></tt> — user events. These are events emitted from Haskell code using
+functions such as <tt class="docutils literal"><span class="pre">Debug.Trace.traceEvent</span></tt>. Enabled by default.</li>
+</ul>
+<p>You can disable specific classes, or enable/disable all classes at
+once:</p>
+<ul class="simple">
+<li><tt class="docutils literal"><span class="pre">a</span></tt> — enable all event classes listed above</li>
+<li><tt class="docutils literal"><span class="pre">-⟨x⟩</span></tt> — disable the given class of events, for any event class listed above</li>
+<li><tt class="docutils literal"><span class="pre">-a</span></tt> — disable all classes</li>
+</ul>
+<p>For example, <tt class="docutils literal"><span class="pre">-l-ag</span></tt> would disable all event classes (<tt class="docutils literal"><span class="pre">-a</span></tt>) except for
+GC events (<tt class="docutils literal"><span class="pre">g</span></tt>).</p>
+<p>For spark events there are two modes: sampled and fully accurate.
+There are various events in the life cycle of each spark, usually
+just creating and running, but there are some more exceptional
+possibilities. In the sampled mode the number of occurrences of each
+kind of spark event is sampled at frequent intervals. In the fully
+accurate mode every spark event is logged individually. The latter
+has a higher runtime overhead and is not enabled by default.</p>
+<p>The format of the log file is described by the header
+<tt class="docutils literal"><span class="pre">EventLogFormat.h</span></tt> that comes with GHC, and it can be parsed in
+Haskell using the
+<a class="reference external" href="http://hackage.haskell.org/package/ghc-events">ghc-events</a>
+library. To dump the contents of a <tt class="docutils literal"><span class="pre">.eventlog</span></tt> file as text, use
+the tool <tt class="docutils literal"><span class="pre">ghc-events</span> <span class="pre">show</span></tt> that comes with the
+<a class="reference external" href="http://hackage.haskell.org/package/ghc-events">ghc-events</a>
+package.</p>
+</dd></dl>
+
+<dl class="rts-flag">
+<dt id="rts-flag--v [⟨flags⟩]">
+<tt class="descname">-v</tt><tt class="descclassname"> [⟨flags⟩]</tt><a class="headerlink" href="runtime_control.html#rts-flag--v [⟨flags⟩]" title="Permalink to this definition">¶</a></dt>
+<dd><p>Log events as text to standard output, instead of to the
+<tt class="docutils literal"><span class="pre">.eventlog</span></tt> file. The ⟨flags⟩ are the same as for <tt class="docutils literal"><span class="pre">-l</span></tt>, with the
+additional option <tt class="docutils literal"><span class="pre">t</span></tt> which indicates that the each event printed
+should be preceded by a timestamp value (in the binary <tt class="docutils literal"><span class="pre">.eventlog</span></tt>
+file, all events are automatically associated with a timestamp).</p>
+</dd></dl>
+
+<p>The debugging options <tt class="docutils literal"><span class="pre">-Dx</span></tt> also generate events which are logged
+using the tracing framework. By default those events are dumped as text
+to stdout (<tt class="docutils literal"><span class="pre">-Dx</span></tt> implies <tt class="docutils literal"><span class="pre">-v</span></tt>), but they may instead be stored in
+the binary eventlog file by using the <tt class="docutils literal"><span class="pre">-l</span></tt> option.</p>
+</div>
+<div class="section" id="rts-options-for-hackers-debuggers-and-over-interested-souls">
+<span id="rts-options-debugging"></span><h2>7.7.8. RTS options for hackers, debuggers, and over-interested souls<a class="headerlink" href="runtime_control.html#rts-options-for-hackers-debuggers-and-over-interested-souls" title="Permalink to this headline">¶</a></h2>
+<p id="index-29">These RTS options might be used (a)&nbsp;to avoid a GHC bug, (b)&nbsp;to see
+&#8220;what&#8217;s really happening&#8221;, or (c)&nbsp;because you feel like it. Not
+recommended for everyday use!</p>
+<dl class="rts-flag">
+<dt id="rts-flag--B">
+<tt class="descname">-B</tt><tt class="descclassname"></tt><a class="headerlink" href="runtime_control.html#rts-flag--B" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sound the bell at the start of each (major) garbage collection.</p>
+<p>Oddly enough, people really do use this option! Our pal in Durham
+(England), Paul Callaghan, writes: “Some people here use it for a
+variety of purposes—honestly!—e.g., confirmation that the
+code/machine is doing something, infinite loop detection, gauging
+cost of recently added code. Certain people can even tell what stage
+[the program] is in by the beep pattern. But the major use is for
+annoying others in the same office…”</p>
+</dd></dl>
+
+<dl class="rts-flag">
+<dt id="rts-flag--D ⟨x⟩">
+<tt class="descname">-D</tt><tt class="descclassname"> ⟨x⟩</tt><a class="headerlink" href="runtime_control.html#rts-flag--D ⟨x⟩" title="Permalink to this definition">¶</a></dt>
+<dd><p>An RTS debugging flag; only available if the program was linked with
+the <a class="reference internal" href="phases.html#ghc-flag--debug"><tt class="xref std std-ghc-flag docutils literal"><span class="pre">-debug</span></tt></a> option. Various values of ⟨x⟩ are provided to enable
+debug messages and additional runtime sanity checks in different
+subsystems in the RTS, for example <tt class="docutils literal"><span class="pre">+RTS</span> <span class="pre">-Ds</span> <span class="pre">-RTS</span></tt> enables debug
+messages from the scheduler. Use <tt class="docutils literal"><span class="pre">+RTS</span> <span class="pre">-?</span></tt> to find out which debug
+flags are supported.</p>
+<p>Debug messages will be sent to the binary event log file instead of
+stdout if the <a class="reference internal" href="profiling.html#rts-flag--l"><tt class="xref std std-rts-flag docutils literal"><span class="pre">-l</span></tt></a> option is added. This might be useful for
+reducing the overhead of debug tracing.</p>
+</dd></dl>
+
+<dl class="rts-flag">
+<dt id="rts-flag--r ⟨file⟩">
+<tt class="descname">-r</tt><tt class="descclassname"> ⟨file⟩</tt><a class="headerlink" href="runtime_control.html#rts-flag--r ⟨file⟩" title="Permalink to this definition">¶</a></dt>
+<dd><p id="index-30">Produce &#8220;ticky-ticky&#8221; statistics at the end of the program run (only
+available if the program was linked with <a class="reference internal" href="phases.html#ghc-flag--debug"><tt class="xref std std-ghc-flag docutils literal"><span class="pre">-debug</span></tt></a>). The ⟨file⟩
+business works just like on the <a class="reference internal" href="runtime_control.html#rts-flag--S [⟨file⟩]"><tt class="xref std std-rts-flag docutils literal"><span class="pre">-S</span> <span class="pre">[⟨file⟩]</span></tt></a> RTS option, above.</p>
+<p>For more information on ticky-ticky profiling, see
+<a class="reference internal" href="profiling.html#ticky-ticky"><em>Using “ticky-ticky” profiling (for implementors)</em></a>.</p>
+</dd></dl>
+
+<dl class="rts-flag">
+<dt id="rts-flag--xc">
+<tt class="descname">-xc</tt><tt class="descclassname"></tt><a class="headerlink" href="runtime_control.html#rts-flag--xc" title="Permalink to this definition">¶</a></dt>
+<dd><p>(Only available when the program is compiled for profiling.) When an
+exception is raised in the program, this option causes a stack trace
+to be dumped to <tt class="docutils literal"><span class="pre">stderr</span></tt>.</p>
+<p>This can be particularly useful for debugging: if your program is
+complaining about a <tt class="docutils literal"><span class="pre">head</span> <span class="pre">[]</span></tt> error and you haven&#8217;t got a clue
+which bit of code is causing it, compiling with
+<tt class="docutils literal"><span class="pre">-prof</span> <span class="pre">-fprof-auto</span></tt> (see <a class="reference internal" href="profiling.html#ghc-flag--prof"><tt class="xref std std-ghc-flag docutils literal"><span class="pre">-prof</span></tt></a>) and running with <tt class="docutils literal"><span class="pre">+RTS</span> <span class="pre">-xc</span>
+<span class="pre">-RTS</span></tt> will tell you exactly the call stack at the point the error was
+raised.</p>
+<p>The output contains one report for each exception raised in the
+program (the program might raise and catch several exceptions during
+its execution), where each report looks something like this:</p>
+<div class="highlight-none"><div class="highlight"><pre>*** Exception raised (reporting due to +RTS -xc), stack trace:
+  GHC.List.CAF
+  --&gt; evaluated by: Main.polynomial.table_search,
+  called from Main.polynomial.theta_index,
+  called from Main.polynomial,
+  called from Main.zonal_pressure,
+  called from Main.make_pressure.p,
+  called from Main.make_pressure,
+  called from Main.compute_initial_state.p,
+  called from Main.compute_initial_state,
+  called from Main.CAF
+  ...
+</pre></div>
+</div>
+<p>The stack trace may often begin with something uninformative like
+<tt class="docutils literal"><span class="pre">GHC.List.CAF</span></tt>; this is an artifact of GHC&#8217;s optimiser, which
+lifts out exceptions to the top-level where the profiling system
+assigns them to the cost centre &#8220;CAF&#8221;. However, <tt class="docutils literal"><span class="pre">+RTS</span> <span class="pre">-xc</span></tt> doesn&#8217;t
+just print the current stack, it looks deeper and reports the stack
+at the time the CAF was evaluated, and it may report further stacks
+until a non-CAF stack is found. In the example above, the next stack
+(after <tt class="docutils literal"><span class="pre">--&gt;</span> <span class="pre">evaluated</span> <span class="pre">by</span></tt>) contains plenty of information about
+what the program was doing when it evaluated <tt class="docutils literal"><span class="pre">head</span> <span class="pre">[]</span></tt>.</p>
+<p>Implementation details aside, the function names in the stack should
+hopefully give you enough clues to track down the bug.</p>
+<p>See also the function <tt class="docutils literal"><span class="pre">traceStack</span></tt> in the module <tt class="docutils literal"><span class="pre">Debug.Trace</span></tt>
+for another way to view call stacks.</p>
+</dd></dl>
+
+<dl class="rts-flag">
+<dt id="rts-flag--Z">
+<tt class="descname">-Z</tt><tt class="descclassname"></tt><a class="headerlink" href="runtime_control.html#rts-flag--Z" title="Permalink to this definition">¶</a></dt>
+<dd><p>Turn <em>off</em> &#8220;update-frame squeezing&#8221; at garbage-collection time.
+(There&#8217;s no particularly good reason to turn it off, except to
+ensure the accuracy of certain data collected regarding thunk entry
+counts.)</p>
+</dd></dl>
+
+</div>
+<div class="section" id="getting-information-about-the-rts">
+<span id="ghc-info"></span><h2>7.7.9. Getting information about the RTS<a class="headerlink" href="runtime_control.html#getting-information-about-the-rts" title="Permalink to this headline">¶</a></h2>
+<span class="target" id="index-31"></span><dl class="rts-flag">
+<dt id="rts-flag---info">
+<tt class="descname">--info</tt><tt class="descclassname"></tt><a class="headerlink" href="runtime_control.html#rts-flag---info" title="Permalink to this definition">¶</a></dt>
+<dd><p>It is possible to ask the RTS to give some information about itself. To
+do this, use the <a class="reference internal" href="runtime_control.html#rts-flag---info"><tt class="xref std std-rts-flag docutils literal"><span class="pre">--info</span></tt></a> flag, e.g.</p>
+<div class="highlight-none"><div class="highlight"><pre>$ ./a.out +RTS --info
+[(&quot;GHC RTS&quot;, &quot;YES&quot;)
+,(&quot;GHC version&quot;, &quot;6.7&quot;)
+,(&quot;RTS way&quot;, &quot;rts_p&quot;)
+,(&quot;Host platform&quot;, &quot;x86_64-unknown-linux&quot;)
+,(&quot;Host architecture&quot;, &quot;x86_64&quot;)
+,(&quot;Host OS&quot;, &quot;linux&quot;)
+,(&quot;Host vendor&quot;, &quot;unknown&quot;)
+,(&quot;Build platform&quot;, &quot;x86_64-unknown-linux&quot;)
+,(&quot;Build architecture&quot;, &quot;x86_64&quot;)
+,(&quot;Build OS&quot;, &quot;linux&quot;)
+,(&quot;Build vendor&quot;, &quot;unknown&quot;)
+,(&quot;Target platform&quot;, &quot;x86_64-unknown-linux&quot;)
+,(&quot;Target architecture&quot;, &quot;x86_64&quot;)
+,(&quot;Target OS&quot;, &quot;linux&quot;)
+,(&quot;Target vendor&quot;, &quot;unknown&quot;)
+,(&quot;Word size&quot;, &quot;64&quot;)
+,(&quot;Compiler unregisterised&quot;, &quot;NO&quot;)
+,(&quot;Tables next to code&quot;, &quot;YES&quot;)
+]
+</pre></div>
+</div>
+<p>The information is formatted such that it can be read as a of type
+<tt class="docutils literal"><span class="pre">[(String,</span> <span class="pre">String)]</span></tt>. Currently the following fields are present:</p>
+<dl class="docutils">
+<dt><tt class="docutils literal"><span class="pre">GHC</span> <span class="pre">RTS</span></tt></dt>
+<dd>Is this program linked against the GHC RTS? (always &#8220;YES&#8221;).</dd>
+<dt><tt class="docutils literal"><span class="pre">GHC</span> <span class="pre">version</span></tt></dt>
+<dd>The version of GHC used to compile this program.</dd>
+<dt><tt class="docutils literal"><span class="pre">RTS</span> <span class="pre">way</span></tt></dt>
+<dd>The variant (“way”) of the runtime. The most common values are
+<tt class="docutils literal"><span class="pre">rts_v</span></tt> (vanilla), <tt class="docutils literal"><span class="pre">rts_thr</span></tt> (threaded runtime, i.e. linked
+using the <a class="reference internal" href="phases.html#ghc-flag--threaded"><tt class="xref std std-ghc-flag docutils literal"><span class="pre">-threaded</span></tt></a> option) and <tt class="docutils literal"><span class="pre">rts_p</span></tt> (profiling runtime,
+i.e. linked using the <a class="reference internal" href="profiling.html#ghc-flag--prof"><tt class="xref std std-ghc-flag docutils literal"><span class="pre">-prof</span></tt></a> option). Other variants include
+<tt class="docutils literal"><span class="pre">debug</span></tt> (linked using <a class="reference internal" href="phases.html#ghc-flag--debug"><tt class="xref std std-ghc-flag docutils literal"><span class="pre">-debug</span></tt></a>), and <tt class="docutils literal"><span class="pre">dyn</span></tt> (the RTS is linked
+in dynamically, i.e. a shared library, rather than statically linked
+into the executable itself). These can be combined, e.g. you might
+have <tt class="docutils literal"><span class="pre">rts_thr_debug_p</span></tt>.</dd>
+<dt><tt class="docutils literal"><span class="pre">Target</span> <span class="pre">platform</span></tt><tt class="docutils literal"><span class="pre">Target</span> <span class="pre">architecture</span></tt><tt class="docutils literal"><span class="pre">Target</span> <span class="pre">OS</span></tt><tt class="docutils literal"><span class="pre">Target</span> <span class="pre">vendor</span></tt></dt>
+<dd>These are the platform the program is compiled to run on.</dd>
+<dt><tt class="docutils literal"><span class="pre">Build</span> <span class="pre">platform</span></tt><tt class="docutils literal"><span class="pre">Build</span> <span class="pre">architecture</span></tt><tt class="docutils literal"><span class="pre">Build</span> <span class="pre">OS</span></tt><tt class="docutils literal"><span class="pre">Build</span> <span class="pre">vendor</span></tt></dt>
+<dd>These are the platform where the program was built on. (That is, the
+target platform of GHC itself.) Ordinarily this is identical to the
+target platform. (It could potentially be different if
+cross-compiling.)</dd>
+<dt><tt class="docutils literal"><span class="pre">Host</span> <span class="pre">platform</span></tt><tt class="docutils literal"><span class="pre">Host</span> <span class="pre">architecture</span></tt><tt class="docutils literal"><span class="pre">Host</span> <span class="pre">OS</span></tt><tt class="docutils literal"><span class="pre">Host</span> <span class="pre">vendor</span></tt></dt>
+<dd>These are the platform where GHC itself was compiled. Again, this
+would normally be identical to the build and target platforms.</dd>
+<dt><tt class="docutils literal"><span class="pre">Word</span> <span class="pre">size</span></tt></dt>
+<dd>Either <tt class="docutils literal"><span class="pre">&quot;32&quot;</span></tt> or <tt class="docutils literal"><span class="pre">&quot;64&quot;</span></tt>, reflecting the word size of the target
+platform.</dd>
+<dt><tt class="docutils literal"><span class="pre">Compiler</span> <span class="pre">unregistered</span></tt></dt>
+<dd>Was this program compiled with an <a class="reference internal" href="codegens.html#unreg"><em>&#8220;unregistered&#8221;</em></a>
+version of GHC? (I.e., a version of GHC that has no
+platform-specific optimisations compiled in, usually because this is
+a currently unsupported platform.) This value will usually be no,
+unless you&#8217;re using an experimental build of GHC.</dd>
+<dt><tt class="docutils literal"><span class="pre">Tables</span> <span class="pre">next</span> <span class="pre">to</span> <span class="pre">code</span></tt></dt>
+<dd>Putting info tables directly next to entry code is a useful
+performance optimisation that is not available on all platforms.
+This field tells you whether the program has been compiled with this
+optimisation. (Usually yes, except on unusual platforms.)</dd>
+</dl>
+</dd></dl>
+
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="separate_compilation.html" title="7.8. Filenames and separate compilation"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="flags.html" title="7.6. Flag reference"
+             >previous</a> |</li>
+        <li><a href="index.html">GHC 8.2.2 User&#39;s Guide</a> &raquo;</li>
+          <li><a href="usage.html" >7. Using GHC</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2015, GHC Team.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.3.
+    </div>
+  </body>
+</html>
