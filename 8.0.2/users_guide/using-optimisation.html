@@ -424,31 +424,27 @@ multiprocessor</a>.</p>
 <dl class="ghc-flag">
 <dt id="ghc-flag--fignore-interface-pragmas">
 <code class="descname">-fignore-interface-pragmas</code><code class="descclassname"> </code><a class="headerlink" href="#ghc-flag--fignore-interface-pragmas" title="Permalink to this definition">¶</a></dt>
-<dd><p>Tells GHC to ignore all inessential information when reading
-interface files. That is, even if <code class="file docutils literal"><span class="pre">M.hi</span></code> contains unfolding or
-strictness information for a function, GHC will ignore that
-information.</p>
+<dd><p>インターフェイスファイルを読み込むときに不必要な情報はすべて無視するよう GHC に指示します．
+すなわち <code class="file docutils literal"><span class="pre">M.hi</span></code> にある関数の展開情報や正格性情報があっても，GHC はこれらの情報を無視します．</p>
 </dd></dl>
 
 <dl class="ghc-flag">
 <dt id="ghc-flag--flate-dmd-anal">
 <code class="descname">-flate-dmd-anal</code><code class="descclassname"> </code><a class="headerlink" href="#ghc-flag--flate-dmd-anal" title="Permalink to this definition">¶</a></dt>
-<dd><p>Run demand analysis again, at the end of the simplification
-pipeline. We found some opportunities for discovering strictness
-that were not visible earlier; and optimisations like
-<a class="reference internal" href="#ghc-flag--fspec-constr"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-fspec-constr</span></code></a> can create functions with unused arguments which
-are eliminated by late demand analysis. Improvements are modest, but
-so is the cost. See notes on the <a class="reference external" href="http://ghc.haskell.org/trac/ghc/wiki/LateDmd">Trac wiki page</a>.</p>
+<dd><p>単純化パイプラインの最後に再度，要求解析(demand analysys)を走らせます．
+前段階では見えなかった正格性を発見する場合があり
+<a class="reference internal" href="#ghc-flag--fspec-constr"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-fspec-constr</span></code></a> などの最適化によって作られた関数の未使用引数をこの後段階で取り除けることが判っています．
+改善はささやかなものですが，コストもわずかです．
+<a class="reference external" href="http://ghc.haskell.org/trac/ghc/wiki/LateDmd">Trac wiki page</a> にある注も参照してください．</p>
 </dd></dl>
 
 <dl class="ghc-flag">
 <dt id="ghc-flag--fliberate-case">
 <code class="descname">-fliberate-case</code><code class="descclassname"> </code><a class="headerlink" href="#ghc-flag--fliberate-case" title="Permalink to this definition">¶</a></dt>
-<dd><p><em>Off by default, but enabled by -O2.</em> Turn on the liberate-case
-transformation. This unrolls recursive function once in its own RHS,
-to avoid repeated case analysis of free variables. It&#8217;s a bit like
-the call-pattern specialiser (<a class="reference internal" href="#ghc-flag--fspec-constr"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-fspec-constr</span></code></a>) but for free
-variables rather than arguments.</p>
+<dd><p><em>デフォルトでは無効，-O2で有効</em>
+liberate-case変換を有効にします．
+これは再帰関数をその右辺で1回展開して，自由変数がくりかえしcaseで検査されるのを回避します．
+これは，呼び出しパターンの特殊化(<a class="reference internal" href="#ghc-flag--fspec-constr"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-fspec-constr</span></code></a>)に似ていますが <a class="reference internal" href="#ghc-flag--fliberate-case"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-fliberate-case</span></code></a> は引数ではなく自由変数を対象にしています．</p>
 </dd></dl>
 
 <dl class="ghc-flag">

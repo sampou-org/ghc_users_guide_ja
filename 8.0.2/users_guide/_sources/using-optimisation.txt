@@ -560,29 +560,59 @@ GHCが生成するコードの質に影響を与えるオプションは *大量
 
     ソースコード中で ``Exception.assert`` を使っていても，GHC はこれを無視し(すなわち ``Exception.assert p e`` を ``e`` に書き換え)ます(:ref:`assertions` を参照してください)．
 
+..
+   .. ghc-flag:: -fignore-interface-pragmas
+
+       Tells GHC to ignore all inessential information when reading
+       interface files. That is, even if :file:`M.hi` contains unfolding or
+       strictness information for a function, GHC will ignore that
+       information.
+
 .. ghc-flag:: -fignore-interface-pragmas
 
-    Tells GHC to ignore all inessential information when reading
-    interface files. That is, even if :file:`M.hi` contains unfolding or
-    strictness information for a function, GHC will ignore that
-    information.
+    インターフェイスファイルを読み込むときに不必要な情報はすべて無視するよう GHC に指示します．
+    すなわち :file:`M.hi` にある関数の展開情報や正格性情報があっても，GHC はこれらの情報を無視します．
+
+..
+   .. ghc-flag:: -flate-dmd-anal
+
+       Run demand analysis again, at the end of the simplification
+       pipeline. We found some opportunities for discovering strictness
+       that were not visible earlier; and optimisations like
+       :ghc-flag:`-fspec-constr` can create functions with unused arguments which
+       are eliminated by late demand analysis. Improvements are modest, but
+       so is the cost. See notes on the :ghc-wiki:`Trac wiki page <LateDmd>`.
 
 .. ghc-flag:: -flate-dmd-anal
 
-    Run demand analysis again, at the end of the simplification
-    pipeline. We found some opportunities for discovering strictness
-    that were not visible earlier; and optimisations like
-    :ghc-flag:`-fspec-constr` can create functions with unused arguments which
-    are eliminated by late demand analysis. Improvements are modest, but
-    so is the cost. See notes on the :ghc-wiki:`Trac wiki page <LateDmd>`.
+    単純化パイプラインの最後に再度，要求解析(demand analysys)を走らせます．
+    前段階では見えなかった正格性を発見する場合があり
+    :ghc-flag:`-fspec-constr` などの最適化によって作られた関数の未使用引数をこの後段階で取り除けることが判っています．
+    改善はささやかなものですが，コストもわずかです．
+    :ghc-wiki:`Trac wiki page <LateDmd>` にある注も参照してください．
+
+..
+   .. ghc-flag:: -fliberate-case
+
+       *Off by default, but enabled by -O2.* Turn on the liberate-case
+       transformation. This unrolls recursive function once in its own RHS,
+       to avoid repeated case analysis of free variables. It's a bit like
+       the call-pattern specialiser (:ghc-flag:`-fspec-constr`) but for free
+       variables rather than arguments.
 
 .. ghc-flag:: -fliberate-case
 
-    *Off by default, but enabled by -O2.* Turn on the liberate-case
-    transformation. This unrolls recursive function once in its own RHS,
-    to avoid repeated case analysis of free variables. It's a bit like
-    the call-pattern specialiser (:ghc-flag:`-fspec-constr`) but for free
-    variables rather than arguments.
+    *デフォルトでは無効，-O2で有効*
+    liberate-case変換を有効にします．
+    これは再帰関数をその右辺で1回展開して，自由変数がくりかえしcaseで検査されるのを回避します．
+    これは，呼び出しパターンの特殊化(:ghc-flag:`-fspec-constr`)に似ていますが :ghc-flag:`-fliberate-case` は引数ではなく自由変数を対象にしています．
+
+..
+   .. ghc-flag:: -fliberate-case-threshold=<n>
+
+       :default: 2000
+
+       Set the size threshold for the liberate-case transformation.
 
 .. ghc-flag:: -fliberate-case-threshold=<n>
 
