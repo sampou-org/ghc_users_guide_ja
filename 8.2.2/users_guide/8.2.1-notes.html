@@ -7,7 +7,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>3. Release notes for version 8.2.1 &mdash; Glasgow Haskell Compiler 8.2.2 User&#39;s Guide</title>
+    <title>3. バージョン 8.2.1 のリリースノート &mdash; Glasgow Haskell Compiler 8.2.2 User&#39;s Guide</title>
     
     <link rel="stylesheet" href="_static/ghc-theme.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -30,7 +30,7 @@
           href="_static/opensearch.xml"/>
     <link rel="top" title="Glasgow Haskell Compiler 8.2.2 User&#39;s Guide" href="index.html" />
     <link rel="next" title="4. Release notes for version 8.2.2" href="8.2.2-notes.html" />
-    <link rel="prev" title="2. Introduction to GHC" href="intro.html" /> 
+    <link rel="prev" title="2. GHC の紹介" href="intro.html" /> 
   </head>
   <body role="document">
 <div class="logo">
@@ -47,7 +47,7 @@
           <a href="8.2.2-notes.html" title="4. Release notes for version 8.2.2"
              accesskey="N">next</a> |</li>
         <li class="right" >
-          <a href="intro.html" title="2. Introduction to GHC"
+          <a href="intro.html" title="2. GHC の紹介"
              accesskey="P">previous</a> |</li>
         <li class="nav-item nav-item-0"><a href="index.html">GHC 8.2.2 User&#39;s Guide</a> &raquo;</li> 
       </ul>
@@ -57,11 +57,11 @@
         <div class="sphinxsidebarwrapper">
   <h3><a href="index.html">Table Of Contents</a></h3>
   <ul>
-<li><a class="reference internal" href="#">3. Release notes for version 8.2.1</a><ul>
-<li><a class="reference internal" href="#highlights">3.1. Highlights</a></li>
-<li><a class="reference internal" href="#full-details">3.2. Full details</a><ul>
-<li><a class="reference internal" href="#package-system">3.2.1. Package system</a></li>
-<li><a class="reference internal" href="#language">3.2.2. Language</a></li>
+<li><a class="reference internal" href="#">3. バージョン 8.2.1 のリリースノート</a><ul>
+<li><a class="reference internal" href="#id2">3.1. ハイライト</a></li>
+<li><a class="reference internal" href="#id5">3.2. 詳細</a><ul>
+<li><a class="reference internal" href="#id6">3.2.1. パッケージシステム</a></li>
+<li><a class="reference internal" href="#id7">3.2.2. 言語</a></li>
 <li><a class="reference internal" href="#compiler">3.2.3. Compiler</a></li>
 <li><a class="reference internal" href="#ghci">3.2.4. GHCi</a></li>
 <li><a class="reference internal" href="#template-haskell">3.2.5. Template Haskell</a></li>
@@ -87,7 +87,7 @@
 <li><a class="reference internal" href="#hpc">3.3.15. hpc</a></li>
 <li><a class="reference internal" href="#integer-gmp">3.3.16. integer-gmp</a></li>
 <li><a class="reference internal" href="#process">3.3.17. process</a></li>
-<li><a class="reference internal" href="#id3">3.3.18. template-haskell</a></li>
+<li><a class="reference internal" href="#id10">3.3.18. template-haskell</a></li>
 <li><a class="reference internal" href="#time">3.3.19. time</a></li>
 <li><a class="reference internal" href="#unix">3.3.20. unix</a></li>
 <li><a class="reference internal" href="#win32">3.3.21. Win32</a></li>
@@ -100,7 +100,7 @@
 
   <h4>Previous topic</h4>
   <p class="topless"><a href="intro.html"
-                        title="previous chapter">2. Introduction to GHC</a></p>
+                        title="previous chapter">2. GHC の紹介</a></p>
   <h4>Next topic</h4>
   <p class="topless"><a href="8.2.2-notes.html"
                         title="next chapter">4. Release notes for version 8.2.2</a></p>
@@ -132,50 +132,56 @@
         <div class="bodywrapper">
           <div class="body" role="main">
             
-  <div class="section" id="release-notes-for-version-8-2-1">
-<span id="release-8-2-1"></span><h1>3. Release notes for version 8.2.1<a class="headerlink" href="#release-notes-for-version-8-2-1" title="Permalink to this headline">¶</a></h1>
-<p>The significant changes to the various parts of the compiler are listed
-in the following sections. There have also been numerous bug fixes and
-performance improvements over the 8.0 branch.</p>
-<div class="section" id="highlights">
-<h2>3.1. Highlights<a class="headerlink" href="#highlights" title="Permalink to this headline">¶</a></h2>
-<p>The highlights since the 8.0 release include:</p>
+  <div class="section" id="release-8-2-1">
+<span id="id1"></span><h1>3. バージョン 8.2.1 のリリースノート<a class="headerlink" href="#release-8-2-1" title="Permalink to this headline">¶</a></h1>
+<p>コンパイラのさまざまな部分での重要な変更は以降の節で一覧表にしてあります．
+8.0 ブランチに対して大量のバグ修正と性能改善を行いました．</p>
+<div class="section" id="id2">
+<h2>3.1. ハイライト<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h2>
+<p>8.0 系列からの変更のハイライトは以下のとおりです．</p>
 <ul class="simple">
-<li>A new, more expressive <code class="docutils literal"><span class="pre">Typeable</span></code> mechanism, <code class="docutils literal"><span class="pre">Type.Reflection</span></code></li>
-<li>Colorful error messages with caret diagnostics</li>
-<li>SCC annotations can now be used for declarations.</li>
-<li>Heap overflow throws an exception in certain circumstances.</li>
-<li>Improved code generation of join points</li>
-<li>Deriving strategies</li>
-<li>Compact regions support, allowing efficient garbage collection of large heaps</li>
-<li>More reliable DWARF debug information</li>
+<li>より表現力のある``Typeable``機構，<a href="#id3"><span class="problematic" id="id4">``</span></a>Type.Reflection``を新しく追加しました．</li>
+<li>エラーメッセージが色付きになり，カレット(^)マークが付くようになりました．</li>
+<li>宣言に対して SCC 注釈が付けられるようになりました．</li>
+<li>特定の状況でヒープオーバーフローの際に例外を投げるようにしました．</li>
+<li>結合点のコード生成を改良しました．</li>
+<li>自動導出の戦略指定を可能にしました．</li>
+<li>コンパクトリージョンをサポートし，大きなヒープの GC を効率良く行なえるようにしました．</li>
+<li>DWARF形式のデバッグ情報の信頼性を向上しました．</li>
 </ul>
 </div>
-<div class="section" id="full-details">
-<h2>3.2. Full details<a class="headerlink" href="#full-details" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="package-system">
-<h3>3.2.1. Package system<a class="headerlink" href="#package-system" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id5">
+<h2>3.2. 詳細<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id6">
+<h3>3.2.1. パッケージシステム<a class="headerlink" href="#id6" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
-<li>The long awaited Backpack module system is now fully usable. See
-<a class="reference external" href="https://ghc.haskell.org/trac/ghc/wiki/Backpack">the GHC Wiki</a> for details.</li>
+<li>待望の Backpack モジュールシステムを完全に使えるようにしました．詳細については
+<a class="reference external" href="https://ghc.haskell.org/trac/ghc/wiki/Backpack">the GHC Wiki</a> を参照してください．</li>
 </ul>
 </div>
-<div class="section" id="language">
-<h3>3.2.2. Language<a class="headerlink" href="#language" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id7">
+<h3>3.2.2. 言語<a class="headerlink" href="#id7" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
-<li>Pattern synonym signatures can now be applied to multiple patterns, just like
-value-level binding signatures. See <a class="reference internal" href="glasgow_exts.html#patsyn-typing"><span>Typing of pattern synonyms</span></a> for details.</li>
-<li>It is now possible to explicitly pick a strategy to use when deriving a
-class instance using the <a class="reference internal" href="glasgow_exts.html#ghc-flag--XDerivingStrategies"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-XDerivingStrategies</span></code></a> language extension
-(see <a class="reference internal" href="glasgow_exts.html#deriving-strategies"><span>Deriving strategies</span></a>).</li>
-<li>The new <a class="reference internal" href="glasgow_exts.html#ghc-flag--XUnboxedSums"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-XUnboxedSums</span></code></a> extension allows more efficient representation
-of sum data. Some future GHC release will have support for worker/wrapper
-transformation of sum arguments and constructor unpacking.</li>
-<li>Support for overloaded record fields via a new <code class="docutils literal"><span class="pre">HasField</span></code> class and
-associated compiler logic (see <a class="reference internal" href="glasgow_exts.html#record-field-selector-polymorphism"><span>Record field selector polymorphism</span></a>)</li>
-<li>GHC now recognizes the <code class="docutils literal"><span class="pre">COMPLETE</span></code> language pragma, allowing the user to
-specify sets of patterns (including pattern synonyms) which constitute a
-complete pattern match. See <a class="reference internal" href="glasgow_exts.html#complete-pragma"><span>COMPLETE pragmas</span></a> for details.</li>
+<li>パターンシノニムシグネチャが，値レベルの束縛シグネチャと同様に，複数パターンに適用できるようになりました．
+詳細については <a class="reference internal" href="glasgow_exts.html#patsyn-typing"><span>Typing of pattern synonyms</span></a> を参照してください．</li>
+</ul>
+<ul class="simple">
+<li>クラスインスタンスを自動導出するときに使う戦略を明示できるようになりました．
+これには言語拡張 <a class="reference internal" href="glasgow_exts.html#ghc-flag--XDerivingStrategies"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-XDerivingStrategies</span></code></a> を有効にします
+(<a class="reference internal" href="glasgow_exts.html#deriving-strategies"><span>Deriving strategies</span></a> を参照してください)．</li>
+</ul>
+<ul class="simple">
+<li>新たに言語拡張 <a class="reference internal" href="glasgow_exts.html#ghc-flag--XUnboxedSums"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-XUnboxedSums</span></code></a> を使って，和データのより効率のよい表現が使えるようになりました．
+将来の GHC リリースにおいて，和データ引数のワーカー/ラッパー変換および構成子アンパッキングがサポートされる予定です．</li>
+</ul>
+<ul class="simple">
+<li>新しく導入された <code class="docutils literal"><span class="pre">HasField</span></code> クラスと関連のコンパイラのロジック(<a class="reference internal" href="glasgow_exts.html#record-field-selector-polymorphism"><span>Record field selector polymorphism</span></a> を参照してください)
+により多重定義されたレコードフィールドがサポートされます．</li>
+</ul>
+<ul class="simple">
+<li>GHC が <code class="docutils literal"><span class="pre">COMPLETE</span></code> プラグマを識別するようになりました．
+これによりユーザが(パターンシノニムを含む)パターン集合を指定して，
+パターン照合を完全なものにできるようになりました．詳細は <a class="reference internal" href="glasgow_exts.html#complete-pragma"><span>COMPLETE pragmas</span></a> を参照してください．</li>
 </ul>
 </div>
 <div class="section" id="compiler">
@@ -446,7 +452,7 @@ receives <code class="docutils literal"><span class="pre">UserInterrupt</span></
 move long-lived data outside of the heap so that the garbage
 collector does not have to trace it repeatedly.  Compacted data can
 also be serialized, stored, and deserialized again later by the same
-program.  For more details see the <a href="#id1"><span class="problematic" id="id2">:ghc-compact-ref:`GHC.Compact
+program.  For more details see the <a href="#id8"><span class="problematic" id="id9">:ghc-compact-ref:`GHC.Compact
 &lt;GHC-Compact.html&gt;`</span></a> module. Moreover, see the <code class="docutils literal"><span class="pre">compact</span></code> library on <a class="reference external" href="https://hackage.haskell.org/package/compact">Hackage</a> for a high-level interface.</li>
 <li>There is new support for improving performance on machines with a
 Non-Uniform Memory Architecture (NUMA).  See <a class="reference internal" href="runtime_control.html#rts-flag---numa"><code class="xref std std-rts-flag docutils literal"><span class="pre">--numa</span></code></a>.
@@ -611,8 +617,8 @@ should not be inlined.  It is optimized away after the simplifier runs.</li>
 <li>Version number 1.6.1.0 (was 1.4.3.0)</li>
 </ul>
 </div>
-<div class="section" id="id3">
-<h3>3.3.18. template-haskell<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id10">
+<h3>3.3.18. template-haskell<a class="headerlink" href="#id10" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li>Version 2.12.0.0 (was 2.11.1.0)</li>
 <li>Added support for unboxed sums <a class="reference external" href="https://ghc.haskell.org/trac/ghc/ticket/12478">Trac #12478</a>.</li>
@@ -666,7 +672,7 @@ See <a class="reference external" href="https://ghc.haskell.org/trac/ghc/ticket/
           <a href="8.2.2-notes.html" title="4. Release notes for version 8.2.2"
              >next</a> |</li>
         <li class="right" >
-          <a href="intro.html" title="2. Introduction to GHC"
+          <a href="intro.html" title="2. GHC の紹介"
              >previous</a> |</li>
         <li class="nav-item nav-item-0"><a href="index.html">GHC 8.2.2 User&#39;s Guide</a> &raquo;</li> 
       </ul>

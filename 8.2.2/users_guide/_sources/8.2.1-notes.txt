@@ -1,62 +1,129 @@
+..
+   .. _release-8-2-1:
+
+   Release notes for version 8.2.1
+   ===============================
+
 .. _release-8-2-1:
 
-Release notes for version 8.2.1
-===============================
+バージョン 8.2.1 のリリースノート
+=================================
 
-The significant changes to the various parts of the compiler are listed
-in the following sections. There have also been numerous bug fixes and
-performance improvements over the 8.0 branch.
+..
+   The significant changes to the various parts of the compiler are listed
+   in the following sections. There have also been numerous bug fixes and
+   performance improvements over the 8.0 branch.
 
-Highlights
+コンパイラのさまざまな部分での重要な変更は以降の節で一覧表にしてあります．
+8.0 ブランチに対して大量のバグ修正と性能改善を行いました．
+
+..
+   Highlights
+   ----------
+
+ハイライト
 ----------
 
-The highlights since the 8.0 release include:
+..
+   The highlights since the 8.0 release include:
 
-- A new, more expressive ``Typeable`` mechanism, ``Type.Reflection``
+   - A new, more expressive ``Typeable`` mechanism, ``Type.Reflection``
 
-- Colorful error messages with caret diagnostics
+   - Colorful error messages with caret diagnostics
 
-- SCC annotations can now be used for declarations.
+   - SCC annotations can now be used for declarations.
 
-- Heap overflow throws an exception in certain circumstances.
+   - Heap overflow throws an exception in certain circumstances.
 
-- Improved code generation of join points
+   - Improved code generation of join points
 
-- Deriving strategies
+   - Deriving strategies
 
-- Compact regions support, allowing efficient garbage collection of large heaps
+   - Compact regions support, allowing efficient garbage collection of large heaps
 
-- More reliable DWARF debug information
+   - More reliable DWARF debug information
 
-Full details
-------------
+8.0 系列からの変更のハイライトは以下のとおりです．
 
-Package system
-~~~~~~~~~~~~~~
+- より表現力のある``Typeable``機構，``Type.Reflection``を新しく追加しました．
 
-- The long awaited Backpack module system is now fully usable. See
-  :ghc-wiki:`the GHC Wiki <Backpack>` for details.
+- エラーメッセージが色付きになり，カレット(^)マークが付くようになりました．
 
-Language
-~~~~~~~~
+- 宣言に対して SCC 注釈が付けられるようになりました．
 
-- Pattern synonym signatures can now be applied to multiple patterns, just like
-  value-level binding signatures. See :ref:`patsyn-typing` for details.
+- 特定の状況でヒープオーバーフローの際に例外を投げるようにしました．
 
-- It is now possible to explicitly pick a strategy to use when deriving a
-  class instance using the :ghc-flag:`-XDerivingStrategies` language extension
-  (see :ref:`deriving-strategies`).
+- 結合点のコード生成を改良しました．
 
-- The new :ghc-flag:`-XUnboxedSums` extension allows more efficient representation
-  of sum data. Some future GHC release will have support for worker/wrapper
-  transformation of sum arguments and constructor unpacking.
+- 自動導出の戦略指定を可能にしました．
 
-- Support for overloaded record fields via a new ``HasField`` class and
-  associated compiler logic (see :ref:`record-field-selector-polymorphism`)
+- コンパクトリージョンをサポートし，大きなヒープの GC を効率良く行なえるようにしました．
 
-- GHC now recognizes the ``COMPLETE`` language pragma, allowing the user to
-  specify sets of patterns (including pattern synonyms) which constitute a
-  complete pattern match. See :ref:`complete-pragma` for details.
+- DWARF形式のデバッグ情報の信頼性を向上しました．
+
+..
+   Full details
+   ------------
+
+詳細
+----
+
+パッケージシステム
+~~~~~~~~~~~~~~~~~~
+
+..
+   - The long awaited Backpack module system is now fully usable. See
+     :ghc-wiki:`the GHC Wiki <Backpack>` for details.
+
+- 待望の Backpack モジュールシステムを完全に使えるようにしました．詳細については
+  :ghc-wiki:`the GHC Wiki <Backpack>` を参照してください．
+
+..
+   Language
+   ~~~~~~~~
+
+言語
+~~~~
+
+..
+   - Pattern synonym signatures can now be applied to multiple patterns, just like
+     value-level binding signatures. See :ref:`patsyn-typing` for details.
+
+- パターンシノニムシグネチャが，値レベルの束縛シグネチャと同様に，複数パターンに適用できるようになりました．
+  詳細については :ref:`patsyn-typing` を参照してください．
+
+..
+   - It is now possible to explicitly pick a strategy to use when deriving a
+     class instance using the :ghc-flag:`-XDerivingStrategies` language extension
+     (see :ref:`deriving-strategies`).
+
+- クラスインスタンスを自動導出するときに使う戦略を明示できるようになりました．
+  これには言語拡張 :ghc-flag:`-XDerivingStrategies` を有効にします
+  (:ref:`deriving-strategies` を参照してください)．
+
+..
+   - The new :ghc-flag:`-XUnboxedSums` extension allows more efficient representation
+     of sum data. Some future GHC release will have support for worker/wrapper
+     transformation of sum arguments and constructor unpacking.
+
+- 新たに言語拡張 :ghc-flag:`-XUnboxedSums` を使って，和データのより効率のよい表現が使えるようになりました．
+  将来の GHC リリースにおいて，和データ引数のワーカー/ラッパー変換および構成子アンパッキングがサポートされる予定です．
+
+..
+   - Support for overloaded record fields via a new ``HasField`` class and
+     associated compiler logic (see :ref:`record-field-selector-polymorphism`)
+
+- 新しく導入された ``HasField`` クラスと関連のコンパイラのロジック(:ref:`record-field-selector-polymorphism` を参照してください)
+  により多重定義されたレコードフィールドがサポートされます．
+
+..
+   - GHC now recognizes the ``COMPLETE`` language pragma, allowing the user to
+     specify sets of patterns (including pattern synonyms) which constitute a
+     complete pattern match. See :ref:`complete-pragma` for details.
+
+- GHC が ``COMPLETE`` プラグマを識別するようになりました．
+  これによりユーザが(パターンシノニムを含む)パターン集合を指定して，
+  パターン照合を完全なものにできるようになりました．詳細は :ref:`complete-pragma` を参照してください．
 
 Compiler
 ~~~~~~~~
