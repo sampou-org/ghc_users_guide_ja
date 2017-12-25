@@ -8,7 +8,7 @@
 GHC Users Guide にようこそ
 ==========================
 
-(翻訳作業中： `GitHub <https://github.com/sampou-org/ghc_users_guide_ja/8.0.2/users_guide/>`__)
+(翻訳作業中： `GitHub <https://github.com/sampou-org/ghc_users_guide_ja/tree/master/8.0.2/users_guide>`__)
 
 ..
    Contents:
