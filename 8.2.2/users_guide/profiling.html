@@ -24,7 +24,7 @@
     <script type="text/javascript" src="_static/jquery.js"></script>
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
-    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="search" type="application/opensearchdescription+xml"
           title="Search within Glasgow Haskell Compiler 8.2.2 User&#39;s Guide"
           href="_static/opensearch.xml"/>
@@ -32,12 +32,12 @@
     <link rel="next" title="9. Advice on: sooner, faster, smaller, thriftier" href="sooner.html" />
     <link rel="prev" title="7.13. Debugging the compiler" href="debugging.html" /> 
   </head>
-  <body>
+  <body role="document">
 <div class="logo">
     <h1><a href="index.html">Glasgow Haskell Compiler User's Guide</a></h1>
 </div>
 
-    <div class="related">
+    <div class="related" role="navigation" aria-label="related navigation">
       <h3>Navigation</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
@@ -49,59 +49,59 @@
         <li class="right" >
           <a href="debugging.html" title="7.13. Debugging the compiler"
              accesskey="P">previous</a> |</li>
-        <li><a href="index.html">GHC 8.2.2 User&#39;s Guide</a> &raquo;</li> 
+        <li class="nav-item nav-item-0"><a href="index.html">GHC 8.2.2 User&#39;s Guide</a> &raquo;</li> 
       </ul>
     </div>
 
-      <div class="sphinxsidebar">
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
         <div class="sphinxsidebarwrapper">
   <h3><a href="index.html">Table Of Contents</a></h3>
   <ul>
-<li><a class="reference internal" href="profiling.html#">8. Profiling</a><ul>
-<li><a class="reference internal" href="profiling.html#cost-centres-and-cost-centre-stacks">8.1. Cost centres and cost-centre stacks</a><ul>
-<li><a class="reference internal" href="profiling.html#inserting-cost-centres-by-hand">8.1.1. Inserting cost centres by hand</a></li>
-<li><a class="reference internal" href="profiling.html#rules-for-attributing-costs">8.1.2. Rules for attributing costs</a></li>
+<li><a class="reference internal" href="#">8. Profiling</a><ul>
+<li><a class="reference internal" href="#cost-centres-and-cost-centre-stacks">8.1. Cost centres and cost-centre stacks</a><ul>
+<li><a class="reference internal" href="#inserting-cost-centres-by-hand">8.1.1. Inserting cost centres by hand</a></li>
+<li><a class="reference internal" href="#rules-for-attributing-costs">8.1.2. Rules for attributing costs</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="profiling.html#compiler-options-for-profiling">8.2. Compiler options for profiling</a></li>
-<li><a class="reference internal" href="profiling.html#time-and-allocation-profiling">8.3. Time and allocation profiling</a><ul>
-<li><a class="reference internal" href="profiling.html#json-profile-format">8.3.1. JSON profile format</a></li>
+<li><a class="reference internal" href="#compiler-options-for-profiling">8.2. Compiler options for profiling</a></li>
+<li><a class="reference internal" href="#time-and-allocation-profiling">8.3. Time and allocation profiling</a><ul>
+<li><a class="reference internal" href="#json-profile-format">8.3.1. JSON profile format</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="profiling.html#profiling-memory-usage">8.4. Profiling memory usage</a><ul>
-<li><a class="reference internal" href="profiling.html#rts-options-for-heap-profiling">8.4.1. RTS options for heap profiling</a></li>
-<li><a class="reference internal" href="profiling.html#retainer-profiling">8.4.2. Retainer Profiling</a><ul>
-<li><a class="reference internal" href="profiling.html#hints-for-using-retainer-profiling">8.4.2.1. Hints for using retainer profiling</a></li>
+<li><a class="reference internal" href="#profiling-memory-usage">8.4. Profiling memory usage</a><ul>
+<li><a class="reference internal" href="#rts-options-for-heap-profiling">8.4.1. RTS options for heap profiling</a></li>
+<li><a class="reference internal" href="#retainer-profiling">8.4.2. Retainer Profiling</a><ul>
+<li><a class="reference internal" href="#hints-for-using-retainer-profiling">8.4.2.1. Hints for using retainer profiling</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="profiling.html#biographical-profiling">8.4.3. Biographical Profiling</a></li>
-<li><a class="reference internal" href="profiling.html#actual-memory-residency">8.4.4. Actual memory residency</a></li>
+<li><a class="reference internal" href="#biographical-profiling">8.4.3. Biographical Profiling</a></li>
+<li><a class="reference internal" href="#actual-memory-residency">8.4.4. Actual memory residency</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="profiling.html#hp2ps-rendering-heap-profiles-to-postscript">8.5. <tt class="docutils literal"><span class="pre">hp2ps</span></tt> &#8211; Rendering heap profiles to PostScript</a><ul>
-<li><a class="reference internal" href="profiling.html#manipulating-the-hp-file">8.5.1. Manipulating the <tt class="docutils literal"><span class="pre">hp</span></tt> file</a></li>
-<li><a class="reference internal" href="profiling.html#zooming-in-on-regions-of-your-profile">8.5.2. Zooming in on regions of your profile</a></li>
-<li><a class="reference internal" href="profiling.html#viewing-the-heap-profile-of-a-running-program">8.5.3. Viewing the heap profile of a running program</a></li>
-<li><a class="reference internal" href="profiling.html#viewing-a-heap-profile-in-real-time">8.5.4. Viewing a heap profile in real time</a></li>
+<li><a class="reference internal" href="#hp2ps-rendering-heap-profiles-to-postscript">8.5. <code class="docutils literal"><span class="pre">hp2ps</span></code> &#8211; Rendering heap profiles to PostScript</a><ul>
+<li><a class="reference internal" href="#manipulating-the-hp-file">8.5.1. Manipulating the <code class="docutils literal"><span class="pre">hp</span></code> file</a></li>
+<li><a class="reference internal" href="#zooming-in-on-regions-of-your-profile">8.5.2. Zooming in on regions of your profile</a></li>
+<li><a class="reference internal" href="#viewing-the-heap-profile-of-a-running-program">8.5.3. Viewing the heap profile of a running program</a></li>
+<li><a class="reference internal" href="#viewing-a-heap-profile-in-real-time">8.5.4. Viewing a heap profile in real time</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="profiling.html#profiling-parallel-and-concurrent-programs">8.6. Profiling Parallel and Concurrent Programs</a></li>
-<li><a class="reference internal" href="profiling.html#observing-code-coverage">8.7. Observing Code Coverage</a><ul>
-<li><a class="reference internal" href="profiling.html#a-small-example-reciprocation">8.7.1. A small example: Reciprocation</a></li>
-<li><a class="reference internal" href="profiling.html#options-for-instrumenting-code-for-coverage">8.7.2. Options for instrumenting code for coverage</a></li>
-<li><a class="reference internal" href="profiling.html#the-hpc-toolkit">8.7.3. The hpc toolkit</a><ul>
-<li><a class="reference internal" href="profiling.html#hpc-report">8.7.3.1. hpc report</a></li>
-<li><a class="reference internal" href="profiling.html#hpc-markup">8.7.3.2. hpc markup</a></li>
-<li><a class="reference internal" href="profiling.html#hpc-sum">8.7.3.3. hpc sum</a></li>
-<li><a class="reference internal" href="profiling.html#hpc-combine">8.7.3.4. hpc combine</a></li>
-<li><a class="reference internal" href="profiling.html#hpc-map">8.7.3.5. hpc map</a></li>
-<li><a class="reference internal" href="profiling.html#hpc-overlay-and-hpc-draft">8.7.3.6. hpc overlay and hpc draft</a></li>
+<li><a class="reference internal" href="#profiling-parallel-and-concurrent-programs">8.6. Profiling Parallel and Concurrent Programs</a></li>
+<li><a class="reference internal" href="#observing-code-coverage">8.7. Observing Code Coverage</a><ul>
+<li><a class="reference internal" href="#a-small-example-reciprocation">8.7.1. A small example: Reciprocation</a></li>
+<li><a class="reference internal" href="#options-for-instrumenting-code-for-coverage">8.7.2. Options for instrumenting code for coverage</a></li>
+<li><a class="reference internal" href="#the-hpc-toolkit">8.7.3. The hpc toolkit</a><ul>
+<li><a class="reference internal" href="#hpc-report">8.7.3.1. hpc report</a></li>
+<li><a class="reference internal" href="#hpc-markup">8.7.3.2. hpc markup</a></li>
+<li><a class="reference internal" href="#hpc-sum">8.7.3.3. hpc sum</a></li>
+<li><a class="reference internal" href="#hpc-combine">8.7.3.4. hpc combine</a></li>
+<li><a class="reference internal" href="#hpc-map">8.7.3.5. hpc map</a></li>
+<li><a class="reference internal" href="#hpc-overlay-and-hpc-draft">8.7.3.6. hpc overlay and hpc draft</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="profiling.html#caveats-and-shortcomings-of-haskell-program-coverage">8.7.4. Caveats and Shortcomings of Haskell Program Coverage</a></li>
+<li><a class="reference internal" href="#caveats-and-shortcomings-of-haskell-program-coverage">8.7.4. Caveats and Shortcomings of Haskell Program Coverage</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="profiling.html#using-ticky-ticky-profiling-for-implementors">8.8. Using “ticky-ticky” profiling (for implementors)</a></li>
+<li><a class="reference internal" href="#using-ticky-ticky-profiling-for-implementors">8.8. Using “ticky-ticky” profiling (for implementors)</a></li>
 </ul>
 </li>
 </ul>
@@ -112,12 +112,14 @@
   <h4>Next topic</h4>
   <p class="topless"><a href="sooner.html"
                         title="next chapter">9. Advice on: sooner, faster, smaller, thriftier</a></p>
-  <h3>This Page</h3>
-  <ul class="this-page-menu">
-    <li><a href="_sources/profiling.txt"
-           rel="nofollow">Show Source</a></li>
-  </ul>
-<div id="searchbox" style="display: none">
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/profiling.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
   <h3>Quick search</h3>
     <form class="search" action="search.html" method="get">
       <input type="text" name="q" />
@@ -136,27 +138,27 @@
     <div class="document">
       <div class="documentwrapper">
         <div class="bodywrapper">
-          <div class="body">
+          <div class="body" role="main">
             
   <div class="section" id="profiling">
-<span id="id1"></span><h1>8. Profiling<a class="headerlink" href="profiling.html#profiling" title="Permalink to this headline">¶</a></h1>
+<span id="id1"></span><h1>8. Profiling<a class="headerlink" href="#profiling" title="Permalink to this headline">¶</a></h1>
 <p id="index-0">GHC comes with a time and space profiling system, so that you can answer
 questions like &#8220;why is my program so slow?&#8221;, or &#8220;why is my program using
 so much memory?&#8221;.</p>
 <p>Profiling a program is a three-step process:</p>
 <ol class="arabic">
-<li><p class="first">Re-compile your program for profiling with the <a class="reference internal" href="profiling.html#ghc-flag--prof"><tt class="xref std std-ghc-flag docutils literal"><span class="pre">-prof</span></tt></a> option, and
+<li><p class="first">Re-compile your program for profiling with the <a class="reference internal" href="#ghc-flag--prof"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-prof</span></code></a> option, and
 probably one of the options for adding automatic annotations:
-<a class="reference internal" href="profiling.html#ghc-flag--fprof-auto"><tt class="xref std std-ghc-flag docutils literal"><span class="pre">-fprof-auto</span></tt></a> is the most common <a class="footnote-reference" href="profiling.html#id5" id="id2">[1]</a>.</p>
+<a class="reference internal" href="#ghc-flag--fprof-auto"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-fprof-auto</span></code></a> is the most common <a class="footnote-reference" href="#id5" id="id2">[1]</a>.</p>
 <p>If you are using external packages with <strong class="command">cabal</strong>, you may need to
 reinstall these packages with profiling support; typically this is
-done with <tt class="docutils literal"><span class="pre">cabal</span> <span class="pre">install</span> <span class="pre">-p</span> <span class="pre">package</span> <span class="pre">--reinstall</span></tt>.</p>
+done with <code class="docutils literal"><span class="pre">cabal</span> <span class="pre">install</span> <span class="pre">-p</span> <span class="pre">package</span> <span class="pre">--reinstall</span></code>.</p>
 </li>
 <li><p class="first">Having compiled the program for profiling, you now need to run it to
 generate the profile. For example, a simple time profile can be
-generated by running the program with <tt class="docutils literal"><span class="pre">+RTS</span> <span class="pre">-p</span></tt> (see <a class="reference internal" href="profiling.html#rts-flag--p"><tt class="xref std std-rts-flag docutils literal"><span class="pre">-p</span></tt></a>), which
-generates a file named <tt class="file docutils literal"><em><span class="pre">prog</span></em><span class="pre">.prof</span></tt> where ⟨prog⟩ is the name of your
-program (without the <tt class="docutils literal"><span class="pre">.exe</span></tt> extension, if you are on Windows).</p>
+generated by running the program with <code class="docutils literal"><span class="pre">+RTS</span> <span class="pre">-p</span></code> (see <a class="reference internal" href="#rts-flag--p"><code class="xref std std-rts-flag docutils literal"><span class="pre">-p</span></code></a>), which
+generates a file named <code class="file docutils literal"><em><span class="pre">prog</span></em><span class="pre">.prof</span></code> where ⟨prog⟩ is the name of your
+program (without the <code class="docutils literal"><span class="pre">.exe</span></code> extension, if you are on Windows).</p>
 <p>There are many different kinds of profile that can be generated,
 selected by different RTS options. We will be describing the various
 kinds of profile throughout the rest of this chapter. Some profiles
@@ -168,7 +170,7 @@ optimise your program, and repeat as necessary.</p>
 </li>
 </ol>
 <div class="section" id="cost-centres-and-cost-centre-stacks">
-<span id="cost-centres"></span><h2>8.1. Cost centres and cost-centre stacks<a class="headerlink" href="profiling.html#cost-centres-and-cost-centre-stacks" title="Permalink to this headline">¶</a></h2>
+<span id="cost-centres"></span><h2>8.1. Cost centres and cost-centre stacks<a class="headerlink" href="#cost-centres-and-cost-centre-stacks" title="Permalink to this headline">¶</a></h2>
 <p>GHC&#8217;s profiling system assigns costs to cost centres. A cost is simply
 the time or space (memory) required to evaluate an expression. Cost
 centres are program annotations around expressions; all costs incurred
@@ -188,8 +190,8 @@ $ ./Main +RTS -p
 $
 </pre></div>
 </div>
-<p>When a GHC-compiled program is run with the <a class="reference internal" href="profiling.html#rts-flag--p"><tt class="xref std std-rts-flag docutils literal"><span class="pre">-p</span></tt></a> RTS option, it
-generates a file called <tt class="file docutils literal"><span class="pre">prog.prof</span></tt>. In this case, the file will contain
+<p>When a GHC-compiled program is run with the <a class="reference internal" href="#rts-flag--p"><code class="xref std std-rts-flag docutils literal"><span class="pre">-p</span></code></a> RTS option, it
+generates a file called <code class="file docutils literal"><span class="pre">prog.prof</span></code>. In this case, the file will contain
 something like this:</p>
 <div class="highlight-none"><div class="highlight"><pre>        Wed Oct 12 16:14 2011 Time and Allocation Profiling Report  (Final)
 
@@ -220,16 +222,16 @@ total time and total memory allocation measured during the run of the
 program (note that the total memory allocation figure isn&#8217;t the same as
 the amount of <em>live</em> memory needed by the program at any one time; the
 latter can be determined using heap profiling, which we will describe
-later in <a class="reference internal" href="profiling.html#prof-heap"><em>Profiling memory usage</em></a>).</p>
+later in <a class="reference internal" href="#prof-heap"><span>Profiling memory usage</span></a>).</p>
 <p>The second part of the file is a break-down by cost centre of the most
 costly functions in the program. In this case, there was only one
-significant function in the program, namely <tt class="docutils literal"><span class="pre">fib</span></tt>, and it was
+significant function in the program, namely <code class="docutils literal"><span class="pre">fib</span></code>, and it was
 responsible for 100% of both the time and allocation costs of the
 program.</p>
 <p>The third and final section of the file gives a profile break-down by
 cost-centre stack. This is roughly a call-tree profile of the program.
-In the example above, it is clear that the costly call to <tt class="docutils literal"><span class="pre">fib</span></tt> came
-from <tt class="docutils literal"><span class="pre">main</span></tt>.</p>
+In the example above, it is clear that the costly call to <code class="docutils literal"><span class="pre">fib</span></code> came
+from <code class="docutils literal"><span class="pre">main</span></code>.</p>
 <p>The time and allocation incurred by a given part of the program is
 displayed in two ways: “individual”, which are the costs incurred by the
 code covered by this cost centre stack alone, and “inherited”, which
@@ -260,11 +262,11 @@ MAIN        MAIN                    102           0    0.0    0.0   100.0  100.0
     fib     Main                    206     2692537  100.0   99.9   100.0   99.9
 </pre></div>
 </div>
-<p>Now although we had two calls to <tt class="docutils literal"><span class="pre">fib</span></tt> in the program, it is
-immediately clear that it was the call from <tt class="docutils literal"><span class="pre">f</span></tt> which took all the
-time. The functions <tt class="docutils literal"><span class="pre">f</span></tt> and <tt class="docutils literal"><span class="pre">g</span></tt> which are defined in the <tt class="docutils literal"><span class="pre">where</span></tt>
-clause in <tt class="docutils literal"><span class="pre">main</span></tt> are given their own cost centres, <tt class="docutils literal"><span class="pre">main.f</span></tt> and
-<tt class="docutils literal"><span class="pre">main.g</span></tt> respectively.</p>
+<p>Now although we had two calls to <code class="docutils literal"><span class="pre">fib</span></code> in the program, it is
+immediately clear that it was the call from <code class="docutils literal"><span class="pre">f</span></code> which took all the
+time. The functions <code class="docutils literal"><span class="pre">f</span></code> and <code class="docutils literal"><span class="pre">g</span></code> which are defined in the <code class="docutils literal"><span class="pre">where</span></code>
+clause in <code class="docutils literal"><span class="pre">main</span></code> are given their own cost centres, <code class="docutils literal"><span class="pre">main.f</span></code> and
+<code class="docutils literal"><span class="pre">main.g</span></code> respectively.</p>
 <p>The actual meaning of the various columns in the output is:</p>
 <blockquote>
 <div><p>The number of times this particular point in the call tree was
@@ -279,15 +281,15 @@ point in the call tree.</p>
 overheads) of the program made by this call and all of its
 sub-calls.</p>
 </div></blockquote>
-<p>In addition you can use the <a class="reference internal" href="profiling.html#rts-flag--P"><tt class="xref std std-rts-flag docutils literal"><span class="pre">-P</span></tt></a> RTS option to get the
+<p>In addition you can use the <a class="reference internal" href="#rts-flag--P"><code class="xref std std-rts-flag docutils literal"><span class="pre">-P</span></code></a> RTS option to get the
 following additional information:</p>
 <dl class="docutils">
-<dt><tt class="docutils literal"><span class="pre">ticks</span></tt></dt>
+<dt><code class="docutils literal"><span class="pre">ticks</span></code></dt>
 <dd>The raw number of time “ticks” which were attributed to this
-cost-centre; from this, we get the <tt class="docutils literal"><span class="pre">%time</span></tt> figure mentioned above.</dd>
-<dt><tt class="docutils literal"><span class="pre">bytes</span></tt></dt>
+cost-centre; from this, we get the <code class="docutils literal"><span class="pre">%time</span></code> figure mentioned above.</dd>
+<dt><code class="docutils literal"><span class="pre">bytes</span></code></dt>
 <dd>Number of bytes allocated in the heap while in this cost-centre;
-again, this is the raw number from which we get the <tt class="docutils literal"><span class="pre">%alloc</span></tt>
+again, this is the raw number from which we get the <code class="docutils literal"><span class="pre">%alloc</span></code>
 figure mentioned above.</dd>
 </dl>
 <p>What about recursive functions, and mutually recursive groups of
@@ -297,10 +299,10 @@ recursively, this information isn&#8217;t displayed in the basic time and
 allocation profile, instead the call-graph is flattened into a tree as
 follows: a call to a function that occurs elsewhere on the current stack
 does not push another entry on the stack, instead the costs for this
-call are aggregated into the caller <a class="footnote-reference" href="profiling.html#id6" id="id3">[2]</a>.</p>
+call are aggregated into the caller <a class="footnote-reference" href="#id6" id="id3">[2]</a>.</p>
 <div class="section" id="inserting-cost-centres-by-hand">
-<span id="scc-pragma"></span><h3>8.1.1. Inserting cost centres by hand<a class="headerlink" href="profiling.html#inserting-cost-centres-by-hand" title="Permalink to this headline">¶</a></h3>
-<p>Cost centres are just program annotations. When you say <tt class="docutils literal"><span class="pre">-fprof-auto</span></tt>
+<span id="scc-pragma"></span><h3>8.1.1. Inserting cost centres by hand<a class="headerlink" href="#inserting-cost-centres-by-hand" title="Permalink to this headline">¶</a></h3>
+<p>Cost centres are just program annotations. When you say <code class="docutils literal"><span class="pre">-fprof-auto</span></code>
 to the compiler, it automatically inserts a cost centre annotation
 around every binding not marked INLINE in your program, but you are
 entirely free to add cost centre annotations yourself.</p>
@@ -308,11 +310,11 @@ entirely free to add cost centre annotations yourself.</p>
 <div class="highlight-haskell"><div class="highlight"><pre><span class="cm">{-# SCC &quot;name&quot; #-}</span> <span class="o">&lt;</span><span class="n">expression</span><span class="o">&gt;</span>
 </pre></div>
 </div>
-<p>where <tt class="docutils literal"><span class="pre">&quot;name&quot;</span></tt> is an arbitrary string, that will become the name of
+<p>where <code class="docutils literal"><span class="pre">&quot;name&quot;</span></code> is an arbitrary string, that will become the name of
 your cost centre as it appears in the profiling output, and
-<tt class="docutils literal"><span class="pre">&lt;expression&gt;</span></tt> is any Haskell expression. An <tt class="docutils literal"><span class="pre">SCC</span></tt> annotation
+<code class="docutils literal"><span class="pre">&lt;expression&gt;</span></code> is any Haskell expression. An <code class="docutils literal"><span class="pre">SCC</span></code> annotation
 extends as far to the right as possible when parsing. (SCC stands for
-&#8220;Set Cost Centre&#8221;). The double quotes can be omitted if <tt class="docutils literal"><span class="pre">name</span></tt> is a
+&#8220;Set Cost Centre&#8221;). The double quotes can be omitted if <code class="docutils literal"><span class="pre">name</span></code> is a
 Haskell identifier, for example:</p>
 <div class="highlight-haskell"><div class="highlight"><pre><span class="cm">{-# SCC id #-}</span> <span class="o">&lt;</span><span class="n">expression</span><span class="o">&gt;</span>
 </pre></div>
@@ -363,13 +365,13 @@ MAIN            MAIN                    102           0    0.0    0.0   100.0  1
 </div>
 </div>
 <div class="section" id="rules-for-attributing-costs">
-<span id="prof-rules"></span><h3>8.1.2. Rules for attributing costs<a class="headerlink" href="profiling.html#rules-for-attributing-costs" title="Permalink to this headline">¶</a></h3>
+<span id="prof-rules"></span><h3>8.1.2. Rules for attributing costs<a class="headerlink" href="#rules-for-attributing-costs" title="Permalink to this headline">¶</a></h3>
 <p>While running a program with profiling turned on, GHC maintains a
 cost-centre stack behind the scenes, and attributes any costs (memory
 allocation and time) to whatever the current cost-centre stack is at the
 time the cost is incurred.</p>
 <p>The mechanism is simple: whenever the program evaluates an expression
-with an SCC annotation, <tt class="docutils literal"><span class="pre">{-#</span> <span class="pre">SCC</span> <span class="pre">c</span> <span class="pre">-#}</span> <span class="pre">E</span></tt>, the cost centre <tt class="docutils literal"><span class="pre">c</span></tt> is
+with an SCC annotation, <code class="docutils literal"><span class="pre">{-#</span> <span class="pre">SCC</span> <span class="pre">c</span> <span class="pre">-#}</span> <span class="pre">E</span></code>, the cost centre <code class="docutils literal"><span class="pre">c</span></code> is
 pushed on the current stack, and the entry count for this stack is
 incremented by one. The stack also sometimes has to be saved and
 restored; in particular when the program creates a thunk (a lazy
@@ -386,67 +388,67 @@ are evaluated. What about top-level thunks? They are &#8220;created&#8221; when 
 program is compiled, so what stack should we give them? The technical
 name for a top-level thunk is a CAF (&#8220;Constant Applicative Form&#8221;). GHC
 assigns every CAF in a module a stack consisting of the single cost
-centre <tt class="docutils literal"><span class="pre">M.CAF</span></tt>, where <tt class="docutils literal"><span class="pre">M</span></tt> is the name of the module. It is also
+centre <code class="docutils literal"><span class="pre">M.CAF</span></code>, where <code class="docutils literal"><span class="pre">M</span></code> is the name of the module. It is also
 possible to give each CAF a different stack, using the option
-<a class="reference internal" href="profiling.html#ghc-flag--fprof-cafs"><tt class="xref std std-ghc-flag docutils literal"><span class="pre">-fprof-cafs</span></tt></a>. This is especially useful when
-compiling with <a class="reference internal" href="using-optimisation.html#ghc-flag--ffull-laziness"><tt class="xref std std-ghc-flag docutils literal"><span class="pre">-ffull-laziness</span></tt></a> (as is default with <a class="reference internal" href="using-optimisation.html#ghc-flag--O"><tt class="xref std std-ghc-flag docutils literal"><span class="pre">-O</span></tt></a>
+<a class="reference internal" href="#ghc-flag--fprof-cafs"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-fprof-cafs</span></code></a>. This is especially useful when
+compiling with <a class="reference internal" href="using-optimisation.html#ghc-flag--ffull-laziness"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-ffull-laziness</span></code></a> (as is default with <a class="reference internal" href="using-optimisation.html#ghc-flag--O"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-O</span></code></a>
 and higher), as constants in function bodies will be lifted to the top-level
 and become CAFs. You will probably need to consult the Core
-(<a class="reference internal" href="debugging.html#ghc-flag--ddump-simpl"><tt class="xref std std-ghc-flag docutils literal"><span class="pre">-ddump-simpl</span></tt></a>) in order to determine what these CAFs correspond to.</p>
+(<a class="reference internal" href="debugging.html#ghc-flag--ddump-simpl"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-ddump-simpl</span></code></a>) in order to determine what these CAFs correspond to.</p>
 </div>
 </div>
 <div class="section" id="compiler-options-for-profiling">
-<span id="prof-compiler-options"></span><span id="index-1"></span><h2>8.2. Compiler options for profiling<a class="headerlink" href="profiling.html#compiler-options-for-profiling" title="Permalink to this headline">¶</a></h2>
+<span id="prof-compiler-options"></span><span id="index-1"></span><h2>8.2. Compiler options for profiling<a class="headerlink" href="#compiler-options-for-profiling" title="Permalink to this headline">¶</a></h2>
 <span class="target" id="index-2"></span><dl class="ghc-flag">
 <dt id="ghc-flag--prof">
-<tt class="descname">-prof</tt><tt class="descclassname"></tt><a class="headerlink" href="profiling.html#ghc-flag--prof" title="Permalink to this definition">¶</a></dt>
+<code class="descname">-prof</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag--prof" title="Permalink to this definition">¶</a></dt>
 <dd><p>To make use of the profiling system <em>all</em> modules must be compiled
-and linked with the <a class="reference internal" href="profiling.html#ghc-flag--prof"><tt class="xref std std-ghc-flag docutils literal"><span class="pre">-prof</span></tt></a> option. Any <tt class="docutils literal"><span class="pre">SCC</span></tt> annotations you&#8217;ve
+and linked with the <a class="reference internal" href="#ghc-flag--prof"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-prof</span></code></a> option. Any <code class="docutils literal"><span class="pre">SCC</span></code> annotations you&#8217;ve
 put in your source will spring to life.</p>
-<p>Without a <a class="reference internal" href="profiling.html#ghc-flag--prof"><tt class="xref std std-ghc-flag docutils literal"><span class="pre">-prof</span></tt></a> option, your <tt class="docutils literal"><span class="pre">SCC</span></tt>s are ignored; so you can
-compile <tt class="docutils literal"><span class="pre">SCC</span></tt>-laden code without changing it.</p>
+<p>Without a <a class="reference internal" href="#ghc-flag--prof"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-prof</span></code></a> option, your <code class="docutils literal"><span class="pre">SCC</span></code>s are ignored; so you can
+compile <code class="docutils literal"><span class="pre">SCC</span></code>-laden code without changing it.</p>
 </dd></dl>
 
 <p>There are a few other profiling-related compilation options. Use them
-<em>in addition to</em> <a class="reference internal" href="profiling.html#ghc-flag--prof"><tt class="xref std std-ghc-flag docutils literal"><span class="pre">-prof</span></tt></a>. These do not have to be used consistently
+<em>in addition to</em> <a class="reference internal" href="#ghc-flag--prof"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-prof</span></code></a>. These do not have to be used consistently
 for all modules in a program.</p>
 <dl class="ghc-flag">
 <dt id="ghc-flag--fprof-auto">
-<tt class="descname">-fprof-auto</tt><tt class="descclassname"></tt><a class="headerlink" href="profiling.html#ghc-flag--fprof-auto" title="Permalink to this definition">¶</a></dt>
+<code class="descname">-fprof-auto</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag--fprof-auto" title="Permalink to this definition">¶</a></dt>
 <dd><p><em>All</em> bindings not marked INLINE, whether exported or not, top level
-or nested, will be given automatic <tt class="docutils literal"><span class="pre">SCC</span></tt> annotations. Functions
+or nested, will be given automatic <code class="docutils literal"><span class="pre">SCC</span></code> annotations. Functions
 marked INLINE must be given a cost centre manually.</p>
 </dd></dl>
 
 <dl class="ghc-flag">
 <dt id="ghc-flag--fprof-auto-top">
-<tt class="descname">-fprof-auto-top</tt><tt class="descclassname"></tt><a class="headerlink" href="profiling.html#ghc-flag--fprof-auto-top" title="Permalink to this definition">¶</a></dt>
-<dd><p id="index-3">GHC will automatically add <tt class="docutils literal"><span class="pre">SCC</span></tt> annotations for all top-level
+<code class="descname">-fprof-auto-top</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag--fprof-auto-top" title="Permalink to this definition">¶</a></dt>
+<dd><p id="index-3">GHC will automatically add <code class="docutils literal"><span class="pre">SCC</span></code> annotations for all top-level
 bindings not marked INLINE. If you want a cost centre on an INLINE
 function, you have to add it manually.</p>
 </dd></dl>
 
 <dl class="ghc-flag">
 <dt id="ghc-flag--fprof-auto-exported">
-<tt class="descname">-fprof-auto-exported</tt><tt class="descclassname"></tt><a class="headerlink" href="profiling.html#ghc-flag--fprof-auto-exported" title="Permalink to this definition">¶</a></dt>
-<dd><p id="index-4">GHC will automatically add <tt class="docutils literal"><span class="pre">SCC</span></tt> annotations for all exported
+<code class="descname">-fprof-auto-exported</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag--fprof-auto-exported" title="Permalink to this definition">¶</a></dt>
+<dd><p id="index-4">GHC will automatically add <code class="docutils literal"><span class="pre">SCC</span></code> annotations for all exported
 functions not marked INLINE. If you want a cost centre on an INLINE
 function, you have to add it manually.</p>
 </dd></dl>
 
 <dl class="ghc-flag">
 <dt id="ghc-flag--fprof-auto-calls">
-<tt class="descname">-fprof-auto-calls</tt><tt class="descclassname"></tt><a class="headerlink" href="profiling.html#ghc-flag--fprof-auto-calls" title="Permalink to this definition">¶</a></dt>
-<dd><p id="index-5">Adds an automatic <tt class="docutils literal"><span class="pre">SCC</span></tt> annotation to all <em>call sites</em>. This is
+<code class="descname">-fprof-auto-calls</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag--fprof-auto-calls" title="Permalink to this definition">¶</a></dt>
+<dd><p id="index-5">Adds an automatic <code class="docutils literal"><span class="pre">SCC</span></code> annotation to all <em>call sites</em>. This is
 particularly useful when using profiling for the purposes of
 generating stack traces; see the function <a class="reference external" href="../libraries/base-4.10.1.0/Debug-Trace.html#traceShow">traceStack</a> in the
-module <tt class="docutils literal"><span class="pre">Debug.Trace</span></tt>, or the <a class="reference internal" href="runtime_control.html#rts-flag--xc"><tt class="xref std std-rts-flag docutils literal"><span class="pre">-xc</span></tt></a> RTS flag
-(<a class="reference internal" href="runtime_control.html#rts-options-debugging"><em>RTS options for hackers, debuggers, and over-interested souls</em></a>) for more details.</p>
+module <code class="docutils literal"><span class="pre">Debug.Trace</span></code>, or the <a class="reference internal" href="runtime_control.html#rts-flag--xc"><code class="xref std std-rts-flag docutils literal"><span class="pre">-xc</span></code></a> RTS flag
+(<a class="reference internal" href="runtime_control.html#rts-options-debugging"><span>RTS options for hackers, debuggers, and over-interested souls</span></a>) for more details.</p>
 </dd></dl>
 
 <dl class="ghc-flag">
 <dt id="ghc-flag--fprof-cafs">
-<tt class="descname">-fprof-cafs</tt><tt class="descclassname"></tt><a class="headerlink" href="profiling.html#ghc-flag--fprof-cafs" title="Permalink to this definition">¶</a></dt>
+<code class="descname">-fprof-cafs</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag--fprof-cafs" title="Permalink to this definition">¶</a></dt>
 <dd><p>The costs of all CAFs in a module are usually attributed to one
 &#8220;big&#8221; CAF cost-centre. With this option, all CAFs get their own
 cost-centre. An “if all else fails” option…</p>
@@ -454,20 +456,20 @@ cost-centre. An “if all else fails” option…</p>
 
 <dl class="ghc-flag">
 <dt id="ghc-flag--fno-prof-auto">
-<tt class="descname">-fno-prof-auto</tt><tt class="descclassname"></tt><a class="headerlink" href="profiling.html#ghc-flag--fno-prof-auto" title="Permalink to this definition">¶</a></dt>
-<dd><p>Disables any previous <a class="reference internal" href="profiling.html#ghc-flag--fprof-auto"><tt class="xref std std-ghc-flag docutils literal"><span class="pre">-fprof-auto</span></tt></a>, <a class="reference internal" href="profiling.html#ghc-flag--fprof-auto-top"><tt class="xref std std-ghc-flag docutils literal"><span class="pre">-fprof-auto-top</span></tt></a>, or
-<a class="reference internal" href="profiling.html#ghc-flag--fprof-auto-exported"><tt class="xref std std-ghc-flag docutils literal"><span class="pre">-fprof-auto-exported</span></tt></a> options.</p>
+<code class="descname">-fno-prof-auto</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag--fno-prof-auto" title="Permalink to this definition">¶</a></dt>
+<dd><p>Disables any previous <a class="reference internal" href="#ghc-flag--fprof-auto"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-fprof-auto</span></code></a>, <a class="reference internal" href="#ghc-flag--fprof-auto-top"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-fprof-auto-top</span></code></a>, or
+<a class="reference internal" href="#ghc-flag--fprof-auto-exported"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-fprof-auto-exported</span></code></a> options.</p>
 </dd></dl>
 
 <dl class="ghc-flag">
 <dt id="ghc-flag--fno-prof-cafs">
-<tt class="descname">-fno-prof-cafs</tt><tt class="descclassname"></tt><a class="headerlink" href="profiling.html#ghc-flag--fno-prof-cafs" title="Permalink to this definition">¶</a></dt>
-<dd><p>Disables any previous <a class="reference internal" href="profiling.html#ghc-flag--fprof-cafs"><tt class="xref std std-ghc-flag docutils literal"><span class="pre">-fprof-cafs</span></tt></a> option.</p>
+<code class="descname">-fno-prof-cafs</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag--fno-prof-cafs" title="Permalink to this definition">¶</a></dt>
+<dd><p>Disables any previous <a class="reference internal" href="#ghc-flag--fprof-cafs"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-fprof-cafs</span></code></a> option.</p>
 </dd></dl>
 
 <dl class="ghc-flag">
 <dt id="ghc-flag--fno-prof-count-entries">
-<tt class="descname">-fno-prof-count-entries</tt><tt class="descclassname"></tt><a class="headerlink" href="profiling.html#ghc-flag--fno-prof-count-entries" title="Permalink to this definition">¶</a></dt>
+<code class="descname">-fno-prof-count-entries</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag--fno-prof-count-entries" title="Permalink to this definition">¶</a></dt>
 <dd><p id="index-6">Tells GHC not to collect information about how often functions are
 entered at runtime (the &#8220;entries&#8221; column of the time profile), for
 this module. This tends to make the profiled code run faster, and
@@ -480,48 +482,48 @@ do heap profiling).</p>
 
 </div>
 <div class="section" id="time-and-allocation-profiling">
-<span id="prof-time-options"></span><h2>8.3. Time and allocation profiling<a class="headerlink" href="profiling.html#time-and-allocation-profiling" title="Permalink to this headline">¶</a></h2>
+<span id="prof-time-options"></span><h2>8.3. Time and allocation profiling<a class="headerlink" href="#time-and-allocation-profiling" title="Permalink to this headline">¶</a></h2>
 <p>To generate a time and allocation profile, give one of the following RTS
 options to the compiled program when you run it (RTS options should be
-enclosed between <tt class="docutils literal"><span class="pre">+RTS</span> <span class="pre">...</span> <span class="pre">-RTS</span></tt> as usual):</p>
+enclosed between <code class="docutils literal"><span class="pre">+RTS</span> <span class="pre">...</span> <span class="pre">-RTS</span></code> as usual):</p>
 <dl class="rts-flag">
 <dt id="rts-flag--p">
-<tt class="descname">-p</tt><tt class="descclassname"></tt><a class="headerlink" href="profiling.html#rts-flag--p" title="Permalink to this definition">¶</a></dt>
+<code class="descname">-p</code><code class="descclassname"></code><a class="headerlink" href="#rts-flag--p" title="Permalink to this definition">¶</a></dt>
 <dt id="rts-flag--P">
-<tt class="descname">-P</tt><tt class="descclassname"></tt><a class="headerlink" href="profiling.html#rts-flag--P" title="Permalink to this definition">¶</a></dt>
+<code class="descname">-P</code><code class="descclassname"></code><a class="headerlink" href="#rts-flag--P" title="Permalink to this definition">¶</a></dt>
 <dt id="rts-flag--pa">
-<tt class="descname">-pa</tt><tt class="descclassname"></tt><a class="headerlink" href="profiling.html#rts-flag--pa" title="Permalink to this definition">¶</a></dt>
-<dd><p id="index-7">The <a class="reference internal" href="profiling.html#rts-flag--p"><tt class="xref std std-rts-flag docutils literal"><span class="pre">-p</span></tt></a> option produces a standard <em>time profile</em> report. It is
-written into the file <tt class="file docutils literal"><span class="pre">&lt;stem&gt;.prof</span></tt>; the stem is taken to be the
-program name by default, but can be overridden by the <a class="reference internal" href="profiling.html#rts-flag--po ⟨stem⟩"><tt class="xref std std-rts-flag docutils literal"><span class="pre">-po</span>
-<span class="pre">⟨stem⟩</span></tt></a> flag.</p>
-<p>The <a class="reference internal" href="profiling.html#rts-flag--P"><tt class="xref std std-rts-flag docutils literal"><span class="pre">-P</span></tt></a> option produces a more detailed report containing the
+<code class="descname">-pa</code><code class="descclassname"></code><a class="headerlink" href="#rts-flag--pa" title="Permalink to this definition">¶</a></dt>
+<dd><p id="index-7">The <a class="reference internal" href="#rts-flag--p"><code class="xref std std-rts-flag docutils literal"><span class="pre">-p</span></code></a> option produces a standard <em>time profile</em> report. It is
+written into the file <code class="file docutils literal"><span class="pre">&lt;stem&gt;.prof</span></code>; the stem is taken to be the
+program name by default, but can be overridden by the <a class="reference internal" href="#rts-flag--po ⟨stem⟩"><code class="xref std std-rts-flag docutils literal"><span class="pre">-po</span>
+<span class="pre">⟨stem⟩</span></code></a> flag.</p>
+<p>The <a class="reference internal" href="#rts-flag--P"><code class="xref std std-rts-flag docutils literal"><span class="pre">-P</span></code></a> option produces a more detailed report containing the
 actual time and allocation data as well. (Not used much.)</p>
-<p>The <a class="reference internal" href="profiling.html#rts-flag--pa"><tt class="xref std std-rts-flag docutils literal"><span class="pre">-pa</span></tt></a> option produces the most detailed report containing all
+<p>The <a class="reference internal" href="#rts-flag--pa"><code class="xref std std-rts-flag docutils literal"><span class="pre">-pa</span></code></a> option produces the most detailed report containing all
 cost centres in addition to the actual time and allocation data.</p>
 </dd></dl>
 
 <dl class="rts-flag">
 <dt id="rts-flag--pj">
-<tt class="descname">-pj</tt><tt class="descclassname"></tt><a class="headerlink" href="profiling.html#rts-flag--pj" title="Permalink to this definition">¶</a></dt>
-<dd><p>The <a class="reference internal" href="profiling.html#rts-flag--pj"><tt class="xref std std-rts-flag docutils literal"><span class="pre">-pj</span></tt></a> option produces a time/allocation profile report in JSON
-format written into the file <tt class="file docutils literal"><span class="pre">&lt;program&gt;.prof</span></tt>.</p>
+<code class="descname">-pj</code><code class="descclassname"></code><a class="headerlink" href="#rts-flag--pj" title="Permalink to this definition">¶</a></dt>
+<dd><p>The <a class="reference internal" href="#rts-flag--pj"><code class="xref std std-rts-flag docutils literal"><span class="pre">-pj</span></code></a> option produces a time/allocation profile report in JSON
+format written into the file <code class="file docutils literal"><span class="pre">&lt;program&gt;.prof</span></code>.</p>
 </dd></dl>
 
 <dl class="rts-flag">
 <dt id="rts-flag--po ⟨stem⟩">
-<tt class="descname">-po</tt><tt class="descclassname"> ⟨stem⟩</tt><a class="headerlink" href="profiling.html#rts-flag--po ⟨stem⟩" title="Permalink to this definition">¶</a></dt>
-<dd><p>The <a class="reference internal" href="profiling.html#rts-flag--po ⟨stem⟩"><tt class="xref std std-rts-flag docutils literal"><span class="pre">-po</span> <span class="pre">⟨stem⟩</span></tt></a> option overrides the stem used to form the
-output file paths for the cost-centre profiler (see <a class="reference internal" href="profiling.html#rts-flag--p"><tt class="xref std std-rts-flag docutils literal"><span class="pre">-p</span></tt></a> and
-<a class="reference internal" href="profiling.html#rts-flag--pj"><tt class="xref std std-rts-flag docutils literal"><span class="pre">-pj</span></tt></a> flags above) and heap profiler (see <a class="reference internal" href="runtime_control.html#rts-flag--h"><tt class="xref std std-rts-flag docutils literal"><span class="pre">-h</span></tt></a>).</p>
-<p>For instance, running a program with <tt class="docutils literal"><span class="pre">+RTS</span> <span class="pre">-h</span> <span class="pre">-p</span> <span class="pre">-pohello-world</span></tt> would
-produce a heap profile named <tt class="file docutils literal"><span class="pre">hello-world.hp</span></tt> and a cost-centre
-profile named <tt class="file docutils literal"><span class="pre">hello-world.prof</span></tt>.</p>
+<code class="descname">-po</code><code class="descclassname"> ⟨stem⟩</code><a class="headerlink" href="#rts-flag--po ⟨stem⟩" title="Permalink to this definition">¶</a></dt>
+<dd><p>The <a class="reference internal" href="#rts-flag--po ⟨stem⟩"><code class="xref std std-rts-flag docutils literal"><span class="pre">-po</span> <span class="pre">⟨stem⟩</span></code></a> option overrides the stem used to form the
+output file paths for the cost-centre profiler (see <a class="reference internal" href="#rts-flag--p"><code class="xref std std-rts-flag docutils literal"><span class="pre">-p</span></code></a> and
+<a class="reference internal" href="#rts-flag--pj"><code class="xref std std-rts-flag docutils literal"><span class="pre">-pj</span></code></a> flags above) and heap profiler (see <a class="reference internal" href="runtime_control.html#rts-flag--h"><code class="xref std std-rts-flag docutils literal"><span class="pre">-h</span></code></a>).</p>
+<p>For instance, running a program with <code class="docutils literal"><span class="pre">+RTS</span> <span class="pre">-h</span> <span class="pre">-p</span> <span class="pre">-pohello-world</span></code> would
+produce a heap profile named <code class="file docutils literal"><span class="pre">hello-world.hp</span></code> and a cost-centre
+profile named <code class="file docutils literal"><span class="pre">hello-world.prof</span></code>.</p>
 </dd></dl>
 
 <dl class="rts-flag">
 <dt id="rts-flag--V ⟨secs⟩">
-<tt class="descname">-V</tt><tt class="descclassname"> ⟨secs⟩</tt><a class="headerlink" href="profiling.html#rts-flag--V ⟨secs⟩" title="Permalink to this definition">¶</a></dt>
+<code class="descname">-V</code><code class="descclassname"> ⟨secs⟩</code><a class="headerlink" href="#rts-flag--V ⟨secs⟩" title="Permalink to this definition">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -533,13 +535,13 @@ profile named <tt class="file docutils literal"><span class="pre">hello-world.pr
 <p>Sets the interval that the RTS clock ticks at, which is also the sampling
 interval of the time and allocation profile. The default is 0.02&nbsp;seconds.
 The runtime uses a single timer signal to count ticks; this timer signal is
-used to control the context switch timer (<a class="reference internal" href="using-concurrent.html#using-concurrent"><em>Using Concurrent Haskell</em></a>) and the
-heap profiling timer <a class="reference internal" href="profiling.html#rts-options-heap-prof"><em>RTS options for heap profiling</em></a>. Also, the time profiler
+used to control the context switch timer (<a class="reference internal" href="using-concurrent.html#using-concurrent"><span>Using Concurrent Haskell</span></a>) and the
+heap profiling timer <a class="reference internal" href="#rts-options-heap-prof"><span>RTS options for heap profiling</span></a>. Also, the time profiler
 uses the RTS timer signal directly to record time profiling samples.</p>
-<p>Normally, setting the <a class="reference internal" href="profiling.html#rts-flag--V ⟨secs⟩"><tt class="xref std std-rts-flag docutils literal"><span class="pre">-V</span> <span class="pre">⟨secs⟩</span></tt></a> option directly is not
+<p>Normally, setting the <a class="reference internal" href="#rts-flag--V ⟨secs⟩"><code class="xref std std-rts-flag docutils literal"><span class="pre">-V</span> <span class="pre">⟨secs⟩</span></code></a> option directly is not
 necessary: the resolution of the RTS timer is adjusted automatically if a
-short interval is requested with the <a class="reference internal" href="using-concurrent.html#rts-flag--C ⟨s⟩"><tt class="xref std std-rts-flag docutils literal"><span class="pre">-C</span> <span class="pre">⟨s⟩</span></tt></a> or <a class="reference internal" href="profiling.html#rts-flag--i ⟨secs⟩"><tt class="xref std std-rts-flag docutils literal"><span class="pre">-i</span>
-<span class="pre">⟨secs⟩</span></tt></a> options. However, setting <a class="reference internal" href="profiling.html#rts-flag--V ⟨secs⟩"><tt class="xref std std-rts-flag docutils literal"><span class="pre">-V</span> <span class="pre">⟨secs⟩</span></tt></a> is required in
+short interval is requested with the <a class="reference internal" href="using-concurrent.html#rts-flag--C ⟨s⟩"><code class="xref std std-rts-flag docutils literal"><span class="pre">-C</span> <span class="pre">⟨s⟩</span></code></a> or <a class="reference internal" href="#rts-flag--i ⟨secs⟩"><code class="xref std std-rts-flag docutils literal"><span class="pre">-i</span>
+<span class="pre">⟨secs⟩</span></code></a> options. However, setting <a class="reference internal" href="#rts-flag--V ⟨secs⟩"><code class="xref std std-rts-flag docutils literal"><span class="pre">-V</span> <span class="pre">⟨secs⟩</span></code></a> is required in
 order to increase the resolution of the time profiler.</p>
 <p>Using a value of zero disables the RTS clock completely, and has the
 effect of disabling timers that depend on it: the context switch
@@ -551,72 +553,72 @@ eliminates a source of non-determinism at runtime.</p>
 
 <dl class="rts-flag">
 <dt id="rts-flag--xc">
-<tt class="descname">-xc</tt><tt class="descclassname"></tt><a class="headerlink" href="profiling.html#rts-flag--xc" title="Permalink to this definition">¶</a></dt>
+<code class="descname">-xc</code><code class="descclassname"></code><a class="headerlink" href="#rts-flag--xc" title="Permalink to this definition">¶</a></dt>
 <dd><p>This option causes the runtime to print out the current cost-centre
 stack whenever an exception is raised. This can be particularly
 useful for debugging the location of exceptions, such as the
-notorious <tt class="docutils literal"><span class="pre">Prelude.head:</span> <span class="pre">empty</span> <span class="pre">list</span></tt> error. See
-<a class="reference internal" href="runtime_control.html#rts-options-debugging"><em>RTS options for hackers, debuggers, and over-interested souls</em></a>.</p>
+notorious <code class="docutils literal"><span class="pre">Prelude.head:</span> <span class="pre">empty</span> <span class="pre">list</span></code> error. See
+<a class="reference internal" href="runtime_control.html#rts-options-debugging"><span>RTS options for hackers, debuggers, and over-interested souls</span></a>.</p>
 </dd></dl>
 
 <div class="section" id="json-profile-format">
-<h3>8.3.1. JSON profile format<a class="headerlink" href="profiling.html#json-profile-format" title="Permalink to this headline">¶</a></h3>
-<p>When invoked with the <a class="reference internal" href="profiling.html#rts-flag--pj"><tt class="xref std std-rts-flag docutils literal"><span class="pre">-pj</span></tt></a> flag the runtime will emit the cost-centre
+<h3>8.3.1. JSON profile format<a class="headerlink" href="#json-profile-format" title="Permalink to this headline">¶</a></h3>
+<p>When invoked with the <a class="reference internal" href="#rts-flag--pj"><code class="xref std std-rts-flag docutils literal"><span class="pre">-pj</span></code></a> flag the runtime will emit the cost-centre
 profile in a machine-readable JSON format. The top-level object of this format
 has the following properties,</p>
 <dl class="docutils">
-<dt><tt class="docutils literal"><span class="pre">program</span></tt> (string)</dt>
+<dt><code class="docutils literal"><span class="pre">program</span></code> (string)</dt>
 <dd>The name of the program</dd>
-<dt><tt class="docutils literal"><span class="pre">arguments</span></tt> (list of strings)</dt>
+<dt><code class="docutils literal"><span class="pre">arguments</span></code> (list of strings)</dt>
 <dd>The command line arguments passed to the program</dd>
-<dt><tt class="docutils literal"><span class="pre">rts_arguments</span></tt> (list of strings)</dt>
+<dt><code class="docutils literal"><span class="pre">rts_arguments</span></code> (list of strings)</dt>
 <dd>The command line arguments passed to the runtime system</dd>
-<dt><tt class="docutils literal"><span class="pre">initial_capabilities</span></tt> (integral number)</dt>
+<dt><code class="docutils literal"><span class="pre">initial_capabilities</span></code> (integral number)</dt>
 <dd>How many capabilities the program was started with (e.g. using the
-<a class="reference internal" href="using-concurrent.html#rts-flag--N ⟨x⟩"><tt class="xref std std-rts-flag docutils literal"><span class="pre">-N</span> <span class="pre">⟨x⟩</span></tt></a> option). Note that the number of capabilities may change
-during execution due to the <tt class="docutils literal"><span class="pre">setNumCapabilities</span></tt> function.</dd>
-<dt><tt class="docutils literal"><span class="pre">total_time</span></tt> (number)</dt>
+<a class="reference internal" href="using-concurrent.html#rts-flag--N ⟨x⟩"><code class="xref std std-rts-flag docutils literal"><span class="pre">-N</span> <span class="pre">⟨x⟩</span></code></a> option). Note that the number of capabilities may change
+during execution due to the <code class="docutils literal"><span class="pre">setNumCapabilities</span></code> function.</dd>
+<dt><code class="docutils literal"><span class="pre">total_time</span></code> (number)</dt>
 <dd>The total wall time of the program&#8217;s execution in seconds.</dd>
-<dt><tt class="docutils literal"><span class="pre">total_ticks</span></tt> (integral number)</dt>
+<dt><code class="docutils literal"><span class="pre">total_ticks</span></code> (integral number)</dt>
 <dd>How many profiler &#8220;ticks&#8221; elapsed over the course of the program&#8217;s execution.</dd>
-<dt><tt class="docutils literal"><span class="pre">end_time</span></tt> (number)</dt>
+<dt><code class="docutils literal"><span class="pre">end_time</span></code> (number)</dt>
 <dd>The approximate time when the program finished execution as a UNIX epoch timestamp.</dd>
-<dt><tt class="docutils literal"><span class="pre">tick_interval</span></tt> (float)</dt>
+<dt><code class="docutils literal"><span class="pre">tick_interval</span></code> (float)</dt>
 <dd>How much time between profiler ticks.</dd>
-<dt><tt class="docutils literal"><span class="pre">total_alloc</span></tt> (integer)</dt>
+<dt><code class="docutils literal"><span class="pre">total_alloc</span></code> (integer)</dt>
 <dd>The cumulative allocations of the program in bytes.</dd>
-<dt><tt class="docutils literal"><span class="pre">cost_centres</span></tt> (list of objects)</dt>
+<dt><code class="docutils literal"><span class="pre">cost_centres</span></code> (list of objects)</dt>
 <dd>A list of the program&#8217;s cost centres</dd>
-<dt><tt class="docutils literal"><span class="pre">profile</span></tt> (object)</dt>
+<dt><code class="docutils literal"><span class="pre">profile</span></code> (object)</dt>
 <dd>The profile tree itself</dd>
 </dl>
-<p>Each entry in <tt class="docutils literal"><span class="pre">cost_centres</span></tt> is an object describing a cost-centre of the
+<p>Each entry in <code class="docutils literal"><span class="pre">cost_centres</span></code> is an object describing a cost-centre of the
 program having the following properies,</p>
 <dl class="docutils">
-<dt><tt class="docutils literal"><span class="pre">id</span></tt> (integral number)</dt>
+<dt><code class="docutils literal"><span class="pre">id</span></code> (integral number)</dt>
 <dd>A unique identifier used to refer to the cost-centre</dd>
-<dt><tt class="docutils literal"><span class="pre">is_caf</span></tt> (boolean)</dt>
+<dt><code class="docutils literal"><span class="pre">is_caf</span></code> (boolean)</dt>
 <dd>Whether the cost-centre is a Constant Applicative Form (CAF)</dd>
-<dt><tt class="docutils literal"><span class="pre">label</span></tt> (string)</dt>
+<dt><code class="docutils literal"><span class="pre">label</span></code> (string)</dt>
 <dd>A descriptive string roughly identifying the cost-centre.</dd>
-<dt><tt class="docutils literal"><span class="pre">src_loc</span></tt> (string)</dt>
+<dt><code class="docutils literal"><span class="pre">src_loc</span></code> (string)</dt>
 <dd>A string describing the source span enclosing the cost-centre.</dd>
 </dl>
-<p>The profile data itself is described by the <tt class="docutils literal"><span class="pre">profile</span></tt> field, which contains a
+<p>The profile data itself is described by the <code class="docutils literal"><span class="pre">profile</span></code> field, which contains a
 tree-like object (which we&#8217;ll call a &#8220;cost-centre stack&#8221; here) with the
 following properties,</p>
 <dl class="docutils">
-<dt><tt class="docutils literal"><span class="pre">id</span></tt> (integral number)</dt>
-<dd>The <tt class="docutils literal"><span class="pre">id</span></tt> of a cost-centre listed in the <tt class="docutils literal"><span class="pre">cost_centres</span></tt> list.</dd>
-<dt><tt class="docutils literal"><span class="pre">entries</span></tt> (integral number)</dt>
+<dt><code class="docutils literal"><span class="pre">id</span></code> (integral number)</dt>
+<dd>The <code class="docutils literal"><span class="pre">id</span></code> of a cost-centre listed in the <code class="docutils literal"><span class="pre">cost_centres</span></code> list.</dd>
+<dt><code class="docutils literal"><span class="pre">entries</span></code> (integral number)</dt>
 <dd>How many times was this cost-centre entered?</dd>
-<dt><tt class="docutils literal"><span class="pre">ticks</span></tt> (integral number)</dt>
+<dt><code class="docutils literal"><span class="pre">ticks</span></code> (integral number)</dt>
 <dd>How many ticks was the program&#8217;s execution inside of this cost-centre? This
 does not include child cost-centres.</dd>
-<dt><tt class="docutils literal"><span class="pre">alloc</span></tt> (integral number)</dt>
+<dt><code class="docutils literal"><span class="pre">alloc</span></code> (integral number)</dt>
 <dd>How many bytes did the program allocate while inside of this cost-centre?
 This does not include allocations while in child cost-centres.</dd>
-<dt><tt class="docutils literal"><span class="pre">children</span></tt> (list)</dt>
+<dt><code class="docutils literal"><span class="pre">children</span></code> (list)</dt>
 <dd>A list containing child cost-centre stacks.</dd>
 </dl>
 <p>For instance, a simple profile might look like this,</p>
@@ -702,7 +704,7 @@ This does not include allocations while in child cost-centres.</dd>
 </div>
 </div>
 <div class="section" id="profiling-memory-usage">
-<span id="prof-heap"></span><h2>8.4. Profiling memory usage<a class="headerlink" href="profiling.html#profiling-memory-usage" title="Permalink to this headline">¶</a></h2>
+<span id="prof-heap"></span><h2>8.4. Profiling memory usage<a class="headerlink" href="#profiling-memory-usage" title="Permalink to this headline">¶</a></h2>
 <p>In addition to profiling the time and allocation behaviour of your
 program, you can also generate a graph of its memory usage over time.
 This is useful for detecting the causes of space leaks, when your
@@ -711,58 +713,58 @@ leaks lead to slower execution due to heavy garbage collector activity,
 and may even cause the program to run out of memory altogether.</p>
 <p>To generate a heap profile from your program:</p>
 <ol class="arabic">
-<li><p class="first">Compile the program for profiling (<a class="reference internal" href="profiling.html#prof-compiler-options"><em>Compiler options for profiling</em></a>).</p>
+<li><p class="first">Compile the program for profiling (<a class="reference internal" href="#prof-compiler-options"><span>Compiler options for profiling</span></a>).</p>
 </li>
 <li><p class="first">Run it with one of the heap profiling options described below (eg.
-<a class="reference internal" href="runtime_control.html#rts-flag--h"><tt class="xref std std-rts-flag docutils literal"><span class="pre">-h</span></tt></a> for a basic producer profile). This generates the file
-<tt class="file docutils literal"><em><span class="pre">prog</span></em><span class="pre">.hp</span></tt>.</p>
-<p>If the <a class="reference internal" href="runtime_control.html#rts-eventlog"><em>event log</em></a> is enabled (with the <a class="reference internal" href="profiling.html#rts-flag--l"><tt class="xref std std-rts-flag docutils literal"><span class="pre">-l</span></tt></a>
+<a class="reference internal" href="runtime_control.html#rts-flag--h"><code class="xref std std-rts-flag docutils literal"><span class="pre">-h</span></code></a> for a basic producer profile). This generates the file
+<code class="file docutils literal"><em><span class="pre">prog</span></em><span class="pre">.hp</span></code>.</p>
+<p>If the <a class="reference internal" href="runtime_control.html#rts-eventlog"><span>event log</span></a> is enabled (with the <a class="reference internal" href="#rts-flag--l"><code class="xref std std-rts-flag docutils literal"><span class="pre">-l</span></code></a>
 runtime system flag) heap samples will additionally be emitted to the GHC
-event log (see <a class="reference internal" href="eventlog-formats.html#heap-profiler-events"><em>Heap profiler event log output</em></a> for details about event format).</p>
+event log (see <a class="reference internal" href="eventlog-formats.html#heap-profiler-events"><span>Heap profiler event log output</span></a> for details about event format).</p>
 </li>
-<li><p class="first">Run <strong class="command">hp2ps</strong> to produce a Postscript file, <tt class="file docutils literal"><em><span class="pre">prog</span></em><span class="pre">.ps</span></tt>. The
-<strong class="command">hp2ps</strong> utility is described in detail in <a class="reference internal" href="profiling.html#hp2ps"><em>hp2ps &#8211; Rendering heap profiles to PostScript</em></a>.</p>
+<li><p class="first">Run <strong class="command">hp2ps</strong> to produce a Postscript file, <code class="file docutils literal"><em><span class="pre">prog</span></em><span class="pre">.ps</span></code>. The
+<strong class="command">hp2ps</strong> utility is described in detail in <a class="reference internal" href="#hp2ps"><span>hp2ps &#8211; Rendering heap profiles to PostScript</span></a>.</p>
 </li>
 <li><p class="first">Display the heap profile using a postscript viewer such as Ghostview,
 or print it out on a Postscript-capable printer.</p>
 </li>
 </ol>
-<p>For example, here is a heap profile produced for the <tt class="docutils literal"><span class="pre">sphere</span></tt> program
-from GHC&#8217;s <tt class="docutils literal"><span class="pre">nofib</span></tt> benchmark suite,</p>
+<p>For example, here is a heap profile produced for the <code class="docutils literal"><span class="pre">sphere</span></code> program
+from GHC&#8217;s <code class="docutils literal"><span class="pre">nofib</span></code> benchmark suite,</p>
 <img src="_images/prof_scc.svg" /><p>You might also want to take a look at
 <a class="reference external" href="http://www.haskell.org/haskellwiki/Hp2any">hp2any</a>, a more advanced
 suite of tools (not distributed with GHC) for displaying heap profiles.</p>
 <div class="section" id="rts-options-for-heap-profiling">
-<span id="rts-options-heap-prof"></span><h3>8.4.1. RTS options for heap profiling<a class="headerlink" href="profiling.html#rts-options-for-heap-profiling" title="Permalink to this headline">¶</a></h3>
+<span id="rts-options-heap-prof"></span><h3>8.4.1. RTS options for heap profiling<a class="headerlink" href="#rts-options-for-heap-profiling" title="Permalink to this headline">¶</a></h3>
 <p>There are several different kinds of heap profile that can be generated.
 All the different profile types yield a graph of live heap against time,
 but they differ in how the live heap is broken down into bands. The
 following RTS options select which break-down to use:</p>
 <dl class="rts-flag">
 <dt id="rts-flag--hT">
-<tt class="descname">-hT</tt><tt class="descclassname"></tt><a class="headerlink" href="profiling.html#rts-flag--hT" title="Permalink to this definition">¶</a></dt>
+<code class="descname">-hT</code><code class="descclassname"></code><a class="headerlink" href="#rts-flag--hT" title="Permalink to this definition">¶</a></dt>
 <dd><p>Breaks down the graph by heap closure type.</p>
 </dd></dl>
 
 <dl class="rts-flag">
 <dt id="rts-flag--hc">
-<tt class="descname">-hc</tt><tt class="descclassname"></tt><a class="headerlink" href="profiling.html#rts-flag--hc" title="Permalink to this definition">¶</a></dt>
+<code class="descname">-hc</code><code class="descclassname"></code><a class="headerlink" href="#rts-flag--hc" title="Permalink to this definition">¶</a></dt>
 <dt id="rts-flag--h">
-<tt class="descname">-h</tt><tt class="descclassname"></tt><a class="headerlink" href="profiling.html#rts-flag--h" title="Permalink to this definition">¶</a></dt>
+<code class="descname">-h</code><code class="descclassname"></code><a class="headerlink" href="#rts-flag--h" title="Permalink to this definition">¶</a></dt>
 <dd><p><em>Requires :ghc-flag:`-prof`.</em> Breaks down the graph by the cost-centre stack
 which produced the data.</p>
 </dd></dl>
 
 <dl class="rts-flag">
 <dt id="rts-flag--hm">
-<tt class="descname">-hm</tt><tt class="descclassname"></tt><a class="headerlink" href="profiling.html#rts-flag--hm" title="Permalink to this definition">¶</a></dt>
+<code class="descname">-hm</code><code class="descclassname"></code><a class="headerlink" href="#rts-flag--hm" title="Permalink to this definition">¶</a></dt>
 <dd><p><em>Requires :ghc-flag:`-prof`.</em> Break down the live heap by the module
 containing the code which produced the data.</p>
 </dd></dl>
 
 <dl class="rts-flag">
 <dt id="rts-flag--hd">
-<tt class="descname">-hd</tt><tt class="descclassname"></tt><a class="headerlink" href="profiling.html#rts-flag--hd" title="Permalink to this definition">¶</a></dt>
+<code class="descname">-hd</code><code class="descclassname"></code><a class="headerlink" href="#rts-flag--hd" title="Permalink to this definition">¶</a></dt>
 <dd><p><em>Requires :ghc-flag:`-prof`.</em> Breaks down the graph by closure description.
 For actual data, the description is just the constructor name, for other
 closures it is a compiler-generated string identifying the closure.</p>
@@ -770,7 +772,7 @@ closures it is a compiler-generated string identifying the closure.</p>
 
 <dl class="rts-flag">
 <dt id="rts-flag--hy">
-<tt class="descname">-hy</tt><tt class="descclassname"></tt><a class="headerlink" href="profiling.html#rts-flag--hy" title="Permalink to this definition">¶</a></dt>
+<code class="descname">-hy</code><code class="descclassname"></code><a class="headerlink" href="#rts-flag--hy" title="Permalink to this definition">¶</a></dt>
 <dd><p><em>Requires :ghc-flag:`-prof`.</em> Breaks down the graph by type. For closures
 which have function type or unknown/polymorphic type, the string will
 represent an approximation to the actual type.</p>
@@ -778,22 +780,22 @@ represent an approximation to the actual type.</p>
 
 <dl class="rts-flag">
 <dt id="rts-flag--hr">
-<tt class="descname">-hr</tt><tt class="descclassname"></tt><a class="headerlink" href="profiling.html#rts-flag--hr" title="Permalink to this definition">¶</a></dt>
+<code class="descname">-hr</code><code class="descclassname"></code><a class="headerlink" href="#rts-flag--hr" title="Permalink to this definition">¶</a></dt>
 <dd><p><em>Requires :ghc-flag:`-prof`.</em> Break down the graph by retainer set. Retainer
-profiling is described in more detail below (<a class="reference internal" href="profiling.html#retainer-prof"><em>Retainer Profiling</em></a>).</p>
+profiling is described in more detail below (<a class="reference internal" href="#retainer-prof"><span>Retainer Profiling</span></a>).</p>
 </dd></dl>
 
 <dl class="rts-flag">
 <dt id="rts-flag--hb">
-<tt class="descname">-hb</tt><tt class="descclassname"></tt><a class="headerlink" href="profiling.html#rts-flag--hb" title="Permalink to this definition">¶</a></dt>
+<code class="descname">-hb</code><code class="descclassname"></code><a class="headerlink" href="#rts-flag--hb" title="Permalink to this definition">¶</a></dt>
 <dd><p><em>Requires :ghc-flag:`-prof`.</em> Break down the graph by biography.
 Biographical profiling is described in more detail below
-(<a class="reference internal" href="profiling.html#biography-prof"><em>Biographical Profiling</em></a>).</p>
+(<a class="reference internal" href="#biography-prof"><span>Biographical Profiling</span></a>).</p>
 </dd></dl>
 
 <dl class="rts-flag">
 <dt id="rts-flag--l">
-<tt class="descname">-l</tt><tt class="descclassname"></tt><a class="headerlink" href="profiling.html#rts-flag--l" title="Permalink to this definition">¶</a></dt>
+<code class="descname">-l</code><code class="descclassname"></code><a class="headerlink" href="#rts-flag--l" title="Permalink to this definition">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -802,10 +804,10 @@ Biographical profiling is described in more detail below
 </tr>
 </tbody>
 </table>
-<p id="index-8">Emit profile samples to the <a class="reference internal" href="runtime_control.html#rts-eventlog"><em>GHC event log</em></a>.
-This format is both more expressive than the old <tt class="docutils literal"><span class="pre">.hp</span></tt> format
+<p id="index-8">Emit profile samples to the <a class="reference internal" href="runtime_control.html#rts-eventlog"><span>GHC event log</span></a>.
+This format is both more expressive than the old <code class="docutils literal"><span class="pre">.hp</span></code> format
 and can be correlated with other events over the program&#8217;s runtime.
-See <a class="reference internal" href="eventlog-formats.html#heap-profiler-events"><em>Heap profiler event log output</em></a> for details on the produced event structure.</p>
+See <a class="reference internal" href="eventlog-formats.html#heap-profiler-events"><span>Heap profiler event log output</span></a> for details on the produced event structure.</p>
 </dd></dl>
 
 <p>In addition, the profile can be restricted to heap data which satisfies
@@ -815,40 +817,40 @@ retainer for a certain type of data. Restrictions are specified as
 follows:</p>
 <dl class="rts-flag">
 <dt>
-<tt class="descname">-hc</tt><tt class="descclassname"> ⟨name⟩</tt></dt>
+<code class="descname">-hc</code><code class="descclassname"> ⟨name⟩</code></dt>
 <dd><p>Restrict the profile to closures produced by cost-centre stacks with
 one of the specified cost centres at the top.</p>
 </dd></dl>
 
 <dl class="rts-flag">
 <dt>
-<tt class="descname">-hC</tt><tt class="descclassname"> ⟨name⟩</tt></dt>
+<code class="descname">-hC</code><code class="descclassname"> ⟨name⟩</code></dt>
 <dd><p>Restrict the profile to closures produced by cost-centre stacks with
 one of the specified cost centres anywhere in the stack.</p>
 </dd></dl>
 
 <dl class="rts-flag">
 <dt>
-<tt class="descname">-hm</tt><tt class="descclassname"> ⟨module⟩</tt></dt>
+<code class="descname">-hm</code><code class="descclassname"> ⟨module⟩</code></dt>
 <dd><p>Restrict the profile to closures produced by the specified modules.</p>
 </dd></dl>
 
 <dl class="rts-flag">
 <dt>
-<tt class="descname">-hd</tt><tt class="descclassname"> ⟨desc⟩</tt></dt>
+<code class="descname">-hd</code><code class="descclassname"> ⟨desc⟩</code></dt>
 <dd><p>Restrict the profile to closures with the specified description
 strings.</p>
 </dd></dl>
 
 <dl class="rts-flag">
 <dt>
-<tt class="descname">-hy</tt><tt class="descclassname"> ⟨type⟩</tt></dt>
+<code class="descname">-hy</code><code class="descclassname"> ⟨type⟩</code></dt>
 <dd><p>Restrict the profile to closures with the specified types.</p>
 </dd></dl>
 
 <dl class="rts-flag">
 <dt>
-<tt class="descname">-hr</tt><tt class="descclassname"> ⟨cc⟩</tt></dt>
+<code class="descname">-hr</code><code class="descclassname"> ⟨cc⟩</code></dt>
 <dd><p>Restrict the profile to closures with retainer sets containing
 cost-centre stacks with one of the specified cost centres at the
 top.</p>
@@ -856,40 +858,40 @@ top.</p>
 
 <dl class="rts-flag">
 <dt>
-<tt class="descname">-hb</tt><tt class="descclassname"> ⟨bio⟩</tt></dt>
+<code class="descname">-hb</code><code class="descclassname"> ⟨bio⟩</code></dt>
 <dd><p>Restrict the profile to closures with one of the specified
-biographies, where ⟨bio⟩ is one of <tt class="docutils literal"><span class="pre">lag</span></tt>, <tt class="docutils literal"><span class="pre">drag</span></tt>, <tt class="docutils literal"><span class="pre">void</span></tt>, or
-<tt class="docutils literal"><span class="pre">use</span></tt>.</p>
+biographies, where ⟨bio⟩ is one of <code class="docutils literal"><span class="pre">lag</span></code>, <code class="docutils literal"><span class="pre">drag</span></code>, <code class="docutils literal"><span class="pre">void</span></code>, or
+<code class="docutils literal"><span class="pre">use</span></code>.</p>
 </dd></dl>
 
 <p>For example, the following options will generate a retainer profile
-restricted to <tt class="docutils literal"><span class="pre">Branch</span></tt> and <tt class="docutils literal"><span class="pre">Leaf</span></tt> constructors:</p>
+restricted to <code class="docutils literal"><span class="pre">Branch</span></code> and <code class="docutils literal"><span class="pre">Leaf</span></code> constructors:</p>
 <div class="highlight-none"><div class="highlight"><pre>prog +RTS -hr -hdBranch,Leaf
 </pre></div>
 </div>
-<p>There can only be one &#8220;break-down&#8221; option (eg. <a class="reference internal" href="profiling.html#rts-flag--hr"><tt class="xref std std-rts-flag docutils literal"><span class="pre">-hr</span></tt></a> in the example
+<p>There can only be one &#8220;break-down&#8221; option (eg. <a class="reference internal" href="#rts-flag--hr"><code class="xref std std-rts-flag docutils literal"><span class="pre">-hr</span></code></a> in the example
 above), but there is no limit on the number of further restrictions that
 may be applied. All the options may be combined, with one exception: GHC
-doesn&#8217;t currently support mixing the <a class="reference internal" href="profiling.html#rts-flag--hr"><tt class="xref std std-rts-flag docutils literal"><span class="pre">-hr</span></tt></a> and <a class="reference internal" href="profiling.html#rts-flag--hb"><tt class="xref std std-rts-flag docutils literal"><span class="pre">-hb</span></tt></a> options.</p>
+doesn&#8217;t currently support mixing the <a class="reference internal" href="#rts-flag--hr"><code class="xref std std-rts-flag docutils literal"><span class="pre">-hr</span></code></a> and <a class="reference internal" href="#rts-flag--hb"><code class="xref std std-rts-flag docutils literal"><span class="pre">-hb</span></code></a> options.</p>
 <p>There are three more options which relate to heap profiling:</p>
 <dl class="rts-flag">
 <dt id="rts-flag--i ⟨secs⟩">
-<tt class="descname">-i</tt><tt class="descclassname"> ⟨secs⟩</tt><a class="headerlink" href="profiling.html#rts-flag--i ⟨secs⟩" title="Permalink to this definition">¶</a></dt>
+<code class="descname">-i</code><code class="descclassname"> ⟨secs⟩</code><a class="headerlink" href="#rts-flag--i ⟨secs⟩" title="Permalink to this definition">¶</a></dt>
 <dd><p>Set the profiling (sampling) interval to ⟨secs⟩ seconds (the default
-is 0.1&nbsp;second). Fractions are allowed: for example <tt class="docutils literal"><span class="pre">-i0.2</span></tt> will
+is 0.1&nbsp;second). Fractions are allowed: for example <code class="docutils literal"><span class="pre">-i0.2</span></code> will
 get 5 samples per second. This only affects heap profiling; time
 profiles are always sampled with the frequency of the RTS clock. See
-<a class="reference internal" href="profiling.html#prof-time-options"><em>Time and allocation profiling</em></a> for changing that.</p>
+<a class="reference internal" href="#prof-time-options"><span>Time and allocation profiling</span></a> for changing that.</p>
 </dd></dl>
 
 <dl class="rts-flag">
 <dt id="rts-flag--xt">
-<tt class="descname">-xt</tt><tt class="descclassname"></tt><a class="headerlink" href="profiling.html#rts-flag--xt" title="Permalink to this definition">¶</a></dt>
+<code class="descname">-xt</code><code class="descclassname"></code><a class="headerlink" href="#rts-flag--xt" title="Permalink to this definition">¶</a></dt>
 <dd><p>Include the memory occupied by threads in a heap profile. Each
 thread takes up a small area for its thread state in addition to the
 space allocated for its stack (stacks normally start small and then
 grow as necessary).</p>
-<p>This includes the main thread, so using <a class="reference internal" href="profiling.html#rts-flag--xt"><tt class="xref std std-rts-flag docutils literal"><span class="pre">-xt</span></tt></a> is a good way to see
+<p>This includes the main thread, so using <a class="reference internal" href="#rts-flag--xt"><code class="xref std std-rts-flag docutils literal"><span class="pre">-xt</span></code></a> is a good way to see
 how much stack space the program is using.</p>
 <p>Memory occupied by threads and their stacks is labelled as “TSO” and
 “STACK” respectively when displaying the profile by closure
@@ -898,14 +900,14 @@ description or type description.</p>
 
 <dl class="rts-flag">
 <dt id="rts-flag--L ⟨num⟩">
-<tt class="descname">-L</tt><tt class="descclassname"> ⟨num⟩</tt><a class="headerlink" href="profiling.html#rts-flag--L ⟨num⟩" title="Permalink to this definition">¶</a></dt>
+<code class="descname">-L</code><code class="descclassname"> ⟨num⟩</code><a class="headerlink" href="#rts-flag--L ⟨num⟩" title="Permalink to this definition">¶</a></dt>
 <dd><p>Sets the maximum length of a cost-centre stack name in a heap
 profile. Defaults to 25.</p>
 </dd></dl>
 
 </div>
 <div class="section" id="retainer-profiling">
-<span id="retainer-prof"></span><h3>8.4.2. Retainer Profiling<a class="headerlink" href="profiling.html#retainer-profiling" title="Permalink to this headline">¶</a></h3>
+<span id="retainer-prof"></span><h3>8.4.2. Retainer Profiling<a class="headerlink" href="#retainer-profiling" title="Permalink to this headline">¶</a></h3>
 <p>Retainer profiling is designed to help answer questions like “why is
 this data being retained?”. We start by defining what we mean by a
 retainer:</p>
@@ -913,32 +915,32 @@ retainer:</p>
 <div>A retainer is either the system stack, an unevaluated closure
 (thunk), or an explicitly mutable object.</div></blockquote>
 <p>In particular, constructors are <em>not</em> retainers.</p>
-<p>An object <tt class="docutils literal"><span class="pre">B</span></tt> retains object <tt class="docutils literal"><span class="pre">A</span></tt> if (i) <tt class="docutils literal"><span class="pre">B</span></tt> is a retainer object and (ii)
-object <tt class="docutils literal"><span class="pre">A</span></tt> can be reached by recursively following pointers starting from
-object <tt class="docutils literal"><span class="pre">B</span></tt>, but not meeting any other retainer objects on the way. Each
+<p>An object <code class="docutils literal"><span class="pre">B</span></code> retains object <code class="docutils literal"><span class="pre">A</span></code> if (i) <code class="docutils literal"><span class="pre">B</span></code> is a retainer object and (ii)
+object <code class="docutils literal"><span class="pre">A</span></code> can be reached by recursively following pointers starting from
+object <code class="docutils literal"><span class="pre">B</span></code>, but not meeting any other retainer objects on the way. Each
 live object is retained by one or more retainer objects, collectively
 called its retainer set, or its retainer set, or its retainers.</p>
-<p>When retainer profiling is requested by giving the program the <tt class="docutils literal"><span class="pre">-hr</span></tt>
+<p>When retainer profiling is requested by giving the program the <code class="docutils literal"><span class="pre">-hr</span></code>
 option, a graph is generated which is broken down by retainer set. A
 retainer set is displayed as a set of cost-centre stacks; because this
 is usually too large to fit on the profile graph, each retainer set is
 numbered and shown abbreviated on the graph along with its number, and
-the full list of retainer sets is dumped into the file <tt class="docutils literal"><span class="pre">prog.prof</span></tt>.</p>
+the full list of retainer sets is dumped into the file <code class="docutils literal"><span class="pre">prog.prof</span></code>.</p>
 <p>Retainer profiling requires multiple passes over the live heap in order
 to discover the full retainer set for each object, which can be quite
 slow. So we set a limit on the maximum size of a retainer set, where all
 retainer sets larger than the maximum retainer set size are replaced by
-the special set <tt class="docutils literal"><span class="pre">MANY</span></tt>. The maximum set size defaults to 8 and can be
-altered with the <a class="reference internal" href="profiling.html#rts-flag--R ⟨size⟩"><tt class="xref std std-rts-flag docutils literal"><span class="pre">-R</span> <span class="pre">⟨size⟩</span></tt></a> RTS option:</p>
+the special set <code class="docutils literal"><span class="pre">MANY</span></code>. The maximum set size defaults to 8 and can be
+altered with the <a class="reference internal" href="#rts-flag--R ⟨size⟩"><code class="xref std std-rts-flag docutils literal"><span class="pre">-R</span> <span class="pre">⟨size⟩</span></code></a> RTS option:</p>
 <dl class="rts-flag">
 <dt id="rts-flag--R ⟨size⟩">
-<tt class="descname">-R</tt><tt class="descclassname"> ⟨size⟩</tt><a class="headerlink" href="profiling.html#rts-flag--R ⟨size⟩" title="Permalink to this definition">¶</a></dt>
+<code class="descname">-R</code><code class="descclassname"> ⟨size⟩</code><a class="headerlink" href="#rts-flag--R ⟨size⟩" title="Permalink to this definition">¶</a></dt>
 <dd><p>Restrict the number of elements in a retainer set to ⟨size⟩ (default
 8).</p>
 </dd></dl>
 
 <div class="section" id="hints-for-using-retainer-profiling">
-<h4>8.4.2.1. Hints for using retainer profiling<a class="headerlink" href="profiling.html#hints-for-using-retainer-profiling" title="Permalink to this headline">¶</a></h4>
+<h4>8.4.2.1. Hints for using retainer profiling<a class="headerlink" href="#hints-for-using-retainer-profiling" title="Permalink to this headline">¶</a></h4>
 <p>The definition of retainers is designed to reflect a common cause of
 space leaks: a large structure is retained by an unevaluated
 computation, and will be released once the computation is forced. A good
@@ -946,26 +948,26 @@ example is looking up a value in a finite map, where unless the lookup
 is forced in a timely manner the unevaluated lookup will cause the whole
 mapping to be retained. These kind of space leaks can often be
 eliminated by forcing the relevant computations to be performed eagerly,
-using <tt class="docutils literal"><span class="pre">seq</span></tt> or strictness annotations on data constructor fields.</p>
+using <code class="docutils literal"><span class="pre">seq</span></code> or strictness annotations on data constructor fields.</p>
 <p>Often a particular data structure is being retained by a chain of
 unevaluated closures, only the nearest of which will be reported by
-retainer profiling - for example <tt class="docutils literal"><span class="pre">A</span></tt> retains <tt class="docutils literal"><span class="pre">B</span></tt>, <tt class="docutils literal"><span class="pre">B</span></tt> retains <tt class="docutils literal"><span class="pre">C</span></tt>, and
-<tt class="docutils literal"><span class="pre">C</span></tt> retains a large structure. There might be a large number of <tt class="docutils literal"><span class="pre">B</span></tt>s but
-only a single <tt class="docutils literal"><span class="pre">A</span></tt>, so <tt class="docutils literal"><span class="pre">A</span></tt> is really the one we&#8217;re interested in eliminating.
-However, retainer profiling will in this case report <tt class="docutils literal"><span class="pre">B</span></tt> as the retainer of
+retainer profiling - for example <code class="docutils literal"><span class="pre">A</span></code> retains <code class="docutils literal"><span class="pre">B</span></code>, <code class="docutils literal"><span class="pre">B</span></code> retains <code class="docutils literal"><span class="pre">C</span></code>, and
+<code class="docutils literal"><span class="pre">C</span></code> retains a large structure. There might be a large number of <code class="docutils literal"><span class="pre">B</span></code>s but
+only a single <code class="docutils literal"><span class="pre">A</span></code>, so <code class="docutils literal"><span class="pre">A</span></code> is really the one we&#8217;re interested in eliminating.
+However, retainer profiling will in this case report <code class="docutils literal"><span class="pre">B</span></code> as the retainer of
 the large structure. To move further up the chain of retainers, we can ask for
-another retainer profile but this time restrict the profile to <tt class="docutils literal"><span class="pre">B</span></tt> objects, so
-we get a profile of the retainers of <tt class="docutils literal"><span class="pre">B</span></tt>:</p>
+another retainer profile but this time restrict the profile to <code class="docutils literal"><span class="pre">B</span></code> objects, so
+we get a profile of the retainers of <code class="docutils literal"><span class="pre">B</span></code>:</p>
 <div class="highlight-none"><div class="highlight"><pre>prog +RTS -hr -hcB
 </pre></div>
 </div>
-<p>This trick isn&#8217;t foolproof, because there might be other <tt class="docutils literal"><span class="pre">B</span></tt> closures in
+<p>This trick isn&#8217;t foolproof, because there might be other <code class="docutils literal"><span class="pre">B</span></code> closures in
 the heap which aren&#8217;t the retainers we are interested in, but we&#8217;ve
 found this to be a useful technique in most cases.</p>
 </div>
 </div>
 <div class="section" id="biographical-profiling">
-<span id="biography-prof"></span><h3>8.4.3. Biographical Profiling<a class="headerlink" href="profiling.html#biographical-profiling" title="Permalink to this headline">¶</a></h3>
+<span id="biography-prof"></span><h3>8.4.3. Biographical Profiling<a class="headerlink" href="#biographical-profiling" title="Permalink to this headline">¶</a></h3>
 <p>A typical heap object may be in one of the following four states at each
 point in its lifetime:</p>
 <ul class="simple">
@@ -1001,12 +1003,12 @@ profile using both biographical and retainer information simultaneously.</p>
 </div>
 </div>
 <div class="section" id="actual-memory-residency">
-<span id="mem-residency"></span><h3>8.4.4. Actual memory residency<a class="headerlink" href="profiling.html#actual-memory-residency" title="Permalink to this headline">¶</a></h3>
+<span id="mem-residency"></span><h3>8.4.4. Actual memory residency<a class="headerlink" href="#actual-memory-residency" title="Permalink to this headline">¶</a></h3>
 <p>How does the heap residency reported by the heap profiler relate to the
 actual memory residency of your program when you run it? You might see a
 large discrepancy between the residency reported by the heap profiler,
-and the residency reported by tools on your system (eg. <tt class="docutils literal"><span class="pre">ps</span></tt> or
-<tt class="docutils literal"><span class="pre">top</span></tt> on Unix, or the Task Manager on Windows). There are several
+and the residency reported by tools on your system (eg. <code class="docutils literal"><span class="pre">ps</span></code> or
+<code class="docutils literal"><span class="pre">top</span></code> on Unix, or the Task Manager on Windows). There are several
 reasons for this:</p>
 <ul class="simple">
 <li>There is an overhead of profiling itself, which is subtracted from
@@ -1018,86 +1020,86 @@ about a 30% overhead.</li>
 factor depends on the kind of garbage collection algorithm in use: a major GC
 in the standard generation copying collector will usually require <span class="math">\(3L\)</span>
 bytes of memory, where <span class="math">\(L\)</span> is the amount of live data. This is because
-by default (see the RTS <a class="reference internal" href="runtime_control.html#rts-flag--F ⟨factor⟩"><tt class="xref std std-rts-flag docutils literal"><span class="pre">-F</span> <span class="pre">⟨factor⟩</span></tt></a> option) we allow the old
+by default (see the RTS <a class="reference internal" href="runtime_control.html#rts-flag--F ⟨factor⟩"><code class="xref std std-rts-flag docutils literal"><span class="pre">-F</span> <span class="pre">⟨factor⟩</span></code></a> option) we allow the old
 generation to grow to twice its size (<span class="math">\(2L\)</span>) before collecting it, and
 we require additionally <span class="math">\(L\)</span> bytes to copy the live data into. When
-using compacting collection (see the <a class="reference internal" href="runtime_control.html#rts-flag--c"><tt class="xref std std-rts-flag docutils literal"><span class="pre">-c</span></tt></a> option), this is reduced
-to <span class="math">\(2L\)</span>, and can further be reduced by tweaking the <a class="reference internal" href="runtime_control.html#rts-flag--F ⟨factor⟩"><tt class="xref std std-rts-flag docutils literal"><span class="pre">-F</span>
-<span class="pre">⟨factor⟩</span></tt></a> option. Also add the size of the allocation area (see <a class="reference internal" href="runtime_control.html#rts-flag--A ⟨size⟩"><tt class="xref std std-rts-flag docutils literal"><span class="pre">-A</span>
-<span class="pre">⟨size⟩</span></tt></a>).</li>
+using compacting collection (see the <a class="reference internal" href="runtime_control.html#rts-flag--c"><code class="xref std std-rts-flag docutils literal"><span class="pre">-c</span></code></a> option), this is reduced
+to <span class="math">\(2L\)</span>, and can further be reduced by tweaking the <a class="reference internal" href="runtime_control.html#rts-flag--F ⟨factor⟩"><code class="xref std std-rts-flag docutils literal"><span class="pre">-F</span>
+<span class="pre">⟨factor⟩</span></code></a> option. Also add the size of the allocation area (see <a class="reference internal" href="runtime_control.html#rts-flag--A ⟨size⟩"><code class="xref std std-rts-flag docutils literal"><span class="pre">-A</span>
+<span class="pre">⟨size⟩</span></code></a>).</li>
 <li>The stack isn&#8217;t counted in the heap profile by default. See the
-RTS <a class="reference internal" href="profiling.html#rts-flag--xt"><tt class="xref std std-rts-flag docutils literal"><span class="pre">-xt</span></tt></a> option.</li>
+RTS <a class="reference internal" href="#rts-flag--xt"><code class="xref std std-rts-flag docutils literal"><span class="pre">-xt</span></code></a> option.</li>
 <li>The program text itself, the C stack, any non-heap data (e.g. data
 allocated by foreign libraries, and data allocated by the RTS), and
-<tt class="docutils literal"><span class="pre">mmap()</span></tt>&#8216;d memory are not counted in the heap profile.</li>
+<code class="docutils literal"><span class="pre">mmap()</span></code>&#8216;d memory are not counted in the heap profile.</li>
 </ul>
 </div>
 </div>
 <div class="section" id="hp2ps-rendering-heap-profiles-to-postscript">
-<span id="hp2ps"></span><h2>8.5. <tt class="docutils literal"><span class="pre">hp2ps</span></tt> &#8211; Rendering heap profiles to PostScript<a class="headerlink" href="profiling.html#hp2ps-rendering-heap-profiles-to-postscript" title="Permalink to this headline">¶</a></h2>
+<span id="hp2ps"></span><h2>8.5. <code class="docutils literal"><span class="pre">hp2ps</span></code> &#8211; Rendering heap profiles to PostScript<a class="headerlink" href="#hp2ps-rendering-heap-profiles-to-postscript" title="Permalink to this headline">¶</a></h2>
 <p id="index-9">Usage:</p>
 <div class="highlight-none"><div class="highlight"><pre>hp2ps [flags] [&lt;file&gt;[.hp]]
 </pre></div>
 </div>
-<p>The program <strong class="command">hp2ps</strong> program converts a <tt class="docutils literal"><span class="pre">.hp</span></tt> file produced
-by the <tt class="docutils literal"><span class="pre">-h&lt;break-down&gt;</span></tt> runtime option into a PostScript graph of the
+<p>The program <strong class="command">hp2ps</strong> program converts a <code class="docutils literal"><span class="pre">.hp</span></code> file produced
+by the <code class="docutils literal"><span class="pre">-h&lt;break-down&gt;</span></code> runtime option into a PostScript graph of the
 heap profile. By convention, the file to be processed by <strong class="command">hp2ps</strong> has a
-<tt class="docutils literal"><span class="pre">.hp</span></tt> extension. The PostScript output is written to <tt class="file docutils literal"><em><span class="pre">file</span></em><span class="pre">&#64;.ps</span></tt>.
-If <tt class="docutils literal"><span class="pre">&lt;file&gt;</span></tt> is omitted entirely, then the program behaves as a filter.</p>
-<p><strong class="command">hp2ps</strong> is distributed in <tt class="file docutils literal"><span class="pre">ghc/utils/hp2ps</span></tt> in a GHC source
+<code class="docutils literal"><span class="pre">.hp</span></code> extension. The PostScript output is written to <code class="file docutils literal"><em><span class="pre">file</span></em><span class="pre">&#64;.ps</span></code>.
+If <code class="docutils literal"><span class="pre">&lt;file&gt;</span></code> is omitted entirely, then the program behaves as a filter.</p>
+<p><strong class="command">hp2ps</strong> is distributed in <code class="file docutils literal"><span class="pre">ghc/utils/hp2ps</span></code> in a GHC source
 distribution. It was originally developed by Dave Wakeling as part of
 the HBC/LML heap profiler.</p>
 <p>The flags are:</p>
 <dl class="option">
 <dt id="cmdoption-hp2ps-d">
-<tt class="descname">-d</tt><tt class="descclassname"></tt><a class="headerlink" href="profiling.html#cmdoption-hp2ps-d" title="Permalink to this definition">¶</a></dt>
-<dd><p>In order to make graphs more readable, <tt class="docutils literal"><span class="pre">hp2ps</span></tt> sorts the shaded
+<code class="descname">-d</code><code class="descclassname"></code><a class="headerlink" href="#cmdoption-hp2ps-d" title="Permalink to this definition">¶</a></dt>
+<dd><p>In order to make graphs more readable, <code class="docutils literal"><span class="pre">hp2ps</span></code> sorts the shaded
 bands for each identifier. The default sort ordering is for the
 bands with the largest area to be stacked on top of the smaller
-ones. The <tt class="docutils literal"><span class="pre">-d</span></tt> option causes rougher bands (those representing
+ones. The <code class="docutils literal"><span class="pre">-d</span></code> option causes rougher bands (those representing
 series of values with the largest standard deviations) to be stacked
 on top of smoother ones.</p>
 </dd></dl>
 
 <dl class="option">
 <dt id="cmdoption-hp2ps-b">
-<tt class="descname">-b</tt><tt class="descclassname"></tt><a class="headerlink" href="profiling.html#cmdoption-hp2ps-b" title="Permalink to this definition">¶</a></dt>
-<dd><p>Normally, <tt class="docutils literal"><span class="pre">hp2ps</span></tt> puts the title of the graph in a small box at
+<code class="descname">-b</code><code class="descclassname"></code><a class="headerlink" href="#cmdoption-hp2ps-b" title="Permalink to this definition">¶</a></dt>
+<dd><p>Normally, <code class="docutils literal"><span class="pre">hp2ps</span></code> puts the title of the graph in a small box at
 the top of the page. However, if the JOB string is too long to fit
-in a small box (more than 35 characters), then <tt class="docutils literal"><span class="pre">hp2ps</span></tt> will choose
-to use a big box instead. The <tt class="docutils literal"><span class="pre">-b</span></tt> option forces <tt class="docutils literal"><span class="pre">hp2ps</span></tt> to use
+in a small box (more than 35 characters), then <code class="docutils literal"><span class="pre">hp2ps</span></code> will choose
+to use a big box instead. The <code class="docutils literal"><span class="pre">-b</span></code> option forces <code class="docutils literal"><span class="pre">hp2ps</span></code> to use
 a big box.</p>
 </dd></dl>
 
 <dl class="option">
 <dt id="cmdoption-hp2ps-e">
-<tt class="descname">-e</tt><tt class="descclassname">⟨float⟩[in|mm|pt]</tt><a class="headerlink" href="profiling.html#cmdoption-hp2ps-e" title="Permalink to this definition">¶</a></dt>
+<code class="descname">-e</code><code class="descclassname">⟨float⟩[in|mm|pt]</code><a class="headerlink" href="#cmdoption-hp2ps-e" title="Permalink to this definition">¶</a></dt>
 <dd><p>Generate encapsulated PostScript suitable for inclusion in LaTeX
 documents. Usually, the PostScript graph is drawn in landscape mode
-in an area 9 inches wide by 6 inches high, and <tt class="docutils literal"><span class="pre">hp2ps</span></tt> arranges
+in an area 9 inches wide by 6 inches high, and <code class="docutils literal"><span class="pre">hp2ps</span></code> arranges
 for this area to be approximately centred on a sheet of a4 paper.
 This format is convenient of studying the graph in detail, but it is
-unsuitable for inclusion in LaTeX documents. The <tt class="docutils literal"><span class="pre">-e</span></tt> option
+unsuitable for inclusion in LaTeX documents. The <code class="docutils literal"><span class="pre">-e</span></code> option
 causes the graph to be drawn in portrait mode, with float specifying
 the width in inches, millimetres or points (the default). The
 resulting PostScript file conforms to the Encapsulated PostScript
 (EPS) convention, and it can be included in a LaTeX document using
-Rokicki&#8217;s dvi-to-PostScript converter <tt class="docutils literal"><span class="pre">dvips</span></tt>.</p>
+Rokicki&#8217;s dvi-to-PostScript converter <code class="docutils literal"><span class="pre">dvips</span></code>.</p>
 </dd></dl>
 
 <dl class="option">
 <dt id="cmdoption-hp2ps-g">
-<tt class="descname">-g</tt><tt class="descclassname"></tt><a class="headerlink" href="profiling.html#cmdoption-hp2ps-g" title="Permalink to this definition">¶</a></dt>
-<dd><p>Create output suitable for the <tt class="docutils literal"><span class="pre">gs</span></tt> PostScript previewer (or
+<code class="descname">-g</code><code class="descclassname"></code><a class="headerlink" href="#cmdoption-hp2ps-g" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create output suitable for the <code class="docutils literal"><span class="pre">gs</span></code> PostScript previewer (or
 similar). In this case the graph is printed in portrait mode without
 scaling. The output is unsuitable for a laser printer.</p>
 </dd></dl>
 
 <dl class="option">
 <dt id="cmdoption-hp2ps-l">
-<tt class="descname">-l</tt><tt class="descclassname"></tt><a class="headerlink" href="profiling.html#cmdoption-hp2ps-l" title="Permalink to this definition">¶</a></dt>
+<code class="descname">-l</code><code class="descclassname"></code><a class="headerlink" href="#cmdoption-hp2ps-l" title="Permalink to this definition">¶</a></dt>
 <dd><p>Normally a profile is limited to 20 bands with additional
-identifiers being grouped into an <tt class="docutils literal"><span class="pre">OTHER</span></tt> band. The <tt class="docutils literal"><span class="pre">-l</span></tt> flag
+identifiers being grouped into an <code class="docutils literal"><span class="pre">OTHER</span></code> band. The <code class="docutils literal"><span class="pre">-l</span></code> flag
 removes this 20 band and limit, producing as many bands as
 necessary. No key is produced as it won&#8217;t fit!. It is useful for
 creation time profiles with many bands.</p>
@@ -1105,67 +1107,67 @@ creation time profiles with many bands.</p>
 
 <dl class="option">
 <dt id="cmdoption-hp2ps-m">
-<tt class="descname">-m</tt><tt class="descclassname">⟨int⟩</tt><a class="headerlink" href="profiling.html#cmdoption-hp2ps-m" title="Permalink to this definition">¶</a></dt>
+<code class="descname">-m</code><code class="descclassname">⟨int⟩</code><a class="headerlink" href="#cmdoption-hp2ps-m" title="Permalink to this definition">¶</a></dt>
 <dd><p>Normally a profile is limited to 20 bands with additional
-identifiers being grouped into an <tt class="docutils literal"><span class="pre">OTHER</span></tt> band. The <tt class="docutils literal"><span class="pre">-m</span></tt> flag
+identifiers being grouped into an <code class="docutils literal"><span class="pre">OTHER</span></code> band. The <code class="docutils literal"><span class="pre">-m</span></code> flag
 specifies an alternative band limit (the maximum is 20).</p>
-<p><tt class="docutils literal"><span class="pre">-m0</span></tt> requests the band limit to be removed. As many bands as
+<p><code class="docutils literal"><span class="pre">-m0</span></code> requests the band limit to be removed. As many bands as
 necessary are produced. However no key is produced as it won&#8217;t fit!
 It is useful for displaying creation time profiles with many bands.</p>
 </dd></dl>
 
 <dl class="option">
 <dt id="cmdoption-hp2ps-p">
-<tt class="descname">-p</tt><tt class="descclassname"></tt><a class="headerlink" href="profiling.html#cmdoption-hp2ps-p" title="Permalink to this definition">¶</a></dt>
+<code class="descname">-p</code><code class="descclassname"></code><a class="headerlink" href="#cmdoption-hp2ps-p" title="Permalink to this definition">¶</a></dt>
 <dd><p>Use previous parameters. By default, the PostScript graph is
 automatically scaled both horizontally and vertically so that it
 fills the page. However, when preparing a series of graphs for use
 in a presentation, it is often useful to draw a new graph using the
-same scale, shading and ordering as a previous one. The <tt class="docutils literal"><span class="pre">-p</span></tt> flag
+same scale, shading and ordering as a previous one. The <code class="docutils literal"><span class="pre">-p</span></code> flag
 causes the graph to be drawn using the parameters determined by a
-previous run of <tt class="docutils literal"><span class="pre">hp2ps</span></tt> on <tt class="docutils literal"><span class="pre">file</span></tt>. These are extracted from
-<tt class="docutils literal"><span class="pre">file&#64;.aux</span></tt>.</p>
+previous run of <code class="docutils literal"><span class="pre">hp2ps</span></code> on <code class="docutils literal"><span class="pre">file</span></code>. These are extracted from
+<code class="docutils literal"><span class="pre">file&#64;.aux</span></code>.</p>
 </dd></dl>
 
 <dl class="option">
 <dt id="cmdoption-hp2ps-s">
-<tt class="descname">-s</tt><tt class="descclassname"></tt><a class="headerlink" href="profiling.html#cmdoption-hp2ps-s" title="Permalink to this definition">¶</a></dt>
+<code class="descname">-s</code><code class="descclassname"></code><a class="headerlink" href="#cmdoption-hp2ps-s" title="Permalink to this definition">¶</a></dt>
 <dd><p>Use a small box for the title.</p>
 </dd></dl>
 
 <dl class="option">
 <dt id="cmdoption-hp2ps-t">
-<tt class="descname">-t</tt><tt class="descclassname">⟨float⟩</tt><a class="headerlink" href="profiling.html#cmdoption-hp2ps-t" title="Permalink to this definition">¶</a></dt>
+<code class="descname">-t</code><code class="descclassname">⟨float⟩</code><a class="headerlink" href="#cmdoption-hp2ps-t" title="Permalink to this definition">¶</a></dt>
 <dd><p>Normally trace elements which sum to a total of less than 1% of the
-profile are removed from the profile. The <tt class="docutils literal"><span class="pre">-t</span></tt> option allows this
+profile are removed from the profile. The <code class="docutils literal"><span class="pre">-t</span></code> option allows this
 percentage to be modified (maximum 5%).</p>
-<p><tt class="docutils literal"><span class="pre">-t0</span></tt> requests no trace elements to be removed from the profile,
+<p><code class="docutils literal"><span class="pre">-t0</span></code> requests no trace elements to be removed from the profile,
 ensuring that all the data will be displayed.</p>
 </dd></dl>
 
 <dl class="option">
 <dt id="cmdoption-hp2ps-c">
-<tt class="descname">-c</tt><tt class="descclassname"></tt><a class="headerlink" href="profiling.html#cmdoption-hp2ps-c" title="Permalink to this definition">¶</a></dt>
+<code class="descname">-c</code><code class="descclassname"></code><a class="headerlink" href="#cmdoption-hp2ps-c" title="Permalink to this definition">¶</a></dt>
 <dd><p>Generate colour output.</p>
 </dd></dl>
 
 <dl class="option">
 <dt id="cmdoption-hp2ps-y">
-<tt class="descname">-y</tt><tt class="descclassname"></tt><a class="headerlink" href="profiling.html#cmdoption-hp2ps-y" title="Permalink to this definition">¶</a></dt>
+<code class="descname">-y</code><code class="descclassname"></code><a class="headerlink" href="#cmdoption-hp2ps-y" title="Permalink to this definition">¶</a></dt>
 <dd><p>Ignore marks.</p>
 </dd></dl>
 
 <dl class="option">
-<dt id="cmdoption-hp2ps-">
-<tt class="descname">-</tt><tt class="descclassname">?</tt><a class="headerlink" href="profiling.html#cmdoption-hp2ps-" title="Permalink to this definition">¶</a></dt>
+<dt id="cmdoption-hp2ps-?">
+<code class="descname">-?</code><code class="descclassname"></code><a class="headerlink" href="#cmdoption-hp2ps-?" title="Permalink to this definition">¶</a></dt>
 <dd><p>Print out usage information.</p>
 </dd></dl>
 
 <div class="section" id="manipulating-the-hp-file">
-<span id="manipulating-hp"></span><h3>8.5.1. Manipulating the <tt class="docutils literal"><span class="pre">hp</span></tt> file<a class="headerlink" href="profiling.html#manipulating-the-hp-file" title="Permalink to this headline">¶</a></h3>
+<span id="manipulating-hp"></span><h3>8.5.1. Manipulating the <code class="docutils literal"><span class="pre">hp</span></code> file<a class="headerlink" href="#manipulating-the-hp-file" title="Permalink to this headline">¶</a></h3>
 <p>(Notes kindly offered by Jan-Willem Maessen.)</p>
-<p>The <tt class="docutils literal"><span class="pre">FOO.hp</span></tt> file produced when you ask for the heap profile of a
-program <tt class="docutils literal"><span class="pre">FOO</span></tt> is a text file with a particularly simple structure.
+<p>The <code class="docutils literal"><span class="pre">FOO.hp</span></code> file produced when you ask for the heap profile of a
+program <code class="docutils literal"><span class="pre">FOO</span></code> is a text file with a particularly simple structure.
 Here&#8217;s a representative example, with much of the actual data omitted:</p>
 <div class="highlight-none"><div class="highlight"><pre>JOB &quot;FOO -hC&quot;
 DATE &quot;Thu Dec 26 18:17 2002&quot;
@@ -1184,23 +1186,23 @@ BEGIN_SAMPLE 11695.47
 END_SAMPLE 11695.47
 </pre></div>
 </div>
-<p>The first four lines (<tt class="docutils literal"><span class="pre">JOB</span></tt>, <tt class="docutils literal"><span class="pre">DATE</span></tt>, <tt class="docutils literal"><span class="pre">SAMPLE_UNIT</span></tt>,
-<tt class="docutils literal"><span class="pre">VALUE_UNIT</span></tt>) form a header. Each block of lines starting with
-<tt class="docutils literal"><span class="pre">BEGIN_SAMPLE</span></tt> and ending with <tt class="docutils literal"><span class="pre">END_SAMPLE</span></tt> forms a single sample
+<p>The first four lines (<code class="docutils literal"><span class="pre">JOB</span></code>, <code class="docutils literal"><span class="pre">DATE</span></code>, <code class="docutils literal"><span class="pre">SAMPLE_UNIT</span></code>,
+<code class="docutils literal"><span class="pre">VALUE_UNIT</span></code>) form a header. Each block of lines starting with
+<code class="docutils literal"><span class="pre">BEGIN_SAMPLE</span></code> and ending with <code class="docutils literal"><span class="pre">END_SAMPLE</span></code> forms a single sample
 (you can think of this as a vertical slice of your heap profile). The
 hp2ps utility should accept any input with a properly-formatted header
 followed by a series of <em>complete</em> samples.</p>
 </div>
 <div class="section" id="zooming-in-on-regions-of-your-profile">
-<h3>8.5.2. Zooming in on regions of your profile<a class="headerlink" href="profiling.html#zooming-in-on-regions-of-your-profile" title="Permalink to this headline">¶</a></h3>
+<h3>8.5.2. Zooming in on regions of your profile<a class="headerlink" href="#zooming-in-on-regions-of-your-profile" title="Permalink to this headline">¶</a></h3>
 <p>You can look at particular regions of your profile simply by loading a
-copy of the <tt class="docutils literal"><span class="pre">.hp</span></tt> file into a text editor and deleting the unwanted
-samples. The resulting <tt class="docutils literal"><span class="pre">.hp</span></tt> file can be run through <tt class="docutils literal"><span class="pre">hp2ps</span></tt> and
+copy of the <code class="docutils literal"><span class="pre">.hp</span></code> file into a text editor and deleting the unwanted
+samples. The resulting <code class="docutils literal"><span class="pre">.hp</span></code> file can be run through <code class="docutils literal"><span class="pre">hp2ps</span></code> and
 viewed or printed.</p>
 </div>
 <div class="section" id="viewing-the-heap-profile-of-a-running-program">
-<h3>8.5.3. Viewing the heap profile of a running program<a class="headerlink" href="profiling.html#viewing-the-heap-profile-of-a-running-program" title="Permalink to this headline">¶</a></h3>
-<p>The <tt class="docutils literal"><span class="pre">.hp</span></tt> file is generated incrementally as your program runs. In
+<h3>8.5.3. Viewing the heap profile of a running program<a class="headerlink" href="#viewing-the-heap-profile-of-a-running-program" title="Permalink to this headline">¶</a></h3>
+<p>The <code class="docutils literal"><span class="pre">.hp</span></code> file is generated incrementally as your program runs. In
 principle, running <strong class="command">hp2ps</strong> on the incomplete file should produce a
 snapshot of your program&#8217;s heap usage. However, the last sample in the
 file may be incomplete, causing <strong class="command">hp2ps</strong> to fail. If you are using a
@@ -1210,16 +1212,16 @@ this problem (though the resulting command line looks rather Byzantine):</p>
     <span class="p">|</span> hp2ps &gt; FOO.ps
 </pre></div>
 </div>
-<p>The command <tt class="docutils literal"><span class="pre">fgrep</span> <span class="pre">-n</span> <span class="pre">END_SAMPLE</span> <span class="pre">FOO.hp</span></tt> finds the end of every
-complete sample in <tt class="docutils literal"><span class="pre">FOO.hp</span></tt>, and labels each sample with its ending
+<p>The command <code class="docutils literal"><span class="pre">fgrep</span> <span class="pre">-n</span> <span class="pre">END_SAMPLE</span> <span class="pre">FOO.hp</span></code> finds the end of every
+complete sample in <code class="docutils literal"><span class="pre">FOO.hp</span></code>, and labels each sample with its ending
 line number. We then select the line number of the last complete sample
 using <strong class="command">tail</strong> and <strong class="command">cut</strong>. This is used as a parameter to <strong class="command">head</strong>; the
-result is as if we deleted the final incomplete sample from <tt class="file docutils literal"><span class="pre">FOO.hp</span></tt>.
+result is as if we deleted the final incomplete sample from <code class="file docutils literal"><span class="pre">FOO.hp</span></code>.
 This results in a properly-formatted .hp file which we feed directly to
 <strong class="command">hp2ps</strong>.</p>
 </div>
 <div class="section" id="viewing-a-heap-profile-in-real-time">
-<h3>8.5.4. Viewing a heap profile in real time<a class="headerlink" href="profiling.html#viewing-a-heap-profile-in-real-time" title="Permalink to this headline">¶</a></h3>
+<h3>8.5.4. Viewing a heap profile in real time<a class="headerlink" href="#viewing-a-heap-profile-in-real-time" title="Permalink to this headline">¶</a></h3>
 <p>The <strong class="command">gv</strong> and <strong class="command">ghostview</strong> programs have a &#8220;watch file&#8221; option
 can be used to view an up-to-date heap profile of your program as it runs.
 Simply generate an incremental heap profile as described in the previous
@@ -1227,27 +1229,27 @@ section. Run <strong class="command">gv</strong> on your profile:</p>
 <div class="highlight-sh"><div class="highlight"><pre>gv -watch -orientation<span class="o">=</span>seascape FOO.ps
 </pre></div>
 </div>
-<p>If you forget the <tt class="docutils literal"><span class="pre">-watch</span></tt> flag you can still select &#8220;Watch file&#8221; from
-the &#8220;State&#8221; menu. Now each time you generate a new profile <tt class="docutils literal"><span class="pre">FOO.ps</span></tt>
+<p>If you forget the <code class="docutils literal"><span class="pre">-watch</span></code> flag you can still select &#8220;Watch file&#8221; from
+the &#8220;State&#8221; menu. Now each time you generate a new profile <code class="docutils literal"><span class="pre">FOO.ps</span></code>
 the view will update automatically.</p>
 <p>This can all be encapsulated in a little script:</p>
-<div class="highlight-sh"><div class="highlight"><pre><span class="c">#!/bin/sh</span>
+<div class="highlight-sh"><div class="highlight"><pre><span class="ch">#!/bin/sh</span>
 head -<span class="sb">`</span>fgrep -n END_SAMPLE FOO.hp <span class="p">|</span> tail -1 <span class="p">|</span> cut -d : -f 1<span class="sb">`</span> FOO.hp <span class="se">\</span>
   <span class="p">|</span> hp2ps &gt; FOO.ps
 gv -watch -orientation<span class="o">=</span>seascape FOO.ps <span class="p">&amp;</span>
 <span class="k">while</span> <span class="o">[</span> <span class="m">1</span> <span class="o">]</span> <span class="p">;</span> <span class="k">do</span>
-  sleep <span class="m">10</span> <span class="c"># We generate a new profile every 10 seconds.</span>
+  sleep <span class="m">10</span> <span class="c1"># We generate a new profile every 10 seconds.</span>
   head -<span class="sb">`</span>fgrep -n END_SAMPLE FOO.hp <span class="p">|</span> tail -1 <span class="p">|</span> cut -d : -f 1<span class="sb">`</span> FOO.hp <span class="se">\</span>
     <span class="p">|</span> hp2ps &gt; FOO.ps
 <span class="k">done</span>
 </pre></div>
 </div>
 <p>Occasionally <strong class="command">gv</strong> will choke as it tries to read an incomplete copy of
-<tt class="file docutils literal"><span class="pre">FOO.ps</span></tt> (because <strong class="command">hp2ps</strong> is still running as an update occurs). A
+<code class="file docutils literal"><span class="pre">FOO.ps</span></code> (because <strong class="command">hp2ps</strong> is still running as an update occurs). A
 slightly more complicated script works around this problem, by using the
 fact that sending a SIGHUP to gv will cause it to re-read its input
 file:</p>
-<div class="highlight-sh"><div class="highlight"><pre><span class="c">#!/bin/sh</span>
+<div class="highlight-sh"><div class="highlight"><pre><span class="ch">#!/bin/sh</span>
 head -<span class="sb">`</span>fgrep -n END_SAMPLE FOO.hp <span class="p">|</span> tail -1 <span class="p">|</span> cut -d : -f 1<span class="sb">`</span> FOO.hp <span class="se">\</span>
   <span class="p">|</span> hp2ps &gt; FOO.ps
 gv FOO.ps <span class="p">&amp;</span>
@@ -1256,17 +1258,17 @@ gv FOO.ps <span class="p">&amp;</span>
   sleep 10
   head -<span class="sb">`</span>fgrep -n END_SAMPLE FOO.hp <span class="p">|</span> tail -1 <span class="p">|</span> cut -d : -f 1<span class="sb">`</span> FOO.hp <span class="se">\</span>
     <span class="p">|</span> hp2ps &gt; FOO.ps
-  <span class="nb">kill</span> -HUP <span class="nv">$gvpsnum</span>
+  <span class="nb">kill</span> -HUP $gvpsnum
 <span class="k">done</span>
 </pre></div>
 </div>
 </div>
 </div>
 <div class="section" id="profiling-parallel-and-concurrent-programs">
-<span id="prof-threaded"></span><h2>8.6. Profiling Parallel and Concurrent Programs<a class="headerlink" href="profiling.html#profiling-parallel-and-concurrent-programs" title="Permalink to this headline">¶</a></h2>
-<p>Combining <a class="reference internal" href="phases.html#ghc-flag--threaded"><tt class="xref std std-ghc-flag docutils literal"><span class="pre">-threaded</span></tt></a> and <a class="reference internal" href="profiling.html#ghc-flag--prof"><tt class="xref std std-ghc-flag docutils literal"><span class="pre">-prof</span></tt></a> is perfectly fine, and
+<span id="prof-threaded"></span><h2>8.6. Profiling Parallel and Concurrent Programs<a class="headerlink" href="#profiling-parallel-and-concurrent-programs" title="Permalink to this headline">¶</a></h2>
+<p>Combining <a class="reference internal" href="phases.html#ghc-flag--threaded"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-threaded</span></code></a> and <a class="reference internal" href="#ghc-flag--prof"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-prof</span></code></a> is perfectly fine, and
 indeed it is possible to profile a program running on multiple processors with
-the RTS <a class="reference internal" href="using-concurrent.html#rts-flag--N ⟨x⟩"><tt class="xref std std-rts-flag docutils literal"><span class="pre">-N</span> <span class="pre">⟨x⟩</span></tt></a> option. <a class="footnote-reference" href="profiling.html#id7" id="id4">[3]</a></p>
+the RTS <a class="reference internal" href="using-concurrent.html#rts-flag--N ⟨x⟩"><code class="xref std std-rts-flag docutils literal"><span class="pre">-N</span> <span class="pre">⟨x⟩</span></code></a> option. <a class="footnote-reference" href="#id7" id="id4">[3]</a></p>
 <p>Some caveats apply, however. In the current implementation, a profiled
 program is likely to scale much less well than the unprofiled program,
 because the profiling implementation uses some shared data structures
@@ -1274,7 +1276,7 @@ which require locking in the runtime system. Furthermore, the memory
 allocation statistics collected by the profiled program are stored in
 shared memory but <em>not</em> locked (for speed), which means that these
 figures might be inaccurate for parallel programs.</p>
-<p>We strongly recommend that you use <a class="reference internal" href="profiling.html#ghc-flag--fno-prof-count-entries"><tt class="xref std std-ghc-flag docutils literal"><span class="pre">-fno-prof-count-entries</span></tt></a> when
+<p>We strongly recommend that you use <a class="reference internal" href="#ghc-flag--fno-prof-count-entries"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-fno-prof-count-entries</span></code></a> when
 compiling a program to be profiled on multiple cores, because the entry
 counts are also stored in shared memory, and continuously updating them
 on multiple cores is extremely slow.</p>
@@ -1285,7 +1287,7 @@ execution, and is complementary to the time and space profiling features
 provided with GHC.</p>
 </div>
 <div class="section" id="observing-code-coverage">
-<span id="hpc"></span><h2>8.7. Observing Code Coverage<a class="headerlink" href="profiling.html#observing-code-coverage" title="Permalink to this headline">¶</a></h2>
+<span id="hpc"></span><h2>8.7. Observing Code Coverage<a class="headerlink" href="#observing-code-coverage" title="Permalink to this headline">¶</a></h2>
 <p id="index-10">Code coverage tools allow a programmer to determine what parts of their
 code have been actually executed, and which parts have never actually
 been invoked. GHC has an option for generating instrumented code that
@@ -1301,8 +1303,8 @@ level). Boolean coverage is the extent to which each of the values True
 and False is obtained in every syntactic boolean context (ie. guard,
 condition, qualifier).</p>
 <p>HPC displays both kinds of information in two primary ways: textual
-reports with summary statistics (<tt class="docutils literal"><span class="pre">hpc</span> <span class="pre">report</span></tt>) and sources with color
-mark-up (<tt class="docutils literal"><span class="pre">hpc</span> <span class="pre">markup</span></tt>). For boolean coverage, there are four possible
+reports with summary statistics (<code class="docutils literal"><span class="pre">hpc</span> <span class="pre">report</span></code>) and sources with color
+mark-up (<code class="docutils literal"><span class="pre">hpc</span> <span class="pre">markup</span></code>). For boolean coverage, there are four possible
 outcomes for each guard, condition or qualifier: both True and False
 values occur; only True; only False; never evaluated. In hpc-markup
 output, highlighting with a yellow background indicates a part of the
@@ -1310,8 +1312,8 @@ program that was never evaluated; a green background indicates an
 always-True expression and a red background indicates an always-False
 one.</p>
 <div class="section" id="a-small-example-reciprocation">
-<h3>8.7.1. A small example: Reciprocation<a class="headerlink" href="profiling.html#a-small-example-reciprocation" title="Permalink to this headline">¶</a></h3>
-<p>For an example we have a program, called <tt class="file docutils literal"><span class="pre">Recip.hs</span></tt>, which computes
+<h3>8.7.1. A small example: Reciprocation<a class="headerlink" href="#a-small-example-reciprocation" title="Permalink to this headline">¶</a></h3>
+<p>For an example we have a program, called <code class="file docutils literal"><span class="pre">Recip.hs</span></code>, which computes
 exact decimal representations of reciprocals, with recurring parts
 indicated in brackets.</p>
 <div class="highlight-haskell"><div class="highlight"><pre><span class="nf">reciprocal</span> <span class="ow">::</span> <span class="kt">Int</span> <span class="ow">-&gt;</span> <span class="p">(</span><span class="kt">String</span><span class="p">,</span> <span class="kt">Int</span><span class="p">)</span>
@@ -1346,31 +1348,31 @@ indicated in brackets.</p>
   <span class="n">main</span>
 </pre></div>
 </div>
-<p>HPC instrumentation is enabled with the <a class="reference internal" href="profiling.html#ghc-flag--fhpc"><tt class="xref std std-ghc-flag docutils literal"><span class="pre">-fhpc</span></tt></a> flag:</p>
-<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>ghc -fhpc Recip.hs
+<p>HPC instrumentation is enabled with the <a class="reference internal" href="#ghc-flag--fhpc"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-fhpc</span></code></a> flag:</p>
+<div class="highlight-sh"><div class="highlight"><pre>$ ghc -fhpc Recip.hs
 </pre></div>
 </div>
-<p>GHC creates a subdirectory <tt class="docutils literal"><span class="pre">.hpc</span></tt> in the current directory, and puts
-HPC index (<tt class="docutils literal"><span class="pre">.mix</span></tt>) files in there, one for each module compiled. You
+<p>GHC creates a subdirectory <code class="docutils literal"><span class="pre">.hpc</span></code> in the current directory, and puts
+HPC index (<code class="docutils literal"><span class="pre">.mix</span></code>) files in there, one for each module compiled. You
 don&#8217;t need to worry about these files: they contain information needed
-by the <tt class="docutils literal"><span class="pre">hpc</span></tt> tool to generate the coverage data for compiled modules
+by the <code class="docutils literal"><span class="pre">hpc</span></code> tool to generate the coverage data for compiled modules
 after the program is run.</p>
-<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>./Recip
+<div class="highlight-sh"><div class="highlight"><pre>$ ./Recip
 1/3
 <span class="o">=</span> 0.<span class="o">(</span>3<span class="o">)</span>
 </pre></div>
 </div>
-<p>Running the program generates a file with the <tt class="docutils literal"><span class="pre">.tix</span></tt> suffix, in this
-case <tt class="file docutils literal"><span class="pre">Recip.tix</span></tt>, which contains the coverage data for this run of the
+<p>Running the program generates a file with the <code class="docutils literal"><span class="pre">.tix</span></code> suffix, in this
+case <code class="file docutils literal"><span class="pre">Recip.tix</span></code>, which contains the coverage data for this run of the
 program. The program may be run multiple times (e.g. with different test
 data), and the coverage data from the separate runs is accumulated in
-the <tt class="docutils literal"><span class="pre">.tix</span></tt> file. To reset the coverage data and start again, just
-remove the <tt class="docutils literal"><span class="pre">.tix</span></tt> file. You can control where the <tt class="docutils literal"><span class="pre">.tix</span></tt> file
-is generated using the environment variable <span class="target" id="index-11"></span><a class="reference internal" href="profiling.html#envvar-HPCTIXFILE"><tt class="xref std std-envvar docutils literal"><span class="pre">HPCTIXFILE</span></tt></a>.</p>
+the <code class="docutils literal"><span class="pre">.tix</span></code> file. To reset the coverage data and start again, just
+remove the <code class="docutils literal"><span class="pre">.tix</span></code> file. You can control where the <code class="docutils literal"><span class="pre">.tix</span></code> file
+is generated using the environment variable <span class="target" id="index-11"></span><a class="reference internal" href="#envvar-HPCTIXFILE"><code class="xref std std-envvar docutils literal"><span class="pre">HPCTIXFILE</span></code></a>.</p>
 <dl class="envvar">
 <dt id="envvar-HPCTIXFILE">
-<tt class="descname">HPCTIXFILE</tt><a class="headerlink" href="profiling.html#envvar-HPCTIXFILE" title="Permalink to this definition">¶</a></dt>
-<dd><p>Set the HPC <tt class="docutils literal"><span class="pre">.tix</span></tt> file output path.</p>
+<code class="descname">HPCTIXFILE</code><a class="headerlink" href="#envvar-HPCTIXFILE" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set the HPC <code class="docutils literal"><span class="pre">.tix</span></code> file output path.</p>
 </dd></dl>
 
 <p>Having run the program, we can generate a textual summary of coverage:</p>
@@ -1393,27 +1395,27 @@ writing Recip.hs.html
 </pre></div>
 </div>
 <p>This generates one file per Haskell module, and 4 index files,
-<tt class="file docutils literal"><span class="pre">hpc_index.html</span></tt>, <tt class="file docutils literal"><span class="pre">hpc_index_alt.html</span></tt>, <tt class="file docutils literal"><span class="pre">hpc_index_exp.html</span></tt>,
-<tt class="file docutils literal"><span class="pre">hpc_index_fun.html</span></tt>.</p>
+<code class="file docutils literal"><span class="pre">hpc_index.html</span></code>, <code class="file docutils literal"><span class="pre">hpc_index_alt.html</span></code>, <code class="file docutils literal"><span class="pre">hpc_index_exp.html</span></code>,
+<code class="file docutils literal"><span class="pre">hpc_index_fun.html</span></code>.</p>
 </div>
 <div class="section" id="options-for-instrumenting-code-for-coverage">
-<h3>8.7.2. Options for instrumenting code for coverage<a class="headerlink" href="profiling.html#options-for-instrumenting-code-for-coverage" title="Permalink to this headline">¶</a></h3>
+<h3>8.7.2. Options for instrumenting code for coverage<a class="headerlink" href="#options-for-instrumenting-code-for-coverage" title="Permalink to this headline">¶</a></h3>
 <dl class="ghc-flag">
 <dt id="ghc-flag--fhpc">
-<tt class="descname">-fhpc</tt><tt class="descclassname"></tt><a class="headerlink" href="profiling.html#ghc-flag--fhpc" title="Permalink to this definition">¶</a></dt>
+<code class="descname">-fhpc</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag--fhpc" title="Permalink to this definition">¶</a></dt>
 <dd><p>Enable code coverage for the current module or modules being
 compiled.</p>
 <p>Modules compiled with this option can be freely mixed with modules
 compiled without it; indeed, most libraries will typically be
-compiled without <a class="reference internal" href="profiling.html#ghc-flag--fhpc"><tt class="xref std std-ghc-flag docutils literal"><span class="pre">-fhpc</span></tt></a>. When the program is run, coverage data
+compiled without <a class="reference internal" href="#ghc-flag--fhpc"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-fhpc</span></code></a>. When the program is run, coverage data
 will only be generated for those modules that were compiled with
-<a class="reference internal" href="profiling.html#ghc-flag--fhpc"><tt class="xref std std-ghc-flag docutils literal"><span class="pre">-fhpc</span></tt></a>, and the <strong class="command">hpc</strong> tool will only show information about
+<a class="reference internal" href="#ghc-flag--fhpc"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-fhpc</span></code></a>, and the <strong class="command">hpc</strong> tool will only show information about
 those modules.</p>
 </dd></dl>
 
 </div>
 <div class="section" id="the-hpc-toolkit">
-<h3>8.7.3. The hpc toolkit<a class="headerlink" href="profiling.html#the-hpc-toolkit" title="Permalink to this headline">¶</a></h3>
+<h3>8.7.3. The hpc toolkit<a class="headerlink" href="#the-hpc-toolkit" title="Permalink to this headline">¶</a></h3>
 <p>The hpc command has several sub-commands:</p>
 <div class="highlight-none"><div class="highlight"><pre>$ hpc
 Usage: hpc COMMAND ...
@@ -1435,20 +1437,20 @@ Others:
   version     Display version for hpc
 </pre></div>
 </div>
-<p>In general, these options act on a <tt class="docutils literal"><span class="pre">.tix</span></tt> file after an instrumented
+<p>In general, these options act on a <code class="docutils literal"><span class="pre">.tix</span></code> file after an instrumented
 binary has generated it.</p>
 <p>The hpc tool assumes you are in the top-level directory of the location
-where you built your application, and the <tt class="docutils literal"><span class="pre">.tix</span></tt> file is in the same
-top-level directory. You can use the flag <tt class="docutils literal"><span class="pre">--srcdir</span></tt> to use <tt class="docutils literal"><span class="pre">hpc</span></tt>
-for any other directory, and use <tt class="docutils literal"><span class="pre">--srcdir</span></tt> multiple times to analyse
+where you built your application, and the <code class="docutils literal"><span class="pre">.tix</span></code> file is in the same
+top-level directory. You can use the flag <code class="docutils literal"><span class="pre">--srcdir</span></code> to use <code class="docutils literal"><span class="pre">hpc</span></code>
+for any other directory, and use <code class="docutils literal"><span class="pre">--srcdir</span></code> multiple times to analyse
 programs compiled from difference locations, as is typical for packages.</p>
 <p>We now explain in more details the major modes of hpc.</p>
 <div class="section" id="hpc-report">
-<h4>8.7.3.1. hpc report<a class="headerlink" href="profiling.html#hpc-report" title="Permalink to this headline">¶</a></h4>
-<p><tt class="docutils literal"><span class="pre">hpc</span> <span class="pre">report</span></tt> gives a textual report of coverage. By default, all
+<h4>8.7.3.1. hpc report<a class="headerlink" href="#hpc-report" title="Permalink to this headline">¶</a></h4>
+<p><code class="docutils literal"><span class="pre">hpc</span> <span class="pre">report</span></code> gives a textual report of coverage. By default, all
 modules and packages are considered in generating report, unless include
-or exclude are used. The report is a summary unless the <tt class="docutils literal"><span class="pre">--per-module</span></tt>
-flag is used. The <tt class="docutils literal"><span class="pre">--xml-output</span></tt> option allows for tools to use hpc to
+or exclude are used. The report is a summary unless the <code class="docutils literal"><span class="pre">--per-module</span></code>
+flag is used. The <code class="docutils literal"><span class="pre">--xml-output</span></code> option allows for tools to use hpc to
 glean coverage.</p>
 <div class="highlight-none"><div class="highlight"><pre>$ hpc help report
 Usage: hpc report [OPTION] .. &lt;TIX_FILE&gt; [&lt;MODULE&gt; [&lt;MODULE&gt; ..]]
@@ -1470,8 +1472,8 @@ Options:
 </div>
 </div>
 <div class="section" id="hpc-markup">
-<h4>8.7.3.2. hpc markup<a class="headerlink" href="profiling.html#hpc-markup" title="Permalink to this headline">¶</a></h4>
-<p><tt class="docutils literal"><span class="pre">hpc</span> <span class="pre">markup</span></tt> marks up source files into colored html.</p>
+<h4>8.7.3.2. hpc markup<a class="headerlink" href="#hpc-markup" title="Permalink to this headline">¶</a></h4>
+<p><code class="docutils literal"><span class="pre">hpc</span> <span class="pre">markup</span></code> marks up source files into colored html.</p>
 <div class="highlight-none"><div class="highlight"><pre>$ hpc help markup
 Usage: hpc markup [OPTION] .. &lt;TIX_FILE&gt; [&lt;MODULE&gt; [&lt;MODULE&gt; ..]]
 
@@ -1492,10 +1494,10 @@ Options:
 </div>
 </div>
 <div class="section" id="hpc-sum">
-<h4>8.7.3.3. hpc sum<a class="headerlink" href="profiling.html#hpc-sum" title="Permalink to this headline">¶</a></h4>
-<p><tt class="docutils literal"><span class="pre">hpc</span> <span class="pre">sum</span></tt> adds together any number of <tt class="docutils literal"><span class="pre">.tix</span></tt> files into a single
-<tt class="docutils literal"><span class="pre">.tix</span></tt> file. <tt class="docutils literal"><span class="pre">hpc</span> <span class="pre">sum</span></tt> does not change the original <tt class="docutils literal"><span class="pre">.tix</span></tt> file;
-it generates a new <tt class="docutils literal"><span class="pre">.tix</span></tt> file.</p>
+<h4>8.7.3.3. hpc sum<a class="headerlink" href="#hpc-sum" title="Permalink to this headline">¶</a></h4>
+<p><code class="docutils literal"><span class="pre">hpc</span> <span class="pre">sum</span></code> adds together any number of <code class="docutils literal"><span class="pre">.tix</span></code> files into a single
+<code class="docutils literal"><span class="pre">.tix</span></code> file. <code class="docutils literal"><span class="pre">hpc</span> <span class="pre">sum</span></code> does not change the original <code class="docutils literal"><span class="pre">.tix</span></code> file;
+it generates a new <code class="docutils literal"><span class="pre">.tix</span></code> file.</p>
 <div class="highlight-none"><div class="highlight"><pre>$ hpc help sum
 Usage: hpc sum [OPTION] .. &lt;TIX_FILE&gt; [&lt;TIX_FILE&gt; [&lt;TIX_FILE&gt; ..]]
 Sum multiple .tix files in a single .tix file
@@ -1510,11 +1512,11 @@ Options:
 </div>
 </div>
 <div class="section" id="hpc-combine">
-<h4>8.7.3.4. hpc combine<a class="headerlink" href="profiling.html#hpc-combine" title="Permalink to this headline">¶</a></h4>
-<p><tt class="docutils literal"><span class="pre">hpc</span> <span class="pre">combine</span></tt> is the swiss army knife of <tt class="docutils literal"><span class="pre">hpc</span></tt>. It can be used to
-take the difference between <tt class="docutils literal"><span class="pre">.tix</span></tt> files, to subtract one <tt class="docutils literal"><span class="pre">.tix</span></tt>
-file from another, or to add two <tt class="docutils literal"><span class="pre">.tix</span></tt> files. hpc combine does not
-change the original <tt class="docutils literal"><span class="pre">.tix</span></tt> file; it generates a new <tt class="docutils literal"><span class="pre">.tix</span></tt> file.</p>
+<h4>8.7.3.4. hpc combine<a class="headerlink" href="#hpc-combine" title="Permalink to this headline">¶</a></h4>
+<p><code class="docutils literal"><span class="pre">hpc</span> <span class="pre">combine</span></code> is the swiss army knife of <code class="docutils literal"><span class="pre">hpc</span></code>. It can be used to
+take the difference between <code class="docutils literal"><span class="pre">.tix</span></code> files, to subtract one <code class="docutils literal"><span class="pre">.tix</span></code>
+file from another, or to add two <code class="docutils literal"><span class="pre">.tix</span></code> files. hpc combine does not
+change the original <code class="docutils literal"><span class="pre">.tix</span></code> file; it generates a new <code class="docutils literal"><span class="pre">.tix</span></code> file.</p>
 <div class="highlight-none"><div class="highlight"><pre>$ hpc help combine
 Usage: hpc combine [OPTION] .. &lt;TIX_FILE&gt; &lt;TIX_FILE&gt;
 Combine two .tix files in a single .tix file
@@ -1531,9 +1533,9 @@ Options:
 </div>
 </div>
 <div class="section" id="hpc-map">
-<h4>8.7.3.5. hpc map<a class="headerlink" href="profiling.html#hpc-map" title="Permalink to this headline">¶</a></h4>
-<p>hpc map inverts or zeros a <tt class="docutils literal"><span class="pre">.tix</span></tt> file. hpc map does not change the
-original <tt class="docutils literal"><span class="pre">.tix</span></tt> file; it generates a new <tt class="docutils literal"><span class="pre">.tix</span></tt> file.</p>
+<h4>8.7.3.5. hpc map<a class="headerlink" href="#hpc-map" title="Permalink to this headline">¶</a></h4>
+<p>hpc map inverts or zeros a <code class="docutils literal"><span class="pre">.tix</span></code> file. hpc map does not change the
+original <code class="docutils literal"><span class="pre">.tix</span></code> file; it generates a new <code class="docutils literal"><span class="pre">.tix</span></code> file.</p>
 <div class="highlight-none"><div class="highlight"><pre>$ hpc help map
 Usage: hpc map [OPTION] .. &lt;TIX_FILE&gt;
 Map a function over a single .tix file
@@ -1550,7 +1552,7 @@ Options:
 </div>
 </div>
 <div class="section" id="hpc-overlay-and-hpc-draft">
-<h4>8.7.3.6. hpc overlay and hpc draft<a class="headerlink" href="profiling.html#hpc-overlay-and-hpc-draft" title="Permalink to this headline">¶</a></h4>
+<h4>8.7.3.6. hpc overlay and hpc draft<a class="headerlink" href="#hpc-overlay-and-hpc-draft" title="Permalink to this headline">¶</a></h4>
 <p>Overlays are an experimental feature of HPC, a textual description of
 coverage. hpc draft is used to generate a draft overlay from a .tix
 file, and hpc overlay generates a .tix files from an overlay.</p>
@@ -1585,20 +1587,20 @@ Options:
 </div>
 </div>
 <div class="section" id="caveats-and-shortcomings-of-haskell-program-coverage">
-<h3>8.7.4. Caveats and Shortcomings of Haskell Program Coverage<a class="headerlink" href="profiling.html#caveats-and-shortcomings-of-haskell-program-coverage" title="Permalink to this headline">¶</a></h3>
-<p>HPC does not attempt to lock the <tt class="docutils literal"><span class="pre">.tix</span></tt> file, so multiple concurrently
+<h3>8.7.4. Caveats and Shortcomings of Haskell Program Coverage<a class="headerlink" href="#caveats-and-shortcomings-of-haskell-program-coverage" title="Permalink to this headline">¶</a></h3>
+<p>HPC does not attempt to lock the <code class="docutils literal"><span class="pre">.tix</span></code> file, so multiple concurrently
 running binaries in the same directory will exhibit a race condition.
-At compile time, there is no way to change the name of the <tt class="docutils literal"><span class="pre">.tix</span></tt> file generated;
-at runtime, the name of the generated <tt class="docutils literal"><span class="pre">.tix</span></tt> file can be changed
-using <span class="target" id="index-12"></span><a class="reference internal" href="profiling.html#envvar-HPCTIXFILE"><tt class="xref std std-envvar docutils literal"><span class="pre">HPCTIXFILE</span></tt></a>; the name of the <tt class="docutils literal"><span class="pre">.tix</span></tt> file
+At compile time, there is no way to change the name of the <code class="docutils literal"><span class="pre">.tix</span></code> file generated;
+at runtime, the name of the generated <code class="docutils literal"><span class="pre">.tix</span></code> file can be changed
+using <span class="target" id="index-12"></span><a class="reference internal" href="#envvar-HPCTIXFILE"><code class="xref std std-envvar docutils literal"><span class="pre">HPCTIXFILE</span></code></a>; the name of the <code class="docutils literal"><span class="pre">.tix</span></code> file
 will also change if you rename the binary.  HPC does not work with GHCi.</p>
 </div>
 </div>
 <div class="section" id="using-ticky-ticky-profiling-for-implementors">
-<span id="ticky-ticky"></span><h2>8.8. Using “ticky-ticky” profiling (for implementors)<a class="headerlink" href="profiling.html#using-ticky-ticky-profiling-for-implementors" title="Permalink to this headline">¶</a></h2>
+<span id="ticky-ticky"></span><h2>8.8. Using “ticky-ticky” profiling (for implementors)<a class="headerlink" href="#using-ticky-ticky-profiling-for-implementors" title="Permalink to this headline">¶</a></h2>
 <span class="target" id="index-13"></span><dl class="ghc-flag">
 <dt id="ghc-flag--ticky">
-<tt class="descname">-ticky</tt><tt class="descclassname"></tt><a class="headerlink" href="profiling.html#ghc-flag--ticky" title="Permalink to this definition">¶</a></dt>
+<code class="descname">-ticky</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag--ticky" title="Permalink to this definition">¶</a></dt>
 <dd><p>Enable ticky-ticky profiling.</p>
 </dd></dl>
 
@@ -1610,21 +1612,21 @@ which includeds a link to the ticky-ticky profiling page.</p>
 <table class="docutils footnote" frame="void" id="id5" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
-<tr><td class="label"><a class="fn-backref" href="profiling.html#id2">[1]</a></td><td><a class="reference internal" href="profiling.html#ghc-flag--fprof-auto"><tt class="xref std std-ghc-flag docutils literal"><span class="pre">-fprof-auto</span></tt></a> was known as <tt class="docutils literal"><span class="pre">-auto-all</span></tt> prior to
+<tr><td class="label"><a class="fn-backref" href="#id2">[1]</a></td><td><a class="reference internal" href="#ghc-flag--fprof-auto"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-fprof-auto</span></code></a> was known as <code class="docutils literal"><span class="pre">-auto-all</span></code> prior to
 GHC 7.4.1.</td></tr>
 </tbody>
 </table>
 <table class="docutils footnote" frame="void" id="id6" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
-<tr><td class="label"><a class="fn-backref" href="profiling.html#id3">[2]</a></td><td>Note that this policy has changed slightly in GHC 7.4.1 relative to
+<tr><td class="label"><a class="fn-backref" href="#id3">[2]</a></td><td>Note that this policy has changed slightly in GHC 7.4.1 relative to
 earlier versions, and may yet change further, feedback is welcome.</td></tr>
 </tbody>
 </table>
 <table class="docutils footnote" frame="void" id="id7" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
-<tr><td class="label"><a class="fn-backref" href="profiling.html#id4">[3]</a></td><td>This feature was added in GHC 7.4.1.</td></tr>
+<tr><td class="label"><a class="fn-backref" href="#id4">[3]</a></td><td>This feature was added in GHC 7.4.1.</td></tr>
 </tbody>
 </table>
 </div>
@@ -1636,7 +1638,7 @@ earlier versions, and may yet change further, feedback is welcome.</td></tr>
       </div>
       <div class="clearer"></div>
     </div>
-    <div class="related">
+    <div class="related" role="navigation" aria-label="related navigation">
       <h3>Navigation</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
@@ -1648,12 +1650,12 @@ earlier versions, and may yet change further, feedback is welcome.</td></tr>
         <li class="right" >
           <a href="debugging.html" title="7.13. Debugging the compiler"
              >previous</a> |</li>
-        <li><a href="index.html">GHC 8.2.2 User&#39;s Guide</a> &raquo;</li> 
+        <li class="nav-item nav-item-0"><a href="index.html">GHC 8.2.2 User&#39;s Guide</a> &raquo;</li> 
       </ul>
     </div>
-    <div class="footer">
+    <div class="footer" role="contentinfo">
         &copy; Copyright 2015, GHC Team.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.3.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.6.
     </div>
   </body>
 </html>

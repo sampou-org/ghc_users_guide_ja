@@ -24,7 +24,7 @@
     <script type="text/javascript" src="_static/jquery.js"></script>
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
-    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="search" type="application/opensearchdescription+xml"
           title="Search within Glasgow Haskell Compiler 8.2.2 User&#39;s Guide"
           href="_static/opensearch.xml"/>
@@ -33,12 +33,12 @@
     <link rel="next" title="7.11. Options related to a particular phase" href="phases.html" />
     <link rel="prev" title="7.9. Packages" href="packages.html" /> 
   </head>
-  <body>
+  <body role="document">
 <div class="logo">
     <h1><a href="index.html">Glasgow Haskell Compiler User's Guide</a></h1>
 </div>
 
-    <div class="related">
+    <div class="related" role="navigation" aria-label="related navigation">
       <h3>Navigation</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
@@ -50,20 +50,20 @@
         <li class="right" >
           <a href="packages.html" title="7.9. Packages"
              accesskey="P">previous</a> |</li>
-        <li><a href="index.html">GHC 8.2.2 User&#39;s Guide</a> &raquo;</li>
-          <li><a href="usage.html" accesskey="U">7. Using GHC</a> &raquo;</li> 
+        <li class="nav-item nav-item-0"><a href="index.html">GHC 8.2.2 User&#39;s Guide</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="usage.html" accesskey="U">7. Using GHC</a> &raquo;</li> 
       </ul>
     </div>
 
-      <div class="sphinxsidebar">
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
         <div class="sphinxsidebarwrapper">
   <h3><a href="index.html">Table Of Contents</a></h3>
   <ul>
-<li><a class="reference internal" href="codegens.html#">7.10. GHC Backends</a><ul>
-<li><a class="reference internal" href="codegens.html#native-code-generator-fasm">7.10.1. Native code Generator (<tt class="docutils literal"><span class="pre">-fasm</span></tt>)</a></li>
-<li><a class="reference internal" href="codegens.html#llvm-code-generator-fllvm">7.10.2. LLVM Code Generator (<tt class="docutils literal"><span class="pre">-fllvm</span></tt>)</a></li>
-<li><a class="reference internal" href="codegens.html#c-code-generator-fvia-c">7.10.3. C Code Generator (<tt class="docutils literal"><span class="pre">-fvia-C</span></tt>)</a></li>
-<li><a class="reference internal" href="codegens.html#unregisterised-compilation">7.10.4. Unregisterised compilation</a></li>
+<li><a class="reference internal" href="#">7.10. GHC Backends</a><ul>
+<li><a class="reference internal" href="#native-code-generator-fasm">7.10.1. Native code Generator (<code class="docutils literal"><span class="pre">-fasm</span></code>)</a></li>
+<li><a class="reference internal" href="#llvm-code-generator-fllvm">7.10.2. LLVM Code Generator (<code class="docutils literal"><span class="pre">-fllvm</span></code>)</a></li>
+<li><a class="reference internal" href="#c-code-generator-fvia-c">7.10.3. C Code Generator (<code class="docutils literal"><span class="pre">-fvia-C</span></code>)</a></li>
+<li><a class="reference internal" href="#unregisterised-compilation">7.10.4. Unregisterised compilation</a></li>
 </ul>
 </li>
 </ul>
@@ -74,12 +74,14 @@
   <h4>Next topic</h4>
   <p class="topless"><a href="phases.html"
                         title="next chapter">7.11. Options related to a particular phase</a></p>
-  <h3>This Page</h3>
-  <ul class="this-page-menu">
-    <li><a href="_sources/codegens.txt"
-           rel="nofollow">Show Source</a></li>
-  </ul>
-<div id="searchbox" style="display: none">
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/codegens.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
   <h3>Quick search</h3>
     <form class="search" action="search.html" method="get">
       <input type="text" name="q" />
@@ -98,41 +100,41 @@
     <div class="document">
       <div class="documentwrapper">
         <div class="bodywrapper">
-          <div class="body">
+          <div class="body" role="main">
             
   <div class="section" id="ghc-backends">
-<span id="code-generators"></span><h1>7.10. GHC Backends<a class="headerlink" href="codegens.html#ghc-backends" title="Permalink to this headline">¶</a></h1>
+<span id="code-generators"></span><h1>7.10. GHC Backends<a class="headerlink" href="#ghc-backends" title="Permalink to this headline">¶</a></h1>
 <p id="index-0">GHC supports multiple backend code generators. This is the part of the
 compiler responsible for taking the last intermediate representation
 that GHC uses (a form called Cmm that is a simple, C like language) and
 compiling it to executable code. The backends that GHC support are
 described below.</p>
 <div class="section" id="native-code-generator-fasm">
-<span id="native-code-gen"></span><h2>7.10.1. Native code Generator (<tt class="docutils literal"><span class="pre">-fasm</span></tt>)<a class="headerlink" href="codegens.html#native-code-generator-fasm" title="Permalink to this headline">¶</a></h2>
+<span id="native-code-gen"></span><h2>7.10.1. Native code Generator (<code class="docutils literal"><span class="pre">-fasm</span></code>)<a class="headerlink" href="#native-code-generator-fasm" title="Permalink to this headline">¶</a></h2>
 <p id="index-1">The default backend for GHC. It is a native code generator, compiling
 Cmm all the way to assembly code. It is the fastest backend and
 generally produces good performance code. It has the best support for
-compiling shared libraries. Select it with the <tt class="docutils literal"><span class="pre">-fasm</span></tt> flag.</p>
+compiling shared libraries. Select it with the <code class="docutils literal"><span class="pre">-fasm</span></code> flag.</p>
 </div>
 <div class="section" id="llvm-code-generator-fllvm">
-<span id="llvm-code-gen"></span><h2>7.10.2. LLVM Code Generator (<tt class="docutils literal"><span class="pre">-fllvm</span></tt>)<a class="headerlink" href="codegens.html#llvm-code-generator-fllvm" title="Permalink to this headline">¶</a></h2>
+<span id="llvm-code-gen"></span><h2>7.10.2. LLVM Code Generator (<code class="docutils literal"><span class="pre">-fllvm</span></code>)<a class="headerlink" href="#llvm-code-generator-fllvm" title="Permalink to this headline">¶</a></h2>
 <p id="index-2">This is an alternative backend that uses the <a class="reference external" href="http://llvm.org">LLVM</a>
 compiler to produce executable code. It generally produces code as with
 performance as good as the native code generator but for some cases can
 produce much faster code. This is especially true for numeric, array
 heavy code using packages like vector. The penalty is a significant
 increase in compilation times. Select the LLVM backend with the
-<tt class="docutils literal"><span class="pre">-fllvm</span></tt> flag. Currently <em>LLVM 2.8</em> and later are supported.</p>
-<p>You must install and have LLVM available on your <tt class="docutils literal"><span class="pre">PATH</span></tt> for the LLVM code
-generator to work. Specifically GHC needs to be able to call the <tt class="docutils literal"><span class="pre">opt</span></tt>
-and <tt class="docutils literal"><span class="pre">llc</span></tt> tools. Secondly, if you are running Mac OS X with LLVM 3.0
+<code class="docutils literal"><span class="pre">-fllvm</span></code> flag. Currently <em>LLVM 2.8</em> and later are supported.</p>
+<p>You must install and have LLVM available on your <code class="docutils literal"><span class="pre">PATH</span></code> for the LLVM code
+generator to work. Specifically GHC needs to be able to call the <code class="docutils literal"><span class="pre">opt</span></code>
+and <code class="docutils literal"><span class="pre">llc</span></code> tools. Secondly, if you are running Mac OS X with LLVM 3.0
 or greater then you also need the <a class="reference external" href="http://clang.llvm.org">Clang c
-compiler</a> compiler available on your <tt class="docutils literal"><span class="pre">PATH</span></tt>.</p>
+compiler</a> compiler available on your <code class="docutils literal"><span class="pre">PATH</span></code>.</p>
 <p>To install LLVM and Clang:</p>
 <ul class="simple">
 <li><em>Linux</em>: Use your package management tool.</li>
 <li><em>Mac OS X</em>: Clang is included by default on recent OS X machines when
-XCode is installed (from <tt class="docutils literal"><span class="pre">10.6</span></tt> and later). LLVM is not included.
+XCode is installed (from <code class="docutils literal"><span class="pre">10.6</span></code> and later). LLVM is not included.
 In order to use the LLVM based code generator, you should install the
 <a class="reference external" href="http://mxcl.github.com/homebrew/">Homebrew</a> package manager for
 OS X. Alternatively you can download binaries for LLVM and Clang from
@@ -142,20 +144,20 @@ OS X. Alternatively you can download binaries for LLVM and Clang from
 </ul>
 </div>
 <div class="section" id="c-code-generator-fvia-c">
-<span id="c-code-gen"></span><h2>7.10.3. C Code Generator (<tt class="docutils literal"><span class="pre">-fvia-C</span></tt>)<a class="headerlink" href="codegens.html#c-code-generator-fvia-c" title="Permalink to this headline">¶</a></h2>
+<span id="c-code-gen"></span><h2>7.10.3. C Code Generator (<code class="docutils literal"><span class="pre">-fvia-C</span></code>)<a class="headerlink" href="#c-code-generator-fvia-c" title="Permalink to this headline">¶</a></h2>
 <p id="index-3">This is the oldest code generator in GHC and is generally not included
 any more having been deprecated around GHC 7.0. Select it with the
-<tt class="docutils literal"><span class="pre">-fvia-C</span></tt> flag.</p>
+<code class="docutils literal"><span class="pre">-fvia-C</span></code> flag.</p>
 <p>The C code generator is only supported when GHC is built in
 unregisterised mode, a mode where GHC produces &#8220;portable&#8221; C code as
 output to facilitate porting GHC itself to a new platform. This mode
 produces much slower code though so it&#8217;s unlikely your version of GHC
 was built this way. If it has then the native code generator probably
 won&#8217;t be available. You can check this information by calling
-<tt class="docutils literal"><span class="pre">ghc</span> <span class="pre">--info</span></tt> (see <a class="reference internal" href="runtime_control.html#ghc-info"><em>Getting information about the RTS</em></a>).</p>
+<code class="docutils literal"><span class="pre">ghc</span> <span class="pre">--info</span></code> (see <a class="reference internal" href="runtime_control.html#ghc-info"><span>Getting information about the RTS</span></a>).</p>
 </div>
 <div class="section" id="unregisterised-compilation">
-<span id="unreg"></span><h2>7.10.4. Unregisterised compilation<a class="headerlink" href="codegens.html#unregisterised-compilation" title="Permalink to this headline">¶</a></h2>
+<span id="unreg"></span><h2>7.10.4. Unregisterised compilation<a class="headerlink" href="#unregisterised-compilation" title="Permalink to this headline">¶</a></h2>
 <p id="index-4">The term &#8220;unregisterised&#8221; really means &#8220;compile via vanilla C&#8221;,
 disabling some of the platform-specific tricks that GHC normally uses to
 make programs go faster. When compiling unregisterised, GHC simply
@@ -165,15 +167,15 @@ generators will be available. The native code generator won&#8217;t be. LLVM
 usually offers a substantial performance benefit over the C backend in
 unregisterised mode.</p>
 <p>Unregisterised compilation can be useful when porting GHC to a new
-machine, since it reduces the prerequisite tools to <tt class="docutils literal"><span class="pre">gcc</span></tt>, <tt class="docutils literal"><span class="pre">as</span></tt>, and
-<tt class="docutils literal"><span class="pre">ld</span></tt> and nothing more, and furthermore the amount of platform-specific
+machine, since it reduces the prerequisite tools to <code class="docutils literal"><span class="pre">gcc</span></code>, <code class="docutils literal"><span class="pre">as</span></code>, and
+<code class="docutils literal"><span class="pre">ld</span></code> and nothing more, and furthermore the amount of platform-specific
 code that needs to be written in order to get unregisterised compilation
 going is usually fairly small.</p>
 <p>Unregisterised compilation cannot be selected at compile-time; you have
 to build GHC with the appropriate options set. Consult the GHC Building
 Guide for details.</p>
 <p>You can check if your GHC is unregisterised by calling
-<tt class="docutils literal"><span class="pre">ghc</span> <span class="pre">--info</span></tt> (see <a class="reference internal" href="runtime_control.html#ghc-info"><em>Getting information about the RTS</em></a>).</p>
+<code class="docutils literal"><span class="pre">ghc</span> <span class="pre">--info</span></code> (see <a class="reference internal" href="runtime_control.html#ghc-info"><span>Getting information about the RTS</span></a>).</p>
 </div>
 </div>
 
@@ -183,7 +185,7 @@ Guide for details.</p>
       </div>
       <div class="clearer"></div>
     </div>
-    <div class="related">
+    <div class="related" role="navigation" aria-label="related navigation">
       <h3>Navigation</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
@@ -195,13 +197,13 @@ Guide for details.</p>
         <li class="right" >
           <a href="packages.html" title="7.9. Packages"
              >previous</a> |</li>
-        <li><a href="index.html">GHC 8.2.2 User&#39;s Guide</a> &raquo;</li>
-          <li><a href="usage.html" >7. Using GHC</a> &raquo;</li> 
+        <li class="nav-item nav-item-0"><a href="index.html">GHC 8.2.2 User&#39;s Guide</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="usage.html" >7. Using GHC</a> &raquo;</li> 
       </ul>
     </div>
-    <div class="footer">
+    <div class="footer" role="contentinfo">
         &copy; Copyright 2015, GHC Team.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.3.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.6.
     </div>
   </body>
 </html>

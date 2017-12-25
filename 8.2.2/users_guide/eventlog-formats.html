@@ -24,7 +24,7 @@
     <script type="text/javascript" src="_static/jquery.js"></script>
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
-    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="search" type="application/opensearchdescription+xml"
           title="Search within Glasgow Haskell Compiler 8.2.2 User&#39;s Guide"
           href="_static/opensearch.xml"/>
@@ -32,12 +32,12 @@
     <link rel="next" title="19. Care and feeding of your GHC User’s Guide" href="editing-guide.html" />
     <link rel="prev" title="17. Known bugs and infelicities" href="bugs.html" /> 
   </head>
-  <body>
+  <body role="document">
 <div class="logo">
     <h1><a href="index.html">Glasgow Haskell Compiler User's Guide</a></h1>
 </div>
 
-    <div class="related">
+    <div class="related" role="navigation" aria-label="related navigation">
       <h3>Navigation</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
@@ -49,24 +49,24 @@
         <li class="right" >
           <a href="bugs.html" title="17. Known bugs and infelicities"
              accesskey="P">previous</a> |</li>
-        <li><a href="index.html">GHC 8.2.2 User&#39;s Guide</a> &raquo;</li> 
+        <li class="nav-item nav-item-0"><a href="index.html">GHC 8.2.2 User&#39;s Guide</a> &raquo;</li> 
       </ul>
     </div>
 
-      <div class="sphinxsidebar">
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
         <div class="sphinxsidebarwrapper">
   <h3><a href="index.html">Table Of Contents</a></h3>
   <ul>
-<li><a class="reference internal" href="eventlog-formats.html#">18. Eventlog encodings</a><ul>
-<li><a class="reference internal" href="eventlog-formats.html#heap-profiler-event-log-output">18.1. Heap profiler event log output</a><ul>
-<li><a class="reference internal" href="eventlog-formats.html#metadata-event-types">18.1.1. Metadata event types</a><ul>
-<li><a class="reference internal" href="eventlog-formats.html#beginning-of-sample-stream">18.1.1.1. Beginning of sample stream</a></li>
-<li><a class="reference internal" href="eventlog-formats.html#cost-centre-definitions">18.1.1.2. Cost centre definitions</a></li>
+<li><a class="reference internal" href="#">18. Eventlog encodings</a><ul>
+<li><a class="reference internal" href="#heap-profiler-event-log-output">18.1. Heap profiler event log output</a><ul>
+<li><a class="reference internal" href="#metadata-event-types">18.1.1. Metadata event types</a><ul>
+<li><a class="reference internal" href="#beginning-of-sample-stream">18.1.1.1. Beginning of sample stream</a></li>
+<li><a class="reference internal" href="#cost-centre-definitions">18.1.1.2. Cost centre definitions</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="eventlog-formats.html#sample-event-types">18.1.2. Sample event types</a><ul>
-<li><a class="reference internal" href="eventlog-formats.html#cost-centre-break-down">18.1.2.1. Cost-centre break-down</a></li>
-<li><a class="reference internal" href="eventlog-formats.html#string-break-down">18.1.2.2. String break-down</a></li>
+<li><a class="reference internal" href="#sample-event-types">18.1.2. Sample event types</a><ul>
+<li><a class="reference internal" href="#cost-centre-break-down">18.1.2.1. Cost-centre break-down</a></li>
+<li><a class="reference internal" href="#string-break-down">18.1.2.2. String break-down</a></li>
 </ul>
 </li>
 </ul>
@@ -81,12 +81,14 @@
   <h4>Next topic</h4>
   <p class="topless"><a href="editing-guide.html"
                         title="next chapter">19. Care and feeding of your GHC User&#8217;s Guide</a></p>
-  <h3>This Page</h3>
-  <ul class="this-page-menu">
-    <li><a href="_sources/eventlog-formats.txt"
-           rel="nofollow">Show Source</a></li>
-  </ul>
-<div id="searchbox" style="display: none">
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/eventlog-formats.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
   <h3>Quick search</h3>
     <form class="search" action="search.html" method="get">
       <input type="text" name="q" />
@@ -105,67 +107,67 @@
     <div class="document">
       <div class="documentwrapper">
         <div class="bodywrapper">
-          <div class="body">
+          <div class="body" role="main">
             
   <div class="section" id="eventlog-encodings">
-<h1>18. Eventlog encodings<a class="headerlink" href="eventlog-formats.html#eventlog-encodings" title="Permalink to this headline">¶</a></h1>
+<h1>18. Eventlog encodings<a class="headerlink" href="#eventlog-encodings" title="Permalink to this headline">¶</a></h1>
 <p>This section documents the encodings of the events emitted to GHC&#8217;s
-<a class="reference internal" href="runtime_control.html#rts-eventlog"><em>event log</em></a>. These events can include information about the
+<a class="reference internal" href="runtime_control.html#rts-eventlog"><span>event log</span></a>. These events can include information about the
 thread scheduling events, garbage collection statistics, profiling information,
 user-defined tracing events.</p>
 <p>This section is intended for implementors of tooling which consume these events.</p>
 <div class="section" id="heap-profiler-event-log-output">
-<span id="heap-profiler-events"></span><h2>18.1. Heap profiler event log output<a class="headerlink" href="eventlog-formats.html#heap-profiler-event-log-output" title="Permalink to this headline">¶</a></h2>
+<span id="heap-profiler-events"></span><h2>18.1. Heap profiler event log output<a class="headerlink" href="#heap-profiler-event-log-output" title="Permalink to this headline">¶</a></h2>
 <p>The heap profiler can produce output to GHC&#8217;s event log, allowing samples to
 be correlated with other event log events over the program&#8217;s lifecycle.</p>
-<p>This section defines the layout of these events. The <tt class="docutils literal"><span class="pre">String</span></tt> type below is
+<p>This section defines the layout of these events. The <code class="docutils literal"><span class="pre">String</span></code> type below is
 defined to be a UTF-8 encoded NUL-terminated string.</p>
 <div class="section" id="metadata-event-types">
-<h3>18.1.1. Metadata event types<a class="headerlink" href="eventlog-formats.html#metadata-event-types" title="Permalink to this headline">¶</a></h3>
+<h3>18.1.1. Metadata event types<a class="headerlink" href="#metadata-event-types" title="Permalink to this headline">¶</a></h3>
 <div class="section" id="beginning-of-sample-stream">
-<h4>18.1.1.1. Beginning of sample stream<a class="headerlink" href="eventlog-formats.html#beginning-of-sample-stream" title="Permalink to this headline">¶</a></h4>
+<h4>18.1.1.1. Beginning of sample stream<a class="headerlink" href="#beginning-of-sample-stream" title="Permalink to this headline">¶</a></h4>
 <p>A single fixed-width event emitted during program start-up describing the samples that follow.</p>
 <blockquote>
 <div><ul>
-<li><p class="first"><tt class="docutils literal"><span class="pre">EVENT_HEAP_PROF_BEGIN</span></tt>
-* <tt class="docutils literal"><span class="pre">Word8</span></tt>: Profile ID
-* <tt class="docutils literal"><span class="pre">Word64</span></tt>: Sampling period in nanoseconds
-* <tt class="docutils literal"><span class="pre">Word32</span></tt>: Sample break-down type. One of,</p>
+<li><p class="first"><code class="docutils literal"><span class="pre">EVENT_HEAP_PROF_BEGIN</span></code>
+* <code class="docutils literal"><span class="pre">Word8</span></code>: Profile ID
+* <code class="docutils literal"><span class="pre">Word64</span></code>: Sampling period in nanoseconds
+* <code class="docutils literal"><span class="pre">Word32</span></code>: Sample break-down type. One of,</p>
 <blockquote>
 <div><ul class="simple">
-<li><tt class="docutils literal"><span class="pre">HEAP_PROF_BREAKDOWN_COST_CENTER</span></tt> (output from <a class="reference internal" href="profiling.html#rts-flag--hc"><tt class="xref std std-rts-flag docutils literal"><span class="pre">-hc</span></tt></a>)</li>
-<li><tt class="docutils literal"><span class="pre">HEAP_PROF_BREAKDOWN_CLOSURE_DESCR</span></tt> (output from <a class="reference internal" href="profiling.html#rts-flag--hd"><tt class="xref std std-rts-flag docutils literal"><span class="pre">-hd</span></tt></a>)</li>
-<li><tt class="docutils literal"><span class="pre">HEAP_PROF_BREAKDOWN_RETAINER</span></tt> (output from <a class="reference internal" href="profiling.html#rts-flag--hr"><tt class="xref std std-rts-flag docutils literal"><span class="pre">-hr</span></tt></a>)</li>
-<li><tt class="docutils literal"><span class="pre">HEAP_PROF_BREAKDOWN_MODULE</span></tt> (output from <a class="reference internal" href="profiling.html#rts-flag--hm"><tt class="xref std std-rts-flag docutils literal"><span class="pre">-hm</span></tt></a>)</li>
-<li><tt class="docutils literal"><span class="pre">HEAP_PROF_BREAKDOWN_TYPE_DESCR</span></tt> (output from <a class="reference internal" href="profiling.html#rts-flag--hy"><tt class="xref std std-rts-flag docutils literal"><span class="pre">-hy</span></tt></a>)</li>
-<li><tt class="docutils literal"><span class="pre">HEAP_PROF_BREAKDOWN_BIOGRAPHY</span></tt> (output from <a class="reference internal" href="profiling.html#rts-flag--hb"><tt class="xref std std-rts-flag docutils literal"><span class="pre">-hb</span></tt></a>)</li>
-<li><tt class="docutils literal"><span class="pre">HEAP_PROF_BREAKDOWN_CLOSURE_TYPE</span></tt> (output from <a class="reference internal" href="runtime_control.html#rts-flag--hT"><tt class="xref std std-rts-flag docutils literal"><span class="pre">-hT</span></tt></a>)</li>
+<li><code class="docutils literal"><span class="pre">HEAP_PROF_BREAKDOWN_COST_CENTER</span></code> (output from <a class="reference internal" href="profiling.html#rts-flag--hc"><code class="xref std std-rts-flag docutils literal"><span class="pre">-hc</span></code></a>)</li>
+<li><code class="docutils literal"><span class="pre">HEAP_PROF_BREAKDOWN_CLOSURE_DESCR</span></code> (output from <a class="reference internal" href="profiling.html#rts-flag--hd"><code class="xref std std-rts-flag docutils literal"><span class="pre">-hd</span></code></a>)</li>
+<li><code class="docutils literal"><span class="pre">HEAP_PROF_BREAKDOWN_RETAINER</span></code> (output from <a class="reference internal" href="profiling.html#rts-flag--hr"><code class="xref std std-rts-flag docutils literal"><span class="pre">-hr</span></code></a>)</li>
+<li><code class="docutils literal"><span class="pre">HEAP_PROF_BREAKDOWN_MODULE</span></code> (output from <a class="reference internal" href="profiling.html#rts-flag--hm"><code class="xref std std-rts-flag docutils literal"><span class="pre">-hm</span></code></a>)</li>
+<li><code class="docutils literal"><span class="pre">HEAP_PROF_BREAKDOWN_TYPE_DESCR</span></code> (output from <a class="reference internal" href="profiling.html#rts-flag--hy"><code class="xref std std-rts-flag docutils literal"><span class="pre">-hy</span></code></a>)</li>
+<li><code class="docutils literal"><span class="pre">HEAP_PROF_BREAKDOWN_BIOGRAPHY</span></code> (output from <a class="reference internal" href="profiling.html#rts-flag--hb"><code class="xref std std-rts-flag docutils literal"><span class="pre">-hb</span></code></a>)</li>
+<li><code class="docutils literal"><span class="pre">HEAP_PROF_BREAKDOWN_CLOSURE_TYPE</span></code> (output from <a class="reference internal" href="runtime_control.html#rts-flag--hT"><code class="xref std std-rts-flag docutils literal"><span class="pre">-hT</span></code></a>)</li>
 </ul>
 </div></blockquote>
 <ul class="simple">
-<li><tt class="docutils literal"><span class="pre">String</span></tt>: Module filter</li>
-<li><tt class="docutils literal"><span class="pre">String</span></tt>: Closure description filter</li>
-<li><tt class="docutils literal"><span class="pre">String</span></tt>: Type description filter</li>
-<li><tt class="docutils literal"><span class="pre">String</span></tt>: Cost centre filter</li>
-<li><tt class="docutils literal"><span class="pre">String</span></tt>: Cost centre stack filter</li>
-<li><tt class="docutils literal"><span class="pre">String</span></tt>: Retainer filter</li>
-<li><tt class="docutils literal"><span class="pre">String</span></tt>: Biography filter</li>
+<li><code class="docutils literal"><span class="pre">String</span></code>: Module filter</li>
+<li><code class="docutils literal"><span class="pre">String</span></code>: Closure description filter</li>
+<li><code class="docutils literal"><span class="pre">String</span></code>: Type description filter</li>
+<li><code class="docutils literal"><span class="pre">String</span></code>: Cost centre filter</li>
+<li><code class="docutils literal"><span class="pre">String</span></code>: Cost centre stack filter</li>
+<li><code class="docutils literal"><span class="pre">String</span></code>: Retainer filter</li>
+<li><code class="docutils literal"><span class="pre">String</span></code>: Biography filter</li>
 </ul>
 </li>
 </ul>
 </div></blockquote>
 </div>
 <div class="section" id="cost-centre-definitions">
-<h4>18.1.1.2. Cost centre definitions<a class="headerlink" href="eventlog-formats.html#cost-centre-definitions" title="Permalink to this headline">¶</a></h4>
+<h4>18.1.1.2. Cost centre definitions<a class="headerlink" href="#cost-centre-definitions" title="Permalink to this headline">¶</a></h4>
 <p>A variable-length packet produced once for each cost centre,</p>
 <blockquote>
 <div><ul>
-<li><p class="first"><tt class="docutils literal"><span class="pre">EVENT_HEAP_PROF_COST_CENTRE</span></tt>
-* <tt class="docutils literal"><span class="pre">Word32</span></tt>: cost centre number
-* <tt class="docutils literal"><span class="pre">String</span></tt>: label
-* <tt class="docutils literal"><span class="pre">String</span></tt>: module
-* <tt class="docutils literal"><span class="pre">String</span></tt>: source location
-* <tt class="docutils literal"><span class="pre">Word8</span></tt>: flags</p>
+<li><p class="first"><code class="docutils literal"><span class="pre">EVENT_HEAP_PROF_COST_CENTRE</span></code>
+* <code class="docutils literal"><span class="pre">Word32</span></code>: cost centre number
+* <code class="docutils literal"><span class="pre">String</span></code>: label
+* <code class="docutils literal"><span class="pre">String</span></code>: module
+* <code class="docutils literal"><span class="pre">String</span></code>: source location
+* <code class="docutils literal"><span class="pre">Word8</span></code>: flags</p>
 <blockquote>
 <div><ul class="simple">
 <li>bit 0: is the cost-centre a CAF?</li>
@@ -177,48 +179,48 @@ defined to be a UTF-8 encoded NUL-terminated string.</p>
 </div>
 </div>
 <div class="section" id="sample-event-types">
-<h3>18.1.2. Sample event types<a class="headerlink" href="eventlog-formats.html#sample-event-types" title="Permalink to this headline">¶</a></h3>
+<h3>18.1.2. Sample event types<a class="headerlink" href="#sample-event-types" title="Permalink to this headline">¶</a></h3>
 <p>A sample (consisting of a list of break-down classes, e.g. cost centres, and
 heap residency sizes), is to be encoded in the body of one or more events.</p>
-<p>We mark the beginning of a new sample with an <tt class="docutils literal"><span class="pre">EVENT_HEAP_PROF_SAMPLE_BEGIN</span></tt>
+<p>We mark the beginning of a new sample with an <code class="docutils literal"><span class="pre">EVENT_HEAP_PROF_SAMPLE_BEGIN</span></code>
 event,</p>
 <blockquote>
 <div><ul class="simple">
-<li><tt class="docutils literal"><span class="pre">EVENT_HEAP_PROF_SAMPLE_BEGIN</span></tt>
-* <tt class="docutils literal"><span class="pre">Word64</span></tt>: sample number</li>
+<li><code class="docutils literal"><span class="pre">EVENT_HEAP_PROF_SAMPLE_BEGIN</span></code>
+* <code class="docutils literal"><span class="pre">Word64</span></code>: sample number</li>
 </ul>
 </div></blockquote>
 <p>A heap residency census will follow. Since events may only be up to 2^16^ bytes
 in length a single sample may need to be split among multiple
-<tt class="docutils literal"><span class="pre">EVENT_HEAP_PROF_SAMPLE</span></tt> events. The precise format of the census entries is
+<code class="docutils literal"><span class="pre">EVENT_HEAP_PROF_SAMPLE</span></code> events. The precise format of the census entries is
 determined by the break-down type.</p>
 <div class="section" id="cost-centre-break-down">
-<h4>18.1.2.1. Cost-centre break-down<a class="headerlink" href="eventlog-formats.html#cost-centre-break-down" title="Permalink to this headline">¶</a></h4>
+<h4>18.1.2.1. Cost-centre break-down<a class="headerlink" href="#cost-centre-break-down" title="Permalink to this headline">¶</a></h4>
 <dl class="docutils">
 <dt>A variable-length packet encoding a heap profile sample broken down by,</dt>
 <dd><ul class="first last simple">
-<li>cost-centre (<tt class="docutils literal"><span class="pre">-hc</span></tt>)</li>
-<li><tt class="docutils literal"><span class="pre">EVENT_HEAP_PROF_SAMPLE_COST_CENTRE</span></tt>
-* <tt class="docutils literal"><span class="pre">Word8</span></tt>: Profile ID
-* <tt class="docutils literal"><span class="pre">Word64</span></tt>: heap residency in bytes
-* <tt class="docutils literal"><span class="pre">Word8</span></tt>: stack depth
-* <tt class="docutils literal"><span class="pre">Word32[]</span></tt>: cost centre stack starting with inner-most (cost centre numbers)</li>
+<li>cost-centre (<code class="docutils literal"><span class="pre">-hc</span></code>)</li>
+<li><code class="docutils literal"><span class="pre">EVENT_HEAP_PROF_SAMPLE_COST_CENTRE</span></code>
+* <code class="docutils literal"><span class="pre">Word8</span></code>: Profile ID
+* <code class="docutils literal"><span class="pre">Word64</span></code>: heap residency in bytes
+* <code class="docutils literal"><span class="pre">Word8</span></code>: stack depth
+* <code class="docutils literal"><span class="pre">Word32[]</span></code>: cost centre stack starting with inner-most (cost centre numbers)</li>
 </ul>
 </dd>
 </dl>
 </div>
 <div class="section" id="string-break-down">
-<h4>18.1.2.2. String break-down<a class="headerlink" href="eventlog-formats.html#string-break-down" title="Permalink to this headline">¶</a></h4>
+<h4>18.1.2.2. String break-down<a class="headerlink" href="#string-break-down" title="Permalink to this headline">¶</a></h4>
 <dl class="docutils">
 <dt>A variable-length event encoding a heap sample broken down by,</dt>
 <dd><ul class="first last simple">
-<li>type description (<tt class="docutils literal"><span class="pre">-hy</span></tt>)</li>
-<li>closure description (<tt class="docutils literal"><span class="pre">-hd</span></tt>)</li>
-<li>module (<tt class="docutils literal"><span class="pre">-hm</span></tt>)</li>
-<li><tt class="docutils literal"><span class="pre">EVENT_HEAP_PROF_SAMPLE_STRING</span></tt>
-* <tt class="docutils literal"><span class="pre">Word8</span></tt>: Profile ID
-* <tt class="docutils literal"><span class="pre">Word64</span></tt>: heap residency in bytes
-* <tt class="docutils literal"><span class="pre">String</span></tt>: type or closure description, or module name</li>
+<li>type description (<code class="docutils literal"><span class="pre">-hy</span></code>)</li>
+<li>closure description (<code class="docutils literal"><span class="pre">-hd</span></code>)</li>
+<li>module (<code class="docutils literal"><span class="pre">-hm</span></code>)</li>
+<li><code class="docutils literal"><span class="pre">EVENT_HEAP_PROF_SAMPLE_STRING</span></code>
+* <code class="docutils literal"><span class="pre">Word8</span></code>: Profile ID
+* <code class="docutils literal"><span class="pre">Word64</span></code>: heap residency in bytes
+* <code class="docutils literal"><span class="pre">String</span></code>: type or closure description, or module name</li>
 </ul>
 </dd>
 </dl>
@@ -233,7 +235,7 @@ determined by the break-down type.</p>
       </div>
       <div class="clearer"></div>
     </div>
-    <div class="related">
+    <div class="related" role="navigation" aria-label="related navigation">
       <h3>Navigation</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
@@ -245,12 +247,12 @@ determined by the break-down type.</p>
         <li class="right" >
           <a href="bugs.html" title="17. Known bugs and infelicities"
              >previous</a> |</li>
-        <li><a href="index.html">GHC 8.2.2 User&#39;s Guide</a> &raquo;</li> 
+        <li class="nav-item nav-item-0"><a href="index.html">GHC 8.2.2 User&#39;s Guide</a> &raquo;</li> 
       </ul>
     </div>
-    <div class="footer">
+    <div class="footer" role="contentinfo">
         &copy; Copyright 2015, GHC Team.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.3.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.6.
     </div>
   </body>
 </html>
