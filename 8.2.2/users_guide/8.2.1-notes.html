@@ -87,7 +87,7 @@
 <li><a class="reference internal" href="#hpc">3.3.15. hpc</a></li>
 <li><a class="reference internal" href="#integer-gmp">3.3.16. integer-gmp</a></li>
 <li><a class="reference internal" href="#process">3.3.17. process</a></li>
-<li><a class="reference internal" href="#id10">3.3.18. template-haskell</a></li>
+<li><a class="reference internal" href="#id12">3.3.18. template-haskell</a></li>
 <li><a class="reference internal" href="#time">3.3.19. time</a></li>
 <li><a class="reference internal" href="#unix">3.3.20. unix</a></li>
 <li><a class="reference internal" href="#win32">3.3.21. Win32</a></li>
@@ -402,61 +402,66 @@ it to:</p>
 </div>
 <div class="section" id="template-haskell">
 <h3>3.2.5. Template Haskell<a class="headerlink" href="#template-haskell" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li>非ボックス化タプルを含む型の具体化機構が正しく動作するようになりました．
+（以前，Template Haskellは非ボックス化タプルをアリティ 2 のボックス化タプルとして具体化していました．）</li>
+</ul>
+<ul class="simple">
+<li>シングルトン非ボックス化タプル（たとえば <code class="docutils literal"><span class="pre">(#</span> <span class="pre">Int</span> <span class="pre">#)</span></code> ）のスプライシングが正しく機能するようになりました．
+以前は Template Haskell はスプライシングの際に，だまって括弧を削除していましたので，
+<code class="docutils literal"><span class="pre">(#</span> <span class="pre">Int</span> <span class="pre">#)</span></code> が <code class="docutils literal"><span class="pre">Int</span></code> に変換されていました．</li>
+</ul>
+<ul class="simple">
+<li>パターン中の型シグネチャをサポートするようになりました．(<a class="reference external" href="https://ghc.haskell.org/trac/ghc/ticket/12164">Trac #12164</a>)</li>
+</ul>
+<ul class="simple">
+<li>クォートと具体化で同じ型を返すようになりました．(<a class="reference external" href="https://ghc.haskell.org/trac/ghc/ticket/11629">Trac #11629</a>)</li>
+</ul>
+<ul class="simple">
+<li>より多くのカインド注釈が具体化された閉じた型族等式の左辺にあらわれるようになりました．
+これは <a class="reference internal" href="glasgow_exts.html#ghc-flag--XPolyKinds"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-XPolyKinds</span></code></a> が有効になっているときに，曖昧になる型を曖昧でなくなるようにするためです．
+(<a class="reference external" href="https://ghc.haskell.org/trac/ghc/ticket/12646">Trac #12646</a>)</li>
+</ul>
 <ul>
-<li><p class="first">Reifying types that contain unboxed tuples now works correctly. (Previously,
-Template Haskell reified unboxed tuples as boxed tuples with twice their
-appropriate arity.)</p>
-</li>
-<li><p class="first">Splicing singleton unboxed tuple types (e.g., <code class="docutils literal"><span class="pre">(#</span> <span class="pre">Int</span> <span class="pre">#)</span></code>) now works
-correctly. Previously, Template Haskell would implicitly remove the
-parentheses when splicing, which would turn <code class="docutils literal"><span class="pre">(#</span> <span class="pre">Int</span> <span class="pre">#)</span></code> into <code class="docutils literal"><span class="pre">Int</span></code>.</p>
-</li>
-<li><p class="first">Add support for type signatures in patterns. (<a class="reference external" href="https://ghc.haskell.org/trac/ghc/ticket/12164">Trac #12164</a>)</p>
-</li>
-<li><p class="first">Make quoting and reification return the same types.  (<a class="reference external" href="https://ghc.haskell.org/trac/ghc/ticket/11629">Trac #11629</a>)</p>
-</li>
-<li><p class="first">More kind annotations appear in the left-hand sides of reified closed
-type family equations, in order to disambiguate types that would otherwise
-be ambiguous in the presence of <a class="reference internal" href="glasgow_exts.html#ghc-flag--XPolyKinds"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-XPolyKinds</span></code></a>.
-(<a class="reference external" href="https://ghc.haskell.org/trac/ghc/ticket/12646">Trac #12646</a>)</p>
-</li>
-<li><p class="first">Quoted type signatures are more accurate with respect to implicitly
-quantified type variables. Before, if you quoted this:</p>
-<div class="highlight-haskell"><div class="highlight"><pre><span class="p">[</span><span class="n">d</span><span class="o">|</span> <span class="n">id</span> <span class="ow">::</span> <span class="n">a</span> <span class="ow">-&gt;</span> <span class="n">a</span>
-    <span class="n">id</span> <span class="n">x</span> <span class="ow">=</span> <span class="n">x</span>
-  <span class="o">|</span><span class="p">]</span>
-</pre></div>
-</div>
-<p>then the code that Template Haskell would give back to you would actually be
-this instead:</p>
+<li><p class="first">クォートされた型シグネチャは暗黙に限量化された型変数についてより正確になりました．
+以前は，以下のようにクォートすると，</p>
+<blockquote>
+<div><dl class="docutils">
+<dt>[d| id :: a -&gt; a</dt>
+<dd><blockquote class="first">
+<div><p>id x = x</p>
+</div></blockquote>
+<p class="last"><a href="#id8"><span class="problematic" id="id9">|</span></a>]</p>
+</dd>
+</dl>
+</div></blockquote>
+<p>Template Haskell が戻すの実際には以下のようになります．</p>
 <div class="highlight-haskell"><div class="highlight"><pre><span class="nf">id</span> <span class="ow">::</span> <span class="n">forall</span> <span class="n">a</span><span class="o">.</span> <span class="n">a</span> <span class="ow">-&gt;</span> <span class="n">a</span>
 <span class="nf">id</span> <span class="n">x</span> <span class="ow">=</span> <span class="n">x</span>
 </pre></div>
 </div>
-<p>That is, quoting would explicitly quantify all type variables, even ones
-that were implicitly quantified in the source. This could be especially
-harmful if a kind variable was implicitly quantified. For example, if
-you took this quoted declaration:</p>
+<p>つまり，クォートすると元のソースでは暗黙であっても限量化が，すべての型変数について明示されるということです．
+これは，カインド変数が暗黙に限量化されている場合には特に有害です．
+たとえば，以下のようなクォート宣言をしたとしましょう．</p>
 <div class="highlight-haskell"><div class="highlight"><pre><span class="p">[</span><span class="n">d</span><span class="o">|</span> <span class="n">idProxy</span> <span class="ow">::</span> <span class="n">forall</span> <span class="n">proxy</span> <span class="p">(</span><span class="n">b</span> <span class="ow">::</span> <span class="n">k</span><span class="p">)</span><span class="o">.</span> <span class="n">proxy</span> <span class="n">b</span> <span class="ow">-&gt;</span> <span class="n">proxy</span> <span class="n">b</span>
     <span class="n">idProxy</span> <span class="n">x</span> <span class="ow">=</span> <span class="n">x</span>
   <span class="o">|</span><span class="p">]</span>
 </pre></div>
 </div>
-<p>and tried to splice it back in, you&#8217;d get this instead:</p>
+<p>これをスプライスすると，以下のうようになります．</p>
 <div class="highlight-haskell"><div class="highlight"><pre><span class="nf">idProxy</span> <span class="ow">::</span> <span class="n">forall</span> <span class="n">k</span> <span class="n">proxy</span> <span class="p">(</span><span class="n">b</span> <span class="ow">::</span> <span class="n">k</span><span class="p">)</span><span class="o">.</span> <span class="n">proxy</span> <span class="n">b</span> <span class="ow">-&gt;</span> <span class="n">proxy</span> <span class="n">b</span>
 <span class="nf">idProxy</span> <span class="n">x</span> <span class="ow">=</span> <span class="n">x</span>
 </pre></div>
 </div>
-<p>Now <code class="docutils literal"><span class="pre">k</span></code> is explicitly quantified, and that requires turning on
-<a class="reference internal" href="glasgow_exts.html#ghc-flag--XTypeInType"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-XTypeInType</span></code></a>, whereas the original declaration did not!</p>
-<p>Template Haskell quoting now respects implicit quantification in type
-signatures, so the quoted declarations above now correctly leave the
-type variables <code class="docutils literal"><span class="pre">a</span></code> and <code class="docutils literal"><span class="pre">k</span></code> as implicitly quantified.
-(<a class="reference external" href="https://ghc.haskell.org/trac/ghc/ticket/13018">Trac #13018</a> and <a class="reference external" href="https://ghc.haskell.org/trac/ghc/ticket/13123">Trac #13123</a>)</p>
+<p>ここで <code class="docutils literal"><span class="pre">k</span></code> は明示的に限量化されています．こうなると <a class="reference internal" href="glasgow_exts.html#ghc-flag--XTypeInType"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-XTypeInType</span></code></a> が有効になっていなければなりません．
+しかし，元々の宣言ではそうはなっていませんでした．</p>
+<p>Template Haskell のクォートでは型シグネチャでの暗黙の限量化が尊重されるようになりました．
+したがって，上のクォートされた宣言では，型変数 <code class="docutils literal"><span class="pre">a</span></code> および <code class="docutils literal"><span class="pre">k</span></code> に対する限量化は暗黙のままになりす．
+(<a class="reference external" href="https://ghc.haskell.org/trac/ghc/ticket/13018">Trac #13018</a> および <a class="reference external" href="https://ghc.haskell.org/trac/ghc/ticket/13123">Trac #13123</a>)</p>
 </li>
-<li><p class="first">Looking up type constructors with symbol names (e.g., <code class="docutils literal"><span class="pre">+</span></code>) now works
-as expected (<a class="reference external" href="https://ghc.haskell.org/trac/ghc/ticket/11046">Trac #11046</a>)</p>
-</li>
+</ul>
+<ul class="simple">
+<li>シンボル名 (たとえば <code class="docutils literal"><span class="pre">+</span></code>) をもつ型構成子の検索が期待どおり機能するようになりました (<a class="reference external" href="https://ghc.haskell.org/trac/ghc/ticket/11046">Trac #11046</a>)．</li>
 </ul>
 </div>
 <div class="section" id="runtime-system">
@@ -471,7 +476,7 @@ receives <code class="docutils literal"><span class="pre">UserInterrupt</span></
 move long-lived data outside of the heap so that the garbage
 collector does not have to trace it repeatedly.  Compacted data can
 also be serialized, stored, and deserialized again later by the same
-program.  For more details see the <a href="#id8"><span class="problematic" id="id9">:ghc-compact-ref:`GHC.Compact
+program.  For more details see the <a href="#id10"><span class="problematic" id="id11">:ghc-compact-ref:`GHC.Compact
 &lt;GHC-Compact.html&gt;`</span></a> module. Moreover, see the <code class="docutils literal"><span class="pre">compact</span></code> library on <a class="reference external" href="https://hackage.haskell.org/package/compact">Hackage</a> for a high-level interface.</li>
 <li>There is new support for improving performance on machines with a
 Non-Uniform Memory Architecture (NUMA).  See <a class="reference internal" href="runtime_control.html#rts-flag---numa"><code class="xref std std-rts-flag docutils literal"><span class="pre">--numa</span></code></a>.
@@ -636,8 +641,8 @@ should not be inlined.  It is optimized away after the simplifier runs.</li>
 <li>Version number 1.6.1.0 (was 1.4.3.0)</li>
 </ul>
 </div>
-<div class="section" id="id10">
-<h3>3.3.18. template-haskell<a class="headerlink" href="#id10" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id12">
+<h3>3.3.18. template-haskell<a class="headerlink" href="#id12" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li>Version 2.12.0.0 (was 2.11.1.0)</li>
 <li>Added support for unboxed sums <a class="reference external" href="https://ghc.haskell.org/trac/ghc/ticket/12478">Trac #12478</a>.</li>

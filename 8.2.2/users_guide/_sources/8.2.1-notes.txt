@@ -518,64 +518,123 @@ GHCi
 
 - :ghci-cmd:`:type +d` および :ghci-cmd:`:type +v` が使えるようになりました(:ghc-ticket:`11975` を参照してください)．
 
+..
+   Template Haskell
+   ~~~~~~~~~~~~~~~~
+
 Template Haskell
 ~~~~~~~~~~~~~~~~
 
--  Reifying types that contain unboxed tuples now works correctly. (Previously,
-   Template Haskell reified unboxed tuples as boxed tuples with twice their
-   appropriate arity.)
+..
+   -  Reifying types that contain unboxed tuples now works correctly. (Previously,
+      Template Haskell reified unboxed tuples as boxed tuples with twice their
+      appropriate arity.)
 
--  Splicing singleton unboxed tuple types (e.g., ``(# Int #)``) now works
-   correctly. Previously, Template Haskell would implicitly remove the
-   parentheses when splicing, which would turn ``(# Int #)`` into ``Int``.
+-  非ボックス化タプルを含む型の具体化機構が正しく動作するようになりました．
+   （以前，Template Haskellは非ボックス化タプルをアリティ 2 のボックス化タプルとして具体化していました．）
 
--  Add support for type signatures in patterns. (:ghc-ticket:`12164`)
+..
+   -  Splicing singleton unboxed tuple types (e.g., ``(# Int #)``) now works
+      correctly. Previously, Template Haskell would implicitly remove the
+      parentheses when splicing, which would turn ``(# Int #)`` into ``Int``.
 
--  Make quoting and reification return the same types.  (:ghc-ticket:`11629`)
+-  シングルトン非ボックス化タプル（たとえば ``(# Int #)`` ）のスプライシングが正しく機能するようになりました．
+   以前は Template Haskell はスプライシングの際に，だまって括弧を削除していましたので，
+   ``(# Int #)`` が ``Int`` に変換されていました．
 
--  More kind annotations appear in the left-hand sides of reified closed
-   type family equations, in order to disambiguate types that would otherwise
-   be ambiguous in the presence of :ghc-flag:`-XPolyKinds`.
+..
+   -  Add support for type signatures in patterns. (:ghc-ticket:`12164`)
+
+-  パターン中の型シグネチャをサポートするようになりました．(:ghc-ticket:`12164`)
+
+..
+   -  Make quoting and reification return the same types.  (:ghc-ticket:`11629`)
+
+-  クォートと具体化で同じ型を返すようになりました．(:ghc-ticket:`11629`)
+
+..
+   -  More kind annotations appear in the left-hand sides of reified closed
+      type family equations, in order to disambiguate types that would otherwise
+      be ambiguous in the presence of :ghc-flag:`-XPolyKinds`.
+      (:ghc-ticket:`12646`)
+
+-  より多くのカインド注釈が具体化された閉じた型族等式の左辺にあらわれるようになりました．
+   これは :ghc-flag:`-XPolyKinds` が有効になっているときに，曖昧になる型を曖昧でなくなるようにするためです．
    (:ghc-ticket:`12646`)
 
--  Quoted type signatures are more accurate with respect to implicitly
-   quantified type variables. Before, if you quoted this: ::
+..
+   -  Quoted type signatures are more accurate with respect to implicitly
+      quantified type variables. Before, if you quoted this: ::
+
+	[d| id :: a -> a
+	    id x = x
+	  |]
+
+      then the code that Template Haskell would give back to you would actually be
+      this instead: ::
+
+	id :: forall a. a -> a
+	id x = x
+
+      That is, quoting would explicitly quantify all type variables, even ones
+      that were implicitly quantified in the source. This could be especially
+      harmful if a kind variable was implicitly quantified. For example, if
+      you took this quoted declaration: ::
+
+	[d| idProxy :: forall proxy (b :: k). proxy b -> proxy b
+	    idProxy x = x
+	  |]
+
+      and tried to splice it back in, you'd get this instead: ::
+
+	idProxy :: forall k proxy (b :: k). proxy b -> proxy b
+	idProxy x = x
+
+      Now ``k`` is explicitly quantified, and that requires turning on
+      :ghc-flag:`-XTypeInType`, whereas the original declaration did not!
+
+      Template Haskell quoting now respects implicit quantification in type
+      signatures, so the quoted declarations above now correctly leave the
+      type variables ``a`` and ``k`` as implicitly quantified.
+      (:ghc-ticket:`13018` and :ghc-ticket:`13123`)
+
+-  クォートされた型シグネチャは暗黙に限量化された型変数についてより正確になりました．
+   以前は，以下のようにクォートすると，
 
      [d| id :: a -> a
          id x = x
        |]
 
-   then the code that Template Haskell would give back to you would actually be
-   this instead: ::
+   Template Haskell が戻すの実際には以下のようになります． ::
 
      id :: forall a. a -> a
      id x = x
 
-   That is, quoting would explicitly quantify all type variables, even ones
-   that were implicitly quantified in the source. This could be especially
-   harmful if a kind variable was implicitly quantified. For example, if
-   you took this quoted declaration: ::
+   つまり，クォートすると元のソースでは暗黙であっても限量化が，すべての型変数について明示されるということです．
+   これは，カインド変数が暗黙に限量化されている場合には特に有害です．
+   たとえば，以下のようなクォート宣言をしたとしましょう． ::
 
      [d| idProxy :: forall proxy (b :: k). proxy b -> proxy b
          idProxy x = x
        |]
 
-   and tried to splice it back in, you'd get this instead: ::
+   これをスプライスすると，以下のうようになります． ::
 
      idProxy :: forall k proxy (b :: k). proxy b -> proxy b
      idProxy x = x
 
-   Now ``k`` is explicitly quantified, and that requires turning on
-   :ghc-flag:`-XTypeInType`, whereas the original declaration did not!
+   ここで ``k`` は明示的に限量化されています．こうなると :ghc-flag:`-XTypeInType` が有効になっていなければなりません．
+   しかし，元々の宣言ではそうはなっていませんでした．
 
-   Template Haskell quoting now respects implicit quantification in type
-   signatures, so the quoted declarations above now correctly leave the
-   type variables ``a`` and ``k`` as implicitly quantified.
-   (:ghc-ticket:`13018` and :ghc-ticket:`13123`)
+   Template Haskell のクォートでは型シグネチャでの暗黙の限量化が尊重されるようになりました．
+   したがって，上のクォートされた宣言では，型変数 ``a`` および ``k`` に対する限量化は暗黙のままになりす．
+   (:ghc-ticket:`13018` および :ghc-ticket:`13123`)
 
-- Looking up type constructors with symbol names (e.g., ``+``) now works
-  as expected (:ghc-ticket:`11046`)
+..
+   - Looking up type constructors with symbol names (e.g., ``+``) now works
+     as expected (:ghc-ticket:`11046`)
 
+- シンボル名 (たとえば ``+``) をもつ型構成子の検索が期待どおり機能するようになりました (:ghc-ticket:`11046`)．
 
 Runtime system
 ~~~~~~~~~~~~~~
