@@ -128,166 +128,350 @@
 Compiler
 ~~~~~~~~
 
-- GHC will now use ``ld.gold`` or ``ld.lld`` instead of the system's default
-  ``ld``, if available. Linker availability will be evaluated at ``configure``
-  time. The user can manually override which linker to use by passing the ``LD``
-  variable to ``configure``. You can revert to the old behavior of using the
-  system's default ``ld`` by passing the ``--disable-ld-override`` flag to
-  ``configure``.
+..
+   - GHC will now use ``ld.gold`` or ``ld.lld`` instead of the system's default
+     ``ld``, if available. Linker availability will be evaluated at ``configure``
+     time. The user can manually override which linker to use by passing the ``LD``
+     variable to ``configure``. You can revert to the old behavior of using the
+     system's default ``ld`` by passing the ``--disable-ld-override`` flag to
+     ``configure``.
 
-- GHC now uses section splitting (i.e. :ghc-flag:`-split-sections`) instead of
-  object splitting (i.e. :ghc-flag:`-split-objs`) as the default mechanism for
-  linker-based dead code removal. While the effect is the same, split sections
-  tends to produce significantly smaller objects than split objects and more
-  closely mirrors the approach used by other compilers. Split objects will
-  be deprecated and eventually removed in a future GHC release.
+- GHC は可能であれば，システムのデフォルトリンカ ``ld`` ではなく ``ld.gold`` または ``ld.lld``
+  を使うようになりました．どのリンカが使えるかは ``configure`` のときに決まります．
+  どのリンカを使うかはユーザが ``configure`` に ``LD`` 変数を指定して渡すことで上書きできます．
+  ``--disable-ld-override`` フラグを ``configure`` に渡せば，以前と同様システムのデフォルトリンカ
+  ``ld`` を使うように戻せます．
 
-  Note that some versions of the ubiquitous BFD linker exhibit performance
-  trouble with large libraries with section splitting enabled (see
-  :ghc-ticket:`13739`). It is recommended that you use either the ``gold`` or
-  ``lld`` linker if you observe this. This will require that you install one of
-  these compilers, rerun ``configure``, and reinstall GHC.
+..
+   - GHC now uses section splitting (i.e. :ghc-flag:`-split-sections`) instead of
+     object splitting (i.e. :ghc-flag:`-split-objs`) as the default mechanism for
+     linker-based dead code removal. While the effect is the same, split sections
+     tends to produce significantly smaller objects than split objects and more
+     closely mirrors the approach used by other compilers. Split objects will
+     be deprecated and eventually removed in a future GHC release.
 
-  Split sections is enabled by default in the official binary distributions for
-  platforms that support it.
+     Note that some versions of the ubiquitous BFD linker exhibit performance
+     trouble with large libraries with section splitting enabled (see
+     :ghc-ticket:`13739`). It is recommended that you use either the ``gold`` or
+     ``lld`` linker if you observe this. This will require that you install one of
+     these compilers, rerun ``configure``, and reinstall GHC.
 
-- Old profiling flags ``-auto-all``, ``-auto``, and ``-caf-all`` are deprecated
-  and their usage provokes a compile-time warning.
+     Split sections is enabled by default in the official binary distributions for
+     platforms that support it.
 
-- Support for adding cost centres to declarations is added. The same ``SCC``
-  syntax can be used, in addition to a new form for specifying the cost centre
-  name. See :ref:`scc-pragma` for examples.
+- GHC はリンカベースのデッドコード除去のデフォルト機構として，オブジェクト分割(すなわち :ghc-flag:`-split-objs`)ではなく，
+  セクション分割(すなわち :ghc-flag:`-split-sections`)を用いるようになりました．
+  効果としては同じですが，セクション分割のほうが，オブジェクト分割よりも明らかに小さなオブジェクトを生成する傾向にあり，
+  また他のコンパイラでのアプローチをより反映したものになっています．
+  オブジェクト分割は非推奨となり，将来のGHCリリースでは取り除くことになりました．
 
-- GHC is now much more particular about :ghc-flag:`-XDefaultSignatures`. The
-  type signature for a default method of a type class must now be the same as
-  the corresponding main method's type signature modulo differences in the
-  signatures' contexts. Otherwise, the typechecker will reject that class's
-  definition. See :ref:`class-default-signatures` for further details.
+  よく普及しているBFDリンカには，セクション分割を有効にすると，
+  大きなライブラリに関して性能に問題があるバージョンがあることに注意してください
+  (:ghc-ticket:`13739` 参照)．
+  もし，そういう問題に遭遇したら ``gold`` リンカか ``lld`` リンカを使うことをお勧めします．
+  すなわち，どちらかのリンカをインストールし， ``configure`` スクリプトを再実行して，GHC を再インストールしてください．
 
-- :ghc-flag:`-XDeriveAnyClass` is no longer limited to type classes whose
-  argument is of kind ``*`` or ``* -> *``.
+  セクション分割がサポートされるようなプラットフォーム用のバイナリディストリビューションでは，
+  デフォルトでセクション分割が有効になっています．
 
-- The means by which :ghc-flag:`-XDeriveAnyClass` infers instance contexts has
-  been completely overhauled. The instance context is now inferred using the
-  type signatures (and default type signatures) of the derived class's methods
-  instead of using the datatype's definition, which often led to
-  over-constrained instances or instances that didn't typecheck (or worse,
-  triggered GHC panics). See the section on
-  :ref:`DeriveAnyClass <derive-any-class>` for more details.
+..
+   - Old profiling flags ``-auto-all``, ``-auto``, and ``-caf-all`` are deprecated
+     and their usage provokes a compile-time warning.
 
-- GHC now allows standalone deriving using :ghc-flag:`-XDeriveAnyClass` on
-  any data type, even if its data constructors are not in scope. This is
-  consistent with the fact that this code (in the presence of
-  :ghc-flag:`-XDeriveAnyClass`): ::
+- 古いプロファイリング用フラグ ``-auto-all`` ， ``-auto`` ， ``-caf-all`` は非推奨になり，
+  これらのフラグを使うとコンパイル時に警告が出ます．
+
+..
+   - Support for adding cost centres to declarations is added. The same ``SCC``
+     syntax can be used, in addition to a new form for specifying the cost centre
+     name. See :ref:`scc-pragma` for examples.
+
+- 宣言へのコストセンター追加をサポートするようにしました．従来の ``SCC`` の構文が使えます．
+  また，コストセンター名を指定する形式が追加になっています．例は :ref:`scc-pragma` を参照してください．
+
+..
+   - GHC is now much more particular about :ghc-flag:`-XDefaultSignatures`. The
+     type signature for a default method of a type class must now be the same as
+     the corresponding main method's type signature modulo differences in the
+     signatures' contexts. Otherwise, the typechecker will reject that class's
+     definition. See :ref:`class-default-signatures` for further details.
+
+- GHC は :`-XDefaultSignatures` に関して細かく制約するようになりました．
+  型クラスのデフォルトメソッドの型シグネチャは，当該型シグネチャの文脈における差異を除いては，
+  関連する主要メソッドの型シグネチャと同じでなければならなくなりました．
+  この条件が満されない場合は，型検査器がクラスの定義を拒絶します．
+  詳細については :ref:`class-default-signatures` を参照してください．
+
+..
+   - :ghc-flag:`-XDeriveAnyClass` is no longer limited to type classes whose
+     argument is of kind ``*`` or ``* -> *``.
+
+- :ghc-flag:`-XDeriveAnyClass` は，引数のカインドが ``*`` あるいは ``* -> *`` でなければならないという
+  制限はなくなりました．     
+
+..
+   - The means by which :ghc-flag:`-XDeriveAnyClass` infers instance contexts has
+     been completely overhauled. The instance context is now inferred using the
+     type signatures (and default type signatures) of the derived class's methods
+     instead of using the datatype's definition, which often led to
+     over-constrained instances or instances that didn't typecheck (or worse,
+     triggered GHC panics). See the section on
+     :ref:`DeriveAnyClass <derive-any-class>` for more details.
+
+- :ghc-flag:`-XDeriveAnyClass` がインスタンスのコンテキストを推論する方法をすっかり刷新しました．
+  インスタンスコンテキストは派生クラスのメソッドの型シグネチャ(およびデフォルト型シグネチャ）を使って推論するようにしました．
+  以前はこの推論にはデータ型定義を使っており，制約の強すぎるインスタンスになったり，
+  型検査が通らなかったり（ひどい時には GHC がパニックになったり）します．詳細については
+  :ref:`DeriveAnyClass <derive-any-class>` のセクションを参照してください．
+
+..
+   - GHC now allows standalone deriving using :ghc-flag:`-XDeriveAnyClass` on
+     any data type, even if its data constructors are not in scope. This is
+     consistent with the fact that this code (in the presence of
+     :ghc-flag:`-XDeriveAnyClass`): ::
+
+	 deriving instance C T
+
+     is exactly equivalent to: ::
+
+	 instance C T
+
+     and the latter code has no restrictions about whether the data constructors
+     of ``T`` are in scope.
+
+- GHCでは，データコンストラクタがスコープに含まれていなくても  :ghc-flag:`-XDeriveAnyClass` を有効にすれば，
+  スタンドアロンでの導出が可能になりました．
+  すなわち :ghc-flag:`-XDeriveAnyClass` が指定されていれば，
+  以下のコード: ::
 
       deriving instance C T
 
-  is exactly equivalent to: ::
+  が，次のコード: ::
 
       instance C T
 
-  and the latter code has no restrictions about whether the data constructors
-  of ``T`` are in scope.
+  と同一であり，後者のコードでは ``T`` のデータ構成子が有効範囲にあるかどうかという制約はないということです．
 
-- :ghc-flag:`-XGeneralizedNewtypeDeriving` now supports deriving type classes
-  with associated type families. See the section on
+..
+   - :ghc-flag:`-XGeneralizedNewtypeDeriving` now supports deriving type classes
+     with associated type families. See the section on
+     :ref:`GeneralizedNewtypeDeriving and associated type families
+     <gnd-and-associated-types>`.
+
+- :ghc-flag:`-XGeneralizedNewtypeDeriving` は、関連付けられた型族を持つ型クラスを派生させるようになりました。
   :ref:`GeneralizedNewtypeDeriving and associated type families
-  <gnd-and-associated-types>`.
+  <gnd-and-associated-types>` を参照してください．
 
-- :ghc-flag:`-XGeneralizedNewtypeDeriving` will no longer infer constraints
-  when deriving a class with no methods. That is, this code: ::
+..
+   - :ghc-flag:`-XGeneralizedNewtypeDeriving` will no longer infer constraints
+     when deriving a class with no methods. That is, this code: ::
+
+	 class Throws e
+	 newtype Id a = MkId a
+	   deriving Throws
+
+     will now generate this instance: ::
+
+	 instance Throws (Id a)
+
+     instead of this instance: ::
+
+	 instance Throws a => Throws (Id a)
+
+     This change was motivated by the fact that the latter code has a strictly
+     redundant ``Throws a`` constraint, so it would emit a warning when compiled
+     with :ghc-flag:`-Wredundant-constraints`. The latter instance could still
+     be derived if so desired using :ghc-flag:`-XStandaloneDeriving`: ::
+
+	 deriving instance Throws a => Throws (Id a)
+
+- :ghc-flag:`-XGeneralizedNewtypeDeriving` は，メソッドを持たないクラスを派生させるとき，制約を推測しなくなります．
+  すなわち ::
 
       class Throws e
       newtype Id a = MkId a
         deriving Throws
 
-  will now generate this instance: ::
+  というコードでは以下の ::
 
       instance Throws (Id a)
 
-  instead of this instance: ::
+  というインスタンスが生成されるようになり ::
 
       instance Throws a => Throws (Id a)
 
-  This change was motivated by the fact that the latter code has a strictly
-  redundant ``Throws a`` constraint, so it would emit a warning when compiled
-  with :ghc-flag:`-Wredundant-constraints`. The latter instance could still
-  be derived if so desired using :ghc-flag:`-XStandaloneDeriving`: ::
+  というインスタンスは生成しません．
+  この変更は，後者のコードには冗長な ``Throws a`` という制約がかかっているために，
+  :ghc-flag:`-Wredundant-constraints` フラグでコンパイルすると警告が出ることに対応したものです．
+  後者のインスタンスは，必要に応じて :ghc-flag:`-XStandaloneDeriving` を使うことで導出できます． ::
 
       deriving instance Throws a => Throws (Id a)
 
-- Add warning flag :ghc-flag:`-Wcpp-undef` which passes ``-Wundef`` to the C
-  pre-processor causing the pre-processor to warn on uses of the ``#if``
-  directive on undefined identifiers.
+- C のプリプロセッサに ``-Wundef`` を渡す警告フラグ :ghc-flag:`-Wcpp-undef` を追加しました．
+  これは ``#if`` ディレクティブが未定義の識別子に使われていることを警告します．
 
-- GHC will no longer automatically infer the kind of higher-rank type synonyms;
-  you must explicitly explicitly annotate the synonym with a kind signature.
-  For example, given::
+..
+   - GHC will no longer automatically infer the kind of higher-rank type synonyms;
+     you must explicitly explicitly annotate the synonym with a kind signature.
+     For example, given::
+
+       data T :: (forall k. k -> Type) -> Type
+
+     to define a synonym of ``T``, you must write::
+
+       type TSyn = (T :: (forall k. k -> Type) -> Type)
+
+- GHC は高階ランク型シノニムのカインドを自動推論することはなくなりました．
+  カインドシグネチャにより明示的に型シノニムに注釈を付けなければなりません．
+  たとえば ::
 
     data T :: (forall k. k -> Type) -> Type
 
-  to define a synonym of ``T``, you must write::
+  という型があるとして， ``T`` の型シノニムを定義するには以下のように書かなければなりません． ::
 
     type TSyn = (T :: (forall k. k -> Type) -> Type)
 
-- The Mingw-w64 toolchain for the Windows version of GHC has been updated. GHC now uses
-  `GCC 6.2.0` and `binutils 2.27`.
+..
+   - The Mingw-w64 toolchain for the Windows version of GHC has been updated. GHC now uses
+     `GCC 6.2.0` and `binutils 2.27`.
 
-- Previously, :ghc-flag:`-Wmissing-methods` would not warn whenever a type
-  class method beginning with an underscore was not implemented in an instance.
-  For instance, this code would compile without any warnings: ::
+- GHC の Windows 版ツールチェーン mingw-w64 が更新されました．
+  GHC は `GCC 6.2.0` および `binutils 2.27` を使います．
+
+..
+   - Previously, :ghc-flag:`-Wmissing-methods` would not warn whenever a type
+     class method beginning with an underscore was not implemented in an instance.
+     For instance, this code would compile without any warnings: ::
+
+	class Foo a where
+	  _Bar :: a -> Int
+
+	instance Foo Int
+
+     :ghc-flag:`-Wmissing-methods` will now warn that ``_Bar`` is not implemented
+     in the ``Foo Int`` instance.
+
+- 以前は :ghc-flag:`-Wmissing-methods` が指定されていても，アンダースコアで始まる型クラスメソッドについては，
+  インスタンス実装で定義されていなくても警告されませんでした．
+  たとえば，以下のコードはなんの警告もなくコンパイルされました． ::
 
      class Foo a where
        _Bar :: a -> Int
 
      instance Foo Int
 
-  :ghc-flag:`-Wmissing-methods` will now warn that ``_Bar`` is not implemented
-  in the ``Foo Int`` instance.
+  今は :ghc-flag:`-Wmissing-methods` によって ``_Bar`` が
+  ``Foo Int`` インスタンスで実装されていない旨の警告が出ます．
 
-- A new flag :ghc-flag:`-ddump-json` has been added. This flag dumps compiler
-  output as JSON documents. It is experimental and will be refined depending
-  on feedback from tooling authors for the next release.
+..
+   - A new flag :ghc-flag:`-ddump-json` has been added. This flag dumps compiler
+     output as JSON documents. It is experimental and will be refined depending
+     on feedback from tooling authors for the next release.
 
-- GHC is now able to better optimize polymorphic expressions by using known
-  superclass dictionaries where possible. Some examples: ::
+- :ghc-flag:`-ddump-json` という新しいフラグを追加しました．
+  このフラグはコンパイラの出力を JSON 文書としてダンプします．
+  これは実験的なもので，次回リリースのツール作成者のフィードバックに応じて洗練されます．
 
-    -- uses of `Monad IO` or `Applicative IO` here are improved
+..
+   - GHC is now able to better optimize polymorphic expressions by using known
+     superclass dictionaries where possible. Some examples: ::
+
+       -- uses of `Monad IO` or `Applicative IO` here are improved
+       foo :: MonadBaseControl IO m => ...
+
+       -- uses of `Monoid MyMonoid` here are improved
+       bar :: MonadWriter MyMonoid m => ...
+
+- GHC は，可能であれば既知のスーパークラスの辞書を使うことにより，
+  多相型の式の最適化をよりよく行えるようになりました．以下はその例です． ::
+
+    -- ここで `Monad IO` あるいは `Applicative IO` を使えば改善になります．
     foo :: MonadBaseControl IO m => ...
 
-    -- uses of `Monoid MyMonoid` here are improved
+    -- ここで `Monoid MyMonoid` を使えば改善になります．
     bar :: MonadWriter MyMonoid m => ...
 
-- GHC now derives the definition of ``<$`` when using :ghc-flag:`-XDeriveFunctor`
-  rather than using the default definition. This prevents unnecessary
-  allocation and a potential space leak when deriving ``Functor`` for
-  a recursive type.
+..
+   - GHC now derives the definition of ``<$`` when using :ghc-flag:`-XDeriveFunctor`
+     rather than unsing the default definition. This prevents unnecessary
+     allocation and a potential space leak when deriving ``Functor`` for
+     a recursive type.
 
-- The :ghc-flag:`-XExtendedDefaultRules` extension now defaults multi-parameter
-  typeclasses. See :ghc-ticket:`12923`.
+- GHC はデフォルト定義を使用するのではなく  :ghc-flag:`-XDeriveFunctor` を使用するときに
+  ``<$`` の定義を導出するようになりました．
+  これにより，再帰型に対する ``Functor`` を導出する差異に，不要なメモリ割り当てやスペースリークが防げます．
 
-- GHC now ignores ``RULES`` for data constructors (:ghc-ticket:`13290`).
-  Previously, it accepted::
+..
+   - The :ghc-flag:`-XExtendedDefaultRules` extension now defaults multi-parameter
+     typeclasses. See :ghc-ticket:`12923`.
+
+- 言語拡張 :ghc-flag:`-XExtendedDefaultRules` はデフォルトでマルチパラメータの型クラスに対応するようになりました．
+  :ghc-ticket:`12923` を参照してください．
+
+..
+   - GHC now ignores ``RULES`` for data constructors (:ghc-ticket:`13290`).
+     Previously, it accepted::
+
+       {-# RULES "NotAllowed" forall x. Just x = e #-}
+
+     That rule will no longer take effect, and a warning will be issued. ``RULES``
+     may still mention data constructors, but not in the outermost position::
+
+       {-# RULES "StillWorks" forall x. f (Just x) = e #-}
+
+- GHC はデータ構成子に対する ``RULES`` を無視するようになりました(:ghc-ticket:`13290`)．
+  以前は，以下を受けつけていました． ::
 
     {-# RULES "NotAllowed" forall x. Just x = e #-}
 
-  That rule will no longer take effect, and a warning will be issued. ``RULES``
-  may still mention data constructors, but not in the outermost position::
+  このルールはもう効力を失い，警告が出ます．
+  以下の ``RULES`` はデータ構成子に言及していますが，最も外側にはありません． ::
 
     {-# RULES "StillWorks" forall x. f (Just x) = e #-}
 
-- Type synonyms can no longer appear in the class position of an instance.
-  This means something like this is no longer allowed: ::
+..
+   - Type synonyms can no longer appear in the class position of an instance.
+     This means something like this is no longer allowed: ::
+
+       type ReadShow a = (Read a, Show a)
+       instance Read Foo
+       instance Show Foo
+       instance ReadShow Foo -- illegal
+
+     See :ghc-ticket:`13267`.
+
+- 型シノニムはインスタンスのクラス位置には現れなくなりました．
+  すなわち，以下は許されなくなりました． ::
 
     type ReadShow a = (Read a, Show a)
     instance Read Foo
     instance Show Foo
     instance ReadShow Foo -- illegal
 
-  See :ghc-ticket:`13267`.
+  :ghc-ticket:`13267` を参照してください．
 
-- Validity checking for associated type family instances has tightened
-  somewhat. Before, this would be accepted: ::
+..
+   - Validity checking for associated type family instances has tightened
+     somewhat. Before, this would be accepted: ::
+
+       class Foo a where
+	 type Bar a
+
+       instance Foo (Either a b) where
+	 type Bar (Either c d) = d -> c
+
+     This is now disallowed, as the type variables used in the `Bar` instance do
+     not match those in the instance head. This instance can be fixed by changing
+     it to: ::
+
+       instance Foo (Either a b) where
+	 type Bar (Either a b) = b -> a
+
+     See the section on :ref:`associated type family instances <assoc-data-inst>`
+     for more information.
+
+- 関連型族の正当性検査は多少強化されています．
+  以前は以下は受け入れられていました． ::
 
     class Foo a where
       type Bar a
@@ -295,20 +479,24 @@ Compiler
     instance Foo (Either a b) where
       type Bar (Either c d) = d -> c
 
-  This is now disallowed, as the type variables used in the `Bar` instance do
-  not match those in the instance head. This instance can be fixed by changing
+  これは ``Bar`` インスタンスで使用されている型変数がインスタンスヘッドの型変数と一致しないため，現在は許可されていません．
+  このインスタンスは，以下のように変更すれば許可されます． ::
   it to: ::
 
     instance Foo (Either a b) where
       type Bar (Either a b) = b -> a
 
-  See the section on :ref:`associated type family instances <assoc-data-inst>`
-  for more information.
+  詳細については :ref:`associated type family instances <assoc-data-inst>` の節を参照してください．
 
-- A bug involving the interaction between :ghc-flag:`-XMonoLocalBinds` and
-  :ghc-flag:`-XPolyKinds` has been fixed. This can cause some programs to fail
-  to typecheck in case explicit kind signatures are not provided. See
-  :ref:`kind-generalisation` for an example.
+..
+   - A bug involving the interaction between :ghc-flag:`-XMonoLocalBinds` and
+     :ghc-flag:`-XPolyKinds` has been fixed. This can cause some programs to fail
+     to typecheck in case explicit kind signatures are not provided. See
+     :ref:`kind-generalisation` for an example.
+
+- :ghc-flag:`-XMonoLocalBinds` と :ghc-flag:`-XPolyKinds` の間の相互作用に関するバグが修正されました．
+  この修正により，明示的に型シグネチャが与えられていない場合には，型検査に通らないプログラムがあります．
+  例については :ref:`kind-generalisation` を参照してください．
 
 GHCi
 ~~~~

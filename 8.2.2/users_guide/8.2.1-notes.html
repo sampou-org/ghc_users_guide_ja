@@ -186,168 +186,186 @@
 </div>
 <div class="section" id="compiler">
 <h3>3.2.3. Compiler<a class="headerlink" href="#compiler" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li>GHC は可能であれば，システムのデフォルトリンカ <code class="docutils literal"><span class="pre">ld</span></code> ではなく <code class="docutils literal"><span class="pre">ld.gold</span></code> または <code class="docutils literal"><span class="pre">ld.lld</span></code>
+を使うようになりました．どのリンカが使えるかは <code class="docutils literal"><span class="pre">configure</span></code> のときに決まります．
+どのリンカを使うかはユーザが <code class="docutils literal"><span class="pre">configure</span></code> に <code class="docutils literal"><span class="pre">LD</span></code> 変数を指定して渡すことで上書きできます．
+<code class="docutils literal"><span class="pre">--disable-ld-override</span></code> フラグを <code class="docutils literal"><span class="pre">configure</span></code> に渡せば，以前と同様システムのデフォルトリンカ
+<code class="docutils literal"><span class="pre">ld</span></code> を使うように戻せます．</li>
+</ul>
 <ul>
-<li><p class="first">GHC will now use <code class="docutils literal"><span class="pre">ld.gold</span></code> or <code class="docutils literal"><span class="pre">ld.lld</span></code> instead of the system&#8217;s default
-<code class="docutils literal"><span class="pre">ld</span></code>, if available. Linker availability will be evaluated at <code class="docutils literal"><span class="pre">configure</span></code>
-time. The user can manually override which linker to use by passing the <code class="docutils literal"><span class="pre">LD</span></code>
-variable to <code class="docutils literal"><span class="pre">configure</span></code>. You can revert to the old behavior of using the
-system&#8217;s default <code class="docutils literal"><span class="pre">ld</span></code> by passing the <code class="docutils literal"><span class="pre">--disable-ld-override</span></code> flag to
-<code class="docutils literal"><span class="pre">configure</span></code>.</p>
+<li><p class="first">GHC はリンカベースのデッドコード除去のデフォルト機構として，オブジェクト分割(すなわち <a class="reference internal" href="phases.html#ghc-flag--split-objs"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-split-objs</span></code></a>)ではなく，
+セクション分割(すなわち <a class="reference internal" href="phases.html#ghc-flag--split-sections"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-split-sections</span></code></a>)を用いるようになりました．
+効果としては同じですが，セクション分割のほうが，オブジェクト分割よりも明らかに小さなオブジェクトを生成する傾向にあり，
+また他のコンパイラでのアプローチをより反映したものになっています．
+オブジェクト分割は非推奨となり，将来のGHCリリースでは取り除くことになりました．</p>
+<p>よく普及しているBFDリンカには，セクション分割を有効にすると，
+大きなライブラリに関して性能に問題があるバージョンがあることに注意してください
+(<a class="reference external" href="https://ghc.haskell.org/trac/ghc/ticket/13739">Trac #13739</a> 参照)．
+もし，そういう問題に遭遇したら <code class="docutils literal"><span class="pre">gold</span></code> リンカか <code class="docutils literal"><span class="pre">lld</span></code> リンカを使うことをお勧めします．
+すなわち，どちらかのリンカをインストールし， <code class="docutils literal"><span class="pre">configure</span></code> スクリプトを再実行して，GHC を再インストールしてください．</p>
+<p>セクション分割がサポートされるようなプラットフォーム用のバイナリディストリビューションでは，
+デフォルトでセクション分割が有効になっています．</p>
 </li>
-<li><p class="first">GHC now uses section splitting (i.e. <a class="reference internal" href="phases.html#ghc-flag--split-sections"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-split-sections</span></code></a>) instead of
-object splitting (i.e. <a class="reference internal" href="phases.html#ghc-flag--split-objs"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-split-objs</span></code></a>) as the default mechanism for
-linker-based dead code removal. While the effect is the same, split sections
-tends to produce significantly smaller objects than split objects and more
-closely mirrors the approach used by other compilers. Split objects will
-be deprecated and eventually removed in a future GHC release.</p>
-<p>Note that some versions of the ubiquitous BFD linker exhibit performance
-trouble with large libraries with section splitting enabled (see
-<a class="reference external" href="https://ghc.haskell.org/trac/ghc/ticket/13739">Trac #13739</a>). It is recommended that you use either the <code class="docutils literal"><span class="pre">gold</span></code> or
-<code class="docutils literal"><span class="pre">lld</span></code> linker if you observe this. This will require that you install one of
-these compilers, rerun <code class="docutils literal"><span class="pre">configure</span></code>, and reinstall GHC.</p>
-<p>Split sections is enabled by default in the official binary distributions for
-platforms that support it.</p>
-</li>
-<li><p class="first">Old profiling flags <code class="docutils literal"><span class="pre">-auto-all</span></code>, <code class="docutils literal"><span class="pre">-auto</span></code>, and <code class="docutils literal"><span class="pre">-caf-all</span></code> are deprecated
-and their usage provokes a compile-time warning.</p>
-</li>
-<li><p class="first">Support for adding cost centres to declarations is added. The same <code class="docutils literal"><span class="pre">SCC</span></code>
-syntax can be used, in addition to a new form for specifying the cost centre
-name. See <a class="reference internal" href="profiling.html#scc-pragma"><span>Inserting cost centres by hand</span></a> for examples.</p>
-</li>
-<li><p class="first">GHC is now much more particular about <a class="reference internal" href="glasgow_exts.html#ghc-flag--XDefaultSignatures"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-XDefaultSignatures</span></code></a>. The
-type signature for a default method of a type class must now be the same as
-the corresponding main method&#8217;s type signature modulo differences in the
-signatures&#8217; contexts. Otherwise, the typechecker will reject that class&#8217;s
-definition. See <a class="reference internal" href="glasgow_exts.html#class-default-signatures"><span>Default method signatures</span></a> for further details.</p>
-</li>
-<li><p class="first"><a class="reference internal" href="glasgow_exts.html#ghc-flag--XDeriveAnyClass"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-XDeriveAnyClass</span></code></a> is no longer limited to type classes whose
-argument is of kind <code class="docutils literal"><span class="pre">*</span></code> or <code class="docutils literal"><span class="pre">*</span> <span class="pre">-&gt;</span> <span class="pre">*</span></code>.</p>
-</li>
-<li><p class="first">The means by which <a class="reference internal" href="glasgow_exts.html#ghc-flag--XDeriveAnyClass"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-XDeriveAnyClass</span></code></a> infers instance contexts has
-been completely overhauled. The instance context is now inferred using the
-type signatures (and default type signatures) of the derived class&#8217;s methods
-instead of using the datatype&#8217;s definition, which often led to
-over-constrained instances or instances that didn&#8217;t typecheck (or worse,
-triggered GHC panics). See the section on
-<a class="reference internal" href="glasgow_exts.html#derive-any-class"><span>DeriveAnyClass</span></a> for more details.</p>
-</li>
-<li><p class="first">GHC now allows standalone deriving using <a class="reference internal" href="glasgow_exts.html#ghc-flag--XDeriveAnyClass"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-XDeriveAnyClass</span></code></a> on
-any data type, even if its data constructors are not in scope. This is
-consistent with the fact that this code (in the presence of
-<a class="reference internal" href="glasgow_exts.html#ghc-flag--XDeriveAnyClass"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-XDeriveAnyClass</span></code></a>):</p>
+</ul>
+<ul class="simple">
+<li>古いプロファイリング用フラグ <code class="docutils literal"><span class="pre">-auto-all</span></code> ， <code class="docutils literal"><span class="pre">-auto</span></code> ， <code class="docutils literal"><span class="pre">-caf-all</span></code> は非推奨になり，
+これらのフラグを使うとコンパイル時に警告が出ます．</li>
+</ul>
+<ul class="simple">
+<li>宣言へのコストセンター追加をサポートするようにしました．従来の <code class="docutils literal"><span class="pre">SCC</span></code> の構文が使えます．
+また，コストセンター名を指定する形式が追加になっています．例は <a class="reference internal" href="profiling.html#scc-pragma"><span>Inserting cost centres by hand</span></a> を参照してください．</li>
+</ul>
+<ul class="simple">
+<li>GHC は :<cite>-XDefaultSignatures</cite> に関して細かく制約するようになりました．
+型クラスのデフォルトメソッドの型シグネチャは，当該型シグネチャの文脈における差異を除いては，
+関連する主要メソッドの型シグネチャと同じでなければならなくなりました．
+この条件が満されない場合は，型検査器がクラスの定義を拒絶します．
+詳細については <a class="reference internal" href="glasgow_exts.html#class-default-signatures"><span>Default method signatures</span></a> を参照してください．</li>
+</ul>
+<ul class="simple">
+<li><a class="reference internal" href="glasgow_exts.html#ghc-flag--XDeriveAnyClass"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-XDeriveAnyClass</span></code></a> は，引数のカインドが <code class="docutils literal"><span class="pre">*</span></code> あるいは <code class="docutils literal"><span class="pre">*</span> <span class="pre">-&gt;</span> <span class="pre">*</span></code> でなければならないという
+制限はなくなりました．</li>
+</ul>
+<ul class="simple">
+<li><a class="reference internal" href="glasgow_exts.html#ghc-flag--XDeriveAnyClass"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-XDeriveAnyClass</span></code></a> がインスタンスのコンテキストを推論する方法をすっかり刷新しました．
+インスタンスコンテキストは派生クラスのメソッドの型シグネチャ(およびデフォルト型シグネチャ）を使って推論するようにしました．
+以前はこの推論にはデータ型定義を使っており，制約の強すぎるインスタンスになったり，
+型検査が通らなかったり（ひどい時には GHC がパニックになったり）します．詳細については
+<a class="reference internal" href="glasgow_exts.html#derive-any-class"><span>DeriveAnyClass</span></a> のセクションを参照してください．</li>
+</ul>
+<ul>
+<li><p class="first">GHCでは，データコンストラクタがスコープに含まれていなくても  <a class="reference internal" href="glasgow_exts.html#ghc-flag--XDeriveAnyClass"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-XDeriveAnyClass</span></code></a> を有効にすれば，
+スタンドアロンでの導出が可能になりました．
+すなわち <a class="reference internal" href="glasgow_exts.html#ghc-flag--XDeriveAnyClass"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-XDeriveAnyClass</span></code></a> が指定されていれば，
+以下のコード:</p>
 <div class="highlight-haskell"><div class="highlight"><pre><span class="kr">deriving</span> <span class="kr">instance</span> <span class="kt">C</span> <span class="kt">T</span>
 </pre></div>
 </div>
-<p>is exactly equivalent to:</p>
+<p>が，次のコード:</p>
 <div class="highlight-haskell"><div class="highlight"><pre><span class="kr">instance</span> <span class="kt">C</span> <span class="kt">T</span>
 </pre></div>
 </div>
-<p>and the latter code has no restrictions about whether the data constructors
-of <code class="docutils literal"><span class="pre">T</span></code> are in scope.</p>
+<p>と同一であり，後者のコードでは <code class="docutils literal"><span class="pre">T</span></code> のデータ構成子が有効範囲にあるかどうかという制約はないということです．</p>
 </li>
-<li><p class="first"><a class="reference internal" href="glasgow_exts.html#ghc-flag--XGeneralizedNewtypeDeriving"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-XGeneralizedNewtypeDeriving</span></code></a> now supports deriving type classes
-with associated type families. See the section on
-<a class="reference internal" href="glasgow_exts.html#gnd-and-associated-types"><span>GeneralizedNewtypeDeriving and associated type families</span></a>.</p>
-</li>
-<li><p class="first"><a class="reference internal" href="glasgow_exts.html#ghc-flag--XGeneralizedNewtypeDeriving"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-XGeneralizedNewtypeDeriving</span></code></a> will no longer infer constraints
-when deriving a class with no methods. That is, this code:</p>
+</ul>
+<ul class="simple">
+<li><a class="reference internal" href="glasgow_exts.html#ghc-flag--XGeneralizedNewtypeDeriving"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-XGeneralizedNewtypeDeriving</span></code></a> は、関連付けられた型族を持つ型クラスを派生させるようになりました。
+<a class="reference internal" href="glasgow_exts.html#gnd-and-associated-types"><span>GeneralizedNewtypeDeriving and associated type families</span></a> を参照してください．</li>
+</ul>
+<ul>
+<li><p class="first"><a class="reference internal" href="glasgow_exts.html#ghc-flag--XGeneralizedNewtypeDeriving"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-XGeneralizedNewtypeDeriving</span></code></a> は，メソッドを持たないクラスを派生させるとき，制約を推測しなくなります．
+すなわち</p>
 <div class="highlight-haskell"><div class="highlight"><pre><span class="kr">class</span> <span class="kt">Throws</span> <span class="n">e</span>
 <span class="kr">newtype</span> <span class="kt">Id</span> <span class="n">a</span> <span class="ow">=</span> <span class="kt">MkId</span> <span class="n">a</span>
   <span class="kr">deriving</span> <span class="kt">Throws</span>
 </pre></div>
 </div>
-<p>will now generate this instance:</p>
+<p>というコードでは以下の</p>
 <div class="highlight-haskell"><div class="highlight"><pre><span class="kr">instance</span> <span class="kt">Throws</span> <span class="p">(</span><span class="kt">Id</span> <span class="n">a</span><span class="p">)</span>
 </pre></div>
 </div>
-<p>instead of this instance:</p>
+<p>というインスタンスが生成されるようになり</p>
 <div class="highlight-haskell"><div class="highlight"><pre><span class="kr">instance</span> <span class="kt">Throws</span> <span class="n">a</span> <span class="ow">=&gt;</span> <span class="kt">Throws</span> <span class="p">(</span><span class="kt">Id</span> <span class="n">a</span><span class="p">)</span>
 </pre></div>
 </div>
-<p>This change was motivated by the fact that the latter code has a strictly
-redundant <code class="docutils literal"><span class="pre">Throws</span> <span class="pre">a</span></code> constraint, so it would emit a warning when compiled
-with <a class="reference internal" href="using-warnings.html#ghc-flag--Wredundant-constraints"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-Wredundant-constraints</span></code></a>. The latter instance could still
-be derived if so desired using <a class="reference internal" href="glasgow_exts.html#ghc-flag--XStandaloneDeriving"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-XStandaloneDeriving</span></code></a>:</p>
+<p>というインスタンスは生成しません．
+この変更は，後者のコードには冗長な <code class="docutils literal"><span class="pre">Throws</span> <span class="pre">a</span></code> という制約がかかっているために，
+<a class="reference internal" href="using-warnings.html#ghc-flag--Wredundant-constraints"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-Wredundant-constraints</span></code></a> フラグでコンパイルすると警告が出ることに対応したものです．
+後者のインスタンスは，必要に応じて <a class="reference internal" href="glasgow_exts.html#ghc-flag--XStandaloneDeriving"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-XStandaloneDeriving</span></code></a> を使うことで導出できます．</p>
 <div class="highlight-haskell"><div class="highlight"><pre><span class="kr">deriving</span> <span class="kr">instance</span> <span class="kt">Throws</span> <span class="n">a</span> <span class="ow">=&gt;</span> <span class="kt">Throws</span> <span class="p">(</span><span class="kt">Id</span> <span class="n">a</span><span class="p">)</span>
 </pre></div>
 </div>
 </li>
-<li><p class="first">Add warning flag <a class="reference internal" href="using-warnings.html#ghc-flag--Wcpp-undef"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-Wcpp-undef</span></code></a> which passes <code class="docutils literal"><span class="pre">-Wundef</span></code> to the C
-pre-processor causing the pre-processor to warn on uses of the <code class="docutils literal"><span class="pre">#if</span></code>
-directive on undefined identifiers.</p>
+<li><p class="first">C のプリプロセッサに <code class="docutils literal"><span class="pre">-Wundef</span></code> を渡す警告フラグ <a class="reference internal" href="using-warnings.html#ghc-flag--Wcpp-undef"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-Wcpp-undef</span></code></a> を追加しました．
+これは <code class="docutils literal"><span class="pre">#if</span></code> ディレクティブが未定義の識別子に使われていることを警告します．</p>
 </li>
-<li><p class="first">GHC will no longer automatically infer the kind of higher-rank type synonyms;
-you must explicitly explicitly annotate the synonym with a kind signature.
-For example, given:</p>
+</ul>
+<ul>
+<li><p class="first">GHC は高階ランク型シノニムのカインドを自動推論することはなくなりました．
+カインドシグネチャにより明示的に型シノニムに注釈を付けなければなりません．
+たとえば</p>
 <div class="highlight-haskell"><div class="highlight"><pre><span class="kr">data</span> <span class="kt">T</span> <span class="ow">::</span> <span class="p">(</span><span class="n">forall</span> <span class="n">k</span><span class="o">.</span> <span class="n">k</span> <span class="ow">-&gt;</span> <span class="kt">Type</span><span class="p">)</span> <span class="ow">-&gt;</span> <span class="kt">Type</span>
 </pre></div>
 </div>
-<p>to define a synonym of <code class="docutils literal"><span class="pre">T</span></code>, you must write:</p>
+<p>という型があるとして， <code class="docutils literal"><span class="pre">T</span></code> の型シノニムを定義するには以下のように書かなければなりません．</p>
 <div class="highlight-haskell"><div class="highlight"><pre><span class="kr">type</span> <span class="kt">TSyn</span> <span class="ow">=</span> <span class="p">(</span><span class="kt">T</span> <span class="ow">::</span> <span class="p">(</span><span class="n">forall</span> <span class="n">k</span><span class="o">.</span> <span class="n">k</span> <span class="ow">-&gt;</span> <span class="kt">Type</span><span class="p">)</span> <span class="ow">-&gt;</span> <span class="kt">Type</span><span class="p">)</span>
 </pre></div>
 </div>
 </li>
-<li><p class="first">The Mingw-w64 toolchain for the Windows version of GHC has been updated. GHC now uses
-<cite>GCC 6.2.0</cite> and <cite>binutils 2.27</cite>.</p>
-</li>
-<li><p class="first">Previously, <a class="reference internal" href="using-warnings.html#ghc-flag--Wmissing-methods"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-Wmissing-methods</span></code></a> would not warn whenever a type
-class method beginning with an underscore was not implemented in an instance.
-For instance, this code would compile without any warnings:</p>
+</ul>
+<ul class="simple">
+<li>GHC の Windows 版ツールチェーン mingw-w64 が更新されました．
+GHC は <cite>GCC 6.2.0</cite> および <cite>binutils 2.27</cite> を使います．</li>
+</ul>
+<ul>
+<li><p class="first">以前は <a class="reference internal" href="using-warnings.html#ghc-flag--Wmissing-methods"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-Wmissing-methods</span></code></a> が指定されていても，アンダースコアで始まる型クラスメソッドについては，
+インスタンス実装で定義されていなくても警告されませんでした．
+たとえば，以下のコードはなんの警告もなくコンパイルされました．</p>
 <div class="highlight-haskell"><div class="highlight"><pre><span class="kr">class</span> <span class="kt">Foo</span> <span class="n">a</span> <span class="kr">where</span>
   <span class="n">_Bar</span> <span class="ow">::</span> <span class="n">a</span> <span class="ow">-&gt;</span> <span class="kt">Int</span>
 
 <span class="kr">instance</span> <span class="kt">Foo</span> <span class="kt">Int</span>
 </pre></div>
 </div>
-<p><a class="reference internal" href="using-warnings.html#ghc-flag--Wmissing-methods"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-Wmissing-methods</span></code></a> will now warn that <code class="docutils literal"><span class="pre">_Bar</span></code> is not implemented
-in the <code class="docutils literal"><span class="pre">Foo</span> <span class="pre">Int</span></code> instance.</p>
+<p>今は <a class="reference internal" href="using-warnings.html#ghc-flag--Wmissing-methods"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-Wmissing-methods</span></code></a> によって <code class="docutils literal"><span class="pre">_Bar</span></code> が
+<code class="docutils literal"><span class="pre">Foo</span> <span class="pre">Int</span></code> インスタンスで実装されていない旨の警告が出ます．</p>
 </li>
-<li><p class="first">A new flag <a class="reference internal" href="debugging.html#ghc-flag--ddump-json"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-ddump-json</span></code></a> has been added. This flag dumps compiler
-output as JSON documents. It is experimental and will be refined depending
-on feedback from tooling authors for the next release.</p>
-</li>
-<li><p class="first">GHC is now able to better optimize polymorphic expressions by using known
-superclass dictionaries where possible. Some examples:</p>
-<div class="highlight-haskell"><div class="highlight"><pre><span class="c1">-- uses of `Monad IO` or `Applicative IO` here are improved</span>
+</ul>
+<ul class="simple">
+<li><a class="reference internal" href="debugging.html#ghc-flag--ddump-json"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-ddump-json</span></code></a> という新しいフラグを追加しました．
+このフラグはコンパイラの出力を JSON 文書としてダンプします．
+これは実験的なもので，次回リリースのツール作成者のフィードバックに応じて洗練されます．</li>
+</ul>
+<ul>
+<li><p class="first">GHC は，可能であれば既知のスーパークラスの辞書を使うことにより，
+多相型の式の最適化をよりよく行えるようになりました．以下はその例です．</p>
+<div class="highlight-haskell"><div class="highlight"><pre><span class="c1">-- ここで `Monad IO` あるいは `Applicative IO` を使えば改善になります．</span>
 <span class="nf">foo</span> <span class="ow">::</span> <span class="kt">MonadBaseControl</span> <span class="kt">IO</span> <span class="n">m</span> <span class="ow">=&gt;</span> <span class="o">...</span>
 
-<span class="c1">-- uses of `Monoid MyMonoid` here are improved</span>
+<span class="c1">-- ここで `Monoid MyMonoid` を使えば改善になります．</span>
 <span class="nf">bar</span> <span class="ow">::</span> <span class="kt">MonadWriter</span> <span class="kt">MyMonoid</span> <span class="n">m</span> <span class="ow">=&gt;</span> <span class="o">...</span>
 </pre></div>
 </div>
 </li>
-<li><p class="first">GHC now derives the definition of <code class="docutils literal"><span class="pre">&lt;$</span></code> when using <a class="reference internal" href="glasgow_exts.html#ghc-flag--XDeriveFunctor"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-XDeriveFunctor</span></code></a>
-rather than using the default definition. This prevents unnecessary
-allocation and a potential space leak when deriving <code class="docutils literal"><span class="pre">Functor</span></code> for
-a recursive type.</p>
-</li>
-<li><p class="first">The <a class="reference internal" href="ghci.html#ghc-flag--XExtendedDefaultRules"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-XExtendedDefaultRules</span></code></a> extension now defaults multi-parameter
-typeclasses. See <a class="reference external" href="https://ghc.haskell.org/trac/ghc/ticket/12923">Trac #12923</a>.</p>
-</li>
-<li><p class="first">GHC now ignores <code class="docutils literal"><span class="pre">RULES</span></code> for data constructors (<a class="reference external" href="https://ghc.haskell.org/trac/ghc/ticket/13290">Trac #13290</a>).
-Previously, it accepted:</p>
+</ul>
+<ul class="simple">
+<li>GHC はデフォルト定義を使用するのではなく  <a class="reference internal" href="glasgow_exts.html#ghc-flag--XDeriveFunctor"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-XDeriveFunctor</span></code></a> を使用するときに
+<code class="docutils literal"><span class="pre">&lt;$</span></code> の定義を導出するようになりました．
+これにより，再帰型に対する <code class="docutils literal"><span class="pre">Functor</span></code> を導出する差異に，不要なメモリ割り当てやスペースリークが防げます．</li>
+</ul>
+<ul class="simple">
+<li>言語拡張 <a class="reference internal" href="ghci.html#ghc-flag--XExtendedDefaultRules"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-XExtendedDefaultRules</span></code></a> はデフォルトでマルチパラメータの型クラスに対応するようになりました．
+<a class="reference external" href="https://ghc.haskell.org/trac/ghc/ticket/12923">Trac #12923</a> を参照してください．</li>
+</ul>
+<ul>
+<li><p class="first">GHC はデータ構成子に対する <code class="docutils literal"><span class="pre">RULES</span></code> を無視するようになりました(<a class="reference external" href="https://ghc.haskell.org/trac/ghc/ticket/13290">Trac #13290</a>)．
+以前は，以下を受けつけていました．</p>
 <div class="highlight-haskell"><div class="highlight"><pre><span class="cm">{-# RULES &quot;NotAllowed&quot; forall x. Just x = e #-}</span>
 </pre></div>
 </div>
-<p>That rule will no longer take effect, and a warning will be issued. <code class="docutils literal"><span class="pre">RULES</span></code>
-may still mention data constructors, but not in the outermost position:</p>
+<p>このルールはもう効力を失い，警告が出ます．
+以下の <code class="docutils literal"><span class="pre">RULES</span></code> はデータ構成子に言及していますが，最も外側にはありません．</p>
 <div class="highlight-haskell"><div class="highlight"><pre><span class="cm">{-# RULES &quot;StillWorks&quot; forall x. f (Just x) = e #-}</span>
 </pre></div>
 </div>
 </li>
-<li><p class="first">Type synonyms can no longer appear in the class position of an instance.
-This means something like this is no longer allowed:</p>
+</ul>
+<ul>
+<li><p class="first">型シノニムはインスタンスのクラス位置には現れなくなりました．
+すなわち，以下は許されなくなりました．</p>
 <div class="highlight-haskell"><div class="highlight"><pre><span class="kr">type</span> <span class="kt">ReadShow</span> <span class="n">a</span> <span class="ow">=</span> <span class="p">(</span><span class="kt">Read</span> <span class="n">a</span><span class="p">,</span> <span class="kt">Show</span> <span class="n">a</span><span class="p">)</span>
 <span class="kr">instance</span> <span class="kt">Read</span> <span class="kt">Foo</span>
 <span class="kr">instance</span> <span class="kt">Show</span> <span class="kt">Foo</span>
 <span class="kr">instance</span> <span class="kt">ReadShow</span> <span class="kt">Foo</span> <span class="c1">-- illegal</span>
 </pre></div>
 </div>
-<p>See <a class="reference external" href="https://ghc.haskell.org/trac/ghc/ticket/13267">Trac #13267</a>.</p>
+<p><a class="reference external" href="https://ghc.haskell.org/trac/ghc/ticket/13267">Trac #13267</a> を参照してください．</p>
 </li>
-<li><p class="first">Validity checking for associated type family instances has tightened
-somewhat. Before, this would be accepted:</p>
+</ul>
+<ul>
+<li><p class="first">関連型族の正当性検査は多少強化されています．
+以前は以下は受け入れられていました．</p>
 <div class="highlight-haskell"><div class="highlight"><pre><span class="kr">class</span> <span class="kt">Foo</span> <span class="n">a</span> <span class="kr">where</span>
   <span class="kr">type</span> <span class="kt">Bar</span> <span class="n">a</span>
 
@@ -355,21 +373,20 @@ somewhat. Before, this would be accepted:</p>
   <span class="kr">type</span> <span class="kt">Bar</span> <span class="p">(</span><span class="kt">Either</span> <span class="n">c</span> <span class="n">d</span><span class="p">)</span> <span class="ow">=</span> <span class="n">d</span> <span class="ow">-&gt;</span> <span class="n">c</span>
 </pre></div>
 </div>
-<p>This is now disallowed, as the type variables used in the <cite>Bar</cite> instance do
-not match those in the instance head. This instance can be fixed by changing
+<p>これは <code class="docutils literal"><span class="pre">Bar</span></code> インスタンスで使用されている型変数がインスタンスヘッドの型変数と一致しないため，現在は許可されていません．
+このインスタンスは，以下のように変更すれば許可されます． ::
 it to:</p>
 <div class="highlight-haskell"><div class="highlight"><pre><span class="kr">instance</span> <span class="kt">Foo</span> <span class="p">(</span><span class="kt">Either</span> <span class="n">a</span> <span class="n">b</span><span class="p">)</span> <span class="kr">where</span>
   <span class="kr">type</span> <span class="kt">Bar</span> <span class="p">(</span><span class="kt">Either</span> <span class="n">a</span> <span class="n">b</span><span class="p">)</span> <span class="ow">=</span> <span class="n">b</span> <span class="ow">-&gt;</span> <span class="n">a</span>
 </pre></div>
 </div>
-<p>See the section on <a class="reference internal" href="glasgow_exts.html#assoc-data-inst"><span>associated type family instances</span></a>
-for more information.</p>
+<p>詳細については <a class="reference internal" href="glasgow_exts.html#assoc-data-inst"><span>associated type family instances</span></a> の節を参照してください．</p>
 </li>
-<li><p class="first">A bug involving the interaction between <a class="reference internal" href="glasgow_exts.html#ghc-flag--XMonoLocalBinds"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-XMonoLocalBinds</span></code></a> and
-<a class="reference internal" href="glasgow_exts.html#ghc-flag--XPolyKinds"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-XPolyKinds</span></code></a> has been fixed. This can cause some programs to fail
-to typecheck in case explicit kind signatures are not provided. See
-<a class="reference internal" href="glasgow_exts.html#kind-generalisation"><span>Kind generalisation</span></a> for an example.</p>
-</li>
+</ul>
+<ul class="simple">
+<li><a class="reference internal" href="glasgow_exts.html#ghc-flag--XMonoLocalBinds"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-XMonoLocalBinds</span></code></a> と <a class="reference internal" href="glasgow_exts.html#ghc-flag--XPolyKinds"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-XPolyKinds</span></code></a> の間の相互作用に関するバグが修正されました．
+この修正により，明示的に型シグネチャが与えられていない場合には，型検査に通らないプログラムがあります．
+例については <a class="reference internal" href="glasgow_exts.html#kind-generalisation"><span>Kind generalisation</span></a> を参照してください．</li>
 </ul>
 </div>
 <div class="section" id="ghci">
