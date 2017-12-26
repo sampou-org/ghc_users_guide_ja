@@ -498,15 +498,25 @@ Compiler
   この修正により，明示的に型シグネチャが与えられていない場合には，型検査に通らないプログラムがあります．
   例については :ref:`kind-generalisation` を参照してください．
 
+..
+   GHCi
+   ~~~~
+
 GHCi
 ~~~~
 
-- Added :ghc-flag:`-flocal-ghci-history` which uses current directory for `.ghci-history`.
+..
+   - Added :ghc-flag:`-flocal-ghci-history` which uses current directory for `.ghci-history`.
 
-- Added support for :ghc-flag:`-XStaticPointers` in interpreted modules. Note, however,
-  that ``static`` expressions are still not allowed in expressions evaluated in the REPL.
+- カレントディレクトリにある `.ghci-history` を使うための :ghc-flag:`-flocal-ghci-history` フラグが追加されました．
 
-- Added support for :ghci-cmd:`:type +d` and :ghci-cmd:`:type +v`. (:ghc-ticket:`11975`)
+- 解釈済みのモジュールで :ghc-flag:`-XStaticPointers` が使えるようになりました．
+  ただし ``static`` 式は REPL 内で評価する式の中には書けないことには変りはありません．
+
+..
+   - Added support for :ghci-cmd:`:type +d` and :ghci-cmd:`:type +v`. (:ghc-ticket:`11975`)
+
+- :ghci-cmd:`:type +d` および :ghci-cmd:`:type +v` が使えるようになりました(:ghc-ticket:`11975` を参照してください)．
 
 Template Haskell
 ~~~~~~~~~~~~~~~~
