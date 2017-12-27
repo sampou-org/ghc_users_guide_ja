@@ -62,10 +62,10 @@
 <li><a class="reference internal" href="#id5">3.2. 詳細</a><ul>
 <li><a class="reference internal" href="#id6">3.2.1. パッケージシステム</a></li>
 <li><a class="reference internal" href="#id7">3.2.2. 言語</a></li>
-<li><a class="reference internal" href="#compiler">3.2.3. Compiler</a></li>
+<li><a class="reference internal" href="#id8">3.2.3. コンパイラ</a></li>
 <li><a class="reference internal" href="#ghci">3.2.4. GHCi</a></li>
 <li><a class="reference internal" href="#template-haskell">3.2.5. Template Haskell</a></li>
-<li><a class="reference internal" href="#runtime-system">3.2.6. Runtime system</a></li>
+<li><a class="reference internal" href="#id11">3.2.6. ランタイムシステム</a></li>
 <li><a class="reference internal" href="#hsc2hs">3.2.7. hsc2hs</a></li>
 </ul>
 </li>
@@ -87,7 +87,7 @@
 <li><a class="reference internal" href="#hpc">3.3.15. hpc</a></li>
 <li><a class="reference internal" href="#integer-gmp">3.3.16. integer-gmp</a></li>
 <li><a class="reference internal" href="#process">3.3.17. process</a></li>
-<li><a class="reference internal" href="#id12">3.3.18. template-haskell</a></li>
+<li><a class="reference internal" href="#id15">3.3.18. template-haskell</a></li>
 <li><a class="reference internal" href="#time">3.3.19. time</a></li>
 <li><a class="reference internal" href="#unix">3.3.20. unix</a></li>
 <li><a class="reference internal" href="#win32">3.3.21. Win32</a></li>
@@ -184,8 +184,8 @@
 パターン照合を完全なものにできるようになりました．詳細は <a class="reference internal" href="glasgow_exts.html#complete-pragma"><span>COMPLETE pragmas</span></a> を参照してください．</li>
 </ul>
 </div>
-<div class="section" id="compiler">
-<h3>3.2.3. Compiler<a class="headerlink" href="#compiler" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id8">
+<h3>3.2.3. コンパイラ<a class="headerlink" href="#id8" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li>GHC は可能であれば，システムのデフォルトリンカ <code class="docutils literal"><span class="pre">ld</span></code> ではなく <code class="docutils literal"><span class="pre">ld.gold</span></code> または <code class="docutils literal"><span class="pre">ld.lld</span></code>
 を使うようになりました．どのリンカが使えるかは <code class="docutils literal"><span class="pre">configure</span></code> のときに決まります．
@@ -431,7 +431,7 @@ it to:</p>
 <dd><blockquote class="first">
 <div><p>id x = x</p>
 </div></blockquote>
-<p class="last"><a href="#id8"><span class="problematic" id="id9">|</span></a>]</p>
+<p class="last"><a href="#id9"><span class="problematic" id="id10">|</span></a>]</p>
 </dd>
 </dl>
 </div></blockquote>
@@ -464,43 +464,53 @@ it to:</p>
 <li>シンボル名 (たとえば <code class="docutils literal"><span class="pre">+</span></code>) をもつ型構成子の検索が期待どおり機能するようになりました (<a class="reference external" href="https://ghc.haskell.org/trac/ghc/ticket/11046">Trac #11046</a>)．</li>
 </ul>
 </div>
-<div class="section" id="runtime-system">
-<h3>3.2.6. Runtime system<a class="headerlink" href="#runtime-system" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id11">
+<h3>3.2.6. ランタイムシステム<a class="headerlink" href="#id11" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
-<li>Heap overflow throws a catchable exception, provided that it was detected
-by the RTS during a GC cycle due to the program exceeding a limit set by
-<code class="docutils literal"><span class="pre">+RTS</span> <span class="pre">-M</span></code> (see <a class="reference internal" href="runtime_control.html#rts-flag--M ⟨size⟩"><code class="xref std std-rts-flag docutils literal"><span class="pre">-M</span> <span class="pre">⟨size⟩</span></code></a>), and not due to an allocation being refused
-by the operating system. This exception is thrown to the same thread that
-receives <code class="docutils literal"><span class="pre">UserInterrupt</span></code> exceptions, and may be caught by user programs.</li>
-<li>Added support for <em>Compact Regions</em>, which offer a way to manually
-move long-lived data outside of the heap so that the garbage
-collector does not have to trace it repeatedly.  Compacted data can
-also be serialized, stored, and deserialized again later by the same
-program.  For more details see the <a href="#id10"><span class="problematic" id="id11">:ghc-compact-ref:`GHC.Compact
-&lt;GHC-Compact.html&gt;`</span></a> module. Moreover, see the <code class="docutils literal"><span class="pre">compact</span></code> library on <a class="reference external" href="https://hackage.haskell.org/package/compact">Hackage</a> for a high-level interface.</li>
-<li>There is new support for improving performance on machines with a
-Non-Uniform Memory Architecture (NUMA).  See <a class="reference internal" href="runtime_control.html#rts-flag---numa"><code class="xref std std-rts-flag docutils literal"><span class="pre">--numa</span></code></a>.
-This is supported on Linux and Windows systems.</li>
-<li>The garbage collector can be told to use fewer threads than the
-global number of capabilities set by <a class="reference internal" href="using-concurrent.html#rts-flag--N ⟨x⟩"><code class="xref std std-rts-flag docutils literal"><span class="pre">-N</span> <span class="pre">⟨x⟩</span></code></a>. By default, the garbage
-collector will use a number of threads equal to the lesser of the global number
-of capabilities or the number of physical cores. See <a class="reference internal" href="runtime_control.html#rts-flag--qn ⟨x⟩"><code class="xref std std-rts-flag docutils literal"><span class="pre">-qn</span> <span class="pre">⟨x⟩</span></code></a>, and a
-<a class="reference external" href="http://simonmar.github.io/posts/2016-12-08-Haskell-in-the-datacentre.html">blog post</a>
-that describes this.</li>
-<li>The <a class="reference internal" href="profiling.html#prof-heap"><span>heap profiler</span></a> can now emit heap census data to the GHC
-event log, allowing heap profiles to be correlated with other tracing events
-(see <a class="reference external" href="https://ghc.haskell.org/trac/ghc/ticket/11094">Trac #11094</a>).</li>
-<li>Some bugs have been fixed in the stack-trace implementation in the
-profiler that sometimes resulted in incorrect stack traces and
-costs attributed to the wrong cost centre stack (see <a class="reference external" href="https://ghc.haskell.org/trac/ghc/ticket/5654">Trac #5654</a>).</li>
-<li>Added processor group support for Windows. This allows the runtime to allocate
-threads to all cores in systems which have multiple processor groups.
-(e.g. &gt; 64 cores, see <a class="reference external" href="https://ghc.haskell.org/trac/ghc/ticket/11054">Trac #11054</a>)</li>
-<li>Output of <a class="reference internal" href="runtime_control.html#rts-eventlog"><span>Event log</span></a> data can now be configured,
-enabling external tools to collect and analyze the event log data while the
-application is still running.</li>
-<li><code class="docutils literal"><span class="pre">advapi32</span></code>, <code class="docutils literal"><span class="pre">shell32</span></code> and <code class="docutils literal"><span class="pre">user32</span></code> are now automatically loaded in GHCi.
-<code class="docutils literal"><span class="pre">libGCC</span></code> is also loaded when a dependency requires it. See
+<li>ヒープオーバーフローが発生すると，捕捉可能な例外を投げるようになっています．
+ヒープオーバーフローは，GC中に RTS が <code class="docutils literal"><span class="pre">+RTS</span> <span class="pre">-M</span></code> (<a class="reference internal" href="runtime_control.html#rts-flag--M ⟨size⟩"><code class="xref std std-rts-flag docutils literal"><span class="pre">-M</span> <span class="pre">⟨size⟩</span></code></a> 参照)で設定された限界を
+超えたかで検出します．メモリ割り当てを OS に拒否されたかどうかで検出しているわけではありません．
+この例外は <code class="docutils literal"><span class="pre">UserInterrupt</span></code> 例外を受け取るのと同じスレッドに投げられますので，ユーザプログラムで捕捉できます．</li>
+</ul>
+<ul class="simple">
+<li><em>コンパクトリージョン</em> のサポートが追加されました．これは長寿命データを
+ヒープ外へ手動で移動する手段を提供するもので，ガーベッジコレクタが繰り返し追跡する必要がなくなります．
+コンパクト化されたデータは，同じプログラムで，シリアライズし，格納し，デシリアライズすることもできます．
+詳細については <a href="#id12"><span class="problematic" id="id13">:ghc-compact-ref:`GHC.Compact &lt;GHC-Compact.html&gt;`</span></a> モジュールを参照してください．
+さらに，高水準のインターフェイスについては <a class="reference external" href="https://hackage.haskell.org/package/compact">Hackage</a>
+にある <code class="docutils literal"><span class="pre">compact</span></code> パッケージを参照してください．</li>
+</ul>
+<ul class="simple">
+<li>NUMA（Non-Uniform Memory Architecture）を搭載したマシンでのパフォーマンスを改善するためのサポートが入りました．
+<a class="reference internal" href="runtime_control.html#rts-flag---numa"><code class="xref std std-rts-flag docutils literal"><span class="pre">--numa</span></code></a> を参照してください．これは，LinuxおよびWindowsシステムでサポートされます．</li>
+</ul>
+<ul class="simple">
+<li>ガーベッジコレクタには <a class="reference internal" href="using-concurrent.html#rts-flag--N ⟨x⟩"><code class="xref std std-rts-flag docutils literal"><span class="pre">-N</span> <span class="pre">⟨x⟩</span></code></a> で設定した値よりも少ないスレッドを使うように指示できるようになりました．
+デフォルトでは，ガーベッジコレクタは指定された数か物理コア数の小さいほうの数のスレッドを使います．
+<a class="reference internal" href="runtime_control.html#rts-flag--qn ⟨x⟩"><code class="xref std std-rts-flag docutils literal"><span class="pre">-qn</span> <span class="pre">⟨x⟩</span></code></a> および <a class="reference external" href="http://simonmar.github.io/posts/2016-12-08-Haskell-in-the-datacentre.html">ブログ記事</a>
+に解説があります．</li>
+</ul>
+<ul class="simple">
+<li><a class="reference internal" href="profiling.html#prof-heap"><span>heap profiler</span></a> はヒープセンサスデータを GHC のイベントログに出力できるようになり，
+ヒーププロファイルを他のトレースイベントと関連付けられるようになりました(<a class="reference external" href="https://ghc.haskell.org/trac/ghc/ticket/11094">Trac #11094</a> 参照)．</li>
+</ul>
+<ul class="simple">
+<li>プロファイラのスタックトレース実装でいくつかのバグが修正されました．
+このバグにより，間違ったスタックトレースや間違ったコストセンタースタックの値が示されることがありました
+(<a class="reference external" href="https://ghc.haskell.org/trac/ghc/ticket/5654">Trac #5654</a> 参照)．</li>
+</ul>
+<ul class="simple">
+<li>Windows用のプロセッサーグループのサポートを追加しました．
+これにより，ランタイムは複数のプロセッサグループを持つシステムのすべてのコアにスレッドを割り当てることができます．
+(64を超えるコアなど <a class="reference external" href="https://ghc.haskell.org/trac/ghc/ticket/11054">Trac #11054</a> を参照してください．)</li>
+</ul>
+<ul class="simple">
+<li><a class="reference internal" href="runtime_control.html#rts-eventlog"><span>Event log</span></a> の出力を設定して，外部ツールがアプリケーションの実行中に
+イベントログデータを収集分析できるようすることが可能になりました。</li>
+</ul>
+<ul class="simple">
+<li><code class="docutils literal"><span class="pre">advapi32</span></code> ， <code class="docutils literal"><span class="pre">shell32</span></code> ， <code class="docutils literal"><span class="pre">user32</span></code> が GHCi に自動的にロードされるようになりました．
+<code class="docutils literal"><span class="pre">libGCC</span></code> も，依存関係で必要になったときにはロードされます．
 <a class="reference external" href="https://ghc.haskell.org/trac/ghc/ticket/13189">Trac #13189</a>.</li>
 </ul>
 </div>
@@ -641,8 +651,8 @@ should not be inlined.  It is optimized away after the simplifier runs.</li>
 <li>Version number 1.6.1.0 (was 1.4.3.0)</li>
 </ul>
 </div>
-<div class="section" id="id12">
-<h3>3.3.18. template-haskell<a class="headerlink" href="#id12" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id15">
+<h3>3.3.18. template-haskell<a class="headerlink" href="#id15" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li>Version 2.12.0.0 (was 2.11.1.0)</li>
 <li>Added support for unboxed sums <a class="reference external" href="https://ghc.haskell.org/trac/ghc/ticket/12478">Trac #12478</a>.</li>
