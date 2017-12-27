@@ -125,8 +125,12 @@
   これによりユーザが(パターンシノニムを含む)パターン集合を指定して，
   パターン照合を完全なものにできるようになりました．詳細は :ref:`complete-pragma` を参照してください．
 
-Compiler
-~~~~~~~~
+..
+   Compiler
+   ~~~~~~~~
+
+コンパイラ
+~~~~~~~~~~
 
 ..
    - GHC will now use ``ld.gold`` or ``ld.lld`` instead of the system's default
@@ -636,52 +640,103 @@ Template Haskell
 
 - シンボル名 (たとえば ``+``) をもつ型構成子の検索が期待どおり機能するようになりました (:ghc-ticket:`11046`)．
 
-Runtime system
-~~~~~~~~~~~~~~
+..
+   Runtime system
+   ~~~~~~~~~~~~~~
 
-- Heap overflow throws a catchable exception, provided that it was detected
-  by the RTS during a GC cycle due to the program exceeding a limit set by
-  ``+RTS -M`` (see :rts-flag:`-M ⟨size⟩`), and not due to an allocation being refused
-  by the operating system. This exception is thrown to the same thread that
-  receives ``UserInterrupt`` exceptions, and may be caught by user programs.
+ランタイムシステム
+~~~~~~~~~~~~~~~~~~
 
-- Added support for *Compact Regions*, which offer a way to manually
-  move long-lived data outside of the heap so that the garbage
-  collector does not have to trace it repeatedly.  Compacted data can
-  also be serialized, stored, and deserialized again later by the same
-  program.  For more details see the :ghc-compact-ref:`GHC.Compact
-  <GHC-Compact.html>` module. Moreover, see the ``compact`` library on `Hackage
-  <https://hackage.haskell.org/package/compact>`_ for a high-level interface.
+..
+   - Heap overflow throws a catchable exception, provided that it was detected
+     by the RTS during a GC cycle due to the program exceeding a limit set by
+     ``+RTS -M`` (see :rts-flag:`-M ⟨size⟩`), and not due to an allocation being refused
+     by the operating system. This exception is thrown to the same thread that
+     receives ``UserInterrupt`` exceptions, and may be caught by user programs.
 
-- There is new support for improving performance on machines with a
-  Non-Uniform Memory Architecture (NUMA).  See :rts-flag:`--numa`.
-  This is supported on Linux and Windows systems.
+- ヒープオーバーフローが発生すると，捕捉可能な例外を投げるようになっています．
+  ヒープオーバーフローは，GC中に RTS が ``+RTS -M`` (:rts-flag:`-M ⟨size⟩` 参照)で設定された限界を
+  超えたかで検出します．メモリ割り当てを OS に拒否されたかどうかで検出しているわけではありません．
+  この例外は ``UserInterrupt`` 例外を受け取るのと同じスレッドに投げられますので，ユーザプログラムで捕捉できます．
 
-- The garbage collector can be told to use fewer threads than the
-  global number of capabilities set by :rts-flag:`-N ⟨x⟩`. By default, the garbage
-  collector will use a number of threads equal to the lesser of the global number
-  of capabilities or the number of physical cores. See :rts-flag:`-qn ⟨x⟩`, and a
-  `blog post <http://simonmar.github.io/posts/2016-12-08-Haskell-in-the-datacentre.html>`_
-  that describes this.
+..
+   - Added support for *Compact Regions*, which offer a way to manually
+     move long-lived data outside of the heap so that the garbage
+     collector does not have to trace it repeatedly.  Compacted data can
+     also be serialized, stored, and deserialized again later by the same
+     program.  For more details see the :ghc-compact-ref:`GHC.Compact
+     <GHC-Compact.html>` module. Moreover, see the ``compact`` library on `Hackage
+     <https://hackage.haskell.org/package/compact>`_ for a high-level interface.
 
-- The :ref:`heap profiler <prof-heap>` can now emit heap census data to the GHC
-  event log, allowing heap profiles to be correlated with other tracing events
-  (see :ghc-ticket:`11094`).
+- *コンパクトリージョン* のサポートが追加されました．これは長寿命データを
+  ヒープ外へ手動で移動する手段を提供するもので，ガーベッジコレクタが繰り返し追跡する必要がなくなります．
+  コンパクト化されたデータは，同じプログラムで，シリアライズし，格納し，デシリアライズすることもできます．
+  詳細については :ghc-compact-ref:`GHC.Compact <GHC-Compact.html>` モジュールを参照してください．
+  さらに，高水準のインターフェイスについては `Hackage <https://hackage.haskell.org/package/compact>`_
+  にある ``compact`` パッケージを参照してください．
 
-- Some bugs have been fixed in the stack-trace implementation in the
-  profiler that sometimes resulted in incorrect stack traces and
-  costs attributed to the wrong cost centre stack (see :ghc-ticket:`5654`).
+..
+   - There is new support for improving performance on machines with a
+     Non-Uniform Memory Architecture (NUMA).  See :rts-flag:`--numa`.
+     This is supported on Linux and Windows systems.
 
-- Added processor group support for Windows. This allows the runtime to allocate
-  threads to all cores in systems which have multiple processor groups.
-  (e.g. > 64 cores, see :ghc-ticket:`11054`)
+- NUMA（Non-Uniform Memory Architecture）を搭載したマシンでのパフォーマンスを改善するためのサポートが入りました．
+  :rts-flag:`--numa` を参照してください．これは，LinuxおよびWindowsシステムでサポートされます．
 
-- Output of :ref:`Event log <rts-eventlog>` data can now be configured,
-  enabling external tools to collect and analyze the event log data while the
-  application is still running.
+..
+   - The garbage collector can be told to use fewer threads than the
+     global number of capabilities set by :rts-flag:`-N ⟨x⟩`. By default, the garbage
+     collector will use a number of threads equal to the lesser of the global number
+     of capabilities or the number of physical cores. See :rts-flag:`-qn ⟨x⟩`, and a
+     `blog post <http://simonmar.github.io/posts/2016-12-08-Haskell-in-the-datacentre.html>`_
+     that describes this.
 
-- ``advapi32``, ``shell32`` and ``user32`` are now automatically loaded in GHCi.
-  ``libGCC`` is also loaded when a dependency requires it. See
+- ガーベッジコレクタには :rts-flag:`-N ⟨x⟩` で設定した値よりも少ないスレッドを使うように指示できるようになりました．
+  デフォルトでは，ガーベッジコレクタは指定された数か物理コア数の小さいほうの数のスレッドを使います．
+  :rts-flag:`-qn ⟨x⟩` および `ブログ記事 <http://simonmar.github.io/posts/2016-12-08-Haskell-in-the-datacentre.html>`_
+  に解説があります．
+
+..
+   - The :ref:`heap profiler <prof-heap>` can now emit heap census data to the GHC
+     event log, allowing heap profiles to be correlated with other tracing events
+     (see :ghc-ticket:`11094`).
+
+- :ref:`heap profiler <prof-heap>` はヒープセンサスデータを GHC のイベントログに出力できるようになり，
+  ヒーププロファイルを他のトレースイベントと関連付けられるようになりました(:ghc-ticket:`11094` 参照)．
+
+..
+   - Some bugs have been fixed in the stack-trace implementation in the
+     profiler that sometimes resulted in incorrect stack traces and
+     costs attributed to the wrong cost centre stack (see :ghc-ticket:`5654`).
+
+- プロファイラのスタックトレース実装でいくつかのバグが修正されました．
+  このバグにより，間違ったスタックトレースや間違ったコストセンタースタックの値が示されることがありました
+  (:ghc-ticket:`5654` 参照)．
+
+..
+   - Added processor group support for Windows. This allows the runtime to allocate
+     threads to all cores in systems which have multiple processor groups.
+     (e.g. > 64 cores, see :ghc-ticket:`11054`)
+
+- Windows用のプロセッサーグループのサポートを追加しました．
+  これにより，ランタイムは複数のプロセッサグループを持つシステムのすべてのコアにスレッドを割り当てることができます．
+  (64を超えるコアなど :ghc-ticket:`11054` を参照してください．)
+
+..
+   - Output of :ref:`Event log <rts-eventlog>` data can now be configured,
+     enabling external tools to collect and analyze the event log data while the
+     application is still running.
+
+- :ref:`Event log <rts-eventlog>` の出力を設定して，外部ツールがアプリケーションの実行中に
+  イベントログデータを収集分析できるようすることが可能になりました。
+
+..
+   - ``advapi32``, ``shell32`` and ``user32`` are now automatically loaded in GHCi.
+     ``libGCC`` is also loaded when a dependency requires it. See
+     :ghc-ticket:`13189`.
+
+- ``advapi32`` ， ``shell32`` ， ``user32`` が GHCi に自動的にロードされるようになりました．
+  ``libGCC`` も，依存関係で必要になったときにはロードされます．
   :ghc-ticket:`13189`.
 
 hsc2hs
