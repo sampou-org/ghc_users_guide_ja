@@ -24,9 +24,10 @@
     <script type="text/javascript" src="_static/jquery.js"></script>
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/translations.js"></script>
     <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="search" type="application/opensearchdescription+xml"
-          title="Search within Glasgow Haskell Compiler 8.2.2 User&#39;s Guide"
+          title="Glasgow Haskell Compiler 8.2.2 User&#39;s Guide 内を検索"
           href="_static/opensearch.xml"/>
     <link rel="top" title="Glasgow Haskell Compiler 8.2.2 User&#39;s Guide" href="index.html" />
     <link rel="up" title="7. Using GHC" href="usage.html" />
@@ -39,17 +40,17 @@
 </div>
 
     <div class="related" role="navigation" aria-label="related navigation">
-      <h3>Navigation</h3>
+      <h3>ナビゲーション</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
-          <a href="genindex.html" title="General Index"
-             accesskey="I">index</a></li>
+          <a href="genindex.html" title="総合索引"
+             accesskey="I">索引</a></li>
         <li class="right" >
           <a href="using-warnings.html" title="7.2. Warnings and sanity-checking"
-             accesskey="N">next</a> |</li>
+             accesskey="N">次へ</a> |</li>
         <li class="right" >
           <a href="usage.html" title="7. Using GHC"
-             accesskey="P">previous</a> |</li>
+             accesskey="P">前へ</a> |</li>
         <li class="nav-item nav-item-0"><a href="index.html">GHC 8.2.2 User&#39;s Guide</a> &raquo;</li>
           <li class="nav-item nav-item-1"><a href="usage.html" accesskey="U">7. Using GHC</a> &raquo;</li> 
       </ul>
@@ -57,7 +58,7 @@
 
       <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
         <div class="sphinxsidebarwrapper">
-  <h3><a href="index.html">Table Of Contents</a></h3>
+  <h3><a href="index.html">目次</a></h3>
   <ul>
 <li><a class="reference internal" href="#">7.1. Using GHC</a><ul>
 <li><a class="reference internal" href="#getting-started-compiling-programs">7.1.1. Getting started: compiling programs</a></li>
@@ -84,29 +85,29 @@
 </li>
 </ul>
 
-  <h4>Previous topic</h4>
+  <h4>前のトピックへ</h4>
   <p class="topless"><a href="usage.html"
-                        title="previous chapter">7. Using GHC</a></p>
-  <h4>Next topic</h4>
+                        title="前の章へ">7. Using GHC</a></p>
+  <h4>次のトピックへ</h4>
   <p class="topless"><a href="using-warnings.html"
-                        title="next chapter">7.2. Warnings and sanity-checking</a></p>
+                        title="次の章へ">7.2. Warnings and sanity-checking</a></p>
   <div role="note" aria-label="source link">
-    <h3>This Page</h3>
+    <h3>このページ</h3>
     <ul class="this-page-menu">
       <li><a href="_sources/using.txt"
-            rel="nofollow">Show Source</a></li>
+            rel="nofollow">ソースコードを表示</a></li>
     </ul>
    </div>
 <div id="searchbox" style="display: none" role="search">
-  <h3>Quick search</h3>
+  <h3>クイック検索</h3>
     <form class="search" action="search.html" method="get">
       <input type="text" name="q" />
-      <input type="submit" value="Go" />
+      <input type="submit" value="検索" />
       <input type="hidden" name="check_keywords" value="yes" />
       <input type="hidden" name="area" value="default" />
     </form>
     <p class="searchtip" style="font-size: 90%">
-    Enter search terms or a module, class or function name.
+    モジュール、クラス、または関数名を入力してください
     </p>
 </div>
 <script type="text/javascript">$('#searchbox').show(0);</script>
@@ -119,9 +120,9 @@
           <div class="body" role="main">
             
   <div class="section" id="using-ghc">
-<span id="id1"></span><h1>7.1. Using GHC<a class="headerlink" href="#using-ghc" title="Permalink to this headline">¶</a></h1>
+<span id="id1"></span><h1>7.1. Using GHC<a class="headerlink" href="#using-ghc" title="このヘッドラインへのパーマリンク">¶</a></h1>
 <div class="section" id="getting-started-compiling-programs">
-<span id="index-0"></span><h2>7.1.1. Getting started: compiling programs<a class="headerlink" href="#getting-started-compiling-programs" title="Permalink to this headline">¶</a></h2>
+<span id="index-0"></span><h2>7.1.1. Getting started: compiling programs<a class="headerlink" href="#getting-started-compiling-programs" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <p>In this chapter you&#8217;ll find a complete reference to the GHC command-line
 syntax, including all 400+ flags. It&#8217;s a large and complex system, and
 there are lots of details, so it can be quite hard to figure out how to
@@ -161,12 +162,12 @@ file <code class="docutils literal"><span class="pre">Data/Person.hs</span></cod
 Windows.</p>
 </div>
 <div class="section" id="options-overview">
-<h2>7.1.2. Options overview<a class="headerlink" href="#options-overview" title="Permalink to this headline">¶</a></h2>
+<h2>7.1.2. Options overview<a class="headerlink" href="#options-overview" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <p>GHC&#8217;s behaviour is controlled by options, which for historical reasons
 are also sometimes referred to as command-line flags or arguments.
 Options can be specified in three ways:</p>
 <div class="section" id="command-line-arguments">
-<h3>7.1.2.1. Command-line arguments<a class="headerlink" href="#command-line-arguments" title="Permalink to this headline">¶</a></h3>
+<h3>7.1.2.1. Command-line arguments<a class="headerlink" href="#command-line-arguments" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <p id="index-1">An invocation of GHC takes the following form:</p>
 <div class="highlight-none"><div class="highlight"><pre>ghc [argument...]
 </pre></div>
@@ -179,7 +180,7 @@ all files; you cannot, for example, invoke
 <code class="docutils literal"><span class="pre">ghc</span> <span class="pre">-c</span> <span class="pre">-O1</span> <span class="pre">Foo.hs</span> <span class="pre">-O2</span> <span class="pre">Bar.hs</span></code> to apply different optimisation levels
 to the files <code class="docutils literal"><span class="pre">Foo.hs</span></code> and <code class="docutils literal"><span class="pre">Bar.hs</span></code>.</p>
 <div class="admonition note">
-<p class="first admonition-title">Note</p>
+<p class="first admonition-title">注釈</p>
 <p id="index-2">Note that command-line options are <em>order-dependent</em>, with arguments being
 evaluated from left-to-right. This can have seemingly strange effects in the
 presence of flag implication. For instance, consider
@@ -197,7 +198,7 @@ overrides the <code class="docutils literal"><span class="pre">-fspecialise</spa
 </div>
 </div>
 <div class="section" id="command-line-options-in-source-files">
-<span id="source-file-options"></span><h3>7.1.2.2. Command line options in source files<a class="headerlink" href="#command-line-options-in-source-files" title="Permalink to this headline">¶</a></h3>
+<span id="source-file-options"></span><h3>7.1.2.2. Command line options in source files<a class="headerlink" href="#command-line-options-in-source-files" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <p id="index-3">Sometimes it is useful to make the connection between a source file and
 the command-line options it requires quite tight. For instance, if a
 Haskell source file deliberately uses name shadowing, it should be
@@ -218,7 +219,7 @@ they are just included literally in the array of command-line arguments
 the compiler maintains internally, so you&#8217;ll be desperately disappointed
 if you try to glob etc. inside <code class="docutils literal"><span class="pre">OPTIONS_GHC</span></code>.</p>
 <div class="admonition note">
-<p class="first admonition-title">Note</p>
+<p class="first admonition-title">注釈</p>
 <p class="last">The contents of <code class="docutils literal"><span class="pre">OPTIONS_GHC</span></code> are appended to the command-line
 options, so options given in the source file override those given on the
 command-line.</p>
@@ -229,13 +230,13 @@ is the Right Thing. (If you use <a class="reference internal" href="separate_com
 your module, the <code class="docutils literal"><span class="pre">OPTIONS_GHC</span></code> will get put into the generated <code class="docutils literal"><span class="pre">.hc</span></code> file).</p>
 </div>
 <div class="section" id="setting-options-in-ghci">
-<h3>7.1.2.3. Setting options in GHCi<a class="headerlink" href="#setting-options-in-ghci" title="Permalink to this headline">¶</a></h3>
+<h3>7.1.2.3. Setting options in GHCi<a class="headerlink" href="#setting-options-in-ghci" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <p>Options may also be modified from within GHCi, using the <a class="reference internal" href="ghci.html#ghci-cmd-:set"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:set</span></code></a>
 command.</p>
 </div>
 </div>
 <div class="section" id="static-dynamic-and-mode-options">
-<span id="static-dynamic-flags"></span><h2>7.1.3. Static, Dynamic, and Mode options<a class="headerlink" href="#static-dynamic-and-mode-options" title="Permalink to this headline">¶</a></h2>
+<span id="static-dynamic-flags"></span><h2>7.1.3. Static, Dynamic, and Mode options<a class="headerlink" href="#static-dynamic-and-mode-options" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <p id="index-4">Each of GHC&#8217;s command line options is classified as static, dynamic or
 mode:</p>
 <blockquote>
@@ -255,7 +256,7 @@ with GHCi&#8217;s <a class="reference internal" href="ghci.html#ghci-cmd-:set"><
 in the table.</p>
 </div>
 <div class="section" id="meaningful-file-suffixes">
-<span id="file-suffixes"></span><h2>7.1.4. Meaningful file suffixes<a class="headerlink" href="#meaningful-file-suffixes" title="Permalink to this headline">¶</a></h2>
+<span id="file-suffixes"></span><h2>7.1.4. Meaningful file suffixes<a class="headerlink" href="#meaningful-file-suffixes" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <p id="index-5">File names with &#8220;meaningful&#8221; suffixes (e.g., <code class="docutils literal"><span class="pre">.lhs</span></code> or <code class="docutils literal"><span class="pre">.o</span></code>) cause
 the &#8220;right thing&#8221; to happen to those files.</p>
 <dl class="docutils">
@@ -287,7 +288,7 @@ compiler.</dd>
 the linker.</p>
 </div>
 <div class="section" id="modes-of-operation">
-<span id="modes"></span><h2>7.1.5. Modes of operation<a class="headerlink" href="#modes-of-operation" title="Permalink to this headline">¶</a></h2>
+<span id="modes"></span><h2>7.1.5. Modes of operation<a class="headerlink" href="#modes-of-operation" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <p id="index-7">GHC&#8217;s behaviour is firstly controlled by a mode flag. Only one of these
 flags may be given, but it does not necessarily need to be the first
 option on the command-line. For instance,</p>
@@ -301,14 +302,14 @@ to produce an executable.</p>
 <p>The available mode flags are:</p>
 <dl class="ghc-flag">
 <dt id="ghc-flag---interactive">
-<code class="descname">--interactive</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag---interactive" title="Permalink to this definition">¶</a></dt>
+<code class="descname">--interactive</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag---interactive" title="この定義へのパーマリンク">¶</a></dt>
 <dd><p id="index-8">Interactive mode, which is also available as <strong class="program">ghci</strong>. Interactive
 mode is described in more detail in <a class="reference internal" href="ghci.html#ghci"><span>Using GHCi</span></a>.</p>
 </dd></dl>
 
 <dl class="ghc-flag">
 <dt id="ghc-flag---make">
-<code class="descname">--make</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag---make" title="Permalink to this definition">¶</a></dt>
+<code class="descname">--make</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag---make" title="この定義へのパーマリンク">¶</a></dt>
 <dd><p id="index-9">In this mode, GHC will build a multi-module Haskell program
 automatically, figuring out dependencies for itself. If you have a
 straightforward Haskell program, this is likely to be much easier,
@@ -321,7 +322,7 @@ option can be omitted.</p>
 
 <dl class="ghc-flag">
 <dt id="ghc-flag--e ⟨expr⟩">
-<code class="descname">-e</code><code class="descclassname"> ⟨expr⟩</code><a class="headerlink" href="#ghc-flag--e ⟨expr⟩" title="Permalink to this definition">¶</a></dt>
+<code class="descname">-e</code><code class="descclassname"> ⟨expr⟩</code><a class="headerlink" href="#ghc-flag--e ⟨expr⟩" title="この定義へのパーマリンク">¶</a></dt>
 <dd><p id="index-10">Expression-evaluation mode. This is very similar to interactive
 mode, except that there is a single expression to evaluate (⟨expr⟩)
 which is given on the command line. See <a class="reference internal" href="#eval-mode"><span>Expression evaluation mode</span></a> for more
@@ -330,13 +331,13 @@ details.</p>
 
 <dl class="ghc-flag">
 <dt id="ghc-flag--E">
-<code class="descname">-E</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag--E" title="Permalink to this definition">¶</a></dt>
+<code class="descname">-E</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag--E" title="この定義へのパーマリンク">¶</a></dt>
 <dt id="ghc-flag--C">
-<code class="descname">-C</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag--C" title="Permalink to this definition">¶</a></dt>
+<code class="descname">-C</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag--C" title="この定義へのパーマリンク">¶</a></dt>
 <dt id="ghc-flag--S">
-<code class="descname">-S</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag--S" title="Permalink to this definition">¶</a></dt>
+<code class="descname">-S</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag--S" title="この定義へのパーマリンク">¶</a></dt>
 <dt id="ghc-flag--c">
-<code class="descname">-c</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag--c" title="Permalink to this definition">¶</a></dt>
+<code class="descname">-c</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag--c" title="この定義へのパーマリンク">¶</a></dt>
 <dd><p>This is the traditional batch-compiler mode, in which GHC can
 compile source files one at a time, or link objects together into an
 executable. See <a class="reference internal" href="#options-order"><span>Batch compiler mode</span></a>.</p>
@@ -344,7 +345,7 @@ executable. See <a class="reference internal" href="#options-order"><span>Batch 
 
 <dl class="ghc-flag">
 <dt id="ghc-flag--M">
-<code class="descname">-M</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag--M" title="Permalink to this definition">¶</a></dt>
+<code class="descname">-M</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag--M" title="この定義へのパーマリンク">¶</a></dt>
 <dd><p id="index-11">Dependency-generation mode. In this mode, GHC can be used to
 generate dependency information suitable for use in a <code class="docutils literal"><span class="pre">Makefile</span></code>.
 See <a class="reference internal" href="separate_compilation.html#makefile-dependencies"><span>Dependency generation</span></a>.</p>
@@ -352,71 +353,71 @@ See <a class="reference internal" href="separate_compilation.html#makefile-depen
 
 <dl class="ghc-flag">
 <dt id="ghc-flag---frontend ⟨module⟩">
-<code class="descname">--frontend</code><code class="descclassname"> ⟨module⟩</code><a class="headerlink" href="#ghc-flag---frontend ⟨module⟩" title="Permalink to this definition">¶</a></dt>
+<code class="descname">--frontend</code><code class="descclassname"> ⟨module⟩</code><a class="headerlink" href="#ghc-flag---frontend ⟨module⟩" title="この定義へのパーマリンク">¶</a></dt>
 <dd><p id="index-12">Run GHC using the given frontend plugin. See <a class="reference internal" href="extending_ghc.html#frontend-plugins"><span>Frontend plugins</span></a> for
 details.</p>
 </dd></dl>
 
 <dl class="ghc-flag">
 <dt id="ghc-flag---mk-dll">
-<code class="descname">--mk-dll</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag---mk-dll" title="Permalink to this definition">¶</a></dt>
+<code class="descname">--mk-dll</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag---mk-dll" title="この定義へのパーマリンク">¶</a></dt>
 <dd><p id="index-13">DLL-creation mode (Windows only). See <a class="reference internal" href="win32-dlls.html#win32-dlls-create"><span>Creating a DLL</span></a>.</p>
 </dd></dl>
 
 <dl class="ghc-flag">
 <dt id="ghc-flag---help">
-<code class="descname">--help</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag---help" title="Permalink to this definition">¶</a></dt>
+<code class="descname">--help</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag---help" title="この定義へのパーマリンク">¶</a></dt>
 <dt id="ghc-flag--?">
-<code class="descname">-?</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag--?" title="Permalink to this definition">¶</a></dt>
+<code class="descname">-?</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag--?" title="この定義へのパーマリンク">¶</a></dt>
 <dd><p>Cause GHC to spew a long usage message to standard output and then
 exit.</p>
 </dd></dl>
 
 <dl class="ghc-flag">
 <dt id="ghc-flag---show-iface ⟨file⟩">
-<code class="descname">--show-iface</code><code class="descclassname"> ⟨file⟩</code><a class="headerlink" href="#ghc-flag---show-iface ⟨file⟩" title="Permalink to this definition">¶</a></dt>
+<code class="descname">--show-iface</code><code class="descclassname"> ⟨file⟩</code><a class="headerlink" href="#ghc-flag---show-iface ⟨file⟩" title="この定義へのパーマリンク">¶</a></dt>
 <dd><p>Read the interface in ⟨file⟩ and dump it as text to <code class="docutils literal"><span class="pre">stdout</span></code>. For
 example <code class="docutils literal"><span class="pre">ghc</span> <span class="pre">--show-iface</span> <span class="pre">M.hi</span></code>.</p>
 </dd></dl>
 
 <dl class="ghc-flag">
 <dt id="ghc-flag---supported-extensions">
-<code class="descname">--supported-extensions</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag---supported-extensions" title="Permalink to this definition">¶</a></dt>
+<code class="descname">--supported-extensions</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag---supported-extensions" title="この定義へのパーマリンク">¶</a></dt>
 <dt id="ghc-flag---supported-languages">
-<code class="descname">--supported-languages</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag---supported-languages" title="Permalink to this definition">¶</a></dt>
+<code class="descname">--supported-languages</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag---supported-languages" title="この定義へのパーマリンク">¶</a></dt>
 <dd><p>Print the supported language extensions.</p>
 </dd></dl>
 
 <dl class="ghc-flag">
 <dt id="ghc-flag---show-options">
-<code class="descname">--show-options</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag---show-options" title="Permalink to this definition">¶</a></dt>
+<code class="descname">--show-options</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag---show-options" title="この定義へのパーマリンク">¶</a></dt>
 <dd><p>Print the supported command line options. This flag can be used for
 autocompletion in a shell.</p>
 </dd></dl>
 
 <dl class="ghc-flag">
 <dt id="ghc-flag---info">
-<code class="descname">--info</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag---info" title="Permalink to this definition">¶</a></dt>
+<code class="descname">--info</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag---info" title="この定義へのパーマリンク">¶</a></dt>
 <dd><p>Print information about the compiler.</p>
 </dd></dl>
 
 <dl class="ghc-flag">
 <dt id="ghc-flag---version">
-<code class="descname">--version</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag---version" title="Permalink to this definition">¶</a></dt>
+<code class="descname">--version</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag---version" title="この定義へのパーマリンク">¶</a></dt>
 <dt id="ghc-flag--V">
-<code class="descname">-V</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag--V" title="Permalink to this definition">¶</a></dt>
+<code class="descname">-V</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag--V" title="この定義へのパーマリンク">¶</a></dt>
 <dd><p>Print a one-line string including GHC&#8217;s version number.</p>
 </dd></dl>
 
 <dl class="ghc-flag">
 <dt id="ghc-flag---numeric-version">
-<code class="descname">--numeric-version</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag---numeric-version" title="Permalink to this definition">¶</a></dt>
+<code class="descname">--numeric-version</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag---numeric-version" title="この定義へのパーマリンク">¶</a></dt>
 <dd><p>Print GHC&#8217;s numeric version number only.</p>
 </dd></dl>
 
 <dl class="ghc-flag">
 <dt id="ghc-flag---print-libdir">
-<code class="descname">--print-libdir</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag---print-libdir" title="Permalink to this definition">¶</a></dt>
+<code class="descname">--print-libdir</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag---print-libdir" title="この定義へのパーマリンク">¶</a></dt>
 <dd><p id="index-14">Print the path to GHC&#8217;s library directory. This is the top of the
 directory tree containing GHC&#8217;s libraries, interfaces, and include
 files (usually something like <code class="docutils literal"><span class="pre">/usr/local/lib/ghc-5.04</span></code> on Unix).
@@ -425,7 +426,7 @@ configuration file (see <a class="reference internal" href="packages.html#packag
 </dd></dl>
 
 <div class="section" id="using-ghc-make">
-<span id="make-mode"></span><h3>7.1.5.1. Using <code class="docutils literal"><span class="pre">ghc</span></code> <code class="docutils literal"><span class="pre">--make</span></code><a class="headerlink" href="#using-ghc-make" title="Permalink to this headline">¶</a></h3>
+<span id="make-mode"></span><h3>7.1.5.1. Using <code class="docutils literal"><span class="pre">ghc</span></code> <code class="docutils literal"><span class="pre">--make</span></code><a class="headerlink" href="#using-ghc-make" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <p id="index-15">In this mode, GHC will build a multi-module Haskell program by following
 dependencies from one or more root modules (usually just <code class="docutils literal"><span class="pre">Main</span></code>). For
 example, if your <code class="docutils literal"><span class="pre">Main</span></code> module is in a file called <code class="file docutils literal"><span class="pre">Main.hs</span></code>, you
@@ -483,7 +484,7 @@ directory; the <a class="reference internal" href="separate_compilation.html#ghc
 search path (see <a class="reference internal" href="separate_compilation.html#search-path"><span>The search path</span></a>).</p>
 <dl class="ghc-flag">
 <dt id="ghc-flag--j[⟨n⟩]">
-<code class="descname">-j</code><code class="descclassname">[⟨n⟩]</code><a class="headerlink" href="#ghc-flag--j[⟨n⟩]" title="Permalink to this definition">¶</a></dt>
+<code class="descname">-j</code><code class="descclassname">[⟨n⟩]</code><a class="headerlink" href="#ghc-flag--j[⟨n⟩]" title="この定義へのパーマリンク">¶</a></dt>
 <dd><p>Perform compilation in parallel when possible. GHC will use up to ⟨N⟩
 threads during compilation. If N is omitted, then it defaults to the
 number of processors. Note that compilation of a module may not begin
@@ -492,7 +493,7 @@ until its dependencies have been built.</p>
 
 </div>
 <div class="section" id="expression-evaluation-mode">
-<span id="eval-mode"></span><h3>7.1.5.2. Expression evaluation mode<a class="headerlink" href="#expression-evaluation-mode" title="Permalink to this headline">¶</a></h3>
+<span id="eval-mode"></span><h3>7.1.5.2. Expression evaluation mode<a class="headerlink" href="#expression-evaluation-mode" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <p>This mode is very similar to interactive mode, except that there is a
 single expression to evaluate which is specified on the command line as
 an argument to the <code class="docutils literal"><span class="pre">-e</span></code> option:</p>
@@ -516,7 +517,7 @@ olleh
 </div>
 </div>
 <div class="section" id="batch-compiler-mode">
-<span id="options-order"></span><h3>7.1.5.3. Batch compiler mode<a class="headerlink" href="#batch-compiler-mode" title="Permalink to this headline">¶</a></h3>
+<span id="options-order"></span><h3>7.1.5.3. Batch compiler mode<a class="headerlink" href="#batch-compiler-mode" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <p>In <em>batch mode</em>, GHC will compile one or more source files given on the
 command line.</p>
 <p>The first phase to run is determined by each input-file suffix, and the
@@ -576,33 +577,33 @@ go all the way through to linking. This table summarises:</p>
 <p>to compile the Haskell source file <code class="docutils literal"><span class="pre">Foo.hs</span></code> to an object file
 <code class="docutils literal"><span class="pre">Foo.o</span></code>.</p>
 <div class="admonition note">
-<p class="first admonition-title">Note</p>
+<p class="first admonition-title">注釈</p>
 <p class="last">What the Haskell compiler proper produces depends on what backend
 code generator is used. See <a class="reference internal" href="codegens.html#code-generators"><span>GHC Backends</span></a> for more details.</p>
 </div>
 <div class="admonition note">
-<p class="first admonition-title">Note</p>
+<p class="first admonition-title">注釈</p>
 <p class="last">Pre-processing is optional, the <a class="reference internal" href="phases.html#ghc-flag--cpp"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-cpp</span></code></a> flag turns it
 on. See <a class="reference internal" href="phases.html#c-pre-processor"><span>Options affecting the C pre-processor</span></a> for more details.</p>
 </div>
 <div class="admonition note">
-<p class="first admonition-title">Note</p>
+<p class="first admonition-title">注釈</p>
 <p class="last">The option <a class="reference internal" href="#ghc-flag--E"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-E</span></code></a> runs just the pre-processing passes of
 the compiler, dumping the result in a file.</p>
 </div>
 <div class="admonition note">
-<p class="first admonition-title">Note</p>
+<p class="first admonition-title">注釈</p>
 <p class="last">The option <a class="reference internal" href="#ghc-flag--C"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-C</span></code></a> is only available when GHC is built in
 unregisterised mode. See <a class="reference internal" href="codegens.html#unreg"><span>Unregisterised compilation</span></a> for more details.</p>
 </div>
 <div class="section" id="overriding-the-default-behaviour-for-a-file">
-<span id="overriding-suffixes"></span><h4>7.1.5.3.1. Overriding the default behaviour for a file<a class="headerlink" href="#overriding-the-default-behaviour-for-a-file" title="Permalink to this headline">¶</a></h4>
+<span id="overriding-suffixes"></span><h4>7.1.5.3.1. Overriding the default behaviour for a file<a class="headerlink" href="#overriding-the-default-behaviour-for-a-file" title="このヘッドラインへのパーマリンク">¶</a></h4>
 <p>As described above, the way in which a file is processed by GHC depends on its
 suffix. This behaviour can be overridden using the <a class="reference internal" href="#ghc-flag--x ⟨suffix⟩"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-x</span> <span class="pre">⟨suffix⟩</span></code></a>
 option:</p>
 <dl class="ghc-flag">
 <dt id="ghc-flag--x ⟨suffix⟩">
-<code class="descname">-x</code><code class="descclassname"> ⟨suffix⟩</code><a class="headerlink" href="#ghc-flag--x ⟨suffix⟩" title="Permalink to this definition">¶</a></dt>
+<code class="descname">-x</code><code class="descclassname"> ⟨suffix⟩</code><a class="headerlink" href="#ghc-flag--x ⟨suffix⟩" title="この定義へのパーマリンク">¶</a></dt>
 <dd><p>Causes all files following this option on the command line to be
 processed as if they had the suffix ⟨suffix⟩. For example, to
 compile a Haskell module in the file <code class="docutils literal"><span class="pre">M.my-hs</span></code>, use
@@ -613,12 +614,12 @@ compile a Haskell module in the file <code class="docutils literal"><span class=
 </div>
 </div>
 <div class="section" id="verbosity-options">
-<span id="options-help"></span><h2>7.1.6. Verbosity options<a class="headerlink" href="#verbosity-options" title="Permalink to this headline">¶</a></h2>
+<span id="options-help"></span><h2>7.1.6. Verbosity options<a class="headerlink" href="#verbosity-options" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <p id="index-18">See also the <code class="docutils literal"><span class="pre">--help</span></code>, <code class="docutils literal"><span class="pre">--version</span></code>, <code class="docutils literal"><span class="pre">--numeric-version</span></code>, and
 <code class="docutils literal"><span class="pre">--print-libdir</span></code> modes in <a class="reference internal" href="#modes"><span>Modes of operation</span></a>.</p>
 <dl class="ghc-flag">
 <dt id="ghc-flag--v">
-<code class="descname">-v</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag--v" title="Permalink to this definition">¶</a></dt>
+<code class="descname">-v</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag--v" title="この定義へのパーマリンク">¶</a></dt>
 <dd><p>The <a class="reference internal" href="#ghc-flag--v"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-v</span></code></a> option makes GHC <em>verbose</em>: it reports its version number
 and shows (on stderr) exactly how it invokes each phase of the
 compilation system. Moreover, it passes the <code class="docutils literal"><span class="pre">-v</span></code> flag to most
@@ -658,7 +659,7 @@ representation after each compilation phase is also printed
 
 <dl class="ghc-flag">
 <dt id="ghc-flag--fprint-potential-instances">
-<code class="descname">-fprint-potential-instances</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag--fprint-potential-instances" title="Permalink to this definition">¶</a></dt>
+<code class="descname">-fprint-potential-instances</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag--fprint-potential-instances" title="この定義へのパーマリンク">¶</a></dt>
 <dd><p>When GHC can&#8217;t find an instance for a class, it displays a short
 list of some in the instances it knows about. With this flag it
 prints <em>all</em> the instances it knows about.</p>
@@ -666,7 +667,7 @@ prints <em>all</em> the instances it knows about.</p>
 
 <dl class="ghc-flag">
 <dt id="ghc-flag--fhide-source-paths">
-<code class="descname">-fhide-source-paths</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag--fhide-source-paths" title="Permalink to this definition">¶</a></dt>
+<code class="descname">-fhide-source-paths</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag--fhide-source-paths" title="この定義へのパーマリンク">¶</a></dt>
 <dd><p>Starting with minimal verbosity (<code class="docutils literal"><span class="pre">-v1</span></code>, see <a class="reference internal" href="#ghc-flag--v"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-v</span></code></a>), GHC
 displays the name, the source path and the target path of each compiled
 module. This flag can be used to reduce GHC&#8217;s output by hiding source paths
@@ -677,7 +678,7 @@ and target paths.</p>
 messages and in GHCi:</p>
 <dl class="ghc-flag">
 <dt id="ghc-flag--fprint-unicode-syntax">
-<code class="descname">-fprint-unicode-syntax</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag--fprint-unicode-syntax" title="Permalink to this definition">¶</a></dt>
+<code class="descname">-fprint-unicode-syntax</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag--fprint-unicode-syntax" title="この定義へのパーマリンク">¶</a></dt>
 <dd><p>When enabled GHC prints type signatures using the unicode symbols from the
 <a class="reference internal" href="glasgow_exts.html#ghc-flag--XUnicodeSyntax"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-XUnicodeSyntax</span></code></a> extension. For instance,</p>
 <div class="highlight-none"><div class="highlight"><pre>ghci&gt; :set -fprint-unicode-syntax
@@ -689,7 +690,7 @@ ghci&gt; :t +v (&gt;&gt;)
 
 <span class="target" id="pretty-printing-types"></span><dl class="ghc-flag">
 <dt id="ghc-flag--fprint-explicit-foralls">
-<code class="descname">-fprint-explicit-foralls</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag--fprint-explicit-foralls" title="Permalink to this definition">¶</a></dt>
+<code class="descname">-fprint-explicit-foralls</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag--fprint-explicit-foralls" title="この定義へのパーマリンク">¶</a></dt>
 <dd><p>Using <a class="reference internal" href="#ghc-flag--fprint-explicit-foralls"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-fprint-explicit-foralls</span></code></a> makes
 GHC print explicit <code class="docutils literal"><span class="pre">forall</span></code> quantification at the top level of a
 type; normally this is suppressed. For example, in GHCi:</p>
@@ -725,7 +726,7 @@ Data.Type.Equality.sym ::
 
 <dl class="ghc-flag">
 <dt id="ghc-flag--fprint-explicit-kinds">
-<code class="descname">-fprint-explicit-kinds</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag--fprint-explicit-kinds" title="Permalink to this definition">¶</a></dt>
+<code class="descname">-fprint-explicit-kinds</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag--fprint-explicit-kinds" title="この定義へのパーマリンク">¶</a></dt>
 <dd><p>Using <a class="reference internal" href="#ghc-flag--fprint-explicit-kinds"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-fprint-explicit-kinds</span></code></a> makes GHC print kind arguments in
 types, which are normally suppressed. This can be important when you
 are using kind polymorphism. For example:</p>
@@ -742,7 +743,7 @@ MkT :: forall (k :: BOX) (a :: k). T k a
 
 <dl class="ghc-flag">
 <dt id="ghc-flag--fprint-explicit-runtime-reps">
-<code class="descname">-fprint-explicit-runtime-reps</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag--fprint-explicit-runtime-reps" title="Permalink to this definition">¶</a></dt>
+<code class="descname">-fprint-explicit-runtime-reps</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag--fprint-explicit-runtime-reps" title="この定義へのパーマリンク">¶</a></dt>
 <dd><p>When <a class="reference internal" href="#ghc-flag--fprint-explicit-runtime-reps"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-fprint-explicit-runtime-reps</span></code></a> is enabled, GHC prints
 <code class="docutils literal"><span class="pre">RuntimeRep</span></code> type variables for levity-polymorphic types.
 Otherwise GHC will default these to <code class="docutils literal"><span class="pre">PtrRepLifted</span></code>. For example,</p>
@@ -759,7 +760,7 @@ ghci&gt; :t ($)
 
 <dl class="ghc-flag">
 <dt id="ghc-flag--fprint-explicit-coercions">
-<code class="descname">-fprint-explicit-coercions</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag--fprint-explicit-coercions" title="Permalink to this definition">¶</a></dt>
+<code class="descname">-fprint-explicit-coercions</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag--fprint-explicit-coercions" title="この定義へのパーマリンク">¶</a></dt>
 <dd><p>Using <a class="reference internal" href="#ghc-flag--fprint-explicit-coercions"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-fprint-explicit-coercions</span></code></a> makes GHC print coercions in
 types. When trying to prove the equality between types of different
 kinds, GHC uses type-level coercions. Users will rarely need to
@@ -768,7 +769,7 @@ see these, as they are meant to be internal.</p>
 
 <dl class="ghc-flag">
 <dt id="ghc-flag--fprint-equality-relations">
-<code class="descname">-fprint-equality-relations</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag--fprint-equality-relations" title="Permalink to this definition">¶</a></dt>
+<code class="descname">-fprint-equality-relations</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag--fprint-equality-relations" title="この定義へのパーマリンク">¶</a></dt>
 <dd><p>Using <a class="reference internal" href="#ghc-flag--fprint-equality-relations"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-fprint-equality-relations</span></code></a> tells GHC to distinguish between
 its equality relations when printing. For example, <code class="docutils literal"><span class="pre">~</span></code> is homogeneous
 lifted equality (the kinds of its arguments are the same) while
@@ -782,7 +783,7 @@ prints all of these as <code class="docutils literal"><span class="pre">~</span>
 
 <dl class="ghc-flag">
 <dt id="ghc-flag--fprint-expanded-synonyms">
-<code class="descname">-fprint-expanded-synonyms</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag--fprint-expanded-synonyms" title="Permalink to this definition">¶</a></dt>
+<code class="descname">-fprint-expanded-synonyms</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag--fprint-expanded-synonyms" title="この定義へのパーマリンク">¶</a></dt>
 <dd><p>When enabled, GHC also prints type-synonym-expanded types in type
 errors. For example, with this type synonyms:</p>
 <div class="highlight-haskell"><div class="highlight"><pre><span class="kr">type</span> <span class="kt">Foo</span> <span class="ow">=</span> <span class="kt">Int</span>
@@ -809,7 +810,7 @@ Expected type: ST s Int
 
 <dl class="ghc-flag">
 <dt id="ghc-flag--fprint-typechecker-elaboration">
-<code class="descname">-fprint-typechecker-elaboration</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag--fprint-typechecker-elaboration" title="Permalink to this definition">¶</a></dt>
+<code class="descname">-fprint-typechecker-elaboration</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag--fprint-typechecker-elaboration" title="この定義へのパーマリンク">¶</a></dt>
 <dd><p>When enabled, GHC also prints extra information from the typechecker in
 warnings. For example:</p>
 <div class="highlight-haskell"><div class="highlight"><pre><span class="nf">main</span> <span class="ow">::</span> <span class="kt">IO</span> <span class="nb">()</span>
@@ -845,7 +846,7 @@ or by using the flag -fno-warn-unused-do-bind
 
 <dl class="ghc-flag">
 <dt id="ghc-flag--fdiagnostics-color=⟨always|auto|never⟩">
-<code class="descname">-fdiagnostics-color</code><code class="descclassname">=⟨always|auto|never⟩</code><a class="headerlink" href="#ghc-flag--fdiagnostics-color=⟨always|auto|never⟩" title="Permalink to this definition">¶</a></dt>
+<code class="descname">-fdiagnostics-color</code><code class="descclassname">=⟨always|auto|never⟩</code><a class="headerlink" href="#ghc-flag--fdiagnostics-color=⟨always|auto|never⟩" title="この定義へのパーマリンク">¶</a></dt>
 <dd><p>Causes GHC to display error messages with colors.  To do this, the
 terminal must have support for ANSI color codes, or else garbled text will
 appear.  The default value is <code class="docutils literal"><span class="pre">auto</span></code>, which means GHC will make an
@@ -883,7 +884,7 @@ or <code class="docutils literal"><span class="pre">always</span></code>, which 
 
 <dl class="ghc-flag">
 <dt id="ghc-flag--f[no-]diagnostics-show-caret">
-<code class="descname">-f</code><code class="descclassname">[no-]diagnostics-show-caret</code><a class="headerlink" href="#ghc-flag--f[no-]diagnostics-show-caret" title="Permalink to this definition">¶</a></dt>
+<code class="descname">-f</code><code class="descclassname">[no-]diagnostics-show-caret</code><a class="headerlink" href="#ghc-flag--f[no-]diagnostics-show-caret" title="この定義へのパーマリンク">¶</a></dt>
 <dd><p>Controls whether GHC displays a line of the original source code where the
 error was detected.  This also affects the associated caret symbol that
 points at the region of code at fault.  The flag is on by default.</p>
@@ -891,7 +892,7 @@ points at the region of code at fault.  The flag is on by default.</p>
 
 <dl class="ghc-flag">
 <dt id="ghc-flag--ferror-spans">
-<code class="descname">-ferror-spans</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag--ferror-spans" title="Permalink to this definition">¶</a></dt>
+<code class="descname">-ferror-spans</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag--ferror-spans" title="この定義へのパーマリンク">¶</a></dt>
 <dd><p>Causes GHC to emit the full source span of the syntactic entity
 relating to an error message. Normally, GHC emits the source
 location of the start of the syntactic entity only.</p>
@@ -918,14 +919,14 @@ start at zero. This choice was made to follow existing convention
 
 <dl class="ghc-flag">
 <dt id="ghc-flag--H ⟨size⟩">
-<code class="descname">-H</code><code class="descclassname"> ⟨size⟩</code><a class="headerlink" href="#ghc-flag--H ⟨size⟩" title="Permalink to this definition">¶</a></dt>
+<code class="descname">-H</code><code class="descclassname"> ⟨size⟩</code><a class="headerlink" href="#ghc-flag--H ⟨size⟩" title="この定義へのパーマリンク">¶</a></dt>
 <dd><p>Set the minimum size of the heap to ⟨size⟩. This option is
 equivalent to <code class="docutils literal"><span class="pre">+RTS</span> <span class="pre">-Hsize</span></code>, see <a class="reference internal" href="runtime_control.html#rts-options-gc"><span>RTS options to control the garbage collector</span></a>.</p>
 </dd></dl>
 
 <dl class="ghc-flag">
 <dt id="ghc-flag--Rghc-timing">
-<code class="descname">-Rghc-timing</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag--Rghc-timing" title="Permalink to this definition">¶</a></dt>
+<code class="descname">-Rghc-timing</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag--Rghc-timing" title="この定義へのパーマリンク">¶</a></dt>
 <dd><p>Prints a one-line summary of timing statistics for the GHC run. This
 option is equivalent to <code class="docutils literal"><span class="pre">+RTS</span> <span class="pre">-tstderr</span></code>, see
 <a class="reference internal" href="runtime_control.html#rts-options-gc"><span>RTS options to control the garbage collector</span></a>.</p>
@@ -933,11 +934,11 @@ option is equivalent to <code class="docutils literal"><span class="pre">+RTS</s
 
 </div>
 <div class="section" id="platform-specific-flags">
-<span id="options-platform"></span><h2>7.1.7. Platform-specific Flags<a class="headerlink" href="#platform-specific-flags" title="Permalink to this headline">¶</a></h2>
+<span id="options-platform"></span><h2>7.1.7. Platform-specific Flags<a class="headerlink" href="#platform-specific-flags" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <p id="index-19">Some flags only make sense for particular target platforms.</p>
 <dl class="ghc-flag">
 <dt id="ghc-flag--msse2">
-<code class="descname">-msse2</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag--msse2" title="Permalink to this definition">¶</a></dt>
+<code class="descname">-msse2</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag--msse2" title="この定義へのパーマリンク">¶</a></dt>
 <dd><p>(x86 only, added in GHC 7.0.1) Use the SSE2 registers and
 instruction set to implement floating point operations when using
 the <a class="reference internal" href="codegens.html#native-code-gen"><span>native code generator</span></a>. This gives a
@@ -952,7 +953,7 @@ required.</p>
 
 <dl class="ghc-flag">
 <dt id="ghc-flag--msse4.2">
-<code class="descname">-msse4.2</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag--msse4.2" title="Permalink to this definition">¶</a></dt>
+<code class="descname">-msse4.2</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag--msse4.2" title="この定義へのパーマリンク">¶</a></dt>
 <dd><p>(x86 only, added in GHC 7.4.1) Use the SSE4.2 instruction set to
 implement some floating point and bit operations when using the
 <a class="reference internal" href="codegens.html#native-code-gen"><span>native code generator</span></a>. The resulting compiled
@@ -972,24 +973,24 @@ so no flag is required.</p>
       <div class="clearer"></div>
     </div>
     <div class="related" role="navigation" aria-label="related navigation">
-      <h3>Navigation</h3>
+      <h3>ナビゲーション</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
-          <a href="genindex.html" title="General Index"
-             >index</a></li>
+          <a href="genindex.html" title="総合索引"
+             >索引</a></li>
         <li class="right" >
           <a href="using-warnings.html" title="7.2. Warnings and sanity-checking"
-             >next</a> |</li>
+             >次へ</a> |</li>
         <li class="right" >
           <a href="usage.html" title="7. Using GHC"
-             >previous</a> |</li>
+             >前へ</a> |</li>
         <li class="nav-item nav-item-0"><a href="index.html">GHC 8.2.2 User&#39;s Guide</a> &raquo;</li>
           <li class="nav-item nav-item-1"><a href="usage.html" >7. Using GHC</a> &raquo;</li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">
         &copy; Copyright 2015, GHC Team.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.6.
+      このドキュメントは <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.6 で生成しました。
     </div>
   </body>
 </html>

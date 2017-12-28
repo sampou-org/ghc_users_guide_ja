@@ -24,9 +24,10 @@
     <script type="text/javascript" src="_static/jquery.js"></script>
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/translations.js"></script>
     <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="search" type="application/opensearchdescription+xml"
-          title="Search within Glasgow Haskell Compiler 8.2.2 User&#39;s Guide"
+          title="Glasgow Haskell Compiler 8.2.2 User&#39;s Guide 内を検索"
           href="_static/opensearch.xml"/>
     <link rel="top" title="Glasgow Haskell Compiler 8.2.2 User&#39;s Guide" href="index.html" />
     <link rel="up" title="7. Using GHC" href="usage.html" />
@@ -39,17 +40,17 @@
 </div>
 
     <div class="related" role="navigation" aria-label="related navigation">
-      <h3>Navigation</h3>
+      <h3>ナビゲーション</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
-          <a href="genindex.html" title="General Index"
-             accesskey="I">index</a></li>
+          <a href="genindex.html" title="総合索引"
+             accesskey="I">索引</a></li>
         <li class="right" >
           <a href="using-optimisation.html" title="7.3. Optimisation (code improvement)"
-             accesskey="N">next</a> |</li>
+             accesskey="N">次へ</a> |</li>
         <li class="right" >
           <a href="using.html" title="7.1. Using GHC"
-             accesskey="P">previous</a> |</li>
+             accesskey="P">前へ</a> |</li>
         <li class="nav-item nav-item-0"><a href="index.html">GHC 8.2.2 User&#39;s Guide</a> &raquo;</li>
           <li class="nav-item nav-item-1"><a href="usage.html" accesskey="U">7. Using GHC</a> &raquo;</li> 
       </ul>
@@ -57,29 +58,29 @@
 
       <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
         <div class="sphinxsidebarwrapper">
-  <h4>Previous topic</h4>
+  <h4>前のトピックへ</h4>
   <p class="topless"><a href="using.html"
-                        title="previous chapter">7.1. Using GHC</a></p>
-  <h4>Next topic</h4>
+                        title="前の章へ">7.1. Using GHC</a></p>
+  <h4>次のトピックへ</h4>
   <p class="topless"><a href="using-optimisation.html"
-                        title="next chapter">7.3. Optimisation (code improvement)</a></p>
+                        title="次の章へ">7.3. Optimisation (code improvement)</a></p>
   <div role="note" aria-label="source link">
-    <h3>This Page</h3>
+    <h3>このページ</h3>
     <ul class="this-page-menu">
       <li><a href="_sources/using-warnings.txt"
-            rel="nofollow">Show Source</a></li>
+            rel="nofollow">ソースコードを表示</a></li>
     </ul>
    </div>
 <div id="searchbox" style="display: none" role="search">
-  <h3>Quick search</h3>
+  <h3>クイック検索</h3>
     <form class="search" action="search.html" method="get">
       <input type="text" name="q" />
-      <input type="submit" value="Go" />
+      <input type="submit" value="検索" />
       <input type="hidden" name="check_keywords" value="yes" />
       <input type="hidden" name="area" value="default" />
     </form>
     <p class="searchtip" style="font-size: 90%">
-    Enter search terms or a module, class or function name.
+    モジュール、クラス、または関数名を入力してください
     </p>
 </div>
 <script type="text/javascript">$('#searchbox').show(0);</script>
@@ -92,7 +93,7 @@
           <div class="body" role="main">
             
   <div class="section" id="warnings-and-sanity-checking">
-<span id="options-sanity"></span><h1>7.2. Warnings and sanity-checking<a class="headerlink" href="#warnings-and-sanity-checking" title="Permalink to this headline">¶</a></h1>
+<span id="options-sanity"></span><h1>7.2. Warnings and sanity-checking<a class="headerlink" href="#warnings-and-sanity-checking" title="このヘッドラインへのパーマリンク">¶</a></h1>
 <p id="index-0">GHC has a number of options that select which types of non-fatal error
 messages, otherwise known as warnings, can be generated during
 compilation. By default, you get a standard set of warnings which are
@@ -125,7 +126,7 @@ generally likely to indicate bugs in your program. These are:</p>
 <p>The following flags are simple ways to select standard &#8220;packages&#8221; of warnings:</p>
 <dl class="ghc-flag">
 <dt id="ghc-flag--W">
-<code class="descname">-W</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag--W" title="Permalink to this definition">¶</a></dt>
+<code class="descname">-W</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag--W" title="この定義へのパーマリンク">¶</a></dt>
 <dd><p>Provides the standard warnings plus</p>
 <table class="hlist"><tr><td><ul class="simple">
 <li><a class="reference internal" href="#ghc-flag--Wunused-binds"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-Wunused-binds</span></code></a></li>
@@ -146,7 +147,7 @@ generally likely to indicate bugs in your program. These are:</p>
 
 <dl class="ghc-flag">
 <dt id="ghc-flag--Wall">
-<code class="descname">-Wall</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag--Wall" title="Permalink to this definition">¶</a></dt>
+<code class="descname">-Wall</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag--Wall" title="この定義へのパーマリンク">¶</a></dt>
 <dd><p>Turns on all warning options that indicate potentially suspicious
 code. The warnings that are <em>not</em> enabled by <a class="reference internal" href="#ghc-flag--Wall"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-Wall</span></code></a> are</p>
 <table class="hlist"><tr><td><ul class="simple">
@@ -170,7 +171,7 @@ code. The warnings that are <em>not</em> enabled by <a class="reference internal
 
 <dl class="ghc-flag">
 <dt id="ghc-flag--Wcompat">
-<code class="descname">-Wcompat</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag--Wcompat" title="Permalink to this definition">¶</a></dt>
+<code class="descname">-Wcompat</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag--Wcompat" title="この定義へのパーマリンク">¶</a></dt>
 <dd><p>Turns on warnings that will be enabled by default in the future, but remain
 off in normal compilations for the time being. This allows library authors
 eager to make their code future compatible to adapt to new features before
@@ -190,13 +191,13 @@ they even generate warnings.</p>
 
 <dl class="ghc-flag">
 <dt id="ghc-flag--Wno-compat">
-<code class="descname">-Wno-compat</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag--Wno-compat" title="Permalink to this definition">¶</a></dt>
+<code class="descname">-Wno-compat</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag--Wno-compat" title="この定義へのパーマリンク">¶</a></dt>
 <dd><p>Disables all warnings enabled by <a class="reference internal" href="#ghc-flag--Wcompat"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-Wcompat</span></code></a>.</p>
 </dd></dl>
 
 <dl class="ghc-flag">
 <dt id="ghc-flag--w">
-<code class="descname">-w</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag--w" title="Permalink to this definition">¶</a></dt>
+<code class="descname">-w</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag--w" title="この定義へのパーマリンク">¶</a></dt>
 <dd><p>Turns off all warnings, including the standard ones and those that
 <a class="reference internal" href="#ghc-flag--Wall"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-Wall</span></code></a> doesn&#8217;t enable.</p>
 </dd></dl>
@@ -205,7 +206,7 @@ they even generate warnings.</p>
 to abort.</p>
 <dl class="ghc-flag">
 <dt id="ghc-flag--Werror">
-<code class="descname">-Werror</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag--Werror" title="Permalink to this definition">¶</a></dt>
+<code class="descname">-Werror</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag--Werror" title="この定義へのパーマリンク">¶</a></dt>
 <dd><p>Makes any warning into a fatal error. Useful so that you don&#8217;t miss
 warnings when doing batch compilation.</p>
 </dd></dl>
@@ -227,7 +228,7 @@ it hasn&#8217;t been enabled yet.</p>
 
 <dl class="ghc-flag">
 <dt id="ghc-flag--Wwarn">
-<code class="descname">-Wwarn</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag--Wwarn" title="Permalink to this definition">¶</a></dt>
+<code class="descname">-Wwarn</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag--Wwarn" title="この定義へのパーマリンク">¶</a></dt>
 <dd><p>Warnings are treated only as warnings, not as errors. This is the
 default, but can be useful to negate a <a class="reference internal" href="#ghc-flag--Werror"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-Werror</span></code></a> flag.</p>
 </dd></dl>
@@ -244,7 +245,7 @@ warning will still be enabled.</p>
 it is shown.</p>
 <dl class="ghc-flag">
 <dt id="ghc-flag--fshow-warning-groups">
-<code class="descname">-fshow-warning-groups</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag--fshow-warning-groups" title="Permalink to this definition">¶</a></dt>
+<code class="descname">-fshow-warning-groups</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag--fshow-warning-groups" title="この定義へのパーマリンク">¶</a></dt>
 <dd><p>When showing which flag controls a warning, also show the
 respective warning group flag(s) that warning is contained in.</p>
 <p>This option is off by default.</p>
@@ -257,7 +258,7 @@ all these warnings can still be controlled with <code class="docutils literal"><
 of <code class="docutils literal"><span class="pre">-W(no-)*</span></code>.</p>
 <dl class="ghc-flag">
 <dt id="ghc-flag--Wunrecognised-warning-flags">
-<code class="descname">-Wunrecognised-warning-flags</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag--Wunrecognised-warning-flags" title="Permalink to this definition">¶</a></dt>
+<code class="descname">-Wunrecognised-warning-flags</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag--Wunrecognised-warning-flags" title="この定義へのパーマリンク">¶</a></dt>
 <dd><p>Enables warnings when the compiler encounters a <code class="docutils literal"><span class="pre">-W...</span></code> flag that is not
 recognised.</p>
 <p>This warning is on by default.</p>
@@ -265,7 +266,7 @@ recognised.</p>
 
 <dl class="ghc-flag">
 <dt id="ghc-flag--Wtyped-holes">
-<code class="descname">-Wtyped-holes</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag--Wtyped-holes" title="Permalink to this definition">¶</a></dt>
+<code class="descname">-Wtyped-holes</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag--Wtyped-holes" title="この定義へのパーマリンク">¶</a></dt>
 <dd><p>Determines whether the compiler reports typed holes warnings. Has no
 effect unless typed holes errors are deferred until runtime. See
 <a class="reference internal" href="glasgow_exts.html#typed-holes"><span>Typed Holes</span></a> and <a class="reference internal" href="glasgow_exts.html#defer-type-errors"><span>Deferring type errors to runtime</span></a></p>
@@ -274,7 +275,7 @@ effect unless typed holes errors are deferred until runtime. See
 
 <dl class="ghc-flag">
 <dt id="ghc-flag--Wtype-errors">
-<code class="descname">-Wtype-errors</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag--Wtype-errors" title="Permalink to this definition">¶</a></dt>
+<code class="descname">-Wtype-errors</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag--Wtype-errors" title="この定義へのパーマリンク">¶</a></dt>
 <dd><p>Causes a warning to be reported when a type error is deferred until
 runtime. See <a class="reference internal" href="glasgow_exts.html#defer-type-errors"><span>Deferring type errors to runtime</span></a></p>
 <p>This warning is on by default.</p>
@@ -282,7 +283,7 @@ runtime. See <a class="reference internal" href="glasgow_exts.html#defer-type-er
 
 <dl class="ghc-flag">
 <dt id="ghc-flag--fdefer-type-errors">
-<code class="descname">-fdefer-type-errors</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag--fdefer-type-errors" title="Permalink to this definition">¶</a></dt>
+<code class="descname">-fdefer-type-errors</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag--fdefer-type-errors" title="この定義へのパーマリンク">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -300,7 +301,7 @@ can run any type-correct parts of your code just fine. See
 
 <dl class="ghc-flag">
 <dt id="ghc-flag--fdefer-typed-holes">
-<code class="descname">-fdefer-typed-holes</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag--fdefer-typed-holes" title="Permalink to this definition">¶</a></dt>
+<code class="descname">-fdefer-typed-holes</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag--fdefer-typed-holes" title="この定義へのパーマリンク">¶</a></dt>
 <dd><p>Defer typed holes errors (errors about names with a leading underscore
 (e.g., “_”, “_foo”, “_bar”)) until runtime. This will turn the errors
 produced by <a class="reference internal" href="glasgow_exts.html#typed-holes"><span>typed holes</span></a> into warnings. Using a value
@@ -312,7 +313,7 @@ and <a class="reference internal" href="glasgow_exts.html#defer-type-errors"><sp
 
 <dl class="ghc-flag">
 <dt id="ghc-flag--fdefer-out-of-scope-variables">
-<code class="descname">-fdefer-out-of-scope-variables</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag--fdefer-out-of-scope-variables" title="Permalink to this definition">¶</a></dt>
+<code class="descname">-fdefer-out-of-scope-variables</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag--fdefer-out-of-scope-variables" title="この定義へのパーマリンク">¶</a></dt>
 <dd><p>Defer variable out-of-scope errors (errors about names without a leading underscore)
 until runtime. This will turn variable-out-of-scope errors into warnings.
 Using a value that depends on a typed hole produces a runtime error,
@@ -323,13 +324,13 @@ See <a class="reference internal" href="glasgow_exts.html#typed-holes"><span>Typ
 
 <dl class="ghc-flag">
 <dt id="ghc-flag--Wdeferred-out-of-scope-variables">
-<code class="descname">-Wdeferred-out-of-scope-variables</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag--Wdeferred-out-of-scope-variables" title="Permalink to this definition">¶</a></dt>
+<code class="descname">-Wdeferred-out-of-scope-variables</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag--Wdeferred-out-of-scope-variables" title="この定義へのパーマリンク">¶</a></dt>
 <dd><p>Warn when a deferred out-of-scope variable is encountered.</p>
 </dd></dl>
 
 <dl class="ghc-flag">
 <dt id="ghc-flag--Wpartial-type-signatures">
-<code class="descname">-Wpartial-type-signatures</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag--Wpartial-type-signatures" title="Permalink to this definition">¶</a></dt>
+<code class="descname">-Wpartial-type-signatures</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag--Wpartial-type-signatures" title="この定義へのパーマリンク">¶</a></dt>
 <dd><p>Determines whether the compiler reports holes in partial type
 signatures as warnings. Has no effect unless
 <a class="reference internal" href="glasgow_exts.html#ghc-flag--XPartialTypeSignatures"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-XPartialTypeSignatures</span></code></a> is enabled, which controls whether
@@ -340,7 +341,7 @@ errors should be generated for holes in types or not. See
 
 <dl class="ghc-flag">
 <dt id="ghc-flag--fhelpful-errors">
-<code class="descname">-fhelpful-errors</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag--fhelpful-errors" title="Permalink to this definition">¶</a></dt>
+<code class="descname">-fhelpful-errors</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag--fhelpful-errors" title="この定義へのパーマリンク">¶</a></dt>
 <dd><p>When a name or package is not found in scope, make suggestions for
 the name or package you might have meant instead.</p>
 <p>This option is on by default.</p>
@@ -348,7 +349,7 @@ the name or package you might have meant instead.</p>
 
 <dl class="ghc-flag">
 <dt id="ghc-flag--Wunrecognised-pragmas">
-<code class="descname">-Wunrecognised-pragmas</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag--Wunrecognised-pragmas" title="Permalink to this definition">¶</a></dt>
+<code class="descname">-Wunrecognised-pragmas</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag--Wunrecognised-pragmas" title="この定義へのパーマリンク">¶</a></dt>
 <dd><p>Causes a warning to be emitted when a pragma that GHC doesn&#8217;t
 recognise is used. As well as pragmas that GHC itself uses, GHC also
 recognises pragmas known to be used by other tools, e.g.
@@ -358,9 +359,9 @@ recognises pragmas known to be used by other tools, e.g.
 
 <dl class="ghc-flag">
 <dt id="ghc-flag--Wmissed-specialisations">
-<code class="descname">-Wmissed-specialisations</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag--Wmissed-specialisations" title="Permalink to this definition">¶</a></dt>
+<code class="descname">-Wmissed-specialisations</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag--Wmissed-specialisations" title="この定義へのパーマリンク">¶</a></dt>
 <dt id="ghc-flag--Wall-missed-specialisations">
-<code class="descname">-Wall-missed-specialisations</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag--Wall-missed-specialisations" title="Permalink to this definition">¶</a></dt>
+<code class="descname">-Wall-missed-specialisations</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag--Wall-missed-specialisations" title="この定義へのパーマリンク">¶</a></dt>
 <dd><p>Emits a warning if GHC cannot specialise an overloaded function, usually
 because the function needs an <code class="docutils literal"><span class="pre">INLINABLE</span></code> pragma. The &#8220;all&#8221; form reports
 all such situations whereas the &#8220;non-all&#8221; form only reports when the
@@ -374,7 +375,7 @@ be specialised as it calls other functions that are themselves not specialised.<
 
 <dl class="ghc-flag">
 <dt id="ghc-flag--Wwarnings-deprecations">
-<code class="descname">-Wwarnings-deprecations</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag--Wwarnings-deprecations" title="Permalink to this definition">¶</a></dt>
+<code class="descname">-Wwarnings-deprecations</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag--Wwarnings-deprecations" title="この定義へのパーマリンク">¶</a></dt>
 <dd><p id="index-1">Causes a warning to be emitted when a module, function or type with
 a <code class="docutils literal"><span class="pre">WARNING</span></code> or <code class="docutils literal"><span class="pre">DEPRECATED</span> <span class="pre">pragma</span></code> is used. See
 <a class="reference internal" href="glasgow_exts.html#warning-deprecated-pragma"><span>WARNING and DEPRECATED pragmas</span></a> for more details on the pragmas.</p>
@@ -383,7 +384,7 @@ a <code class="docutils literal"><span class="pre">WARNING</span></code> or <cod
 
 <dl class="ghc-flag">
 <dt id="ghc-flag--Wdeprecations">
-<code class="descname">-Wdeprecations</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag--Wdeprecations" title="Permalink to this definition">¶</a></dt>
+<code class="descname">-Wdeprecations</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag--Wdeprecations" title="この定義へのパーマリンク">¶</a></dt>
 <dd><p id="index-2">Causes a warning to be emitted when a module, function or type with
 a <code class="docutils literal"><span class="pre">WARNING</span></code> or <code class="docutils literal"><span class="pre">DEPRECATED</span> <span class="pre">pragma</span></code> is used. See
 <a class="reference internal" href="glasgow_exts.html#warning-deprecated-pragma"><span>WARNING and DEPRECATED pragmas</span></a> for more details on the pragmas.
@@ -393,7 +394,7 @@ An alias for <a class="reference internal" href="#ghc-flag--Wwarnings-deprecatio
 
 <dl class="ghc-flag">
 <dt id="ghc-flag--Wamp">
-<code class="descname">-Wamp</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag--Wamp" title="Permalink to this definition">¶</a></dt>
+<code class="descname">-Wamp</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag--Wamp" title="この定義へのパーマリンク">¶</a></dt>
 <dd><p id="index-3">This option is deprecated.</p>
 <p>Caused a warning to be emitted when a definition was in conflict with
 the AMP (Applicative-Monad proosal).</p>
@@ -401,7 +402,7 @@ the AMP (Applicative-Monad proosal).</p>
 
 <dl class="ghc-flag">
 <dt id="ghc-flag--Wnoncanonical-monad-instances">
-<code class="descname">-Wnoncanonical-monad-instances</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag--Wnoncanonical-monad-instances" title="Permalink to this definition">¶</a></dt>
+<code class="descname">-Wnoncanonical-monad-instances</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag--Wnoncanonical-monad-instances" title="この定義へのパーマリンク">¶</a></dt>
 <dd><p>Warn if noncanonical <code class="docutils literal"><span class="pre">Applicative</span></code> or <code class="docutils literal"><span class="pre">Monad</span></code> instances
 declarations are detected.</p>
 <p>When this warning is enabled, the following conditions are verified:</p>
@@ -425,7 +426,7 @@ conditions does not hold:</p>
 
 <dl class="ghc-flag">
 <dt id="ghc-flag--Wnoncanonical-monadfail-instances">
-<code class="descname">-Wnoncanonical-monadfail-instances</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag--Wnoncanonical-monadfail-instances" title="Permalink to this definition">¶</a></dt>
+<code class="descname">-Wnoncanonical-monadfail-instances</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag--Wnoncanonical-monadfail-instances" title="この定義へのパーマリンク">¶</a></dt>
 <dd><p>Warn if noncanonical <code class="docutils literal"><span class="pre">Monad</span></code> or <code class="docutils literal"><span class="pre">MonadFail</span></code> instances
 declarations are detected.</p>
 <p>When this warning is enabled, the following conditions are verified:</p>
@@ -450,7 +451,7 @@ conditions does not hold:</p>
 
 <dl class="ghc-flag">
 <dt id="ghc-flag--Wnoncanonical-monoid-instances">
-<code class="descname">-Wnoncanonical-monoid-instances</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag--Wnoncanonical-monoid-instances" title="Permalink to this definition">¶</a></dt>
+<code class="descname">-Wnoncanonical-monoid-instances</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag--Wnoncanonical-monoid-instances" title="この定義へのパーマリンク">¶</a></dt>
 <dd><p>Warn if noncanonical <code class="docutils literal"><span class="pre">Semigroup</span></code> or <code class="docutils literal"><span class="pre">Monoid</span></code> instances
 declarations are detected.</p>
 <p>When this warning is enabled, the following conditions are verified:</p>
@@ -474,7 +475,7 @@ conditions does not hold:</p>
 
 <dl class="ghc-flag">
 <dt id="ghc-flag--Wmissing-monadfail-instances">
-<code class="descname">-Wmissing-monadfail-instances</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag--Wmissing-monadfail-instances" title="Permalink to this definition">¶</a></dt>
+<code class="descname">-Wmissing-monadfail-instances</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag--Wmissing-monadfail-instances" title="この定義へのパーマリンク">¶</a></dt>
 <dd><p id="index-4">Warn when a failable pattern is used in a do-block that does not have a
 <code class="docutils literal"><span class="pre">MonadFail</span></code> instance.</p>
 <p>See also <a class="reference internal" href="#ghc-flag--Wnoncanonical-monadfail-instances"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-Wnoncanonical-monadfail-instances</span></code></a>.</p>
@@ -485,7 +486,7 @@ the <a class="reference external" href="https://prime.haskell.org/wiki/Libraries
 
 <dl class="ghc-flag">
 <dt id="ghc-flag--Wsemigroup">
-<code class="descname">-Wsemigroup</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag--Wsemigroup" title="Permalink to this definition">¶</a></dt>
+<code class="descname">-Wsemigroup</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag--Wsemigroup" title="この定義へのパーマリンク">¶</a></dt>
 <dd><p id="index-5">Warn when definitions are in conflict with the future inclusion of
 <code class="docutils literal"><span class="pre">Semigroup</span></code> into the standard typeclasses.</p>
 <blockquote>
@@ -501,7 +502,7 @@ default, but will be switched on in a future GHC release.</p>
 
 <dl class="ghc-flag">
 <dt id="ghc-flag--Wdeprecated-flags">
-<code class="descname">-Wdeprecated-flags</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag--Wdeprecated-flags" title="Permalink to this definition">¶</a></dt>
+<code class="descname">-Wdeprecated-flags</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag--Wdeprecated-flags" title="この定義へのパーマリンク">¶</a></dt>
 <dd><p id="index-6">Causes a warning to be emitted when a deprecated command-line flag
 is used.</p>
 <p>This option is on by default.</p>
@@ -509,7 +510,7 @@ is used.</p>
 
 <dl class="ghc-flag">
 <dt id="ghc-flag--Wunsupported-calling-conventions">
-<code class="descname">-Wunsupported-calling-conventions</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag--Wunsupported-calling-conventions" title="Permalink to this definition">¶</a></dt>
+<code class="descname">-Wunsupported-calling-conventions</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag--Wunsupported-calling-conventions" title="この定義へのパーマリンク">¶</a></dt>
 <dd><p>Causes a warning to be emitted for foreign declarations that use
 unsupported calling conventions. In particular, if the <code class="docutils literal"><span class="pre">stdcall</span></code>
 calling convention is used on an architecture other than i386 then
@@ -518,7 +519,7 @@ it will be treated as <code class="docutils literal"><span class="pre">ccall</sp
 
 <dl class="ghc-flag">
 <dt id="ghc-flag--Wdodgy-foreign-imports">
-<code class="descname">-Wdodgy-foreign-imports</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag--Wdodgy-foreign-imports" title="Permalink to this definition">¶</a></dt>
+<code class="descname">-Wdodgy-foreign-imports</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag--Wdodgy-foreign-imports" title="この定義へのパーマリンク">¶</a></dt>
 <dd><p>Causes a warning to be emitted for foreign imports of the following
 form:</p>
 <div class="highlight-haskell"><div class="highlight"><pre><span class="nf">foreign</span> <span class="kr">import</span> <span class="s">&quot;f&quot;</span> <span class="nn">f</span> <span class="ow">::</span> <span class="kt">FunPtr</span> <span class="n">t</span>
@@ -538,7 +539,7 @@ warning.</p>
 
 <dl class="ghc-flag">
 <dt id="ghc-flag--Wdodgy-exports">
-<code class="descname">-Wdodgy-exports</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag--Wdodgy-exports" title="Permalink to this definition">¶</a></dt>
+<code class="descname">-Wdodgy-exports</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag--Wdodgy-exports" title="この定義へのパーマリンク">¶</a></dt>
 <dd><p>Causes a warning to be emitted when a datatype <code class="docutils literal"><span class="pre">T</span></code> is exported
 with all constructors, i.e. <code class="docutils literal"><span class="pre">T(..)</span></code>, but is it just a type
 synonym.</p>
@@ -548,7 +549,7 @@ but that module exports nothing.</p>
 
 <dl class="ghc-flag">
 <dt id="ghc-flag--Wdodgy-imports">
-<code class="descname">-Wdodgy-imports</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag--Wdodgy-imports" title="Permalink to this definition">¶</a></dt>
+<code class="descname">-Wdodgy-imports</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag--Wdodgy-imports" title="この定義へのパーマリンク">¶</a></dt>
 <dd><p>Causes a warning to be emitted in the following cases:</p>
 <ul class="simple">
 <li>When a datatype <code class="docutils literal"><span class="pre">T</span></code> is imported with all constructors, i.e.
@@ -560,21 +561,21 @@ exported.</li>
 
 <dl class="ghc-flag">
 <dt id="ghc-flag--Woverflowed-literals">
-<code class="descname">-Woverflowed-literals</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag--Woverflowed-literals" title="Permalink to this definition">¶</a></dt>
+<code class="descname">-Woverflowed-literals</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag--Woverflowed-literals" title="この定義へのパーマリンク">¶</a></dt>
 <dd><p>Causes a warning to be emitted if a literal will overflow, e.g.
 <code class="docutils literal"><span class="pre">300</span> <span class="pre">::</span> <span class="pre">Word8</span></code>.</p>
 </dd></dl>
 
 <dl class="ghc-flag">
 <dt id="ghc-flag--Wempty-enumerations">
-<code class="descname">-Wempty-enumerations</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag--Wempty-enumerations" title="Permalink to this definition">¶</a></dt>
+<code class="descname">-Wempty-enumerations</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag--Wempty-enumerations" title="この定義へのパーマリンク">¶</a></dt>
 <dd><p>Causes a warning to be emitted if an enumeration is empty, e.g.
 <code class="docutils literal"><span class="pre">[5</span> <span class="pre">..</span> <span class="pre">3]</span></code>.</p>
 </dd></dl>
 
 <dl class="ghc-flag">
 <dt id="ghc-flag--Wduplicate-constraints">
-<code class="descname">-Wduplicate-constraints</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag--Wduplicate-constraints" title="Permalink to this definition">¶</a></dt>
+<code class="descname">-Wduplicate-constraints</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag--Wduplicate-constraints" title="この定義へのパーマリンク">¶</a></dt>
 <dd><p id="index-7">Have the compiler warn about duplicate constraints in a type
 signature. For example</p>
 <div class="highlight-haskell"><div class="highlight"><pre><span class="nf">f</span> <span class="ow">::</span> <span class="p">(</span><span class="kt">Eq</span> <span class="n">a</span><span class="p">,</span> <span class="kt">Show</span> <span class="n">a</span><span class="p">,</span> <span class="kt">Eq</span> <span class="n">a</span><span class="p">)</span> <span class="ow">=&gt;</span> <span class="n">a</span> <span class="ow">-&gt;</span> <span class="n">a</span>
@@ -587,7 +588,7 @@ signature. For example</p>
 
 <dl class="ghc-flag">
 <dt id="ghc-flag--Wredundant-constraints">
-<code class="descname">-Wredundant-constraints</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag--Wredundant-constraints" title="Permalink to this definition">¶</a></dt>
+<code class="descname">-Wredundant-constraints</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag--Wredundant-constraints" title="この定義へのパーマリンク">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -637,7 +638,7 @@ constraint is needed, so no warning is issued.</p>
 
 <dl class="ghc-flag">
 <dt id="ghc-flag--Wduplicate-exports">
-<code class="descname">-Wduplicate-exports</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag--Wduplicate-exports" title="Permalink to this definition">¶</a></dt>
+<code class="descname">-Wduplicate-exports</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag--Wduplicate-exports" title="この定義へのパーマリンク">¶</a></dt>
 <dd><p id="index-9">Have the compiler warn about duplicate entries in export lists. This
 is useful information if you maintain large export lists, and want
 to avoid the continued export of a definition after you&#8217;ve deleted
@@ -647,7 +648,7 @@ to avoid the continued export of a definition after you&#8217;ve deleted
 
 <dl class="ghc-flag">
 <dt id="ghc-flag--Whi-shadowing">
-<code class="descname">-Whi-shadowing</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag--Whi-shadowing" title="Permalink to this definition">¶</a></dt>
+<code class="descname">-Whi-shadowing</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag--Whi-shadowing" title="この定義へのパーマリンク">¶</a></dt>
 <dd><p id="index-10">Causes the compiler to emit a warning when a module or interface
 file in the current directory is shadowing one with the same module
 name in a library or other directory.</p>
@@ -655,7 +656,7 @@ name in a library or other directory.</p>
 
 <dl class="ghc-flag">
 <dt id="ghc-flag--Widentities">
-<code class="descname">-Widentities</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag--Widentities" title="Permalink to this definition">¶</a></dt>
+<code class="descname">-Widentities</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag--Widentities" title="この定義へのパーマリンク">¶</a></dt>
 <dd><p>Causes the compiler to emit a warning when a Prelude numeric
 conversion converts a type <code class="docutils literal"><span class="pre">T</span></code> to the same type <code class="docutils literal"><span class="pre">T</span></code>; such calls are
 probably no-ops and can be omitted. The functions checked for are:
@@ -664,7 +665,7 @@ probably no-ops and can be omitted. The functions checked for are:
 
 <dl class="ghc-flag">
 <dt id="ghc-flag--Wimplicit-prelude">
-<code class="descname">-Wimplicit-prelude</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag--Wimplicit-prelude" title="Permalink to this definition">¶</a></dt>
+<code class="descname">-Wimplicit-prelude</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag--Wimplicit-prelude" title="この定義へのパーマリンク">¶</a></dt>
 <dd><p id="index-11">Have the compiler warn if the Prelude is implicitly imported. This
 happens unless either the Prelude module is explicitly imported with
 an <code class="docutils literal"><span class="pre">import</span> <span class="pre">...</span> <span class="pre">Prelude</span> <span class="pre">...</span></code> line, or this implicit import is
@@ -681,9 +682,9 @@ imports of the module being compiled).</p>
 
 <dl class="ghc-flag">
 <dt id="ghc-flag--Wincomplete-patterns">
-<code class="descname">-Wincomplete-patterns</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag--Wincomplete-patterns" title="Permalink to this definition">¶</a></dt>
+<code class="descname">-Wincomplete-patterns</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag--Wincomplete-patterns" title="この定義へのパーマリンク">¶</a></dt>
 <dt id="ghc-flag--Wincomplete-uni-patterns">
-<code class="descname">-Wincomplete-uni-patterns</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag--Wincomplete-uni-patterns" title="Permalink to this definition">¶</a></dt>
+<code class="descname">-Wincomplete-uni-patterns</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag--Wincomplete-uni-patterns" title="この定義へのパーマリンク">¶</a></dt>
 <dd><p id="index-12">The option <a class="reference internal" href="#ghc-flag--Wincomplete-patterns"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-Wincomplete-patterns</span></code></a> warns about places where a
 pattern-match might fail at runtime. The function <code class="docutils literal"><span class="pre">g</span></code> below will
 fail when applied to non-empty lists, so the compiler will emit a
@@ -706,7 +707,7 @@ constructs that only allow a single pattern:</p>
 
 <dl class="ghc-flag">
 <dt id="ghc-flag--fmax-pmcheck-iterations=⟨n⟩">
-<code class="descname">-fmax-pmcheck-iterations</code><code class="descclassname">=⟨n⟩</code><a class="headerlink" href="#ghc-flag--fmax-pmcheck-iterations=⟨n⟩" title="Permalink to this definition">¶</a></dt>
+<code class="descname">-fmax-pmcheck-iterations</code><code class="descclassname">=⟨n⟩</code><a class="headerlink" href="#ghc-flag--fmax-pmcheck-iterations=⟨n⟩" title="この定義へのパーマリンク">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -726,7 +727,7 @@ pattern match, for the sake of future readers of your code.</p>
 
 <dl class="ghc-flag">
 <dt id="ghc-flag--Wincomplete-record-updates">
-<code class="descname">-Wincomplete-record-updates</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag--Wincomplete-record-updates" title="Permalink to this definition">¶</a></dt>
+<code class="descname">-Wincomplete-record-updates</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag--Wincomplete-record-updates" title="この定義へのパーマリンク">¶</a></dt>
 <dd><p id="index-13">The function <code class="docutils literal"><span class="pre">f</span></code> below will fail when applied to <code class="docutils literal"><span class="pre">Bar</span></code>, so the
 compiler will emit a warning about this when
 <a class="reference internal" href="#ghc-flag--Wincomplete-record-updates"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-Wincomplete-record-updates</span></code></a> is enabled.</p>
@@ -743,7 +744,7 @@ and it often doesn&#8217;t indicate a bug in the program.</p>
 
 <dl class="ghc-flag">
 <dt id="ghc-flag--Wmissing-fields">
-<code class="descname">-Wmissing-fields</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag--Wmissing-fields" title="Permalink to this definition">¶</a></dt>
+<code class="descname">-Wmissing-fields</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag--Wmissing-fields" title="この定義へのパーマリンク">¶</a></dt>
 <dd><p id="index-14">This option is on by default, and warns you whenever the
 construction of a labelled field constructor isn&#8217;t complete, missing
 initialisers for one or more fields. While not an error (the missing
@@ -753,7 +754,7 @@ programmer error.</p>
 
 <dl class="ghc-flag">
 <dt id="ghc-flag--Wmissing-import-lists">
-<code class="descname">-Wmissing-import-lists</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag--Wmissing-import-lists" title="Permalink to this definition">¶</a></dt>
+<code class="descname">-Wmissing-import-lists</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag--Wmissing-import-lists" title="この定義へのパーマリンク">¶</a></dt>
 <dd><p id="index-15">This flag warns if you use an unqualified <code class="docutils literal"><span class="pre">import</span></code> declaration
 that does not explicitly list the entities brought into scope. For
 example</p>
@@ -773,7 +774,7 @@ unlikely to produce ambiguity in <code class="docutils literal"><span class="pre
 
 <dl class="ghc-flag">
 <dt id="ghc-flag--Wmissing-methods">
-<code class="descname">-Wmissing-methods</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag--Wmissing-methods" title="Permalink to this definition">¶</a></dt>
+<code class="descname">-Wmissing-methods</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag--Wmissing-methods" title="この定義へのパーマリンク">¶</a></dt>
 <dd><p id="index-16">This option is on by default, and warns you whenever an instance
 declaration is missing one or more methods, and the corresponding
 class declaration has no default declaration for them.</p>
@@ -795,7 +796,7 @@ methods will be required for instances of a particular class. See
 
 <dl class="ghc-flag">
 <dt id="ghc-flag--Wmissing-signatures">
-<code class="descname">-Wmissing-signatures</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag--Wmissing-signatures" title="Permalink to this definition">¶</a></dt>
+<code class="descname">-Wmissing-signatures</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag--Wmissing-signatures" title="この定義へのパーマリンク">¶</a></dt>
 <dd><p id="index-17">If you would like GHC to check that every top-level function/value
 has a type signature, use the <a class="reference internal" href="#ghc-flag--Wmissing-signatures"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-Wmissing-signatures</span></code></a> option.
 As part of the warning GHC also reports the inferred type. The
@@ -804,14 +805,14 @@ option is off by default.</p>
 
 <dl class="ghc-flag">
 <dt id="ghc-flag--Wmissing-exported-sigs">
-<code class="descname">-Wmissing-exported-sigs</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag--Wmissing-exported-sigs" title="Permalink to this definition">¶</a></dt>
+<code class="descname">-Wmissing-exported-sigs</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag--Wmissing-exported-sigs" title="この定義へのパーマリンク">¶</a></dt>
 <dd><p id="index-18">This option is now deprecated in favour of
 <a class="reference internal" href="#ghc-flag--Wmissing-exported-signatures"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-Wmissing-exported-signatures</span></code></a>.</p>
 </dd></dl>
 
 <dl class="ghc-flag">
 <dt id="ghc-flag--Wmissing-exported-signatures">
-<code class="descname">-Wmissing-exported-signatures</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag--Wmissing-exported-signatures" title="Permalink to this definition">¶</a></dt>
+<code class="descname">-Wmissing-exported-signatures</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag--Wmissing-exported-signatures" title="この定義へのパーマリンク">¶</a></dt>
 <dd><p id="index-19">If you would like GHC to check that every exported top-level
 function/value has a type signature, but not check unexported
 values, use the <a class="reference internal" href="#ghc-flag--Wmissing-exported-signatures"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-Wmissing-exported-signatures</span></code></a>
@@ -822,14 +823,14 @@ reports the inferred type. The option is off by default.</p>
 
 <dl class="ghc-flag">
 <dt id="ghc-flag--Wmissing-local-sigs">
-<code class="descname">-Wmissing-local-sigs</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag--Wmissing-local-sigs" title="Permalink to this definition">¶</a></dt>
+<code class="descname">-Wmissing-local-sigs</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag--Wmissing-local-sigs" title="この定義へのパーマリンク">¶</a></dt>
 <dd><p id="index-20">This option is now deprecated in favour of
 <a class="reference internal" href="#ghc-flag--Wmissing-local-signatures"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-Wmissing-local-signatures</span></code></a>.</p>
 </dd></dl>
 
 <dl class="ghc-flag">
 <dt id="ghc-flag--Wmissing-local-signatures">
-<code class="descname">-Wmissing-local-signatures</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag--Wmissing-local-signatures" title="Permalink to this definition">¶</a></dt>
+<code class="descname">-Wmissing-local-signatures</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag--Wmissing-local-signatures" title="この定義へのパーマリンク">¶</a></dt>
 <dd><p id="index-21">If you use the <a class="reference internal" href="#ghc-flag--Wmissing-local-signatures"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-Wmissing-local-signatures</span></code></a> flag GHC
 will warn you about any polymorphic local bindings. As part of the
 warning GHC also reports the inferred type. The option is off by
@@ -838,7 +839,7 @@ default.</p>
 
 <dl class="ghc-flag">
 <dt id="ghc-flag--Wmissing-pattern-synonym-signatures">
-<code class="descname">-Wmissing-pattern-synonym-signatures</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag--Wmissing-pattern-synonym-signatures" title="Permalink to this definition">¶</a></dt>
+<code class="descname">-Wmissing-pattern-synonym-signatures</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag--Wmissing-pattern-synonym-signatures" title="この定義へのパーマリンク">¶</a></dt>
 <dd><p id="index-22">If you would like GHC to check that every pattern synonym has a
 type signature, use the
 <a class="reference internal" href="#ghc-flag--Wmissing-pattern-synonym-signatures"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-Wmissing-pattern-synonym-signatures</span></code></a> option. If this
@@ -850,7 +851,7 @@ type. This option is off by default.</p>
 
 <dl class="ghc-flag">
 <dt id="ghc-flag--Wname-shadowing">
-<code class="descname">-Wname-shadowing</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag--Wname-shadowing" title="Permalink to this definition">¶</a></dt>
+<code class="descname">-Wname-shadowing</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag--Wname-shadowing" title="この定義へのパーマリンク">¶</a></dt>
 <dd><p id="index-23">This option causes a warning to be emitted whenever an inner-scope
 value has the same name as an outer-scope value, i.e. the inner
 value shadows the outer one. This can catch typographical errors
@@ -866,7 +867,7 @@ For example</p>
 
 <dl class="ghc-flag">
 <dt id="ghc-flag--Worphans">
-<code class="descname">-Worphans</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag--Worphans" title="Permalink to this definition">¶</a></dt>
+<code class="descname">-Worphans</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag--Worphans" title="この定義へのパーマリンク">¶</a></dt>
 <dd><p id="index-24">These flags cause a warning to be emitted whenever the module
 contains an &#8220;orphan&#8221; instance declaration or rewrite rule. An
 instance declaration is an orphan if it appears in a module in which
@@ -884,7 +885,7 @@ instances.</p>
 
 <dl class="ghc-flag">
 <dt id="ghc-flag--Woverlapping-patterns">
-<code class="descname">-Woverlapping-patterns</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag--Woverlapping-patterns" title="Permalink to this definition">¶</a></dt>
+<code class="descname">-Woverlapping-patterns</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag--Woverlapping-patterns" title="この定義へのパーマリンク">¶</a></dt>
 <dd><p id="index-25">By default, the compiler will warn you if a set of patterns are
 overlapping, e.g.,</p>
 <div class="highlight-haskell"><div class="highlight"><pre><span class="nf">f</span> <span class="ow">::</span> <span class="kt">String</span> <span class="ow">-&gt;</span> <span class="kt">Int</span>
@@ -900,7 +901,7 @@ is a programmer mistake/error, so this option is enabled by default.</p>
 
 <dl class="ghc-flag">
 <dt id="ghc-flag--Wsimplifiable-class-constraints">
-<code class="descname">-Wsimplifiable-class-constraints</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag--Wsimplifiable-class-constraints" title="Permalink to this definition">¶</a></dt>
+<code class="descname">-Wsimplifiable-class-constraints</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag--Wsimplifiable-class-constraints" title="この定義へのパーマリンク">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -927,13 +928,13 @@ per-module basis with <a class="reference internal" href="#ghc-flag--Wsimplifiab
 
 <dl class="ghc-flag">
 <dt id="ghc-flag--Wtabs">
-<code class="descname">-Wtabs</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag--Wtabs" title="Permalink to this definition">¶</a></dt>
+<code class="descname">-Wtabs</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag--Wtabs" title="この定義へのパーマリンク">¶</a></dt>
 <dd><p id="index-27">Have the compiler warn if there are tabs in your source file.</p>
 </dd></dl>
 
 <dl class="ghc-flag">
 <dt id="ghc-flag--Wtype-defaults">
-<code class="descname">-Wtype-defaults</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag--Wtype-defaults" title="Permalink to this definition">¶</a></dt>
+<code class="descname">-Wtype-defaults</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag--Wtype-defaults" title="この定義へのパーマリンク">¶</a></dt>
 <dd><p id="index-28">Have the compiler warn/inform you where in your source the Haskell
 defaulting mechanism for numeric types kicks in. This is useful
 information when converting code from a context that assumed one
@@ -947,7 +948,7 @@ behaviour, hence the usefulness of being non-silent about this.</p>
 
 <dl class="ghc-flag">
 <dt id="ghc-flag--Wmonomorphism-restriction">
-<code class="descname">-Wmonomorphism-restriction</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag--Wmonomorphism-restriction" title="Permalink to this definition">¶</a></dt>
+<code class="descname">-Wmonomorphism-restriction</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag--Wmonomorphism-restriction" title="この定義へのパーマリンク">¶</a></dt>
 <dd><p id="index-29">Have the compiler warn/inform you where in your source the Haskell
 Monomorphism Restriction is applied. If applied silently the MR can
 give rise to unexpected behaviour, so it can be helpful to have an
@@ -957,13 +958,13 @@ explicit warning that it is being applied.</p>
 
 <dl class="ghc-flag">
 <dt id="ghc-flag--Wunsupported-llvm-version">
-<code class="descname">-Wunsupported-llvm-version</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag--Wunsupported-llvm-version" title="Permalink to this definition">¶</a></dt>
+<code class="descname">-Wunsupported-llvm-version</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag--Wunsupported-llvm-version" title="この定義へのパーマリンク">¶</a></dt>
 <dd><p>Warn when using <a class="reference internal" href="phases.html#ghc-flag--fllvm"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-fllvm</span></code></a> with an unsupported version of LLVM.</p>
 </dd></dl>
 
 <dl class="ghc-flag">
 <dt id="ghc-flag--Wunticked-promoted-constructors">
-<code class="descname">-Wunticked-promoted-constructors</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag--Wunticked-promoted-constructors" title="Permalink to this definition">¶</a></dt>
+<code class="descname">-Wunticked-promoted-constructors</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag--Wunticked-promoted-constructors" title="この定義へのパーマリンク">¶</a></dt>
 <dd><p id="index-30">Warn if a promoted data constructor is used without a tick preceding
 its name.</p>
 <p>For example:</p>
@@ -981,7 +982,7 @@ written as <code class="docutils literal"><span class="pre">'Zero</span></code> 
 
 <dl class="ghc-flag">
 <dt id="ghc-flag--Wunused-binds">
-<code class="descname">-Wunused-binds</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag--Wunused-binds" title="Permalink to this definition">¶</a></dt>
+<code class="descname">-Wunused-binds</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag--Wunused-binds" title="この定義へのパーマリンク">¶</a></dt>
 <dd><p id="index-31">Report any function definitions (and local bindings) which are
 unused. An alias for</p>
 <ul class="simple">
@@ -993,7 +994,7 @@ unused. An alias for</p>
 
 <dl class="ghc-flag">
 <dt id="ghc-flag--Wunused-top-binds">
-<code class="descname">-Wunused-top-binds</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag--Wunused-top-binds" title="Permalink to this definition">¶</a></dt>
+<code class="descname">-Wunused-top-binds</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag--Wunused-top-binds" title="この定義へのパーマリンク">¶</a></dt>
 <dd><p id="index-32">Report any function definitions which are unused.</p>
 <p>More precisely, warn if a binding brings into scope a variable that
 is not used, except if the variable&#8217;s name starts with an
@@ -1019,7 +1020,7 @@ least one used variable that is used</li>
 
 <dl class="ghc-flag">
 <dt id="ghc-flag--Wunused-local-binds">
-<code class="descname">-Wunused-local-binds</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag--Wunused-local-binds" title="Permalink to this definition">¶</a></dt>
+<code class="descname">-Wunused-local-binds</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag--Wunused-local-binds" title="この定義へのパーマリンク">¶</a></dt>
 <dd><p id="index-33">Report any local definitions which are unused. For example:</p>
 <div class="highlight-haskell"><div class="highlight"><pre><span class="kr">module</span> <span class="nn">A</span> <span class="p">(</span><span class="nf">f</span><span class="p">)</span> <span class="kr">where</span>
 <span class="nf">f</span> <span class="ow">=</span> <span class="kr">let</span> <span class="p">(</span><span class="n">p</span><span class="p">,</span><span class="n">q</span><span class="p">)</span> <span class="ow">=</span> <span class="n">rhs1</span> <span class="kr">in</span> <span class="n">t</span> <span class="n">p</span>  <span class="c1">-- Warning: q is unused</span>
@@ -1030,7 +1031,7 @@ least one used variable that is used</li>
 
 <dl class="ghc-flag">
 <dt id="ghc-flag--Wunused-pattern-binds">
-<code class="descname">-Wunused-pattern-binds</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag--Wunused-pattern-binds" title="Permalink to this definition">¶</a></dt>
+<code class="descname">-Wunused-pattern-binds</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag--Wunused-pattern-binds" title="この定義へのパーマリンク">¶</a></dt>
 <dd><p id="index-34">Warn if a pattern binding binds no variables at all, unless it is a
 lone, possibly-banged, wild-card pattern. For example:</p>
 <div class="highlight-haskell"><div class="highlight"><pre><span class="kt">Just</span> <span class="kr">_</span> <span class="ow">=</span> <span class="n">rhs3</span>    <span class="c1">-- Warning: unused pattern binding</span>
@@ -1048,7 +1049,7 @@ lone banged wild-card pattern is useful as an alternative (to
 
 <dl class="ghc-flag">
 <dt id="ghc-flag--Wunused-imports">
-<code class="descname">-Wunused-imports</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag--Wunused-imports" title="Permalink to this definition">¶</a></dt>
+<code class="descname">-Wunused-imports</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag--Wunused-imports" title="この定義へのパーマリンク">¶</a></dt>
 <dd><p id="index-35">Report any modules that are explicitly imported but never used.
 However, the form <code class="docutils literal"><span class="pre">import</span> <span class="pre">M()</span></code> is never reported as an unused
 import, because it is a useful idiom for importing instance
@@ -1057,7 +1058,7 @@ declarations, which are anonymous in Haskell.</p>
 
 <dl class="ghc-flag">
 <dt id="ghc-flag--Wunused-matches">
-<code class="descname">-Wunused-matches</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag--Wunused-matches" title="Permalink to this definition">¶</a></dt>
+<code class="descname">-Wunused-matches</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag--Wunused-matches" title="この定義へのパーマリンク">¶</a></dt>
 <dd><p id="index-36">Report all unused variables which arise from term-level pattern matches,
 including patterns consisting of a single variable. For instance
 <code class="docutils literal"><span class="pre">f</span> <span class="pre">x</span> <span class="pre">y</span> <span class="pre">=</span> <span class="pre">[]</span></code> would report <code class="docutils literal"><span class="pre">x</span></code> and <code class="docutils literal"><span class="pre">y</span></code> as unused. The warning
@@ -1073,7 +1074,7 @@ instances. This must be enabled separately through the
 
 <dl class="ghc-flag">
 <dt id="ghc-flag--Wunused-do-bind">
-<code class="descname">-Wunused-do-bind</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag--Wunused-do-bind" title="Permalink to this definition">¶</a></dt>
+<code class="descname">-Wunused-do-bind</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag--Wunused-do-bind" title="この定義へのパーマリンク">¶</a></dt>
 <dd><p id="index-37">Report expressions occurring in <code class="docutils literal"><span class="pre">do</span></code> and <code class="docutils literal"><span class="pre">mdo</span></code> blocks that
 appear to silently throw information away. For instance
 <code class="docutils literal"><span class="pre">do</span> <span class="pre">{</span> <span class="pre">mapM</span> <span class="pre">popInt</span> <span class="pre">xs</span> <span class="pre">;</span> <span class="pre">return</span> <span class="pre">10</span> <span class="pre">}</span></code> would report the first
@@ -1093,7 +1094,7 @@ something away:</p>
 
 <dl class="ghc-flag">
 <dt id="ghc-flag--Wunused-type-patterns">
-<code class="descname">-Wunused-type-patterns</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag--Wunused-type-patterns" title="Permalink to this definition">¶</a></dt>
+<code class="descname">-Wunused-type-patterns</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag--Wunused-type-patterns" title="この定義へのパーマリンク">¶</a></dt>
 <dd><p id="index-38">Report all unused type variables which arise from patterns in type family
 and data family instances. For instance:</p>
 <div class="highlight-haskell"><div class="highlight"><pre><span class="kr">type</span> <span class="kr">instance</span> <span class="kt">F</span> <span class="n">x</span> <span class="n">y</span> <span class="ow">=</span> <span class="kt">[]</span>
@@ -1113,7 +1114,7 @@ documentation harder to read.</p>
 
 <dl class="ghc-flag">
 <dt id="ghc-flag--Wunused-foralls">
-<code class="descname">-Wunused-foralls</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag--Wunused-foralls" title="Permalink to this definition">¶</a></dt>
+<code class="descname">-Wunused-foralls</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag--Wunused-foralls" title="この定義へのパーマリンク">¶</a></dt>
 <dd><p id="index-39">Report all unused type variables which arise from explicit, user-written
 <code class="docutils literal"><span class="pre">forall</span></code> statements. For instance:</p>
 <div class="highlight-haskell"><div class="highlight"><pre><span class="nf">g</span> <span class="ow">::</span> <span class="n">forall</span> <span class="n">a</span> <span class="n">b</span> <span class="n">c</span><span class="o">.</span> <span class="p">(</span><span class="n">b</span> <span class="ow">-&gt;</span> <span class="n">b</span><span class="p">)</span>
@@ -1124,7 +1125,7 @@ documentation harder to read.</p>
 
 <dl class="ghc-flag">
 <dt id="ghc-flag--Wwrong-do-bind">
-<code class="descname">-Wwrong-do-bind</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag--Wwrong-do-bind" title="Permalink to this definition">¶</a></dt>
+<code class="descname">-Wwrong-do-bind</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag--Wwrong-do-bind" title="この定義へのパーマリンク">¶</a></dt>
 <dd><p id="index-40">Report expressions occurring in <code class="docutils literal"><span class="pre">do</span></code> and <code class="docutils literal"><span class="pre">mdo</span></code> blocks that
 appear to lack a binding. For instance
 <code class="docutils literal"><span class="pre">do</span> <span class="pre">{</span> <span class="pre">return</span> <span class="pre">(popInt</span> <span class="pre">10)</span> <span class="pre">;</span> <span class="pre">return</span> <span class="pre">10</span> <span class="pre">}</span></code> would report the first
@@ -1146,7 +1147,7 @@ probably intended to write:</p>
 
 <dl class="ghc-flag">
 <dt id="ghc-flag--Winline-rule-shadowing">
-<code class="descname">-Winline-rule-shadowing</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag--Winline-rule-shadowing" title="Permalink to this definition">¶</a></dt>
+<code class="descname">-Winline-rule-shadowing</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag--Winline-rule-shadowing" title="この定義へのパーマリンク">¶</a></dt>
 <dd><p>Warn if a rewrite RULE might fail to fire because the function might
 be inlined before the rule has a chance to fire. See
 <a class="reference internal" href="glasgow_exts.html#rules-inline"><span>How rules interact with INLINE/NOINLINE pragmas</span></a>.</p>
@@ -1154,7 +1155,7 @@ be inlined before the rule has a chance to fire. See
 
 <dl class="ghc-flag">
 <dt id="ghc-flag--Wcpp-undef">
-<code class="descname">-Wcpp-undef</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag--Wcpp-undef" title="Permalink to this definition">¶</a></dt>
+<code class="descname">-Wcpp-undef</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag--Wcpp-undef" title="この定義へのパーマリンク">¶</a></dt>
 <dd><p>This flag passes <code class="docutils literal"><span class="pre">-Wundef</span></code> to the C pre-processor (if its being used)
 which causes the pre-processor to warn on uses of the <cite>#if</cite> directive on
 undefined identifiers.</p>
@@ -1162,7 +1163,7 @@ undefined identifiers.</p>
 
 <dl class="ghc-flag">
 <dt id="ghc-flag--Wunbanged-strict-patterns">
-<code class="descname">-Wunbanged-strict-patterns</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag--Wunbanged-strict-patterns" title="Permalink to this definition">¶</a></dt>
+<code class="descname">-Wunbanged-strict-patterns</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag--Wunbanged-strict-patterns" title="この定義へのパーマリンク">¶</a></dt>
 <dd><p>This flag warns whenever you write a pattern that binds a variable whose
 type is unlifted, and yet the pattern is not a bang pattern nor a bare variable.
 See <a class="reference internal" href="glasgow_exts.html#glasgow-unboxed"><span>Unboxed types</span></a> for information about unlifted types.</p>
@@ -1170,7 +1171,7 @@ See <a class="reference internal" href="glasgow_exts.html#glasgow-unboxed"><span
 
 <dl class="ghc-flag">
 <dt id="ghc-flag--Wmissing-home-modules">
-<code class="descname">-Wmissing-home-modules</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag--Wmissing-home-modules" title="Permalink to this definition">¶</a></dt>
+<code class="descname">-Wmissing-home-modules</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag--Wmissing-home-modules" title="この定義へのパーマリンク">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -1198,24 +1199,24 @@ sanity, not yours.)</p>
       <div class="clearer"></div>
     </div>
     <div class="related" role="navigation" aria-label="related navigation">
-      <h3>Navigation</h3>
+      <h3>ナビゲーション</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
-          <a href="genindex.html" title="General Index"
-             >index</a></li>
+          <a href="genindex.html" title="総合索引"
+             >索引</a></li>
         <li class="right" >
           <a href="using-optimisation.html" title="7.3. Optimisation (code improvement)"
-             >next</a> |</li>
+             >次へ</a> |</li>
         <li class="right" >
           <a href="using.html" title="7.1. Using GHC"
-             >previous</a> |</li>
+             >前へ</a> |</li>
         <li class="nav-item nav-item-0"><a href="index.html">GHC 8.2.2 User&#39;s Guide</a> &raquo;</li>
           <li class="nav-item nav-item-1"><a href="usage.html" >7. Using GHC</a> &raquo;</li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">
         &copy; Copyright 2015, GHC Team.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.6.
+      このドキュメントは <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.6 で生成しました。
     </div>
   </body>
 </html>

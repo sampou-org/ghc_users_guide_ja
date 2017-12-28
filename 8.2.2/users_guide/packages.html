@@ -24,9 +24,10 @@
     <script type="text/javascript" src="_static/jquery.js"></script>
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/translations.js"></script>
     <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="search" type="application/opensearchdescription+xml"
-          title="Search within Glasgow Haskell Compiler 8.2.2 User&#39;s Guide"
+          title="Glasgow Haskell Compiler 8.2.2 User&#39;s Guide 内を検索"
           href="_static/opensearch.xml"/>
     <link rel="top" title="Glasgow Haskell Compiler 8.2.2 User&#39;s Guide" href="index.html" />
     <link rel="up" title="7. Using GHC" href="usage.html" />
@@ -39,17 +40,17 @@
 </div>
 
     <div class="related" role="navigation" aria-label="related navigation">
-      <h3>Navigation</h3>
+      <h3>ナビゲーション</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
-          <a href="genindex.html" title="General Index"
-             accesskey="I">index</a></li>
+          <a href="genindex.html" title="総合索引"
+             accesskey="I">索引</a></li>
         <li class="right" >
           <a href="codegens.html" title="7.10. GHC Backends"
-             accesskey="N">next</a> |</li>
+             accesskey="N">次へ</a> |</li>
         <li class="right" >
           <a href="separate_compilation.html" title="7.8. Filenames and separate compilation"
-             accesskey="P">previous</a> |</li>
+             accesskey="P">前へ</a> |</li>
         <li class="nav-item nav-item-0"><a href="index.html">GHC 8.2.2 User&#39;s Guide</a> &raquo;</li>
           <li class="nav-item nav-item-1"><a href="usage.html" accesskey="U">7. Using GHC</a> &raquo;</li> 
       </ul>
@@ -57,7 +58,7 @@
 
       <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
         <div class="sphinxsidebarwrapper">
-  <h3><a href="index.html">Table Of Contents</a></h3>
+  <h3><a href="index.html">目次</a></h3>
   <ul>
 <li><a class="reference internal" href="#">7.9. Packages</a><ul>
 <li><a class="reference internal" href="#using-packages">7.9.1. Using Packages</a></li>
@@ -77,29 +78,29 @@
 </li>
 </ul>
 
-  <h4>Previous topic</h4>
+  <h4>前のトピックへ</h4>
   <p class="topless"><a href="separate_compilation.html"
-                        title="previous chapter">7.8. Filenames and separate compilation</a></p>
-  <h4>Next topic</h4>
+                        title="前の章へ">7.8. Filenames and separate compilation</a></p>
+  <h4>次のトピックへ</h4>
   <p class="topless"><a href="codegens.html"
-                        title="next chapter">7.10. GHC Backends</a></p>
+                        title="次の章へ">7.10. GHC Backends</a></p>
   <div role="note" aria-label="source link">
-    <h3>This Page</h3>
+    <h3>このページ</h3>
     <ul class="this-page-menu">
       <li><a href="_sources/packages.txt"
-            rel="nofollow">Show Source</a></li>
+            rel="nofollow">ソースコードを表示</a></li>
     </ul>
    </div>
 <div id="searchbox" style="display: none" role="search">
-  <h3>Quick search</h3>
+  <h3>クイック検索</h3>
     <form class="search" action="search.html" method="get">
       <input type="text" name="q" />
-      <input type="submit" value="Go" />
+      <input type="submit" value="検索" />
       <input type="hidden" name="check_keywords" value="yes" />
       <input type="hidden" name="area" value="default" />
     </form>
     <p class="searchtip" style="font-size: 90%">
-    Enter search terms or a module, class or function name.
+    モジュール、クラス、または関数名を入力してください
     </p>
 </div>
 <script type="text/javascript">$('#searchbox').show(0);</script>
@@ -112,7 +113,7 @@
           <div class="body" role="main">
             
   <div class="section" id="packages">
-<span id="id1"></span><h1>7.9. Packages<a class="headerlink" href="#packages" title="Permalink to this headline">¶</a></h1>
+<span id="id1"></span><h1>7.9. Packages<a class="headerlink" href="#packages" title="このヘッドラインへのパーマリンク">¶</a></h1>
 <p id="index-0">A package is a library of Haskell modules known to the compiler. GHC
 comes with several packages: see the accompanying <a class="reference external" href="../libraries/index.html">library
 documentation</a>. More packages to install can
@@ -132,7 +133,7 @@ details, and also the Cabal libraries
 (<a class="reference external" href="../libraries/Cabal-2.0.1.0/Distribution-Simple.html">Distribution.Simple</a>,
 for example).</p>
 <div class="section" id="using-packages">
-<span id="id2"></span><h2>7.9.1. Using Packages<a class="headerlink" href="#using-packages" title="Permalink to this headline">¶</a></h2>
+<span id="id2"></span><h2>7.9.1. Using Packages<a class="headerlink" href="#using-packages" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <p id="index-1">GHC only knows about packages that are <em>installed</em>. Installed packages live in
 package databases. For details on package databases and how to control which
 package databases or specific set of packages are visible to GHC, see
@@ -195,7 +196,7 @@ is, they are missing from the package database, or one of their
 dependencies are broken; in this case; these packages are excluded from
 the default set of packages.</p>
 <div class="admonition note">
-<p class="first admonition-title">Note</p>
+<p class="first admonition-title">注釈</p>
 <p class="last">If you&#8217;re using Cabal, then the exposed or hidden status of a
 package is irrelevant: the available packages are instead determined by
 the dependencies listed in your <code class="docutils literal"><span class="pre">.cabal</span></code> specification. The
@@ -220,7 +221,7 @@ exposed-modules: Network.BSD,
 <p>The GHC command line options that control packages are:</p>
 <dl class="ghc-flag">
 <dt id="ghc-flag--package ⟨pkg⟩">
-<code class="descname">-package</code><code class="descclassname"> ⟨pkg⟩</code><a class="headerlink" href="#ghc-flag--package ⟨pkg⟩" title="Permalink to this definition">¶</a></dt>
+<code class="descname">-package</code><code class="descclassname"> ⟨pkg⟩</code><a class="headerlink" href="#ghc-flag--package ⟨pkg⟩" title="この定義へのパーマリンク">¶</a></dt>
 <dd><p>This option causes the installed package ⟨pkg⟩ to be exposed. The
 package ⟨pkg⟩ can be specified in full with its version number (e.g.
 <code class="docutils literal"><span class="pre">network-1.0</span></code>) or the version number can be omitted in which case GHC
@@ -263,7 +264,7 @@ source, because GHC still reckons it&#8217;s in batch mode:</p>
 
 <dl class="ghc-flag">
 <dt id="ghc-flag--package-id ⟨unit-id⟩">
-<code class="descname">-package-id</code><code class="descclassname"> ⟨unit-id⟩</code><a class="headerlink" href="#ghc-flag--package-id ⟨unit-id⟩" title="Permalink to this definition">¶</a></dt>
+<code class="descname">-package-id</code><code class="descclassname"> ⟨unit-id⟩</code><a class="headerlink" href="#ghc-flag--package-id ⟨unit-id⟩" title="この定義へのパーマリンク">¶</a></dt>
 <dd><p>Exposes a package like <a class="reference internal" href="#ghc-flag--package ⟨pkg⟩"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-package</span> <span class="pre">⟨pkg⟩</span></code></a>, but the package is named
 by its unit ID (i.e. the value of <code class="docutils literal"><span class="pre">id</span></code> in its entry in the installed
 package database, also previously known as an installed package ID) rather
@@ -275,7 +276,7 @@ renaming described in <a class="reference internal" href="#package-thinning-and-
 
 <dl class="ghc-flag">
 <dt id="ghc-flag--hide-all-packages">
-<code class="descname">-hide-all-packages</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag--hide-all-packages" title="Permalink to this definition">¶</a></dt>
+<code class="descname">-hide-all-packages</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag--hide-all-packages" title="この定義へのパーマリンク">¶</a></dt>
 <dd><p>Ignore the exposed flag on installed packages, and hide them all by
 default. If you use this flag, then any packages you require
 (including <code class="docutils literal"><span class="pre">base</span></code>) need to be explicitly exposed using
@@ -288,7 +289,7 @@ dependencies is a Good Thing. Cabal always passes the
 
 <dl class="ghc-flag">
 <dt id="ghc-flag--hide-package ⟨pkg⟩">
-<code class="descname">-hide-package</code><code class="descclassname"> ⟨pkg⟩</code><a class="headerlink" href="#ghc-flag--hide-package ⟨pkg⟩" title="Permalink to this definition">¶</a></dt>
+<code class="descname">-hide-package</code><code class="descclassname"> ⟨pkg⟩</code><a class="headerlink" href="#ghc-flag--hide-package ⟨pkg⟩" title="この定義へのパーマリンク">¶</a></dt>
 <dd><p>This option does the opposite of <a class="reference internal" href="#ghc-flag--package ⟨pkg⟩"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-package</span> <span class="pre">⟨pkg⟩</span></code></a>: it causes the
 specified package to be hidden, which means that none of its modules
 will be available for import by Haskell <code class="docutils literal"><span class="pre">import</span></code> directives.</p>
@@ -299,7 +300,7 @@ exposed package.</p>
 
 <dl class="ghc-flag">
 <dt id="ghc-flag--ignore-package ⟨pkg⟩">
-<code class="descname">-ignore-package</code><code class="descclassname"> ⟨pkg⟩</code><a class="headerlink" href="#ghc-flag--ignore-package ⟨pkg⟩" title="Permalink to this definition">¶</a></dt>
+<code class="descname">-ignore-package</code><code class="descclassname"> ⟨pkg⟩</code><a class="headerlink" href="#ghc-flag--ignore-package ⟨pkg⟩" title="この定義へのパーマリンク">¶</a></dt>
 <dd><p>Causes the compiler to behave as if package ⟨pkg⟩, and any packages
 that depend on ⟨pkg⟩, are not installed at all.</p>
 <p>Saying <code class="docutils literal"><span class="pre">-ignore-package</span> <span class="pre">⟨pkg⟩</span></code> is the same as giving
@@ -311,14 +312,14 @@ be installed that depend on ⟨pkg⟩, which is when the
 
 <dl class="ghc-flag">
 <dt id="ghc-flag--no-auto-link-packages">
-<code class="descname">-no-auto-link-packages</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag--no-auto-link-packages" title="Permalink to this definition">¶</a></dt>
+<code class="descname">-no-auto-link-packages</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag--no-auto-link-packages" title="この定義へのパーマリンク">¶</a></dt>
 <dd><p>By default, GHC will automatically link in the <code class="docutils literal"><span class="pre">base</span></code> and <code class="docutils literal"><span class="pre">rts</span></code>
 packages. This flag disables that behaviour.</p>
 </dd></dl>
 
 <dl class="ghc-flag">
 <dt id="ghc-flag--this-unit-id ⟨unit-id⟩">
-<code class="descname">-this-unit-id</code><code class="descclassname"> ⟨unit-id⟩</code><a class="headerlink" href="#ghc-flag--this-unit-id ⟨unit-id⟩" title="Permalink to this definition">¶</a></dt>
+<code class="descname">-this-unit-id</code><code class="descclassname"> ⟨unit-id⟩</code><a class="headerlink" href="#ghc-flag--this-unit-id ⟨unit-id⟩" title="この定義へのパーマリンク">¶</a></dt>
 <dd><p>Tells GHC that the module being compiled forms part of unit ID
 ⟨unit-id⟩; internally, these keys are used to determine type equality
 and linker symbols.  As of GHC 8.0, unit IDs must consist solely
@@ -329,7 +330,7 @@ way in later releases.</p>
 
 <dl class="ghc-flag">
 <dt id="ghc-flag--trust ⟨pkg⟩">
-<code class="descname">-trust</code><code class="descclassname"> ⟨pkg⟩</code><a class="headerlink" href="#ghc-flag--trust ⟨pkg⟩" title="Permalink to this definition">¶</a></dt>
+<code class="descname">-trust</code><code class="descclassname"> ⟨pkg⟩</code><a class="headerlink" href="#ghc-flag--trust ⟨pkg⟩" title="この定義へのパーマリンク">¶</a></dt>
 <dd><p>This option causes the install package ⟨pkg⟩ to be both exposed and
 trusted by GHC. This command functions in a very similar way
 to the <a class="reference internal" href="#ghc-flag--package ⟨pkg⟩"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-package</span> <span class="pre">⟨pkg⟩</span></code></a> command but in addition sets the selected
@@ -339,7 +340,7 @@ package database. (see <a class="reference internal" href="safe_haskell.html#saf
 
 <dl class="ghc-flag">
 <dt id="ghc-flag--distrust ⟨pkg⟩">
-<code class="descname">-distrust</code><code class="descclassname"> ⟨pkg⟩</code><a class="headerlink" href="#ghc-flag--distrust ⟨pkg⟩" title="Permalink to this definition">¶</a></dt>
+<code class="descname">-distrust</code><code class="descclassname"> ⟨pkg⟩</code><a class="headerlink" href="#ghc-flag--distrust ⟨pkg⟩" title="この定義へのパーマリンク">¶</a></dt>
 <dd><p>This option causes the install package ⟨pkg⟩ to be both exposed and
 distrusted by GHC. This command functions in a very similar way to the
 <a class="reference internal" href="#ghc-flag--package ⟨pkg⟩"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-package</span> <span class="pre">⟨pkg⟩</span></code></a> command but in addition sets the selected
@@ -349,7 +350,7 @@ database. (see <a class="reference internal" href="safe_haskell.html#safe-haskel
 
 <dl class="ghc-flag">
 <dt id="ghc-flag--distrust-all">
-<code class="descname">-distrust-all</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag--distrust-all" title="Permalink to this definition">¶</a></dt>
+<code class="descname">-distrust-all</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag--distrust-all" title="この定義へのパーマリンク">¶</a></dt>
 <dd><p>Ignore the trusted flag on installed packages, and distrust them by
 default. If you use this flag and Safe Haskell then any packages you
 require to be trusted (including <code class="docutils literal"><span class="pre">base</span></code>) need to be explicitly trusted
@@ -361,7 +362,7 @@ exposed/hidden status of a package, so it isn&#8217;t equivalent to applying
 
 </div>
 <div class="section" id="the-main-package">
-<span id="package-main"></span><h2>7.9.2. The <code class="docutils literal"><span class="pre">main</span></code> package<a class="headerlink" href="#the-main-package" title="Permalink to this headline">¶</a></h2>
+<span id="package-main"></span><h2>7.9.2. The <code class="docutils literal"><span class="pre">main</span></code> package<a class="headerlink" href="#the-main-package" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <p>Every complete Haskell program must define <code class="docutils literal"><span class="pre">main</span></code> in module <code class="docutils literal"><span class="pre">Main</span></code> in
 package <code class="docutils literal"><span class="pre">main</span></code>. Omitting the <a class="reference internal" href="#ghc-flag--this-unit-id ⟨unit-id⟩"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-this-unit-id</span> <span class="pre">⟨unit-id⟩</span></code></a> flag
 compiles code for package <code class="docutils literal"><span class="pre">main</span></code>. Failure to do so leads to a somewhat
@@ -372,7 +373,7 @@ _ZCMain_main_closure
 </div>
 </div>
 <div class="section" id="consequences-of-packages-for-the-haskell-language">
-<span id="package-overlaps"></span><h2>7.9.3. Consequences of packages for the Haskell language<a class="headerlink" href="#consequences-of-packages-for-the-haskell-language" title="Permalink to this headline">¶</a></h2>
+<span id="package-overlaps"></span><h2>7.9.3. Consequences of packages for the Haskell language<a class="headerlink" href="#consequences-of-packages-for-the-haskell-language" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <p>It is possible that by using packages you might end up with a program
 that contains two modules with the same name: perhaps you used a package
 <code class="docutils literal"><span class="pre">P</span></code> that has a <em>hidden</em> module <code class="docutils literal"><span class="pre">M</span></code>, and there is also a module <code class="docutils literal"><span class="pre">M</span></code> in your
@@ -390,7 +391,7 @@ it is defined and its name. In GHC, an entity is uniquely defined by a
 triple: package, module, and name.</p>
 </div>
 <div class="section" id="thinning-and-renaming-modules">
-<span id="package-thinning-and-renaming"></span><h2>7.9.4. Thinning and renaming modules<a class="headerlink" href="#thinning-and-renaming-modules" title="Permalink to this headline">¶</a></h2>
+<span id="package-thinning-and-renaming"></span><h2>7.9.4. Thinning and renaming modules<a class="headerlink" href="#thinning-and-renaming-modules" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <p>When incorporating packages from multiple sources, you may end up in a
 situation where multiple packages publish modules with the same name.
 Previously, the only way to distinguish between these modules was to use
@@ -427,7 +428,7 @@ Hiding a package also clears all of its renamings.</p>
 in lieu of the <a class="reference internal" href="glasgow_exts.html#rebindable-syntax"><span>Rebindable syntax and the implicit Prelude import</span></a> extension.</p>
 </div>
 <div class="section" id="package-databases">
-<span id="id4"></span><h2>7.9.5. Package Databases<a class="headerlink" href="#package-databases" title="Permalink to this headline">¶</a></h2>
+<span id="id4"></span><h2>7.9.5. Package Databases<a class="headerlink" href="#package-databases" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <p>A package database is where the details about installed packages are
 stored. It is a directory, usually called <code class="docutils literal"><span class="pre">package.conf.d</span></code>, that
 contains a file for each package, together with a binary cache of the
@@ -473,26 +474,26 @@ chosen by GHC are available then GHC will choose an unspecified instance.</p>
 options:</p>
 <dl class="ghc-flag">
 <dt id="ghc-flag--package-db ⟨file⟩">
-<code class="descname">-package-db</code><code class="descclassname"> ⟨file⟩</code><a class="headerlink" href="#ghc-flag--package-db ⟨file⟩" title="Permalink to this definition">¶</a></dt>
+<code class="descname">-package-db</code><code class="descclassname"> ⟨file⟩</code><a class="headerlink" href="#ghc-flag--package-db ⟨file⟩" title="この定義へのパーマリンク">¶</a></dt>
 <dd><p>Add the package database ⟨file⟩ on top of the current stack.</p>
 </dd></dl>
 
 <dl class="ghc-flag">
 <dt id="ghc-flag--no-global-package-db">
-<code class="descname">-no-global-package-db</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag--no-global-package-db" title="Permalink to this definition">¶</a></dt>
+<code class="descname">-no-global-package-db</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag--no-global-package-db" title="この定義へのパーマリンク">¶</a></dt>
 <dd><p>Remove the global package database from the package database stack.</p>
 </dd></dl>
 
 <dl class="ghc-flag">
 <dt id="ghc-flag--no-user-package-db">
-<code class="descname">-no-user-package-db</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag--no-user-package-db" title="Permalink to this definition">¶</a></dt>
+<code class="descname">-no-user-package-db</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag--no-user-package-db" title="この定義へのパーマリンク">¶</a></dt>
 <dd><p>Prevent loading of the user&#8217;s local package database in the initial
 stack.</p>
 </dd></dl>
 
 <dl class="ghc-flag">
 <dt id="ghc-flag--clear-package-db">
-<code class="descname">-clear-package-db</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag--clear-package-db" title="Permalink to this definition">¶</a></dt>
+<code class="descname">-clear-package-db</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag--clear-package-db" title="この定義へのパーマリンク">¶</a></dt>
 <dd><p>Reset the current package database stack. This option removes every
 previously specified package database (including those read from the
 <span class="target" id="index-4"></span><a class="reference internal" href="#envvar-GHC_PACKAGE_PATH"><code class="xref std std-envvar docutils literal"><span class="pre">GHC_PACKAGE_PATH</span></code></a> environment variable) from the package database
@@ -501,7 +502,7 @@ stack.</p>
 
 <dl class="ghc-flag">
 <dt id="ghc-flag--global-package-db">
-<code class="descname">-global-package-db</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag--global-package-db" title="Permalink to this definition">¶</a></dt>
+<code class="descname">-global-package-db</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag--global-package-db" title="この定義へのパーマリンク">¶</a></dt>
 <dd><p>Add the global package database on top of the current stack. This
 option can be used after <a class="reference internal" href="#ghc-flag--no-global-package-db"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-no-global-package-db</span></code></a> to specify the
 position in the stack where the global package database should be
@@ -510,7 +511,7 @@ loaded.</p>
 
 <dl class="ghc-flag">
 <dt id="ghc-flag--user-package-db">
-<code class="descname">-user-package-db</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag--user-package-db" title="Permalink to this definition">¶</a></dt>
+<code class="descname">-user-package-db</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag--user-package-db" title="この定義へのパーマリンク">¶</a></dt>
 <dd><p>Add the user&#8217;s package database on top of the current stack. This
 option can be used after <a class="reference internal" href="#ghc-flag--no-user-package-db"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-no-user-package-db</span></code></a> to specify the
 position in the stack where the user&#8217;s package database should be
@@ -518,10 +519,10 @@ loaded.</p>
 </dd></dl>
 
 <div class="section" id="the-ghc-package-path-environment-variable">
-<span id="ghc-package-path"></span><h3>7.9.5.1. The <code class="docutils literal"><span class="pre">GHC_PACKAGE_PATH</span></code> environment variable<a class="headerlink" href="#the-ghc-package-path-environment-variable" title="Permalink to this headline">¶</a></h3>
+<span id="ghc-package-path"></span><h3>7.9.5.1. The <code class="docutils literal"><span class="pre">GHC_PACKAGE_PATH</span></code> environment variable<a class="headerlink" href="#the-ghc-package-path-environment-variable" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <dl class="envvar">
 <dt id="envvar-GHC_PACKAGE_PATH">
-<code class="descname">GHC_PACKAGE_PATH</code><a class="headerlink" href="#envvar-GHC_PACKAGE_PATH" title="Permalink to this definition">¶</a></dt>
+<code class="descname">GHC_PACKAGE_PATH</code><a class="headerlink" href="#envvar-GHC_PACKAGE_PATH" title="この定義へのパーマリンク">¶</a></dt>
 <dd><p>The <cite>GHC_PACKAGE_PATH</cite> environment variable may be set to a
 <code class="docutils literal"><span class="pre">:</span></code>-separated (<code class="docutils literal"><span class="pre">;</span></code>-separated on Windows) list of files containing
 package databases. This list of package databases, used by GHC and ghc-pkg,
@@ -552,7 +553,7 @@ reverse order they are searched.</p>
 
 </div>
 <div class="section" id="package-environments">
-<span id="id5"></span><h3>7.9.5.2. Package environments<a class="headerlink" href="#package-environments" title="Permalink to this headline">¶</a></h3>
+<span id="id5"></span><h3>7.9.5.2. Package environments<a class="headerlink" href="#package-environments" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <p id="index-6">A <em>package environment file</em> is a file that tells <code class="docutils literal"><span class="pre">ghc</span></code> precisely which
 packages should be visible. It can be used to create environments for <code class="docutils literal"><span class="pre">ghc</span></code>
 or <code class="docutils literal"><span class="pre">ghci</span></code> that are local to a shell session or to some file system location.
@@ -590,7 +591,7 @@ because the environment specifies precisely which packages should be visible.</p
 must be relative to the location of the package environment file.</p>
 <dl class="ghc-flag">
 <dt id="ghc-flag--package-env ⟨file⟩|⟨name⟩">
-<code class="descname">-package-env</code><code class="descclassname"> ⟨file⟩|⟨name⟩</code><a class="headerlink" href="#ghc-flag--package-env ⟨file⟩|⟨name⟩" title="Permalink to this definition">¶</a></dt>
+<code class="descname">-package-env</code><code class="descclassname"> ⟨file⟩|⟨name⟩</code><a class="headerlink" href="#ghc-flag--package-env ⟨file⟩|⟨name⟩" title="この定義へのパーマリンク">¶</a></dt>
 <dd><p>Use the package environment in ⟨file⟩, or in
 <code class="docutils literal"><span class="pre">$HOME/.ghc/arch-os-version/environments/⟨name⟩</span></code></p>
 </dd></dl>
@@ -621,7 +622,7 @@ active package environment.</p>
 </div>
 </div>
 <div class="section" id="installed-package-ids-dependencies-and-broken-packages">
-<span id="package-ids"></span><h2>7.9.6. Installed package IDs, dependencies, and broken packages<a class="headerlink" href="#installed-package-ids-dependencies-and-broken-packages" title="Permalink to this headline">¶</a></h2>
+<span id="package-ids"></span><h2>7.9.6. Installed package IDs, dependencies, and broken packages<a class="headerlink" href="#installed-package-ids-dependencies-and-broken-packages" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <p>Each installed package has a unique identifier (the &#8220;installed package
 ID&#8221;), which distinguishes it from all other installed packages on the
 system. To see the installed package IDs associated with each installed
@@ -712,7 +713,7 @@ simply recompiled. The only way to recover from this would be to
 re-install GHC.</p>
 </div>
 <div class="section" id="package-management-the-ghc-pkg-command">
-<span id="package-management"></span><h2>7.9.7. Package management (the <code class="docutils literal"><span class="pre">ghc-pkg</span></code> command)<a class="headerlink" href="#package-management-the-ghc-pkg-command" title="Permalink to this headline">¶</a></h2>
+<span id="package-management"></span><h2>7.9.7. Package management (the <code class="docutils literal"><span class="pre">ghc-pkg</span></code> command)<a class="headerlink" href="#package-management-the-ghc-pkg-command" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <p id="index-7">The <strong class="command">ghc-pkg</strong> tool is for querying and modifying package databases. To
 see what package databases are in use, use <code class="docutils literal"><span class="pre">ghc-pkg</span> <span class="pre">list</span></code>. The stack of
 databases that <strong class="command">ghc-pkg</strong> knows about can be modified using the
@@ -922,7 +923,7 @@ so if you need to figure out what package a symbol belongs to, use
 </dl>
 </div>
 <div class="section" id="building-a-package-from-haskell-source">
-<span id="building-packages"></span><h2>7.9.8. Building a package from Haskell source<a class="headerlink" href="#building-a-package-from-haskell-source" title="Permalink to this headline">¶</a></h2>
+<span id="building-packages"></span><h2>7.9.8. Building a package from Haskell source<a class="headerlink" href="#building-a-package-from-haskell-source" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <p id="index-19">We don&#8217;t recommend building packages the hard way. Instead, use the
 <a class="reference external" href="http://www.haskell.org/cabal/users-guide/">Cabal</a> infrastructure if
 possible. If your package is particularly complicated or requires a lot
@@ -1007,7 +1008,7 @@ inter-package references. Of course, this applies to the <code class="docutils l
 package as well.</p>
 </div>
 <div class="section" id="installedpackageinfo-a-package-specification">
-<span id="installed-pkg-info"></span><h2>7.9.9. <code class="docutils literal"><span class="pre">InstalledPackageInfo</span></code>: a package specification<a class="headerlink" href="#installedpackageinfo-a-package-specification" title="Permalink to this headline">¶</a></h2>
+<span id="installed-pkg-info"></span><h2>7.9.9. <code class="docutils literal"><span class="pre">InstalledPackageInfo</span></code>: a package specification<a class="headerlink" href="#installedpackageinfo-a-package-specification" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <p>A package specification is a Haskell record; in particular, it is the
 record
 <a class="reference external" href="../libraries/Cabal-2.0.1.0/Distribution-InstalledPackageInfo.html#%tInstalledPackageInfo">InstalledPackageInfo</a>
@@ -1272,24 +1273,24 @@ HTML for this package.</p>
       <div class="clearer"></div>
     </div>
     <div class="related" role="navigation" aria-label="related navigation">
-      <h3>Navigation</h3>
+      <h3>ナビゲーション</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
-          <a href="genindex.html" title="General Index"
-             >index</a></li>
+          <a href="genindex.html" title="総合索引"
+             >索引</a></li>
         <li class="right" >
           <a href="codegens.html" title="7.10. GHC Backends"
-             >next</a> |</li>
+             >次へ</a> |</li>
         <li class="right" >
           <a href="separate_compilation.html" title="7.8. Filenames and separate compilation"
-             >previous</a> |</li>
+             >前へ</a> |</li>
         <li class="nav-item nav-item-0"><a href="index.html">GHC 8.2.2 User&#39;s Guide</a> &raquo;</li>
           <li class="nav-item nav-item-1"><a href="usage.html" >7. Using GHC</a> &raquo;</li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">
         &copy; Copyright 2015, GHC Team.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.6.
+      このドキュメントは <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.6 で生成しました。
     </div>
   </body>
 </html>

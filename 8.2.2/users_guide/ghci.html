@@ -24,9 +24,10 @@
     <script type="text/javascript" src="_static/jquery.js"></script>
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/translations.js"></script>
     <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="search" type="application/opensearchdescription+xml"
-          title="Search within Glasgow Haskell Compiler 8.2.2 User&#39;s Guide"
+          title="Glasgow Haskell Compiler 8.2.2 User&#39;s Guide 内を検索"
           href="_static/opensearch.xml"/>
     <link rel="top" title="Glasgow Haskell Compiler 8.2.2 User&#39;s Guide" href="index.html" />
     <link rel="next" title="6. Using runghc" href="runghc.html" />
@@ -38,24 +39,24 @@
 </div>
 
     <div class="related" role="navigation" aria-label="related navigation">
-      <h3>Navigation</h3>
+      <h3>ナビゲーション</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
-          <a href="genindex.html" title="General Index"
-             accesskey="I">index</a></li>
+          <a href="genindex.html" title="総合索引"
+             accesskey="I">索引</a></li>
         <li class="right" >
           <a href="runghc.html" title="6. Using runghc"
-             accesskey="N">next</a> |</li>
+             accesskey="N">次へ</a> |</li>
         <li class="right" >
           <a href="8.2.2-notes.html" title="4. Release notes for version 8.2.2"
-             accesskey="P">previous</a> |</li>
+             accesskey="P">前へ</a> |</li>
         <li class="nav-item nav-item-0"><a href="index.html">GHC 8.2.2 User&#39;s Guide</a> &raquo;</li> 
       </ul>
     </div>
 
       <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
         <div class="sphinxsidebarwrapper">
-  <h3><a href="index.html">Table Of Contents</a></h3>
+  <h3><a href="index.html">目次</a></h3>
   <ul>
 <li><a class="reference internal" href="#">5. Using GHCi</a><ul>
 <li><a class="reference internal" href="#introduction-to-ghci">5.1. Introduction to GHCi</a></li>
@@ -128,29 +129,29 @@
 </li>
 </ul>
 
-  <h4>Previous topic</h4>
+  <h4>前のトピックへ</h4>
   <p class="topless"><a href="8.2.2-notes.html"
-                        title="previous chapter">4. Release notes for version 8.2.2</a></p>
-  <h4>Next topic</h4>
+                        title="前の章へ">4. Release notes for version 8.2.2</a></p>
+  <h4>次のトピックへ</h4>
   <p class="topless"><a href="runghc.html"
-                        title="next chapter">6. Using runghc</a></p>
+                        title="次の章へ">6. Using runghc</a></p>
   <div role="note" aria-label="source link">
-    <h3>This Page</h3>
+    <h3>このページ</h3>
     <ul class="this-page-menu">
       <li><a href="_sources/ghci.txt"
-            rel="nofollow">Show Source</a></li>
+            rel="nofollow">ソースコードを表示</a></li>
     </ul>
    </div>
 <div id="searchbox" style="display: none" role="search">
-  <h3>Quick search</h3>
+  <h3>クイック検索</h3>
     <form class="search" action="search.html" method="get">
       <input type="text" name="q" />
-      <input type="submit" value="Go" />
+      <input type="submit" value="検索" />
       <input type="hidden" name="check_keywords" value="yes" />
       <input type="hidden" name="area" value="default" />
     </form>
     <p class="searchtip" style="font-size: 90%">
-    Enter search terms or a module, class or function name.
+    モジュール、クラス、または関数名を入力してください
     </p>
 </div>
 <script type="text/javascript">$('#searchbox').show(0);</script>
@@ -163,7 +164,7 @@
           <div class="body" role="main">
             
   <div class="section" id="using-ghci">
-<span id="ghci"></span><h1>5. Using GHCi<a class="headerlink" href="#using-ghci" title="Permalink to this headline">¶</a></h1>
+<span id="ghci"></span><h1>5. Using GHCi<a class="headerlink" href="#using-ghci" title="このヘッドラインへのパーマリンク">¶</a></h1>
 <p id="index-0">GHCi <a class="footnote-reference" href="#id3" id="id1">[1]</a> is GHC&#8217;s interactive environment, in which Haskell expressions
 can be interactively evaluated and programs can be interpreted. If
 you&#8217;re familiar with <a class="reference external" href="http://www.haskell.org/hugs/">Hugs</a>, then
@@ -184,7 +185,7 @@ debugger (see <a class="reference internal" href="#ghci-debugger"><span>The GHCi
 </tbody>
 </table>
 <div class="section" id="introduction-to-ghci">
-<span id="ghci-introduction"></span><h2>5.1. Introduction to GHCi<a class="headerlink" href="#introduction-to-ghci" title="Permalink to this headline">¶</a></h2>
+<span id="ghci-introduction"></span><h2>5.1. Introduction to GHCi<a class="headerlink" href="#introduction-to-ghci" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <p>Let&#8217;s start with an example GHCi session. You can fire up GHCi with the
 command <code class="docutils literal"><span class="pre">ghci</span></code>:</p>
 <div class="highlight-none"><div class="highlight"><pre>$ ghci
@@ -222,7 +223,7 @@ Prelude&gt;
 </div>
 </div>
 <div class="section" id="loading-source-files">
-<span id="id5"></span><h2>5.2. Loading source files<a class="headerlink" href="#loading-source-files" title="Permalink to this headline">¶</a></h2>
+<span id="id5"></span><h2>5.2. Loading source files<a class="headerlink" href="#loading-source-files" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <p>Suppose we have the following Haskell source code, which we place in a
 file <code class="docutils literal"><span class="pre">Main.hs</span></code>:</p>
 <div class="highlight-haskell"><div class="highlight"><pre><span class="nf">main</span> <span class="ow">=</span> <span class="n">print</span> <span class="p">(</span><span class="n">fac</span> <span class="mi">20</span><span class="p">)</span>
@@ -271,7 +272,7 @@ Windows, then the current directory is probably something like
 </tbody>
 </table>
 <div class="section" id="modules-vs-filenames">
-<span id="ghci-modules-filenames"></span><h3>5.2.1. Modules vs. filenames<a class="headerlink" href="#modules-vs-filenames" title="Permalink to this headline">¶</a></h3>
+<span id="ghci-modules-filenames"></span><h3>5.2.1. Modules vs. filenames<a class="headerlink" href="#modules-vs-filenames" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <p id="index-3">Question: How does GHC find the filename which contains module ⟨M⟩?
 Answer: it looks for the file <code class="docutils literal"><span class="pre">M.hs</span></code>, or <code class="docutils literal"><span class="pre">M.lhs</span></code>. This means that
 for most modules, the module name must match the filename. If it
@@ -307,7 +308,7 @@ search path for interface files, see <a class="reference internal" href="separat
 </table>
 </div>
 <div class="section" id="making-changes-and-recompilation">
-<h3>5.2.2. Making changes and recompilation<a class="headerlink" href="#making-changes-and-recompilation" title="Permalink to this headline">¶</a></h3>
+<h3>5.2.2. Making changes and recompilation<a class="headerlink" href="#making-changes-and-recompilation" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <p id="index-4">If you make some changes to the source code and want GHCi to recompile
 the program, give the <a class="reference internal" href="#ghci-cmd-:reload"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:reload</span></code></a> command. The program will be
 recompiled as necessary, with GHCi doing its best to avoid actually
@@ -317,7 +318,7 @@ compilation setting (see <a class="reference internal" href="separate_compilatio
 </div>
 </div>
 <div class="section" id="loading-compiled-code">
-<span id="ghci-compiled"></span><h2>5.3. Loading compiled code<a class="headerlink" href="#loading-compiled-code" title="Permalink to this headline">¶</a></h2>
+<span id="ghci-compiled"></span><h2>5.3. Loading compiled code<a class="headerlink" href="#loading-compiled-code" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <p id="index-5">When you load a Haskell source module into GHCi, it is normally
 converted to byte-code and run using the interpreter. However,
 interpreted code can also run alongside compiled code in GHCi; indeed,
@@ -430,7 +431,7 @@ interpreted ones).</p>
 <p>To always compile everything to object code and never use the
 interpreter, use the <a class="reference internal" href="phases.html#ghc-flag--fobject-code"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-fobject-code</span></code></a> option (see <a class="reference internal" href="#ghci-obj"><span>Compiling to object code inside GHCi</span></a>).</p>
 <div class="admonition hint">
-<p class="first admonition-title">Hint</p>
+<p class="first admonition-title">ヒント</p>
 <p class="last">Since GHCi will only use a compiled object file if it can be sure
 that the compiled version is up-to-date, a good technique when working
 on a large program is to occasionally run <code class="docutils literal"><span class="pre">ghc</span> <span class="pre">--make</span></code> to compile the
@@ -440,7 +441,7 @@ interpreted, but the rest of the project will remain compiled.</p>
 </div>
 </div>
 <div class="section" id="interactive-evaluation-at-the-prompt">
-<span id="interactive-evaluation"></span><h2>5.4. Interactive evaluation at the prompt<a class="headerlink" href="#interactive-evaluation-at-the-prompt" title="Permalink to this headline">¶</a></h2>
+<span id="interactive-evaluation"></span><h2>5.4. Interactive evaluation at the prompt<a class="headerlink" href="#interactive-evaluation-at-the-prompt" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <p>When you type an expression at the prompt, GHCi immediately evaluates
 and prints the result:</p>
 <div class="highlight-none"><div class="highlight"><pre>Prelude&gt; reverse &quot;hello&quot;
@@ -450,7 +451,7 @@ Prelude&gt; 5+5
 </pre></div>
 </div>
 <div class="section" id="i-o-actions-at-the-prompt">
-<span id="actions-at-prompt"></span><h3>5.4.1. I/O actions at the prompt<a class="headerlink" href="#i-o-actions-at-the-prompt" title="Permalink to this headline">¶</a></h3>
+<span id="actions-at-prompt"></span><h3>5.4.1. I/O actions at the prompt<a class="headerlink" href="#i-o-actions-at-the-prompt" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <p>GHCi does more than simple expression evaluation at the prompt. If you
 enter an expression of type <code class="docutils literal"><span class="pre">IO</span> <span class="pre">a</span></code> for some <code class="docutils literal"><span class="pre">a</span></code>, then GHCi
 <em>executes</em> it as an IO-computation.</p>
@@ -482,7 +483,7 @@ hello
 </div>
 </div>
 <div class="section" id="using-do-notation-at-the-prompt">
-<span id="ghci-stmts"></span><h3>5.4.2. Using <code class="docutils literal"><span class="pre">do</span></code> notation at the prompt<a class="headerlink" href="#using-do-notation-at-the-prompt" title="Permalink to this headline">¶</a></h3>
+<span id="ghci-stmts"></span><h3>5.4.2. Using <code class="docutils literal"><span class="pre">do</span></code> notation at the prompt<a class="headerlink" href="#using-do-notation-at-the-prompt" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <p id="index-6">GHCi actually accepts statements rather than just expressions at the
 prompt. This means you can bind values and functions to names, and use
 them in future expressions or statements.</p>
@@ -501,7 +502,7 @@ Prelude&gt;
 future statements, for example to print it as we did above.</p>
 <dl class="ghc-flag">
 <dt id="ghc-flag--fprint-bind-result">
-<code class="descname">-fprint-bind-result</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag--fprint-bind-result" title="Permalink to this definition">¶</a></dt>
+<code class="descname">-fprint-bind-result</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag--fprint-bind-result" title="この定義へのパーマリンク">¶</a></dt>
 <dd><p>If <a class="reference internal" href="#ghc-flag--fprint-bind-result"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-fprint-bind-result</span></code></a> is set then GHCi will print the result of a
 statement if and only if:</p>
 <ul class="simple">
@@ -550,9 +551,9 @@ Prelude&gt;
 </div>
 <dl class="ghci-cmd">
 <dt id="ghci-cmd-:{">
-<code class="descname">:{</code><code class="descclassname"></code><a class="headerlink" href="#ghci-cmd-:{" title="Permalink to this definition">¶</a></dt>
+<code class="descname">:{</code><code class="descclassname"></code><a class="headerlink" href="#ghci-cmd-:{" title="この定義へのパーマリンク">¶</a></dt>
 <dt id="ghci-cmd-:}">
-<code class="descname">:}</code><code class="descclassname"></code><a class="headerlink" href="#ghci-cmd-:}" title="Permalink to this definition">¶</a></dt>
+<code class="descname">:}</code><code class="descclassname"></code><a class="headerlink" href="#ghci-cmd-:}" title="この定義へのパーマリンク">¶</a></dt>
 <dd><p>Begin or end a multi-line GHCi command block.</p>
 </dd></dl>
 
@@ -578,14 +579,14 @@ the libraries <a class="reference external" href="../libraries/base-4.10.1.0/Con
 <p>Every new binding shadows any existing bindings of the same name,
 including entities that are in scope in the current module context.</p>
 <div class="admonition warning">
-<p class="first admonition-title">Warning</p>
+<p class="first admonition-title">警告</p>
 <p class="last">Temporary bindings introduced at the prompt only last until the
 next <a class="reference internal" href="#ghci-cmd-:load"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:load</span></code></a> or <a class="reference internal" href="#ghci-cmd-:reload"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:reload</span></code></a> command, at which time they
 will be simply lost. However, they do survive a change of context with
 <a class="reference internal" href="#ghci-cmd-:module"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:module</span></code></a>: the temporary bindings just move to the new location.</p>
 </div>
 <div class="admonition hint">
-<p class="first admonition-title">Hint</p>
+<p class="first admonition-title">ヒント</p>
 <p>To get a list of the bindings currently in scope, use the
 <a class="reference internal" href="#ghci-cmd-:show bindings"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:show</span> <span class="pre">bindings</span></code></a> command:</p>
 <div class="last highlight-none"><div class="highlight"><pre>Prelude&gt; :show bindings
@@ -595,7 +596,7 @@ Prelude&gt;
 </div>
 </div>
 <div class="admonition hint">
-<p class="first admonition-title">Hint</p>
+<p class="first admonition-title">ヒント</p>
 <p>If you turn on the <code class="docutils literal"><span class="pre">+t</span></code> option, GHCi will show the type of each
 variable bound by a statement. For example:</p>
 <div class="last highlight-none"><div class="highlight"><pre>Prelude&gt; :set +t
@@ -607,7 +608,7 @@ xs :: [Integer]
 </div>
 </div>
 <div class="section" id="multiline-input">
-<span id="ghci-multiline"></span><span id="index-7"></span><h3>5.4.3. Multiline input<a class="headerlink" href="#multiline-input" title="Permalink to this headline">¶</a></h3>
+<span id="ghci-multiline"></span><span id="index-7"></span><h3>5.4.3. Multiline input<a class="headerlink" href="#multiline-input" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <p>Apart from the <code class="docutils literal"><span class="pre">:{</span> <span class="pre">...</span> <span class="pre">:}</span></code> syntax for multi-line input mentioned
 above, GHCi also has a multiline mode, enabled by <code class="docutils literal"><span class="pre">:set</span> <span class="pre">+m</span></code>,
 <code class="docutils literal"><span class="pre">:set</span> <span class="pre">+m</span></code> in which GHCi detects automatically when the current
@@ -663,7 +664,7 @@ Prelude&gt;
 </div>
 </div>
 <div class="section" id="type-class-and-other-declarations">
-<span id="ghci-decls"></span><h3>5.4.4. Type, class and other declarations<a class="headerlink" href="#type-class-and-other-declarations" title="Permalink to this headline">¶</a></h3>
+<span id="ghci-decls"></span><h3>5.4.4. Type, class and other declarations<a class="headerlink" href="#type-class-and-other-declarations" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <p>At the GHCi prompt you can also enter any top-level Haskell declaration,
 including <code class="docutils literal"><span class="pre">data</span></code>, <code class="docutils literal"><span class="pre">type</span></code>, <code class="docutils literal"><span class="pre">newtype</span></code>, <code class="docutils literal"><span class="pre">class</span></code>, <code class="docutils literal"><span class="pre">instance</span></code>,
 <code class="docutils literal"><span class="pre">deriving</span></code>, and <code class="docutils literal"><span class="pre">foreign</span></code> declarations. For example:</p>
@@ -737,7 +738,7 @@ Prelude&gt; uc &#39;a&#39; :: Int
 </div>
 </div>
 <div class="section" id="what-s-really-in-scope-at-the-prompt">
-<span id="ghci-scope"></span><h3>5.4.5. What&#8217;s really in scope at the prompt?<a class="headerlink" href="#what-s-really-in-scope-at-the-prompt" title="Permalink to this headline">¶</a></h3>
+<span id="ghci-scope"></span><h3>5.4.5. What&#8217;s really in scope at the prompt?<a class="headerlink" href="#what-s-really-in-scope-at-the-prompt" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <p>When you type an expression at the prompt, what identifiers and types
 are in scope? GHCi provides a flexible way to control exactly how the
 context for an expression is constructed:</p>
@@ -750,13 +751,13 @@ context for an expression is constructed:</p>
 <p>The command <a class="reference internal" href="#ghci-cmd-:show imports"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:show</span> <span class="pre">imports</span></code></a> will show a summary of which modules
 contribute to the top-level scope.</p>
 <div class="admonition hint">
-<p class="first admonition-title">Hint</p>
+<p class="first admonition-title">ヒント</p>
 <p class="last">GHCi will tab-complete names that are in scope; for example, if
 you run GHCi and type <code class="docutils literal"><span class="pre">J&lt;tab&gt;</span></code> then GHCi will expand it to
 <code class="docutils literal"><span class="pre">Just</span></code>.</p>
 </div>
 <div class="section" id="the-effect-of-load-on-what-is-in-scope">
-<span id="ghci-load-scope"></span><h4>5.4.5.1. The effect of <code class="docutils literal"><span class="pre">:load</span></code> on what is in scope<a class="headerlink" href="#the-effect-of-load-on-what-is-in-scope" title="Permalink to this headline">¶</a></h4>
+<span id="ghci-load-scope"></span><h4>5.4.5.1. The effect of <code class="docutils literal"><span class="pre">:load</span></code> on what is in scope<a class="headerlink" href="#the-effect-of-load-on-what-is-in-scope" title="このヘッドラインへのパーマリンク">¶</a></h4>
 <p>The <a class="reference internal" href="#ghci-cmd-:load"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:load</span></code></a>, <a class="reference internal" href="#ghci-cmd-:add"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:add</span></code></a>, and <a class="reference internal" href="#ghci-cmd-:reload"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:reload</span></code></a> commands
 (<a class="reference internal" href="#loading-source-files"><span>Loading source files</span></a> and <a class="reference internal" href="#ghci-compiled"><span>Loading compiled code</span></a>) affect the
 top-level scope. Let&#8217;s start with the simple cases; when you start GHCi
@@ -783,7 +784,7 @@ top-level scope of ⟨module⟩ that is contributing to the scope for
 expressions typed at the prompt. Without the <code class="docutils literal"><span class="pre">*</span></code>, just the exports of
 the module are visible.</p>
 <div class="admonition note">
-<p class="first admonition-title">Note</p>
+<p class="first admonition-title">注釈</p>
 <p class="last">For technical reasons, GHCi can only support the <code class="docutils literal"><span class="pre">*</span></code>-form for
 modules that are interpreted. Compiled modules and package modules can
 only contribute their exports to the current scope. To ensure that GHCi
@@ -811,7 +812,7 @@ Ok, modules loaded: Main.
 removed by <a class="reference internal" href="#ghci-cmd-:module"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:module</span></code></a> as with normal imports.</p>
 </div>
 <div class="section" id="controlling-what-is-in-scope-with-import">
-<span id="ghci-import-decl"></span><h4>5.4.5.2. Controlling what is in scope with <code class="docutils literal"><span class="pre">import</span></code><a class="headerlink" href="#controlling-what-is-in-scope-with-import" title="Permalink to this headline">¶</a></h4>
+<span id="ghci-import-decl"></span><h4>5.4.5.2. Controlling what is in scope with <code class="docutils literal"><span class="pre">import</span></code><a class="headerlink" href="#controlling-what-is-in-scope-with-import" title="このヘッドラインへのパーマリンク">¶</a></h4>
 <p>We are not limited to a single module: GHCi can combine scopes from
 multiple modules, in any mixture of <code class="docutils literal"><span class="pre">*</span></code> and non-<code class="docutils literal"><span class="pre">*</span></code> forms. GHCi
 combines the scopes from all of these modules to form the scope that is
@@ -845,7 +846,7 @@ clashes are only reported when an ambiguous identifier is used, and GHCi
 behaves in the same way for expressions typed at the prompt.</p>
 </div>
 <div class="section" id="controlling-what-is-in-scope-with-the-module-command">
-<span id="ghci-module-cmd"></span><h4>5.4.5.3. Controlling what is in scope with the <code class="docutils literal"><span class="pre">:module</span></code> command<a class="headerlink" href="#controlling-what-is-in-scope-with-the-module-command" title="Permalink to this headline">¶</a></h4>
+<span id="ghci-module-cmd"></span><h4>5.4.5.3. Controlling what is in scope with the <code class="docutils literal"><span class="pre">:module</span></code> command<a class="headerlink" href="#controlling-what-is-in-scope-with-the-module-command" title="このヘッドラインへのパーマリンク">¶</a></h4>
 <p>Another way to manipulate the scope is to use the <a class="reference internal" href="#ghci-cmd-:module"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:module</span></code></a>
 command, whose syntax is this:</p>
 <div class="highlight-none"><div class="highlight"><pre>:module +|- *mod1 ... *modn
@@ -867,14 +868,14 @@ module), so this is the only way to subtract from the scope.</li>
 </ul>
 </div>
 <div class="section" id="qualified-names">
-<span id="ghci-import-qualified"></span><h4>5.4.5.4. Qualified names<a class="headerlink" href="#qualified-names" title="Permalink to this headline">¶</a></h4>
+<span id="ghci-import-qualified"></span><h4>5.4.5.4. Qualified names<a class="headerlink" href="#qualified-names" title="このヘッドラインへのパーマリンク">¶</a></h4>
 <p>To make life slightly easier, the GHCi prompt also behaves as if there
 is an implicit <code class="docutils literal"><span class="pre">import</span> <span class="pre">qualified</span></code> declaration for every module in
 every package, and every module currently loaded into GHCi. This
 behaviour can be disabled with the <code class="docutils literal"><span class="pre">-fno-implicit-import-qualified</span></code> flag.</p>
 </div>
 <div class="section" id="module-and-load">
-<span id="index-8"></span><h4>5.4.5.5. <code class="docutils literal"><span class="pre">:module</span></code> and <code class="docutils literal"><span class="pre">:load</span></code><a class="headerlink" href="#module-and-load" title="Permalink to this headline">¶</a></h4>
+<span id="index-8"></span><h4>5.4.5.5. <code class="docutils literal"><span class="pre">:module</span></code> and <code class="docutils literal"><span class="pre">:load</span></code><a class="headerlink" href="#module-and-load" title="このヘッドラインへのパーマリンク">¶</a></h4>
 <p>It might seem that <a class="reference internal" href="#ghci-cmd-:module"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:module</span></code></a>/<code class="docutils literal"><span class="pre">import</span></code> and
 <a class="reference internal" href="#ghci-cmd-:load"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:load</span></code></a>/<a class="reference internal" href="#ghci-cmd-:add"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:add</span></code></a>/<a class="reference internal" href="#ghci-cmd-:reload"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:reload</span></code></a> do similar things: you
 can use both to bring a module into scope. However, there is a very important
@@ -897,7 +898,7 @@ scope a non-loaded module may result in the message
 </div>
 </div>
 <div class="section" id="the-main-and-run-commands">
-<h3>5.4.6. The <code class="docutils literal"><span class="pre">:main</span></code> and <code class="docutils literal"><span class="pre">:run</span></code> commands<a class="headerlink" href="#the-main-and-run-commands" title="Permalink to this headline">¶</a></h3>
+<h3>5.4.6. The <code class="docutils literal"><span class="pre">:main</span></code> and <code class="docutils literal"><span class="pre">:run</span></code> commands<a class="headerlink" href="#the-main-and-run-commands" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <p>When a program is compiled and executed, it can use the <code class="docutils literal"><span class="pre">getArgs</span></code>
 function to access the command-line arguments. However, we cannot simply
 pass the arguments to the <code class="docutils literal"><span class="pre">main</span></code> function while we are testing in
@@ -934,7 +935,7 @@ bar
 </div>
 </div>
 <div class="section" id="the-it-variable">
-<h3>5.4.7. The <code class="docutils literal"><span class="pre">it</span></code> variable<a class="headerlink" href="#the-it-variable" title="Permalink to this headline">¶</a></h3>
+<h3>5.4.7. The <code class="docutils literal"><span class="pre">it</span></code> variable<a class="headerlink" href="#the-it-variable" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <p id="index-9">Whenever an expression (or a non-binding statement, to be precise) is
 typed at the prompt, GHCi implicitly binds its value to the variable
 <code class="docutils literal"><span class="pre">it</span></code>. For example:</p>
@@ -983,10 +984,10 @@ Prelude&gt; print it
 new expression, and the old value of <code class="docutils literal"><span class="pre">it</span></code> is lost.</p>
 </div>
 <div class="section" id="type-defaulting-in-ghci">
-<span id="extended-default-rules"></span><h3>5.4.8. Type defaulting in GHCi<a class="headerlink" href="#type-defaulting-in-ghci" title="Permalink to this headline">¶</a></h3>
+<span id="extended-default-rules"></span><h3>5.4.8. Type defaulting in GHCi<a class="headerlink" href="#type-defaulting-in-ghci" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <span class="target" id="index-10"></span><dl class="ghc-flag">
 <dt id="ghc-flag--XExtendedDefaultRules">
-<code class="descname">-XExtendedDefaultRules</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag--XExtendedDefaultRules" title="Permalink to this definition">¶</a></dt>
+<code class="descname">-XExtendedDefaultRules</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag--XExtendedDefaultRules" title="この定義へのパーマリンク">¶</a></dt>
 <dd><p>Allow defaulting to take place for more than just numeric classes.</p>
 </dd></dl>
 
@@ -1054,7 +1055,7 @@ printf.</p>
 <p>See also <a class="reference internal" href="#actions-at-prompt"><span>I/O actions at the prompt</span></a> for how the monad of a computational
 expression defaults to <code class="docutils literal"><span class="pre">IO</span></code> if possible.</p>
 <div class="section" id="interactive-classes">
-<h4>5.4.8.1. Interactive classes<a class="headerlink" href="#interactive-classes" title="Permalink to this headline">¶</a></h4>
+<h4>5.4.8.1. Interactive classes<a class="headerlink" href="#interactive-classes" title="このヘッドラインへのパーマリンク">¶</a></h4>
 <p id="index-11">The interactive classes (only relevant when <a class="reference internal" href="#ghc-flag--XExtendedDefaultRules"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-XExtendedDefaultRules</span></code></a>
 is in effect) are: any numeric class, <code class="docutils literal"><span class="pre">Show</span></code>, <code class="docutils literal"><span class="pre">Eq</span></code>, <code class="docutils literal"><span class="pre">Ord</span></code>,
 <code class="docutils literal"><span class="pre">Foldable</span></code> or <code class="docutils literal"><span class="pre">Traversable</span></code>.</p>
@@ -1062,7 +1063,7 @@ is in effect) are: any numeric class, <code class="docutils literal"><span class
 will occur, as outlined above.</p>
 </div>
 <div class="section" id="extended-rules-around-default-declarations">
-<h4>5.4.8.2. Extended rules around <code class="docutils literal"><span class="pre">default</span></code> declarations<a class="headerlink" href="#extended-rules-around-default-declarations" title="Permalink to this headline">¶</a></h4>
+<h4>5.4.8.2. Extended rules around <code class="docutils literal"><span class="pre">default</span></code> declarations<a class="headerlink" href="#extended-rules-around-default-declarations" title="このヘッドラインへのパーマリンク">¶</a></h4>
 <p id="index-12">Since the rules for defaulting are relaxed under
 <a class="reference internal" href="#ghc-flag--XExtendedDefaultRules"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-XExtendedDefaultRules</span></code></a>, the rules for <code class="docutils literal"><span class="pre">default</span></code> declarations
 are also relaxed. According to Section 4.3.4 of the Haskell 2010 Report,
@@ -1079,7 +1080,7 @@ to <code class="docutils literal"><span class="pre">Integer</span></code> or <co
 </div>
 </div>
 <div class="section" id="using-a-custom-interactive-printing-function">
-<span id="ghci-interactive-print"></span><h3>5.4.9. Using a custom interactive printing function<a class="headerlink" href="#using-a-custom-interactive-printing-function" title="Permalink to this headline">¶</a></h3>
+<span id="ghci-interactive-print"></span><h3>5.4.9. Using a custom interactive printing function<a class="headerlink" href="#using-a-custom-interactive-printing-function" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <p id="index-13">Since GHC 7.6.1, GHCi prints the result of expressions typed at the prompt
 using the function <code class="docutils literal"><span class="pre">System.IO.print</span></code>. Its type signature is <code class="docutils literal"><span class="pre">Show</span> <span class="pre">a</span> <span class="pre">=&gt;</span> <span class="pre">a</span> <span class="pre">-&gt;</span>
 <span class="pre">IO</span> <span class="pre">()</span></code>, and it works by converting the value to <code class="docutils literal"><span class="pre">String</span></code> using <code class="docutils literal"><span class="pre">show</span></code>.</p>
@@ -1093,7 +1094,7 @@ it survive a <a class="reference internal" href="#ghci-cmd-:cd"><code class="xre
 <a class="reference internal" href="#ghci-cmd-:reload"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:reload</span></code></a> or, <a class="reference internal" href="#ghci-cmd-:set"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:set</span></code></a>.</p>
 <dl class="ghc-flag">
 <dt id="ghc-flag--interactive-print ⟨expr⟩">
-<code class="descname">-interactive-print</code><code class="descclassname"> ⟨expr⟩</code><a class="headerlink" href="#ghc-flag--interactive-print ⟨expr⟩" title="Permalink to this definition">¶</a></dt>
+<code class="descname">-interactive-print</code><code class="descclassname"> ⟨expr⟩</code><a class="headerlink" href="#ghc-flag--interactive-print ⟨expr⟩" title="この定義へのパーマリンク">¶</a></dt>
 <dd><p>Set the function used by GHCi to print evaluation results. Expression
 must be of type <code class="docutils literal"><span class="pre">C</span> <span class="pre">a</span> <span class="pre">=&gt;</span> <span class="pre">a</span> <span class="pre">-&gt;</span> <span class="pre">IO</span> <span class="pre">()</span></code>.</p>
 </dd></dl>
@@ -1128,7 +1129,7 @@ GHC in <code class="docutils literal"><span class="pre">-e</span> <span class="p
 </div>
 </div>
 <div class="section" id="stack-traces-in-ghci">
-<span id="ghci-stack-traces"></span><h3>5.4.10. Stack Traces in GHCi<a class="headerlink" href="#stack-traces-in-ghci" title="Permalink to this headline">¶</a></h3>
+<span id="ghci-stack-traces"></span><h3>5.4.10. Stack Traces in GHCi<a class="headerlink" href="#stack-traces-in-ghci" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <p id="index-14">[ This is an experimental feature enabled by the new
 <code class="docutils literal"><span class="pre">-fexternal-interpreter</span></code> flag that was introduced in GHC 8.0.1.  It
 is currently not supported on Windows.]</p>
@@ -1164,7 +1165,7 @@ stack information for compiled code unless it was compiled with
 </div>
 </div>
 <div class="section" id="the-ghci-debugger">
-<span id="ghci-debugger"></span><h2>5.5. The GHCi Debugger<a class="headerlink" href="#the-ghci-debugger" title="Permalink to this headline">¶</a></h2>
+<span id="ghci-debugger"></span><h2>5.5. The GHCi Debugger<a class="headerlink" href="#the-ghci-debugger" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <p id="index-15">GHCi contains a simple imperative-style debugger in which you can stop a
 running computation in order to examine the values of variables. The
 debugger is integrated into GHCi, and is turned on by default: no flags
@@ -1197,7 +1198,7 @@ is possible to break automatically when an exception is thrown, even if
 it is thrown from within compiled code (see
 <a class="reference internal" href="#ghci-debugger-exceptions"><span>Debugging exceptions</span></a>).</p>
 <div class="section" id="breakpoints-and-inspecting-variables">
-<span id="breakpoints"></span><h3>5.5.1. Breakpoints and inspecting variables<a class="headerlink" href="#breakpoints-and-inspecting-variables" title="Permalink to this headline">¶</a></h3>
+<span id="breakpoints"></span><h3>5.5.1. Breakpoints and inspecting variables<a class="headerlink" href="#breakpoints-and-inspecting-variables" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <p>Let&#8217;s use quicksort as a running example. Here&#8217;s the code:</p>
 <div class="highlight-haskell"><div class="highlight"><pre><span class="nf">qsort</span> <span class="kt">[]</span> <span class="ow">=</span> <span class="kt">[]</span>
 <span class="nf">qsort</span> <span class="p">(</span><span class="n">a</span><span class="kt">:</span><span class="n">as</span><span class="p">)</span> <span class="ow">=</span> <span class="n">qsort</span> <span class="n">left</span> <span class="o">++</span> <span class="p">[</span><span class="n">a</span><span class="p">]</span> <span class="o">++</span> <span class="n">qsort</span> <span class="n">right</span>
@@ -1345,7 +1346,7 @@ right :: [a]
 <p>The execution continued at the point it previously stopped, and has now
 stopped at the breakpoint for a second time.</p>
 <div class="section" id="setting-breakpoints">
-<span id="id12"></span><h4>5.5.1.1. Setting breakpoints<a class="headerlink" href="#setting-breakpoints" title="Permalink to this headline">¶</a></h4>
+<span id="id12"></span><h4>5.5.1.1. Setting breakpoints<a class="headerlink" href="#setting-breakpoints" title="このヘッドラインへのパーマリンク">¶</a></h4>
 <p>Breakpoints can be set in various ways. Perhaps the easiest way to set a
 breakpoint is to name a top-level function:</p>
 <div class="highlight-none"><div class="highlight"><pre>:break identifier
@@ -1387,7 +1388,7 @@ its body, because we are usually interested in inspecting the values of
 the variables bound by the let.</p>
 </div>
 <div class="section" id="listing-and-deleting-breakpoints">
-<h4>5.5.1.2. Listing and deleting breakpoints<a class="headerlink" href="#listing-and-deleting-breakpoints" title="Permalink to this headline">¶</a></h4>
+<h4>5.5.1.2. Listing and deleting breakpoints<a class="headerlink" href="#listing-and-deleting-breakpoints" title="このヘッドラインへのパーマリンク">¶</a></h4>
 <p>The list of breakpoints currently enabled can be displayed using
 <a class="reference internal" href="#ghci-cmd-:show breaks"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:show</span> <span class="pre">breaks</span></code></a>:</p>
 <div class="highlight-none"><div class="highlight"><pre>*Main&gt; :show breaks
@@ -1406,7 +1407,7 @@ given in the output from <a class="reference internal" href="#ghci-cmd-:show bre
 </div>
 </div>
 <div class="section" id="single-stepping">
-<span id="id13"></span><h3>5.5.2. Single-stepping<a class="headerlink" href="#single-stepping" title="Permalink to this headline">¶</a></h3>
+<span id="id13"></span><h3>5.5.2. Single-stepping<a class="headerlink" href="#single-stepping" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <p>Single-stepping is a great way to visualise the execution of your
 program, and it is also a useful tool for identifying the source of a
 bug. GHCi offers two variants of stepping. Use <a class="reference internal" href="#ghci-cmd-:step"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:step</span></code></a> to enable all
@@ -1447,7 +1448,7 @@ _result :: [Integer]
 </div>
 </div>
 <div class="section" id="nested-breakpoints">
-<span id="id14"></span><h3>5.5.3. Nested breakpoints<a class="headerlink" href="#nested-breakpoints" title="Permalink to this headline">¶</a></h3>
+<span id="id14"></span><h3>5.5.3. Nested breakpoints<a class="headerlink" href="#nested-breakpoints" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <p>When GHCi is stopped at a breakpoint, and an expression entered at the
 prompt triggers a second breakpoint, the new breakpoint becomes the
 &#8220;current&#8221; one, and the old one is saved on a stack. An arbitrary number
@@ -1480,7 +1481,7 @@ breakpoints beyond the current one. To see the stack of contexts, use
 </div>
 </div>
 <div class="section" id="the-result-variable">
-<span id="ghci-debugger-result"></span><h3>5.5.4. The <code class="docutils literal"><span class="pre">_result</span></code> variable<a class="headerlink" href="#the-result-variable" title="Permalink to this headline">¶</a></h3>
+<span id="ghci-debugger-result"></span><h3>5.5.4. The <code class="docutils literal"><span class="pre">_result</span></code> variable<a class="headerlink" href="#the-result-variable" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <p>When stopped at a breakpoint or single-step, GHCi binds the variable
 <code class="docutils literal"><span class="pre">_result</span></code> to the value of the currently active expression. The value
 of <code class="docutils literal"><span class="pre">_result</span></code> is presumably not available yet, because we stopped its
@@ -1494,7 +1495,7 @@ due to <a class="reference internal" href="#ghci-cmd-:step"><code class="xref st
 you can use <a class="reference internal" href="#ghci-cmd-:force"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:force</span></code></a> which ignores breakpoints.</p>
 </div>
 <div class="section" id="tracing-and-history">
-<span id="tracing"></span><h3>5.5.5. Tracing and history<a class="headerlink" href="#tracing-and-history" title="Permalink to this headline">¶</a></h3>
+<span id="tracing"></span><h3>5.5.5. Tracing and history<a class="headerlink" href="#tracing-and-history" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <p>A question that we often want to ask when debugging a program is “how
 did I get here?”. Traditional imperative debuggers usually provide some
 kind of stack-tracing feature that lets you see the stack of active
@@ -1574,7 +1575,7 @@ is we found that logging each breakpoint in the history cuts performance
 by a factor of 2 or more.</p>
 <dl class="ghc-flag">
 <dt id="ghc-flag--fghci-hist-size=⟨n⟩">
-<code class="descname">-fghci-hist-size</code><code class="descclassname">=⟨n⟩</code><a class="headerlink" href="#ghc-flag--fghci-hist-size=⟨n⟩" title="Permalink to this definition">¶</a></dt>
+<code class="descname">-fghci-hist-size</code><code class="descclassname">=⟨n⟩</code><a class="headerlink" href="#ghc-flag--fghci-hist-size=⟨n⟩" title="この定義へのパーマリンク">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -1588,7 +1589,7 @@ by a factor of 2 or more.</p>
 
 </div>
 <div class="section" id="debugging-exceptions">
-<span id="ghci-debugger-exceptions"></span><h3>5.5.6. Debugging exceptions<a class="headerlink" href="#debugging-exceptions" title="Permalink to this headline">¶</a></h3>
+<span id="ghci-debugger-exceptions"></span><h3>5.5.6. Debugging exceptions<a class="headerlink" href="#debugging-exceptions" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <p>Another common question that comes up when debugging is &#8220;where did this
 exception come from?&#8221;. Exceptions such as those raised by <code class="docutils literal"><span class="pre">error</span></code> or
 <code class="docutils literal"><span class="pre">head</span> <span class="pre">[]</span></code> have no context information attached to them. Finding which
@@ -1639,9 +1640,9 @@ program was doing when it was in an infinite loop. Just hit Control-C,
 and examine the history to find out what was going on.</p>
 <dl class="ghc-flag">
 <dt id="ghc-flag--fbreak-on-exception">
-<code class="descname">-fbreak-on-exception</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag--fbreak-on-exception" title="Permalink to this definition">¶</a></dt>
+<code class="descname">-fbreak-on-exception</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag--fbreak-on-exception" title="この定義へのパーマリンク">¶</a></dt>
 <dt id="ghc-flag--fbreak-on-error">
-<code class="descname">-fbreak-on-error</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag--fbreak-on-error" title="Permalink to this definition">¶</a></dt>
+<code class="descname">-fbreak-on-error</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag--fbreak-on-error" title="この定義へのパーマリンク">¶</a></dt>
 <dd><p>Causes GHCi to halt evaluation and return to the interactive prompt
 in the event of an exception. While <a class="reference internal" href="#ghc-flag--fbreak-on-exception"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-fbreak-on-exception</span></code></a> breaks
 on all exceptions, <a class="reference internal" href="#ghc-flag--fbreak-on-error"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-fbreak-on-error</span></code></a> breaks on only those which
@@ -1650,7 +1651,7 @@ would otherwise be uncaught.</p>
 
 </div>
 <div class="section" id="example-inspecting-functions">
-<h3>5.5.7. Example: inspecting functions<a class="headerlink" href="#example-inspecting-functions" title="Permalink to this headline">¶</a></h3>
+<h3>5.5.7. Example: inspecting functions<a class="headerlink" href="#example-inspecting-functions" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <p>It is possible to use the debugger to examine function values. When we
 are at a breakpoint and a function is in scope, the debugger cannot show
 you the source code for it; however, it is possible to get some
@@ -1731,7 +1732,7 @@ reconstruction in order to recover the result type of <code class="docutils lite
 that, we are free to use <code class="docutils literal"><span class="pre">f</span></code> normally.</p>
 </div>
 <div class="section" id="limitations">
-<h3>5.5.8. Limitations<a class="headerlink" href="#limitations" title="Permalink to this headline">¶</a></h3>
+<h3>5.5.8. Limitations<a class="headerlink" href="#limitations" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <ul>
 <li><p class="first">When stopped at a breakpoint, if you try to evaluate a variable that
 is already under evaluation, the second evaluation will hang. The
@@ -1752,7 +1753,7 @@ signature.</p>
 </div>
 </div>
 <div class="section" id="invoking-ghci">
-<span id="ghci-invocation"></span><h2>5.6. Invoking GHCi<a class="headerlink" href="#invoking-ghci" title="Permalink to this headline">¶</a></h2>
+<span id="ghci-invocation"></span><h2>5.6. Invoking GHCi<a class="headerlink" href="#invoking-ghci" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <p id="index-16">GHCi is invoked with the command <code class="docutils literal"><span class="pre">ghci</span></code> or <code class="docutils literal"><span class="pre">ghc</span> <span class="pre">--interactive</span></code>. One
 or more modules or filenames can also be specified on the command line;
 this instructs GHCi to load the specified modules or filenames (and all
@@ -1768,7 +1769,7 @@ also make sense in interactive mode. The ones that don&#8217;t make sense are
 mostly obvious.</p>
 <dl class="ghc-flag">
 <dt id="ghc-flag--flocal-ghci-history">
-<code class="descname">-flocal-ghci-history</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag--flocal-ghci-history" title="Permalink to this definition">¶</a></dt>
+<code class="descname">-flocal-ghci-history</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag--flocal-ghci-history" title="この定義へのパーマリンク">¶</a></dt>
 <dd><p>By default, GHCi keeps global history in <code class="docutils literal"><span class="pre">~/.ghc/ghci_history</span></code> or
 <code class="docutils literal"><span class="pre">%APPDATA%/&lt;app&gt;/ghci_history</span></code>, but you can use current directory, e.g.:</p>
 <div class="highlight-none"><div class="highlight"><pre>$ ghci -flocal-ghci-history
@@ -1778,7 +1779,7 @@ mostly obvious.</p>
 </dd></dl>
 
 <div class="section" id="packages">
-<h3>5.6.1. Packages<a class="headerlink" href="#packages" title="Permalink to this headline">¶</a></h3>
+<h3>5.6.1. Packages<a class="headerlink" href="#packages" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <p id="index-17">Most packages (see <a class="reference internal" href="packages.html#using-packages"><span>Using Packages</span></a>) are available without needing
 to specify any extra flags at all: they will be automatically loaded the
 first time they are needed.</p>
@@ -1799,7 +1800,7 @@ Prelude&gt;
 unloaded, and you&#8217;ll be dumped back into the <code class="docutils literal"><span class="pre">Prelude</span></code>.</p>
 </div>
 <div class="section" id="extra-libraries">
-<h3>5.6.2. Extra libraries<a class="headerlink" href="#extra-libraries" title="Permalink to this headline">¶</a></h3>
+<h3>5.6.2. Extra libraries<a class="headerlink" href="#extra-libraries" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <p id="index-18">Extra libraries may be specified on the command line using the normal
 <code class="docutils literal"><span class="pre">-llib</span></code> option. (The term <em>library</em> here refers to libraries of
 foreign object code; for using libraries of Haskell source code, see
@@ -1827,21 +1828,21 @@ to the command line.</p>
 </div>
 </div>
 <div class="section" id="ghci-commands">
-<span id="id15"></span><h2>5.7. GHCi commands<a class="headerlink" href="#ghci-commands" title="Permalink to this headline">¶</a></h2>
+<span id="id15"></span><h2>5.7. GHCi commands<a class="headerlink" href="#ghci-commands" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <p>GHCi commands all begin with &#8220;<code class="docutils literal"><span class="pre">:</span></code>&#8221; and consist of a single command
 name followed by zero or more parameters. The command name may be
 abbreviated, with ambiguities being resolved in favour of the more
 commonly used commands.</p>
 <dl class="ghci-cmd">
 <dt id="ghci-cmd-:abandon">
-<code class="descname">:abandon</code><code class="descclassname"></code><a class="headerlink" href="#ghci-cmd-:abandon" title="Permalink to this definition">¶</a></dt>
+<code class="descname">:abandon</code><code class="descclassname"></code><a class="headerlink" href="#ghci-cmd-:abandon" title="この定義へのパーマリンク">¶</a></dt>
 <dd><p>Abandons the current evaluation (only available when stopped at a
 breakpoint).</p>
 </dd></dl>
 
 <dl class="ghci-cmd">
 <dt id="ghci-cmd-:add">
-<code class="descname">:add</code><code class="descclassname">[*] ⟨module⟩</code><a class="headerlink" href="#ghci-cmd-:add" title="Permalink to this definition">¶</a></dt>
+<code class="descname">:add</code><code class="descclassname">[*] ⟨module⟩</code><a class="headerlink" href="#ghci-cmd-:add" title="この定義へのパーマリンク">¶</a></dt>
 <dd><p>Add ⟨module⟩(s) to the current target set, and perform a reload.
 Normally pre-compiled code for the module will be loaded if
 available, or otherwise the module will be compiled to byte-code.
@@ -1853,7 +1854,7 @@ Using the <code class="docutils literal"><span class="pre">*</span></code> prefi
 
 <dl class="ghci-cmd">
 <dt id="ghci-cmd-:all-types">
-<code class="descname">:all-types</code><code class="descclassname"></code><a class="headerlink" href="#ghci-cmd-:all-types" title="Permalink to this definition">¶</a></dt>
+<code class="descname">:all-types</code><code class="descclassname"></code><a class="headerlink" href="#ghci-cmd-:all-types" title="この定義へのパーマリンク">¶</a></dt>
 <dd><p>List all types collected for expressions and (local) bindings
 currently loaded (while <a class="reference internal" href="#ghci-cmd-:set +c"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:set</span> <span class="pre">+c</span></code></a> was active) with their respective
 source-code span, e.g.</p>
@@ -1867,7 +1868,7 @@ source-code span, e.g.</p>
 
 <dl class="ghci-cmd">
 <dt id="ghci-cmd-:back">
-<code class="descname">:back</code><code class="descclassname"> ⟨n⟩</code><a class="headerlink" href="#ghci-cmd-:back" title="Permalink to this definition">¶</a></dt>
+<code class="descname">:back</code><code class="descclassname"> ⟨n⟩</code><a class="headerlink" href="#ghci-cmd-:back" title="この定義へのパーマリンク">¶</a></dt>
 <dd><p>Travel back ⟨n⟩ steps in the history. ⟨n⟩ is one if omitted. See
 <a class="reference internal" href="#tracing"><span>Tracing and history</span></a> for more about GHCi&#8217;s debugging facilities. See also:
 <a class="reference internal" href="#ghci-cmd-:trace"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:trace</span></code></a>, <a class="reference internal" href="#ghci-cmd-:history"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:history</span></code></a>, <a class="reference internal" href="#ghci-cmd-:forward"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:forward</span></code></a>.</p>
@@ -1875,14 +1876,14 @@ source-code span, e.g.</p>
 
 <dl class="ghci-cmd">
 <dt id="ghci-cmd-:break">
-<code class="descname">:break</code><code class="descclassname"> [⟨identifier⟩ | [⟨module⟩] ⟨line⟩ [⟨column⟩]]</code><a class="headerlink" href="#ghci-cmd-:break" title="Permalink to this definition">¶</a></dt>
+<code class="descname">:break</code><code class="descclassname"> [⟨identifier⟩ | [⟨module⟩] ⟨line⟩ [⟨column⟩]]</code><a class="headerlink" href="#ghci-cmd-:break" title="この定義へのパーマリンク">¶</a></dt>
 <dd><p>Set a breakpoint on the specified function or line and column. See
 <a class="reference internal" href="#setting-breakpoints"><span>Setting breakpoints</span></a>.</p>
 </dd></dl>
 
 <dl class="ghci-cmd">
 <dt id="ghci-cmd-:browse">
-<code class="descname">:browse</code><code class="descclassname">[!] [[*] ⟨module⟩]</code><a class="headerlink" href="#ghci-cmd-:browse" title="Permalink to this definition">¶</a></dt>
+<code class="descname">:browse</code><code class="descclassname">[!] [[*] ⟨module⟩]</code><a class="headerlink" href="#ghci-cmd-:browse" title="この定義へのパーマリンク">¶</a></dt>
 <dd><p>Displays the identifiers exported by the module ⟨module⟩, which must
 be either loaded into GHCi or be a member of a package. If ⟨module⟩
 is omitted, the most recently-loaded module is used.</p>
@@ -1933,7 +1934,7 @@ unqualified, or with a <code class="docutils literal"><span class="pre">Prelude.
 
 <dl class="ghci-cmd">
 <dt id="ghci-cmd-:cd">
-<code class="descname">:cd</code><code class="descclassname"> ⟨dir⟩</code><a class="headerlink" href="#ghci-cmd-:cd" title="Permalink to this definition">¶</a></dt>
+<code class="descname">:cd</code><code class="descclassname"> ⟨dir⟩</code><a class="headerlink" href="#ghci-cmd-:cd" title="この定義へのパーマリンク">¶</a></dt>
 <dd><p>Changes the current working directory to ⟨dir⟩. A &#8220;<code class="docutils literal"><span class="pre">~</span></code>&#8221; symbol
 at the beginning of ⟨dir⟩ will be replaced by the contents of the
 environment variable <span class="target" id="index-21"></span><code class="xref std std-envvar docutils literal"><span class="pre">HOME</span></code>. See also the <a class="reference internal" href="#ghci-cmd-:show paths"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:show</span> <span class="pre">paths</span></code></a>
@@ -1946,7 +1947,7 @@ a session is not supported.</p>
 
 <dl class="ghci-cmd">
 <dt id="ghci-cmd-:cmd">
-<code class="descname">:cmd</code><code class="descclassname"> ⟨expr⟩</code><a class="headerlink" href="#ghci-cmd-:cmd" title="Permalink to this definition">¶</a></dt>
+<code class="descname">:cmd</code><code class="descclassname"> ⟨expr⟩</code><a class="headerlink" href="#ghci-cmd-:cmd" title="この定義へのパーマリンク">¶</a></dt>
 <dd><p>Executes ⟨expr⟩ as a computation of type <code class="docutils literal"><span class="pre">IO</span> <span class="pre">String</span></code>, and then
 executes the resulting string as a list of GHCi commands. Multiple
 commands are separated by newlines. The <a class="reference internal" href="#ghci-cmd-:cmd"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:cmd</span></code></a> command is useful
@@ -1955,7 +1956,7 @@ with <a class="reference internal" href="#ghci-cmd-:def"><code class="xref std s
 
 <dl class="ghci-cmd">
 <dt id="ghci-cmd-:complete">
-<code class="descname">:complete</code><code class="descclassname"> ⟨type⟩ [⟨n⟩-][⟨m⟩] ⟨string-literal⟩</code><a class="headerlink" href="#ghci-cmd-:complete" title="Permalink to this definition">¶</a></dt>
+<code class="descname">:complete</code><code class="descclassname"> ⟨type⟩ [⟨n⟩-][⟨m⟩] ⟨string-literal⟩</code><a class="headerlink" href="#ghci-cmd-:complete" title="この定義へのパーマリンク">¶</a></dt>
 <dd><p>This command allows to request command completions from GHCi even
 when interacting over a pipe instead of a proper terminal and is
 designed for integrating GHCi&#8217;s completion with text editors and
@@ -2016,13 +2017,13 @@ Prelude&gt; :complete repl 5-10 &quot;map&quot;
 
 <dl class="ghci-cmd">
 <dt id="ghci-cmd-:continue">
-<code class="descname">:continue</code><code class="descclassname"></code><a class="headerlink" href="#ghci-cmd-:continue" title="Permalink to this definition">¶</a></dt>
+<code class="descname">:continue</code><code class="descclassname"></code><a class="headerlink" href="#ghci-cmd-:continue" title="この定義へのパーマリンク">¶</a></dt>
 <dd><p>Continue the current evaluation, when stopped at a breakpoint.</p>
 </dd></dl>
 
 <dl class="ghci-cmd">
 <dt id="ghci-cmd-:ctags">
-<code class="descname">:ctags</code><code class="descclassname"> [⟨filename⟩]</code><a class="headerlink" href="#ghci-cmd-:ctags" title="Permalink to this definition">¶</a></dt>
+<code class="descname">:ctags</code><code class="descclassname"> [⟨filename⟩]</code><a class="headerlink" href="#ghci-cmd-:ctags" title="この定義へのパーマリンク">¶</a></dt>
 <dd><p>Generates a &#8220;tags&#8221; file for Vi-style editors (<a class="reference internal" href="#ghci-cmd-:ctags"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:ctags</span></code></a>) or
 Emacs-style editors (<a class="reference internal" href="#ghci-cmd-:etags"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:etags</span></code></a>). If no filename is specified, the
 default <code class="docutils literal"><span class="pre">tags</span></code> or <code class="docutils literal"><span class="pre">TAGS</span></code> is used, respectively. Tags for all the
@@ -2033,7 +2034,7 @@ work.</p>
 
 <dl class="ghci-cmd">
 <dt id="ghci-cmd-:def">
-<code class="descname">:def</code><code class="descclassname">[!] ⟨name⟩ ⟨expr⟩</code><a class="headerlink" href="#ghci-cmd-:def" title="Permalink to this definition">¶</a></dt>
+<code class="descname">:def</code><code class="descclassname">[!] ⟨name⟩ ⟨expr⟩</code><a class="headerlink" href="#ghci-cmd-:def" title="この定義へのパーマリンク">¶</a></dt>
 <dd><p><a class="reference internal" href="#ghci-cmd-:def"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:def</span></code></a> is used to define new commands, or macros, in GHCi. The
 command <code class="docutils literal"><span class="pre">:def</span> <span class="pre">⟨name⟩</span> <span class="pre">⟨expr⟩</span></code> defines a new GHCi command <code class="docutils literal"><span class="pre">:name</span></code>,
 implemented by the Haskell expression ⟨expr⟩, which must have type
@@ -2080,7 +2081,7 @@ with that name is silently overwritten.</p>
 
 <dl class="ghci-cmd">
 <dt id="ghci-cmd-:delete">
-<code class="descname">:delete</code><code class="descclassname"> * | ⟨num⟩ ...</code><a class="headerlink" href="#ghci-cmd-:delete" title="Permalink to this definition">¶</a></dt>
+<code class="descname">:delete</code><code class="descclassname"> * | ⟨num⟩ ...</code><a class="headerlink" href="#ghci-cmd-:delete" title="この定義へのパーマリンク">¶</a></dt>
 <dd><p>Delete one or more breakpoints by number (use <a class="reference internal" href="#ghci-cmd-:show breaks"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:show</span> <span class="pre">breaks</span></code></a> to
 see the number of each breakpoint). The <code class="docutils literal"><span class="pre">*</span></code> form deletes all the
 breakpoints.</p>
@@ -2088,7 +2089,7 @@ breakpoints.</p>
 
 <dl class="ghci-cmd">
 <dt id="ghci-cmd-:edit">
-<code class="descname">:edit</code><code class="descclassname"> ⟨file⟩</code><a class="headerlink" href="#ghci-cmd-:edit" title="Permalink to this definition">¶</a></dt>
+<code class="descname">:edit</code><code class="descclassname"> ⟨file⟩</code><a class="headerlink" href="#ghci-cmd-:edit" title="この定義へのパーマリンク">¶</a></dt>
 <dd><p>Opens an editor to edit the file ⟨file⟩, or the most recently loaded
 module if ⟨file⟩ is omitted. If there were errors during the last
 loading, the cursor will be positioned at the line of the first
@@ -2099,13 +2100,13 @@ set. You can change the editor using <a class="reference internal" href="#ghci-c
 
 <dl class="ghci-cmd">
 <dt id="ghci-cmd-:etags">
-<code class="descname">:etags</code><code class="descclassname"></code><a class="headerlink" href="#ghci-cmd-:etags" title="Permalink to this definition">¶</a></dt>
+<code class="descname">:etags</code><code class="descclassname"></code><a class="headerlink" href="#ghci-cmd-:etags" title="この定義へのパーマリンク">¶</a></dt>
 <dd><p>See <a class="reference internal" href="#ghci-cmd-:ctags"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:ctags</span></code></a>.</p>
 </dd></dl>
 
 <dl class="ghci-cmd">
 <dt id="ghci-cmd-:force">
-<code class="descname">:force</code><code class="descclassname"> ⟨identifier⟩ ...</code><a class="headerlink" href="#ghci-cmd-:force" title="Permalink to this definition">¶</a></dt>
+<code class="descname">:force</code><code class="descclassname"> ⟨identifier⟩ ...</code><a class="headerlink" href="#ghci-cmd-:force" title="この定義へのパーマリンク">¶</a></dt>
 <dd><p>Prints the value of ⟨identifier⟩ in the same way as <a class="reference internal" href="#ghci-cmd-:print"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:print</span></code></a>.
 Unlike <a class="reference internal" href="#ghci-cmd-:print"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:print</span></code></a>, <a class="reference internal" href="#ghci-cmd-:force"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:force</span></code></a> evaluates each thunk that it
 encounters while traversing the value. This may cause exceptions or
@@ -2115,7 +2116,7 @@ displayed).</p>
 
 <dl class="ghci-cmd">
 <dt id="ghci-cmd-:forward">
-<code class="descname">:forward</code><code class="descclassname"> ⟨n⟩</code><a class="headerlink" href="#ghci-cmd-:forward" title="Permalink to this definition">¶</a></dt>
+<code class="descname">:forward</code><code class="descclassname"> ⟨n⟩</code><a class="headerlink" href="#ghci-cmd-:forward" title="この定義へのパーマリンク">¶</a></dt>
 <dd><p>Move forward ⟨n⟩ steps in the history. ⟨n⟩ is one if omitted. See
 <a class="reference internal" href="#tracing"><span>Tracing and history</span></a> for more about GHCi&#8217;s debugging facilities. See also:
 <a class="reference internal" href="#ghci-cmd-:trace"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:trace</span></code></a>, <a class="reference internal" href="#ghci-cmd-:history"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:history</span></code></a>, <a class="reference internal" href="#ghci-cmd-:back"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:back</span></code></a>.</p>
@@ -2123,21 +2124,21 @@ displayed).</p>
 
 <dl class="ghci-cmd">
 <dt id="ghci-cmd-:help">
-<code class="descname">:help</code><code class="descclassname"></code><a class="headerlink" href="#ghci-cmd-:help" title="Permalink to this definition">¶</a></dt>
+<code class="descname">:help</code><code class="descclassname"></code><a class="headerlink" href="#ghci-cmd-:help" title="この定義へのパーマリンク">¶</a></dt>
 <dt id="ghci-cmd-:?">
-<code class="descname">:?</code><code class="descclassname"></code><a class="headerlink" href="#ghci-cmd-:?" title="Permalink to this definition">¶</a></dt>
+<code class="descname">:?</code><code class="descclassname"></code><a class="headerlink" href="#ghci-cmd-:?" title="この定義へのパーマリンク">¶</a></dt>
 <dd><p>Displays a list of the available commands.</p>
 </dd></dl>
 
 <dl class="ghci-cmd">
 <dt id="ghci-cmd-:">
-<code class="descname">:</code><code class="descclassname"></code><a class="headerlink" href="#ghci-cmd-:" title="Permalink to this definition">¶</a></dt>
+<code class="descname">:</code><code class="descclassname"></code><a class="headerlink" href="#ghci-cmd-:" title="この定義へのパーマリンク">¶</a></dt>
 <dd><p id="index-24">Repeat the previous command.</p>
 </dd></dl>
 
 <dl class="ghci-cmd">
 <dt id="ghci-cmd-:history">
-<code class="descname">:history</code><code class="descclassname"> [num]</code><a class="headerlink" href="#ghci-cmd-:history" title="Permalink to this definition">¶</a></dt>
+<code class="descname">:history</code><code class="descclassname"> [num]</code><a class="headerlink" href="#ghci-cmd-:history" title="この定義へのパーマリンク">¶</a></dt>
 <dd><p>Display the history of evaluation steps. With a number, displays
 that many steps (default: 20). For use with <a class="reference internal" href="#ghci-cmd-:trace"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:trace</span></code></a>; see
 <a class="reference internal" href="#tracing"><span>Tracing and history</span></a>. To set the number of history entries stored by GHCi,
@@ -2146,7 +2147,7 @@ use the <a class="reference internal" href="#ghc-flag--fghci-hist-size=⟨n⟩">
 
 <dl class="ghci-cmd">
 <dt id="ghci-cmd-:info">
-<code class="descname">:info</code><code class="descclassname">[!] ⟨name⟩</code><a class="headerlink" href="#ghci-cmd-:info" title="Permalink to this definition">¶</a></dt>
+<code class="descname">:info</code><code class="descclassname">[!] ⟨name⟩</code><a class="headerlink" href="#ghci-cmd-:info" title="この定義へのパーマリンク">¶</a></dt>
 <dd><p>Displays information about the given name(s). For example, if ⟨name⟩
 is a class, then the class methods and their types will be printed;
 if ⟨name⟩ is a type constructor, then its definition will be
@@ -2166,7 +2167,7 @@ restriction (b), showing all instances that are in scope and mention
 
 <dl class="ghci-cmd">
 <dt id="ghci-cmd-:issafe">
-<code class="descname">:issafe</code><code class="descclassname"> [⟨module⟩]</code><a class="headerlink" href="#ghci-cmd-:issafe" title="Permalink to this definition">¶</a></dt>
+<code class="descname">:issafe</code><code class="descclassname"> [⟨module⟩]</code><a class="headerlink" href="#ghci-cmd-:issafe" title="この定義へのパーマリンク">¶</a></dt>
 <dd><p>Displays Safe Haskell information about the given module (or the
 current module if omitted). This includes the trust type of the
 module and its containing package.</p>
@@ -2174,7 +2175,7 @@ module and its containing package.</p>
 
 <dl class="ghci-cmd">
 <dt id="ghci-cmd-:kind">
-<code class="descname">:kind</code><code class="descclassname">[!] ⟨type⟩</code><a class="headerlink" href="#ghci-cmd-:kind" title="Permalink to this definition">¶</a></dt>
+<code class="descname">:kind</code><code class="descclassname">[!] ⟨type⟩</code><a class="headerlink" href="#ghci-cmd-:kind" title="この定義へのパーマリンク">¶</a></dt>
 <dd><p>Infers and prints the kind of ⟨type⟩. The latter can be an arbitrary
 type expression, including a partial application of a type
 constructor, such as <code class="docutils literal"><span class="pre">Either</span> <span class="pre">Int</span></code>. In fact, <a class="reference internal" href="#ghci-cmd-:kind"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:kind</span></code></a> even allows
@@ -2196,7 +2197,7 @@ applications, and display the normalised result.</p>
 
 <dl class="ghci-cmd">
 <dt id="ghci-cmd-:list">
-<code class="descname">:list</code><code class="descclassname"> ⟨identifier⟩</code><a class="headerlink" href="#ghci-cmd-:list" title="Permalink to this definition">¶</a></dt>
+<code class="descname">:list</code><code class="descclassname"> ⟨identifier⟩</code><a class="headerlink" href="#ghci-cmd-:list" title="この定義へのパーマリンク">¶</a></dt>
 <dd><p>Lists the source code around the definition of ⟨identifier⟩ or the
 current breakpoint if not given. This requires that the identifier
 be defined in an interpreted module. If your output device supports
@@ -2205,7 +2206,7 @@ it, then GHCi will highlight the active subexpression in bold.</p>
 
 <dl class="ghci-cmd">
 <dt id="ghci-cmd-:list [⟨module⟩]">
-<code class="descname">:list [⟨module⟩]</code><code class="descclassname"> ⟨line⟩</code><a class="headerlink" href="#ghci-cmd-:list [⟨module⟩]" title="Permalink to this definition">¶</a></dt>
+<code class="descname">:list [⟨module⟩]</code><code class="descclassname"> ⟨line⟩</code><a class="headerlink" href="#ghci-cmd-:list [⟨module⟩]" title="この定義へのパーマリンク">¶</a></dt>
 <dd><p>Lists the source code around the given line number of ⟨module⟩. This
 requires that the module be interpreted. If your output device
 supports it, then GHCi will highlight the active subexpression in
@@ -2214,7 +2215,7 @@ bold.</p>
 
 <dl class="ghci-cmd">
 <dt id="ghci-cmd-:load">
-<code class="descname">:load</code><code class="descclassname">[!] [*]⟨module⟩</code><a class="headerlink" href="#ghci-cmd-:load" title="Permalink to this definition">¶</a></dt>
+<code class="descname">:load</code><code class="descclassname">[!] [*]⟨module⟩</code><a class="headerlink" href="#ghci-cmd-:load" title="この定義へのパーマリンク">¶</a></dt>
 <dd><p>Recursively loads the specified ⟨module⟩s, and all the modules they
 depend on. Here, each ⟨module⟩ must be a module name or filename,
 but may not be the name of a module in a package.</p>
@@ -2242,7 +2243,7 @@ modules were loaded as a result of the current <a class="reference internal" hre
 
 <dl class="ghci-cmd">
 <dt id="ghci-cmd-:loc-at">
-<code class="descname">:loc-at</code><code class="descclassname"> ⟨module⟩ ⟨line⟩ ⟨col⟩ ⟨end-line⟩ ⟨end-col⟩ [⟨name⟩]</code><a class="headerlink" href="#ghci-cmd-:loc-at" title="Permalink to this definition">¶</a></dt>
+<code class="descname">:loc-at</code><code class="descclassname"> ⟨module⟩ ⟨line⟩ ⟨col⟩ ⟨end-line⟩ ⟨end-col⟩ [⟨name⟩]</code><a class="headerlink" href="#ghci-cmd-:loc-at" title="この定義へのパーマリンク">¶</a></dt>
 <dd><p>Tries to find the definition site of the name at the given
 source-code span, e.g.:</p>
 <div class="highlight-none"><div class="highlight"><pre>X&gt; :loc-at X.hs 6 14 6 16 mu
@@ -2256,7 +2257,7 @@ IDEs for providing a goto-definition facility.</p>
 
 <dl class="ghci-cmd">
 <dt id="ghci-cmd-:main">
-<code class="descname">:main</code><code class="descclassname"> ⟨arg1⟩ ... ⟨argn⟩</code><a class="headerlink" href="#ghci-cmd-:main" title="Permalink to this definition">¶</a></dt>
+<code class="descname">:main</code><code class="descclassname"> ⟨arg1⟩ ... ⟨argn⟩</code><a class="headerlink" href="#ghci-cmd-:main" title="この定義へのパーマリンク">¶</a></dt>
 <dd><p>When a program is compiled and executed, it can use the <code class="docutils literal"><span class="pre">getArgs</span></code>
 function to access the command-line arguments. However, we cannot
 simply pass the arguments to the <code class="docutils literal"><span class="pre">main</span></code> function while we are
@@ -2296,12 +2297,12 @@ bar
 
 <dl class="ghci-cmd">
 <dt id="ghci-cmd-:module">
-<code class="descname">:module</code><code class="descclassname"> +|- [*]⟨mod1⟩ ...</code><a class="headerlink" href="#ghci-cmd-:module" title="Permalink to this definition">¶</a></dt>
+<code class="descname">:module</code><code class="descclassname"> +|- [*]⟨mod1⟩ ...</code><a class="headerlink" href="#ghci-cmd-:module" title="この定義へのパーマリンク">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="ghci-cmd">
 <dt id="ghci-cmd-import">
-<code class="descname">import</code><code class="descclassname"> ⟨mod⟩</code><a class="headerlink" href="#ghci-cmd-import" title="Permalink to this definition">¶</a></dt>
+<code class="descname">import</code><code class="descclassname"> ⟨mod⟩</code><a class="headerlink" href="#ghci-cmd-import" title="この定義へのパーマリンク">¶</a></dt>
 <dd><p>Sets or modifies the current context for statements typed at the
 prompt. The form <code class="docutils literal"><span class="pre">import</span> <span class="pre">mod</span></code> is equivalent to <code class="docutils literal"><span class="pre">:module</span> <span class="pre">+mod</span></code>.
 See <a class="reference internal" href="#ghci-scope"><span>What&#8217;s really in scope at the prompt?</span></a> for more details.</p>
@@ -2309,7 +2310,7 @@ See <a class="reference internal" href="#ghci-scope"><span>What&#8217;s really i
 
 <dl class="ghci-cmd">
 <dt id="ghci-cmd-:print">
-<code class="descname">:print</code><code class="descclassname"> ⟨names⟩</code><a class="headerlink" href="#ghci-cmd-:print" title="Permalink to this definition">¶</a></dt>
+<code class="descname">:print</code><code class="descclassname"> ⟨names⟩</code><a class="headerlink" href="#ghci-cmd-:print" title="この定義へのパーマリンク">¶</a></dt>
 <dd><p>Prints a value without forcing its evaluation. <a class="reference internal" href="#ghci-cmd-:print"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:print</span></code></a> may be
 used on values whose types are unknown or partially known, which
 might be the case for local variables with polymorphic types at a
@@ -2325,13 +2326,13 @@ variables.</p>
 
 <dl class="ghci-cmd">
 <dt id="ghci-cmd-:quit">
-<code class="descname">:quit</code><code class="descclassname"></code><a class="headerlink" href="#ghci-cmd-:quit" title="Permalink to this definition">¶</a></dt>
+<code class="descname">:quit</code><code class="descclassname"></code><a class="headerlink" href="#ghci-cmd-:quit" title="この定義へのパーマリンク">¶</a></dt>
 <dd><p>Quits GHCi. You can also quit by typing <code class="kbd docutils literal"><span class="pre">Control-D</span></code> at the prompt.</p>
 </dd></dl>
 
 <dl class="ghci-cmd">
 <dt id="ghci-cmd-:reload">
-<code class="descname">:reload</code><code class="descclassname">[!]</code><a class="headerlink" href="#ghci-cmd-:reload" title="Permalink to this definition">¶</a></dt>
+<code class="descname">:reload</code><code class="descclassname">[!]</code><a class="headerlink" href="#ghci-cmd-:reload" title="この定義へのパーマリンク">¶</a></dt>
 <dd><p>Attempts to reload the current target set (see <a class="reference internal" href="#ghci-cmd-:load"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:load</span></code></a>) if any of
 the modules in the set, or any dependent module, has changed. Note
 that this may entail loading new modules, or dropping modules which
@@ -2346,13 +2347,13 @@ See <a class="reference internal" href="glasgow_exts.html#defer-type-errors"><sp
 
 <dl class="ghci-cmd">
 <dt id="ghci-cmd-:run">
-<code class="descname">:run</code><code class="descclassname"></code><a class="headerlink" href="#ghci-cmd-:run" title="Permalink to this definition">¶</a></dt>
+<code class="descname">:run</code><code class="descclassname"></code><a class="headerlink" href="#ghci-cmd-:run" title="この定義へのパーマリンク">¶</a></dt>
 <dd><p>See <a class="reference internal" href="#ghci-cmd-:main"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:main</span></code></a>.</p>
 </dd></dl>
 
 <dl class="ghci-cmd">
 <dt id="ghci-cmd-:script">
-<code class="descname">:script</code><code class="descclassname"> [⟨n⟩] ⟨filename⟩</code><a class="headerlink" href="#ghci-cmd-:script" title="Permalink to this definition">¶</a></dt>
+<code class="descname">:script</code><code class="descclassname"> [⟨n⟩] ⟨filename⟩</code><a class="headerlink" href="#ghci-cmd-:script" title="この定義へのパーマリンク">¶</a></dt>
 <dd><p>Executes the lines of a file as a series of GHCi commands. This
 command is compatible with multiline statements as set by
 <a class="reference internal" href="#ghci-cmd-:set +m"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:set</span> <span class="pre">+m</span></code></a></p>
@@ -2360,7 +2361,7 @@ command is compatible with multiline statements as set by
 
 <dl class="ghci-cmd">
 <dt id="ghci-cmd-:set">
-<code class="descname">:set</code><code class="descclassname"> [⟨option⟩ ...]</code><a class="headerlink" href="#ghci-cmd-:set" title="Permalink to this definition">¶</a></dt>
+<code class="descname">:set</code><code class="descclassname"> [⟨option⟩ ...]</code><a class="headerlink" href="#ghci-cmd-:set" title="この定義へのパーマリンク">¶</a></dt>
 <dd><p>Sets various options. See <a class="reference internal" href="#ghci-set"><span>The :set and :seti commands</span></a> for a list of available
 options and <a class="reference internal" href="flags.html#interactive-mode-options"><span>Interactive-mode options</span></a> for a list of
 GHCi-specific flags. The <a class="reference internal" href="#ghci-cmd-:set"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:set</span></code></a> command by itself shows which
@@ -2370,27 +2371,27 @@ settings, with GHCi-specific flags listed separately.</p>
 
 <dl class="ghci-cmd">
 <dt id="ghci-cmd-:set args">
-<code class="descname">:set args</code><code class="descclassname"> ⟨arg⟩</code><a class="headerlink" href="#ghci-cmd-:set args" title="Permalink to this definition">¶</a></dt>
+<code class="descname">:set args</code><code class="descclassname"> ⟨arg⟩</code><a class="headerlink" href="#ghci-cmd-:set args" title="この定義へのパーマリンク">¶</a></dt>
 <dd><p id="index-25">Sets the list of arguments which are returned when the program calls
 <code class="docutils literal"><span class="pre">System.getArgs</span></code>.</p>
 </dd></dl>
 
 <dl class="ghci-cmd">
 <dt id="ghci-cmd-:set editor">
-<code class="descname">:set editor</code><code class="descclassname"> ⟨cmd⟩</code><a class="headerlink" href="#ghci-cmd-:set editor" title="Permalink to this definition">¶</a></dt>
+<code class="descname">:set editor</code><code class="descclassname"> ⟨cmd⟩</code><a class="headerlink" href="#ghci-cmd-:set editor" title="この定義へのパーマリンク">¶</a></dt>
 <dd><p>Sets the command used by <a class="reference internal" href="#ghci-cmd-:edit"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:edit</span></code></a> to ⟨cmd⟩.</p>
 </dd></dl>
 
 <dl class="ghci-cmd">
 <dt id="ghci-cmd-:set prog">
-<code class="descname">:set prog</code><code class="descclassname"> ⟨prog⟩</code><a class="headerlink" href="#ghci-cmd-:set prog" title="Permalink to this definition">¶</a></dt>
+<code class="descname">:set prog</code><code class="descclassname"> ⟨prog⟩</code><a class="headerlink" href="#ghci-cmd-:set prog" title="この定義へのパーマリンク">¶</a></dt>
 <dd><p id="index-26">Sets the string to be returned when the program calls
 <code class="docutils literal"><span class="pre">System.getProgName</span></code>.</p>
 </dd></dl>
 
 <dl class="ghci-cmd">
 <dt id="ghci-cmd-:set prompt">
-<code class="descname">:set prompt</code><code class="descclassname"> ⟨prompt⟩</code><a class="headerlink" href="#ghci-cmd-:set prompt" title="Permalink to this definition">¶</a></dt>
+<code class="descname">:set prompt</code><code class="descclassname"> ⟨prompt⟩</code><a class="headerlink" href="#ghci-cmd-:set prompt" title="この定義へのパーマリンク">¶</a></dt>
 <dd><p id="index-27">Sets the string to be used as the prompt in GHCi. Inside ⟨prompt⟩,
 the next sequences are replaced:</p>
 <ul class="simple">
@@ -2417,14 +2418,14 @@ otherwise it is treated as a literal string.</p>
 
 <dl class="ghci-cmd">
 <dt id="ghci-cmd-:set prompt-cont">
-<code class="descname">:set prompt-cont</code><code class="descclassname"> ⟨prompt⟩</code><a class="headerlink" href="#ghci-cmd-:set prompt-cont" title="Permalink to this definition">¶</a></dt>
+<code class="descname">:set prompt-cont</code><code class="descclassname"> ⟨prompt⟩</code><a class="headerlink" href="#ghci-cmd-:set prompt-cont" title="この定義へのパーマリンク">¶</a></dt>
 <dd><p>Sets the string to be used as the continuation prompt (used when
 using the <a class="reference internal" href="#ghci-cmd-:{"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:{</span></code></a> command) in GHCi.</p>
 </dd></dl>
 
 <dl class="ghci-cmd">
 <dt id="ghci-cmd-:set prompt-function">
-<code class="descname">:set prompt-function</code><code class="descclassname"> ⟨prompt-function⟩</code><a class="headerlink" href="#ghci-cmd-:set prompt-function" title="Permalink to this definition">¶</a></dt>
+<code class="descname">:set prompt-function</code><code class="descclassname"> ⟨prompt-function⟩</code><a class="headerlink" href="#ghci-cmd-:set prompt-function" title="この定義へのパーマリンク">¶</a></dt>
 <dd><p id="index-28">Sets the function to be used for the prompt displaying in GHCi. The
 function should be of the type <code class="docutils literal"><span class="pre">[String]</span> <span class="pre">-&gt;</span> <span class="pre">Int</span> <span class="pre">-&gt;</span> <span class="pre">IO</span> <span class="pre">String</span></code>. This
 function is called each time the prompt is being made. The first argument
@@ -2436,14 +2437,14 @@ in compiler  messages) of the current prompt.</p>
 
 <dl class="ghci-cmd">
 <dt id="ghci-cmd-:set prompt-cont-function">
-<code class="descname">:set prompt-cont-function</code><code class="descclassname"> ⟨prompt-function⟩</code><a class="headerlink" href="#ghci-cmd-:set prompt-cont-function" title="Permalink to this definition">¶</a></dt>
+<code class="descname">:set prompt-cont-function</code><code class="descclassname"> ⟨prompt-function⟩</code><a class="headerlink" href="#ghci-cmd-:set prompt-cont-function" title="この定義へのパーマリンク">¶</a></dt>
 <dd><p>Sets the function to be used for the continuation prompt (used when
 using the <a class="reference internal" href="#ghci-cmd-:{"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:{</span></code></a> command) displaying in GHCi.</p>
 </dd></dl>
 
 <dl class="ghci-cmd">
 <dt id="ghci-cmd-:set stop">
-<code class="descname">:set stop</code><code class="descclassname"> ⟨num⟩ ⟨cmd⟩</code><a class="headerlink" href="#ghci-cmd-:set stop" title="Permalink to this definition">¶</a></dt>
+<code class="descname">:set stop</code><code class="descclassname"> ⟨num⟩ ⟨cmd⟩</code><a class="headerlink" href="#ghci-cmd-:set stop" title="この定義へのパーマリンク">¶</a></dt>
 <dd><p>Set a command to be executed when a breakpoint is hit, or a new item
 in the history is selected. The most common use of <a class="reference internal" href="#ghci-cmd-:set stop"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:set</span> <span class="pre">stop</span></code></a> is
 to display the source code at the current location, e.g.
@@ -2465,7 +2466,7 @@ possible using similar techniques.</p>
 
 <dl class="ghci-cmd">
 <dt id="ghci-cmd-:seti">
-<code class="descname">:seti</code><code class="descclassname"> [⟨option⟩ ...]</code><a class="headerlink" href="#ghci-cmd-:seti" title="Permalink to this definition">¶</a></dt>
+<code class="descname">:seti</code><code class="descclassname"> [⟨option⟩ ...]</code><a class="headerlink" href="#ghci-cmd-:seti" title="この定義へのパーマリンク">¶</a></dt>
 <dd><p>Like <a class="reference internal" href="#ghci-cmd-:set"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:set</span></code></a>, but options set with <a class="reference internal" href="#ghci-cmd-:seti"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:seti</span></code></a> affect only
 expressions and commands typed at the prompt, and not modules loaded
 with <a class="reference internal" href="#ghci-cmd-:load"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:load</span></code></a> (in contrast, options set with <a class="reference internal" href="#ghci-cmd-:set"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:set</span></code></a> apply
@@ -2476,45 +2477,45 @@ applied to expressions and commands typed at the prompt.</p>
 
 <dl class="ghci-cmd">
 <dt id="ghci-cmd-:show bindings">
-<code class="descname">:show bindings</code><code class="descclassname"></code><a class="headerlink" href="#ghci-cmd-:show bindings" title="Permalink to this definition">¶</a></dt>
+<code class="descname">:show bindings</code><code class="descclassname"></code><a class="headerlink" href="#ghci-cmd-:show bindings" title="この定義へのパーマリンク">¶</a></dt>
 <dd><p>Show the bindings made at the prompt and their types.</p>
 </dd></dl>
 
 <dl class="ghci-cmd">
 <dt id="ghci-cmd-:show breaks">
-<code class="descname">:show breaks</code><code class="descclassname"></code><a class="headerlink" href="#ghci-cmd-:show breaks" title="Permalink to this definition">¶</a></dt>
+<code class="descname">:show breaks</code><code class="descclassname"></code><a class="headerlink" href="#ghci-cmd-:show breaks" title="この定義へのパーマリンク">¶</a></dt>
 <dd><p>List the active breakpoints.</p>
 </dd></dl>
 
 <dl class="ghci-cmd">
 <dt id="ghci-cmd-:show context">
-<code class="descname">:show context</code><code class="descclassname"></code><a class="headerlink" href="#ghci-cmd-:show context" title="Permalink to this definition">¶</a></dt>
+<code class="descname">:show context</code><code class="descclassname"></code><a class="headerlink" href="#ghci-cmd-:show context" title="この定義へのパーマリンク">¶</a></dt>
 <dd><p>List the active evaluations that are stopped at breakpoints.</p>
 </dd></dl>
 
 <dl class="ghci-cmd">
 <dt id="ghci-cmd-:show imports">
-<code class="descname">:show imports</code><code class="descclassname"></code><a class="headerlink" href="#ghci-cmd-:show imports" title="Permalink to this definition">¶</a></dt>
+<code class="descname">:show imports</code><code class="descclassname"></code><a class="headerlink" href="#ghci-cmd-:show imports" title="この定義へのパーマリンク">¶</a></dt>
 <dd><p>Show the imports that are currently in force, as created by
 <code class="docutils literal"><span class="pre">import</span></code> and <a class="reference internal" href="#ghci-cmd-:module"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:module</span></code></a> commands.</p>
 </dd></dl>
 
 <dl class="ghci-cmd">
 <dt id="ghci-cmd-:show modules">
-<code class="descname">:show modules</code><code class="descclassname"></code><a class="headerlink" href="#ghci-cmd-:show modules" title="Permalink to this definition">¶</a></dt>
+<code class="descname">:show modules</code><code class="descclassname"></code><a class="headerlink" href="#ghci-cmd-:show modules" title="この定義へのパーマリンク">¶</a></dt>
 <dd><p>Show the list of modules currently loaded.</p>
 </dd></dl>
 
 <dl class="ghci-cmd">
 <dt id="ghci-cmd-:show packages">
-<code class="descname">:show packages</code><code class="descclassname"></code><a class="headerlink" href="#ghci-cmd-:show packages" title="Permalink to this definition">¶</a></dt>
+<code class="descname">:show packages</code><code class="descclassname"></code><a class="headerlink" href="#ghci-cmd-:show packages" title="この定義へのパーマリンク">¶</a></dt>
 <dd><p>Show the currently active package flags, as well as the list of
 packages currently loaded.</p>
 </dd></dl>
 
 <dl class="ghci-cmd">
 <dt id="ghci-cmd-:show paths">
-<code class="descname">:show paths</code><code class="descclassname"></code><a class="headerlink" href="#ghci-cmd-:show paths" title="Permalink to this definition">¶</a></dt>
+<code class="descname">:show paths</code><code class="descclassname"></code><a class="headerlink" href="#ghci-cmd-:show paths" title="この定義へのパーマリンク">¶</a></dt>
 <dd><p>Show the current working directory (as set via <a class="reference internal" href="#ghci-cmd-:cd"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:cd</span></code></a> command), as
 well as the list of directories searched for source files (as set by the
 <code class="docutils literal"><span class="pre">-i</span></code> option).</p>
@@ -2522,26 +2523,26 @@ well as the list of directories searched for source files (as set by the
 
 <dl class="ghci-cmd">
 <dt id="ghci-cmd-:show language">
-<code class="descname">:show language</code><code class="descclassname"></code><a class="headerlink" href="#ghci-cmd-:show language" title="Permalink to this definition">¶</a></dt>
+<code class="descname">:show language</code><code class="descclassname"></code><a class="headerlink" href="#ghci-cmd-:show language" title="この定義へのパーマリンク">¶</a></dt>
 <dd><p>Show the currently active language flags for source files.</p>
 </dd></dl>
 
 <dl class="ghci-cmd">
 <dt id="ghci-cmd-:showi language">
-<code class="descname">:showi language</code><code class="descclassname"></code><a class="headerlink" href="#ghci-cmd-:showi language" title="Permalink to this definition">¶</a></dt>
+<code class="descname">:showi language</code><code class="descclassname"></code><a class="headerlink" href="#ghci-cmd-:showi language" title="この定義へのパーマリンク">¶</a></dt>
 <dd><p>Show the currently active language flags for expressions typed at
 the prompt (see also <a class="reference internal" href="#ghci-cmd-:seti"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:seti</span></code></a>).</p>
 </dd></dl>
 
 <dl class="ghci-cmd">
 <dt id="ghci-cmd-:show">
-<code class="descname">:show</code><code class="descclassname"> [args|prog|prompt|editor|stop]</code><a class="headerlink" href="#ghci-cmd-:show" title="Permalink to this definition">¶</a></dt>
+<code class="descname">:show</code><code class="descclassname"> [args|prog|prompt|editor|stop]</code><a class="headerlink" href="#ghci-cmd-:show" title="この定義へのパーマリンク">¶</a></dt>
 <dd><p>Displays the specified setting (see <a class="reference internal" href="#ghci-cmd-:set"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:set</span></code></a>).</p>
 </dd></dl>
 
 <dl class="ghci-cmd">
 <dt id="ghci-cmd-:sprint">
-<code class="descname">:sprint</code><code class="descclassname"> ⟨expr⟩</code><a class="headerlink" href="#ghci-cmd-:sprint" title="Permalink to this definition">¶</a></dt>
+<code class="descname">:sprint</code><code class="descclassname"> ⟨expr⟩</code><a class="headerlink" href="#ghci-cmd-:sprint" title="この定義へのパーマリンク">¶</a></dt>
 <dd><p>Prints a value without forcing its evaluation. <a class="reference internal" href="#ghci-cmd-:sprint"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:sprint</span></code></a> is
 similar to <a class="reference internal" href="#ghci-cmd-:print"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:print</span></code></a>, with the difference that unevaluated subterms
 are not bound to new variables, they are simply denoted by <code class="docutils literal"><span class="pre">_</span></code>.</p>
@@ -2549,7 +2550,7 @@ are not bound to new variables, they are simply denoted by <code class="docutils
 
 <dl class="ghci-cmd">
 <dt id="ghci-cmd-:step">
-<code class="descname">:step</code><code class="descclassname"> [⟨expr⟩]</code><a class="headerlink" href="#ghci-cmd-:step" title="Permalink to this definition">¶</a></dt>
+<code class="descname">:step</code><code class="descclassname"> [⟨expr⟩]</code><a class="headerlink" href="#ghci-cmd-:step" title="この定義へのパーマリンク">¶</a></dt>
 <dd><p>Enable all breakpoints and begin evaluating an expression in
 single-stepping mode. In this mode evaluation will be stopped after
 every reduction, allowing local variables to be inspected. If ⟨expr⟩
@@ -2559,21 +2560,21 @@ is not given, evaluation will resume at the last breakpoint. See
 
 <dl class="ghci-cmd">
 <dt id="ghci-cmd-:steplocal">
-<code class="descname">:steplocal</code><code class="descclassname"></code><a class="headerlink" href="#ghci-cmd-:steplocal" title="Permalink to this definition">¶</a></dt>
+<code class="descname">:steplocal</code><code class="descclassname"></code><a class="headerlink" href="#ghci-cmd-:steplocal" title="この定義へのパーマリンク">¶</a></dt>
 <dd><p>Enable only breakpoints in the current top-level binding and resume
 evaluation at the last breakpoint.</p>
 </dd></dl>
 
 <dl class="ghci-cmd">
 <dt id="ghci-cmd-:stepmodule">
-<code class="descname">:stepmodule</code><code class="descclassname"></code><a class="headerlink" href="#ghci-cmd-:stepmodule" title="Permalink to this definition">¶</a></dt>
+<code class="descname">:stepmodule</code><code class="descclassname"></code><a class="headerlink" href="#ghci-cmd-:stepmodule" title="この定義へのパーマリンク">¶</a></dt>
 <dd><p>Enable only breakpoints in the current module and resume evaluation
 at the last breakpoint.</p>
 </dd></dl>
 
 <dl class="ghci-cmd">
 <dt id="ghci-cmd-:trace">
-<code class="descname">:trace</code><code class="descclassname"> ⟨expr⟩</code><a class="headerlink" href="#ghci-cmd-:trace" title="Permalink to this definition">¶</a></dt>
+<code class="descname">:trace</code><code class="descclassname"> ⟨expr⟩</code><a class="headerlink" href="#ghci-cmd-:trace" title="この定義へのパーマリンク">¶</a></dt>
 <dd><p>Evaluates the given expression (or from the last breakpoint if no
 expression is given), and additionally logs the evaluation steps for
 later inspection using <a class="reference internal" href="#ghci-cmd-:history"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:history</span></code></a>. See <a class="reference internal" href="#tracing"><span>Tracing and history</span></a>.</p>
@@ -2581,7 +2582,7 @@ later inspection using <a class="reference internal" href="#ghci-cmd-:history"><
 
 <dl class="ghci-cmd">
 <dt id="ghci-cmd-:type">
-<code class="descname">:type</code><code class="descclassname"> ⟨expression⟩</code><a class="headerlink" href="#ghci-cmd-:type" title="Permalink to this definition">¶</a></dt>
+<code class="descname">:type</code><code class="descclassname"> ⟨expression⟩</code><a class="headerlink" href="#ghci-cmd-:type" title="この定義へのパーマリンク">¶</a></dt>
 <dd><p>Infers and prints the type of ⟨expression⟩, including explicit
 forall quantifiers for polymorphic types.
 The type reported is the type that would be inferred
@@ -2595,7 +2596,7 @@ length :: Foldable t =&gt; t a -&gt; Int
 
 <dl class="ghci-cmd">
 <dt id="ghci-cmd-:type +v">
-<code class="descname">:type +v</code><code class="descclassname"> ⟨expression⟩</code><a class="headerlink" href="#ghci-cmd-:type +v" title="Permalink to this definition">¶</a></dt>
+<code class="descname">:type +v</code><code class="descclassname"> ⟨expression⟩</code><a class="headerlink" href="#ghci-cmd-:type +v" title="この定義へのパーマリンク">¶</a></dt>
 <dd><p>Infers and prints the type of ⟨expression⟩, but without fiddling
 with type variables or class constraints. This is useful when you
 are using <a class="reference internal" href="glasgow_exts.html#ghc-flag--XTypeApplications"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-XTypeApplications</span></code></a> and care about the distinction
@@ -2612,7 +2613,7 @@ length :: forall (t :: * -&gt; *). Foldable t =&gt; forall a. t a -&gt; Int
 
 <dl class="ghci-cmd">
 <dt id="ghci-cmd-:type +d">
-<code class="descname">:type +d</code><code class="descclassname"> ⟨expression⟩</code><a class="headerlink" href="#ghci-cmd-:type +d" title="Permalink to this definition">¶</a></dt>
+<code class="descname">:type +d</code><code class="descclassname"> ⟨expression⟩</code><a class="headerlink" href="#ghci-cmd-:type +d" title="この定義へのパーマリンク">¶</a></dt>
 <dd><p>Infers and prints the type of ⟨expression⟩, defaulting type variables
 if possible. In this mode, if the inferred type is constrained by
 any interactive class (<code class="docutils literal"><span class="pre">Num</span></code>, <code class="docutils literal"><span class="pre">Show</span></code>, <code class="docutils literal"><span class="pre">Eq</span></code>, <code class="docutils literal"><span class="pre">Ord</span></code>, <code class="docutils literal"><span class="pre">Foldable</span></code>,
@@ -2629,7 +2630,7 @@ length :: [a] -&gt; Int
 
 <dl class="ghci-cmd">
 <dt id="ghci-cmd-:type-at">
-<code class="descname">:type-at</code><code class="descclassname"> ⟨module⟩ ⟨line⟩ ⟨col⟩ ⟨end-line⟩ ⟨end-col⟩ [⟨name⟩]</code><a class="headerlink" href="#ghci-cmd-:type-at" title="Permalink to this definition">¶</a></dt>
+<code class="descname">:type-at</code><code class="descclassname"> ⟨module⟩ ⟨line⟩ ⟨col⟩ ⟨end-line⟩ ⟨end-col⟩ [⟨name⟩]</code><a class="headerlink" href="#ghci-cmd-:type-at" title="この定義へのパーマリンク">¶</a></dt>
 <dd><p>Reports the inferred type at the given span/position in the module, e.g.:</p>
 <div class="highlight-none"><div class="highlight"><pre>*X&gt; :type-at X.hs 6 6 6 7 f
 Int -&gt; Int
@@ -2645,20 +2646,20 @@ date, i.e. the file changed and the code has moved. In which case
 
 <dl class="ghci-cmd">
 <dt id="ghci-cmd-:undef">
-<code class="descname">:undef</code><code class="descclassname"> ⟨name⟩</code><a class="headerlink" href="#ghci-cmd-:undef" title="Permalink to this definition">¶</a></dt>
+<code class="descname">:undef</code><code class="descclassname"> ⟨name⟩</code><a class="headerlink" href="#ghci-cmd-:undef" title="この定義へのパーマリンク">¶</a></dt>
 <dd><p>Undefines the user-defined command ⟨name⟩ (see <a class="reference internal" href="#ghci-cmd-:def"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:def</span></code></a> above).</p>
 </dd></dl>
 
 <dl class="ghci-cmd">
 <dt id="ghci-cmd-:unset">
-<code class="descname">:unset</code><code class="descclassname"> ⟨option⟩</code><a class="headerlink" href="#ghci-cmd-:unset" title="Permalink to this definition">¶</a></dt>
+<code class="descname">:unset</code><code class="descclassname"> ⟨option⟩</code><a class="headerlink" href="#ghci-cmd-:unset" title="この定義へのパーマリンク">¶</a></dt>
 <dd><p>Unsets certain options. See <a class="reference internal" href="#ghci-set"><span>The :set and :seti commands</span></a> for a list of available
 options.</p>
 </dd></dl>
 
 <dl class="ghci-cmd">
 <dt id="ghci-cmd-:uses">
-<code class="descname">:uses</code><code class="descclassname"> ⟨module⟩ ⟨line⟩ ⟨col⟩ ⟨end-line⟩ ⟨end-col⟩ [⟨name⟩]</code><a class="headerlink" href="#ghci-cmd-:uses" title="Permalink to this definition">¶</a></dt>
+<code class="descname">:uses</code><code class="descclassname"> ⟨module⟩ ⟨line⟩ ⟨col⟩ ⟨end-line⟩ ⟨end-col⟩ [⟨name⟩]</code><a class="headerlink" href="#ghci-cmd-:uses" title="この定義へのパーマリンク">¶</a></dt>
 <dd><p>Reports all module-local uses of the thing at the given position
 in the module, e.g.:</p>
 <div class="highlight-none"><div class="highlight"><pre>:uses GhciFind.hs 53 66 53 70 name
@@ -2675,29 +2676,29 @@ an identifier in editors and IDEs.</p>
 
 <dl class="ghci-cmd">
 <dt id="ghci-cmd-:! ⟨command⟩">
-<code class="descname">:! ⟨command⟩</code><code class="descclassname"></code><a class="headerlink" href="#ghci-cmd-:! ⟨command⟩" title="Permalink to this definition">¶</a></dt>
+<code class="descname">:! ⟨command⟩</code><code class="descclassname"></code><a class="headerlink" href="#ghci-cmd-:! ⟨command⟩" title="この定義へのパーマリンク">¶</a></dt>
 <dd><p id="index-29">Executes the shell command ⟨command⟩.</p>
 </dd></dl>
 
 </div>
 <div class="section" id="the-set-and-seti-commands">
-<span id="ghci-set"></span><h2>5.8. The <code class="docutils literal"><span class="pre">:set</span></code> and <code class="docutils literal"><span class="pre">:seti</span></code> commands<a class="headerlink" href="#the-set-and-seti-commands" title="Permalink to this headline">¶</a></h2>
+<span id="ghci-set"></span><h2>5.8. The <code class="docutils literal"><span class="pre">:set</span></code> and <code class="docutils literal"><span class="pre">:seti</span></code> commands<a class="headerlink" href="#the-set-and-seti-commands" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <p id="index-30">The <a class="reference internal" href="#ghci-cmd-:set"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:set</span></code></a> command sets two types of options: GHCi options, which
 begin with &#8220;<code class="docutils literal"><span class="pre">+</span></code>&#8221;, and &#8220;command-line&#8221; options, which begin with &#8220;<code class="docutils literal"><span class="pre">-</span></code>&#8221;.</p>
 <div class="admonition note">
-<p class="first admonition-title">Note</p>
+<p class="first admonition-title">注釈</p>
 <p class="last">At the moment, the <a class="reference internal" href="#ghci-cmd-:set"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:set</span></code></a> command doesn&#8217;t support any kind of
 quoting in its arguments: quotes will not be removed and cannot be used
 to group words together. For example, <code class="docutils literal"><span class="pre">:set</span> <span class="pre">-DFOO='BAR</span> <span class="pre">BAZ'</span></code> will not
 do what you expect.</p>
 </div>
 <div class="section" id="ghci-options">
-<h3>5.8.1. GHCi options<a class="headerlink" href="#ghci-options" title="Permalink to this headline">¶</a></h3>
+<h3>5.8.1. GHCi options<a class="headerlink" href="#ghci-options" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <p id="index-31">GHCi options may be set using <a class="reference internal" href="#ghci-cmd-:set"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:set</span></code></a> and unset using <a class="reference internal" href="#ghci-cmd-:unset"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:unset</span></code></a>.</p>
 <p>The available GHCi options are:</p>
 <dl class="ghci-cmd">
 <dt id="ghci-cmd-:set +c">
-<code class="descname">:set +c</code><code class="descclassname"></code><a class="headerlink" href="#ghci-cmd-:set +c" title="Permalink to this definition">¶</a></dt>
+<code class="descname">:set +c</code><code class="descclassname"></code><a class="headerlink" href="#ghci-cmd-:set +c" title="この定義へのパーマリンク">¶</a></dt>
 <dd><p>Collect type and location information after loading modules.
 The commands <a class="reference internal" href="#ghci-cmd-:all-types"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:all-types</span></code></a>, <a class="reference internal" href="#ghci-cmd-:loc-at"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:loc-at</span></code></a>,
 <a class="reference internal" href="#ghci-cmd-:type-at"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:type-at</span></code></a>, and <a class="reference internal" href="#ghci-cmd-:uses"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:uses</span></code></a> require <code class="docutils literal"><span class="pre">+c</span></code> to be active.</p>
@@ -2705,7 +2706,7 @@ The commands <a class="reference internal" href="#ghci-cmd-:all-types"><code cla
 
 <dl class="ghci-cmd">
 <dt id="ghci-cmd-:set +m">
-<code class="descname">:set +m</code><code class="descclassname"></code><a class="headerlink" href="#ghci-cmd-:set +m" title="Permalink to this definition">¶</a></dt>
+<code class="descname">:set +m</code><code class="descclassname"></code><a class="headerlink" href="#ghci-cmd-:set +m" title="この定義へのパーマリンク">¶</a></dt>
 <dd><p id="index-32">Enable parsing of multiline commands. A multiline command is
 prompted for when the current input line contains open layout
 contexts (see <a class="reference internal" href="#ghci-multiline"><span>Multiline input</span></a>).</p>
@@ -2713,7 +2714,7 @@ contexts (see <a class="reference internal" href="#ghci-multiline"><span>Multili
 
 <dl class="ghci-cmd">
 <dt id="ghci-cmd-:set +r">
-<code class="descname">:set +r</code><code class="descclassname"></code><a class="headerlink" href="#ghci-cmd-:set +r" title="Permalink to this definition">¶</a></dt>
+<code class="descname">:set +r</code><code class="descclassname"></code><a class="headerlink" href="#ghci-cmd-:set +r" title="この定義へのパーマリンク">¶</a></dt>
 <dd><p id="index-33">Normally, any evaluation of top-level expressions (otherwise known
 as CAFs or Constant Applicative Forms) in loaded modules is retained
 between evaluations. Turning on <code class="docutils literal"><span class="pre">+r</span></code> causes all evaluation of
@@ -2726,7 +2727,7 @@ performance measurements.</p>
 
 <dl class="ghci-cmd">
 <dt id="ghci-cmd-:set +s">
-<code class="descname">:set +s</code><code class="descclassname"></code><a class="headerlink" href="#ghci-cmd-:set +s" title="Permalink to this definition">¶</a></dt>
+<code class="descname">:set +s</code><code class="descclassname"></code><a class="headerlink" href="#ghci-cmd-:set +s" title="この定義へのパーマリンク">¶</a></dt>
 <dd><p>Display some stats after evaluating each expression, including the
 elapsed time and number of bytes allocated. NOTE: the allocation
 figure is only accurate to the size of the storage manager&#8217;s
@@ -2736,7 +2737,7 @@ might see values of zero if no GC has occurred.</p>
 
 <dl class="ghci-cmd">
 <dt id="ghci-cmd-:set +t">
-<code class="descname">:set +t</code><code class="descclassname"></code><a class="headerlink" href="#ghci-cmd-:set +t" title="Permalink to this definition">¶</a></dt>
+<code class="descname">:set +t</code><code class="descclassname"></code><a class="headerlink" href="#ghci-cmd-:set +t" title="この定義へのパーマリンク">¶</a></dt>
 <dd><p id="index-34">Display the type of each variable bound after a statement is entered
 at the prompt. If the statement is a single expression, then the
 only variable binding will be for the variable <code class="docutils literal"><span class="pre">it</span></code>.</p>
@@ -2744,7 +2745,7 @@ only variable binding will be for the variable <code class="docutils literal"><s
 
 </div>
 <div class="section" id="setting-ghc-command-line-options-in-ghci">
-<span id="ghci-cmd-line-options"></span><h3>5.8.2. Setting GHC command-line options in GHCi<a class="headerlink" href="#setting-ghc-command-line-options-in-ghci" title="Permalink to this headline">¶</a></h3>
+<span id="ghci-cmd-line-options"></span><h3>5.8.2. Setting GHC command-line options in GHCi<a class="headerlink" href="#setting-ghc-command-line-options-in-ghci" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <p>Normal GHC command-line options may also be set using <a class="reference internal" href="#ghci-cmd-:set"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:set</span></code></a>. For
 example, to turn on <a class="reference internal" href="using-warnings.html#ghc-flag--Wmissing-signatures"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-Wmissing-signatures</span></code></a>, you would say:</p>
 <div class="highlight-none"><div class="highlight"><pre>Prelude&gt; :set -Wmissing-signatures
@@ -2763,7 +2764,7 @@ applicable.</p>
 work, but some may not take effect until the next reload.</p>
 </div>
 <div class="section" id="setting-options-for-interactive-evaluation-only">
-<span id="ghci-interactive-options"></span><span id="index-36"></span><h3>5.8.3. Setting options for interactive evaluation only<a class="headerlink" href="#setting-options-for-interactive-evaluation-only" title="Permalink to this headline">¶</a></h3>
+<span id="ghci-interactive-options"></span><span id="index-36"></span><h3>5.8.3. Setting options for interactive evaluation only<a class="headerlink" href="#setting-options-for-interactive-evaluation-only" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <p>GHCi actually maintains <em>two</em> sets of options:</p>
 <ul class="simple">
 <li>The <em>loading options</em> apply when loading modules</li>
@@ -2813,9 +2814,9 @@ special defaulting rules to expressions typed at the prompt (see
 </div>
 </div>
 <div class="section" id="the-ghci-and-haskeline-files">
-<span id="ghci-dot-files"></span><h2>5.9. The <code class="docutils literal"><span class="pre">.ghci</span></code> and <code class="docutils literal"><span class="pre">.haskeline</span></code> files<a class="headerlink" href="#the-ghci-and-haskeline-files" title="Permalink to this headline">¶</a></h2>
+<span id="ghci-dot-files"></span><h2>5.9. The <code class="docutils literal"><span class="pre">.ghci</span></code> and <code class="docutils literal"><span class="pre">.haskeline</span></code> files<a class="headerlink" href="#the-ghci-and-haskeline-files" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <div class="section" id="the-ghci-files">
-<span id="dot-ghci-files"></span><h3>5.9.1. The <code class="docutils literal"><span class="pre">.ghci</span></code> files<a class="headerlink" href="#the-ghci-files" title="Permalink to this headline">¶</a></h3>
+<span id="dot-ghci-files"></span><h3>5.9.1. The <code class="docutils literal"><span class="pre">.ghci</span></code> files<a class="headerlink" href="#the-ghci-files" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <p id="index-37">When it starts, unless the <a class="reference internal" href="#ghc-flag--ignore-dot-ghci"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-ignore-dot-ghci</span></code></a> flag is given, GHCi
 reads and executes commands from the following files, in this order, if
 they exist:</p>
@@ -2830,7 +2831,7 @@ but is usually something like
 <p>The <code class="file docutils literal"><span class="pre">ghci.conf</span></code> file is most useful for turning on favourite options
 (e.g. <code class="docutils literal"><span class="pre">:set</span> <span class="pre">+s</span></code>), and defining useful macros.</p>
 <div class="admonition note">
-<p class="first admonition-title">Note</p>
+<p class="first admonition-title">注釈</p>
 <p class="last">When setting language options in this file it is usually desirable to use
 <a class="reference internal" href="#ghci-cmd-:seti"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:seti</span></code></a> rather than <a class="reference internal" href="#ghci-cmd-:set"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:set</span></code></a> (see <a class="reference internal" href="#ghci-interactive-options"><span>Setting options for interactive evaluation only</span></a>).</p>
 </div>
@@ -2863,14 +2864,14 @@ read after the standard files, allowing the use of custom .ghci files.</p>
 read:</p>
 <dl class="ghc-flag">
 <dt id="ghc-flag--ignore-dot-ghci">
-<code class="descname">-ignore-dot-ghci</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag--ignore-dot-ghci" title="Permalink to this definition">¶</a></dt>
+<code class="descname">-ignore-dot-ghci</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag--ignore-dot-ghci" title="この定義へのパーマリンク">¶</a></dt>
 <dd><p>Don&#8217;t read either <code class="file docutils literal"><span class="pre">./.ghci</span></code> or the other startup files when
 starting up.</p>
 </dd></dl>
 
 <dl class="ghc-flag">
 <dt id="ghc-flag--ghci-script">
-<code class="descname">-ghci-script</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag--ghci-script" title="Permalink to this definition">¶</a></dt>
+<code class="descname">-ghci-script</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag--ghci-script" title="この定義へのパーマリンク">¶</a></dt>
 <dd><p>Read a specific file after the usual startup files. Maybe be
 specified repeatedly for multiple inputs.</p>
 </dd></dl>
@@ -2904,7 +2905,7 @@ built-in defined, pick the macro.</li>
 </ol>
 </div>
 <div class="section" id="the-haskeline-file">
-<span id="dot-haskeline-file"></span><h3>5.9.2. The <code class="docutils literal"><span class="pre">.haskeline</span></code> file<a class="headerlink" href="#the-haskeline-file" title="Permalink to this headline">¶</a></h3>
+<span id="dot-haskeline-file"></span><h3>5.9.2. The <code class="docutils literal"><span class="pre">.haskeline</span></code> file<a class="headerlink" href="#the-haskeline-file" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <p id="index-38">GHCi uses <a class="reference external" href="https://hackage.haskell.org/package/haskeline">Haskeline</a> under
 the hood. You can configure it to, among other
 things, prune duplicates from GHCi history. See:
@@ -2912,7 +2913,7 @@ things, prune duplicates from GHCi history. See:
 </div>
 </div>
 <div class="section" id="compiling-to-object-code-inside-ghci">
-<span id="ghci-obj"></span><h2>5.10. Compiling to object code inside GHCi<a class="headerlink" href="#compiling-to-object-code-inside-ghci" title="Permalink to this headline">¶</a></h2>
+<span id="ghci-obj"></span><h2>5.10. Compiling to object code inside GHCi<a class="headerlink" href="#compiling-to-object-code-inside-ghci" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <p>By default, GHCi compiles Haskell source code into byte-code that is
 interpreted by the runtime system. GHCi can also compile Haskell code to
 object code: to turn on this feature, use the <a class="reference internal" href="phases.html#ghc-flag--fobject-code"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-fobject-code</span></code></a> flag
@@ -2931,7 +2932,7 @@ object-code module will be visible in GHCi, rather than all top-level
 bindings as in interpreted modules.</p>
 </div>
 <div class="section" id="running-the-interpreter-in-a-separate-process">
-<span id="external-interpreter"></span><h2>5.11. Running the interpreter in a separate process<a class="headerlink" href="#running-the-interpreter-in-a-separate-process" title="Permalink to this headline">¶</a></h2>
+<span id="external-interpreter"></span><h2>5.11. Running the interpreter in a separate process<a class="headerlink" href="#running-the-interpreter-in-a-separate-process" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <p>Normally GHCi runs the interpreted code in the same process as GHC
 itself, on top of the same RTS and sharing the same heap.  However, if
 the flag <a class="reference internal" href="#ghc-flag--fexternal-interpreter"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-fexternal-interpreter</span></code></a> is given, then GHC will spawn a
@@ -2939,7 +2940,7 @@ separate process for running interpreted code, and communicate with it
 using messages over a pipe.</p>
 <dl class="ghc-flag">
 <dt id="ghc-flag--fexternal-interpreter">
-<code class="descname">-fexternal-interpreter</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag--fexternal-interpreter" title="Permalink to this definition">¶</a></dt>
+<code class="descname">-fexternal-interpreter</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag--fexternal-interpreter" title="この定義へのパーマリンク">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -2975,7 +2976,7 @@ because we can run the profiled object code in the interpreter.</li>
 default in future releases.</p>
 </div>
 <div class="section" id="faq-and-things-to-watch-out-for">
-<span id="ghci-faq"></span><h2>5.12. FAQ and Things To Watch Out For<a class="headerlink" href="#faq-and-things-to-watch-out-for" title="Permalink to this headline">¶</a></h2>
+<span id="ghci-faq"></span><h2>5.12. FAQ and Things To Watch Out For<a class="headerlink" href="#faq-and-things-to-watch-out-for" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <dl class="docutils">
 <dt>The interpreter can&#8217;t load modules with foreign export declarations!</dt>
 <dd>Unfortunately not. We haven&#8217;t implemented it yet. Please compile any
@@ -3050,23 +3051,23 @@ just the free variables.</td></tr>
       <div class="clearer"></div>
     </div>
     <div class="related" role="navigation" aria-label="related navigation">
-      <h3>Navigation</h3>
+      <h3>ナビゲーション</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
-          <a href="genindex.html" title="General Index"
-             >index</a></li>
+          <a href="genindex.html" title="総合索引"
+             >索引</a></li>
         <li class="right" >
           <a href="runghc.html" title="6. Using runghc"
-             >next</a> |</li>
+             >次へ</a> |</li>
         <li class="right" >
           <a href="8.2.2-notes.html" title="4. Release notes for version 8.2.2"
-             >previous</a> |</li>
+             >前へ</a> |</li>
         <li class="nav-item nav-item-0"><a href="index.html">GHC 8.2.2 User&#39;s Guide</a> &raquo;</li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">
         &copy; Copyright 2015, GHC Team.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.6.
+      このドキュメントは <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.6 で生成しました。
     </div>
   </body>
 </html>

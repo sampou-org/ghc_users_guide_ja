@@ -24,9 +24,10 @@
     <script type="text/javascript" src="_static/jquery.js"></script>
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/translations.js"></script>
     <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="search" type="application/opensearchdescription+xml"
-          title="Search within Glasgow Haskell Compiler 8.2.2 User&#39;s Guide"
+          title="Glasgow Haskell Compiler 8.2.2 User&#39;s Guide 内を検索"
           href="_static/opensearch.xml"/>
     <link rel="top" title="Glasgow Haskell Compiler 8.2.2 User&#39;s Guide" href="index.html" />
     <link rel="next" title="13. What to do when something goes wrong" href="gone_wrong.html" />
@@ -38,24 +39,24 @@
 </div>
 
     <div class="related" role="navigation" aria-label="related navigation">
-      <h3>Navigation</h3>
+      <h3>ナビゲーション</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
-          <a href="genindex.html" title="General Index"
-             accesskey="I">index</a></li>
+          <a href="genindex.html" title="総合索引"
+             accesskey="I">索引</a></li>
         <li class="right" >
           <a href="gone_wrong.html" title="13. What to do when something goes wrong"
-             accesskey="N">next</a> |</li>
+             accesskey="N">次へ</a> |</li>
         <li class="right" >
           <a href="ffi-chap.html" title="11. Foreign function interface (FFI)"
-             accesskey="P">previous</a> |</li>
+             accesskey="P">前へ</a> |</li>
         <li class="nav-item nav-item-0"><a href="index.html">GHC 8.2.2 User&#39;s Guide</a> &raquo;</li> 
       </ul>
     </div>
 
       <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
         <div class="sphinxsidebarwrapper">
-  <h3><a href="index.html">Table Of Contents</a></h3>
+  <h3><a href="index.html">目次</a></h3>
   <ul>
 <li><a class="reference internal" href="#">12. Extending and using GHC as a Library</a><ul>
 <li><a class="reference internal" href="#source-annotations">12.1. Source annotations</a><ul>
@@ -84,29 +85,29 @@
 </li>
 </ul>
 
-  <h4>Previous topic</h4>
+  <h4>前のトピックへ</h4>
   <p class="topless"><a href="ffi-chap.html"
-                        title="previous chapter">11. Foreign function interface (FFI)</a></p>
-  <h4>Next topic</h4>
+                        title="前の章へ">11. Foreign function interface (FFI)</a></p>
+  <h4>次のトピックへ</h4>
   <p class="topless"><a href="gone_wrong.html"
-                        title="next chapter">13. What to do when something goes wrong</a></p>
+                        title="次の章へ">13. What to do when something goes wrong</a></p>
   <div role="note" aria-label="source link">
-    <h3>This Page</h3>
+    <h3>このページ</h3>
     <ul class="this-page-menu">
       <li><a href="_sources/extending_ghc.txt"
-            rel="nofollow">Show Source</a></li>
+            rel="nofollow">ソースコードを表示</a></li>
     </ul>
    </div>
 <div id="searchbox" style="display: none" role="search">
-  <h3>Quick search</h3>
+  <h3>クイック検索</h3>
     <form class="search" action="search.html" method="get">
       <input type="text" name="q" />
-      <input type="submit" value="Go" />
+      <input type="submit" value="検索" />
       <input type="hidden" name="check_keywords" value="yes" />
       <input type="hidden" name="area" value="default" />
     </form>
     <p class="searchtip" style="font-size: 90%">
-    Enter search terms or a module, class or function name.
+    モジュール、クラス、または関数名を入力してください
     </p>
 </div>
 <script type="text/javascript">$('#searchbox').show(0);</script>
@@ -119,7 +120,7 @@
           <div class="body" role="main">
             
   <div class="section" id="extending-and-using-ghc-as-a-library">
-<span id="extending-ghc"></span><h1>12. Extending and using GHC as a Library<a class="headerlink" href="#extending-and-using-ghc-as-a-library" title="Permalink to this headline">¶</a></h1>
+<span id="extending-ghc"></span><h1>12. Extending and using GHC as a Library<a class="headerlink" href="#extending-and-using-ghc-as-a-library" title="このヘッドラインへのパーマリンク">¶</a></h1>
 <p>GHC exposes its internal APIs to users through the built-in ghc package.
 It allows you to write programs that leverage GHC&#8217;s entire compilation
 driver, in order to analyze or compile Haskell code programmatically.
@@ -132,13 +133,13 @@ barrier of entry to compiler development for many common cases.</p>
 use to annotate your source code with metadata, which you can later
 inspect with either the compiler API or a compiler plugin.</p>
 <div class="section" id="source-annotations">
-<span id="annotation-pragmas"></span><h2>12.1. Source annotations<a class="headerlink" href="#source-annotations" title="Permalink to this headline">¶</a></h2>
+<span id="annotation-pragmas"></span><h2>12.1. Source annotations<a class="headerlink" href="#source-annotations" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <p>Annotations are small pragmas that allow you to attach data to
 identifiers in source code, which are persisted when compiled. These
 pieces of data can then inspected and utilized when using GHC as a
 library or writing a compiler plugin.</p>
 <div class="section" id="annotating-values">
-<span id="ann-pragma"></span><h3>12.1.1. Annotating values<a class="headerlink" href="#annotating-values" title="Permalink to this headline">¶</a></h3>
+<span id="ann-pragma"></span><h3>12.1.1. Annotating values<a class="headerlink" href="#annotating-values" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <p id="index-0">Any expression that has both <code class="docutils literal"><span class="pre">Typeable</span></code> and <code class="docutils literal"><span class="pre">Data</span></code> instances may be
 attached to a top-level value binding using an <code class="docutils literal"><span class="pre">ANN</span></code> pragma. In
 particular, this means you can use <code class="docutils literal"><span class="pre">ANN</span></code> to annotate data constructors
@@ -181,7 +182,7 @@ splices are. So, this annotation is fine:</p>
 </div>
 </div>
 <div class="section" id="annotating-types">
-<span id="typeann-pragma"></span><h3>12.1.2. Annotating types<a class="headerlink" href="#annotating-types" title="Permalink to this headline">¶</a></h3>
+<span id="typeann-pragma"></span><h3>12.1.2. Annotating types<a class="headerlink" href="#annotating-types" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <p id="index-1">You can annotate types with the <code class="docutils literal"><span class="pre">ANN</span></code> pragma by using the <code class="docutils literal"><span class="pre">type</span></code>
 keyword. For example:</p>
 <div class="highlight-haskell"><div class="highlight"><pre><span class="cm">{-# ANN type Foo (Just &quot;A `Maybe String&#39; annotation&quot;) #-}</span>
@@ -190,7 +191,7 @@ keyword. For example:</p>
 </div>
 </div>
 <div class="section" id="annotating-modules">
-<span id="modann-pragma"></span><h3>12.1.3. Annotating modules<a class="headerlink" href="#annotating-modules" title="Permalink to this headline">¶</a></h3>
+<span id="modann-pragma"></span><h3>12.1.3. Annotating modules<a class="headerlink" href="#annotating-modules" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <p id="index-2">You can annotate modules with the <code class="docutils literal"><span class="pre">ANN</span></code> pragma by using the <code class="docutils literal"><span class="pre">module</span></code>
 keyword. For example:</p>
 <div class="highlight-haskell"><div class="highlight"><pre><span class="cm">{-# ANN module (Just &quot;A `Maybe String&#39; annotation&quot;) #-}</span>
@@ -199,7 +200,7 @@ keyword. For example:</p>
 </div>
 </div>
 <div class="section" id="using-ghc-as-a-library">
-<span id="ghc-as-a-library"></span><h2>12.2. Using GHC as a Library<a class="headerlink" href="#using-ghc-as-a-library" title="Permalink to this headline">¶</a></h2>
+<span id="ghc-as-a-library"></span><h2>12.2. Using GHC as a Library<a class="headerlink" href="#using-ghc-as-a-library" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <p>The <code class="docutils literal"><span class="pre">ghc</span></code> package exposes most of GHC&#8217;s frontend to users, and thus
 allows you to write programs that leverage it. This library is actually
 the same library used by GHC&#8217;s internal, frontend compilation driver,
@@ -244,7 +245,7 @@ references, please see <a class="reference external" href="http://haskell.org/ha
 page</a>.</p>
 </div>
 <div class="section" id="compiler-plugins">
-<span id="id1"></span><h2>12.3. Compiler Plugins<a class="headerlink" href="#compiler-plugins" title="Permalink to this headline">¶</a></h2>
+<span id="id1"></span><h2>12.3. Compiler Plugins<a class="headerlink" href="#compiler-plugins" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <p>GHC has the ability to load compiler plugins at compile time. The
 feature is similar to the one provided by
 <a class="reference external" href="http://gcc.gnu.org/wiki/plugins">GCC</a>, and allows users to write
@@ -259,21 +260,21 @@ the constraint solver. If you feel strongly that any of these
 restrictions are too onerous,
 <a class="reference external" href="https://ghc.haskell.org/trac/ghc/wiki/MailingListsAndIRC">please give the GHC team a shout</a>.</p>
 <div class="section" id="using-compiler-plugins">
-<span id="id2"></span><h3>12.3.1. Using compiler plugins<a class="headerlink" href="#using-compiler-plugins" title="Permalink to this headline">¶</a></h3>
+<span id="id2"></span><h3>12.3.1. Using compiler plugins<a class="headerlink" href="#using-compiler-plugins" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <p>Plugins can be specified on the command line with the
 <a class="reference internal" href="#ghc-flag--fplugin=⟨module⟩"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-fplugin=⟨module⟩</span></code></a> option where ⟨module⟩ is a
 module in a registered package that exports a plugin. Arguments can be given to
 plugins with the <a class="reference internal" href="#ghc-flag--fplugin-opt=⟨module⟩:⟨args⟩"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-fplugin-opt=⟨module⟩:⟨args⟩</span></code></a> option.</p>
 <dl class="ghc-flag">
 <dt id="ghc-flag--fplugin=⟨module⟩">
-<code class="descname">-fplugin</code><code class="descclassname">=⟨module⟩</code><a class="headerlink" href="#ghc-flag--fplugin=⟨module⟩" title="Permalink to this definition">¶</a></dt>
+<code class="descname">-fplugin</code><code class="descclassname">=⟨module⟩</code><a class="headerlink" href="#ghc-flag--fplugin=⟨module⟩" title="この定義へのパーマリンク">¶</a></dt>
 <dd><p>Load the plugin in the given module. The module must be a member of a
 package registered in GHC&#8217;s package database.</p>
 </dd></dl>
 
 <dl class="ghc-flag">
 <dt id="ghc-flag--fplugin-opt=⟨module⟩:⟨args⟩">
-<code class="descname">-fplugin-opt</code><code class="descclassname">=⟨module⟩:⟨args⟩</code><a class="headerlink" href="#ghc-flag--fplugin-opt=⟨module⟩:⟨args⟩" title="Permalink to this definition">¶</a></dt>
+<code class="descname">-fplugin-opt</code><code class="descclassname">=⟨module⟩:⟨args⟩</code><a class="headerlink" href="#ghc-flag--fplugin-opt=⟨module⟩:⟨args⟩" title="この定義へのパーマリンク">¶</a></dt>
 <dd><p>Pass arguments ⟨args⟩ to the given plugin.</p>
 </dd></dl>
 
@@ -298,7 +299,7 @@ the same; however, there are a few command line options which
 control specifically plugin packages:</p>
 <dl class="ghc-flag">
 <dt id="ghc-flag--plugin-package ⟨pkg⟩">
-<code class="descname">-plugin-package</code><code class="descclassname"> ⟨pkg⟩</code><a class="headerlink" href="#ghc-flag--plugin-package ⟨pkg⟩" title="Permalink to this definition">¶</a></dt>
+<code class="descname">-plugin-package</code><code class="descclassname"> ⟨pkg⟩</code><a class="headerlink" href="#ghc-flag--plugin-package ⟨pkg⟩" title="この定義へのパーマリンク">¶</a></dt>
 <dd><p>This option causes the installed package ⟨pkg⟩ to be exposed for plugins,
 such as <a class="reference internal" href="#ghc-flag--fplugin=⟨module⟩"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-fplugin=⟨module⟩</span></code></a>. The package ⟨pkg⟩ can be specified
 in full with its version number (e.g.  <code class="docutils literal"><span class="pre">network-1.0</span></code>) or the version
@@ -313,7 +314,7 @@ to be linked into the resulting executable or shared object.</p>
 
 <dl class="ghc-flag">
 <dt id="ghc-flag--plugin-package-id ⟨pkg-id⟩">
-<code class="descname">-plugin-package-id</code><code class="descclassname"> ⟨pkg-id⟩</code><a class="headerlink" href="#ghc-flag--plugin-package-id ⟨pkg-id⟩" title="Permalink to this definition">¶</a></dt>
+<code class="descname">-plugin-package-id</code><code class="descclassname"> ⟨pkg-id⟩</code><a class="headerlink" href="#ghc-flag--plugin-package-id ⟨pkg-id⟩" title="この定義へのパーマリンク">¶</a></dt>
 <dd><p>Exposes a package in the plugin namespace like <a class="reference internal" href="#ghc-flag--plugin-package ⟨pkg⟩"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-plugin-package</span>
 <span class="pre">⟨pkg⟩</span></code></a>, but the package is named by its installed package ID rather than by
 name.  This is a more robust way to name packages, and can be used to
@@ -325,7 +326,7 @@ described in <a class="reference internal" href="packages.html#package-thinning-
 
 <dl class="ghc-flag">
 <dt id="ghc-flag--hide-all-plugin-packages">
-<code class="descname">-hide-all-plugin-packages</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag--hide-all-plugin-packages" title="Permalink to this definition">¶</a></dt>
+<code class="descname">-hide-all-plugin-packages</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag--hide-all-plugin-packages" title="この定義へのパーマリンク">¶</a></dt>
 <dd><p>By default, all exposed packages in the normal, source import namespace are
 also available for plugins.  This causes those packages to be hidden by
 default.  If you use this flag, then any packages with plugins you require
@@ -339,7 +340,7 @@ in Cabal is to put it in <code class="docutils literal"><span class="pre">build-
 will be a separate field for specifying plugin dependencies specifically.</p>
 </div>
 <div class="section" id="writing-compiler-plugins">
-<span id="id3"></span><h3>12.3.2. Writing compiler plugins<a class="headerlink" href="#writing-compiler-plugins" title="Permalink to this headline">¶</a></h3>
+<span id="id3"></span><h3>12.3.2. Writing compiler plugins<a class="headerlink" href="#writing-compiler-plugins" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <p>Plugins are modules that export at least a single identifier,
 <code class="docutils literal"><span class="pre">plugin</span></code>, of type <code class="docutils literal"><span class="pre">GhcPlugins.Plugin</span></code>. All plugins should
 <code class="docutils literal"><span class="pre">import</span> <span class="pre">GhcPlugins</span></code> as it defines the interface to the compilation
@@ -380,7 +381,7 @@ cabal for instance,) you can then use it by just specifying
 compilation you should see GHC say &#8216;Hello&#8217;.</p>
 </div>
 <div class="section" id="core-plugins-in-more-detail">
-<span id="id4"></span><h3>12.3.3. Core plugins in more detail<a class="headerlink" href="#core-plugins-in-more-detail" title="Permalink to this headline">¶</a></h3>
+<span id="id4"></span><h3>12.3.3. Core plugins in more detail<a class="headerlink" href="#core-plugins-in-more-detail" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <p><code class="docutils literal"><span class="pre">CoreToDo</span></code> is effectively a data type that describes all the kinds of
 optimization passes GHC does on Core. There are passes for
 simplification, CSE, vectorisation, etc. There is a specific case for
@@ -406,7 +407,7 @@ time of this writing. An installation function like the following:</p>
 </div>
 <p>is certainly valid, but also certainly not what anyone really wants.</p>
 <div class="section" id="manipulating-bindings">
-<span id="id5"></span><h4>12.3.3.1. Manipulating bindings<a class="headerlink" href="#manipulating-bindings" title="Permalink to this headline">¶</a></h4>
+<span id="id5"></span><h4>12.3.3.1. Manipulating bindings<a class="headerlink" href="#manipulating-bindings" title="このヘッドラインへのパーマリンク">¶</a></h4>
 <p>In the last section we saw that besides a name, a <code class="docutils literal"><span class="pre">CoreDoPluginPass</span></code>
 takes a pass of type <code class="docutils literal"><span class="pre">PluginPass</span></code>. A <code class="docutils literal"><span class="pre">PluginPass</span></code> is a synonym for
 <code class="docutils literal"><span class="pre">(ModGuts</span> <span class="pre">-&gt;</span> <span class="pre">CoreM</span> <span class="pre">ModGuts)</span></code>. <code class="docutils literal"><span class="pre">ModGuts</span></code> is a type that represents
@@ -448,7 +449,7 @@ in a module it compiles:</p>
 </div>
 </div>
 <div class="section" id="using-annotations">
-<span id="getting-annotations"></span><h4>12.3.3.2. Using Annotations<a class="headerlink" href="#using-annotations" title="Permalink to this headline">¶</a></h4>
+<span id="getting-annotations"></span><h4>12.3.3.2. Using Annotations<a class="headerlink" href="#using-annotations" title="このヘッドラインへのパーマリンク">¶</a></h4>
 <p>Previously we discussed annotation pragmas (<a class="reference internal" href="#annotation-pragmas"><span>Source annotations</span></a>),
 which we mentioned could be used to give compiler plugins extra guidance
 or information. Annotations for a module can be retrieved by a plugin,
@@ -502,7 +503,7 @@ APIs, etc.</p>
 </div>
 </div>
 <div class="section" id="typechecker-plugins">
-<span id="id6"></span><h3>12.3.4. Typechecker plugins<a class="headerlink" href="#typechecker-plugins" title="Permalink to this headline">¶</a></h3>
+<span id="id6"></span><h3>12.3.4. Typechecker plugins<a class="headerlink" href="#typechecker-plugins" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <p>In addition to Core plugins, GHC has experimental support for
 typechecker plugins, which allow the behaviour of the constraint solver
 to be modified. For example, they make it possible to interface the
@@ -555,7 +556,7 @@ contact the GHC team to suggest additions to the interface. Note that
 with side effects (particularly in <code class="docutils literal"><span class="pre">tcPluginSolve</span></code>). In general, it is
 up to the plugin author to make sure that any IO they do is safe.</p>
 <div class="section" id="constraint-solving-with-plugins">
-<span id="id7"></span><h4>12.3.4.1. Constraint solving with plugins<a class="headerlink" href="#constraint-solving-with-plugins" title="Permalink to this headline">¶</a></h4>
+<span id="id7"></span><h4>12.3.4.1. Constraint solving with plugins<a class="headerlink" href="#constraint-solving-with-plugins" title="このヘッドラインへのパーマリンク">¶</a></h4>
 <p>The key component of a typechecker plugin is a function of type
 <code class="docutils literal"><span class="pre">TcPluginSolver</span></code>, like this:</p>
 <div class="highlight-haskell"><div class="highlight"><pre><span class="nf">solve</span> <span class="ow">::</span> <span class="p">[</span><span class="kt">Ct</span><span class="p">]</span> <span class="ow">-&gt;</span> <span class="p">[</span><span class="kt">Ct</span><span class="p">]</span> <span class="ow">-&gt;</span> <span class="p">[</span><span class="kt">Ct</span><span class="p">]</span> <span class="ow">-&gt;</span> <span class="kt">TcPluginM</span> <span class="kt">TcPluginResult</span>
@@ -598,7 +599,7 @@ to segfaults or other runtime misbehaviour.</p>
 </div>
 </div>
 <div class="section" id="frontend-plugins">
-<span id="id8"></span><h3>12.3.5. Frontend plugins<a class="headerlink" href="#frontend-plugins" title="Permalink to this headline">¶</a></h3>
+<span id="id8"></span><h3>12.3.5. Frontend plugins<a class="headerlink" href="#frontend-plugins" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <p>A frontend plugin allows you to add new major modes to GHC.  You may prefer
 this over a traditional program which calls the GHC API, as GHC manages a lot
 of parsing flags and administrative nonsense which can be difficult to
@@ -648,23 +649,23 @@ on the command line to GHC.</p>
       <div class="clearer"></div>
     </div>
     <div class="related" role="navigation" aria-label="related navigation">
-      <h3>Navigation</h3>
+      <h3>ナビゲーション</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
-          <a href="genindex.html" title="General Index"
-             >index</a></li>
+          <a href="genindex.html" title="総合索引"
+             >索引</a></li>
         <li class="right" >
           <a href="gone_wrong.html" title="13. What to do when something goes wrong"
-             >next</a> |</li>
+             >次へ</a> |</li>
         <li class="right" >
           <a href="ffi-chap.html" title="11. Foreign function interface (FFI)"
-             >previous</a> |</li>
+             >前へ</a> |</li>
         <li class="nav-item nav-item-0"><a href="index.html">GHC 8.2.2 User&#39;s Guide</a> &raquo;</li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">
         &copy; Copyright 2015, GHC Team.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.6.
+      このドキュメントは <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.6 で生成しました。
     </div>
   </body>
 </html>

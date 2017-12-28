@@ -24,9 +24,10 @@
     <script type="text/javascript" src="_static/jquery.js"></script>
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/translations.js"></script>
     <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="search" type="application/opensearchdescription+xml"
-          title="Search within Glasgow Haskell Compiler 8.2.2 User&#39;s Guide"
+          title="Glasgow Haskell Compiler 8.2.2 User&#39;s Guide 内を検索"
           href="_static/opensearch.xml"/>
     <link rel="top" title="Glasgow Haskell Compiler 8.2.2 User&#39;s Guide" href="index.html" />
     <link rel="up" title="7. Using GHC" href="usage.html" />
@@ -39,17 +40,17 @@
 </div>
 
     <div class="related" role="navigation" aria-label="related navigation">
-      <h3>Navigation</h3>
+      <h3>ナビゲーション</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
-          <a href="genindex.html" title="General Index"
-             accesskey="I">index</a></li>
+          <a href="genindex.html" title="総合索引"
+             accesskey="I">索引</a></li>
         <li class="right" >
           <a href="using-concurrent.html" title="7.4. Using Concurrent Haskell"
-             accesskey="N">next</a> |</li>
+             accesskey="N">次へ</a> |</li>
         <li class="right" >
           <a href="using-warnings.html" title="7.2. Warnings and sanity-checking"
-             accesskey="P">previous</a> |</li>
+             accesskey="P">前へ</a> |</li>
         <li class="nav-item nav-item-0"><a href="index.html">GHC 8.2.2 User&#39;s Guide</a> &raquo;</li>
           <li class="nav-item nav-item-1"><a href="usage.html" accesskey="U">7. Using GHC</a> &raquo;</li> 
       </ul>
@@ -57,7 +58,7 @@
 
       <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
         <div class="sphinxsidebarwrapper">
-  <h3><a href="index.html">Table Of Contents</a></h3>
+  <h3><a href="index.html">目次</a></h3>
   <ul>
 <li><a class="reference internal" href="#">7.3. Optimisation (code improvement)</a><ul>
 <li><a class="reference internal" href="#o-convenient-packages-of-optimisation-flags">7.3.1. <code class="docutils literal"><span class="pre">-O*</span></code>: convenient “packages” of optimisation flags.</a></li>
@@ -66,29 +67,29 @@
 </li>
 </ul>
 
-  <h4>Previous topic</h4>
+  <h4>前のトピックへ</h4>
   <p class="topless"><a href="using-warnings.html"
-                        title="previous chapter">7.2. Warnings and sanity-checking</a></p>
-  <h4>Next topic</h4>
+                        title="前の章へ">7.2. Warnings and sanity-checking</a></p>
+  <h4>次のトピックへ</h4>
   <p class="topless"><a href="using-concurrent.html"
-                        title="next chapter">7.4. Using Concurrent Haskell</a></p>
+                        title="次の章へ">7.4. Using Concurrent Haskell</a></p>
   <div role="note" aria-label="source link">
-    <h3>This Page</h3>
+    <h3>このページ</h3>
     <ul class="this-page-menu">
       <li><a href="_sources/using-optimisation.txt"
-            rel="nofollow">Show Source</a></li>
+            rel="nofollow">ソースコードを表示</a></li>
     </ul>
    </div>
 <div id="searchbox" style="display: none" role="search">
-  <h3>Quick search</h3>
+  <h3>クイック検索</h3>
     <form class="search" action="search.html" method="get">
       <input type="text" name="q" />
-      <input type="submit" value="Go" />
+      <input type="submit" value="検索" />
       <input type="hidden" name="check_keywords" value="yes" />
       <input type="hidden" name="area" value="default" />
     </form>
     <p class="searchtip" style="font-size: 90%">
-    Enter search terms or a module, class or function name.
+    モジュール、クラス、または関数名を入力してください
     </p>
 </div>
 <script type="text/javascript">$('#searchbox').show(0);</script>
@@ -101,7 +102,7 @@
           <div class="body" role="main">
             
   <div class="section" id="optimisation-code-improvement">
-<span id="options-optimise"></span><h1>7.3. Optimisation (code improvement)<a class="headerlink" href="#optimisation-code-improvement" title="Permalink to this headline">¶</a></h1>
+<span id="options-optimise"></span><h1>7.3. Optimisation (code improvement)<a class="headerlink" href="#optimisation-code-improvement" title="このヘッドラインへのパーマリンク">¶</a></h1>
 <p id="index-0">The <code class="docutils literal"><span class="pre">-O*</span></code> options specify convenient &#8220;packages&#8221; of optimisation flags;
 the <code class="docutils literal"><span class="pre">-f*</span></code> options described later on specify <em>individual</em>
 optimisations to be turned on/off; the <code class="docutils literal"><span class="pre">-m*</span></code> options specify
@@ -122,7 +123,7 @@ still be enabled. This is the case as <code class="docutils literal"><span class
 overriding the previous flag. By contrast, <code class="docutils literal"><span class="pre">-O1</span> <span class="pre">-fno-specialise</span></code> will
 compile without specialisation, as one would expect.</p>
 <div class="section" id="o-convenient-packages-of-optimisation-flags">
-<span id="optimise-pkgs"></span><h2>7.3.1. <code class="docutils literal"><span class="pre">-O*</span></code>: convenient “packages” of optimisation flags.<a class="headerlink" href="#o-convenient-packages-of-optimisation-flags" title="Permalink to this headline">¶</a></h2>
+<span id="optimise-pkgs"></span><h2>7.3.1. <code class="docutils literal"><span class="pre">-O*</span></code>: convenient “packages” of optimisation flags.<a class="headerlink" href="#o-convenient-packages-of-optimisation-flags" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <p>There are <em>many</em> options that affect the quality of code produced by
 GHC. Most people only have a general goal, something like &#8220;Compile
 quickly&#8221; or &#8220;Make my program run like greased lightning.&#8221; The following
@@ -136,7 +137,7 @@ compile quickly; I&#8217;m not over-bothered about compiled-code quality.”
 So, for example, <code class="docutils literal"><span class="pre">ghc</span> <span class="pre">-c</span> <span class="pre">Foo.hs</span></code></p>
 <dl class="ghc-flag">
 <dt id="ghc-flag--O0">
-<code class="descname">-O0</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag--O0" title="Permalink to this definition">¶</a></dt>
+<code class="descname">-O0</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag--O0" title="この定義へのパーマリンク">¶</a></dt>
 <dd><p>Means &#8220;turn off all optimisation&#8221;, reverting to the same settings as
 if no <code class="docutils literal"><span class="pre">-O</span></code> options had been specified. Saying <code class="docutils literal"><span class="pre">-O0</span></code> can be
 useful if e.g. <code class="docutils literal"><span class="pre">make</span></code> has inserted a <code class="docutils literal"><span class="pre">-O</span></code> on the command line
@@ -145,16 +146,16 @@ already.</p>
 
 <dl class="ghc-flag">
 <dt id="ghc-flag--O">
-<code class="descname">-O</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag--O" title="Permalink to this definition">¶</a></dt>
+<code class="descname">-O</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag--O" title="この定義へのパーマリンク">¶</a></dt>
 <dt id="ghc-flag--O1">
-<code class="descname">-O1</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag--O1" title="Permalink to this definition">¶</a></dt>
+<code class="descname">-O1</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag--O1" title="この定義へのパーマリンク">¶</a></dt>
 <dd><p id="index-1">Means: &#8220;Generate good-quality code without taking too long about
 it.&#8221; Thus, for example: <code class="docutils literal"><span class="pre">ghc</span> <span class="pre">-c</span> <span class="pre">-O</span> <span class="pre">Main.lhs</span></code></p>
 </dd></dl>
 
 <dl class="ghc-flag">
 <dt id="ghc-flag--O2">
-<code class="descname">-O2</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag--O2" title="Permalink to this definition">¶</a></dt>
+<code class="descname">-O2</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag--O2" title="この定義へのパーマリンク">¶</a></dt>
 <dd><p id="index-2">Means: &#8220;Apply every non-dangerous optimisation, even if it means
 significantly longer compile times.&#8221;</p>
 <p>The avoided &#8220;dangerous&#8221; optimisations are those that can make
@@ -164,7 +165,7 @@ on or off individually.</p>
 
 <dl class="ghc-flag">
 <dt id="ghc-flag--Odph">
-<code class="descname">-Odph</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag--Odph" title="Permalink to this definition">¶</a></dt>
+<code class="descname">-Odph</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag--Odph" title="この定義へのパーマリンク">¶</a></dt>
 <dd><p id="index-3">Enables all <code class="docutils literal"><span class="pre">-O2</span></code> optimisation, sets
 <code class="docutils literal"><span class="pre">-fmax-simplifier-iterations=20</span></code> and <code class="docutils literal"><span class="pre">-fsimplifier-phases=3</span></code>.
 Designed for use with <a class="reference internal" href="parallel.html#dph"><span>Data Parallel Haskell (DPH)</span></a>.</p>
@@ -178,14 +179,14 @@ breaks).</p>
 <a class="reference internal" href="using.html#ghc-flag--v"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-v</span></code></a>, then stand back in amazement.</p>
 </div>
 <div class="section" id="f-platform-independent-flags">
-<span id="options-f"></span><h2>7.3.2. <code class="docutils literal"><span class="pre">-f*</span></code>: platform-independent flags<a class="headerlink" href="#f-platform-independent-flags" title="Permalink to this headline">¶</a></h2>
+<span id="options-f"></span><h2>7.3.2. <code class="docutils literal"><span class="pre">-f*</span></code>: platform-independent flags<a class="headerlink" href="#f-platform-independent-flags" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <p id="index-4">These flags turn on and off individual optimisations. Flags marked as
 on by default are enabled by <code class="docutils literal"><span class="pre">-O</span></code>, and as such you shouldn&#8217;t
 need to set any of them explicitly. A flag <code class="docutils literal"><span class="pre">-fwombat</span></code> can be negated
 by saying <code class="docutils literal"><span class="pre">-fno-wombat</span></code>.</p>
 <dl class="ghc-flag">
 <dt id="ghc-flag--fcase-merge">
-<code class="descname">-fcase-merge</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag--fcase-merge" title="Permalink to this definition">¶</a></dt>
+<code class="descname">-fcase-merge</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag--fcase-merge" title="この定義へのパーマリンク">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -214,7 +215,7 @@ For example,</p>
 
 <dl class="ghc-flag">
 <dt id="ghc-flag--fcase-folding">
-<code class="descname">-fcase-folding</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag--fcase-folding" title="Permalink to this definition">¶</a></dt>
+<code class="descname">-fcase-folding</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag--fcase-folding" title="この定義へのパーマリンク">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -242,7 +243,7 @@ For example,</p>
 
 <dl class="ghc-flag">
 <dt id="ghc-flag--fcall-arity">
-<code class="descname">-fcall-arity</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag--fcall-arity" title="Permalink to this definition">¶</a></dt>
+<code class="descname">-fcall-arity</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag--fcall-arity" title="この定義へのパーマリンク">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -256,7 +257,7 @@ For example,</p>
 
 <dl class="ghc-flag">
 <dt id="ghc-flag--fcmm-elim-common-blocks">
-<code class="descname">-fcmm-elim-common-blocks</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag--fcmm-elim-common-blocks" title="Permalink to this definition">¶</a></dt>
+<code class="descname">-fcmm-elim-common-blocks</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag--fcmm-elim-common-blocks" title="この定義へのパーマリンク">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -272,7 +273,7 @@ Cmm blocks and eliminate the duplicates.</p>
 
 <dl class="ghc-flag">
 <dt id="ghc-flag--fcmm-sink">
-<code class="descname">-fcmm-sink</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag--fcmm-sink" title="Permalink to this definition">¶</a></dt>
+<code class="descname">-fcmm-sink</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag--fcmm-sink" title="この定義へのパーマリンク">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -290,13 +291,13 @@ literals or registers.</p>
 
 <dl class="ghc-flag">
 <dt id="ghc-flag--fcpr-off">
-<code class="descname">-fcpr-off</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag--fcpr-off" title="Permalink to this definition">¶</a></dt>
+<code class="descname">-fcpr-off</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag--fcpr-off" title="この定義へのパーマリンク">¶</a></dt>
 <dd><p>Switch off CPR analysis in the demand analyser.</p>
 </dd></dl>
 
 <dl class="ghc-flag">
 <dt id="ghc-flag--fcse">
-<code class="descname">-fcse</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag--fcse" title="Permalink to this definition">¶</a></dt>
+<code class="descname">-fcse</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag--fcse" title="この定義へのパーマリンク">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -312,7 +313,7 @@ optimisation. Switching this off can be useful if you have some
 
 <dl class="ghc-flag">
 <dt id="ghc-flag--fstg-cse">
-<code class="descname">-fstg-cse</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag--fstg-cse" title="Permalink to this definition">¶</a></dt>
+<code class="descname">-fstg-cse</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag--fstg-cse" title="この定義へのパーマリンク">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -328,7 +329,7 @@ that differ in their types, but not their represetation.</p>
 
 <dl class="ghc-flag">
 <dt id="ghc-flag--fdicts-cheap">
-<code class="descname">-fdicts-cheap</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag--fdicts-cheap" title="Permalink to this definition">¶</a></dt>
+<code class="descname">-fdicts-cheap</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag--fdicts-cheap" title="この定義へのパーマリンク">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -343,7 +344,7 @@ seem cheap to the optimiser.</p>
 
 <dl class="ghc-flag">
 <dt id="ghc-flag--fdicts-strict">
-<code class="descname">-fdicts-strict</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag--fdicts-strict" title="Permalink to this definition">¶</a></dt>
+<code class="descname">-fdicts-strict</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag--fdicts-strict" title="この定義へのパーマリンク">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -357,7 +358,7 @@ seem cheap to the optimiser.</p>
 
 <dl class="ghc-flag">
 <dt id="ghc-flag--fdmd-tx-dict-sel">
-<code class="descname">-fdmd-tx-dict-sel</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag--fdmd-tx-dict-sel" title="Permalink to this definition">¶</a></dt>
+<code class="descname">-fdmd-tx-dict-sel</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag--fdmd-tx-dict-sel" title="この定義へのパーマリンク">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -371,7 +372,7 @@ seem cheap to the optimiser.</p>
 
 <dl class="ghc-flag">
 <dt id="ghc-flag--fdo-eta-reduction">
-<code class="descname">-fdo-eta-reduction</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag--fdo-eta-reduction" title="Permalink to this definition">¶</a></dt>
+<code class="descname">-fdo-eta-reduction</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag--fdo-eta-reduction" title="この定義へのパーマリンク">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -386,7 +387,7 @@ lambdas.</p>
 
 <dl class="ghc-flag">
 <dt id="ghc-flag--fdo-lambda-eta-expansion">
-<code class="descname">-fdo-lambda-eta-expansion</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag--fdo-lambda-eta-expansion" title="Permalink to this definition">¶</a></dt>
+<code class="descname">-fdo-lambda-eta-expansion</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag--fdo-lambda-eta-expansion" title="この定義へのパーマリンク">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -400,7 +401,7 @@ lambdas.</p>
 
 <dl class="ghc-flag">
 <dt id="ghc-flag--feager-blackholing">
-<code class="descname">-feager-blackholing</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag--feager-blackholing" title="Permalink to this definition">¶</a></dt>
+<code class="descname">-feager-blackholing</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag--feager-blackholing" title="この定義へのパーマリンク">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -417,7 +418,7 @@ multiprocessor</a>.</p>
 
 <dl class="ghc-flag">
 <dt id="ghc-flag--fexcess-precision">
-<code class="descname">-fexcess-precision</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag--fexcess-precision" title="Permalink to this definition">¶</a></dt>
+<code class="descname">-fexcess-precision</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag--fexcess-precision" title="この定義へのパーマリンク">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -439,7 +440,7 @@ excess-precision mode, so neither <code class="docutils literal"><span class="pr
 
 <dl class="ghc-flag">
 <dt id="ghc-flag--fexpose-all-unfoldings">
-<code class="descname">-fexpose-all-unfoldings</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag--fexpose-all-unfoldings" title="Permalink to this definition">¶</a></dt>
+<code class="descname">-fexpose-all-unfoldings</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag--fexpose-all-unfoldings" title="この定義へのパーマリンク">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -455,7 +456,7 @@ while usually GHC would avoid inlining larger functions.</p>
 
 <dl class="ghc-flag">
 <dt id="ghc-flag--ffloat-in">
-<code class="descname">-ffloat-in</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag--ffloat-in" title="Permalink to this definition">¶</a></dt>
+<code class="descname">-ffloat-in</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag--ffloat-in" title="この定義へのパーマリンク">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -482,7 +483,7 @@ allocation and helping the garbage collector and allocator.</p>
 
 <dl class="ghc-flag">
 <dt id="ghc-flag--ffull-laziness">
-<code class="descname">-ffull-laziness</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag--ffull-laziness" title="Permalink to this definition">¶</a></dt>
+<code class="descname">-ffull-laziness</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag--ffull-laziness" title="この定義へのパーマリンク">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -499,7 +500,7 @@ in the hope they will be thereby be computed less often. See
 Full laziness increases sharing, which can lead to increased memory
 residency.</p>
 <div class="admonition note">
-<p class="first admonition-title">Note</p>
+<p class="first admonition-title">注釈</p>
 <p class="last">GHC doesn&#8217;t implement complete full-laziness. When
 optimisation in on, and <code class="docutils literal"><span class="pre">-fno-full-laziness</span></code> is not given, some
 transformations that increase sharing are performed, such as
@@ -512,7 +513,7 @@ don&#8217;t rely on it.</p>
 
 <dl class="ghc-flag">
 <dt id="ghc-flag--ffun-to-thunk">
-<code class="descname">-ffun-to-thunk</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag--ffun-to-thunk" title="Permalink to this definition">¶</a></dt>
+<code class="descname">-ffun-to-thunk</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag--ffun-to-thunk" title="この定義へのパーマリンク">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -529,7 +530,7 @@ This flag allows worker/wrapper to remove <em>all</em> value lambdas.</p>
 
 <dl class="ghc-flag">
 <dt id="ghc-flag--fignore-asserts">
-<code class="descname">-fignore-asserts</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag--fignore-asserts" title="Permalink to this definition">¶</a></dt>
+<code class="descname">-fignore-asserts</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag--fignore-asserts" title="この定義へのパーマリンク">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -545,7 +546,7 @@ code (in other words, rewriting <code class="docutils literal"><span class="pre"
 
 <dl class="ghc-flag">
 <dt id="ghc-flag--fignore-interface-pragmas">
-<code class="descname">-fignore-interface-pragmas</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag--fignore-interface-pragmas" title="Permalink to this definition">¶</a></dt>
+<code class="descname">-fignore-interface-pragmas</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag--fignore-interface-pragmas" title="この定義へのパーマリンク">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -562,7 +563,7 @@ information.</p>
 
 <dl class="ghc-flag">
 <dt id="ghc-flag--flate-dmd-anal">
-<code class="descname">-flate-dmd-anal</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag--flate-dmd-anal" title="Permalink to this definition">¶</a></dt>
+<code class="descname">-flate-dmd-anal</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag--flate-dmd-anal" title="この定義へのパーマリンク">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -581,7 +582,7 @@ so is the cost. See notes on the <a class="reference external" href="https://ghc
 
 <dl class="ghc-flag">
 <dt id="ghc-flag--fliberate-case">
-<code class="descname">-fliberate-case</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag--fliberate-case" title="Permalink to this definition">¶</a></dt>
+<code class="descname">-fliberate-case</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag--fliberate-case" title="この定義へのパーマリンク">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -598,7 +599,7 @@ free variables rather than arguments.</p>
 
 <dl class="ghc-flag">
 <dt id="ghc-flag--fliberate-case-threshold=⟨n⟩">
-<code class="descname">-fliberate-case-threshold</code><code class="descclassname">=⟨n⟩</code><a class="headerlink" href="#ghc-flag--fliberate-case-threshold=⟨n⟩" title="Permalink to this definition">¶</a></dt>
+<code class="descname">-fliberate-case-threshold</code><code class="descclassname">=⟨n⟩</code><a class="headerlink" href="#ghc-flag--fliberate-case-threshold=⟨n⟩" title="この定義へのパーマリンク">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -612,7 +613,7 @@ free variables rather than arguments.</p>
 
 <dl class="ghc-flag">
 <dt id="ghc-flag--floopification">
-<code class="descname">-floopification</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag--floopification" title="Permalink to this definition">¶</a></dt>
+<code class="descname">-floopification</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag--floopification" title="この定義へのパーマリンク">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -628,7 +629,7 @@ function calls.</p>
 
 <dl class="ghc-flag">
 <dt id="ghc-flag--fmax-inline-alloc-size=⟨n⟩">
-<code class="descname">-fmax-inline-alloc-size</code><code class="descclassname">=⟨n⟩</code><a class="headerlink" href="#ghc-flag--fmax-inline-alloc-size=⟨n⟩" title="Permalink to this definition">¶</a></dt>
+<code class="descname">-fmax-inline-alloc-size</code><code class="descclassname">=⟨n⟩</code><a class="headerlink" href="#ghc-flag--fmax-inline-alloc-size=⟨n⟩" title="この定義へのパーマリンク">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -645,7 +646,7 @@ value should be quite a bit smaller than the block size (typically: 4096).</p>
 
 <dl class="ghc-flag">
 <dt id="ghc-flag--fmax-inline-memcpy-insns=⟨n⟩">
-<code class="descname">-fmax-inline-memcpy-insns</code><code class="descclassname">=⟨n⟩</code><a class="headerlink" href="#ghc-flag--fmax-inline-memcpy-insns=⟨n⟩" title="Permalink to this definition">¶</a></dt>
+<code class="descname">-fmax-inline-memcpy-insns</code><code class="descclassname">=⟨n⟩</code><a class="headerlink" href="#ghc-flag--fmax-inline-memcpy-insns=⟨n⟩" title="この定義へのパーマリンク">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -659,7 +660,7 @@ value should be quite a bit smaller than the block size (typically: 4096).</p>
 
 <dl class="ghc-flag">
 <dt id="ghc-flag--fmax-inline-memset-insns=⟨n⟩">
-<code class="descname">-fmax-inline-memset-insns</code><code class="descclassname">=⟨n⟩</code><a class="headerlink" href="#ghc-flag--fmax-inline-memset-insns=⟨n⟩" title="Permalink to this definition">¶</a></dt>
+<code class="descname">-fmax-inline-memset-insns</code><code class="descclassname">=⟨n⟩</code><a class="headerlink" href="#ghc-flag--fmax-inline-memset-insns=⟨n⟩" title="この定義へのパーマリンク">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -674,9 +675,9 @@ instructions.</p>
 
 <dl class="ghc-flag">
 <dt id="ghc-flag--fmax-relevant-binds=⟨n⟩">
-<code class="descname">-fmax-relevant-binds</code><code class="descclassname">=⟨n⟩</code><a class="headerlink" href="#ghc-flag--fmax-relevant-binds=⟨n⟩" title="Permalink to this definition">¶</a></dt>
+<code class="descname">-fmax-relevant-binds</code><code class="descclassname">=⟨n⟩</code><a class="headerlink" href="#ghc-flag--fmax-relevant-binds=⟨n⟩" title="この定義へのパーマリンク">¶</a></dt>
 <dt id="ghc-flag--fno-max-relevant-bindings">
-<code class="descname">-fno-max-relevant-bindings</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag--fno-max-relevant-bindings" title="Permalink to this definition">¶</a></dt>
+<code class="descname">-fno-max-relevant-bindings</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag--fno-max-relevant-bindings" title="この定義へのパーマリンク">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -696,7 +697,7 @@ them too.</p>
 
 <dl class="ghc-flag">
 <dt id="ghc-flag--fmax-uncovered-patterns=⟨n⟩">
-<code class="descname">-fmax-uncovered-patterns</code><code class="descclassname">=⟨n⟩</code><a class="headerlink" href="#ghc-flag--fmax-uncovered-patterns=⟨n⟩" title="Permalink to this definition">¶</a></dt>
+<code class="descname">-fmax-uncovered-patterns</code><code class="descclassname">=⟨n⟩</code><a class="headerlink" href="#ghc-flag--fmax-uncovered-patterns=⟨n⟩" title="この定義へのパーマリンク">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -711,7 +712,7 @@ them too.</p>
 
 <dl class="ghc-flag">
 <dt id="ghc-flag--fmax-simplifier-iterations=⟨n⟩">
-<code class="descname">-fmax-simplifier-iterations</code><code class="descclassname">=⟨n⟩</code><a class="headerlink" href="#ghc-flag--fmax-simplifier-iterations=⟨n⟩" title="Permalink to this definition">¶</a></dt>
+<code class="descname">-fmax-simplifier-iterations</code><code class="descclassname">=⟨n⟩</code><a class="headerlink" href="#ghc-flag--fmax-simplifier-iterations=⟨n⟩" title="この定義へのパーマリンク">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -725,7 +726,7 @@ them too.</p>
 
 <dl class="ghc-flag">
 <dt id="ghc-flag--fmax-worker-args=⟨n⟩">
-<code class="descname">-fmax-worker-args</code><code class="descclassname">=⟨n⟩</code><a class="headerlink" href="#ghc-flag--fmax-worker-args=⟨n⟩" title="Permalink to this definition">¶</a></dt>
+<code class="descname">-fmax-worker-args</code><code class="descclassname">=⟨n⟩</code><a class="headerlink" href="#ghc-flag--fmax-worker-args=⟨n⟩" title="この定義へのパーマリンク">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -739,7 +740,7 @@ them too.</p>
 
 <dl class="ghc-flag">
 <dt id="ghc-flag--fno-opt-coercion">
-<code class="descname">-fno-opt-coercion</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag--fno-opt-coercion" title="Permalink to this definition">¶</a></dt>
+<code class="descname">-fno-opt-coercion</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag--fno-opt-coercion" title="この定義へのパーマリンク">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -753,7 +754,7 @@ them too.</p>
 
 <dl class="ghc-flag">
 <dt id="ghc-flag--fno-pre-inlining">
-<code class="descname">-fno-pre-inlining</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag--fno-pre-inlining" title="Permalink to this definition">¶</a></dt>
+<code class="descname">-fno-pre-inlining</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag--fno-pre-inlining" title="この定義へのパーマリンク">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -767,7 +768,7 @@ them too.</p>
 
 <dl class="ghc-flag">
 <dt id="ghc-flag--fno-state-hack">
-<code class="descname">-fno-state-hack</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag--fno-state-hack" title="Permalink to this definition">¶</a></dt>
+<code class="descname">-fno-state-hack</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag--fno-state-hack" title="この定義へのパーマリンク">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -784,7 +785,7 @@ and ST monad code, but it runs the risk of reducing sharing.</p>
 
 <dl class="ghc-flag">
 <dt id="ghc-flag--fomit-interface-pragmas">
-<code class="descname">-fomit-interface-pragmas</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag--fomit-interface-pragmas" title="Permalink to this definition">¶</a></dt>
+<code class="descname">-fomit-interface-pragmas</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag--fomit-interface-pragmas" title="この定義へのパーマリンク">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -805,7 +806,7 @@ type, not when they change their implementation).</p>
 
 <dl class="ghc-flag">
 <dt id="ghc-flag--fomit-yields">
-<code class="descname">-fomit-yields</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag--fomit-yields" title="Permalink to this definition">¶</a></dt>
+<code class="descname">-fomit-yields</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag--fomit-yields" title="この定義へのパーマリンク">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -825,7 +826,7 @@ turned off, if you need to guarantee interruptibility.</p>
 
 <dl class="ghc-flag">
 <dt id="ghc-flag--fpedantic-bottoms">
-<code class="descname">-fpedantic-bottoms</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag--fpedantic-bottoms" title="Permalink to this definition">¶</a></dt>
+<code class="descname">-fpedantic-bottoms</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag--fpedantic-bottoms" title="この定義へのパーマリンク">¶</a></dt>
 <dd><p>Make GHC be more precise about its treatment of bottom (but see also
 <a class="reference internal" href="#ghc-flag--fno-state-hack"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-fno-state-hack</span></code></a>). In particular, stop GHC eta-expanding through
 a case expression, which is good for performance, but bad if you are
@@ -834,7 +835,7 @@ using <code class="docutils literal"><span class="pre">seq</span></code> on part
 
 <dl class="ghc-flag">
 <dt id="ghc-flag--fregs-graph">
-<code class="descname">-fregs-graph</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag--fregs-graph" title="Permalink to this definition">¶</a></dt>
+<code class="descname">-fregs-graph</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag--fregs-graph" title="この定義へのパーマリンク">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -854,7 +855,7 @@ when faced with code with high register pressure <a class="reference external" h
 
 <dl class="ghc-flag">
 <dt id="ghc-flag--fregs-iterative">
-<code class="descname">-fregs-iterative</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag--fregs-iterative" title="Permalink to this definition">¶</a></dt>
+<code class="descname">-fregs-iterative</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag--fregs-iterative" title="この定義へのパーマリンク">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -872,7 +873,7 @@ during register allocation.</p>
 
 <dl class="ghc-flag">
 <dt id="ghc-flag--fsimplifier-phases=⟨n⟩">
-<code class="descname">-fsimplifier-phases</code><code class="descclassname">=⟨n⟩</code><a class="headerlink" href="#ghc-flag--fsimplifier-phases=⟨n⟩" title="Permalink to this definition">¶</a></dt>
+<code class="descname">-fsimplifier-phases</code><code class="descclassname">=⟨n⟩</code><a class="headerlink" href="#ghc-flag--fsimplifier-phases=⟨n⟩" title="この定義へのパーマリンク">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -886,7 +887,7 @@ during register allocation.</p>
 
 <dl class="ghc-flag">
 <dt id="ghc-flag--fsimpl-tick-factor=⟨n⟩">
-<code class="descname">-fsimpl-tick-factor</code><code class="descclassname">=⟨n⟩</code><a class="headerlink" href="#ghc-flag--fsimpl-tick-factor=⟨n⟩" title="Permalink to this definition">¶</a></dt>
+<code class="descname">-fsimpl-tick-factor</code><code class="descclassname">=⟨n⟩</code><a class="headerlink" href="#ghc-flag--fsimpl-tick-factor=⟨n⟩" title="この定義へのパーマリンク">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -913,7 +914,7 @@ accurately, because some numbers are very large.</p>
 
 <dl class="ghc-flag">
 <dt id="ghc-flag--fspec-constr">
-<code class="descname">-fspec-constr</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag--fspec-constr" title="Permalink to this definition">¶</a></dt>
+<code class="descname">-fspec-constr</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag--fspec-constr" title="この定義へのパーマリンク">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -980,7 +981,7 @@ cases.</p>
 
 <dl class="ghc-flag">
 <dt id="ghc-flag--fspec-constr-keen">
-<code class="descname">-fspec-constr-keen</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag--fspec-constr-keen" title="Permalink to this definition">¶</a></dt>
+<code class="descname">-fspec-constr-keen</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag--fspec-constr-keen" title="この定義へのパーマリンク">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -998,7 +999,7 @@ that can itself be specialised.</p>
 
 <dl class="ghc-flag">
 <dt id="ghc-flag--fspec-constr-count=⟨n⟩">
-<code class="descname">-fspec-constr-count</code><code class="descclassname">=⟨n⟩</code><a class="headerlink" href="#ghc-flag--fspec-constr-count=⟨n⟩" title="Permalink to this definition">¶</a></dt>
+<code class="descname">-fspec-constr-count</code><code class="descclassname">=⟨n⟩</code><a class="headerlink" href="#ghc-flag--fspec-constr-count=⟨n⟩" title="この定義へのパーマリンク">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -1013,7 +1014,7 @@ any one function by the SpecConstr transformation.</p>
 
 <dl class="ghc-flag">
 <dt id="ghc-flag--fspec-constr-threshold=⟨n⟩">
-<code class="descname">-fspec-constr-threshold</code><code class="descclassname">=⟨n⟩</code><a class="headerlink" href="#ghc-flag--fspec-constr-threshold=⟨n⟩" title="Permalink to this definition">¶</a></dt>
+<code class="descname">-fspec-constr-threshold</code><code class="descclassname">=⟨n⟩</code><a class="headerlink" href="#ghc-flag--fspec-constr-threshold=⟨n⟩" title="この定義へのパーマリンク">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -1027,7 +1028,7 @@ any one function by the SpecConstr transformation.</p>
 
 <dl class="ghc-flag">
 <dt id="ghc-flag--fspecialise">
-<code class="descname">-fspecialise</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag--fspecialise" title="Permalink to this definition">¶</a></dt>
+<code class="descname">-fspecialise</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag--fspecialise" title="この定義へのパーマリンク">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -1045,7 +1046,7 @@ specialised as well.</p>
 
 <dl class="ghc-flag">
 <dt id="ghc-flag--fspecialise-aggressively">
-<code class="descname">-fspecialise-aggressively</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag--fspecialise-aggressively" title="Permalink to this definition">¶</a></dt>
+<code class="descname">-fspecialise-aggressively</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag--fspecialise-aggressively" title="この定義へのパーマリンク">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -1064,7 +1065,7 @@ if you want to ensure all calls are specialised.</p>
 
 <dl class="ghc-flag">
 <dt id="ghc-flag--fcross-module-specialise">
-<code class="descname">-fcross-module-specialise</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag--fcross-module-specialise" title="Permalink to this definition">¶</a></dt>
+<code class="descname">-fcross-module-specialise</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag--fcross-module-specialise" title="この定義へのパーマリンク">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -1081,7 +1082,7 @@ enabled (by <code class="docutils literal"><span class="pre">-fspecialise</span>
 
 <dl class="ghc-flag">
 <dt id="ghc-flag--fsolve-constant-dicts">
-<code class="descname">-fsolve-constant-dicts</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag--fsolve-constant-dicts" title="Permalink to this definition">¶</a></dt>
+<code class="descname">-fsolve-constant-dicts</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag--fsolve-constant-dicts" title="この定義へのパーマリンク">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -1116,7 +1117,7 @@ directly rather than indirectly using the one passed in at run time.</p>
 
 <dl class="ghc-flag">
 <dt id="ghc-flag--fstatic-argument-transformation">
-<code class="descname">-fstatic-argument-transformation</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag--fstatic-argument-transformation" title="Permalink to this definition">¶</a></dt>
+<code class="descname">-fstatic-argument-transformation</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag--fstatic-argument-transformation" title="この定義へのパーマリンク">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -1133,7 +1134,7 @@ thesis</a></p>
 
 <dl class="ghc-flag">
 <dt id="ghc-flag--fstrictness">
-<code class="descname">-fstrictness</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag--fstrictness" title="Permalink to this definition">¶</a></dt>
+<code class="descname">-fstrictness</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag--fstrictness" title="この定義へのパーマリンク">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -1157,13 +1158,13 @@ arguments.</p>
 
 <dl class="ghc-flag">
 <dt id="ghc-flag--fstrictness-before=⟨n⟩">
-<code class="descname">-fstrictness-before</code><code class="descclassname">=⟨n⟩</code><a class="headerlink" href="#ghc-flag--fstrictness-before=⟨n⟩" title="Permalink to this definition">¶</a></dt>
+<code class="descname">-fstrictness-before</code><code class="descclassname">=⟨n⟩</code><a class="headerlink" href="#ghc-flag--fstrictness-before=⟨n⟩" title="この定義へのパーマリンク">¶</a></dt>
 <dd><p>Run an additional strictness analysis before simplifier phase ⟨n⟩.</p>
 </dd></dl>
 
 <dl class="ghc-flag">
 <dt id="ghc-flag--funbox-small-strict-fields">
-<code class="descname">-funbox-small-strict-fields</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag--funbox-small-strict-fields" title="Permalink to this definition">¶</a></dt>
+<code class="descname">-funbox-small-strict-fields</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag--funbox-small-strict-fields" title="この定義へのパーマリンク">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -1199,7 +1200,7 @@ they are technically larger than a pointer on those platforms.</p>
 
 <dl class="ghc-flag">
 <dt id="ghc-flag--funbox-strict-fields">
-<code class="descname">-funbox-strict-fields</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag--funbox-strict-fields" title="Permalink to this definition">¶</a></dt>
+<code class="descname">-funbox-strict-fields</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag--funbox-strict-fields" title="この定義へのパーマリンク">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -1224,7 +1225,7 @@ unbox strict fields which are &#8220;small&#8221;.</p>
 
 <dl class="ghc-flag">
 <dt id="ghc-flag--funfolding-creation-threshold=⟨n⟩">
-<code class="descname">-funfolding-creation-threshold</code><code class="descclassname">=⟨n⟩</code><a class="headerlink" href="#ghc-flag--funfolding-creation-threshold=⟨n⟩" title="Permalink to this definition">¶</a></dt>
+<code class="descname">-funfolding-creation-threshold</code><code class="descclassname">=⟨n⟩</code><a class="headerlink" href="#ghc-flag--funfolding-creation-threshold=⟨n⟩" title="この定義へのパーマリンク">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -1250,7 +1251,7 @@ useful.</p>
 
 <dl class="ghc-flag">
 <dt id="ghc-flag--funfolding-dict-discount=⟨n⟩">
-<code class="descname">-funfolding-dict-discount</code><code class="descclassname">=⟨n⟩</code><a class="headerlink" href="#ghc-flag--funfolding-dict-discount=⟨n⟩" title="Permalink to this definition">¶</a></dt>
+<code class="descname">-funfolding-dict-discount</code><code class="descclassname">=⟨n⟩</code><a class="headerlink" href="#ghc-flag--funfolding-dict-discount=⟨n⟩" title="この定義へのパーマリンク">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -1264,7 +1265,7 @@ useful.</p>
 
 <dl class="ghc-flag">
 <dt id="ghc-flag--funfolding-fun-discount=⟨n⟩">
-<code class="descname">-funfolding-fun-discount</code><code class="descclassname">=⟨n⟩</code><a class="headerlink" href="#ghc-flag--funfolding-fun-discount=⟨n⟩" title="Permalink to this definition">¶</a></dt>
+<code class="descname">-funfolding-fun-discount</code><code class="descclassname">=⟨n⟩</code><a class="headerlink" href="#ghc-flag--funfolding-fun-discount=⟨n⟩" title="この定義へのパーマリンク">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -1278,7 +1279,7 @@ useful.</p>
 
 <dl class="ghc-flag">
 <dt id="ghc-flag--funfolding-keeness-factor=⟨n⟩">
-<code class="descname">-funfolding-keeness-factor</code><code class="descclassname">=⟨n⟩</code><a class="headerlink" href="#ghc-flag--funfolding-keeness-factor=⟨n⟩" title="Permalink to this definition">¶</a></dt>
+<code class="descname">-funfolding-keeness-factor</code><code class="descclassname">=⟨n⟩</code><a class="headerlink" href="#ghc-flag--funfolding-keeness-factor=⟨n⟩" title="この定義へのパーマリンク">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -1292,7 +1293,7 @@ useful.</p>
 
 <dl class="ghc-flag">
 <dt id="ghc-flag--funfolding-use-threshold=⟨n⟩">
-<code class="descname">-funfolding-use-threshold</code><code class="descclassname">=⟨n⟩</code><a class="headerlink" href="#ghc-flag--funfolding-use-threshold=⟨n⟩" title="Permalink to this definition">¶</a></dt>
+<code class="descname">-funfolding-use-threshold</code><code class="descclassname">=⟨n⟩</code><a class="headerlink" href="#ghc-flag--funfolding-use-threshold=⟨n⟩" title="この定義へのパーマリンク">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -1316,7 +1317,7 @@ potential inlining.</p>
 
 <dl class="ghc-flag">
 <dt id="ghc-flag--fvectorisation-avoidance">
-<code class="descname">-fvectorisation-avoidance</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag--fvectorisation-avoidance" title="Permalink to this definition">¶</a></dt>
+<code class="descname">-fvectorisation-avoidance</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag--fvectorisation-avoidance" title="この定義へのパーマリンク">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -1337,7 +1338,7 @@ function would be better of unvectorised and if so, do just that.</p>
 
 <dl class="ghc-flag">
 <dt id="ghc-flag--fvectorise">
-<code class="descname">-fvectorise</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag--fvectorise" title="Permalink to this definition">¶</a></dt>
+<code class="descname">-fvectorise</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag--fvectorise" title="この定義へのパーマリンク">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -1364,24 +1365,24 @@ enable SIMD parallelism and friendlier cache behaviour.</p>
       <div class="clearer"></div>
     </div>
     <div class="related" role="navigation" aria-label="related navigation">
-      <h3>Navigation</h3>
+      <h3>ナビゲーション</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
-          <a href="genindex.html" title="General Index"
-             >index</a></li>
+          <a href="genindex.html" title="総合索引"
+             >索引</a></li>
         <li class="right" >
           <a href="using-concurrent.html" title="7.4. Using Concurrent Haskell"
-             >next</a> |</li>
+             >次へ</a> |</li>
         <li class="right" >
           <a href="using-warnings.html" title="7.2. Warnings and sanity-checking"
-             >previous</a> |</li>
+             >前へ</a> |</li>
         <li class="nav-item nav-item-0"><a href="index.html">GHC 8.2.2 User&#39;s Guide</a> &raquo;</li>
           <li class="nav-item nav-item-1"><a href="usage.html" >7. Using GHC</a> &raquo;</li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">
         &copy; Copyright 2015, GHC Team.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.6.
+      このドキュメントは <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.6 で生成しました。
     </div>
   </body>
 </html>

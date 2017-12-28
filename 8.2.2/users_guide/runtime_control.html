@@ -24,9 +24,10 @@
     <script type="text/javascript" src="_static/jquery.js"></script>
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/translations.js"></script>
     <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="search" type="application/opensearchdescription+xml"
-          title="Search within Glasgow Haskell Compiler 8.2.2 User&#39;s Guide"
+          title="Glasgow Haskell Compiler 8.2.2 User&#39;s Guide 内を検索"
           href="_static/opensearch.xml"/>
     <link rel="top" title="Glasgow Haskell Compiler 8.2.2 User&#39;s Guide" href="index.html" />
     <link rel="up" title="7. Using GHC" href="usage.html" />
@@ -39,17 +40,17 @@
 </div>
 
     <div class="related" role="navigation" aria-label="related navigation">
-      <h3>Navigation</h3>
+      <h3>ナビゲーション</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
-          <a href="genindex.html" title="General Index"
-             accesskey="I">index</a></li>
+          <a href="genindex.html" title="総合索引"
+             accesskey="I">索引</a></li>
         <li class="right" >
           <a href="separate_compilation.html" title="7.8. Filenames and separate compilation"
-             accesskey="N">next</a> |</li>
+             accesskey="N">次へ</a> |</li>
         <li class="right" >
           <a href="flags.html" title="7.6. Flag reference"
-             accesskey="P">previous</a> |</li>
+             accesskey="P">前へ</a> |</li>
         <li class="nav-item nav-item-0"><a href="index.html">GHC 8.2.2 User&#39;s Guide</a> &raquo;</li>
           <li class="nav-item nav-item-1"><a href="usage.html" accesskey="U">7. Using GHC</a> &raquo;</li> 
       </ul>
@@ -57,7 +58,7 @@
 
       <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
         <div class="sphinxsidebarwrapper">
-  <h3><a href="index.html">Table Of Contents</a></h3>
+  <h3><a href="index.html">目次</a></h3>
   <ul>
 <li><a class="reference internal" href="#">7.7. Running a compiled program</a><ul>
 <li><a class="reference internal" href="#setting-rts-options">7.7.1. Setting RTS options</a><ul>
@@ -83,29 +84,29 @@
 </li>
 </ul>
 
-  <h4>Previous topic</h4>
+  <h4>前のトピックへ</h4>
   <p class="topless"><a href="flags.html"
-                        title="previous chapter">7.6. Flag reference</a></p>
-  <h4>Next topic</h4>
+                        title="前の章へ">7.6. Flag reference</a></p>
+  <h4>次のトピックへ</h4>
   <p class="topless"><a href="separate_compilation.html"
-                        title="next chapter">7.8. Filenames and separate compilation</a></p>
+                        title="次の章へ">7.8. Filenames and separate compilation</a></p>
   <div role="note" aria-label="source link">
-    <h3>This Page</h3>
+    <h3>このページ</h3>
     <ul class="this-page-menu">
       <li><a href="_sources/runtime_control.txt"
-            rel="nofollow">Show Source</a></li>
+            rel="nofollow">ソースコードを表示</a></li>
     </ul>
    </div>
 <div id="searchbox" style="display: none" role="search">
-  <h3>Quick search</h3>
+  <h3>クイック検索</h3>
     <form class="search" action="search.html" method="get">
       <input type="text" name="q" />
-      <input type="submit" value="Go" />
+      <input type="submit" value="検索" />
       <input type="hidden" name="check_keywords" value="yes" />
       <input type="hidden" name="area" value="default" />
     </form>
     <p class="searchtip" style="font-size: 90%">
-    Enter search terms or a module, class or function name.
+    モジュール、クラス、または関数名を入力してください
     </p>
 </div>
 <script type="text/javascript">$('#searchbox').show(0);</script>
@@ -118,7 +119,7 @@
           <div class="body" role="main">
             
   <div class="section" id="running-a-compiled-program">
-<span id="runtime-control"></span><h1>7.7. Running a compiled program<a class="headerlink" href="#running-a-compiled-program" title="Permalink to this headline">¶</a></h1>
+<span id="runtime-control"></span><h1>7.7. Running a compiled program<a class="headerlink" href="#running-a-compiled-program" title="このヘッドラインへのパーマリンク">¶</a></h1>
 <p id="index-0">To make an executable program, the GHC system compiles your code and
 then links it with a non-trivial runtime system (RTS), which handles
 storage management, thread scheduling, profiling, and so on.</p>
@@ -129,7 +130,7 @@ system in a variety of different ways; the next section
 (<a class="reference internal" href="#setting-rts-options"><span>Setting RTS options</span></a>) describes the various methods, and the
 following sections describe the RTS options themselves.</p>
 <div class="section" id="setting-rts-options">
-<span id="id1"></span><h2>7.7.1. Setting RTS options<a class="headerlink" href="#setting-rts-options" title="Permalink to this headline">¶</a></h2>
+<span id="id1"></span><h2>7.7.1. Setting RTS options<a class="headerlink" href="#setting-rts-options" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <p id="index-1">There are four ways to set RTS options:</p>
 <ul class="simple">
 <li>on the command line between <code class="docutils literal"><span class="pre">+RTS</span> <span class="pre">...</span> <span class="pre">-RTS</span></code>, when running the
@@ -141,7 +142,7 @@ program (<a class="reference internal" href="#rts-opts-cmdline"><span>Setting RT
 <li>by overriding &#8220;hooks&#8221; in the runtime system (<a class="reference internal" href="#rts-hooks"><span>&#8220;Hooks&#8221; to change RTS behaviour</span></a>)</li>
 </ul>
 <div class="section" id="setting-rts-options-on-the-command-line">
-<span id="rts-opts-cmdline"></span><h3>7.7.1.1. Setting RTS options on the command line<a class="headerlink" href="#setting-rts-options-on-the-command-line" title="Permalink to this headline">¶</a></h3>
+<span id="rts-opts-cmdline"></span><h3>7.7.1.1. Setting RTS options on the command line<a class="headerlink" href="#setting-rts-options-on-the-command-line" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <p id="index-3">If you set the <a class="reference internal" href="phases.html#ghc-flag--rtsopts[=⟨none|some|all⟩]"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-rtsopts[=⟨none|some|all⟩]</span></code></a> flag appropriately when
 linking (see <a class="reference internal" href="phases.html#options-linker"><span>Options affecting linking</span></a>), you can give RTS options on the command
 line when running your program.</p>
@@ -172,7 +173,7 @@ fault!)</p>
 options actually available in your program (which vary, depending on how
 you compiled).</p>
 <div class="admonition note">
-<p class="first admonition-title">Note</p>
+<p class="first admonition-title">注釈</p>
 <p class="last">Since GHC is itself compiled by GHC, you can change RTS options in
 the compiler using the normal <code class="docutils literal"><span class="pre">+RTS</span> <span class="pre">...</span> <span class="pre">-RTS</span></code> combination. For instance, to set
 the maximum heap size for a compilation to 128M, you would add
@@ -180,7 +181,7 @@ the maximum heap size for a compilation to 128M, you would add
 </div>
 </div>
 <div class="section" id="setting-rts-options-at-compile-time">
-<span id="rts-opts-compile-time"></span><h3>7.7.1.2. Setting RTS options at compile time<a class="headerlink" href="#setting-rts-options-at-compile-time" title="Permalink to this headline">¶</a></h3>
+<span id="rts-opts-compile-time"></span><h3>7.7.1.2. Setting RTS options at compile time<a class="headerlink" href="#setting-rts-options-at-compile-time" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <p>GHC lets you change the default RTS options for a program at compile
 time, using the <code class="docutils literal"><span class="pre">-with-rtsopts</span></code> flag (<a class="reference internal" href="phases.html#options-linker"><span>Options affecting linking</span></a>). A common
 use for this is to give your program a default heap and/or stack size
@@ -188,10 +189,10 @@ that is greater than the default. For example, to set <code class="docutils lite
 link with <code class="docutils literal"><span class="pre">-with-rtsopts=&quot;-H128m</span> <span class="pre">-K64m&quot;</span></code>.</p>
 </div>
 <div class="section" id="setting-rts-options-with-the-ghcrts-environment-variable">
-<span id="rts-options-environment"></span><h3>7.7.1.3. Setting RTS options with the <code class="docutils literal"><span class="pre">GHCRTS</span></code> environment variable<a class="headerlink" href="#setting-rts-options-with-the-ghcrts-environment-variable" title="Permalink to this headline">¶</a></h3>
+<span id="rts-options-environment"></span><h3>7.7.1.3. Setting RTS options with the <code class="docutils literal"><span class="pre">GHCRTS</span></code> environment variable<a class="headerlink" href="#setting-rts-options-with-the-ghcrts-environment-variable" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <span class="target" id="index-4"></span><dl class="envvar">
 <dt id="envvar-GHCRTS">
-<code class="descname">GHCRTS</code><a class="headerlink" href="#envvar-GHCRTS" title="Permalink to this definition">¶</a></dt>
+<code class="descname">GHCRTS</code><a class="headerlink" href="#envvar-GHCRTS" title="この定義へのパーマリンク">¶</a></dt>
 <dd><p>If the <code class="docutils literal"><span class="pre">-rtsopts</span></code> flag is set to something other than <code class="docutils literal"><span class="pre">none</span></code> when
 linking, RTS options are also taken from the environment variable
 <span class="target" id="index-5"></span><a class="reference internal" href="#envvar-GHCRTS"><code class="xref std std-envvar docutils literal"><span class="pre">GHCRTS</span></code></a>. For example, to set the maximum heap size to 2G
@@ -205,7 +206,7 @@ overridden by options given on the command line.</p>
 </dd></dl>
 
 <div class="admonition tip">
-<p class="first admonition-title">Tip</p>
+<p class="first admonition-title">ちなみに</p>
 <p class="last">Setting something like <code class="docutils literal"><span class="pre">GHCRTS=-M2G</span></code> in your environment is a
 handy way to avoid Haskell programs growing beyond the real memory in
 your machine, which is easy to do by accident and can cause the machine
@@ -214,7 +215,7 @@ hope it kills the right one).</p>
 </div>
 </div>
 <div class="section" id="hooks-to-change-rts-behaviour">
-<span id="rts-hooks"></span><h3>7.7.1.4. &#8220;Hooks&#8221; to change RTS behaviour<a class="headerlink" href="#hooks-to-change-rts-behaviour" title="Permalink to this headline">¶</a></h3>
+<span id="rts-hooks"></span><h3>7.7.1.4. &#8220;Hooks&#8221; to change RTS behaviour<a class="headerlink" href="#hooks-to-change-rts-behaviour" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <p id="index-7">GHC lets you exercise rudimentary control over certain RTS settings for
 any given program, by compiling in a &#8220;hook&#8221; that is called by the
 run-time system. The RTS contains stub definitions for these hooks, but
@@ -223,59 +224,59 @@ can override the defaults.</p>
 <p>Owing to the vagaries of DLL linking, these hooks don&#8217;t work under
 Windows when the program is built dynamically.</p>
 <div class="section" id="runtime-events">
-<h4>7.7.1.4.1. Runtime events<a class="headerlink" href="#runtime-events" title="Permalink to this headline">¶</a></h4>
+<h4>7.7.1.4.1. Runtime events<a class="headerlink" href="#runtime-events" title="このヘッドラインへのパーマリンク">¶</a></h4>
 <p>You can change the messages printed when the runtime system &#8220;blows up,&#8221;
 e.g., on stack overflow. The hooks for these are as follows:</p>
 <dl class="function">
 <dt id="c.OutOfHeapHook">
-void <code class="descname">OutOfHeapHook</code><span class="sig-paren">(</span>unsigned<em>&nbsp;long</em>, unsigned<em>&nbsp;long</em><span class="sig-paren">)</span><a class="headerlink" href="#c.OutOfHeapHook" title="Permalink to this definition">¶</a></dt>
+void <code class="descname">OutOfHeapHook</code><span class="sig-paren">(</span>unsigned<em>&nbsp;long</em>, unsigned<em>&nbsp;long</em><span class="sig-paren">)</span><a class="headerlink" href="#c.OutOfHeapHook" title="この定義へのパーマリンク">¶</a></dt>
 <dd><p>The heap-overflow message.</p>
 </dd></dl>
 
 <dl class="function">
 <dt id="c.StackOverflowHook">
-void <code class="descname">StackOverflowHook</code><span class="sig-paren">(</span>long<em>&nbsp;int</em><span class="sig-paren">)</span><a class="headerlink" href="#c.StackOverflowHook" title="Permalink to this definition">¶</a></dt>
+void <code class="descname">StackOverflowHook</code><span class="sig-paren">(</span>long<em>&nbsp;int</em><span class="sig-paren">)</span><a class="headerlink" href="#c.StackOverflowHook" title="この定義へのパーマリンク">¶</a></dt>
 <dd><p>The stack-overflow message.</p>
 </dd></dl>
 
 <dl class="function">
 <dt id="c.MallocFailHook">
-void <code class="descname">MallocFailHook</code><span class="sig-paren">(</span>long<em>&nbsp;int</em><span class="sig-paren">)</span><a class="headerlink" href="#c.MallocFailHook" title="Permalink to this definition">¶</a></dt>
+void <code class="descname">MallocFailHook</code><span class="sig-paren">(</span>long<em>&nbsp;int</em><span class="sig-paren">)</span><a class="headerlink" href="#c.MallocFailHook" title="この定義へのパーマリンク">¶</a></dt>
 <dd><p>The message printed if <code class="docutils literal"><span class="pre">malloc</span></code> fails.</p>
 </dd></dl>
 
 </div>
 <div class="section" id="event-log-output">
-<h4>7.7.1.4.2. Event log output<a class="headerlink" href="#event-log-output" title="Permalink to this headline">¶</a></h4>
+<h4>7.7.1.4.2. Event log output<a class="headerlink" href="#event-log-output" title="このヘッドラインへのパーマリンク">¶</a></h4>
 <p>Furthermore GHC lets you specify the way event log data (see <a class="reference internal" href="profiling.html#rts-flag--l"><code class="xref std std-rts-flag docutils literal"><span class="pre">-l</span></code></a>) is
 written through a custom <a class="reference internal" href="#c.EventLogWriter" title="EventLogWriter"><code class="xref c c-type docutils literal"><span class="pre">EventLogWriter</span></code></a>:</p>
 <dl class="type">
 <dt id="c.EventLogWriter">
-<code class="descname">EventLogWriter</code><a class="headerlink" href="#c.EventLogWriter" title="Permalink to this definition">¶</a></dt>
+<code class="descname">EventLogWriter</code><a class="headerlink" href="#c.EventLogWriter" title="この定義へのパーマリンク">¶</a></dt>
 <dd><p>A sink of event-log data.</p>
 <dl class="member">
 <dt id="c.EventLogWriter.initEventLogWriter">
-void <code class="descname">initEventLogWriter</code><span class="sig-paren">(</span>void<span class="sig-paren">)</span><a class="headerlink" href="#c.EventLogWriter.initEventLogWriter" title="Permalink to this definition">¶</a></dt>
+void <code class="descname">initEventLogWriter</code><span class="sig-paren">(</span>void<span class="sig-paren">)</span><a class="headerlink" href="#c.EventLogWriter.initEventLogWriter" title="この定義へのパーマリンク">¶</a></dt>
 <dd><p>Initializes your <a class="reference internal" href="#c.EventLogWriter" title="EventLogWriter"><code class="xref c c-type docutils literal"><span class="pre">EventLogWriter</span></code></a>. This is optional.</p>
 </dd></dl>
 
 <dl class="member">
 <dt id="c.EventLogWriter.writeEventLog">
-bool <code class="descname">writeEventLog</code><span class="sig-paren">(</span>void<em>&nbsp;*eventlog</em>, size_t<em>&nbsp;eventlog_size</em><span class="sig-paren">)</span><a class="headerlink" href="#c.EventLogWriter.writeEventLog" title="Permalink to this definition">¶</a></dt>
+bool <code class="descname">writeEventLog</code><span class="sig-paren">(</span>void<em>&nbsp;*eventlog</em>, size_t<em>&nbsp;eventlog_size</em><span class="sig-paren">)</span><a class="headerlink" href="#c.EventLogWriter.writeEventLog" title="この定義へのパーマリンク">¶</a></dt>
 <dd><p>Hands buffered event log data to your event log writer.
 Required for a custom <a class="reference internal" href="#c.EventLogWriter" title="EventLogWriter"><code class="xref c c-type docutils literal"><span class="pre">EventLogWriter</span></code></a>.</p>
 </dd></dl>
 
 <dl class="member">
 <dt id="c.EventLogWriter.flushEventLog">
-void <code class="descname">flushEventLog</code><span class="sig-paren">(</span>void<span class="sig-paren">)</span><a class="headerlink" href="#c.EventLogWriter.flushEventLog" title="Permalink to this definition">¶</a></dt>
+void <code class="descname">flushEventLog</code><span class="sig-paren">(</span>void<span class="sig-paren">)</span><a class="headerlink" href="#c.EventLogWriter.flushEventLog" title="この定義へのパーマリンク">¶</a></dt>
 <dd><p>Flush buffers (if any) of your custom <a class="reference internal" href="#c.EventLogWriter" title="EventLogWriter"><code class="xref c c-type docutils literal"><span class="pre">EventLogWriter</span></code></a>. This can
 be <code class="docutils literal"><span class="pre">NULL</span></code>.</p>
 </dd></dl>
 
 <dl class="member">
 <dt id="c.EventLogWriter.stopEventLogWriter">
-void <code class="descname">stopEventLogWriter</code><span class="sig-paren">(</span>void<span class="sig-paren">)</span><a class="headerlink" href="#c.EventLogWriter.stopEventLogWriter" title="Permalink to this definition">¶</a></dt>
+void <code class="descname">stopEventLogWriter</code><span class="sig-paren">(</span>void<span class="sig-paren">)</span><a class="headerlink" href="#c.EventLogWriter.stopEventLogWriter" title="この定義へのパーマリンク">¶</a></dt>
 <dd><p>Called when event logging is about to stop. This can be <code class="docutils literal"><span class="pre">NULL</span></code>.</p>
 </dd></dl>
 
@@ -285,10 +286,10 @@ void <code class="descname">stopEventLogWriter</code><span class="sig-paren">(</
 </div>
 </div>
 <div class="section" id="miscellaneous-rts-options">
-<span id="rts-options-misc"></span><h2>7.7.2. Miscellaneous RTS options<a class="headerlink" href="#miscellaneous-rts-options" title="Permalink to this headline">¶</a></h2>
+<span id="rts-options-misc"></span><h2>7.7.2. Miscellaneous RTS options<a class="headerlink" href="#miscellaneous-rts-options" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <dl class="rts-flag">
 <dt id="rts-flag---install-signal-handlers=⟨yes|no⟩">
-<code class="descname">--install-signal-handlers</code><code class="descclassname">=⟨yes|no⟩</code><a class="headerlink" href="#rts-flag---install-signal-handlers=⟨yes|no⟩" title="Permalink to this definition">¶</a></dt>
+<code class="descname">--install-signal-handlers</code><code class="descclassname">=⟨yes|no⟩</code><a class="headerlink" href="#rts-flag---install-signal-handlers=⟨yes|no⟩" title="この定義へのパーマリンク">¶</a></dt>
 <dd><p>If yes (the default), the RTS installs signal handlers to catch
 things like <code class="kbd docutils literal"><span class="pre">Ctrl-C</span></code>. This option is primarily useful for when you are
 using the Haskell code as a DLL, and want to set your own signal
@@ -302,9 +303,9 @@ option (see above).</p>
 
 <dl class="rts-flag">
 <dt id="rts-flag--xm ⟨address⟩">
-<code class="descname">-xm</code><code class="descclassname"> ⟨address⟩</code><a class="headerlink" href="#rts-flag--xm ⟨address⟩" title="Permalink to this definition">¶</a></dt>
+<code class="descname">-xm</code><code class="descclassname"> ⟨address⟩</code><a class="headerlink" href="#rts-flag--xm ⟨address⟩" title="この定義へのパーマリンク">¶</a></dt>
 <dd><div class="admonition warning" id="index-8">
-<p class="first admonition-title">Warning</p>
+<p class="first admonition-title">警告</p>
 <p class="last">This option is for working around memory allocation
 problems only. Do not use unless GHCi fails with a message like
 “<code class="docutils literal"><span class="pre">failed</span> <span class="pre">to</span> <span class="pre">mmap()</span> <span class="pre">memory</span> <span class="pre">below</span> <span class="pre">2Gb</span></code>”. If you need to use this
@@ -323,7 +324,7 @@ support for allocating memory in the low 2Gb if available (e.g.
 
 <dl class="rts-flag">
 <dt id="rts-flag--xq ⟨size⟩">
-<code class="descname">-xq</code><code class="descclassname"> ⟨size⟩</code><a class="headerlink" href="#rts-flag--xq ⟨size⟩" title="Permalink to this definition">¶</a></dt>
+<code class="descname">-xq</code><code class="descclassname"> ⟨size⟩</code><a class="headerlink" href="#rts-flag--xq ⟨size⟩" title="この定義へのパーマリンク">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -343,14 +344,14 @@ size of this additional quota.</p>
 
 </div>
 <div class="section" id="rts-options-to-control-the-garbage-collector">
-<span id="rts-options-gc"></span><h2>7.7.3. RTS options to control the garbage collector<a class="headerlink" href="#rts-options-to-control-the-garbage-collector" title="Permalink to this headline">¶</a></h2>
+<span id="rts-options-gc"></span><h2>7.7.3. RTS options to control the garbage collector<a class="headerlink" href="#rts-options-to-control-the-garbage-collector" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <p id="index-9">There are several options to give you precise control over garbage
 collection. Hopefully, you won&#8217;t need any of these in normal operation,
 but there are several things that can be tweaked for maximum
 performance.</p>
 <dl class="rts-flag">
 <dt id="rts-flag--A ⟨size⟩">
-<code class="descname">-A</code><code class="descclassname"> ⟨size⟩</code><a class="headerlink" href="#rts-flag--A ⟨size⟩" title="Permalink to this definition">¶</a></dt>
+<code class="descname">-A</code><code class="descclassname"> ⟨size⟩</code><a class="headerlink" href="#rts-flag--A ⟨size⟩" title="この定義へのパーマリンク">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -373,7 +374,7 @@ the heap (see <a class="reference internal" href="#rts-flag--F ⟨factor⟩"><co
 
 <dl class="rts-flag">
 <dt id="rts-flag--AL ⟨size⟩">
-<code class="descname">-AL</code><code class="descclassname"> ⟨size⟩</code><a class="headerlink" href="#rts-flag--AL ⟨size⟩" title="Permalink to this definition">¶</a></dt>
+<code class="descname">-AL</code><code class="descclassname"> ⟨size⟩</code><a class="headerlink" href="#rts-flag--AL ⟨size⟩" title="この定義へのパーマリンク">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -405,7 +406,7 @@ increase the limit for large objects.</p>
 
 <dl class="rts-flag">
 <dt id="rts-flag--O ⟨size⟩">
-<code class="descname">-O</code><code class="descclassname"> ⟨size⟩</code><a class="headerlink" href="#rts-flag--O ⟨size⟩" title="Permalink to this definition">¶</a></dt>
+<code class="descname">-O</code><code class="descclassname"> ⟨size⟩</code><a class="headerlink" href="#rts-flag--O ⟨size⟩" title="この定義へのパーマリンク">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -422,7 +423,7 @@ collection, whichever is larger.</p>
 
 <dl class="rts-flag">
 <dt id="rts-flag--n ⟨size⟩">
-<code class="descname">-n</code><code class="descclassname"> ⟨size⟩</code><a class="headerlink" href="#rts-flag--n ⟨size⟩" title="Permalink to this definition">¶</a></dt>
+<code class="descname">-n</code><code class="descclassname"> ⟨size⟩</code><a class="headerlink" href="#rts-flag--n ⟨size⟩" title="この定義へのパーマリンク">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -454,7 +455,7 @@ counts (8+).</p>
 
 <dl class="rts-flag">
 <dt id="rts-flag--c">
-<code class="descname">-c</code><code class="descclassname"></code><a class="headerlink" href="#rts-flag--c" title="Permalink to this definition">¶</a></dt>
+<code class="descname">-c</code><code class="descclassname"></code><a class="headerlink" href="#rts-flag--c" title="この定義へのパーマリンク">¶</a></dt>
 <dd><p id="index-14">Use a compacting algorithm for collecting the oldest generation. By
 default, the oldest generation is collected using a copying
 algorithm; this option causes it to be compacted in-place instead.
@@ -465,7 +466,7 @@ can in fact reduce the GC cost by allowing fewer GCs to be performed. This
 is more likely when the ratio of live data to heap size is high, say
 greater than 30%.</p>
 <div class="admonition note">
-<p class="first admonition-title">Note</p>
+<p class="first admonition-title">注釈</p>
 <p class="last">Compaction doesn&#8217;t currently work when a single generation is
 requested using the <code class="docutils literal"><span class="pre">-G1</span></code> option.</p>
 </div>
@@ -473,7 +474,7 @@ requested using the <code class="docutils literal"><span class="pre">-G1</span><
 
 <dl class="rts-flag">
 <dt id="rts-flag--c ⟨n⟩">
-<code class="descname">-c</code><code class="descclassname"> ⟨n⟩</code><a class="headerlink" href="#rts-flag--c ⟨n⟩" title="Permalink to this definition">¶</a></dt>
+<code class="descname">-c</code><code class="descclassname"> ⟨n⟩</code><a class="headerlink" href="#rts-flag--c ⟨n⟩" title="この定義へのパーマリンク">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -490,7 +491,7 @@ unless the maximum heap size is set with <a class="reference internal" href="#rt
 
 <dl class="rts-flag">
 <dt id="rts-flag--F ⟨factor⟩">
-<code class="descname">-F</code><code class="descclassname"> ⟨factor⟩</code><a class="headerlink" href="#rts-flag--F ⟨factor⟩" title="Permalink to this definition">¶</a></dt>
+<code class="descname">-F</code><code class="descclassname"> ⟨factor⟩</code><a class="headerlink" href="#rts-flag--F ⟨factor⟩" title="この定義へのパーマリンク">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -514,7 +515,7 @@ collector when the maximum heap size (the <a class="reference internal" href="#r
 
 <dl class="rts-flag">
 <dt id="rts-flag--G ⟨generations⟩">
-<code class="descname">-G</code><code class="descclassname"> ⟨generations⟩</code><a class="headerlink" href="#rts-flag--G ⟨generations⟩" title="Permalink to this definition">¶</a></dt>
+<code class="descname">-G</code><code class="descclassname"> ⟨generations⟩</code><a class="headerlink" href="#rts-flag--G ⟨generations⟩" title="この定義へのパーマリンク">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -539,7 +540,7 @@ you use the <a class="reference internal" href="#rts-flag--H [⟨size⟩]"><code
 
 <dl class="rts-flag">
 <dt id="rts-flag--qg ⟨gen⟩">
-<code class="descname">-qg</code><code class="descclassname"> ⟨gen⟩</code><a class="headerlink" href="#rts-flag--qg ⟨gen⟩" title="Permalink to this definition">¶</a></dt>
+<code class="descname">-qg</code><code class="descclassname"> ⟨gen⟩</code><a class="headerlink" href="#rts-flag--qg ⟨gen⟩" title="この定義へのパーマリンク">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -564,7 +565,7 @@ be beneficial to restrict parallel GC to the old generation with <code class="do
 
 <dl class="rts-flag">
 <dt id="rts-flag--qb ⟨gen⟩">
-<code class="descname">-qb</code><code class="descclassname"> ⟨gen⟩</code><a class="headerlink" href="#rts-flag--qb ⟨gen⟩" title="Permalink to this definition">¶</a></dt>
+<code class="descname">-qb</code><code class="descclassname"> ⟨gen⟩</code><a class="headerlink" href="#rts-flag--qb ⟨gen⟩" title="この定義へのパーマリンク">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -590,7 +591,7 @@ entirely with <code class="docutils literal"><span class="pre">-qb</span></code>
 
 <dl class="rts-flag">
 <dt id="rts-flag--qn ⟨x⟩">
-<code class="descname">-qn</code><code class="descclassname"> ⟨x⟩</code><a class="headerlink" href="#rts-flag--qn ⟨x⟩" title="Permalink to this definition">¶</a></dt>
+<code class="descname">-qn</code><code class="descclassname"> ⟨x⟩</code><a class="headerlink" href="#rts-flag--qn ⟨x⟩" title="この定義へのパーマリンク">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -620,7 +621,7 @@ this configuration would use 6GB for the allocation area.</p>
 
 <dl class="rts-flag">
 <dt id="rts-flag--H [⟨size⟩]">
-<code class="descname">-H</code><code class="descclassname"> [⟨size⟩]</code><a class="headerlink" href="#rts-flag--H [⟨size⟩]" title="Permalink to this definition">¶</a></dt>
+<code class="descname">-H</code><code class="descclassname"> [⟨size⟩]</code><a class="headerlink" href="#rts-flag--H [⟨size⟩]" title="この定義へのパーマリンク">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -645,7 +646,7 @@ programs that create large amounts of long-lived data.</p>
 
 <dl class="rts-flag">
 <dt id="rts-flag--I ⟨seconds⟩">
-<code class="descname">-I</code><code class="descclassname"> ⟨seconds⟩</code><a class="headerlink" href="#rts-flag--I ⟨seconds⟩" title="Permalink to this definition">¶</a></dt>
+<code class="descname">-I</code><code class="descclassname"> ⟨seconds⟩</code><a class="headerlink" href="#rts-flag--I ⟨seconds⟩" title="この定義へのパーマリンク">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -675,7 +676,7 @@ problems and/or could benefit from further tuning.</p>
 
 <dl class="rts-flag">
 <dt id="rts-flag--ki ⟨size⟩">
-<code class="descname">-ki</code><code class="descclassname"> ⟨size⟩</code><a class="headerlink" href="#rts-flag--ki ⟨size⟩" title="Permalink to this definition">¶</a></dt>
+<code class="descname">-ki</code><code class="descclassname"> ⟨size⟩</code><a class="headerlink" href="#rts-flag--ki ⟨size⟩" title="この定義へのパーマリンク">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -693,7 +694,7 @@ small, in order to keep the time and space overhead for thread
 creation to a minimum, and to make it practical to spawn threads for
 even tiny pieces of work.</p>
 <div class="admonition note">
-<p class="first admonition-title">Note</p>
+<p class="first admonition-title">注釈</p>
 <p class="last">This flag used to be simply <code class="docutils literal"><span class="pre">-k</span></code>, but was renamed to <code class="docutils literal"><span class="pre">-ki</span></code> in
 GHC 7.2.1. The old name is still accepted for backwards
 compatibility, but that may be removed in a future version.</p>
@@ -702,7 +703,7 @@ compatibility, but that may be removed in a future version.</p>
 
 <dl class="rts-flag">
 <dt id="rts-flag--kc ⟨size⟩">
-<code class="descname">-kc</code><code class="descclassname"> ⟨size⟩</code><a class="headerlink" href="#rts-flag--kc ⟨size⟩" title="Permalink to this definition">¶</a></dt>
+<code class="descname">-kc</code><code class="descclassname"> ⟨size⟩</code><a class="headerlink" href="#rts-flag--kc ⟨size⟩" title="この定義へのパーマリンク">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -725,7 +726,7 @@ default setting of 32k appears to be a reasonable compromise in most cases.</p>
 
 <dl class="rts-flag">
 <dt id="rts-flag--kb ⟨size⟩">
-<code class="descname">-kb</code><code class="descclassname"> ⟨size⟩</code><a class="headerlink" href="#rts-flag--kb ⟨size⟩" title="Permalink to this definition">¶</a></dt>
+<code class="descname">-kb</code><code class="descclassname"> ⟨size⟩</code><a class="headerlink" href="#rts-flag--kb ⟨size⟩" title="この定義へのパーマリンク">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -747,7 +748,7 @@ size.</p>
 
 <dl class="rts-flag">
 <dt id="rts-flag--K ⟨size⟩">
-<code class="descname">-K</code><code class="descclassname"> ⟨size⟩</code><a class="headerlink" href="#rts-flag--K ⟨size⟩" title="Permalink to this definition">¶</a></dt>
+<code class="descname">-K</code><code class="descclassname"> ⟨size⟩</code><a class="headerlink" href="#rts-flag--K ⟨size⟩" title="この定義へのパーマリンク">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -766,7 +767,7 @@ available memory in the machine if it gets into an infinite loop.</p>
 
 <dl class="rts-flag">
 <dt id="rts-flag--m ⟨n⟩">
-<code class="descname">-m</code><code class="descclassname"> ⟨n⟩</code><a class="headerlink" href="#rts-flag--m ⟨n⟩" title="Permalink to this definition">¶</a></dt>
+<code class="descname">-m</code><code class="descclassname"> ⟨n⟩</code><a class="headerlink" href="#rts-flag--m ⟨n⟩" title="この定義へのパーマリンク">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -780,7 +781,7 @@ available memory in the machine if it gets into an infinite loop.</p>
 
 <dl class="rts-flag">
 <dt id="rts-flag--M ⟨size⟩">
-<code class="descname">-M</code><code class="descclassname"> ⟨size⟩</code><a class="headerlink" href="#rts-flag--M ⟨size⟩" title="Permalink to this definition">¶</a></dt>
+<code class="descname">-M</code><code class="descclassname"> ⟨size⟩</code><a class="headerlink" href="#rts-flag--M ⟨size⟩" title="この定義へのパーマリンク">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -805,7 +806,7 @@ maximum heap size.</p>
 
 <dl class="rts-flag">
 <dt id="rts-flag--Mgrace=⟨size⟩">
-<code class="descname">-Mgrace</code><code class="descclassname">=⟨size⟩</code><a class="headerlink" href="#rts-flag--Mgrace=⟨size⟩" title="Permalink to this definition">¶</a></dt>
+<code class="descname">-Mgrace</code><code class="descclassname">=⟨size⟩</code><a class="headerlink" href="#rts-flag--Mgrace=⟨size⟩" title="この定義へのパーマリンク">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -824,9 +825,9 @@ additional quota.</p>
 
 <dl class="rts-flag">
 <dt id="rts-flag---numa">
-<code class="descname">--numa</code><code class="descclassname"></code><a class="headerlink" href="#rts-flag---numa" title="Permalink to this definition">¶</a></dt>
+<code class="descname">--numa</code><code class="descclassname"></code><a class="headerlink" href="#rts-flag---numa" title="この定義へのパーマリンク">¶</a></dt>
 <dt id="rts-flag---numa=&lt;mask&gt;">
-<code class="descname">--numa</code><code class="descclassname">=&lt;mask&gt;</code><a class="headerlink" href="#rts-flag---numa=<mask>" title="Permalink to this definition">¶</a></dt>
+<code class="descname">--numa</code><code class="descclassname">=&lt;mask&gt;</code><a class="headerlink" href="#rts-flag---numa=<mask>" title="この定義へのパーマリンク">¶</a></dt>
 <dd><p id="index-27">Enable NUMA-aware memory allocation in the runtime (only available
 with <code class="docutils literal"><span class="pre">-threaded</span></code>, and only on Linux currently).</p>
 <p>Background: some systems have a Non-Uniform Memory Architecture,
@@ -872,18 +873,18 @@ example, <code class="docutils literal"><span class="pre">--numa=3</span></code>
 
 </div>
 <div class="section" id="rts-options-to-produce-runtime-statistics">
-<span id="rts-options-statistics"></span><h2>7.7.4. RTS options to produce runtime statistics<a class="headerlink" href="#rts-options-to-produce-runtime-statistics" title="Permalink to this headline">¶</a></h2>
+<span id="rts-options-statistics"></span><h2>7.7.4. RTS options to produce runtime statistics<a class="headerlink" href="#rts-options-to-produce-runtime-statistics" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <dl class="rts-flag">
 <dt id="rts-flag--T">
-<code class="descname">-T</code><code class="descclassname"></code><a class="headerlink" href="#rts-flag--T" title="Permalink to this definition">¶</a></dt>
+<code class="descname">-T</code><code class="descclassname"></code><a class="headerlink" href="#rts-flag--T" title="この定義へのパーマリンク">¶</a></dt>
 <dt id="rts-flag--t [⟨file⟩]">
-<code class="descname">-t</code><code class="descclassname"> [⟨file⟩]</code><a class="headerlink" href="#rts-flag--t [⟨file⟩]" title="Permalink to this definition">¶</a></dt>
+<code class="descname">-t</code><code class="descclassname"> [⟨file⟩]</code><a class="headerlink" href="#rts-flag--t [⟨file⟩]" title="この定義へのパーマリンク">¶</a></dt>
 <dt id="rts-flag--s [⟨file⟩]">
-<code class="descname">-s</code><code class="descclassname"> [⟨file⟩]</code><a class="headerlink" href="#rts-flag--s [⟨file⟩]" title="Permalink to this definition">¶</a></dt>
+<code class="descname">-s</code><code class="descclassname"> [⟨file⟩]</code><a class="headerlink" href="#rts-flag--s [⟨file⟩]" title="この定義へのパーマリンク">¶</a></dt>
 <dt id="rts-flag--S [⟨file⟩]">
-<code class="descname">-S</code><code class="descclassname"> [⟨file⟩]</code><a class="headerlink" href="#rts-flag--S [⟨file⟩]" title="Permalink to this definition">¶</a></dt>
+<code class="descname">-S</code><code class="descclassname"> [⟨file⟩]</code><a class="headerlink" href="#rts-flag--S [⟨file⟩]" title="この定義へのパーマリンク">¶</a></dt>
 <dt id="rts-flag---machine-readable">
-<code class="descname">--machine-readable</code><code class="descclassname"></code><a class="headerlink" href="#rts-flag---machine-readable" title="Permalink to this definition">¶</a></dt>
+<code class="descname">--machine-readable</code><code class="descclassname"></code><a class="headerlink" href="#rts-flag---machine-readable" title="この定義へのパーマリンク">¶</a></dt>
 <dd><p>These options produce runtime-system statistics, such as the amount
 of time spent executing the program and in the garbage collector,
 the amount of memory allocated, the maximum size of the heap, and so
@@ -1042,13 +1043,13 @@ collection.</li>
 
 </div>
 <div class="section" id="rts-options-for-concurrency-and-parallelism">
-<h2>7.7.5. RTS options for concurrency and parallelism<a class="headerlink" href="#rts-options-for-concurrency-and-parallelism" title="Permalink to this headline">¶</a></h2>
+<h2>7.7.5. RTS options for concurrency and parallelism<a class="headerlink" href="#rts-options-for-concurrency-and-parallelism" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <p>The RTS options related to concurrency are described in
 <a class="reference internal" href="using-concurrent.html#using-concurrent"><span>Using Concurrent Haskell</span></a>, and those for parallelism in
 <a class="reference internal" href="using-concurrent.html#parallel-options"><span>RTS options for SMP parallelism</span></a>.</p>
 </div>
 <div class="section" id="rts-options-for-profiling">
-<span id="rts-profiling"></span><h2>7.7.6. RTS options for profiling<a class="headerlink" href="#rts-options-for-profiling" title="Permalink to this headline">¶</a></h2>
+<span id="rts-profiling"></span><h2>7.7.6. RTS options for profiling<a class="headerlink" href="#rts-options-for-profiling" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <p>Most profiling runtime options are only available when you compile your
 program for profiling (see <a class="reference internal" href="profiling.html#prof-compiler-options"><span>Compiler options for profiling</span></a>, and
 <a class="reference internal" href="profiling.html#rts-options-heap-prof"><span>RTS options for heap profiling</span></a> for the runtime options). However, there is
@@ -1056,9 +1057,9 @@ one profiling option that is available for ordinary non-profiled
 executables:</p>
 <dl class="rts-flag">
 <dt id="rts-flag--hT">
-<code class="descname">-hT</code><code class="descclassname"></code><a class="headerlink" href="#rts-flag--hT" title="Permalink to this definition">¶</a></dt>
+<code class="descname">-hT</code><code class="descclassname"></code><a class="headerlink" href="#rts-flag--hT" title="この定義へのパーマリンク">¶</a></dt>
 <dt id="rts-flag--h">
-<code class="descname">-h</code><code class="descclassname"></code><a class="headerlink" href="#rts-flag--h" title="Permalink to this definition">¶</a></dt>
+<code class="descname">-h</code><code class="descclassname"></code><a class="headerlink" href="#rts-flag--h" title="この定義へのパーマリンク">¶</a></dt>
 <dd><p>Generates a basic heap profile, in the file <code class="file docutils literal"><span class="pre">prog.hp</span></code>. To produce the
 heap profile graph, use <strong class="command">hp2ps</strong> (see <a class="reference internal" href="profiling.html#hp2ps"><span>hp2ps &#8211; Rendering heap profiles to PostScript</span></a>). The basic heap
 profile is broken down by data constructor, with other types of closures
@@ -1069,7 +1070,7 @@ profile is broken down by data constructor, with other types of closures
 
 <dl class="rts-flag">
 <dt id="rts-flag--L ⟨n⟩">
-<code class="descname">-L</code><code class="descclassname"> ⟨n⟩</code><a class="headerlink" href="#rts-flag--L ⟨n⟩" title="Permalink to this definition">¶</a></dt>
+<code class="descname">-L</code><code class="descclassname"> ⟨n⟩</code><a class="headerlink" href="#rts-flag--L ⟨n⟩" title="この定義へのパーマリンク">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -1083,7 +1084,7 @@ profile is broken down by data constructor, with other types of closures
 
 </div>
 <div class="section" id="tracing">
-<span id="rts-eventlog"></span><h2>7.7.7. Tracing<a class="headerlink" href="#tracing" title="Permalink to this headline">¶</a></h2>
+<span id="rts-eventlog"></span><h2>7.7.7. Tracing<a class="headerlink" href="#tracing" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <p id="index-28">When the program is linked with the <a class="reference internal" href="phases.html#ghc-flag--eventlog"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-eventlog</span></code></a> option
 (<a class="reference internal" href="phases.html#options-linker"><span>Options affecting linking</span></a>), runtime events can be logged in several ways:</p>
 <ul class="simple">
@@ -1098,7 +1099,7 @@ analysis of the events while the program is running.</li>
 </ul>
 <dl class="rts-flag">
 <dt id="rts-flag--l ⟨flags⟩">
-<code class="descname">-l</code><code class="descclassname"> ⟨flags⟩</code><a class="headerlink" href="#rts-flag--l ⟨flags⟩" title="Permalink to this definition">¶</a></dt>
+<code class="descname">-l</code><code class="descclassname"> ⟨flags⟩</code><a class="headerlink" href="#rts-flag--l ⟨flags⟩" title="この定義へのパーマリンク">¶</a></dt>
 <dd><p>Log events in binary format. Without any ⟨flags⟩ specified, this
 logs a default set of events, suitable for use with tools like ThreadScope.</p>
 <p>Per default the events are written to <code class="file docutils literal"><em><span class="pre">program</span></em><span class="pre">.eventlog</span></code> though
@@ -1145,7 +1146,7 @@ package.</p>
 
 <dl class="rts-flag">
 <dt id="rts-flag--v [⟨flags⟩]">
-<code class="descname">-v</code><code class="descclassname"> [⟨flags⟩]</code><a class="headerlink" href="#rts-flag--v [⟨flags⟩]" title="Permalink to this definition">¶</a></dt>
+<code class="descname">-v</code><code class="descclassname"> [⟨flags⟩]</code><a class="headerlink" href="#rts-flag--v [⟨flags⟩]" title="この定義へのパーマリンク">¶</a></dt>
 <dd><p>Log events as text to standard output, instead of to the
 <code class="docutils literal"><span class="pre">.eventlog</span></code> file. The ⟨flags⟩ are the same as for <code class="docutils literal"><span class="pre">-l</span></code>, with the
 additional option <code class="docutils literal"><span class="pre">t</span></code> which indicates that the each event printed
@@ -1159,13 +1160,13 @@ to stdout (<code class="docutils literal"><span class="pre">-Dx</span></code> im
 the binary eventlog file by using the <code class="docutils literal"><span class="pre">-l</span></code> option.</p>
 </div>
 <div class="section" id="rts-options-for-hackers-debuggers-and-over-interested-souls">
-<span id="rts-options-debugging"></span><h2>7.7.8. RTS options for hackers, debuggers, and over-interested souls<a class="headerlink" href="#rts-options-for-hackers-debuggers-and-over-interested-souls" title="Permalink to this headline">¶</a></h2>
+<span id="rts-options-debugging"></span><h2>7.7.8. RTS options for hackers, debuggers, and over-interested souls<a class="headerlink" href="#rts-options-for-hackers-debuggers-and-over-interested-souls" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <p id="index-29">These RTS options might be used (a)&nbsp;to avoid a GHC bug, (b)&nbsp;to see
 &#8220;what&#8217;s really happening&#8221;, or (c)&nbsp;because you feel like it. Not
 recommended for everyday use!</p>
 <dl class="rts-flag">
 <dt id="rts-flag--B">
-<code class="descname">-B</code><code class="descclassname"></code><a class="headerlink" href="#rts-flag--B" title="Permalink to this definition">¶</a></dt>
+<code class="descname">-B</code><code class="descclassname"></code><a class="headerlink" href="#rts-flag--B" title="この定義へのパーマリンク">¶</a></dt>
 <dd><p>Sound the bell at the start of each (major) garbage collection.</p>
 <p>Oddly enough, people really do use this option! Our pal in Durham
 (England), Paul Callaghan, writes: “Some people here use it for a
@@ -1178,7 +1179,7 @@ annoying others in the same office…”</p>
 
 <dl class="rts-flag">
 <dt id="rts-flag--D ⟨x⟩">
-<code class="descname">-D</code><code class="descclassname"> ⟨x⟩</code><a class="headerlink" href="#rts-flag--D ⟨x⟩" title="Permalink to this definition">¶</a></dt>
+<code class="descname">-D</code><code class="descclassname"> ⟨x⟩</code><a class="headerlink" href="#rts-flag--D ⟨x⟩" title="この定義へのパーマリンク">¶</a></dt>
 <dd><p>An RTS debugging flag; only available if the program was linked with
 the <a class="reference internal" href="phases.html#ghc-flag--debug"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-debug</span></code></a> option. Various values of ⟨x⟩ are provided to enable
 debug messages and additional runtime sanity checks in different
@@ -1192,7 +1193,7 @@ reducing the overhead of debug tracing.</p>
 
 <dl class="rts-flag">
 <dt id="rts-flag--r ⟨file⟩">
-<code class="descname">-r</code><code class="descclassname"> ⟨file⟩</code><a class="headerlink" href="#rts-flag--r ⟨file⟩" title="Permalink to this definition">¶</a></dt>
+<code class="descname">-r</code><code class="descclassname"> ⟨file⟩</code><a class="headerlink" href="#rts-flag--r ⟨file⟩" title="この定義へのパーマリンク">¶</a></dt>
 <dd><p id="index-30">Produce &#8220;ticky-ticky&#8221; statistics at the end of the program run (only
 available if the program was linked with <a class="reference internal" href="phases.html#ghc-flag--debug"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-debug</span></code></a>). The ⟨file⟩
 business works just like on the <a class="reference internal" href="#rts-flag--S [⟨file⟩]"><code class="xref std std-rts-flag docutils literal"><span class="pre">-S</span> <span class="pre">[⟨file⟩]</span></code></a> RTS option, above.</p>
@@ -1202,7 +1203,7 @@ business works just like on the <a class="reference internal" href="#rts-flag--S
 
 <dl class="rts-flag">
 <dt id="rts-flag--xc">
-<code class="descname">-xc</code><code class="descclassname"></code><a class="headerlink" href="#rts-flag--xc" title="Permalink to this definition">¶</a></dt>
+<code class="descname">-xc</code><code class="descclassname"></code><a class="headerlink" href="#rts-flag--xc" title="この定義へのパーマリンク">¶</a></dt>
 <dd><p>(Only available when the program is compiled for profiling.) When an
 exception is raised in the program, this option causes a stack trace
 to be dumped to <code class="docutils literal"><span class="pre">stderr</span></code>.</p>
@@ -1246,7 +1247,7 @@ for another way to view call stacks.</p>
 
 <dl class="rts-flag">
 <dt id="rts-flag--Z">
-<code class="descname">-Z</code><code class="descclassname"></code><a class="headerlink" href="#rts-flag--Z" title="Permalink to this definition">¶</a></dt>
+<code class="descname">-Z</code><code class="descclassname"></code><a class="headerlink" href="#rts-flag--Z" title="この定義へのパーマリンク">¶</a></dt>
 <dd><p>Turn <em>off</em> &#8220;update-frame squeezing&#8221; at garbage-collection time.
 (There&#8217;s no particularly good reason to turn it off, except to
 ensure the accuracy of certain data collected regarding thunk entry
@@ -1255,10 +1256,10 @@ counts.)</p>
 
 </div>
 <div class="section" id="getting-information-about-the-rts">
-<span id="ghc-info"></span><h2>7.7.9. Getting information about the RTS<a class="headerlink" href="#getting-information-about-the-rts" title="Permalink to this headline">¶</a></h2>
+<span id="ghc-info"></span><h2>7.7.9. Getting information about the RTS<a class="headerlink" href="#getting-information-about-the-rts" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <span class="target" id="index-31"></span><dl class="rts-flag">
 <dt id="rts-flag---info">
-<code class="descname">--info</code><code class="descclassname"></code><a class="headerlink" href="#rts-flag---info" title="Permalink to this definition">¶</a></dt>
+<code class="descname">--info</code><code class="descclassname"></code><a class="headerlink" href="#rts-flag---info" title="この定義へのパーマリンク">¶</a></dt>
 <dd><p>It is possible to ask the RTS to give some information about itself. To
 do this, use the <a class="reference internal" href="#rts-flag---info"><code class="xref std std-rts-flag docutils literal"><span class="pre">--info</span></code></a> flag, e.g.</p>
 <div class="highlight-none"><div class="highlight"><pre>$ ./a.out +RTS --info
@@ -1336,24 +1337,24 @@ optimisation. (Usually yes, except on unusual platforms.)</dd>
       <div class="clearer"></div>
     </div>
     <div class="related" role="navigation" aria-label="related navigation">
-      <h3>Navigation</h3>
+      <h3>ナビゲーション</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
-          <a href="genindex.html" title="General Index"
-             >index</a></li>
+          <a href="genindex.html" title="総合索引"
+             >索引</a></li>
         <li class="right" >
           <a href="separate_compilation.html" title="7.8. Filenames and separate compilation"
-             >next</a> |</li>
+             >次へ</a> |</li>
         <li class="right" >
           <a href="flags.html" title="7.6. Flag reference"
-             >previous</a> |</li>
+             >前へ</a> |</li>
         <li class="nav-item nav-item-0"><a href="index.html">GHC 8.2.2 User&#39;s Guide</a> &raquo;</li>
           <li class="nav-item nav-item-1"><a href="usage.html" >7. Using GHC</a> &raquo;</li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">
         &copy; Copyright 2015, GHC Team.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.6.
+      このドキュメントは <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.6 で生成しました。
     </div>
   </body>
 </html>

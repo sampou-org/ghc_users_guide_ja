@@ -24,9 +24,10 @@
     <script type="text/javascript" src="_static/jquery.js"></script>
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/translations.js"></script>
     <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="search" type="application/opensearchdescription+xml"
-          title="Search within Glasgow Haskell Compiler 8.2.2 User&#39;s Guide"
+          title="Glasgow Haskell Compiler 8.2.2 User&#39;s Guide 内を検索"
           href="_static/opensearch.xml"/>
     <link rel="top" title="Glasgow Haskell Compiler 8.2.2 User&#39;s Guide" href="index.html" />
     <link rel="up" title="7. Using GHC" href="usage.html" />
@@ -39,17 +40,17 @@
 </div>
 
     <div class="related" role="navigation" aria-label="related navigation">
-      <h3>Navigation</h3>
+      <h3>ナビゲーション</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
-          <a href="genindex.html" title="General Index"
-             accesskey="I">index</a></li>
+          <a href="genindex.html" title="総合索引"
+             accesskey="I">索引</a></li>
         <li class="right" >
           <a href="phases.html" title="7.11. Options related to a particular phase"
-             accesskey="N">next</a> |</li>
+             accesskey="N">次へ</a> |</li>
         <li class="right" >
           <a href="packages.html" title="7.9. Packages"
-             accesskey="P">previous</a> |</li>
+             accesskey="P">前へ</a> |</li>
         <li class="nav-item nav-item-0"><a href="index.html">GHC 8.2.2 User&#39;s Guide</a> &raquo;</li>
           <li class="nav-item nav-item-1"><a href="usage.html" accesskey="U">7. Using GHC</a> &raquo;</li> 
       </ul>
@@ -57,7 +58,7 @@
 
       <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
         <div class="sphinxsidebarwrapper">
-  <h3><a href="index.html">Table Of Contents</a></h3>
+  <h3><a href="index.html">目次</a></h3>
   <ul>
 <li><a class="reference internal" href="#">7.10. GHC Backends</a><ul>
 <li><a class="reference internal" href="#native-code-generator-fasm">7.10.1. Native code Generator (<code class="docutils literal"><span class="pre">-fasm</span></code>)</a></li>
@@ -68,29 +69,29 @@
 </li>
 </ul>
 
-  <h4>Previous topic</h4>
+  <h4>前のトピックへ</h4>
   <p class="topless"><a href="packages.html"
-                        title="previous chapter">7.9. Packages</a></p>
-  <h4>Next topic</h4>
+                        title="前の章へ">7.9. Packages</a></p>
+  <h4>次のトピックへ</h4>
   <p class="topless"><a href="phases.html"
-                        title="next chapter">7.11. Options related to a particular phase</a></p>
+                        title="次の章へ">7.11. Options related to a particular phase</a></p>
   <div role="note" aria-label="source link">
-    <h3>This Page</h3>
+    <h3>このページ</h3>
     <ul class="this-page-menu">
       <li><a href="_sources/codegens.txt"
-            rel="nofollow">Show Source</a></li>
+            rel="nofollow">ソースコードを表示</a></li>
     </ul>
    </div>
 <div id="searchbox" style="display: none" role="search">
-  <h3>Quick search</h3>
+  <h3>クイック検索</h3>
     <form class="search" action="search.html" method="get">
       <input type="text" name="q" />
-      <input type="submit" value="Go" />
+      <input type="submit" value="検索" />
       <input type="hidden" name="check_keywords" value="yes" />
       <input type="hidden" name="area" value="default" />
     </form>
     <p class="searchtip" style="font-size: 90%">
-    Enter search terms or a module, class or function name.
+    モジュール、クラス、または関数名を入力してください
     </p>
 </div>
 <script type="text/javascript">$('#searchbox').show(0);</script>
@@ -103,21 +104,21 @@
           <div class="body" role="main">
             
   <div class="section" id="ghc-backends">
-<span id="code-generators"></span><h1>7.10. GHC Backends<a class="headerlink" href="#ghc-backends" title="Permalink to this headline">¶</a></h1>
+<span id="code-generators"></span><h1>7.10. GHC Backends<a class="headerlink" href="#ghc-backends" title="このヘッドラインへのパーマリンク">¶</a></h1>
 <p id="index-0">GHC supports multiple backend code generators. This is the part of the
 compiler responsible for taking the last intermediate representation
 that GHC uses (a form called Cmm that is a simple, C like language) and
 compiling it to executable code. The backends that GHC support are
 described below.</p>
 <div class="section" id="native-code-generator-fasm">
-<span id="native-code-gen"></span><h2>7.10.1. Native code Generator (<code class="docutils literal"><span class="pre">-fasm</span></code>)<a class="headerlink" href="#native-code-generator-fasm" title="Permalink to this headline">¶</a></h2>
+<span id="native-code-gen"></span><h2>7.10.1. Native code Generator (<code class="docutils literal"><span class="pre">-fasm</span></code>)<a class="headerlink" href="#native-code-generator-fasm" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <p id="index-1">The default backend for GHC. It is a native code generator, compiling
 Cmm all the way to assembly code. It is the fastest backend and
 generally produces good performance code. It has the best support for
 compiling shared libraries. Select it with the <code class="docutils literal"><span class="pre">-fasm</span></code> flag.</p>
 </div>
 <div class="section" id="llvm-code-generator-fllvm">
-<span id="llvm-code-gen"></span><h2>7.10.2. LLVM Code Generator (<code class="docutils literal"><span class="pre">-fllvm</span></code>)<a class="headerlink" href="#llvm-code-generator-fllvm" title="Permalink to this headline">¶</a></h2>
+<span id="llvm-code-gen"></span><h2>7.10.2. LLVM Code Generator (<code class="docutils literal"><span class="pre">-fllvm</span></code>)<a class="headerlink" href="#llvm-code-generator-fllvm" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <p id="index-2">This is an alternative backend that uses the <a class="reference external" href="http://llvm.org">LLVM</a>
 compiler to produce executable code. It generally produces code as with
 performance as good as the native code generator but for some cases can
@@ -144,7 +145,7 @@ OS X. Alternatively you can download binaries for LLVM and Clang from
 </ul>
 </div>
 <div class="section" id="c-code-generator-fvia-c">
-<span id="c-code-gen"></span><h2>7.10.3. C Code Generator (<code class="docutils literal"><span class="pre">-fvia-C</span></code>)<a class="headerlink" href="#c-code-generator-fvia-c" title="Permalink to this headline">¶</a></h2>
+<span id="c-code-gen"></span><h2>7.10.3. C Code Generator (<code class="docutils literal"><span class="pre">-fvia-C</span></code>)<a class="headerlink" href="#c-code-generator-fvia-c" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <p id="index-3">This is the oldest code generator in GHC and is generally not included
 any more having been deprecated around GHC 7.0. Select it with the
 <code class="docutils literal"><span class="pre">-fvia-C</span></code> flag.</p>
@@ -157,7 +158,7 @@ won&#8217;t be available. You can check this information by calling
 <code class="docutils literal"><span class="pre">ghc</span> <span class="pre">--info</span></code> (see <a class="reference internal" href="runtime_control.html#ghc-info"><span>Getting information about the RTS</span></a>).</p>
 </div>
 <div class="section" id="unregisterised-compilation">
-<span id="unreg"></span><h2>7.10.4. Unregisterised compilation<a class="headerlink" href="#unregisterised-compilation" title="Permalink to this headline">¶</a></h2>
+<span id="unreg"></span><h2>7.10.4. Unregisterised compilation<a class="headerlink" href="#unregisterised-compilation" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <p id="index-4">The term &#8220;unregisterised&#8221; really means &#8220;compile via vanilla C&#8221;,
 disabling some of the platform-specific tricks that GHC normally uses to
 make programs go faster. When compiling unregisterised, GHC simply
@@ -186,24 +187,24 @@ Guide for details.</p>
       <div class="clearer"></div>
     </div>
     <div class="related" role="navigation" aria-label="related navigation">
-      <h3>Navigation</h3>
+      <h3>ナビゲーション</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
-          <a href="genindex.html" title="General Index"
-             >index</a></li>
+          <a href="genindex.html" title="総合索引"
+             >索引</a></li>
         <li class="right" >
           <a href="phases.html" title="7.11. Options related to a particular phase"
-             >next</a> |</li>
+             >次へ</a> |</li>
         <li class="right" >
           <a href="packages.html" title="7.9. Packages"
-             >previous</a> |</li>
+             >前へ</a> |</li>
         <li class="nav-item nav-item-0"><a href="index.html">GHC 8.2.2 User&#39;s Guide</a> &raquo;</li>
           <li class="nav-item nav-item-1"><a href="usage.html" >7. Using GHC</a> &raquo;</li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">
         &copy; Copyright 2015, GHC Team.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.6.
+      このドキュメントは <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.6 で生成しました。
     </div>
   </body>
 </html>
