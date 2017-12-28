@@ -19,6 +19,8 @@ source_suffix = '.rst'
 source_encoding = 'utf-8-sig'
 master_doc = 'index'
 
+language = "ja"
+
 # General information about the project.
 project = u'Glasgow Haskell Compiler'
 copyright = u'2015, GHC Team'
