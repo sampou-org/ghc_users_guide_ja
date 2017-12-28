@@ -59,17 +59,17 @@
   <ul>
 <li><a class="reference internal" href="#">3. バージョン 8.2.1 のリリースノート</a><ul>
 <li><a class="reference internal" href="#id2">3.1. ハイライト</a></li>
-<li><a class="reference internal" href="#id5">3.2. 詳細</a><ul>
-<li><a class="reference internal" href="#id6">3.2.1. パッケージシステム</a></li>
-<li><a class="reference internal" href="#id7">3.2.2. 言語</a></li>
-<li><a class="reference internal" href="#id8">3.2.3. コンパイラ</a></li>
+<li><a class="reference internal" href="#id3">3.2. 詳細</a><ul>
+<li><a class="reference internal" href="#id4">3.2.1. パッケージシステム</a></li>
+<li><a class="reference internal" href="#id5">3.2.2. 言語</a></li>
+<li><a class="reference internal" href="#id6">3.2.3. コンパイラ</a></li>
 <li><a class="reference internal" href="#ghci">3.2.4. GHCi</a></li>
 <li><a class="reference internal" href="#template-haskell">3.2.5. Template Haskell</a></li>
-<li><a class="reference internal" href="#id11">3.2.6. ランタイムシステム</a></li>
+<li><a class="reference internal" href="#id9">3.2.6. ランタイムシステム</a></li>
 <li><a class="reference internal" href="#hsc2hs">3.2.7. hsc2hs</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#id15">3.3. ライブラリ</a><ul>
+<li><a class="reference internal" href="#id13">3.3. ライブラリ</a><ul>
 <li><a class="reference internal" href="#array">3.3.1. array</a></li>
 <li><a class="reference internal" href="#base">3.3.2. base</a></li>
 <li><a class="reference internal" href="#binary">3.3.3. binary</a></li>
@@ -87,13 +87,13 @@
 <li><a class="reference internal" href="#hpc">3.3.15. hpc</a></li>
 <li><a class="reference internal" href="#integer-gmp">3.3.16. integer-gmp</a></li>
 <li><a class="reference internal" href="#process">3.3.17. process</a></li>
-<li><a class="reference internal" href="#id16">3.3.18. template-haskell</a></li>
+<li><a class="reference internal" href="#id14">3.3.18. template-haskell</a></li>
 <li><a class="reference internal" href="#time">3.3.19. time</a></li>
 <li><a class="reference internal" href="#unix">3.3.20. unix</a></li>
 <li><a class="reference internal" href="#win32">3.3.21. Win32</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#id17">3.4. 既知のバグ</a></li>
+<li><a class="reference internal" href="#id15">3.4. 既知のバグ</a></li>
 </ul>
 </li>
 </ul>
@@ -140,7 +140,7 @@
 <h2>3.1. ハイライト<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h2>
 <p>8.0 系列からの変更のハイライトは以下のとおりです．</p>
 <ul class="simple">
-<li>より表現力のある``Typeable``機構，<a href="#id3"><span class="problematic" id="id4">``</span></a>Type.Reflection``を新しく追加しました．</li>
+<li>より表現力のある <code class="docutils literal"><span class="pre">Typeable</span></code> 機構， <code class="docutils literal"><span class="pre">Type.Reflection</span></code> を新しく追加しました．</li>
 <li>エラーメッセージが色付きになり，カレット(^)マークが付くようになりました．</li>
 <li>宣言に対して SCC 注釈が付けられるようになりました．</li>
 <li>特定の状況でヒープオーバーフローの際に例外を投げるようにしました．</li>
@@ -150,17 +150,17 @@
 <li>DWARF形式のデバッグ情報の信頼性を向上しました．</li>
 </ul>
 </div>
-<div class="section" id="id5">
-<h2>3.2. 詳細<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="id6">
-<h3>3.2.1. パッケージシステム<a class="headerlink" href="#id6" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id3">
+<h2>3.2. 詳細<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id4">
+<h3>3.2.1. パッケージシステム<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li>待望の Backpack モジュールシステムを完全に使えるようにしました．詳細については
 <a class="reference external" href="https://ghc.haskell.org/trac/ghc/wiki/Backpack">the GHC Wiki</a> を参照してください．</li>
 </ul>
 </div>
-<div class="section" id="id7">
-<h3>3.2.2. 言語<a class="headerlink" href="#id7" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id5">
+<h3>3.2.2. 言語<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li>パターンシノニムシグネチャが，値レベルの束縛シグネチャと同様に，複数パターンに適用できるようになりました．
 詳細については <a class="reference internal" href="glasgow_exts.html#patsyn-typing"><span>Typing of pattern synonyms</span></a> を参照してください．</li>
@@ -184,8 +184,8 @@
 パターン照合を完全なものにできるようになりました．詳細は <a class="reference internal" href="glasgow_exts.html#complete-pragma"><span>COMPLETE pragmas</span></a> を参照してください．</li>
 </ul>
 </div>
-<div class="section" id="id8">
-<h3>3.2.3. コンパイラ<a class="headerlink" href="#id8" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id6">
+<h3>3.2.3. コンパイラ<a class="headerlink" href="#id6" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li>GHC は可能であれば，システムのデフォルトリンカ <code class="docutils literal"><span class="pre">ld</span></code> ではなく <code class="docutils literal"><span class="pre">ld.gold</span></code> または <code class="docutils literal"><span class="pre">ld.lld</span></code>
 を使うようになりました．どのリンカが使えるかは <code class="docutils literal"><span class="pre">configure</span></code> のときに決まります．
@@ -431,7 +431,7 @@ it to:</p>
 <dd><blockquote class="first">
 <div><p>id x = x</p>
 </div></blockquote>
-<p class="last"><a href="#id9"><span class="problematic" id="id10">|</span></a>]</p>
+<p class="last"><a href="#id7"><span class="problematic" id="id8">|</span></a>]</p>
 </dd>
 </dl>
 </div></blockquote>
@@ -464,8 +464,8 @@ it to:</p>
 <li>シンボル名 (たとえば <code class="docutils literal"><span class="pre">+</span></code>) をもつ型構成子の検索が期待どおり機能するようになりました (<a class="reference external" href="https://ghc.haskell.org/trac/ghc/ticket/11046">Trac #11046</a>)．</li>
 </ul>
 </div>
-<div class="section" id="id11">
-<h3>3.2.6. ランタイムシステム<a class="headerlink" href="#id11" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id9">
+<h3>3.2.6. ランタイムシステム<a class="headerlink" href="#id9" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li>ヒープオーバーフローが発生すると，捕捉可能な例外を投げるようになっています．
 ヒープオーバーフローは，GC中に RTS が <code class="docutils literal"><span class="pre">+RTS</span> <span class="pre">-M</span></code> (<a class="reference internal" href="runtime_control.html#rts-flag--M ⟨size⟩"><code class="xref std std-rts-flag docutils literal"><span class="pre">-M</span> <span class="pre">⟨size⟩</span></code></a> 参照)で設定された限界を
@@ -476,7 +476,7 @@ it to:</p>
 <li><em>コンパクトリージョン</em> のサポートが追加されました．これは長寿命データを
 ヒープ外へ手動で移動する手段を提供するもので，ガーベッジコレクタが繰り返し追跡する必要がなくなります．
 コンパクト化されたデータは，同じプログラムで，シリアライズし，格納し，デシリアライズすることもできます．
-詳細については <a href="#id12"><span class="problematic" id="id13">:ghc-compact-ref:`GHC.Compact &lt;GHC-Compact.html&gt;`</span></a> モジュールを参照してください．
+詳細については <a href="#id10"><span class="problematic" id="id11">:ghc-compact-ref:`GHC.Compact &lt;GHC-Compact.html&gt;`</span></a> モジュールを参照してください．
 さらに，高水準のインターフェイスについては <a class="reference external" href="https://hackage.haskell.org/package/compact">Hackage</a>
 にある <code class="docutils literal"><span class="pre">compact</span></code> パッケージを参照してください．</li>
 </ul>
@@ -521,8 +521,8 @@ it to:</p>
 </ul>
 </div>
 </div>
-<div class="section" id="id15">
-<h2>3.3. ライブラリ<a class="headerlink" href="#id15" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id13">
+<h2>3.3. ライブラリ<a class="headerlink" href="#id13" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="array">
 <h3>3.3.1. array<a class="headerlink" href="#array" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
@@ -660,8 +660,8 @@ it to:</p>
 <li>バージョン 1.6.1.0 (従来 1.4.3.0)</li>
 </ul>
 </div>
-<div class="section" id="id16">
-<h3>3.3.18. template-haskell<a class="headerlink" href="#id16" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id14">
+<h3>3.3.18. template-haskell<a class="headerlink" href="#id14" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li>バージョン 2.12.0.0 (従来 2.11.1.0)</li>
 <li>非ボックス化直和がサポートされました． <a class="reference external" href="https://ghc.haskell.org/trac/ghc/ticket/12478">Trac #12478</a>.</li>
@@ -687,8 +687,8 @@ it to:</p>
 </ul>
 </div>
 </div>
-<div class="section" id="id17">
-<h2>3.4. 既知のバグ<a class="headerlink" href="#id17" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id15">
+<h2>3.4. 既知のバグ<a class="headerlink" href="#id15" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
 <li>8.0 系にくらべてコンパイル時間がずっとかかるプログラムが少くとも1つあります．
 <a class="reference external" href="https://ghc.haskell.org/trac/ghc/ticket/13535">Trac #13535</a> を参照してください．</li>
