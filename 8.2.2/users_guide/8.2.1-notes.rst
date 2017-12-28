@@ -106,8 +106,8 @@
      of sum data. Some future GHC release will have support for worker/wrapper
      transformation of sum arguments and constructor unpacking.
 
-- 新たに言語拡張 :ghc-flag:`-XUnboxedSums` を使って，和データのより効率のよい表現が使えるようになりました．
-  将来の GHC リリースにおいて，和データ引数のワーカー/ラッパー変換および構成子アンパッキングがサポートされる予定です．
+- 新たに言語拡張 :ghc-flag:`-XUnboxedSums` を使って，直和データのより効率のよい表現が使えるようになりました．
+  将来の GHC リリースにおいて，直和データ引数のワーカー/ラッパー変換および構成子アンパッキングがサポートされる予定です．
 
 ..
    - Support for overloaded record fields via a new ``HasField`` class and
@@ -751,163 +751,356 @@ hsc2hs
 
 -  バージョン 0.68.2
 
-Libraries
----------
+..
+   Libraries
+   ---------
+
+ライブラリ
+----------
+
+..
+   array
+   ~~~~~
 
 array
 ~~~~~
 
--  Version number 0.5.2.0 (was 0.5.0.0)
+..
+   -  Version number 0.5.2.0 (was 0.5.0.0)
+
+-  バージョン 0.5.2.0 (従来 0.5.0.0)
+
+..
+   .. _lib-base:
+
+   base
+   ~~~~
 
 .. _lib-base:
 
 base
 ~~~~
 
-See ``changelog.md`` in the ``base`` package for full release notes.
+..
+   See ``changelog.md`` in the ``base`` package for full release notes.
 
--  Version number 4.10.0.0 (was 4.9.0.0)
+完全なリリースノートについては ``base`` パッケージにある ``changelog.md`` を参照してください．
 
-- ``Data.Either`` now provides ``fromLeft`` and ``fromRight``
+..
+   -  Version number 4.10.0.0 (was 4.9.0.0)
 
-- ``Data.Type.Coercion`` now provides ``gcoerceWith``, which is analogous to
-  ``gcastWith`` from ``Data.Type.Equality``.
+-  バージョン 4.10.0.0 (従来 4.9.0.0)
 
-- The ``Read1`` and ``Read2`` classes in ``Data.Functor.Classes`` have new
-  methods, ``liftReadList(2)`` and ``liftReadListPrec(2)``, that are defined in
-  terms of ``ReadPrec`` instead of ``ReadS``. This matches the interface
-  provided in GHC's version of the ``Read`` class, and allows users to write
-  more efficient ``Read1`` and ``Read2`` instances.
+..
+   - ``Data.Either`` now provides ``fromLeft`` and ``fromRight``
 
-- Add ``type family AppendSymbol (m :: Symbol) (n :: Symbol) :: Symbol`` to
-  ``GHC.TypeLits``
+- ``Data.Either`` モジュールは ``fromLeft`` および ``fromRight`` を提供するようになりました．
 
-- Add ``GHC.TypeNats`` module with ``Natural``-based ``KnownNat``. The ``Nat``
-  operations in ``GHC.TypeLits`` are a thin compatibility layer on top.
-  Note: the ``KnownNat`` evidence is changed from an ``Integer`` to a ``Natural``.
+..
+   - ``Data.Type.Coercion`` now provides ``gcoerceWith``, which is analogous to
+     ``gcastWith`` from ``Data.Type.Equality``.
 
-- ``liftA2`` is now a method of the ``Applicative`` class. ``Traversable``
-  deriving has been modified to use ``liftA2`` for the first two elements
-  traversed in each constructor. ``liftA2`` is not yet in the ``Prelude``,
-  and must currently be imported from ``Control.Applicative``. It is likely
-  to be added to the ``Prelude`` in the future.
+- ``Data.Type.Coercion`` モジュールは ``gcoerceWith`` を提供するようになりました．
+  これは ``Data.Type.Equality`` の ``gcastWith`` に類似した機能を提供します．
+
+..
+   - The ``Read1`` and ``Read2`` classes in ``Data.Functor.Classes`` have new
+     methods, ``liftReadList(2)`` and ``liftReadListPrec(2)``, that are defined in
+     terms of ``ReadPrec`` instead of ``ReadS``. This matches the interface
+     provided in GHC's version of the ``Read`` class, and allows users to write
+     more efficient ``Read1`` and ``Read2`` instances.
+
+- ``Data.Functor.Classes`` にある ``Read1`` および ``Read2`` クラスには
+  ``ReadS`` ではなく ``ReadPrec`` を使って定義した ``liftReadList`` および ``liftReadListPrec``
+  というメソッドが追加されています．
+  これは GHC 版の ``Read`` クラスが提供するインターフェイスに一致するので，
+  ユーザが ``Read1`` や ``Read2`` のインスタンスを効率良く定義できるようになっています．
+
+..
+   - Add ``type family AppendSymbol (m :: Symbol) (n :: Symbol) :: Symbol`` to
+     ``GHC.TypeLits``
+
+- ``type family AppendSymbol (m :: Symbol) (n :: Symbol) :: Symbol`` が
+  ``GHC.TypeLits`` に追加されました．
+
+..
+   - Add ``GHC.TypeNats`` module with ``Natural``-based ``KnownNat``. The ``Nat``
+     operations in ``GHC.TypeLits`` are a thin compatibility layer on top.
+     Note: the ``KnownNat`` evidence is changed from an ``Integer`` to a ``Natural``.
+
+- ``Natural``-ベースの ``KnownNat`` を含む ``GHC.TypeNats`` を追加しました．
+  ``GHC.TypeLits`` の ``Nat`` 演算はその上に互換性レイヤを被せたものです．
+  注意: ``KnownNat`` というエビデンスは ``Integer`` から ``Natural`` に変更されています．
+
+..
+   - ``liftA2`` is now a method of the ``Applicative`` class. ``Traversable``
+     deriving has been modified to use ``liftA2`` for the first two elements
+     traversed in each constructor. ``liftA2`` is not yet in the ``Prelude``,
+     and must currently be imported from ``Control.Applicative``. It is likely
+     to be added to the ``Prelude`` in the future.
+
+- ``liftA2`` は ``Applicative`` クラスのメソッドになりました． ``Traversable``
+  の導出は，各構成子の最初の2要素のトラバースに ``liftA2`` を使うように変更されました．
+  現時点では ``liftA2`` は ``Prelude`` にはありませんので ``Control.Applicative`` から
+  インポートする必要があります．将来は ``Prelude`` に入るでしょう．
+
+..
+   binary
+   ~~~~~~
+
+   -  Version number 0.8.5.1 (was 0.7.1.0)
 
 binary
 ~~~~~~
 
--  Version number 0.8.5.1 (was 0.7.1.0)
+-  バージョン 0.8.5.1 (従来 0.7.1.0)
+
+..
+   bytestring
+   ~~~~~~~~~~
+
+   -  Version number 0.10.8.2 (was 0.10.4.0)
 
 bytestring
 ~~~~~~~~~~
 
--  Version number 0.10.8.2 (was 0.10.4.0)
+-  バージョン 0.10.8.2 (従来 0.10.4.0)
+
+..
+   Cabal
+   ~~~~~
+
+   -  Version number 2.0.0.0 (was 1.24.2.0)
 
 Cabal
 ~~~~~
 
--  Version number 2.0.0.0 (was 1.24.2.0)
+-  バージョン 2.0.0.0 (従来 1.24.2.0)
+
+..
+   containers
+   ~~~~~~~~~~
+
+   -  Version number 0.5.10.2 (was 0.5.4.0)
 
 containers
 ~~~~~~~~~~
 
--  Version number 0.5.10.2 (was 0.5.4.0)
+-  バージョン 0.5.10.2 (従来 0.5.4.0)
+
+..
+   deepseq
+   ~~~~~~~
+
+   -  Version number 1.4.3.0 (was 1.3.0.2)
 
 deepseq
 ~~~~~~~
 
--  Version number 1.4.3.0 (was 1.3.0.2)
+-  バージョン 1.4.3.0 (従来 1.3.0.2)
+
+..
+   directory
+   ~~~~~~~~~
+
+   -  Version number 1.3.0.2 (was 1.2.0.2)
 
 directory
 ~~~~~~~~~
 
--  Version number 1.3.0.2 (was 1.2.0.2)
+-  バージョン 1.3.0.2 (従来 1.2.0.2)
+
+..
+   filepath
+   ~~~~~~~~
+
+   -  Version number 1.4.1.2 (was 1.3.0.2)
 
 filepath
 ~~~~~~~~
 
--  Version number 1.4.1.2 (was 1.3.0.2)
+-  バージョン 1.4.1.2 (従来 1.3.0.2)
+
+..
+   ghc
+   ~~~
+
+   -  Version number 8.2.1
 
 ghc
 ~~~
 
--  Version number 8.2.1
+-  バージョン 8.2.1
+
+..
+   ghc-boot
+   ~~~~~~~~
+
+   -  This is an internal package. Use with caution.
 
 ghc-boot
 ~~~~~~~~
 
--  This is an internal package. Use with caution.
+-  これは内部パッケージです．慎重に使ってください．
+
+..
+   ghc-compact
+   ~~~~~~~~~~~
+
+   The ``ghc-compact`` library provides an experimental API for placing immutable
+   data structures into a contiguous memory region. Data in these regions is not
+   traced during garbage collection and can be serialized to disk or over the
+   network.
+
+   - Version number 0.1.0.0 (newly added)
 
 ghc-compact
 ~~~~~~~~~~~
 
-The ``ghc-compact`` library provides an experimental API for placing immutable
-data structures into a contiguous memory region. Data in these regions is not
-traced during garbage collection and can be serialized to disk or over the
-network.
+``ghc-compact`` パッケージは，不変のデータ構造をメモリの連続領域に配置するための実験的な API を提供します．
+このような領域に配置されたデータはガーベッジコレクション中に追跡されることはなく，ディスクまたはネットワーク上にシリアライズできます．
 
-- Version number 0.1.0.0 (newly added)
+- バージョン 0.1.0.0 (新規追加)
+
+..
+   ghc-prim
+   ~~~~~~~~
+
+   -  Version number 0.5.1.0 (was 0.3.1.0)
+
+   -  Added new ``isByteArrayPinned#`` and ``isMutableByteArrayPinned#`` operation.
+
+   -  New function ``noinline`` in ``GHC.Magic`` lets you mark that a function
+      should not be inlined.  It is optimized away after the simplifier runs.
 
 ghc-prim
 ~~~~~~~~
 
--  Version number 0.5.1.0 (was 0.3.1.0)
+-  バージョン 0.5.1.0 (従来 0.3.1.0)
 
--  Added new ``isByteArrayPinned#`` and ``isMutableByteArrayPinned#`` operation.
+-  新しく ``isByteArrayPinned#`` 演算と ``isMutableByteArrayPinned#`` 演算が追加されました．
 
--  New function ``noinline`` in ``GHC.Magic`` lets you mark that a function
-   should not be inlined.  It is optimized away after the simplifier runs.
+-  ``GHC.Magic`` モジュールの新しい関数 ``noinline`` を使って，関数にインライン展開してはいけない
+   というマークを付けられます．このマークはシンプリファイア実行後の最適化により除去されます．
+
+..
+   hoopl
+   ~~~~~
+
+   -  Version number 3.10.2.2 (was 3.10.2.1)
 
 hoopl
 ~~~~~
 
--  Version number 3.10.2.2 (was 3.10.2.1)
+-  バージョン 3.10.2.2 (従来 3.10.2.1)
+
+..
+   hpc
+   ~~~
+
+   -  Version number 0.6.0.3 (was 0.6.0.2)
 
 hpc
 ~~~
 
--  Version number 0.6.0.3 (was 0.6.0.2)
+-  バージョン 0.6.0.3 (従来 0.6.0.2)
+
+..
+   integer-gmp
+   ~~~~~~~~~~~
+
+   -  Version number 1.0.1.0 (was 1.0.0.1)
 
 integer-gmp
 ~~~~~~~~~~~
 
--  Version number 1.0.0.1 (was 1.0.0.1)
+-  バージョン 1.0.1.0 (従来 1.0.0.1)
+
+..
+   process
+   ~~~~~~~
+
+   -  Version number 1.6.1.0 (was 1.4.3.0)
 
 process
 ~~~~~~~
 
--  Version number 1.6.1.0 (was 1.4.3.0)
+-  バージョン 1.6.1.0 (従来 1.4.3.0)
+
+..
+   template-haskell
+   ~~~~~~~~~~~~~~~~
+
+   -  Version 2.12.0.0 (was 2.11.1.0)
+
+   -  Added support for unboxed sums :ghc-ticket:`12478`.
+
+   -  Added support for visible type applications :ghc-ticket:`12530`.
 
 template-haskell
 ~~~~~~~~~~~~~~~~
 
--  Version 2.12.0.0 (was 2.11.1.0)
+-  バージョン 2.12.0.0 (従来 2.11.1.0)
 
--  Added support for unboxed sums :ghc-ticket:`12478`.
+-  非ボックス化直和がサポートされました． :ghc-ticket:`12478`.
 
--  Added support for visible type applications :ghc-ticket:`12530`.
+-  型変数適用がサポートされました． :ghc-ticket:`12530`.
+
+..
+   time
+   ~~~~
+
+   -  Version number 1.8.0.1 (was 1.6.0.1)
 
 time
 ~~~~
 
--  Version number 1.8.0.1 (was 1.6.0.1)
+-  バージョン 1.8.0.1 (従来 1.6.0.1)
+
+..
+   unix
+   ~~~~
+
+   -  Version number 2.7.2.2 (was 2.7.2.1)
 
 unix
 ~~~~
 
--  Version number 2.7.2.2 (was 2.7.2.1)
+-  バージョン 2.7.2.2 (従来 2.7.2.1)
+
+..
+   Win32
+   ~~~~~
+
+   -  Version number 2.5.4.1 (was 2.3.1.1)
 
 Win32
 ~~~~~
 
--  Version number 2.5.4.1 (was 2.3.1.1)
+-  バージョン 2.5.4.1 (従来 2.3.1.1)
 
-Known bugs
+..
+   Known bugs
+   ----------
+
+既知のバグ
 ----------
 
-- At least one known program regresses in compile time significantly over 8.0.
-  See :ghc-ticket:`13535`.
+..
+   - At least one known program regresses in compile time significantly over 8.0.
+     See :ghc-ticket:`13535`.
 
-- Some uses of type applications may cause GHC to panic. See :ghc-ticket:`13819`.
+- 8.0 系にくらべてコンパイル時間がずっとかかるプログラムが少くとも1つあります．
+  :ghc-ticket:`13535` を参照してください．
 
-- The compiler may loop during typechecking on some modules using
-  :ghc-flag:`-XUndecidableInstances`. See :ghc-ticket:`13943`.
+..
+   - Some uses of type applications may cause GHC to panic. See :ghc-ticket:`13819`.
+
+- GHC がパニックを起すような型適用の使用例があります． :ghc-ticket:`13819` を参照してください．
+
+..
+   - The compiler may loop during typechecking on some modules using
+     :ghc-flag:`-XUndecidableInstances`. See :ghc-ticket:`13943`.
+
+- :ghc-flag:`-XUndecidableInstances` を使うモジュールで，コンパイラが型検査の際にループしてしまう場合があります．
+  :ghc-ticket:`13943` を参照してください．
