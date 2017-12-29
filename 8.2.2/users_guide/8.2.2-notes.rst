@@ -31,21 +31,40 @@
    - Several important correctness issues fixing potential runtime crashes
      (:ghc-ticket:`13707`, :ghc-ticket:`14346`)
 
-- Several important correctness issues fixing potential runtime crashes
+- 実行時にクラッシュする可能性のある問題をいくつか修正しました．
   (:ghc-ticket:`13707`, :ghc-ticket:`14346`)
 
-- A correctness issue leading to undefined behavior in some programs making use
-  of STM (:ghc-ticket:`14717`)
+..
+   - A correctness issue leading to undefined behavior in some programs making use
+     of STM (:ghc-ticket:`14717`)
 
-- A runtime system bug which may have manifested as a segmentation fault under
-  low-memory conditions (:ghc-ticket:`14329`)
+- STM を使うプログラムで未定義の振る舞いがおこる問題を修正しました．
+  (:ghc-ticket:`14717`)
 
-- ``ghc-pkg`` now works correctly ihn environments with misconfigured NFS mounts
+..
+   - A runtime system bug which may have manifested as a segmentation fault under
+     low-memory conditions (:ghc-ticket:`14329`)
+
+- メモリが少い状況下でセグメンテーションフォルトとして出現したランタイムシステムのバグを修正しました． 
+  (:ghc-ticket:`14329`)
+
+..
+   - ``ghc-pkg`` now works correctly in environments with misconfigured NFS mounts
+     (:ghc-ticket:`13945`)
+
+- ``ghc-pkg`` は不完全な設定の NFS マウントがおこなわれてりいう環境で正しく動作するようになりました．
   (:ghc-ticket:`13945`)
 
-- GHC can now produce position-independent executables (:ghc-ticket:`13702`)
+..
+   - GHC can now produce position-independent executables (:ghc-ticket:`13702`)
 
-- Significantly improved type errors (:ghc-ticket:`11198`, :ghc-ticket:`12373`,
+- GHC は位置独立実行可能コードを生成できるようになりました．(:ghc-ticket:`13702`)
+
+..
+   - Significantly improved type errors (:ghc-ticket:`11198`, :ghc-ticket:`12373`,
+     :ghc-ticket:`13530`, :ghc-ticket:`13610`)
+
+- 型エラーのメッセージを大幅に改善しました．(:ghc-ticket:`11198`, :ghc-ticket:`12373`,
   :ghc-ticket:`13530`, :ghc-ticket:`13610`)
 
 Full details
