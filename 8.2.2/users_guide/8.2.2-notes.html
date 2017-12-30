@@ -60,10 +60,10 @@
   <ul>
 <li><a class="reference internal" href="#">4. バージョン 8.2.2 のリリースノート</a><ul>
 <li><a class="reference internal" href="#id2">4.1. ハイライト</a></li>
-<li><a class="reference internal" href="#full-details">4.2. Full details</a><ul>
-<li><a class="reference internal" href="#package-system">4.2.1. Package system</a></li>
-<li><a class="reference internal" href="#language">4.2.2. Language</a></li>
-<li><a class="reference internal" href="#compiler">4.2.3. Compiler</a></li>
+<li><a class="reference internal" href="#id3">4.2. 詳細</a><ul>
+<li><a class="reference internal" href="#id4">4.2.1. パッケージシステム</a></li>
+<li><a class="reference internal" href="#id5">4.2.2. 言語</a></li>
+<li><a class="reference internal" href="#id6">4.2.3. コンパイラ</a></li>
 <li><a class="reference internal" href="#ghci">4.2.4. GHCi</a></li>
 <li><a class="reference internal" href="#build-system">4.2.5. Build system</a></li>
 <li><a class="reference internal" href="#runtime-system">4.2.6. Runtime system</a></li>
@@ -164,65 +164,72 @@
 <a class="reference external" href="https://ghc.haskell.org/trac/ghc/ticket/13530">Trac #13530</a>, <a class="reference external" href="https://ghc.haskell.org/trac/ghc/ticket/13610">Trac #13610</a>)</li>
 </ul>
 </div>
-<div class="section" id="full-details">
-<h2>4.2. Full details<a class="headerlink" href="#full-details" title="このヘッドラインへのパーマリンク">¶</a></h2>
-<div class="section" id="package-system">
-<h3>4.2.1. Package system<a class="headerlink" href="#package-system" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<div class="section" id="id3">
+<h2>4.2. 詳細<a class="headerlink" href="#id3" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<div class="section" id="id4">
+<h3>4.2.1. パッケージシステム<a class="headerlink" href="#id4" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <ul class="simple">
-<li>Various Backpack fixes (<a class="reference external" href="https://ghc.haskell.org/trac/ghc/ticket/14304">Trac #14304</a>)</li>
+<li>Backpack にさまざまな修正を加えました．(<a class="reference external" href="https://ghc.haskell.org/trac/ghc/ticket/14304">Trac #14304</a>)</li>
 </ul>
 </div>
-<div class="section" id="language">
-<h3>4.2.2. Language<a class="headerlink" href="#language" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<div class="section" id="id5">
+<h3>4.2.2. 言語<a class="headerlink" href="#id5" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <ul class="simple">
-<li>Sum patterns are now considered to be non-irrefutable (<a class="reference external" href="https://ghc.haskell.org/trac/ghc/ticket/14228">Trac #14228</a>).</li>
-<li><a class="reference internal" href="glasgow_exts.html#ghc-flag--XApplicativeDo"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-XApplicativeDo</span></code></a> is now able to more robustly deal with <code class="docutils literal"><span class="pre">do</span></code>
-blocks containing strict patterns (<a class="reference external" href="https://ghc.haskell.org/trac/ghc/ticket/14163">Trac #14163</a>).</li>
+<li>直和パターンは非反駁不可パターンと見なされるようになりました．(<a class="reference external" href="https://ghc.haskell.org/trac/ghc/ticket/14228">Trac #14228</a>).</li>
+</ul>
+<ul class="simple">
+<li><a class="reference internal" href="glasgow_exts.html#ghc-flag--XApplicativeDo"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-XApplicativeDo</span></code></a> は正格パターンを含む <code class="docutils literal"><span class="pre">do</span></code> ブロックをより頑健に扱えるようになりました．
+(<a class="reference external" href="https://ghc.haskell.org/trac/ghc/ticket/14163">Trac #14163</a>)</li>
 </ul>
 </div>
-<div class="section" id="compiler">
-<h3>4.2.3. Compiler<a class="headerlink" href="#compiler" title="このヘッドラインへのパーマリンク">¶</a></h3>
-<ul>
-<li><dl class="first docutils">
-<dt>An implementation inconsistency leading to subtly typechecker panics with</dt>
-<dd><p class="first last"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-j</span> <span class="pre">⟨n⟩</span></code> has been fixed.</p>
-</dd>
-</dl>
-</li>
-<li><p class="first">We now always link with <code class="docutils literal"><span class="pre">libm</span></code>. This fixes <code class="docutils literal"><span class="pre">ld.gold</span></code> on some platforms
-(e.g. NixOS) which demand that we declare all link dependencies.</p>
-</li>
-<li><p class="first">We now link against <code class="docutils literal"><span class="pre">libpthread</span></code> instead of <code class="docutils literal"><span class="pre">libthr</span></code> on FreeBSD</p>
-</li>
-<li><p class="first">Fix renamer bug triggered by typechecking <code class="docutils literal"><span class="pre">hs-boot</span></code> files containing orphan
-instances (<a class="reference external" href="https://ghc.haskell.org/trac/ghc/ticket/14128">Trac #14128</a>)</p>
-</li>
-<li><p class="first">The cost-center profiler&#8217;s event-log support now also supports breakdown by
-closure type (<a class="reference internal" href="runtime_control.html#rts-flag--hT"><code class="xref std std-rts-flag docutils literal"><span class="pre">-hT</span></code></a>, <a class="reference external" href="https://ghc.haskell.org/trac/ghc/ticket/14096">Trac #14096</a>)</p>
-</li>
-<li><p class="first">A bug resulting in Core Lint failures for some programs using
-<a class="reference internal" href="glasgow_exts.html#ghc-flag--XStaticPointers"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-XStaticPointers</span></code></a> in GHCi has been fixed (<a class="reference external" href="https://ghc.haskell.org/trac/ghc/ticket/13481">Trac #13481</a>)</p>
-</li>
-<li><p class="first">The compiler now robustly handles constraint wildcards which expand to large
-tuple constraints (i.e. wider than 63 constraints)</p>
-</li>
-<li><p class="first">We now catch more inappropriate levity polymorphism (<a class="reference external" href="https://ghc.haskell.org/trac/ghc/ticket/13929">Trac #13929</a>)</p>
-</li>
-<li><p class="first">A bug leading to data constructor fields having incorrect strictness
-signatures has been fixed (<a class="reference external" href="https://ghc.haskell.org/trac/ghc/ticket/14290">Trac #14290</a>)</p>
-</li>
-<li><p class="first">An incorrect strictness signature for <code class="docutils literal"><span class="pre">retry#</span></code> which may result in undefined
-behavior at runtime has been fixed (<a class="reference external" href="https://ghc.haskell.org/trac/ghc/ticket/14171">Trac #14171</a>)</p>
-</li>
-<li><p class="first">A bug in the short-cut solver leading to an infinite in typechecking has been
-fixed (<a href="#id3"><span class="problematic" id="id4">:ghc-tickets:`13943`</span></a>)</p>
-</li>
-<li><p class="first">The compiler no longer panics when faced with <code class="docutils literal"><span class="pre">ByteArray#</span></code> arguments in a
-<code class="docutils literal"><span class="pre">foreign</span> <span class="pre">import</span></code></p>
-</li>
-<li><p class="first">Over-zealous optimization of <code class="docutils literal"><span class="pre">Foreign.Marshal.Alloc.allocBytes[Aligned]</span></code>
-resulting in undefined behavior has been worked around (<a class="reference external" href="https://ghc.haskell.org/trac/ghc/ticket/14346">Trac #14346</a>)</p>
-</li>
+<div class="section" id="id6">
+<h3>4.2.3. コンパイラ<a class="headerlink" href="#id6" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<ul class="simple">
+<li>実装の不整合により <code class="xref std std-ghc-flag docutils literal"><span class="pre">-j</span> <span class="pre">⟨n⟩</span></code> を指定したときに型検査器がパニックを起すバグが修正されました．</li>
+</ul>
+<ul class="simple">
+<li>常に <code class="docutils literal"><span class="pre">libm</span></code> をリンクするようになりました．これは，いくつかのプラットフォーム(たとえば NixOS)で
+<code class="docutils literal"><span class="pre">ld.gold</span></code> がリンクの依存関係をすべて宣言するように要求するのを修正したのものです．</li>
+</ul>
+<ul class="simple">
+<li>FreeBSD では <code class="docutils literal"><span class="pre">libthr</span></code> ではなく <code class="docutils literal"><span class="pre">libpthread</span></code> にリンクするようになりました．</li>
+</ul>
+<ul class="simple">
+<li>孤立したインスタンスを含む <code class="docutils literal"><span class="pre">hs-boot</span></code> ファイルの型検査時に発生する renamer のバグを修正しました．
+(<a class="reference external" href="https://ghc.haskell.org/trac/ghc/ticket/14128">Trac #14128</a>)</li>
+</ul>
+<ul class="simple">
+<li>コストセンタープロファイラのイベントログサポートは，クロージャタイプによる分解もサポートするようになりました．
+(<a class="reference internal" href="runtime_control.html#rts-flag--hT"><code class="xref std std-rts-flag docutils literal"><span class="pre">-hT</span></code></a>, <a class="reference external" href="https://ghc.haskell.org/trac/ghc/ticket/14096">Trac #14096</a>)</li>
+</ul>
+<ul class="simple">
+<li>GHCi で <a class="reference internal" href="glasgow_exts.html#ghc-flag--XStaticPointers"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-XStaticPointers</span></code></a> を使用しているいくつかのプログラムで Core Lint が失敗するバグを修正しました．
+(<a class="reference external" href="https://ghc.haskell.org/trac/ghc/ticket/13481">Trac #13481</a>)</li>
+</ul>
+<ul class="simple">
+<li>コンパイラはタプルの制限を(たとえば 63 より広く)拡張する制約ワイルドカードの取扱いを頑健なものにしました．</li>
+</ul>
+<ul class="simple">
+<li>不適切なレヴィティ多相を捕捉するようになりました．(<a class="reference external" href="https://ghc.haskell.org/trac/ghc/ticket/13929">Trac #13929</a>)</li>
+</ul>
+<ul class="simple">
+<li>データ構成子フィールドが不正な正格性シグネチャを持ってしまうことに繋るバグを修正しました．
+(<a class="reference external" href="https://ghc.haskell.org/trac/ghc/ticket/14290">Trac #14290</a>)</li>
+</ul>
+<ul class="simple">
+<li>実行時に未定義動作を引き起す可能性のある <code class="docutils literal"><span class="pre">retry#</span></code> に対する不正な正格性シグネチャを修正しました．
+(<a class="reference external" href="https://ghc.haskell.org/trac/ghc/ticket/14171">Trac #14171</a>)</li>
+</ul>
+<ul class="simple">
+<li>型検査が無限ループをひきおこすショートカットソルバーのバグを修正しました．
+(<a href="#id7"><span class="problematic" id="id8">:ghc-tickets:`13943`</span></a>)</li>
+</ul>
+<ul class="simple">
+<li><code class="docutils literal"><span class="pre">foreign</span> <span class="pre">import</span></code> で <code class="docutils literal"><span class="pre">ByteArray#</span></code> 引数があってもコンパイラがパニックを起さないようになりました．</li>
+</ul>
+<ul class="simple">
+<li><code class="docutils literal"><span class="pre">Foreign.Marshal.Alloc.allocBytes[Aligned]</span></code> を過度に最適化した結果，未定義動作を起していたのを回避しました．
+(<a class="reference external" href="https://ghc.haskell.org/trac/ghc/ticket/14346">Trac #14346</a>)</li>
 </ul>
 </div>
 <div class="section" id="ghci">

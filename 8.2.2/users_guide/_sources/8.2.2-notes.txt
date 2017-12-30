@@ -67,61 +67,132 @@
 - 型エラーのメッセージを大幅に改善しました．(:ghc-ticket:`11198`, :ghc-ticket:`12373`,
   :ghc-ticket:`13530`, :ghc-ticket:`13610`)
 
-Full details
-------------
+..
+   Full details
+   ------------
 
-Package system
-~~~~~~~~~~~~~~
+詳細
+----
 
-- Various Backpack fixes (:ghc-ticket:`14304`)
+..
+   Package system
+   ~~~~~~~~~~~~~~
 
-Language
-~~~~~~~~
+   - Various Backpack fixes (:ghc-ticket:`14304`)
 
--  Sum patterns are now considered to be non-irrefutable (:ghc-ticket:`14228`).
+パッケージシステム
+~~~~~~~~~~~~~~~~~~
 
--  :ghc-flag:`-XApplicativeDo` is now able to more robustly deal with ``do``
-   blocks containing strict patterns (:ghc-ticket:`14163`).
+- Backpack にさまざまな修正を加えました．(:ghc-ticket:`14304`)
 
-Compiler
-~~~~~~~~
+..
+   Language
+   ~~~~~~~~
 
-- An implementation inconsistency leading to subtly typechecker panics with
-   :ghc-flag:`-j ⟨n⟩` has been fixed.
+言語
+~~~~
 
-- We now always link with ``libm``. This fixes ``ld.gold`` on some platforms
-  (e.g. NixOS) which demand that we declare all link dependencies.
+..
+   -  Sum patterns are now considered to be non-irrefutable (:ghc-ticket:`14228`).
 
-- We now link against ``libpthread`` instead of ``libthr`` on FreeBSD
+-  直和パターンは非反駁不可パターンと見なされるようになりました．(:ghc-ticket:`14228`).
 
-- Fix renamer bug triggered by typechecking ``hs-boot`` files containing orphan
-  instances (:ghc-ticket:`14128`)
+..
+   -  :ghc-flag:`-XApplicativeDo` is now able to more robustly deal with ``do``
+      blocks containing strict patterns (:ghc-ticket:`14163`).
 
-- The cost-center profiler's event-log support now also supports breakdown by
-  closure type (:rts-flag:`-hT`, :ghc-ticket:`14096`)
+-  :ghc-flag:`-XApplicativeDo` は正格パターンを含む ``do`` ブロックをより頑健に扱えるようになりました．
+   (:ghc-ticket:`14163`)
 
-- A bug resulting in Core Lint failures for some programs using
-  :ghc-flag:`-XStaticPointers` in GHCi has been fixed (:ghc-ticket:`13481`)
+..
+   Compiler
+   ~~~~~~~~
 
-- The compiler now robustly handles constraint wildcards which expand to large
-  tuple constraints (i.e. wider than 63 constraints)
+コンパイラ
+~~~~~~~~~~
 
-- We now catch more inappropriate levity polymorphism (:ghc-ticket:`13929`)
+..
+   - An implementation inconsistency leading to subtly typechecker panics with
+      :ghc-flag:`-j ⟨n⟩` has been fixed.
 
-- A bug leading to data constructor fields having incorrect strictness
-  signatures has been fixed (:ghc-ticket:`14290`)
+- 実装の不整合により :ghc-flag:`-j ⟨n⟩` を指定したときに型検査器がパニックを起すバグが修正されました．
 
-- An incorrect strictness signature for ``retry#`` which may result in undefined
-  behavior at runtime has been fixed (:ghc-ticket:`14171`)
+..
+   - We now always link with ``libm``. This fixes ``ld.gold`` on some platforms
+     (e.g. NixOS) which demand that we declare all link dependencies.
 
-- A bug in the short-cut solver leading to an infinite in typechecking has been
-  fixed (:ghc-tickets:`13943`)
+- 常に ``libm`` をリンクするようになりました．これは，いくつかのプラットフォーム(たとえば NixOS)で
+  ``ld.gold`` がリンクの依存関係をすべて宣言するように要求するのを修正したのものです．
 
-- The compiler no longer panics when faced with ``ByteArray#`` arguments in a
-  ``foreign import``
+..
+   - We now link against ``libpthread`` instead of ``libthr`` on FreeBSD
 
-- Over-zealous optimization of ``Foreign.Marshal.Alloc.allocBytes[Aligned]``
-  resulting in undefined behavior has been worked around (:ghc-ticket:`14346`)
+- FreeBSD では ``libthr`` ではなく ``libpthread`` にリンクするようになりました．
+
+..
+   - Fix renamer bug triggered by typechecking ``hs-boot`` files containing orphan
+     instances (:ghc-ticket:`14128`)
+
+- 孤立したインスタンスを含む ``hs-boot`` ファイルの型検査時に発生する renamer のバグを修正しました．
+  (:ghc-ticket:`14128`)
+
+..
+   - The cost-center profiler's event-log support now also supports breakdown by
+     closure type (:rts-flag:`-hT`, :ghc-ticket:`14096`)
+
+- コストセンタープロファイラのイベントログサポートは，クロージャタイプによる分解もサポートするようになりました．
+  (:rts-flag:`-hT`, :ghc-ticket:`14096`)
+
+..
+   - A bug resulting in Core Lint failures for some programs using
+     :ghc-flag:`-XStaticPointers` in GHCi has been fixed (:ghc-ticket:`13481`)
+
+- GHCi で :ghc-flag:`-XStaticPointers` を使用しているいくつかのプログラムで Core Lint が失敗するバグを修正しました．
+  (:ghc-ticket:`13481`)
+
+..
+   - The compiler now robustly handles constraint wildcards which expand to large
+     tuple constraints (i.e. wider than 63 constraints)
+
+- コンパイラはタプルの制限を(たとえば 63 より広く)拡張する制約ワイルドカードの取扱いを頑健なものにしました．
+
+..
+   - We now catch more inappropriate levity polymorphism (:ghc-ticket:`13929`)
+
+- 不適切なレヴィティ多相を捕捉するようになりました．(:ghc-ticket:`13929`)
+
+..
+   - A bug leading to data constructor fields having incorrect strictness
+     signatures has been fixed (:ghc-ticket:`14290`)
+
+- データ構成子フィールドが不正な正格性シグネチャを持ってしまうことに繋るバグを修正しました．
+  (:ghc-ticket:`14290`)
+
+..
+   - An incorrect strictness signature for ``retry#`` which may result in undefined
+     behavior at runtime has been fixed (:ghc-ticket:`14171`)
+
+- 実行時に未定義動作を引き起す可能性のある ``retry#`` に対する不正な正格性シグネチャを修正しました．
+  (:ghc-ticket:`14171`)
+
+..
+   - A bug in the short-cut solver leading to an infinite in typechecking has been
+     fixed (:ghc-tickets:`13943`)
+
+- 型検査が無限ループをひきおこすショートカットソルバーのバグを修正しました．
+  (:ghc-tickets:`13943`)
+
+..
+   - The compiler no longer panics when faced with ``ByteArray#`` arguments in a ``foreign import``.
+
+- ``foreign import`` で ``ByteArray#`` 引数があってもコンパイラがパニックを起さないようになりました．
+
+..
+   - Over-zealous optimization of ``Foreign.Marshal.Alloc.allocBytes[Aligned]``
+     resulting in undefined behavior has been worked around (:ghc-ticket:`14346`)
+
+- ``Foreign.Marshal.Alloc.allocBytes[Aligned]`` を過度に最適化した結果，未定義動作を起していたのを回避しました．
+  (:ghc-ticket:`14346`)
 
 GHCi
 ~~~~
