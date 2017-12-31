@@ -66,10 +66,10 @@
 </ul>
 </li>
 <li><a class="reference internal" href="#ghci-compiled">5.3. コンパイル済みコードをロードする</a></li>
-<li><a class="reference internal" href="#interactive-evaluation-at-the-prompt">5.4. Interactive evaluation at the prompt</a><ul>
-<li><a class="reference internal" href="#i-o-actions-at-the-prompt">5.4.1. I/O actions at the prompt</a></li>
-<li><a class="reference internal" href="#using-do-notation-at-the-prompt">5.4.2. Using <code class="docutils literal"><span class="pre">do</span></code> notation at the prompt</a></li>
-<li><a class="reference internal" href="#multiline-input">5.4.3. Multiline input</a></li>
+<li><a class="reference internal" href="#interactive-evaluation">5.4. プロンプトで対話的に評価する</a><ul>
+<li><a class="reference internal" href="#i-o">5.4.1. プロンプトでのI/Oアクション</a></li>
+<li><a class="reference internal" href="#do">5.4.2. プロンプトで <code class="docutils literal"><span class="pre">do</span></code> 記法を使う</a></li>
+<li><a class="reference internal" href="#ghci-multiline">5.4.3. 複数行入力</a></li>
 <li><a class="reference internal" href="#type-class-and-other-declarations">5.4.4. Type, class and other declarations</a></li>
 <li><a class="reference internal" href="#what-s-really-in-scope-at-the-prompt">5.4.5. What&#8217;s really in scope at the prompt?</a><ul>
 <li><a class="reference internal" href="#the-effect-of-load-on-what-is-in-scope">5.4.5.1. The effect of <code class="docutils literal"><span class="pre">:load</span></code> on what is in scope</a></li>
@@ -440,40 +440,38 @@ Compiling A                ( A.hs, interpreted )
 変わらずコンパイル済みのものが使われます．</p>
 </div>
 </div>
-<div class="section" id="interactive-evaluation-at-the-prompt">
-<span id="interactive-evaluation"></span><h2>5.4. Interactive evaluation at the prompt<a class="headerlink" href="#interactive-evaluation-at-the-prompt" title="このヘッドラインへのパーマリンク">¶</a></h2>
-<p>When you type an expression at the prompt, GHCi immediately evaluates
-and prints the result:</p>
+<div class="section" id="interactive-evaluation">
+<span id="id13"></span><h2>5.4. プロンプトで対話的に評価する<a class="headerlink" href="#interactive-evaluation" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>プロンプトに式を入力すると，GHCi はただちに評価して結果を表示します．</p>
 <div class="highlight-none"><div class="highlight"><pre>Prelude&gt; reverse &quot;hello&quot;
 &quot;olleh&quot;
 Prelude&gt; 5+5
 10
 </pre></div>
 </div>
-<div class="section" id="i-o-actions-at-the-prompt">
-<span id="actions-at-prompt"></span><h3>5.4.1. I/O actions at the prompt<a class="headerlink" href="#i-o-actions-at-the-prompt" title="このヘッドラインへのパーマリンク">¶</a></h3>
-<p>GHCi does more than simple expression evaluation at the prompt. If you
-enter an expression of type <code class="docutils literal"><span class="pre">IO</span> <span class="pre">a</span></code> for some <code class="docutils literal"><span class="pre">a</span></code>, then GHCi
-<em>executes</em> it as an IO-computation.</p>
+<div class="section" id="i-o">
+<span id="actions-at-prompt"></span><h3>5.4.1. プロンプトでのI/Oアクション<a class="headerlink" href="#i-o" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<p>GHCi がプロンプトで行うのは単なる式の評価だけではありません．
+ある型 <code class="docutils literal"><span class="pre">a</span></code> に関して <code class="docutils literal"><span class="pre">IO</span> <span class="pre">a</span></code> 型の式を入力すると，GHCiはそれをIOコンピュテーションとして
+<em>実行</em> します．</p>
 <div class="highlight-none"><div class="highlight"><pre>Prelude&gt; &quot;hello&quot;
 &quot;hello&quot;
 Prelude&gt; putStrLn &quot;hello&quot;
 hello
 </pre></div>
 </div>
-<p>This works even if the type of the expression is more general, provided
-it can be <em>instantiated</em> to <code class="docutils literal"><span class="pre">IO</span> <span class="pre">a</span></code>. For example</p>
+<p>式の型がより一般的なものであっても <code class="docutils literal"><span class="pre">IO</span> <span class="pre">a</span></code> に <em>具体化</em> することができる限り動作します．
+それ例が以下です．</p>
 <div class="highlight-none"><div class="highlight"><pre>Prelude&gt; return True
 True
 </pre></div>
 </div>
-<p>Furthermore, GHCi will print the result of the I/O action if (and only
-if):</p>
+<p>さらに，GHCiは以下の条件を満す場合(かつその限りにおいて)，I/Oアクションの結果を表示します．</p>
 <ul class="simple">
-<li>The result type is an instance of <code class="docutils literal"><span class="pre">Show</span></code>.</li>
-<li>The result type is not <code class="docutils literal"><span class="pre">()</span></code>.</li>
+<li>結果の型が <code class="docutils literal"><span class="pre">Show</span></code> のインスタンスの場合．</li>
+<li>結果の型が <code class="docutils literal"><span class="pre">()</span></code> ではない場合．</li>
 </ul>
-<p>For example, remembering that <code class="docutils literal"><span class="pre">putStrLn</span> <span class="pre">::</span> <span class="pre">String</span> <span class="pre">-&gt;</span> <span class="pre">IO</span> <span class="pre">()</span></code>:</p>
+<p>以下はその例です．ただし， <code class="docutils literal"><span class="pre">putStrLn</span> <span class="pre">::</span> <span class="pre">String</span> <span class="pre">-&gt;</span> <span class="pre">IO</span> <span class="pre">()</span></code> です．</p>
 <div class="highlight-none"><div class="highlight"><pre>Prelude&gt; putStrLn &quot;hello&quot;
 hello
 Prelude&gt; do { putStrLn &quot;hello&quot;; return &quot;yes&quot; }
@@ -482,67 +480,61 @@ hello
 </pre></div>
 </div>
 </div>
-<div class="section" id="using-do-notation-at-the-prompt">
-<span id="ghci-stmts"></span><h3>5.4.2. Using <code class="docutils literal"><span class="pre">do</span></code> notation at the prompt<a class="headerlink" href="#using-do-notation-at-the-prompt" title="このヘッドラインへのパーマリンク">¶</a></h3>
-<p id="index-6">GHCi actually accepts statements rather than just expressions at the
-prompt. This means you can bind values and functions to names, and use
-them in future expressions or statements.</p>
-<p>The syntax of a statement accepted at the GHCi prompt is exactly the
-same as the syntax of a statement in a Haskell <code class="docutils literal"><span class="pre">do</span></code> expression.
-However, there&#8217;s no monad overloading here: statements typed at the
-prompt must be in the <code class="docutils literal"><span class="pre">IO</span></code> monad.</p>
+<div class="section" id="do">
+<span id="ghci-stmts"></span><h3>5.4.2. プロンプトで <code class="docutils literal"><span class="pre">do</span></code> 記法を使う<a class="headerlink" href="#do" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<span class="target" id="index-6"></span><p>実際には，GHCiはプロンプトで受け付けているのは単なる式ではなく文です．
+そのため，値や関数を名前に束縛して，後で式や文の中で使うことができます．</p>
+<p>GHCiがプロンプトで受け付ける文の構文は，Haskellのdo式における文の構文と全く同じです．
+ただし，こちらにはモナドの多重定義はありません．
+プロンプトに入力される文はIOモナドの中になければなりません．</p>
 <div class="highlight-none"><div class="highlight"><pre>Prelude&gt; x &lt;- return 42
 Prelude&gt; print x
 42
 Prelude&gt;
 </pre></div>
 </div>
-<p>The statement <code class="docutils literal"><span class="pre">x</span> <span class="pre">&lt;-</span> <span class="pre">return</span> <span class="pre">42</span></code> means “execute <code class="docutils literal"><span class="pre">return</span> <span class="pre">42</span></code> in the
-<code class="docutils literal"><span class="pre">IO</span></code> monad, and bind the result to <code class="docutils literal"><span class="pre">x</span></code>”. We can then use <code class="docutils literal"><span class="pre">x</span></code> in
-future statements, for example to print it as we did above.</p>
+<p><code class="docutils literal"><span class="pre">x</span> <span class="pre">&lt;-</span> <span class="pre">return</span> <span class="pre">42</span></code> という文は「<code class="docutils literal"><span class="pre">return</span> <span class="pre">42</span></code> を <code class="docutils literal"><span class="pre">IO</span></code> モナド内で実行し，
+その結果で <code class="docutils literal"><span class="pre">x</span></code> を束縛する」という意味です．
+以降 <code class="docutils literal"><span class="pre">x</span></code> は文の中で使用できます．
+たとえば，上でしたように値を印字できます．</p>
 <dl class="ghc-flag">
 <dt id="ghc-flag--fprint-bind-result">
 <code class="descname">-fprint-bind-result</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag--fprint-bind-result" title="この定義へのパーマリンク">¶</a></dt>
-<dd><p>If <a class="reference internal" href="#ghc-flag--fprint-bind-result"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-fprint-bind-result</span></code></a> is set then GHCi will print the result of a
-statement if and only if:</p>
+<dd><p><a class="reference internal" href="#ghc-flag--fprint-bind-result"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-fprint-bind-result</span></code></a> が設定されていれば，GHCiは次の場合(かつ，その場合に限り)
+文の結果を表示します．</p>
 <ul class="simple">
-<li>The statement is not a binding, or it is a monadic binding
-(<code class="docutils literal"><span class="pre">p</span> <span class="pre">&lt;-</span> <span class="pre">e</span></code>) that binds exactly one variable.</li>
-<li>The variable&#8217;s type is not polymorphic, is not <code class="docutils literal"><span class="pre">()</span></code>, and is an
-instance of <code class="docutils literal"><span class="pre">Show</span></code>.</li>
+<li>当該の文が束縛ではないか，1つの変数だけを束縛するモナド束縛(<code class="docutils literal"><span class="pre">p</span> <span class="pre">&lt;-</span> <span class="pre">e</span></code>)の場合．</li>
+<li>変数の型が多相的でなく， <code class="docutils literal"><span class="pre">()</span></code> でもなく， <code class="docutils literal"><span class="pre">Show</span></code> のインスタンスである場合．</li>
 </ul>
 </dd></dl>
 
-<p>Of course, you can also bind normal non-IO expressions using the
-<code class="docutils literal"><span class="pre">let</span></code>-statement:</p>
+<p>もちろん，<code class="docutils literal"><span class="pre">let</span></code> 文を使って，ふつうの非IO式で束縛することもできます．</p>
 <div class="highlight-none"><div class="highlight"><pre>Prelude&gt; let x = 42
 Prelude&gt; x
 42
 Prelude&gt;
 </pre></div>
 </div>
-<p>Another important difference between the two types of binding is that
-the monadic bind (<code class="docutils literal"><span class="pre">p</span> <span class="pre">&lt;-</span> <span class="pre">e</span></code>) is <em>strict</em> (it evaluates <code class="docutils literal"><span class="pre">e</span></code>), whereas
-with the <code class="docutils literal"><span class="pre">let</span></code> form, the expression isn&#8217;t evaluated immediately:</p>
+<p>この2種類の束縛のもうひとつ重要な違いは，
+モナド束縛(<code class="docutils literal"><span class="pre">p</span> <span class="pre">&lt;-</span> <span class="pre">e</span></code>)は <em>正格</em> (<code class="docutils literal"><span class="pre">e</span></code> を評価)ですが，
+<code class="docutils literal"><span class="pre">let</span></code> 形式では式はすぐには評価されないということです．</p>
 <div class="highlight-none"><div class="highlight"><pre>Prelude&gt; let x = error &quot;help!&quot;
 Prelude&gt; print x
 *** Exception: help!
 Prelude&gt;
 </pre></div>
 </div>
-<p>Note that <code class="docutils literal"><span class="pre">let</span></code> bindings do not automatically print the value bound,
-unlike monadic bindings.</p>
-<p>You can also define functions at the prompt:</p>
+<p><code class="docutils literal"><span class="pre">let</span></code> 束縛では，モナド束縛とは違い，束縛値が自動的に表示されることはありません．</p>
+<p>プロンプトで関数を定義することもできます．</p>
 <div class="highlight-none"><div class="highlight"><pre>Prelude&gt; add a b = a + b
 Prelude&gt; add 1 2
 3
 Prelude&gt;
 </pre></div>
 </div>
-<p>However, this quickly gets tedious when defining functions with multiple
-clauses, or groups of mutually recursive functions, because the complete
-definition has to be given on a single line, using explicit semicolons
-instead of layout:</p>
+<p>しかし，複数の節からなる関数を定義したり，相互再帰的な関数を定義したりしようとすると，
+このやりかたはすぐ面倒になります．
+レイアウト規則が使えず，定義全体を明示的なブレースとセミコロンを使って一行で与えないといけないからです．</p>
 <div class="highlight-none"><div class="highlight"><pre>Prelude&gt; f op n [] = n ; f op n (h:t) = h `op` f op n t
 Prelude&gt; f (+) 0 [1..3]
 6
@@ -554,12 +546,11 @@ Prelude&gt;
 <code class="descname">:{</code><code class="descclassname"></code><a class="headerlink" href="#ghci-cmd-:{" title="この定義へのパーマリンク">¶</a></dt>
 <dt id="ghci-cmd-:}">
 <code class="descname">:}</code><code class="descclassname"></code><a class="headerlink" href="#ghci-cmd-:}" title="この定義へのパーマリンク">¶</a></dt>
-<dd><p>Begin or end a multi-line GHCi command block.</p>
+<dd><p>複数行にわたるGHCiコマンドブロックの開始および終了します．</p>
 </dd></dl>
 
-<p>To alleviate this issue, GHCi commands can be split over multiple lines,
-by wrapping them in <code class="docutils literal"><span class="pre">:{</span></code> and <code class="docutils literal"><span class="pre">:}</span></code> (each on a single line of its
-own):</p>
+<p>この問題を軽減するために，GHCi コマンドは複数行に渡って書くことができるようになっています．
+<code class="docutils literal"><span class="pre">:{</span></code> および <code class="docutils literal"><span class="pre">:}</span></code> で，それぞれ1行を使います．</p>
 <div class="highlight-none"><div class="highlight"><pre>Prelude&gt; :{
 Prelude| g op n [] = n
 Prelude| g op n (h:t) = h `op` g op n t
@@ -568,27 +559,26 @@ Prelude&gt; g (*) 1 [1..3]
 6
 </pre></div>
 </div>
-<p>Such multiline commands can be used with any GHCi command, and note that
-the layout rule is in effect. The main purpose of multiline commands is
-not to replace module loading but to make definitions in .ghci-files
-(see <a class="reference internal" href="#ghci-dot-files"><span>The .ghci and .haskeline files</span></a>) more readable and maintainable.</p>
-<p>Any exceptions raised during the evaluation or execution of the
-statement are caught and printed by the GHCi command line interface (for
-more information on exceptions, see the module <code class="docutils literal"><span class="pre">Control.Exception</span></code> in
-the libraries <a class="reference external" href="../libraries/base-4.10.1.0/Control-Exception.html">documentation</a>).</p>
-<p>Every new binding shadows any existing bindings of the same name,
-including entities that are in scope in the current module context.</p>
+<p>このような複数行コマンドは任意のGHCiコマンドについて用いることができます．
+このときレイアウト規則が有効であることに注意してください．
+複数行コマンドの主な目的は，モジュールのロードの代替にすることではなく，
+.ghciファイル(<a class="reference internal" href="#ghci-dot-files"><span>The .ghci and .haskeline files</span></a> 参照)での定義を読みやすく保守しやするするためです．</p>
+<p>文を評価または実行している間に発生した例外は，GHCiのコマンド行インターフェイスによって捕捉され，
+表示されます(例外について詳しくはライブラリドキュメント <code class="docutils literal"><span class="pre">Control.Exception</span></code>
+モジュールのライブラリ <a class="reference external" href="../libraries/base-4.10.1.0/Control-Exception.html">文書</a> を参照してください)．</p>
+<p>新しい束縛は，同じ名前の既存の束縛をシャドウし(覆い隠し)ます．
+これは現在のモジュールの文脈でスコープにある実体もシャドウします．</p>
 <div class="admonition warning">
 <p class="first admonition-title">警告</p>
-<p class="last">Temporary bindings introduced at the prompt only last until the
-next <a class="reference internal" href="#ghci-cmd-:load"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:load</span></code></a> or <a class="reference internal" href="#ghci-cmd-:reload"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:reload</span></code></a> command, at which time they
-will be simply lost. However, they do survive a change of context with
-<a class="reference internal" href="#ghci-cmd-:module"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:module</span></code></a>: the temporary bindings just move to the new location.</p>
+<p class="last">プロンプトで導入さた束縛あ一時的なもので，
+次に <a class="reference internal" href="#ghci-cmd-:load"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:load</span></code></a> あるいは <a class="reference internal" href="#ghci-cmd-:reload"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:reload</span></code></a> コマンドが実行されるまでの間のことです．
+これらのコマンドが実行されると，一時的な束縛は消えてしまいます．
+ただし，<a class="reference internal" href="#ghci-cmd-:module"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:module</span></code></a>: で文脈を変更しても一時的は束縛は新しい場所へ移動し，
+消えることはありません．</p>
 </div>
 <div class="admonition hint">
 <p class="first admonition-title">ヒント</p>
-<p>To get a list of the bindings currently in scope, use the
-<a class="reference internal" href="#ghci-cmd-:show bindings"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:show</span> <span class="pre">bindings</span></code></a> command:</p>
+<p><a class="reference internal" href="#ghci-cmd-:show bindings"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:show</span> <span class="pre">bindings</span></code></a> コマンドを使えば，その時点でスコープにある束縛の一覧がえられます．</p>
 <div class="last highlight-none"><div class="highlight"><pre>Prelude&gt; :show bindings
 x :: Int
 Prelude&gt;
@@ -597,32 +587,33 @@ Prelude&gt;
 </div>
 <div class="admonition hint">
 <p class="first admonition-title">ヒント</p>
-<p>If you turn on the <code class="docutils literal"><span class="pre">+t</span></code> option, GHCi will show the type of each
-variable bound by a statement. For example:</p>
+<p><code class="docutils literal"><span class="pre">+t</span></code> オプションを指定すると，GHCi は文が束縛したそれぞれの変数の型を表示するようになります．
+以下はその例です．</p>
 <div class="last highlight-none"><div class="highlight"><pre>Prelude&gt; :set +t
 Prelude&gt; let (x:xs) = [1..]
 x :: Integer
 xs :: [Integer]
 </pre></div>
 </div>
+<span class="target" id="index-7"></span></div>
 </div>
-</div>
-<div class="section" id="multiline-input">
-<span id="ghci-multiline"></span><span id="index-7"></span><h3>5.4.3. Multiline input<a class="headerlink" href="#multiline-input" title="このヘッドラインへのパーマリンク">¶</a></h3>
-<p>Apart from the <code class="docutils literal"><span class="pre">:{</span> <span class="pre">...</span> <span class="pre">:}</span></code> syntax for multi-line input mentioned
-above, GHCi also has a multiline mode, enabled by <code class="docutils literal"><span class="pre">:set</span> <span class="pre">+m</span></code>,
-<code class="docutils literal"><span class="pre">:set</span> <span class="pre">+m</span></code> in which GHCi detects automatically when the current
-statement is unfinished and allows further lines to be added. A
-multi-line input is terminated with an empty line. For example:</p>
+<div class="section" id="ghci-multiline">
+<span id="id14"></span><h3>5.4.3. 複数行入力<a class="headerlink" href="#ghci-multiline" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<p>上で説明しあた <code class="docutils literal"><span class="pre">:{</span> <span class="pre">...</span> <span class="pre">:}</span></code> 構文による複数行入力のほかに，GHCiでは <code class="docutils literal"><span class="pre">:set</span> <span class="pre">+m</span></code>
+とすると有効になる複数行モードがあります．
+このモードでは，現在の文が入力途中であることをGHCiが自動的に検出します．
+その先の入力ができるようになります．
+複数行入力は空行で終端します．
+実際の入力例は以下のとおりです．</p>
 <div class="highlight-none"><div class="highlight"><pre>Prelude&gt; :set +m
 Prelude&gt; let x = 42
 Prelude|
 </pre></div>
 </div>
-<p>Further bindings can be added to this <code class="docutils literal"><span class="pre">let</span></code> statement, so GHCi
-indicates that the next line continues the previous one by changing the
-prompt. Note that layout is in effect, so to add more bindings to this
-<code class="docutils literal"><span class="pre">let</span></code> we have to line them up:</p>
+<p>この <code class="docutils literal"><span class="pre">let</span></code> 文にはさらに束縛を追加できます．
+GHCiのプロンプトが変り，直前の行の続きを入力できることが判ります．
+レイアウト規則は有効ですので，この <code class="docutils literal"><span class="pre">let</span></code> にさらに束縛を加えるには
+束縛の先頭位置をそろえる必要があることに注意してください．</p>
 <div class="highlight-none"><div class="highlight"><pre>Prelude&gt; :set +m
 Prelude&gt; let x = 42
 Prelude|     y = 3
@@ -630,7 +621,7 @@ Prelude|
 Prelude&gt;
 </pre></div>
 </div>
-<p>Explicit braces and semicolons can be used instead of layout:</p>
+<p>レイアウトではなく明示的にブレースをセミコロンを使うこともできます．</p>
 <div class="highlight-none"><div class="highlight"><pre>Prelude&gt; do {
 Prelude| putStrLn &quot;hello&quot;
 Prelude| ;putStrLn &quot;world&quot;
@@ -640,9 +631,8 @@ world
 Prelude&gt;
 </pre></div>
 </div>
-<p>Note that after the closing brace, GHCi knows that the current statement
-is finished, so no empty line is required.</p>
-<p>Multiline mode is useful when entering monadic <code class="docutils literal"><span class="pre">do</span></code> statements:</p>
+<p>閉じブレースの後は，現在の文がおわっていることが判るので，空行は必要ありません．</p>
+<p>複数行モードはモナドの <code class="docutils literal"><span class="pre">do</span></code> 文を入力するのに便利です．</p>
 <div class="highlight-none"><div class="highlight"><pre>Control.Monad.State&gt; flip evalStateT 0 $ do
 Control.Monad.State| i &lt;- get
 Control.Monad.State| lift $ do
@@ -654,8 +644,7 @@ Control.Monad.State|
 Control.Monad.State&gt;
 </pre></div>
 </div>
-<p>During a multiline interaction, the user can interrupt and return to the
-top-level prompt.</p>
+<p>複数行モードで入力中に中断してトップレベルのプロンプトに戻ることもできます．</p>
 <div class="highlight-none"><div class="highlight"><pre>Prelude&gt; do
 Prelude| putStrLn &quot;Hello, World!&quot;
 Prelude| ^C
@@ -1052,7 +1041,7 @@ return <code class="docutils literal"><span class="pre">undefined</span></code> 
 that printf doesn&#8217;t require extensions to the class system), so if the
 type defaults to <code class="docutils literal"><span class="pre">Integer</span></code> then ghci gives an error when running a
 printf.</p>
-<p>See also <a class="reference internal" href="#actions-at-prompt"><span>I/O actions at the prompt</span></a> for how the monad of a computational
+<p>See also <a class="reference internal" href="#actions-at-prompt"><span>プロンプトでのI/Oアクション</span></a> for how the monad of a computational
 expression defaults to <code class="docutils literal"><span class="pre">IO</span></code> if possible.</p>
 <div class="section" id="interactive-classes">
 <h4>5.4.8.1. Interactive classes<a class="headerlink" href="#interactive-classes" title="このヘッドラインへのパーマリンク">¶</a></h4>
@@ -1171,7 +1160,7 @@ running computation in order to examine the values of variables. The
 debugger is integrated into GHCi, and is turned on by default: no flags
 are required to enable the debugging facilities. There is one major
 restriction: breakpoints and single-stepping are only available in
-interpreted modules; compiled code is invisible to the debugger <a class="footnote-reference" href="#id19" id="id13">[5]</a>.</p>
+interpreted modules; compiled code is invisible to the debugger <a class="footnote-reference" href="#id21" id="id15">[5]</a>.</p>
 <p>The debugger provides the following:</p>
 <ul class="simple">
 <li>The ability to set a breakpoint on a function definition or
@@ -1249,7 +1238,7 @@ can use the <a class="reference internal" href="#ghci-cmd-:list"><code class="xr
 <p>The <a class="reference internal" href="#ghci-cmd-:list"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:list</span></code></a> command lists the source code around the current
 breakpoint. If your output device supports it, then GHCi will highlight
 the active subexpression in bold.</p>
-<p>GHCi has provided bindings for the free variables <a class="footnote-reference" href="#id20" id="id14">[6]</a> of the expression
+<p>GHCi has provided bindings for the free variables <a class="footnote-reference" href="#id22" id="id16">[6]</a> of the expression
 on which the breakpoint was placed (<code class="docutils literal"><span class="pre">a</span></code>, <code class="docutils literal"><span class="pre">left</span></code>, <code class="docutils literal"><span class="pre">right</span></code>), and
 additionally a binding for the result of the expression (<code class="docutils literal"><span class="pre">_result</span></code>).
 These variables are just like other variables that you might define in
@@ -1346,7 +1335,7 @@ right :: [a]
 <p>The execution continued at the point it previously stopped, and has now
 stopped at the breakpoint for a second time.</p>
 <div class="section" id="setting-breakpoints">
-<span id="id15"></span><h4>5.5.1.1. Setting breakpoints<a class="headerlink" href="#setting-breakpoints" title="このヘッドラインへのパーマリンク">¶</a></h4>
+<span id="id17"></span><h4>5.5.1.1. Setting breakpoints<a class="headerlink" href="#setting-breakpoints" title="このヘッドラインへのパーマリンク">¶</a></h4>
 <p>Breakpoints can be set in various ways. Perhaps the easiest way to set a
 breakpoint is to name a top-level function:</p>
 <div class="highlight-none"><div class="highlight"><pre>:break identifier
@@ -1407,7 +1396,7 @@ given in the output from <a class="reference internal" href="#ghci-cmd-:show bre
 </div>
 </div>
 <div class="section" id="single-stepping">
-<span id="id16"></span><h3>5.5.2. Single-stepping<a class="headerlink" href="#single-stepping" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<span id="id18"></span><h3>5.5.2. Single-stepping<a class="headerlink" href="#single-stepping" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <p>Single-stepping is a great way to visualise the execution of your
 program, and it is also a useful tool for identifying the source of a
 bug. GHCi offers two variants of stepping. Use <a class="reference internal" href="#ghci-cmd-:step"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:step</span></code></a> to enable all
@@ -1448,7 +1437,7 @@ _result :: [Integer]
 </div>
 </div>
 <div class="section" id="nested-breakpoints">
-<span id="id17"></span><h3>5.5.3. Nested breakpoints<a class="headerlink" href="#nested-breakpoints" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<span id="id19"></span><h3>5.5.3. Nested breakpoints<a class="headerlink" href="#nested-breakpoints" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <p>When GHCi is stopped at a breakpoint, and an expression entered at the
 prompt triggers a second breakpoint, the new breakpoint becomes the
 &#8220;current&#8221; one, and the old one is saved on a stack. An arbitrary number
@@ -1828,7 +1817,7 @@ to the command line.</p>
 </div>
 </div>
 <div class="section" id="ghci-commands">
-<span id="id18"></span><h2>5.7. GHCi commands<a class="headerlink" href="#ghci-commands" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<span id="id20"></span><h2>5.7. GHCi commands<a class="headerlink" href="#ghci-commands" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <p>GHCi commands all begin with &#8220;<code class="docutils literal"><span class="pre">:</span></code>&#8221; and consist of a single command
 name followed by zero or more parameters. The command name may be
 abbreviated, with ambiguities being resolved in favour of the more
@@ -2709,7 +2698,7 @@ The commands <a class="reference internal" href="#ghci-cmd-:all-types"><code cla
 <code class="descname">:set +m</code><code class="descclassname"></code><a class="headerlink" href="#ghci-cmd-:set +m" title="この定義へのパーマリンク">¶</a></dt>
 <dd><p id="index-32">Enable parsing of multiline commands. A multiline command is
 prompted for when the current input line contains open layout
-contexts (see <a class="reference internal" href="#ghci-multiline"><span>Multiline input</span></a>).</p>
+contexts (see <a class="reference internal" href="#ghci-multiline"><span>複数行入力</span></a>).</p>
 </dd></dl>
 
 <dl class="ghci-cmd">
@@ -3025,17 +3014,17 @@ program thus:</p>
 </div>
 </dd>
 </dl>
-<table class="docutils footnote" frame="void" id="id19" rules="none">
+<table class="docutils footnote" frame="void" id="id21" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
-<tr><td class="label"><a class="fn-backref" href="#id13">[5]</a></td><td>Note that packages only contain compiled code, so debugging a package
+<tr><td class="label"><a class="fn-backref" href="#id15">[5]</a></td><td>Note that packages only contain compiled code, so debugging a package
 requires finding its source and loading that directly.</td></tr>
 </tbody>
 </table>
-<table class="docutils footnote" frame="void" id="id20" rules="none">
+<table class="docutils footnote" frame="void" id="id22" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
-<tr><td class="label"><a class="fn-backref" href="#id14">[6]</a></td><td>We originally provided bindings for all variables in scope, rather
+<tr><td class="label"><a class="fn-backref" href="#id16">[6]</a></td><td>We originally provided bindings for all variables in scope, rather
 than just the free variables of the expression, but found that this
 affected performance considerably, hence the current restriction to
 just the free variables.</td></tr>
