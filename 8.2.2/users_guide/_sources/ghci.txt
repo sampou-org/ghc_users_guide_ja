@@ -2116,29 +2116,65 @@ IO型の式 ``e`` に対する変形は，
     
 新しい式を評価するたびに ``it`` の値は新しい値でシャドウされ，古い ``it`` の値は失われることに注意してください．
 
+..
+   .. _extended-default-rules:
+
+   Type defaulting in GHCi
+   ~~~~~~~~~~~~~~~~~~~~~~~
+
+   .. index::
+      single: Type defaulting; in GHCi
+      single: Show class
+
 .. _extended-default-rules:
 
-Type defaulting in GHCi
-~~~~~~~~~~~~~~~~~~~~~~~
+GHCi でのデフォルト型設定
+~~~~~~~~~~~~~~~~~~~~~~~~~
 
 .. index::
-   single: Type defaulting; in GHCi
-   single: Show class
+   single: デフォルト型設定; GHCiの〜
+   single: Showクラス
+
+..
+   .. ghc-flag:: -XExtendedDefaultRules
+
+       Allow defaulting to take place for more than just numeric classes.
 
 .. ghc-flag:: -XExtendedDefaultRules
 
-    Allow defaulting to take place for more than just numeric classes.
+    数値クラス以外のものに対してもデフォルト設定を行うことができます．
 
-Consider this GHCi session:
+..
+   Consider this GHCi session:
+
+   .. code-block:: none
+
+	 ghci> reverse []
+
+次のGHCiセッションを考えていみましょう．
 
 .. code-block:: none
 
       ghci> reverse []
 
-What should GHCi do? Strictly speaking, the program is ambiguous.
-``show (reverse [])`` (which is what GHCi computes here) has type
-``Show a => String`` and how that displays depends on the type ``a``.
-For example:
+..
+   What should GHCi do? Strictly speaking, the program is ambiguous.
+   ``show (reverse [])`` (which is what GHCi computes here) has type
+   ``Show a => String`` and how that displays depends on the type ``a``.
+   For example:
+
+   .. code-block:: none
+
+	 ghci> reverse ([] :: String)
+	 ""
+	 ghci> reverse ([] :: [Int])
+	 []
+
+GHCi は何をすべきでしょうか．
+厳密にいえば，このプログラムは曖昧です．
+``show (reverse [])`` (ここでGHCiが計算するのはこれです)の型は，
+``Show a => String`` であり，これをどのように表示するかは ``a`` の型に依存します．
+たとえば，
 
 .. code-block:: none
 
@@ -2147,41 +2183,89 @@ For example:
       ghci> reverse ([] :: [Int])
       []
 
-However, it is tiresome for the user to have to specify the type, so
-GHCi extends Haskell's type-defaulting rules (Section 4.3.4 of the
-Haskell 2010 Report) as follows. The standard rules take each group of
-constraints ``(C1 a, C2 a, ..., Cn a)`` for each type variable ``a``,
-and defaults the type variable if
+..
+   However, it is tiresome for the user to have to specify the type, so
+   GHCi extends Haskell's type-defaulting rules (Section 4.3.4 of the
+   Haskell 2010 Report) as follows. The standard rules take each group of
+   constraints ``(C1 a, C2 a, ..., Cn a)`` for each type variable ``a``,
+   and defaults the type variable if
 
-1. The type variable ``a`` appears in no other constraints
+   1. The type variable ``a`` appears in no other constraints
 
-2. All the classes ``Ci`` are standard.
+   2. All the classes ``Ci`` are standard.
 
-3. At least one of the classes ``Ci`` is numeric.
+   3. At least one of the classes ``Ci`` is numeric.
 
-At the GHCi prompt, or with GHC if the :ghc-flag:`-XExtendedDefaultRules` flag
-is given, the types are instead resolved with the following method:
+のようになります．
+しかし，ユーザがこの型を指定しなければならないというのは面倒なので，
+GHCiはHaskellのデフォルト型設定規則(Haskell 2010 Report の 4.3.4 節)
+を以下のように拡張しています．
+標準の規則では，個々の型変数 ``a`` についてのそれぞれ制約グループ ``(C1 a, C2 a, ..., Cn a)`` を考え，
+次の条件が満たされたとき，この型変数のデフォルトの型を設定します．
 
-Find all the unsolved constraints. Then:
+1. 型変数 ``a`` が他のどの制約にも現れない．
 
--  Find those that are of form ``(C a)`` where ``a`` is a type variable, and
-   partition those constraints into groups that share a common type variable ``a``.
+2. クラス ``Ci`` はすべて標準のクラスである．
 
--  Keep only the groups in which at least one of the classes is an
-   **interactive class** (defined below).
+3. クラス ``Ci`` の少くとも1つは数値である．
 
--  Now, for each remaining group G, try each type ``ty`` from the default-type list
-   in turn; if setting ``a = ty`` would allow the constraints in G to be completely
-   solved. If so, default ``a`` to ``ty``.
+..
+   At the GHCi prompt, or with GHC if the :ghc-flag:`-XExtendedDefaultRules` flag
+   is given, the types are instead resolved with the following method:
 
--  The unit type ``()`` and the list type ``[]`` are added to the start of
-   the standard list of types which are tried when doing type defaulting.
+   Find all the unsolved constraints. Then:
 
-Note that any multi-parameter constraints ``(D a b)`` or ``(D [a] Int)`` do not
-participate in the process (either to help or to hinder); but they must of course
-be soluble once the defaulting process is complete.
+   -  Find those that are of form ``(C a)`` where ``a`` is a type variable, and
+      partition those constraints into groups that share a common type variable ``a``.
 
-The last point means that, for example, this program: ::
+   -  Keep only the groups in which at least one of the classes is an
+      **interactive class** (defined below).
+
+   -  Now, for each remaining group G, try each type ``ty`` from the default-type list
+      in turn; if setting ``a = ty`` would allow the constraints in G to be completely
+      solved. If so, default ``a`` to ``ty``.
+
+   -  The unit type ``()`` and the list type ``[]`` are added to the start of
+      the standard list of types which are tried when doing type defaulting.
+
+GHCi プロンプトあるいはGHCでは :ghc-flag:`-XExtendedDefaultRules` フラグが設定されていると，
+型の解決には以下の方法が使われます．
+
+未解決の制約をすべて見つけます．そのあとは以下のようにします．
+
+-  ``a`` が型変数 であるような ``(C a)`` という形式の未解決制約を見つけ，共通する型変数 ``a``
+   を共有するグループに分割します．
+
+-  少なくとも1つのクラスが **インタラクティブクラス** （以下で定義）であるグループのみを維持します．
+
+-  ここで，残りのグループGごとに，デフォルトのタイプのリストから順番に各タイプ ``ty`` を試してます．
+   ``a = ty`` を設定すると，Gの制約を完全に解くことができるかを確かめます．そうであれば，デフォルトでは ``a`` を ``ty`` とします．
+
+-  ユニット型 ``()`` およびリスト型 ``[]`` がデフォルトの型として試されるリストの先頭に追加される．
+
+..
+   Note that any multi-parameter constraints ``(D a b)`` or ``(D [a] Int)`` do not
+   participate in the process (either to help or to hinder); but they must of course
+   be soluble once the defaulting process is complete.
+
+マルチパラメータ制約 ``(D a b)`` または ``(D [a] Int)`` はプロセスに関与しないことに注意してください(助けにも妨げにもなりません)．
+しかし，デフォルトプロセスが完了したら、それらはもちろん解決できていなければなりません．
+
+..
+   The last point means that, for example, this program: ::
+
+       main :: IO ()
+       main = print def
+
+       instance Num ()
+
+       def :: (Num a, Enum a) => a
+       def = toEnum 0
+
+   prints ``()`` rather than ``0`` as the type is defaulted to ``()``
+   rather than ``Integer``.
+
+最後の点は，たとえば，以下のプログラムに影響します． ::
 
     main :: IO ()
     main = print def
@@ -2191,50 +2275,93 @@ The last point means that, for example, this program: ::
     def :: (Num a, Enum a) => a
     def = toEnum 0
 
-prints ``()`` rather than ``0`` as the type is defaulted to ``()``
-rather than ``Integer``.
+このプログラムは ``0`` ではなく ``()`` を表示します．
+それは ``a`` のデフォルトの型が ``Integer`` ではなく ``()`` に設定されるからです．
 
-The motivation for the change is that it means ``IO a`` actions default
-to ``IO ()``, which in turn means that ghci won't try to print a result
-when running them. This is particularly important for ``printf``, which
-has an instance that returns ``IO a``. However, it is only able to
-return ``undefined`` (the reason for the instance having this type is so
-that printf doesn't require extensions to the class system), so if the
-type defaults to ``Integer`` then ghci gives an error when running a
-printf.
+..
+   The motivation for the change is that it means ``IO a`` actions default
+   to ``IO ()``, which in turn means that ghci won't try to print a result
+   when running them. This is particularly important for ``printf``, which
+   has an instance that returns ``IO a``. However, it is only able to
+   return ``undefined`` (the reason for the instance having this type is so
+   that printf doesn't require extensions to the class system), so if the
+   type defaults to ``Integer`` then ghci gives an error when running a
+   printf.
 
-See also :ref:`actions-at-prompt` for how the monad of a computational
-expression defaults to ``IO`` if possible.
+このような変更を行う動機は ``IO a`` アクションのデフォルトの型は ``IO ()`` になるので，
+これを実行したときghciは結果を表示する面倒がないというものです．
+とくに ``printf`` にとってはこれが重要で ``printf`` のインスタンスで ``IO a`` を返すものがありますが，
+それができることといえば ``undefined`` を返すこと以外ありません
+(printf が型クラスシステムの拡張を必要としないようにというのがその理由)．
+したがって，もしここでデフォルトの型が ``Integer`` だと，printfを走らせると，ghciがエラーになってしまいます．
 
-Interactive classes
-^^^^^^^^^^^^^^^^^^^
+..
+   See also :ref:`actions-at-prompt` for how the monad of a computational
+   expression defaults to ``IO`` if possible.
+
+計算を扱うモナドは，可能であるなら ``IO`` がデフォルトであることについては :ref:`actions-at-prompt` を参照してください．
+
+..
+   Interactive classes
+   ^^^^^^^^^^^^^^^^^^^
+
+   .. index::
+      single: Interactive classes
+
+インタラクティブクラス
+^^^^^^^^^^^^^^^^^^^^^^
 
 .. index::
-   single: Interactive classes
+   single: インタラクティブクラス
 
-The interactive classes (only relevant when :ghc-flag:`-XExtendedDefaultRules`
-is in effect) are: any numeric class, ``Show``, ``Eq``, ``Ord``,
-``Foldable`` or ``Traversable``.
+..
+   The interactive classes (only relevant when :ghc-flag:`-XExtendedDefaultRules`
+   is in effect) are: any numeric class, ``Show``, ``Eq``, ``Ord``,
+   ``Foldable`` or ``Traversable``.
 
-As long as a type variable is constrained by one of these classes, defaulting
-will occur, as outlined above.
+インタラクティブクラスとは(:ghc-flag:`-XExtendedDefaultRules` が有効のときのみ)，すべての数値クラス，
 
-Extended rules around ``default`` declarations
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..
+   As long as a type variable is constrained by one of these classes, defaulting
+   will occur, as outlined above.
+
+型変数がこれらのクラスの1つに制約されている限り，上で概説したようにデフォルト化が起ります．
+
+..
+   Extended rules around ``default`` declarations
+   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+   .. index::
+      single: default declarations
+
+``default`` 宣言まわりの拡張されたルール
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 .. index::
-   single: default declarations
+   single: default 宣言
 
-Since the rules for defaulting are relaxed under
-:ghc-flag:`-XExtendedDefaultRules`, the rules for ``default`` declarations
-are also relaxed. According to Section 4.3.4 of the Haskell 2010 Report,
-a ``default`` declaration looks like ``default (t1, ..., tn)`` where, for
-each ``ti``, ``Num ti`` must hold. This is relaxed to say that for each
-``ti``, there must exist an interactive class ``C`` such that ``C ti`` holds.
-This means that type *constructors* can be allowed in these lists.
-For example, the following works if you wish your ``Foldable`` constraints
-to default to ``Maybe`` but your ``Num`` constraints to still default
-to ``Integer`` or ``Double``: ::
+..
+   Since the rules for defaulting are relaxed under
+   :ghc-flag:`-XExtendedDefaultRules`, the rules for ``default`` declarations
+   are also relaxed. According to Section 4.3.4 of the Haskell 2010 Report,
+   a ``default`` declaration looks like ``default (t1, ..., tn)`` where, for
+   each ``ti``, ``Num ti`` must hold. This is relaxed to say that for each
+   ``ti``, there must exist an interactive class ``C`` such that ``C ti`` holds.
+   This means that type *constructors* can be allowed in these lists.
+   For example, the following works if you wish your ``Foldable`` constraints
+   to default to ``Maybe`` but your ``Num`` constraints to still default
+   to ``Integer`` or ``Double``: ::
+
+       default (Maybe, Integer, Double)
+
+デフォルト化のルールは :ghc-flag:`-XExtendedDefaultRules` があると緩和されるので，
+``default`` 宣言のルールも緩和されます．
+Haskell 2010 Report の 4.3.4 節によれば ``default`` 宣言は ``default (t1, ..., tn)`` のような形式になります．
+ここで，それぞれの ``ti`` に関して ``Num ti`` が満たされていなければなりません．
+これをそれぞれの ``ti`` に関して ``C ti`` を満たすようななインタラクティブクラス ``C`` が存在しなければならないと緩和します．
+これは，型 *構成子* が一覧にできるということです．
+たとえば ``Foldable`` 制約のデフォルトを ``Maybe`` したければ以下で機能しますが
+``Num`` 制約のデフォルトは ``Integer`` または ``Double`` に設定されます． ::
 
     default (Maybe, Integer, Double)
 

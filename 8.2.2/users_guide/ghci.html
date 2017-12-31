@@ -81,9 +81,9 @@
 </li>
 <li><a class="reference internal" href="#main-run">5.4.6. <code class="docutils literal"><span class="pre">:main</span></code> コマンドと <code class="docutils literal"><span class="pre">:run</span></code> コマンド</a></li>
 <li><a class="reference internal" href="#it">5.4.7. <code class="docutils literal"><span class="pre">it</span></code> 変数</a></li>
-<li><a class="reference internal" href="#type-defaulting-in-ghci">5.4.8. Type defaulting in GHCi</a><ul>
-<li><a class="reference internal" href="#interactive-classes">5.4.8.1. Interactive classes</a></li>
-<li><a class="reference internal" href="#extended-rules-around-default-declarations">5.4.8.2. Extended rules around <code class="docutils literal"><span class="pre">default</span></code> declarations</a></li>
+<li><a class="reference internal" href="#extended-default-rules">5.4.8. GHCi でのデフォルト型設定</a><ul>
+<li><a class="reference internal" href="#id19">5.4.8.1. インタラクティブクラス</a></li>
+<li><a class="reference internal" href="#default">5.4.8.2. <code class="docutils literal"><span class="pre">default</span></code> 宣言まわりの拡張されたルール</a></li>
 </ul>
 </li>
 <li><a class="reference internal" href="#using-a-custom-interactive-printing-function">5.4.9. Using a custom interactive printing function</a></li>
@@ -955,56 +955,54 @@ Prelude&gt; print it
 <p>となります．</p>
 <p>新しい式を評価するたびに <code class="docutils literal"><span class="pre">it</span></code> の値は新しい値でシャドウされ，古い <code class="docutils literal"><span class="pre">it</span></code> の値は失われることに注意してください．</p>
 </div>
-<div class="section" id="type-defaulting-in-ghci">
-<span id="extended-default-rules"></span><h3>5.4.8. Type defaulting in GHCi<a class="headerlink" href="#type-defaulting-in-ghci" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<div class="section" id="extended-default-rules">
+<span id="id18"></span><h3>5.4.8. GHCi でのデフォルト型設定<a class="headerlink" href="#extended-default-rules" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <span class="target" id="index-10"></span><dl class="ghc-flag">
 <dt id="ghc-flag--XExtendedDefaultRules">
 <code class="descname">-XExtendedDefaultRules</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag--XExtendedDefaultRules" title="この定義へのパーマリンク">¶</a></dt>
-<dd><p>Allow defaulting to take place for more than just numeric classes.</p>
+<dd><p>数値クラス以外のものに対してもデフォルト設定を行うことができます．</p>
 </dd></dl>
 
-<p>Consider this GHCi session:</p>
+<p>次のGHCiセッションを考えていみましょう．</p>
 <div class="highlight-none"><div class="highlight"><pre>ghci&gt; reverse []
 </pre></div>
 </div>
-<p>What should GHCi do? Strictly speaking, the program is ambiguous.
-<code class="docutils literal"><span class="pre">show</span> <span class="pre">(reverse</span> <span class="pre">[])</span></code> (which is what GHCi computes here) has type
-<code class="docutils literal"><span class="pre">Show</span> <span class="pre">a</span> <span class="pre">=&gt;</span> <span class="pre">String</span></code> and how that displays depends on the type <code class="docutils literal"><span class="pre">a</span></code>.
-For example:</p>
+<p>GHCi は何をすべきでしょうか．
+厳密にいえば，このプログラムは曖昧です．
+<code class="docutils literal"><span class="pre">show</span> <span class="pre">(reverse</span> <span class="pre">[])</span></code> (ここでGHCiが計算するのはこれです)の型は，
+<code class="docutils literal"><span class="pre">Show</span> <span class="pre">a</span> <span class="pre">=&gt;</span> <span class="pre">String</span></code> であり，これをどのように表示するかは <code class="docutils literal"><span class="pre">a</span></code> の型に依存します．
+たとえば，</p>
 <div class="highlight-none"><div class="highlight"><pre>ghci&gt; reverse ([] :: String)
 &quot;&quot;
 ghci&gt; reverse ([] :: [Int])
 []
 </pre></div>
 </div>
-<p>However, it is tiresome for the user to have to specify the type, so
-GHCi extends Haskell&#8217;s type-defaulting rules (Section 4.3.4 of the
-Haskell 2010 Report) as follows. The standard rules take each group of
-constraints <code class="docutils literal"><span class="pre">(C1</span> <span class="pre">a,</span> <span class="pre">C2</span> <span class="pre">a,</span> <span class="pre">...,</span> <span class="pre">Cn</span> <span class="pre">a)</span></code> for each type variable <code class="docutils literal"><span class="pre">a</span></code>,
-and defaults the type variable if</p>
+<p>のようになります．
+しかし，ユーザがこの型を指定しなければならないというのは面倒なので，
+GHCiはHaskellのデフォルト型設定規則(Haskell 2010 Report の 4.3.4 節)
+を以下のように拡張しています．
+標準の規則では，個々の型変数 <code class="docutils literal"><span class="pre">a</span></code> についてのそれぞれ制約グループ <code class="docutils literal"><span class="pre">(C1</span> <span class="pre">a,</span> <span class="pre">C2</span> <span class="pre">a,</span> <span class="pre">...,</span> <span class="pre">Cn</span> <span class="pre">a)</span></code> を考え，
+次の条件が満たされたとき，この型変数のデフォルトの型を設定します．</p>
 <ol class="arabic simple">
-<li>The type variable <code class="docutils literal"><span class="pre">a</span></code> appears in no other constraints</li>
-<li>All the classes <code class="docutils literal"><span class="pre">Ci</span></code> are standard.</li>
-<li>At least one of the classes <code class="docutils literal"><span class="pre">Ci</span></code> is numeric.</li>
+<li>型変数 <code class="docutils literal"><span class="pre">a</span></code> が他のどの制約にも現れない．</li>
+<li>クラス <code class="docutils literal"><span class="pre">Ci</span></code> はすべて標準のクラスである．</li>
+<li>クラス <code class="docutils literal"><span class="pre">Ci</span></code> の少くとも1つは数値である．</li>
 </ol>
-<p>At the GHCi prompt, or with GHC if the <a class="reference internal" href="#ghc-flag--XExtendedDefaultRules"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-XExtendedDefaultRules</span></code></a> flag
-is given, the types are instead resolved with the following method:</p>
-<p>Find all the unsolved constraints. Then:</p>
+<p>GHCi プロンプトあるいはGHCでは <a class="reference internal" href="#ghc-flag--XExtendedDefaultRules"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-XExtendedDefaultRules</span></code></a> フラグが設定されていると，
+型の解決には以下の方法が使われます．</p>
+<p>未解決の制約をすべて見つけます．そのあとは以下のようにします．</p>
 <ul class="simple">
-<li>Find those that are of form <code class="docutils literal"><span class="pre">(C</span> <span class="pre">a)</span></code> where <code class="docutils literal"><span class="pre">a</span></code> is a type variable, and
-partition those constraints into groups that share a common type variable <code class="docutils literal"><span class="pre">a</span></code>.</li>
-<li>Keep only the groups in which at least one of the classes is an
-<strong>interactive class</strong> (defined below).</li>
-<li>Now, for each remaining group G, try each type <code class="docutils literal"><span class="pre">ty</span></code> from the default-type list
-in turn; if setting <code class="docutils literal"><span class="pre">a</span> <span class="pre">=</span> <span class="pre">ty</span></code> would allow the constraints in G to be completely
-solved. If so, default <code class="docutils literal"><span class="pre">a</span></code> to <code class="docutils literal"><span class="pre">ty</span></code>.</li>
-<li>The unit type <code class="docutils literal"><span class="pre">()</span></code> and the list type <code class="docutils literal"><span class="pre">[]</span></code> are added to the start of
-the standard list of types which are tried when doing type defaulting.</li>
+<li><code class="docutils literal"><span class="pre">a</span></code> が型変数 であるような <code class="docutils literal"><span class="pre">(C</span> <span class="pre">a)</span></code> という形式の未解決制約を見つけ，共通する型変数 <code class="docutils literal"><span class="pre">a</span></code>
+を共有するグループに分割します．</li>
+<li>少なくとも1つのクラスが <strong>インタラクティブクラス</strong> （以下で定義）であるグループのみを維持します．</li>
+<li>ここで，残りのグループGごとに，デフォルトのタイプのリストから順番に各タイプ <code class="docutils literal"><span class="pre">ty</span></code> を試してます．
+<code class="docutils literal"><span class="pre">a</span> <span class="pre">=</span> <span class="pre">ty</span></code> を設定すると，Gの制約を完全に解くことができるかを確かめます．そうであれば，デフォルトでは <code class="docutils literal"><span class="pre">a</span></code> を <code class="docutils literal"><span class="pre">ty</span></code> とします．</li>
+<li>ユニット型 <code class="docutils literal"><span class="pre">()</span></code> およびリスト型 <code class="docutils literal"><span class="pre">[]</span></code> がデフォルトの型として試されるリストの先頭に追加される．</li>
 </ul>
-<p>Note that any multi-parameter constraints <code class="docutils literal"><span class="pre">(D</span> <span class="pre">a</span> <span class="pre">b)</span></code> or <code class="docutils literal"><span class="pre">(D</span> <span class="pre">[a]</span> <span class="pre">Int)</span></code> do not
-participate in the process (either to help or to hinder); but they must of course
-be soluble once the defaulting process is complete.</p>
-<p>The last point means that, for example, this program:</p>
+<p>マルチパラメータ制約 <code class="docutils literal"><span class="pre">(D</span> <span class="pre">a</span> <span class="pre">b)</span></code> または <code class="docutils literal"><span class="pre">(D</span> <span class="pre">[a]</span> <span class="pre">Int)</span></code> はプロセスに関与しないことに注意してください(助けにも妨げにもなりません)．
+しかし，デフォルトプロセスが完了したら、それらはもちろん解決できていなければなりません．</p>
+<p>最後の点は，たとえば，以下のプログラムに影響します．</p>
 <div class="highlight-haskell"><div class="highlight"><pre><span class="nf">main</span> <span class="ow">::</span> <span class="kt">IO</span> <span class="nb">()</span>
 <span class="nf">main</span> <span class="ow">=</span> <span class="n">print</span> <span class="n">def</span>
 
@@ -1014,38 +1012,30 @@ be soluble once the defaulting process is complete.</p>
 <span class="nf">def</span> <span class="ow">=</span> <span class="n">toEnum</span> <span class="mi">0</span>
 </pre></div>
 </div>
-<p>prints <code class="docutils literal"><span class="pre">()</span></code> rather than <code class="docutils literal"><span class="pre">0</span></code> as the type is defaulted to <code class="docutils literal"><span class="pre">()</span></code>
-rather than <code class="docutils literal"><span class="pre">Integer</span></code>.</p>
-<p>The motivation for the change is that it means <code class="docutils literal"><span class="pre">IO</span> <span class="pre">a</span></code> actions default
-to <code class="docutils literal"><span class="pre">IO</span> <span class="pre">()</span></code>, which in turn means that ghci won&#8217;t try to print a result
-when running them. This is particularly important for <code class="docutils literal"><span class="pre">printf</span></code>, which
-has an instance that returns <code class="docutils literal"><span class="pre">IO</span> <span class="pre">a</span></code>. However, it is only able to
-return <code class="docutils literal"><span class="pre">undefined</span></code> (the reason for the instance having this type is so
-that printf doesn&#8217;t require extensions to the class system), so if the
-type defaults to <code class="docutils literal"><span class="pre">Integer</span></code> then ghci gives an error when running a
-printf.</p>
-<p>See also <a class="reference internal" href="#actions-at-prompt"><span>プロンプトでのI/Oアクション</span></a> for how the monad of a computational
-expression defaults to <code class="docutils literal"><span class="pre">IO</span></code> if possible.</p>
-<div class="section" id="interactive-classes">
-<h4>5.4.8.1. Interactive classes<a class="headerlink" href="#interactive-classes" title="このヘッドラインへのパーマリンク">¶</a></h4>
-<p id="index-11">The interactive classes (only relevant when <a class="reference internal" href="#ghc-flag--XExtendedDefaultRules"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-XExtendedDefaultRules</span></code></a>
-is in effect) are: any numeric class, <code class="docutils literal"><span class="pre">Show</span></code>, <code class="docutils literal"><span class="pre">Eq</span></code>, <code class="docutils literal"><span class="pre">Ord</span></code>,
-<code class="docutils literal"><span class="pre">Foldable</span></code> or <code class="docutils literal"><span class="pre">Traversable</span></code>.</p>
-<p>As long as a type variable is constrained by one of these classes, defaulting
-will occur, as outlined above.</p>
+<p>このプログラムは <code class="docutils literal"><span class="pre">0</span></code> ではなく <code class="docutils literal"><span class="pre">()</span></code> を表示します．
+それは <code class="docutils literal"><span class="pre">a</span></code> のデフォルトの型が <code class="docutils literal"><span class="pre">Integer</span></code> ではなく <code class="docutils literal"><span class="pre">()</span></code> に設定されるからです．</p>
+<p>このような変更を行う動機は <code class="docutils literal"><span class="pre">IO</span> <span class="pre">a</span></code> アクションのデフォルトの型は <code class="docutils literal"><span class="pre">IO</span> <span class="pre">()</span></code> になるので，
+これを実行したときghciは結果を表示する面倒がないというものです．
+とくに <code class="docutils literal"><span class="pre">printf</span></code> にとってはこれが重要で <code class="docutils literal"><span class="pre">printf</span></code> のインスタンスで <code class="docutils literal"><span class="pre">IO</span> <span class="pre">a</span></code> を返すものがありますが，
+それができることといえば <code class="docutils literal"><span class="pre">undefined</span></code> を返すこと以外ありません
+(printf が型クラスシステムの拡張を必要としないようにというのがその理由)．
+したがって，もしここでデフォルトの型が <code class="docutils literal"><span class="pre">Integer</span></code> だと，printfを走らせると，ghciがエラーになってしまいます．</p>
+<p>計算を扱うモナドは，可能であるなら <code class="docutils literal"><span class="pre">IO</span></code> がデフォルトであることについては <a class="reference internal" href="#actions-at-prompt"><span>プロンプトでのI/Oアクション</span></a> を参照してください．</p>
+<div class="section" id="id19">
+<h4>5.4.8.1. インタラクティブクラス<a class="headerlink" href="#id19" title="このヘッドラインへのパーマリンク">¶</a></h4>
+<span class="target" id="index-11"></span><p>インタラクティブクラスとは(<a class="reference internal" href="#ghc-flag--XExtendedDefaultRules"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-XExtendedDefaultRules</span></code></a> が有効のときのみ)，すべての数値クラス，</p>
+<p>型変数がこれらのクラスの1つに制約されている限り，上で概説したようにデフォルト化が起ります．</p>
 </div>
-<div class="section" id="extended-rules-around-default-declarations">
-<h4>5.4.8.2. Extended rules around <code class="docutils literal"><span class="pre">default</span></code> declarations<a class="headerlink" href="#extended-rules-around-default-declarations" title="このヘッドラインへのパーマリンク">¶</a></h4>
-<p id="index-12">Since the rules for defaulting are relaxed under
-<a class="reference internal" href="#ghc-flag--XExtendedDefaultRules"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-XExtendedDefaultRules</span></code></a>, the rules for <code class="docutils literal"><span class="pre">default</span></code> declarations
-are also relaxed. According to Section 4.3.4 of the Haskell 2010 Report,
-a <code class="docutils literal"><span class="pre">default</span></code> declaration looks like <code class="docutils literal"><span class="pre">default</span> <span class="pre">(t1,</span> <span class="pre">...,</span> <span class="pre">tn)</span></code> where, for
-each <code class="docutils literal"><span class="pre">ti</span></code>, <code class="docutils literal"><span class="pre">Num</span> <span class="pre">ti</span></code> must hold. This is relaxed to say that for each
-<code class="docutils literal"><span class="pre">ti</span></code>, there must exist an interactive class <code class="docutils literal"><span class="pre">C</span></code> such that <code class="docutils literal"><span class="pre">C</span> <span class="pre">ti</span></code> holds.
-This means that type <em>constructors</em> can be allowed in these lists.
-For example, the following works if you wish your <code class="docutils literal"><span class="pre">Foldable</span></code> constraints
-to default to <code class="docutils literal"><span class="pre">Maybe</span></code> but your <code class="docutils literal"><span class="pre">Num</span></code> constraints to still default
-to <code class="docutils literal"><span class="pre">Integer</span></code> or <code class="docutils literal"><span class="pre">Double</span></code>:</p>
+<div class="section" id="default">
+<h4>5.4.8.2. <code class="docutils literal"><span class="pre">default</span></code> 宣言まわりの拡張されたルール<a class="headerlink" href="#default" title="このヘッドラインへのパーマリンク">¶</a></h4>
+<span class="target" id="index-12"></span><p>デフォルト化のルールは <a class="reference internal" href="#ghc-flag--XExtendedDefaultRules"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-XExtendedDefaultRules</span></code></a> があると緩和されるので，
+<code class="docutils literal"><span class="pre">default</span></code> 宣言のルールも緩和されます．
+Haskell 2010 Report の 4.3.4 節によれば <code class="docutils literal"><span class="pre">default</span></code> 宣言は <code class="docutils literal"><span class="pre">default</span> <span class="pre">(t1,</span> <span class="pre">...,</span> <span class="pre">tn)</span></code> のような形式になります．
+ここで，それぞれの <code class="docutils literal"><span class="pre">ti</span></code> に関して <code class="docutils literal"><span class="pre">Num</span> <span class="pre">ti</span></code> が満たされていなければなりません．
+これをそれぞれの <code class="docutils literal"><span class="pre">ti</span></code> に関して <code class="docutils literal"><span class="pre">C</span> <span class="pre">ti</span></code> を満たすようななインタラクティブクラス <code class="docutils literal"><span class="pre">C</span></code> が存在しなければならないと緩和します．
+これは，型 <em>構成子</em> が一覧にできるということです．
+たとえば <code class="docutils literal"><span class="pre">Foldable</span></code> 制約のデフォルトを <code class="docutils literal"><span class="pre">Maybe</span></code> したければ以下で機能しますが
+<code class="docutils literal"><span class="pre">Num</span></code> 制約のデフォルトは <code class="docutils literal"><span class="pre">Integer</span></code> または <code class="docutils literal"><span class="pre">Double</span></code> に設定されます．</p>
 <div class="highlight-haskell"><div class="highlight"><pre><span class="kr">default</span> <span class="p">(</span><span class="kt">Maybe</span><span class="p">,</span> <span class="kt">Integer</span><span class="p">,</span> <span class="kt">Double</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -1143,7 +1133,7 @@ running computation in order to examine the values of variables. The
 debugger is integrated into GHCi, and is turned on by default: no flags
 are required to enable the debugging facilities. There is one major
 restriction: breakpoints and single-stepping are only available in
-interpreted modules; compiled code is invisible to the debugger <a class="footnote-reference" href="#id24" id="id18">[5]</a>.</p>
+interpreted modules; compiled code is invisible to the debugger <a class="footnote-reference" href="#id26" id="id20">[5]</a>.</p>
 <p>The debugger provides the following:</p>
 <ul class="simple">
 <li>The ability to set a breakpoint on a function definition or
@@ -1221,7 +1211,7 @@ can use the <a class="reference internal" href="#ghci-cmd-:list"><code class="xr
 <p>The <a class="reference internal" href="#ghci-cmd-:list"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:list</span></code></a> command lists the source code around the current
 breakpoint. If your output device supports it, then GHCi will highlight
 the active subexpression in bold.</p>
-<p>GHCi has provided bindings for the free variables <a class="footnote-reference" href="#id25" id="id19">[6]</a> of the expression
+<p>GHCi has provided bindings for the free variables <a class="footnote-reference" href="#id27" id="id21">[6]</a> of the expression
 on which the breakpoint was placed (<code class="docutils literal"><span class="pre">a</span></code>, <code class="docutils literal"><span class="pre">left</span></code>, <code class="docutils literal"><span class="pre">right</span></code>), and
 additionally a binding for the result of the expression (<code class="docutils literal"><span class="pre">_result</span></code>).
 These variables are just like other variables that you might define in
@@ -1318,7 +1308,7 @@ right :: [a]
 <p>The execution continued at the point it previously stopped, and has now
 stopped at the breakpoint for a second time.</p>
 <div class="section" id="setting-breakpoints">
-<span id="id20"></span><h4>5.5.1.1. Setting breakpoints<a class="headerlink" href="#setting-breakpoints" title="このヘッドラインへのパーマリンク">¶</a></h4>
+<span id="id22"></span><h4>5.5.1.1. Setting breakpoints<a class="headerlink" href="#setting-breakpoints" title="このヘッドラインへのパーマリンク">¶</a></h4>
 <p>Breakpoints can be set in various ways. Perhaps the easiest way to set a
 breakpoint is to name a top-level function:</p>
 <div class="highlight-none"><div class="highlight"><pre>:break identifier
@@ -1379,7 +1369,7 @@ given in the output from <a class="reference internal" href="#ghci-cmd-:show bre
 </div>
 </div>
 <div class="section" id="single-stepping">
-<span id="id21"></span><h3>5.5.2. Single-stepping<a class="headerlink" href="#single-stepping" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<span id="id23"></span><h3>5.5.2. Single-stepping<a class="headerlink" href="#single-stepping" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <p>Single-stepping is a great way to visualise the execution of your
 program, and it is also a useful tool for identifying the source of a
 bug. GHCi offers two variants of stepping. Use <a class="reference internal" href="#ghci-cmd-:step"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:step</span></code></a> to enable all
@@ -1420,7 +1410,7 @@ _result :: [Integer]
 </div>
 </div>
 <div class="section" id="nested-breakpoints">
-<span id="id22"></span><h3>5.5.3. Nested breakpoints<a class="headerlink" href="#nested-breakpoints" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<span id="id24"></span><h3>5.5.3. Nested breakpoints<a class="headerlink" href="#nested-breakpoints" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <p>When GHCi is stopped at a breakpoint, and an expression entered at the
 prompt triggers a second breakpoint, the new breakpoint becomes the
 &#8220;current&#8221; one, and the old one is saved on a stack. An arbitrary number
@@ -1800,7 +1790,7 @@ to the command line.</p>
 </div>
 </div>
 <div class="section" id="ghci-commands">
-<span id="id23"></span><h2>5.7. GHCi commands<a class="headerlink" href="#ghci-commands" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<span id="id25"></span><h2>5.7. GHCi commands<a class="headerlink" href="#ghci-commands" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <p>GHCi commands all begin with &#8220;<code class="docutils literal"><span class="pre">:</span></code>&#8221; and consist of a single command
 name followed by zero or more parameters. The command name may be
 abbreviated, with ambiguities being resolved in favour of the more
@@ -2780,7 +2770,7 @@ interactive options are modified as follows:</p>
 <ul class="simple">
 <li>The option <code class="docutils literal"><span class="pre">-XExtendedDefaultRules</span></code> is enabled, in order to apply
 special defaulting rules to expressions typed at the prompt (see
-<a class="reference internal" href="#extended-default-rules"><span>Type defaulting in GHCi</span></a>).</li>
+<a class="reference internal" href="#extended-default-rules"><span>GHCi でのデフォルト型設定</span></a>).</li>
 <li>The Monomorphism Restriction is disabled (see <a class="reference internal" href="glasgow_exts.html#monomorphism"><span>Switching off the dreaded Monomorphism Restriction</span></a>).</li>
 </ul>
 </div>
@@ -2997,17 +2987,17 @@ program thus:</p>
 </div>
 </dd>
 </dl>
-<table class="docutils footnote" frame="void" id="id24" rules="none">
+<table class="docutils footnote" frame="void" id="id26" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
-<tr><td class="label"><a class="fn-backref" href="#id18">[5]</a></td><td>Note that packages only contain compiled code, so debugging a package
+<tr><td class="label"><a class="fn-backref" href="#id20">[5]</a></td><td>Note that packages only contain compiled code, so debugging a package
 requires finding its source and loading that directly.</td></tr>
 </tbody>
 </table>
-<table class="docutils footnote" frame="void" id="id25" rules="none">
+<table class="docutils footnote" frame="void" id="id27" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
-<tr><td class="label"><a class="fn-backref" href="#id19">[6]</a></td><td>We originally provided bindings for all variables in scope, rather
+<tr><td class="label"><a class="fn-backref" href="#id21">[6]</a></td><td>We originally provided bindings for all variables in scope, rather
 than just the free variables of the expression, but found that this
 affected performance considerably, hence the current restriction to
 just the free variables.</td></tr>
