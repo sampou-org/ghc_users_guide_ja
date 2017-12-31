@@ -432,31 +432,69 @@ GHCiは，このように依存関係を追ってロードすべきモジュー�
 これは一括コンパイル時に再コンパイルを避ける機構と同じです
 (:ref:`recomp` 参照)．
 
+..
+   .. _ghci-compiled:
+
+   Loading compiled code
+   ---------------------
+
 .. _ghci-compiled:
 
-Loading compiled code
----------------------
+コンパイル済みコードをロードする
+--------------------------------
+
+..
+   .. index::
+      single: compiled code; in GHCi
 
 .. index::
-   single: compiled code; in GHCi
+   single: コンパイル済みコード; GHCiの〜
 
-When you load a Haskell source module into GHCi, it is normally
-converted to byte-code and run using the interpreter. However,
-interpreted code can also run alongside compiled code in GHCi; indeed,
-normally when GHCi starts, it loads up a compiled copy of the ``base``
-package, which contains the ``Prelude``.
+..
+   When you load a Haskell source module into GHCi, it is normally
+   converted to byte-code and run using the interpreter. However,
+   interpreted code can also run alongside compiled code in GHCi; indeed,
+   normally when GHCi starts, it loads up a compiled copy of the ``base``
+   package, which contains the ``Prelude``.
 
-Why should we want to run compiled code? Well, compiled code is roughly
-10x faster than interpreted code, but takes about 2x longer to produce
-(perhaps longer if optimisation is on). So it pays to compile the parts
-of a program that aren't changing very often, and use the interpreter
-for the code being actively developed.
+HaskellのソースモジュールをGHCiにロードすると，通常はバイトコードに変換され，インタプリタで実行されます．
+しかし，GHCiでは解釈実行されるコードはコンパイル済みコードと一緒に実行することもできます．
+実際，GHCiは起動すると通常は ``base`` パッケージのコンパイル済みのものをロードします．
+その中には ``Prelude`` モジュールが含まれています．
 
-When loading up source modules with :ghci-cmd:`:load`, GHCi normally looks for
-any corresponding compiled object files, and will use one in preference
-to interpreting the source if possible. For example, suppose we have a 4-module
-program consisting of modules ``A``, ``B``, ``C``, and ``D``. Modules ``B`` and
-``C`` both import ``D`` only, and ``A`` imports both ``B`` and ``C``:
+..
+   Why should we want to run compiled code? Well, compiled code is roughly
+   10x faster than interpreted code, but takes about 2x longer to produce
+   (perhaps longer if optimisation is on). So it pays to compile the parts
+   of a program that aren't changing very often, and use the interpreter
+   for the code being actively developed.
+
+なぜコンパイル済みのコードを使う必要があるのでしょうか．
+コンパイル済みコードは解釈実行されるコードに比べて大体10倍速いですが，生成するのに2倍の時間がかります
+(最適化が有効ならもっと長くなるでしょう)．
+そのため、プログラムのあまり変更されない部分をコンパイルしておき，
+活発に開発されている部分にはインタプリタを使ことにすればいいわけです．
+
+..
+   When loading up source modules with :ghci-cmd:`:load`, GHCi normally looks for
+   any corresponding compiled object files, and will use one in preference
+   to interpreting the source if possible. For example, suppose we have a 4-module
+   program consisting of modules ``A``, ``B``, ``C``, and ``D``. Modules ``B`` and
+   ``C`` both import ``D`` only, and ``A`` imports both ``B`` and ``C``:
+
+   .. code-block:: none
+
+	     A
+	    / \
+	   B   C
+	    \ /
+	     D
+
+:ghci-cmd:`:load` でソースモジュールをロードするとき，GHCiは通常対応する
+コンパイル済みのオブジェクトファイルを探します．
+可能ならソースコードの解釈実行よりも優先してそれを使います．
+たとえば，A，B，C，Dという4つのモジュールからなるプログラムがあるとしましょう．
+モジュールBとCはどちらもDのみをインポートしていて，AはBとCをインポートしているとしましょう．
 
 .. code-block:: none
 
@@ -466,7 +504,20 @@ program consisting of modules ``A``, ``B``, ``C``, and ``D``. Modules ``B`` and
          \ /
           D
 
-We can compile ``D``, then load the whole program, like this:
+..
+   We can compile ``D``, then load the whole program, like this:
+
+   .. code-block:: none
+
+       Prelude> :! ghc -c -dynamic D.hs
+       Prelude> :load A
+       Compiling B                ( B.hs, interpreted )
+       Compiling C                ( C.hs, interpreted )
+       Compiling A                ( A.hs, interpreted )
+       Ok, modules loaded: A, B, C, D (D.o).
+       *Main>
+
+以下のように ``D`` をコンパイルしてから，プログラム全体をロードすることができます．
 
 .. code-block:: none
 
@@ -478,17 +529,42 @@ We can compile ``D``, then load the whole program, like this:
     Ok, modules loaded: A, B, C, D (D.o).
     *Main>
 
-In the messages from the compiler, we see that there is no line for
-``D``. This is because it isn't necessary to compile ``D``, because the
-source and everything it depends on is unchanged since the last
-compilation.
+..
+   In the messages from the compiler, we see that there is no line for
+   ``D``. This is because it isn't necessary to compile ``D``, because the
+   source and everything it depends on is unchanged since the last
+   compilation.
 
-Note the :ghc-flag:`-dynamic` flag to GHC: GHCi uses dynamically-linked object
-code (if you are on a platform that supports it), and so in order to use
-compiled code with GHCi it must be compiled for dynamic linking.
+コンパイラのメッセージ中に ``D`` についての行がありません．
+これは，``D`` のソースファイルとその依存関係が，最後にコンパイルされたときから変更されていないので，
+``D`` をコンパイルする必要ないからです．
 
-At any time you can use the command :ghci-cmd:`:show modules` to get a list of
-the modules currently loaded into GHCi:
+..
+   Note the :ghc-flag:`-dynamic` flag to GHC: GHCi uses dynamically-linked object
+   code (if you are on a platform that supports it), and so in order to use
+   compiled code with GHCi it must be compiled for dynamic linking.
+
+:ghc-flag:`-dynamic` フラグはGHCに渡すものです．
+これによって，GHCiはダイナミックリンクオブジェクトコードを使うようになります
+(もちろんそれをサポートしているプラットフォームでの話です)．
+したがって，GHCiでコンパイル済みのコードを利用するためには，そのコードは
+ダイナミックリンク可能なようにコンパイルされていなければなりません．
+
+..
+   At any time you can use the command :ghci-cmd:`:show modules` to get a list of
+   the modules currently loaded into GHCi:
+
+   .. code-block:: none
+
+       *Main> :show modules
+       D                ( D.hs, D.o )
+       C                ( C.hs, interpreted )
+       B                ( B.hs, interpreted )
+       A                ( A.hs, interpreted )
+       *Main>
+
+:ghci-cmd:`:show modules` を使えば，いつでも，その時点でGHCiにロードされている
+モジュールの一覧を表示できます．
 
 .. code-block:: none
 
@@ -499,9 +575,22 @@ the modules currently loaded into GHCi:
     A                ( A.hs, interpreted )
     *Main>
 
-If we now modify the source of ``D`` (or pretend to: using the Unix command
-``touch`` on the source file is handy for this), the compiler will no
-longer be able to use the object file, because it might be out of date:
+..
+   If we now modify the source of ``D`` (or pretend to: using the Unix command
+   ``touch`` on the source file is handy for this), the compiler will no
+   longer be able to use the object file, because it might be out of date:
+
+   .. code-block:: none
+
+       *Main> :! touch D.hs
+       *Main> :reload
+       Compiling D                ( D.hs, interpreted )
+       Ok, modules loaded: A, B, C, D.
+       *Main>
+
+ここで ``D`` を変更する(あるいは変更したふりをする: ``touch`` というUnixのコマンドを
+使うのが簡単)と，コンパイラはオブジェクトファイルを使えなくなります．
+その理由は，オブジェクトファイルがすでに古くなっているに違いないからです．
 
 .. code-block:: none
 
@@ -511,12 +600,30 @@ longer be able to use the object file, because it might be out of date:
     Ok, modules loaded: A, B, C, D.
     *Main>
 
-Note that module ``D`` was compiled, but in this instance because its source
-hadn't really changed, its interface remained the same, and the
-recompilation checker determined that ``A``, ``B`` and ``C`` didn't need to be
-recompiled.
+..
+   Note that module ``D`` was compiled, but in this instance because its source
+   hadn't really changed, its interface remained the same, and the
+   recompilation checker determined that ``A``, ``B`` and ``C`` didn't need to be
+   recompiled.
 
-So let's try compiling one of the other modules:
+モジュール ``D`` がコンパイルされました．
+しかし，この例では実際にはソースは変更されていないので，インターフェイスは同じままで，
+再コンパイル検査器が ``A`` ， ``B`` ， ``C`` は再コンパイルする必要なしと判断したことに注意してください．
+
+..
+   So let's try compiling one of the other modules:
+
+   .. code-block:: none
+
+       *Main> :! ghc -c C.hs
+       *Main> :load A
+       Compiling D                ( D.hs, interpreted )
+       Compiling B                ( B.hs, interpreted )
+       Compiling C                ( C.hs, interpreted )
+       Compiling A                ( A.hs, interpreted )
+       Ok, modules loaded: A, B, C, D.
+
+では，別のモジュールを1つコンパイルしてみましょう．
 
 .. code-block:: none
 
@@ -528,10 +635,25 @@ So let's try compiling one of the other modules:
     Compiling A                ( A.hs, interpreted )
     Ok, modules loaded: A, B, C, D.
 
-We didn't get the compiled version of ``C``! What happened? Well, in GHCi a
-compiled module may only depend on other compiled modules, and in this
-case ``C`` depends on ``D``, which doesn't have an object file, so GHCi also
-rejected ``C``\'s object file. Ok, so let's also compile ``D``:
+..
+   We didn't get the compiled version of ``C``! What happened? Well, in GHCi a
+   compiled module may only depend on other compiled modules, and in this
+   case ``C`` depends on ``D``, which doesn't have an object file, so GHCi also
+   rejected ``C``\'s object file. Ok, so let's also compile ``D``:
+
+   .. code-block:: none
+
+       *Main> :! ghc -c D.hs
+       *Main> :reload
+       Ok, modules loaded: A, B, C, D.
+
+``C`` のコンパイル済みのバージョンが使われていません．
+何が起きたのでしょうか．
+GHCi ではコンパイル済みのモジュールは別のコンパイル済みのモジュールにしか依存できません．
+この場合は ``C`` が ``D`` に依存していますが ``D`` にはオブジェクトファイルがないので
+GHCiは ``C`` のオブジェクトファイルを利用しなかったのです．
+では ``D`` もコンパイルしてみましょう．
+
 
 .. code-block:: none
 
@@ -539,8 +661,21 @@ rejected ``C``\'s object file. Ok, so let's also compile ``D``:
     *Main> :reload
     Ok, modules loaded: A, B, C, D.
 
-Nothing happened! Here's another lesson: newly compiled modules aren't
-picked up by :ghci-cmd:`:reload`, only :ghci-cmd:`:load`:
+..
+   Nothing happened! Here's another lesson: newly compiled modules aren't
+   picked up by :ghci-cmd:`:reload`, only :ghci-cmd:`:load`:
+
+   .. code-block:: none
+
+       *Main> :load A
+       Compiling B                ( B.hs, interpreted )
+       Compiling A                ( A.hs, interpreted )
+       Ok, modules loaded: A, B, C (C.o), D (D.o).
+
+何も起こりません．
+もう1つ賢くなりました．
+新しくコンパイルされたモジュールは :ghci-cmd:`:reload` では拾えません．
+:ghci-cmd:`:load` を使う必要があります．
 
 .. code-block:: none
 
@@ -549,13 +684,28 @@ picked up by :ghci-cmd:`:reload`, only :ghci-cmd:`:load`:
     Compiling A                ( A.hs, interpreted )
     Ok, modules loaded: A, B, C (C.o), D (D.o).
 
-The automatic loading of object files can sometimes lead to confusion,
-because non-exported top-level definitions of a module are only
-available for use in expressions at the prompt when the module is
-interpreted (see :ref:`ghci-scope`). For this reason, you might
-sometimes want to force GHCi to load a module using the interpreter.
-This can be done by prefixing a ``*`` to the module name or filename
-when using :ghci-cmd:`:load`, for example
+..
+   The automatic loading of object files can sometimes lead to confusion,
+   because non-exported top-level definitions of a module are only
+   available for use in expressions at the prompt when the module is
+   interpreted (see :ref:`ghci-scope`). For this reason, you might
+   sometimes want to force GHCi to load a module using the interpreter.
+   This can be done by prefixing a ``*`` to the module name or filename
+   when using :ghci-cmd:`:load`, for example
+
+   .. code-block:: none
+
+       Prelude> :load *A
+       Compiling A                ( A.hs, interpreted )
+       *A>
+
+このようなオブジェクトファイルの自動ロードは混乱の原因になることがあります．
+モジュールのエクスポートされていないトップレベルの定義をプロンプトの式で使えるのは，
+そのモジュールが解釈実行されているときだけだからです
+(:ref:`ghci-scope` 参照)．
+このため，GHCiにインタプリタを使ってモジュールのロードを強制したいことがあるかもしれません．
+そうするには :ghci-cmd:`:load` を使うときにモジュール名またはファイル名の前に*を置きます．
+たとえば，以下のようにします．
 
 .. code-block:: none
 
@@ -563,24 +713,44 @@ when using :ghci-cmd:`:load`, for example
     Compiling A                ( A.hs, interpreted )
     *A>
 
-When the ``*`` is used, GHCi ignores any pre-compiled object code and
-interprets the module. If you have already loaded a number of modules as
-object code and decide that you wanted to interpret one of them, instead
-of re-loading the whole set you can use ``:add *M`` to specify that you
-want ``M`` to be interpreted (note that this might cause other modules
-to be interpreted too, because compiled modules cannot depend on
-interpreted ones).
+..
+   When the ``*`` is used, GHCi ignores any pre-compiled object code and
+   interprets the module. If you have already loaded a number of modules as
+   object code and decide that you wanted to interpret one of them, instead
+   of re-loading the whole set you can use ``:add *M`` to specify that you
+   want ``M`` to be interpreted (note that this might cause other modules
+   to be interpreted too, because compiled modules cannot depend on
+   interpreted ones).
 
-To always compile everything to object code and never use the
-interpreter, use the :ghc-flag:`-fobject-code` option (see :ref:`ghci-obj`).
+``*`` を使うと，GHCiはコンパイル済みオブジェクトコードがあっても無視し，モジュールを解釈実行します．
+既にモジュールをいくつかオブジェクトコードとしてロードしていて，そのうち1つを解釈実行したいときには，
+全部を再ロードせず ``:add *M`` を使えば， ``M`` だけを解釈実行することを指定できます．
+(これによって別のモジュールも解釈実行されるかもしれないことに注意してください．
+これは，コンパイル済みモジュールは解釈実行モジュールに依存できないためです．)
+
+..
+   To always compile everything to object code and never use the
+   interpreter, use the :ghc-flag:`-fobject-code` option (see :ref:`ghci-obj`).
+
+   .. hint::
+       Since GHCi will only use a compiled object file if it can be sure
+       that the compiled version is up-to-date, a good technique when working
+       on a large program is to occasionally run ``ghc --make`` to compile the
+       whole project (say before you go for lunch :-), then continue working in
+       the interpreter. As you modify code, the changed modules will be
+       interpreted, but the rest of the project will remain compiled.
+
+いつでも，すべてコンパイル済みのオブジェクトコードにしたければ，
+インタプリタを使ってはいけません．
+:ghc-flag:`-fobject-code` オプションを使ってください(:ref:`ghci-obj` 参照)．
 
 .. hint::
-    Since GHCi will only use a compiled object file if it can be sure
-    that the compiled version is up-to-date, a good technique when working
-    on a large program is to occasionally run ``ghc --make`` to compile the
-    whole project (say before you go for lunch :-), then continue working in
-    the interpreter. As you modify code, the changed modules will be
-    interpreted, but the rest of the project will remain compiled.
+   GHCi はコンパイル済みの版が最新であることが確かな場合にしか，
+   コンパイル済みオブジェクトファイルを使わないので，
+   大きいプロジェクトでは，ときどき ``ghc --make`` を実行してプロジェクト全体をコンパイルし
+   (たとえば，昼食を食べに行く前にね)，インタプリタを使って作業を続けるというのが良い方法です．
+   コードを変更したときは，そのモジュールは解釈実行されますが，プロジェクト中の他の部分は
+   変わらずコンパイル済みのものが使われます．
 
 .. _interactive-evaluation:
 

@@ -65,7 +65,7 @@
 <li><a class="reference internal" href="#id11">5.2.2. ソースコードの変更と再コンパイル</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#loading-compiled-code">5.3. Loading compiled code</a></li>
+<li><a class="reference internal" href="#ghci-compiled">5.3. コンパイル済みコードをロードする</a></li>
 <li><a class="reference internal" href="#interactive-evaluation-at-the-prompt">5.4. Interactive evaluation at the prompt</a><ul>
 <li><a class="reference internal" href="#i-o-actions-at-the-prompt">5.4.1. I/O actions at the prompt</a></li>
 <li><a class="reference internal" href="#using-do-notation-at-the-prompt">5.4.2. Using <code class="docutils literal"><span class="pre">do</span></code> notation at the prompt</a></li>
@@ -315,23 +315,22 @@ GHCiを起動するコマンドラインで <a class="reference internal" href="
 (<a class="reference internal" href="separate_compilation.html#recomp"><span>The recompilation checker</span></a> 参照)．</p>
 </div>
 </div>
-<div class="section" id="loading-compiled-code">
-<span id="ghci-compiled"></span><h2>5.3. Loading compiled code<a class="headerlink" href="#loading-compiled-code" title="このヘッドラインへのパーマリンク">¶</a></h2>
-<p id="index-5">When you load a Haskell source module into GHCi, it is normally
-converted to byte-code and run using the interpreter. However,
-interpreted code can also run alongside compiled code in GHCi; indeed,
-normally when GHCi starts, it loads up a compiled copy of the <code class="docutils literal"><span class="pre">base</span></code>
-package, which contains the <code class="docutils literal"><span class="pre">Prelude</span></code>.</p>
-<p>Why should we want to run compiled code? Well, compiled code is roughly
-10x faster than interpreted code, but takes about 2x longer to produce
-(perhaps longer if optimisation is on). So it pays to compile the parts
-of a program that aren&#8217;t changing very often, and use the interpreter
-for the code being actively developed.</p>
-<p>When loading up source modules with <a class="reference internal" href="#ghci-cmd-:load"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:load</span></code></a>, GHCi normally looks for
-any corresponding compiled object files, and will use one in preference
-to interpreting the source if possible. For example, suppose we have a 4-module
-program consisting of modules <code class="docutils literal"><span class="pre">A</span></code>, <code class="docutils literal"><span class="pre">B</span></code>, <code class="docutils literal"><span class="pre">C</span></code>, and <code class="docutils literal"><span class="pre">D</span></code>. Modules <code class="docutils literal"><span class="pre">B</span></code> and
-<code class="docutils literal"><span class="pre">C</span></code> both import <code class="docutils literal"><span class="pre">D</span></code> only, and <code class="docutils literal"><span class="pre">A</span></code> imports both <code class="docutils literal"><span class="pre">B</span></code> and <code class="docutils literal"><span class="pre">C</span></code>:</p>
+<div class="section" id="ghci-compiled">
+<span id="id12"></span><h2>5.3. コンパイル済みコードをロードする<a class="headerlink" href="#ghci-compiled" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<span class="target" id="index-5"></span><p>HaskellのソースモジュールをGHCiにロードすると，通常はバイトコードに変換され，インタプリタで実行されます．
+しかし，GHCiでは解釈実行されるコードはコンパイル済みコードと一緒に実行することもできます．
+実際，GHCiは起動すると通常は <code class="docutils literal"><span class="pre">base</span></code> パッケージのコンパイル済みのものをロードします．
+その中には <code class="docutils literal"><span class="pre">Prelude</span></code> モジュールが含まれています．</p>
+<p>なぜコンパイル済みのコードを使う必要があるのでしょうか．
+コンパイル済みコードは解釈実行されるコードに比べて大体10倍速いですが，生成するのに2倍の時間がかります
+(最適化が有効ならもっと長くなるでしょう)．
+そのため、プログラムのあまり変更されない部分をコンパイルしておき，
+活発に開発されている部分にはインタプリタを使ことにすればいいわけです．</p>
+<p><a class="reference internal" href="#ghci-cmd-:load"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:load</span></code></a> でソースモジュールをロードするとき，GHCiは通常対応する
+コンパイル済みのオブジェクトファイルを探します．
+可能ならソースコードの解釈実行よりも優先してそれを使います．
+たとえば，A，B，C，Dという4つのモジュールからなるプログラムがあるとしましょう．
+モジュールBとCはどちらもDのみをインポートしていて，AはBとCをインポートしているとしましょう．</p>
 <div class="highlight-none"><div class="highlight"><pre>  A
  / \
 B   C
@@ -339,7 +338,7 @@ B   C
   D
 </pre></div>
 </div>
-<p>We can compile <code class="docutils literal"><span class="pre">D</span></code>, then load the whole program, like this:</p>
+<p>以下のように <code class="docutils literal"><span class="pre">D</span></code> をコンパイルしてから，プログラム全体をロードすることができます．</p>
 <div class="highlight-none"><div class="highlight"><pre>Prelude&gt; :! ghc -c -dynamic D.hs
 Prelude&gt; :load A
 Compiling B                ( B.hs, interpreted )
@@ -349,15 +348,16 @@ Ok, modules loaded: A, B, C, D (D.o).
 *Main&gt;
 </pre></div>
 </div>
-<p>In the messages from the compiler, we see that there is no line for
-<code class="docutils literal"><span class="pre">D</span></code>. This is because it isn&#8217;t necessary to compile <code class="docutils literal"><span class="pre">D</span></code>, because the
-source and everything it depends on is unchanged since the last
-compilation.</p>
-<p>Note the <a class="reference internal" href="phases.html#ghc-flag--dynamic"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-dynamic</span></code></a> flag to GHC: GHCi uses dynamically-linked object
-code (if you are on a platform that supports it), and so in order to use
-compiled code with GHCi it must be compiled for dynamic linking.</p>
-<p>At any time you can use the command <a class="reference internal" href="#ghci-cmd-:show modules"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:show</span> <span class="pre">modules</span></code></a> to get a list of
-the modules currently loaded into GHCi:</p>
+<p>コンパイラのメッセージ中に <code class="docutils literal"><span class="pre">D</span></code> についての行がありません．
+これは，<code class="docutils literal"><span class="pre">D</span></code> のソースファイルとその依存関係が，最後にコンパイルされたときから変更されていないので，
+<code class="docutils literal"><span class="pre">D</span></code> をコンパイルする必要ないからです．</p>
+<p><a class="reference internal" href="phases.html#ghc-flag--dynamic"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-dynamic</span></code></a> フラグはGHCに渡すものです．
+これによって，GHCiはダイナミックリンクオブジェクトコードを使うようになります
+(もちろんそれをサポートしているプラットフォームでの話です)．
+したがって，GHCiでコンパイル済みのコードを利用するためには，そのコードは
+ダイナミックリンク可能なようにコンパイルされていなければなりません．</p>
+<p><a class="reference internal" href="#ghci-cmd-:show modules"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:show</span> <span class="pre">modules</span></code></a> を使えば，いつでも，その時点でGHCiにロードされている
+モジュールの一覧を表示できます．</p>
 <div class="highlight-none"><div class="highlight"><pre>*Main&gt; :show modules
 D                ( D.hs, D.o )
 C                ( C.hs, interpreted )
@@ -366,9 +366,9 @@ A                ( A.hs, interpreted )
 *Main&gt;
 </pre></div>
 </div>
-<p>If we now modify the source of <code class="docutils literal"><span class="pre">D</span></code> (or pretend to: using the Unix command
-<code class="docutils literal"><span class="pre">touch</span></code> on the source file is handy for this), the compiler will no
-longer be able to use the object file, because it might be out of date:</p>
+<p>ここで <code class="docutils literal"><span class="pre">D</span></code> を変更する(あるいは変更したふりをする: <code class="docutils literal"><span class="pre">touch</span></code> というUnixのコマンドを
+使うのが簡単)と，コンパイラはオブジェクトファイルを使えなくなります．
+その理由は，オブジェクトファイルがすでに古くなっているに違いないからです．</p>
 <div class="highlight-none"><div class="highlight"><pre>*Main&gt; :! touch D.hs
 *Main&gt; :reload
 Compiling D                ( D.hs, interpreted )
@@ -376,11 +376,10 @@ Ok, modules loaded: A, B, C, D.
 *Main&gt;
 </pre></div>
 </div>
-<p>Note that module <code class="docutils literal"><span class="pre">D</span></code> was compiled, but in this instance because its source
-hadn&#8217;t really changed, its interface remained the same, and the
-recompilation checker determined that <code class="docutils literal"><span class="pre">A</span></code>, <code class="docutils literal"><span class="pre">B</span></code> and <code class="docutils literal"><span class="pre">C</span></code> didn&#8217;t need to be
-recompiled.</p>
-<p>So let&#8217;s try compiling one of the other modules:</p>
+<p>モジュール <code class="docutils literal"><span class="pre">D</span></code> がコンパイルされました．
+しかし，この例では実際にはソースは変更されていないので，インターフェイスは同じままで，
+再コンパイル検査器が <code class="docutils literal"><span class="pre">A</span></code> ， <code class="docutils literal"><span class="pre">B</span></code> ， <code class="docutils literal"><span class="pre">C</span></code> は再コンパイルする必要なしと判断したことに注意してください．</p>
+<p>では，別のモジュールを1つコンパイルしてみましょう．</p>
 <div class="highlight-none"><div class="highlight"><pre>*Main&gt; :! ghc -c C.hs
 *Main&gt; :load A
 Compiling D                ( D.hs, interpreted )
@@ -390,52 +389,55 @@ Compiling A                ( A.hs, interpreted )
 Ok, modules loaded: A, B, C, D.
 </pre></div>
 </div>
-<p>We didn&#8217;t get the compiled version of <code class="docutils literal"><span class="pre">C</span></code>! What happened? Well, in GHCi a
-compiled module may only depend on other compiled modules, and in this
-case <code class="docutils literal"><span class="pre">C</span></code> depends on <code class="docutils literal"><span class="pre">D</span></code>, which doesn&#8217;t have an object file, so GHCi also
-rejected <code class="docutils literal"><span class="pre">C</span></code>&#8216;s object file. Ok, so let&#8217;s also compile <code class="docutils literal"><span class="pre">D</span></code>:</p>
+<p><code class="docutils literal"><span class="pre">C</span></code> のコンパイル済みのバージョンが使われていません．
+何が起きたのでしょうか．
+GHCi ではコンパイル済みのモジュールは別のコンパイル済みのモジュールにしか依存できません．
+この場合は <code class="docutils literal"><span class="pre">C</span></code> が <code class="docutils literal"><span class="pre">D</span></code> に依存していますが <code class="docutils literal"><span class="pre">D</span></code> にはオブジェクトファイルがないので
+GHCiは <code class="docutils literal"><span class="pre">C</span></code> のオブジェクトファイルを利用しなかったのです．
+では <code class="docutils literal"><span class="pre">D</span></code> もコンパイルしてみましょう．</p>
 <div class="highlight-none"><div class="highlight"><pre>*Main&gt; :! ghc -c D.hs
 *Main&gt; :reload
 Ok, modules loaded: A, B, C, D.
 </pre></div>
 </div>
-<p>Nothing happened! Here&#8217;s another lesson: newly compiled modules aren&#8217;t
-picked up by <a class="reference internal" href="#ghci-cmd-:reload"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:reload</span></code></a>, only <a class="reference internal" href="#ghci-cmd-:load"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:load</span></code></a>:</p>
+<p>何も起こりません．
+もう1つ賢くなりました．
+新しくコンパイルされたモジュールは <a class="reference internal" href="#ghci-cmd-:reload"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:reload</span></code></a> では拾えません．
+<a class="reference internal" href="#ghci-cmd-:load"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:load</span></code></a> を使う必要があります．</p>
 <div class="highlight-none"><div class="highlight"><pre>*Main&gt; :load A
 Compiling B                ( B.hs, interpreted )
 Compiling A                ( A.hs, interpreted )
 Ok, modules loaded: A, B, C (C.o), D (D.o).
 </pre></div>
 </div>
-<p>The automatic loading of object files can sometimes lead to confusion,
-because non-exported top-level definitions of a module are only
-available for use in expressions at the prompt when the module is
-interpreted (see <a class="reference internal" href="#ghci-scope"><span>What&#8217;s really in scope at the prompt?</span></a>). For this reason, you might
-sometimes want to force GHCi to load a module using the interpreter.
-This can be done by prefixing a <code class="docutils literal"><span class="pre">*</span></code> to the module name or filename
-when using <a class="reference internal" href="#ghci-cmd-:load"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:load</span></code></a>, for example</p>
+<p>このようなオブジェクトファイルの自動ロードは混乱の原因になることがあります．
+モジュールのエクスポートされていないトップレベルの定義をプロンプトの式で使えるのは，
+そのモジュールが解釈実行されているときだけだからです
+(<a class="reference internal" href="#ghci-scope"><span>What&#8217;s really in scope at the prompt?</span></a> 参照)．
+このため，GHCiにインタプリタを使ってモジュールのロードを強制したいことがあるかもしれません．
+そうするには <a class="reference internal" href="#ghci-cmd-:load"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:load</span></code></a> を使うときにモジュール名またはファイル名の前に*を置きます．
+たとえば，以下のようにします．</p>
 <div class="highlight-none"><div class="highlight"><pre>Prelude&gt; :load *A
 Compiling A                ( A.hs, interpreted )
 *A&gt;
 </pre></div>
 </div>
-<p>When the <code class="docutils literal"><span class="pre">*</span></code> is used, GHCi ignores any pre-compiled object code and
-interprets the module. If you have already loaded a number of modules as
-object code and decide that you wanted to interpret one of them, instead
-of re-loading the whole set you can use <code class="docutils literal"><span class="pre">:add</span> <span class="pre">*M</span></code> to specify that you
-want <code class="docutils literal"><span class="pre">M</span></code> to be interpreted (note that this might cause other modules
-to be interpreted too, because compiled modules cannot depend on
-interpreted ones).</p>
-<p>To always compile everything to object code and never use the
-interpreter, use the <a class="reference internal" href="phases.html#ghc-flag--fobject-code"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-fobject-code</span></code></a> option (see <a class="reference internal" href="#ghci-obj"><span>Compiling to object code inside GHCi</span></a>).</p>
+<p><code class="docutils literal"><span class="pre">*</span></code> を使うと，GHCiはコンパイル済みオブジェクトコードがあっても無視し，モジュールを解釈実行します．
+既にモジュールをいくつかオブジェクトコードとしてロードしていて，そのうち1つを解釈実行したいときには，
+全部を再ロードせず <code class="docutils literal"><span class="pre">:add</span> <span class="pre">*M</span></code> を使えば， <code class="docutils literal"><span class="pre">M</span></code> だけを解釈実行することを指定できます．
+(これによって別のモジュールも解釈実行されるかもしれないことに注意してください．
+これは，コンパイル済みモジュールは解釈実行モジュールに依存できないためです．)</p>
+<p>いつでも，すべてコンパイル済みのオブジェクトコードにしたければ，
+インタプリタを使ってはいけません．
+<a class="reference internal" href="phases.html#ghc-flag--fobject-code"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-fobject-code</span></code></a> オプションを使ってください(<a class="reference internal" href="#ghci-obj"><span>Compiling to object code inside GHCi</span></a> 参照)．</p>
 <div class="admonition hint">
 <p class="first admonition-title">ヒント</p>
-<p class="last">Since GHCi will only use a compiled object file if it can be sure
-that the compiled version is up-to-date, a good technique when working
-on a large program is to occasionally run <code class="docutils literal"><span class="pre">ghc</span> <span class="pre">--make</span></code> to compile the
-whole project (say before you go for lunch :-), then continue working in
-the interpreter. As you modify code, the changed modules will be
-interpreted, but the rest of the project will remain compiled.</p>
+<p class="last">GHCi はコンパイル済みの版が最新であることが確かな場合にしか，
+コンパイル済みオブジェクトファイルを使わないので，
+大きいプロジェクトでは，ときどき <code class="docutils literal"><span class="pre">ghc</span> <span class="pre">--make</span></code> を実行してプロジェクト全体をコンパイルし
+(たとえば，昼食を食べに行く前にね)，インタプリタを使って作業を続けるというのが良い方法です．
+コードを変更したときは，そのモジュールは解釈実行されますが，プロジェクト中の他の部分は
+変わらずコンパイル済みのものが使われます．</p>
 </div>
 </div>
 <div class="section" id="interactive-evaluation-at-the-prompt">
@@ -757,7 +759,7 @@ you run GHCi and type <code class="docutils literal"><span class="pre">J&lt;tab&
 <div class="section" id="the-effect-of-load-on-what-is-in-scope">
 <span id="ghci-load-scope"></span><h4>5.4.5.1. The effect of <code class="docutils literal"><span class="pre">:load</span></code> on what is in scope<a class="headerlink" href="#the-effect-of-load-on-what-is-in-scope" title="このヘッドラインへのパーマリンク">¶</a></h4>
 <p>The <a class="reference internal" href="#ghci-cmd-:load"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:load</span></code></a>, <a class="reference internal" href="#ghci-cmd-:add"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:add</span></code></a>, and <a class="reference internal" href="#ghci-cmd-:reload"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:reload</span></code></a> commands
-(<a class="reference internal" href="#loading-source-files"><span>ソースファイルをロードする</span></a> and <a class="reference internal" href="#ghci-compiled"><span>Loading compiled code</span></a>) affect the
+(<a class="reference internal" href="#loading-source-files"><span>ソースファイルをロードする</span></a> and <a class="reference internal" href="#ghci-compiled"><span>コンパイル済みコードをロードする</span></a>) affect the
 top-level scope. Let&#8217;s start with the simple cases; when you start GHCi
 the prompt looks like this:</p>
 <div class="highlight-none"><div class="highlight"><pre>Prelude&gt;
@@ -1169,7 +1171,7 @@ running computation in order to examine the values of variables. The
 debugger is integrated into GHCi, and is turned on by default: no flags
 are required to enable the debugging facilities. There is one major
 restriction: breakpoints and single-stepping are only available in
-interpreted modules; compiled code is invisible to the debugger <a class="footnote-reference" href="#id18" id="id12">[5]</a>.</p>
+interpreted modules; compiled code is invisible to the debugger <a class="footnote-reference" href="#id19" id="id13">[5]</a>.</p>
 <p>The debugger provides the following:</p>
 <ul class="simple">
 <li>The ability to set a breakpoint on a function definition or
@@ -1247,7 +1249,7 @@ can use the <a class="reference internal" href="#ghci-cmd-:list"><code class="xr
 <p>The <a class="reference internal" href="#ghci-cmd-:list"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:list</span></code></a> command lists the source code around the current
 breakpoint. If your output device supports it, then GHCi will highlight
 the active subexpression in bold.</p>
-<p>GHCi has provided bindings for the free variables <a class="footnote-reference" href="#id19" id="id13">[6]</a> of the expression
+<p>GHCi has provided bindings for the free variables <a class="footnote-reference" href="#id20" id="id14">[6]</a> of the expression
 on which the breakpoint was placed (<code class="docutils literal"><span class="pre">a</span></code>, <code class="docutils literal"><span class="pre">left</span></code>, <code class="docutils literal"><span class="pre">right</span></code>), and
 additionally a binding for the result of the expression (<code class="docutils literal"><span class="pre">_result</span></code>).
 These variables are just like other variables that you might define in
@@ -1344,7 +1346,7 @@ right :: [a]
 <p>The execution continued at the point it previously stopped, and has now
 stopped at the breakpoint for a second time.</p>
 <div class="section" id="setting-breakpoints">
-<span id="id14"></span><h4>5.5.1.1. Setting breakpoints<a class="headerlink" href="#setting-breakpoints" title="このヘッドラインへのパーマリンク">¶</a></h4>
+<span id="id15"></span><h4>5.5.1.1. Setting breakpoints<a class="headerlink" href="#setting-breakpoints" title="このヘッドラインへのパーマリンク">¶</a></h4>
 <p>Breakpoints can be set in various ways. Perhaps the easiest way to set a
 breakpoint is to name a top-level function:</p>
 <div class="highlight-none"><div class="highlight"><pre>:break identifier
@@ -1405,7 +1407,7 @@ given in the output from <a class="reference internal" href="#ghci-cmd-:show bre
 </div>
 </div>
 <div class="section" id="single-stepping">
-<span id="id15"></span><h3>5.5.2. Single-stepping<a class="headerlink" href="#single-stepping" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<span id="id16"></span><h3>5.5.2. Single-stepping<a class="headerlink" href="#single-stepping" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <p>Single-stepping is a great way to visualise the execution of your
 program, and it is also a useful tool for identifying the source of a
 bug. GHCi offers two variants of stepping. Use <a class="reference internal" href="#ghci-cmd-:step"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:step</span></code></a> to enable all
@@ -1446,7 +1448,7 @@ _result :: [Integer]
 </div>
 </div>
 <div class="section" id="nested-breakpoints">
-<span id="id16"></span><h3>5.5.3. Nested breakpoints<a class="headerlink" href="#nested-breakpoints" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<span id="id17"></span><h3>5.5.3. Nested breakpoints<a class="headerlink" href="#nested-breakpoints" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <p>When GHCi is stopped at a breakpoint, and an expression entered at the
 prompt triggers a second breakpoint, the new breakpoint becomes the
 &#8220;current&#8221; one, and the old one is saved on a stack. An arbitrary number
@@ -1826,7 +1828,7 @@ to the command line.</p>
 </div>
 </div>
 <div class="section" id="ghci-commands">
-<span id="id17"></span><h2>5.7. GHCi commands<a class="headerlink" href="#ghci-commands" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<span id="id18"></span><h2>5.7. GHCi commands<a class="headerlink" href="#ghci-commands" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <p>GHCi commands all begin with &#8220;<code class="docutils literal"><span class="pre">:</span></code>&#8221; and consist of a single command
 name followed by zero or more parameters. The command name may be
 abbreviated, with ambiguities being resolved in favour of the more
@@ -3023,17 +3025,17 @@ program thus:</p>
 </div>
 </dd>
 </dl>
-<table class="docutils footnote" frame="void" id="id18" rules="none">
-<colgroup><col class="label" /><col /></colgroup>
-<tbody valign="top">
-<tr><td class="label"><a class="fn-backref" href="#id12">[5]</a></td><td>Note that packages only contain compiled code, so debugging a package
-requires finding its source and loading that directly.</td></tr>
-</tbody>
-</table>
 <table class="docutils footnote" frame="void" id="id19" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
-<tr><td class="label"><a class="fn-backref" href="#id13">[6]</a></td><td>We originally provided bindings for all variables in scope, rather
+<tr><td class="label"><a class="fn-backref" href="#id13">[5]</a></td><td>Note that packages only contain compiled code, so debugging a package
+requires finding its source and loading that directly.</td></tr>
+</tbody>
+</table>
+<table class="docutils footnote" frame="void" id="id20" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id14">[6]</a></td><td>We originally provided bindings for all variables in scope, rather
 than just the free variables of the expression, but found that this
 affected performance considerably, hence the current restriction to
 just the free variables.</td></tr>
