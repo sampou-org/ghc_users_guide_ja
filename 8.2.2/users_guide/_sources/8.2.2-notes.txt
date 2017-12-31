@@ -260,129 +260,275 @@ hsc2hs
 
 -  バージョン 0.68.2
 
-Libraries
----------
+..
+   Libraries
+   ---------
+
+ライブラリ
+----------
+
+..
+   array
+   ~~~~~
+
+   -  Version number 0.5.2.0 (was 0.5.2.0)
 
 array
 ~~~~~
 
--  Version number 0.5.2.0 (was 0.5.2.0)
+-  バージョン 0.5.2.0 (従来 0.5.2.0)
+
+..
+   .. _lib-base:
+
+   base
+   ~~~~
 
 .. _lib-base:
 
 base
 ~~~~
 
-See ``changelog.md`` in the ``base`` package for full release notes.
+..
+   See ``changelog.md`` in the ``base`` package for full release notes.
 
--  Version number 4.10.1.0 (was 4.10.0.0)
+完全なリリースノートについては ``base`` パッケージに含まれる ``changelog.md`` を参照してください．
 
-- ``clearBit :: Natural -> Natural`` no longer bottoms (:ghc-ticket:`13203`)
+..
+   -  Version number 4.10.1.0 (was 4.10.0.0)
 
-- The file locking primitives provided by ``GHC.IO.Handle`` now use
-  Linux open file descriptor locking if available.
+-  バージョン 4.10.1.0 (従来 4.10.0.0)
+
+..
+   - ``clearBit :: Natural -> Natural`` no longer bottoms (:ghc-ticket:`13203`)
+
+- ``clearBit :: Natural -> Natural`` はボトムになることはなくなりました．(:ghc-ticket:`13203`)
+
+..
+   - The file locking primitives provided by ``GHC.IO.Handle`` now use
+     Linux open file descriptor locking if available.
+
+- ``GHC.IO.Handle`` によって提供されるファイルロックプリミティブは，利用可能であれば，
+  Linuxオープンファイル記述子ロックを使用するようになりました．
+
+..
+   binary
+   ~~~~~~
+
+   -  Version number 0.8.5.1 (was 0.8.5.1)
 
 binary
 ~~~~~~
 
--  Version number 0.8.5.1 (was 0.8.5.1)
+-  バージョン 0.8.5.1 (従来 0.8.5.1)
+
+..
+   bytestring
+   ~~~~~~~~~~
+
+   -  Version number 0.10.8.2 (was 0.10.8.2)
 
 bytestring
 ~~~~~~~~~~
 
--  Version number 0.10.8.2 (was 0.10.8.2)
+-  バージョン 0.10.8.2 (従来 0.10.8.2)
+
+..
+   Cabal
+   ~~~~~
+
+   -  Version number 2.0.1.0 (was 2.0.0.2)
 
 Cabal
 ~~~~~
 
--  Version number 2.0.1.0 (was 2.0.0.2)
+-  バージョン 2.0.1.0 (従来 2.0.0.2)
+
+..
+   containers
+   ~~~~~~~~~~
+
+   -  Version number 0.5.10.2 (was 0.5.10.2)
 
 containers
 ~~~~~~~~~~
 
--  Version number 0.5.10.2 (was 0.5.10.2)
+-  バージョン 0.5.10.2 (従来 0.5.10.2)
+
+..
+   deepseq
+   ~~~~~~~
+
+   -  Version number 1.4.3.0 (was 1.4.3.0)
 
 deepseq
 ~~~~~~~
 
--  Version number 1.4.3.0 (was 1.4.3.0)
+-  バージョン 1.4.3.0 (従来 1.4.3.0)
+
+..
+   directory
+   ~~~~~~~~~
+
+   -  Version number 1.3.0.2 (was 1.3.0.0)
 
 directory
 ~~~~~~~~~
 
--  Version number 1.3.0.2 (was 1.3.0.0)
+-  バージョン 1.3.0.2 (従来 1.3.0.0)
+
+..
+   filepath
+   ~~~~~~~~
+
+   -  Version number 1.4.1.2 (was 1.4.1.2)
 
 filepath
 ~~~~~~~~
 
--  Version number 1.4.1.2 (was 1.4.1.2)
+-  バージョン 1.4.1.2 (従来 1.4.1.2)
+
+..
+   ghc
+   ~~~
+
+   -  Version number 8.2.2
 
 ghc
 ~~~
 
--  Version number 8.2.2
+-  バージョン 8.2.2
+
+..
+   ghc-boot
+   ~~~~~~~~
+
+   -  This is an internal package. Use with caution.
 
 ghc-boot
 ~~~~~~~~
 
--  This is an internal package. Use with caution.
+- これは内部パッケージです．慎重に使ってください．
+
+..
+   ghc-compact
+   ~~~~~~~~~~~
+
+   The ``ghc-compact`` library provides an experimental API for placing immutable
+   data structures into a contiguous memory region. Data in these regions is not
+   traced during garbage collection and can be serialized to disk or over the
+   network.
+
+   - Version number 0.1.0.0 (was 0.1.0.0)
 
 ghc-compact
 ~~~~~~~~~~~
 
-The ``ghc-compact`` library provides an experimental API for placing immutable
-data structures into a contiguous memory region. Data in these regions is not
-traced during garbage collection and can be serialized to disk or over the
-network.
+``ghc-compact`` パッケージは，不変のデータ構造をメモリの連続領域に配置するための実験的な API を提供します．
+このような領域に配置されたデータはガーベッジコレクション中に追跡されることはなく，ディスクまたはネットワーク上にシリアライズできます．
 
-- Version number 0.1.0.0 (was 0.1.0.0)
+- バージョン 0.1.0.0 (従来 0.1.0.0)
+
+..
+   ghc-prim
+   ~~~~~~~~
+
+   -  Version number 0.5.1.0 (was 0.5.1.0)
 
 ghc-prim
 ~~~~~~~~
 
--  Version number 0.5.1.0 (was 0.5.1.0)
+-  バージョン 0.5.1.0 (従来 0.5.1.0)
+
+..
+   hoopl
+   ~~~~~
+
+   -  Version number 3.10.2.2 (was 3.10.2.2)
 
 hoopl
 ~~~~~
 
--  Version number 3.10.2.2 (was 3.10.2.2)
+-  バージョン 3.10.2.2 (従来 3.10.2.2)
+
+..
+   hpc
+   ~~~
+
+   -  Version number 0.6.0.3 (was 0.6.0.3)
 
 hpc
 ~~~
 
--  Version number 0.6.0.3 (was 0.6.0.3)
+-  バージョン 0.6.0.3 (従来 0.6.0.3)
+
+..
+   integer-gmp
+   ~~~~~~~~~~~
+
+   -  Version number 1.0.1.0 (was 1.0.0.1)
 
 integer-gmp
 ~~~~~~~~~~~
 
--  Version number 1.0.1.0 (was 1.0.0.1)
+-  バージョン 1.0.1.0 (従来 1.0.0.1)
+
+..
+   process
+   ~~~~~~~
+
+   -  Version number 1.6.1.0 (was 1.6.1.0)
 
 process
 ~~~~~~~
 
--  Version number 1.6.1.0 (was 1.6.1.0)
+-  バージョン 1.6.1.0 (従来 1.6.1.0)
+
+..
+   template-haskell
+   ~~~~~~~~~~~~~~~~
+
+   -  Version 2.12.0.0 (was 2.12.0.0)
 
 template-haskell
 ~~~~~~~~~~~~~~~~
 
--  Version 2.12.0.0 (was 2.12.0.0)
+-  バージョン 2.12.0.0 (従来 2.12.0.0)
+
+..
+   time
+   ~~~~
+
+   -  Version number 1.8.0.2 (was 1.8.0.2)
 
 time
 ~~~~
 
--  Version number 1.8.0.2 (was 1.8.0.2)
+-  バージョン 1.8.0.2 (was 1.8.0.2)
+
+..
+   unix
+   ~~~~
+
+   -  Version number 2.7.2.2 (was 2.7.2.2)
 
 unix
 ~~~~
 
--  Version number 2.7.2.2 (was 2.7.2.2)
+-  バージョン 2.7.2.2 (従来 2.7.2.2)
+
+..
+   Win32
+   ~~~~~
+
+   -  Version number 2.5.4.1 (was 2.5.4.1)
 
 Win32
 ~~~~~
 
--  Version number 2.5.4.1 (was 2.5.4.1)
+-  バージョン 2.5.4.1 (従来 2.5.4.1)
 
-Known bugs
+既知のバグ
 ----------
 
-None, happily.
+幸いありません．

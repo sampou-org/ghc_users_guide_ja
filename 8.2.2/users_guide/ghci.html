@@ -7,7 +7,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>5. Using GHCi &mdash; Glasgow Haskell Compiler 8.2.2 User&#39;s Guide</title>
+    <title>5. GHCi を使う &mdash; Glasgow Haskell Compiler 8.2.2 User&#39;s Guide</title>
     
     <link rel="stylesheet" href="_static/ghc-theme.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -31,7 +31,7 @@
           href="_static/opensearch.xml"/>
     <link rel="top" title="Glasgow Haskell Compiler 8.2.2 User&#39;s Guide" href="index.html" />
     <link rel="next" title="6. Using runghc" href="runghc.html" />
-    <link rel="prev" title="4. Release notes for version 8.2.2" href="8.2.2-notes.html" /> 
+    <link rel="prev" title="4. バージョン 8.2.2 のリリースノート" href="8.2.2-notes.html" /> 
   </head>
   <body role="document">
 <div class="logo">
@@ -48,7 +48,7 @@
           <a href="runghc.html" title="6. Using runghc"
              accesskey="N">次へ</a> |</li>
         <li class="right" >
-          <a href="8.2.2-notes.html" title="4. Release notes for version 8.2.2"
+          <a href="8.2.2-notes.html" title="4. バージョン 8.2.2 のリリースノート"
              accesskey="P">前へ</a> |</li>
         <li class="nav-item nav-item-0"><a href="index.html">GHC 8.2.2 User&#39;s Guide</a> &raquo;</li> 
       </ul>
@@ -58,7 +58,7 @@
         <div class="sphinxsidebarwrapper">
   <h3><a href="index.html">目次</a></h3>
   <ul>
-<li><a class="reference internal" href="#">5. Using GHCi</a><ul>
+<li><a class="reference internal" href="#">5. GHCi を使う</a><ul>
 <li><a class="reference internal" href="#introduction-to-ghci">5.1. Introduction to GHCi</a></li>
 <li><a class="reference internal" href="#loading-source-files">5.2. Loading source files</a><ul>
 <li><a class="reference internal" href="#modules-vs-filenames">5.2.1. Modules vs. filenames</a></li>
@@ -131,7 +131,7 @@
 
   <h4>前のトピックへ</h4>
   <p class="topless"><a href="8.2.2-notes.html"
-                        title="前の章へ">4. Release notes for version 8.2.2</a></p>
+                        title="前の章へ">4. バージョン 8.2.2 のリリースノート</a></p>
   <h4>次のトピックへ</h4>
   <p class="topless"><a href="runghc.html"
                         title="次の章へ">6. Using runghc</a></p>
@@ -163,58 +163,58 @@
         <div class="bodywrapper">
           <div class="body" role="main">
             
-  <div class="section" id="using-ghci">
-<span id="ghci"></span><h1>5. Using GHCi<a class="headerlink" href="#using-ghci" title="このヘッドラインへのパーマリンク">¶</a></h1>
-<p id="index-0">GHCi <a class="footnote-reference" href="#id3" id="id1">[1]</a> is GHC&#8217;s interactive environment, in which Haskell expressions
-can be interactively evaluated and programs can be interpreted. If
-you&#8217;re familiar with <a class="reference external" href="http://www.haskell.org/hugs/">Hugs</a>, then
-you&#8217;ll be right at home with GHCi. However, GHCi also has support for
-interactively loading compiled code, as well as supporting all <a class="footnote-reference" href="#id4" id="id2">[2]</a> the
-language extensions that GHC provides. GHCi also includes an interactive
-debugger (see <a class="reference internal" href="#ghci-debugger"><span>The GHCi Debugger</span></a>).</p>
+  <div class="section" id="ghci">
+<span id="id1"></span><h1>5. GHCi を使う<a class="headerlink" href="#ghci" title="このヘッドラインへのパーマリンク">¶</a></h1>
+<span class="target" id="index-0"></span><p>GHCi <a class="footnote-reference" href="#id3" id="id2">[1]</a> はGHCの対話環境であり，Haskellの式を対話方式で評価したり
+プログラムを解釈実行したりできます．
+<a class="reference external" href="http://www.haskell.org/hugs/">Hugs</a> の経験があるなら，
+すぐにでもGHCiに慣れることでしょう．
+しかしながら， GHCiはコンパイル済みのコードを対話的にロードすることができます．
+また，GHCが提供する言語拡張のすべて[2]_ をサポートしています．
+GHCi は対話方式のデバッガも備えています(<a class="reference internal" href="#ghci-debugger"><span>The GHCi Debugger</span></a> 参照)．</p>
 <table class="docutils footnote" frame="void" id="id3" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
-<tr><td class="label"><a class="fn-backref" href="#id1">[1]</a></td><td>The &#8220;i&#8221; stands for “Interactive”</td></tr>
+<tr><td class="label"><a class="fn-backref" href="#id2">[1]</a></td><td>&#8220;i&#8221;は“Interactive”の i です．</td></tr>
 </tbody>
 </table>
 <table class="docutils footnote" frame="void" id="id4" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
-<tr><td class="label"><a class="fn-backref" href="#id2">[2]</a></td><td>except <code class="docutils literal"><span class="pre">foreign</span> <span class="pre">export</span></code>, at the moment</td></tr>
+<tr><td class="label">[2]</td><td>ただし今のところ <code class="docutils literal"><span class="pre">foreign</span> <span class="pre">export</span></code> は除きます．</td></tr>
 </tbody>
 </table>
 <div class="section" id="introduction-to-ghci">
 <span id="ghci-introduction"></span><h2>5.1. Introduction to GHCi<a class="headerlink" href="#introduction-to-ghci" title="このヘッドラインへのパーマリンク">¶</a></h2>
-<p>Let&#8217;s start with an example GHCi session. You can fire up GHCi with the
-command <code class="docutils literal"><span class="pre">ghci</span></code>:</p>
+<p>GHCiセッションの例を見ていくことから始めましょう．
+GHCiは <code class="docutils literal"><span class="pre">ghci</span></code> コマンドで起動します．</p>
 <div class="highlight-none"><div class="highlight"><pre>$ ghci
 GHCi, version 8.y.z: http://www.haskell.org/ghc/  :? for help
 Prelude&gt;
 </pre></div>
 </div>
-<p>There may be a short pause while GHCi loads the prelude and standard
-libraries, after which the prompt is shown. As the banner says, you can
-type <a class="reference internal" href="#ghci-cmd-:?"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:?</span></code></a> to see the list of commands available, and a half line
-description of each of them. We&#8217;ll explain most of these commands as we
-go along, and there is complete documentation for all the commands in
-<a class="reference internal" href="#ghci-commands"><span>GHCi commands</span></a>.</p>
-<p>Haskell expressions can be typed at the prompt:</p>
+<p>GHCiがプレリュードと標準ライブラリをロードするのにすこしかかるかもしれませんが，
+それが完了するとプロンプトが現れます．
+バナーにあるとおり，<a class="reference internal" href="#ghci-cmd-:?"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:?</span></code></a> をタイプすれば，利用可能なコマンド一覧と
+それぞれの短い説明が表示されます．
+これ以降ほとんどのコマンドを説明します．
+すべてのコマンドの完全な説明は <a class="reference internal" href="#ghci-commands"><span>GHCi commands</span></a> にあります．</p>
+<p>プロンプトにはHaskellの式をタイプします．</p>
 <div class="highlight-none" id="index-1"><div class="highlight"><pre>Prelude&gt; 1+2
 3
-Prelude&gt; let x = 42 in x / 9
+Prelude&gt; let x = 42
+Preldue&gt; x / 9
 4.666666666666667
 Prelude&gt;
 </pre></div>
 </div>
-<p>GHCi interprets the whole line as an expression to evaluate. The
-expression may not span several lines - as soon as you press enter, GHCi
-will attempt to evaluate it.</p>
-<p>In Haskell, a <code class="docutils literal"><span class="pre">let</span></code> expression is followed by <code class="docutils literal"><span class="pre">in</span></code>. However, in
-GHCi, since the expression can also be interpreted in the <code class="docutils literal"><span class="pre">IO</span></code> monad,
-a <code class="docutils literal"><span class="pre">let</span></code> binding with no accompanying <code class="docutils literal"><span class="pre">in</span></code> statement can be signalled
-by an empty line, as in the above example.</p>
-<p>Since GHC 8.0.1, you can bind values and functions to names without <code class="docutils literal"><span class="pre">let</span></code> statement:</p>
+<p>GHCiは行全体を1つの式だと解釈し，これを評価します．
+式は複数行にまたがることはできません．
+エンターキーを押したとたん，GHCiはそこまでにタイプされたものを評価しようとします．</p>
+<p>Haskellでは <code class="docutils literal"><span class="pre">let</span></code> 式は <code class="docutils literal"><span class="pre">in</span></code> をともないます．
+しかし，GHCiでは，式は <code class="docutils literal"><span class="pre">IO</span></code> モナドの中でも解釈されますので，上の例は
+<code class="docutils literal"><span class="pre">in</span></code> を伴わない <code class="docutils literal"><span class="pre">let</span></code> 束縛文であることは，行が表示されないことで示されています．</p>
+<p>GHC 8.0.1 以降 <code class="docutils literal"><span class="pre">let</span></code> 文を使わなくても，値や関数で名前を束縛できます．</p>
 <div class="highlight-none"><div class="highlight"><pre>Prelude&gt; x = 42
 Prelude&gt; x
 42
@@ -3060,7 +3060,7 @@ just the free variables.</td></tr>
           <a href="runghc.html" title="6. Using runghc"
              >次へ</a> |</li>
         <li class="right" >
-          <a href="8.2.2-notes.html" title="4. Release notes for version 8.2.2"
+          <a href="8.2.2-notes.html" title="4. バージョン 8.2.2 のリリースノート"
              >前へ</a> |</li>
         <li class="nav-item nav-item-0"><a href="index.html">GHC 8.2.2 User&#39;s Guide</a> &raquo;</li> 
       </ul>

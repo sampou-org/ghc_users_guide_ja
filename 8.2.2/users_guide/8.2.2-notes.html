@@ -30,7 +30,7 @@
           title="Glasgow Haskell Compiler 8.2.2 User&#39;s Guide 内を検索"
           href="_static/opensearch.xml"/>
     <link rel="top" title="Glasgow Haskell Compiler 8.2.2 User&#39;s Guide" href="index.html" />
-    <link rel="next" title="5. Using GHCi" href="ghci.html" />
+    <link rel="next" title="5. GHCi を使う" href="ghci.html" />
     <link rel="prev" title="3. バージョン 8.2.1 のリリースノート" href="8.2.1-notes.html" /> 
   </head>
   <body role="document">
@@ -45,7 +45,7 @@
           <a href="genindex.html" title="総合索引"
              accesskey="I">索引</a></li>
         <li class="right" >
-          <a href="ghci.html" title="5. Using GHCi"
+          <a href="ghci.html" title="5. GHCi を使う"
              accesskey="N">次へ</a> |</li>
         <li class="right" >
           <a href="8.2.1-notes.html" title="3. バージョン 8.2.1 のリリースノート"
@@ -70,7 +70,7 @@
 <li><a class="reference internal" href="#hsc2hs">4.2.7. hsc2hs</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#libraries">4.3. Libraries</a><ul>
+<li><a class="reference internal" href="#id11">4.3. ライブラリ</a><ul>
 <li><a class="reference internal" href="#array">4.3.1. array</a></li>
 <li><a class="reference internal" href="#base">4.3.2. base</a></li>
 <li><a class="reference internal" href="#binary">4.3.3. binary</a></li>
@@ -94,7 +94,7 @@
 <li><a class="reference internal" href="#win32">4.3.21. Win32</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#known-bugs">4.4. Known bugs</a></li>
+<li><a class="reference internal" href="#id12">4.4. 既知のバグ</a></li>
 </ul>
 </li>
 </ul>
@@ -104,7 +104,7 @@
                         title="前の章へ">3. バージョン 8.2.1 のリリースノート</a></p>
   <h4>次のトピックへ</h4>
   <p class="topless"><a href="ghci.html"
-                        title="次の章へ">5. Using GHCi</a></p>
+                        title="次の章へ">5. GHCi を使う</a></p>
   <div role="note" aria-label="source link">
     <h3>このページ</h3>
     <ul class="this-page-menu">
@@ -272,146 +272,148 @@
 </ul>
 </div>
 </div>
-<div class="section" id="libraries">
-<h2>4.3. Libraries<a class="headerlink" href="#libraries" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<div class="section" id="id11">
+<h2>4.3. ライブラリ<a class="headerlink" href="#id11" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <div class="section" id="array">
 <h3>4.3.1. array<a class="headerlink" href="#array" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <ul class="simple">
-<li>Version number 0.5.2.0 (was 0.5.2.0)</li>
+<li>バージョン 0.5.2.0 (従来 0.5.2.0)</li>
 </ul>
 </div>
 <div class="section" id="base">
 <span id="lib-base"></span><h3>4.3.2. base<a class="headerlink" href="#base" title="このヘッドラインへのパーマリンク">¶</a></h3>
-<p>See <code class="docutils literal"><span class="pre">changelog.md</span></code> in the <code class="docutils literal"><span class="pre">base</span></code> package for full release notes.</p>
+<p>完全なリリースノートについては <code class="docutils literal"><span class="pre">base</span></code> パッケージに含まれる <code class="docutils literal"><span class="pre">changelog.md</span></code> を参照してください．</p>
 <ul class="simple">
-<li>Version number 4.10.1.0 (was 4.10.0.0)</li>
-<li><code class="docutils literal"><span class="pre">clearBit</span> <span class="pre">::</span> <span class="pre">Natural</span> <span class="pre">-&gt;</span> <span class="pre">Natural</span></code> no longer bottoms (<a class="reference external" href="https://ghc.haskell.org/trac/ghc/ticket/13203">Trac #13203</a>)</li>
-<li>The file locking primitives provided by <code class="docutils literal"><span class="pre">GHC.IO.Handle</span></code> now use
-Linux open file descriptor locking if available.</li>
+<li>バージョン 4.10.1.0 (従来 4.10.0.0)</li>
+</ul>
+<ul class="simple">
+<li><code class="docutils literal"><span class="pre">clearBit</span> <span class="pre">::</span> <span class="pre">Natural</span> <span class="pre">-&gt;</span> <span class="pre">Natural</span></code> はボトムになることはなくなりました．(<a class="reference external" href="https://ghc.haskell.org/trac/ghc/ticket/13203">Trac #13203</a>)</li>
+</ul>
+<ul class="simple">
+<li><code class="docutils literal"><span class="pre">GHC.IO.Handle</span></code> によって提供されるファイルロックプリミティブは，利用可能であれば，
+Linuxオープンファイル記述子ロックを使用するようになりました．</li>
 </ul>
 </div>
 <div class="section" id="binary">
 <h3>4.3.3. binary<a class="headerlink" href="#binary" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <ul class="simple">
-<li>Version number 0.8.5.1 (was 0.8.5.1)</li>
+<li>バージョン 0.8.5.1 (従来 0.8.5.1)</li>
 </ul>
 </div>
 <div class="section" id="bytestring">
 <h3>4.3.4. bytestring<a class="headerlink" href="#bytestring" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <ul class="simple">
-<li>Version number 0.10.8.2 (was 0.10.8.2)</li>
+<li>バージョン 0.10.8.2 (従来 0.10.8.2)</li>
 </ul>
 </div>
 <div class="section" id="cabal">
 <h3>4.3.5. Cabal<a class="headerlink" href="#cabal" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <ul class="simple">
-<li>Version number 2.0.1.0 (was 2.0.0.2)</li>
+<li>バージョン 2.0.1.0 (従来 2.0.0.2)</li>
 </ul>
 </div>
 <div class="section" id="containers">
 <h3>4.3.6. containers<a class="headerlink" href="#containers" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <ul class="simple">
-<li>Version number 0.5.10.2 (was 0.5.10.2)</li>
+<li>バージョン 0.5.10.2 (従来 0.5.10.2)</li>
 </ul>
 </div>
 <div class="section" id="deepseq">
 <h3>4.3.7. deepseq<a class="headerlink" href="#deepseq" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <ul class="simple">
-<li>Version number 1.4.3.0 (was 1.4.3.0)</li>
+<li>バージョン 1.4.3.0 (従来 1.4.3.0)</li>
 </ul>
 </div>
 <div class="section" id="directory">
 <h3>4.3.8. directory<a class="headerlink" href="#directory" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <ul class="simple">
-<li>Version number 1.3.0.2 (was 1.3.0.0)</li>
+<li>バージョン 1.3.0.2 (従来 1.3.0.0)</li>
 </ul>
 </div>
 <div class="section" id="filepath">
 <h3>4.3.9. filepath<a class="headerlink" href="#filepath" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <ul class="simple">
-<li>Version number 1.4.1.2 (was 1.4.1.2)</li>
+<li>バージョン 1.4.1.2 (従来 1.4.1.2)</li>
 </ul>
 </div>
 <div class="section" id="ghc">
 <h3>4.3.10. ghc<a class="headerlink" href="#ghc" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <ul class="simple">
-<li>Version number 8.2.2</li>
+<li>バージョン 8.2.2</li>
 </ul>
 </div>
 <div class="section" id="ghc-boot">
 <h3>4.3.11. ghc-boot<a class="headerlink" href="#ghc-boot" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <ul class="simple">
-<li>This is an internal package. Use with caution.</li>
+<li>これは内部パッケージです．慎重に使ってください．</li>
 </ul>
 </div>
 <div class="section" id="ghc-compact">
 <h3>4.3.12. ghc-compact<a class="headerlink" href="#ghc-compact" title="このヘッドラインへのパーマリンク">¶</a></h3>
-<p>The <code class="docutils literal"><span class="pre">ghc-compact</span></code> library provides an experimental API for placing immutable
-data structures into a contiguous memory region. Data in these regions is not
-traced during garbage collection and can be serialized to disk or over the
-network.</p>
+<p><code class="docutils literal"><span class="pre">ghc-compact</span></code> パッケージは，不変のデータ構造をメモリの連続領域に配置するための実験的な API を提供します．
+このような領域に配置されたデータはガーベッジコレクション中に追跡されることはなく，ディスクまたはネットワーク上にシリアライズできます．</p>
 <ul class="simple">
-<li>Version number 0.1.0.0 (was 0.1.0.0)</li>
+<li>バージョン 0.1.0.0 (従来 0.1.0.0)</li>
 </ul>
 </div>
 <div class="section" id="ghc-prim">
 <h3>4.3.13. ghc-prim<a class="headerlink" href="#ghc-prim" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <ul class="simple">
-<li>Version number 0.5.1.0 (was 0.5.1.0)</li>
+<li>バージョン 0.5.1.0 (従来 0.5.1.0)</li>
 </ul>
 </div>
 <div class="section" id="hoopl">
 <h3>4.3.14. hoopl<a class="headerlink" href="#hoopl" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <ul class="simple">
-<li>Version number 3.10.2.2 (was 3.10.2.2)</li>
+<li>バージョン 3.10.2.2 (従来 3.10.2.2)</li>
 </ul>
 </div>
 <div class="section" id="hpc">
 <h3>4.3.15. hpc<a class="headerlink" href="#hpc" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <ul class="simple">
-<li>Version number 0.6.0.3 (was 0.6.0.3)</li>
+<li>バージョン 0.6.0.3 (従来 0.6.0.3)</li>
 </ul>
 </div>
 <div class="section" id="integer-gmp">
 <h3>4.3.16. integer-gmp<a class="headerlink" href="#integer-gmp" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <ul class="simple">
-<li>Version number 1.0.1.0 (was 1.0.0.1)</li>
+<li>バージョン 1.0.1.0 (従来 1.0.0.1)</li>
 </ul>
 </div>
 <div class="section" id="process">
 <h3>4.3.17. process<a class="headerlink" href="#process" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <ul class="simple">
-<li>Version number 1.6.1.0 (was 1.6.1.0)</li>
+<li>バージョン 1.6.1.0 (従来 1.6.1.0)</li>
 </ul>
 </div>
 <div class="section" id="template-haskell">
 <h3>4.3.18. template-haskell<a class="headerlink" href="#template-haskell" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <ul class="simple">
-<li>Version 2.12.0.0 (was 2.12.0.0)</li>
+<li>バージョン 2.12.0.0 (従来 2.12.0.0)</li>
 </ul>
 </div>
 <div class="section" id="time">
 <h3>4.3.19. time<a class="headerlink" href="#time" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <ul class="simple">
-<li>Version number 1.8.0.2 (was 1.8.0.2)</li>
+<li>バージョン 1.8.0.2 (was 1.8.0.2)</li>
 </ul>
 </div>
 <div class="section" id="unix">
 <h3>4.3.20. unix<a class="headerlink" href="#unix" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <ul class="simple">
-<li>Version number 2.7.2.2 (was 2.7.2.2)</li>
+<li>バージョン 2.7.2.2 (従来 2.7.2.2)</li>
 </ul>
 </div>
 <div class="section" id="win32">
 <h3>4.3.21. Win32<a class="headerlink" href="#win32" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <ul class="simple">
-<li>Version number 2.5.4.1 (was 2.5.4.1)</li>
+<li>バージョン 2.5.4.1 (従来 2.5.4.1)</li>
 </ul>
 </div>
 </div>
-<div class="section" id="known-bugs">
-<h2>4.4. Known bugs<a class="headerlink" href="#known-bugs" title="このヘッドラインへのパーマリンク">¶</a></h2>
-<p>None, happily.</p>
+<div class="section" id="id12">
+<h2>4.4. 既知のバグ<a class="headerlink" href="#id12" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>幸いありません．</p>
 </div>
 </div>
 
@@ -428,7 +430,7 @@ network.</p>
           <a href="genindex.html" title="総合索引"
              >索引</a></li>
         <li class="right" >
-          <a href="ghci.html" title="5. Using GHCi"
+          <a href="ghci.html" title="5. GHCi を使う"
              >次へ</a> |</li>
         <li class="right" >
           <a href="8.2.1-notes.html" title="3. バージョン 8.2.1 のリリースノート"
