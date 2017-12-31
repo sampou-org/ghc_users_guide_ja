@@ -873,7 +873,6 @@ GHCi がプロンプトで行うのは単なる式の評価だけではありま
        42
        Prelude>
 
-The syntax of a statement accepted at the GHCi prompt is exactly the
 GHCiがプロンプトで受け付ける文の構文は，Haskellのdo式における文の構文と全く同じです．
 ただし，こちらにはモナドの多重定義はありません．
 プロンプトに入力される文はIOモナドの中になければなりません．
