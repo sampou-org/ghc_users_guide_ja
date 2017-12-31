@@ -65,8 +65,8 @@
 <li><a class="reference internal" href="#id5">4.2.2. 言語</a></li>
 <li><a class="reference internal" href="#id6">4.2.3. コンパイラ</a></li>
 <li><a class="reference internal" href="#ghci">4.2.4. GHCi</a></li>
-<li><a class="reference internal" href="#build-system">4.2.5. Build system</a></li>
-<li><a class="reference internal" href="#runtime-system">4.2.6. Runtime system</a></li>
+<li><a class="reference internal" href="#id9">4.2.5. ビルドシステム</a></li>
+<li><a class="reference internal" href="#id10">4.2.6. ランタイムシステム</a></li>
 <li><a class="reference internal" href="#hsc2hs">4.2.7. hsc2hs</a></li>
 </ul>
 </li>
@@ -242,29 +242,33 @@
 (<a class="reference external" href="https://ghc.haskell.org/trac/ghc/ticket/14427">Trac #14427</a>)</li>
 </ul>
 </div>
-<div class="section" id="build-system">
-<h3>4.2.5. Build system<a class="headerlink" href="#build-system" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<div class="section" id="id9">
+<h3>4.2.5. ビルドシステム<a class="headerlink" href="#id9" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <ul>
 <li><dl class="first docutils">
-<dt><code class="docutils literal"><span class="pre">configure</span></code> now probes <code class="docutils literal"><span class="pre">ld.gold</span></code> even if <code class="docutils literal"><span class="pre">ld.lld</span></code> is found yet</dt>
-<dd><p class="first last">determined to be unusable (<a class="reference external" href="https://ghc.haskell.org/trac/ghc/ticket/14280">Trac #14280</a>)</p>
+<dt><code class="docutils literal"><span class="pre">configure</span></code> スクリプトは <code class="docutils literal"><span class="pre">ld.lld</span></code> を見つけても使えないと判れば <code class="docutils literal"><span class="pre">ld.lld</span></code> をプローブするようになりました．</dt>
+<dd><p class="first last">(<a class="reference external" href="https://ghc.haskell.org/trac/ghc/ticket/14280">Trac #14280</a>)</p>
 </dd>
 </dl>
 </li>
 </ul>
 </div>
-<div class="section" id="runtime-system">
-<h3>4.2.6. Runtime system<a class="headerlink" href="#runtime-system" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<div class="section" id="id10">
+<h3>4.2.6. ランタイムシステム<a class="headerlink" href="#id10" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <ul class="simple">
-<li>Compact regions now support small pointer arrays (<a class="reference external" href="https://ghc.haskell.org/trac/ghc/ticket/13860">Trac #13860</a>)</li>
-<li>The RTS can now load DLLs with with an empty import table on 32-bit Windows (<a class="reference external" href="https://ghc.haskell.org/trac/ghc/ticket/14081">Trac #14081</a>)</li>
-<li>The <code class="xref std std-rts-flag docutils literal"><span class="pre">-po</span></code> flag now works; previously it existed but had no function.</li>
+<li>コンパクトリージョンは小さなポインタ配列に対してもサポートされるようになりました．(<a class="reference external" href="https://ghc.haskell.org/trac/ghc/ticket/13860">Trac #13860</a>)</li>
+</ul>
+<ul class="simple">
+<li>RTS は 32bit Windows 上で空のインポートテーブルを持つ DLL をロードできるようになりました．(<a class="reference external" href="https://ghc.haskell.org/trac/ghc/ticket/14081">Trac #14081</a>)</li>
+</ul>
+<ul class="simple">
+<li>以前から存在していましたがなにも機能しなかった <code class="xref std std-rts-flag docutils literal"><span class="pre">-po</span></code> フラグが機能するようになりました．</li>
 </ul>
 </div>
 <div class="section" id="hsc2hs">
 <h3>4.2.7. hsc2hs<a class="headerlink" href="#hsc2hs" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <ul class="simple">
-<li>Version number 0.68.2</li>
+<li>バージョン 0.68.2</li>
 </ul>
 </div>
 </div>
