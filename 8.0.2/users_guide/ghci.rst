@@ -1733,7 +1733,6 @@ GHCi もプロンプトで入力される式についてはこれにならった
    .. index::
       single: -fno-implicit-import-qualified
 
-To make life slightly easier, the GHCi prompt also behaves as if there
 手間をすこし省くことができるように，GHCiのプロンプトは全てのパッケージの全てのモジュールと，現在GHCiにロードされている全てのモジュールについて，暗黙の ``import qualified`` 宣言があるかのように振る舞います．
 これは ``-fno-implicit-import-qualified`` というフラグで無効にできます．
 
