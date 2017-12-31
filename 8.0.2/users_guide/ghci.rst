@@ -1337,7 +1337,6 @@ GHCi のプロンプトには，Haskellの任意のトップレベル宣言を�
 	   In an equation for `it': it = f A
        Prelude>
 
-As with ordinary variable bindings, later definitions shadow earlier
 通常の変数束縛と同様に，後で定義されたものは古い定義をシャドウしてしまうので，
 定義を再入力すれば，問題を修正したり拡張したりできます．
 ただし，落とし穴があります．
