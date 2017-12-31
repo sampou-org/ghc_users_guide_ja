@@ -159,30 +159,77 @@ GHC 8.0.1 以降 ``let`` 文を使わなくても，値や関数で名前を束�
     42
     Prelude>
 
+..
+   .. _loading-source-files:
+
+   Loading source files
+   --------------------
+
 .. _loading-source-files:
 
-Loading source files
---------------------
+ソースファイルをロードする
+--------------------------
 
-Suppose we have the following Haskell source code, which we place in a
-file ``Main.hs``: ::
+..
+   Suppose we have the following Haskell source code, which we place in a
+   file ``Main.hs``: ::
+
+       main = print (fac 20)
+
+       fac 0 = 1
+       fac n = n * fac (n-1)
+
+   You can save ``Main.hs`` anywhere you like, but if you save it somewhere
+   other than the current directory [3]_ then we will need to change to the
+   right directory in GHCi:
+
+   .. code-block:: none
+
+       Prelude> :cd dir
+
+   where ⟨dir⟩ is the directory (or folder) in which you saved ``Main.hs``.
+
+次のようなHaskellのソースコードが ``Main.hs`` というファイルに書かれているとしましょう． ::
 
     main = print (fac 20)
 
     fac 0 = 1
     fac n = n * fac (n-1)
 
-You can save ``Main.hs`` anywhere you like, but if you save it somewhere
-other than the current directory [3]_ then we will need to change to the
-right directory in GHCi:
+``Main.hs`` は好きな場所に置けますが，GHCiを起動したファイルがあるカレントディレクトリ
+[3]_ 以外の場所に置いたときには，GHCiでディレクトリを正しく変更する必要があります．
 
 .. code-block:: none
 
     Prelude> :cd dir
 
-where ⟨dir⟩ is the directory (or folder) in which you saved ``Main.hs``.
+ここで ⟨dir⟩ は ``Main.hs`` を保存したディレクトリ(あるいはフォルダ）です．
 
-To load a Haskell source file into GHCi, use the :ghci-cmd:`:load` command:
+..
+   To load a Haskell source file into GHCi, use the :ghci-cmd:`:load` command:
+
+   .. index::
+      single: :load
+
+   .. code-block:: none
+
+       Prelude> :load Main
+       Compiling Main             ( Main.hs, interpreted )
+       Ok, modules loaded: Main.
+       *Main>
+
+   GHCi has loaded the ``Main`` module, and the prompt has changed to
+   ``*Main>`` to indicate that the current context for expressions
+   typed at the prompt is the ``Main`` module we just loaded (we'll explain
+   what the ``*`` means later in :ref:`ghci-scope`). So we can now type
+   expressions involving the functions from ``Main.hs``:
+
+   .. code-block:: none
+
+       *Main> fac 17
+       355687428096000
+
+HaskellのソースファイルをGHCiにロードするには :ghci-cmd:`:load` コマンドを使います．
 
 .. index::
    single: :load
@@ -194,41 +241,68 @@ To load a Haskell source file into GHCi, use the :ghci-cmd:`:load` command:
     Ok, modules loaded: Main.
     *Main>
 
-GHCi has loaded the ``Main`` module, and the prompt has changed to
-``*Main>`` to indicate that the current context for expressions
-typed at the prompt is the ``Main`` module we just loaded (we'll explain
-what the ``*`` means later in :ref:`ghci-scope`). So we can now type
-expressions involving the functions from ``Main.hs``:
+GHCiは ``Main`` モジュールをロードし，プロンプトが ``*Main>`` に変りました．
+このプロンプトは，ここにユーザが入力する式を評価するときの文脈が，たったいまロードした
+``Main`` モジュールであることを示しています
+(``*`` の意味については :ref:`ghci-scope` で説明します)．
+これで ``Main.hs`` で定義した関数を含む式が評価できるようになりました．
 
 .. code-block:: none
 
     *Main> fac 17
     355687428096000
 
-Loading a multi-module program is just as straightforward; just give the
-name of the "topmost" module to the :ghci-cmd:`:load` command (hint:
-:ghci-cmd:`:load` can be abbreviated to ``:l``). The topmost module will
-normally be ``Main``, but it doesn't have to be. GHCi will discover which
-modules are required, directly or indirectly, by the topmost module, and load
-them all in dependency order.
+..
+   Loading a multi-module program is just as straightforward; just give the
+   name of the "topmost" module to the :ghci-cmd:`:load` command (hint:
+   :ghci-cmd:`:load` can be abbreviated to ``:l``). The topmost module will
+   normally be ``Main``, but it doesn't have to be. GHCi will discover which
+   modules are required, directly or indirectly, by the topmost module, and load
+   them all in dependency order.
+
+複数のモジュールからなるプログラムをロードするのも同様に簡単です．
+「最上位の」モジュールの名前を :ghci-cmd:`:load` コマンドに指定すればいいだけです
+(ヒント: :ghci-cmd:`load` は ``:l`` に短縮できます)．
+最上位のモジュールはふつうは ``Main`` ですが，必ずしもそうである必要はありません．
+GHCiは最上位のモジュールから直接・間接に必要とされているモジュールを見つけ，
+それらを依存関係の順にロードします．
+
+..
+   .. [3]
+      If you started up GHCi from the command line then GHCi's current
+      directory is the same as the current directory of the shell from
+      which it was started. If you started GHCi from the “Start” menu in
+      Windows, then the current directory is probably something like
+      ``C:\Documents and Settings\user name``.
 
 .. [3]
-   If you started up GHCi from the command line then GHCi's current
-   directory is the same as the current directory of the shell from
-   which it was started. If you started GHCi from the “Start” menu in
-   Windows, then the current directory is probably something like
-   ``C:\Documents and Settings\user name``.
+   コマンドラインから GHCi を起動した場合は GHCi のカレントディレクトリは
+   シェルから起動したときのカレントディレクトリと同じです．
+   Windowsの「スタート」メニューから GHCi を起動した場合は，
+   カレントディレクトリはおそく ``C:\Documents and Settings\user name`` あたりでしょう．
+
+..
+   .. ghc-flag:: -fshow-loaded-modules
+       :type: dynamic
+       :default: off
+
+       :since: 8.2.2
+
+       Typically GHCi will show only the number of modules that it loaded after a
+       :ghci-cmd:`:load` command. With this flag, GHC will also list the loaded
+       modules' names. This was the default behavior prior to GHC 8.2.1 and can be
+       useful for some tooling users.
+
 
 .. ghc-flag:: -fshow-loaded-modules
-    :type: dynamic
-    :default: off
+    :type: 動的
+    :default: 無効
 
     :since: 8.2.2
 
-    Typically GHCi will show only the number of modules that it loaded after a
-    :ghci-cmd:`:load` command. With this flag, GHC will also list the loaded
-    modules' names. This was the default behavior prior to GHC 8.2.1 and can be
-    useful for some tooling users.
+    通常 GHCi は :ghci-cmd:`:load` コマンドでモジュールをロードすると，モジュールの数だけを表示します．
+    このフラグを使えば，モジュール名も一覧します．この動作は GHC 8.2.1 より前はデフォルトの動作でした．
+    これを指定しておけば，ツール作成をするユーザには便利です．
 
 
 .. _ghci-modules-filenames:
