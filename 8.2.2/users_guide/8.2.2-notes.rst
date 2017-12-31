@@ -213,12 +213,19 @@ GHCi
 - GHCi :ghc-flag:`-show-mods-loaded` フラグで :ghci-cmd:`:load` コマンドによってロードされたモジュール名を表示できるようになりました．
   (:ghc-ticket:`14427`)
 
-Build system
-~~~~~~~~~~~~
+..
+   Build system
+   ~~~~~~~~~~~~
 
-- ``configure`` now probes ``ld.gold`` even if ``ld.lld`` is found yet
-   determined to be unusable (:ghc-ticket:`14280`)
+ビルドシステム
+~~~~~~~~~~~~~~
 
+..
+   - ``configure`` now probes ``ld.gold`` even if ``ld.lld`` is found yet
+      determined to be unusable (:ghc-ticket:`14280`)
+
+- ``configure`` スクリプトは ``ld.lld`` を見つけても使えないと判れば ``ld.lld`` をプローブするようになりました．
+   (:ghc-ticket:`14280`)
 
 Runtime system
 ~~~~~~~~~~~~~~
