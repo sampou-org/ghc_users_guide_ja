@@ -61,8 +61,8 @@
 <li><a class="reference internal" href="#">5. GHCi を使う</a><ul>
 <li><a class="reference internal" href="#introduction-to-ghci">5.1. Introduction to GHCi</a></li>
 <li><a class="reference internal" href="#loading-source-files">5.2. ソースファイルをロードする</a><ul>
-<li><a class="reference internal" href="#modules-vs-filenames">5.2.1. Modules vs. filenames</a></li>
-<li><a class="reference internal" href="#making-changes-and-recompilation">5.2.2. Making changes and recompilation</a></li>
+<li><a class="reference internal" href="#ghci-modules-filenames">5.2.1. モジュールとファイル名</a></li>
+<li><a class="reference internal" href="#id11">5.2.2. ソースコードの変更と再コンパイル</a></li>
 </ul>
 </li>
 <li><a class="reference internal" href="#loading-compiled-code">5.3. Loading compiled code</a></li>
@@ -268,50 +268,51 @@ Windowsの「スタート」メニューから GHCi を起動した場合は，
 カレントディレクトリはおそく <code class="docutils literal"><span class="pre">C:\Documents</span> <span class="pre">and</span> <span class="pre">Settings\user</span> <span class="pre">name</span></code> あたりでしょう．</td></tr>
 </tbody>
 </table>
-<div class="section" id="modules-vs-filenames">
-<span id="ghci-modules-filenames"></span><h3>5.2.1. Modules vs. filenames<a class="headerlink" href="#modules-vs-filenames" title="このヘッドラインへのパーマリンク">¶</a></h3>
-<p id="index-3">Question: How does GHC find the filename which contains module ⟨M⟩?
-Answer: it looks for the file <code class="docutils literal"><span class="pre">M.hs</span></code>, or <code class="docutils literal"><span class="pre">M.lhs</span></code>. This means that
-for most modules, the module name must match the filename. If it
-doesn&#8217;t, GHCi won&#8217;t be able to find it.</p>
-<p>There is one exception to this general rule: when you load a program
-with <a class="reference internal" href="#ghci-cmd-:load"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:load</span></code></a>, or specify it when you invoke <code class="docutils literal"><span class="pre">ghci</span></code>, you can give a
-filename rather than a module name. This filename is loaded if it
-exists, and it may contain any module you like. This is particularly
-convenient if you have several <code class="docutils literal"><span class="pre">Main</span></code> modules in the same directory
-and you can&#8217;t call them all <code class="docutils literal"><span class="pre">Main.hs</span></code>.</p>
-<p>The search path for finding source files is specified with the <a class="reference internal" href="separate_compilation.html#ghc-flag--i"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-i</span></code></a>
-option on the GHCi command line, like so:</p>
+<div class="section" id="ghci-modules-filenames">
+<span id="id8"></span><h3>5.2.1. モジュールとファイル名<a class="headerlink" href="#ghci-modules-filenames" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<span class="target" id="index-3"></span><p>問: GHCi はモジュール ⟨M⟩ がどのファイルにあるかをどうやって知るのですか．
+答: <code class="docutils literal"><span class="pre">M.hs</span></code> あるいは <code class="docutils literal"><span class="pre">M.lhs</span></code> というファイルを探します．
+したがって，大部分のモジュールでは，モジュール名とファイル名は一致している必要があります．
+一致しなかった場合，GHCiはモジュールを見つけ出すことができません．</p>
+<p>この規則には一つの例外があります．
+<a class="reference internal" href="#ghci-cmd-:load"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:load</span></code></a> を使ってプログラムをロードするとき，
+あるいは <code class="docutils literal"><span class="pre">ghci</span></code> を起動するときには，モジュール名ではなくファイル名を指定することができます．
+その名前のファイルがあれば，それをロードします．
+このときそのファイルにはどのような名前のモジュールを含んでいてもかまいません．
+これは，複数の <code class="docutils literal"><span class="pre">Main</span></code> モジュールが1つのディレクトリにある場合，
+全てを <code class="docutils literal"><span class="pre">Main.hs</span></code> と呼ぶことはできませんので，特に便利です．</p>
+<p>ソースファイルを探すときの探索パスは，次に示すように，
+GHCiを起動するコマンドラインで <a class="reference internal" href="separate_compilation.html#ghc-flag--i"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-i</span></code></a> オプションで指定できます．</p>
 <div class="highlight-none"><div class="highlight"><pre>ghci -idir1:...:dirn
 </pre></div>
 </div>
-<p>or it can be set using the <a class="reference internal" href="#ghci-cmd-:set"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:set</span></code></a> command from within GHCi (see
-<a class="reference internal" href="#ghci-cmd-line-options"><span>Setting GHC command-line options in GHCi</span></a>) <a class="footnote-reference" href="#id9" id="id8">[4]</a></p>
-<p>One consequence of the way that GHCi follows dependencies to find
-modules to load is that every module must have a source file. The only
-exception to the rule is modules that come from a package, including the
-<code class="docutils literal"><span class="pre">Prelude</span></code> and standard libraries such as <code class="docutils literal"><span class="pre">IO</span></code> and <code class="docutils literal"><span class="pre">Complex</span></code>. If
-you attempt to load a module for which GHCi can&#8217;t find a source file,
-even if there are object and interface files for the module, you&#8217;ll get
-an error message.</p>
-<table class="docutils footnote" frame="void" id="id9" rules="none">
+<p>あるいは，GHCiの中で <a class="reference internal" href="#ghci-cmd-:set"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:set</span></code></a> コマンドで指定できます
+(<a class="reference internal" href="#ghci-cmd-line-options"><span>Setting GHC command-line options in GHCi</span></a> 参照) <a class="footnote-reference" href="#id10" id="id9">[4]</a></p>
+<p>GHCiは，このように依存関係を追ってロードすべきモジュールを見つけようとするので，
+モジュールごとに，1つのソースファイルがなければなりません．
+この規則の唯一の例外はパッケージ由来のモジュールで，それには <code class="docutils literal"><span class="pre">Prelude</span></code> のほか
+<code class="docutils literal"><span class="pre">IO</span></code> や <code class="docutils literal"><span class="pre">Complex</span></code> といった標準ライブラリも含まれます．
+モジュールをロードしようとしたとき，GHCiがソースファイルを見つけられなければ，
+たとえ，そのモジュールのオブジェクトファイルやインターフェイスファイルがあったとしても，
+エラーメッセージが表示されます．</p>
+<table class="docutils footnote" frame="void" id="id10" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
-<tr><td class="label"><a class="fn-backref" href="#id8">[4]</a></td><td>Note that in GHCi, and <a class="reference internal" href="using.html#ghc-flag---make"><code class="xref std std-ghc-flag docutils literal"><span class="pre">--make</span></code></a> mode, the <a class="reference internal" href="separate_compilation.html#ghc-flag--i"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-i</span></code></a> option is used to
-specify the search path for <em>source</em> files, whereas in standard
-batch-compilation mode the <a class="reference internal" href="separate_compilation.html#ghc-flag--i"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-i</span></code></a> option is used to specify the
-search path for interface files, see <a class="reference internal" href="separate_compilation.html#search-path"><span>The search path</span></a>.</td></tr>
+<tr><td class="label"><a class="fn-backref" href="#id9">[4]</a></td><td>GHCiや <a class="reference internal" href="using.html#ghc-flag---make"><code class="xref std std-ghc-flag docutils literal"><span class="pre">--make</span></code></a> モードでは <a class="reference internal" href="separate_compilation.html#ghc-flag--i"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-i</span></code></a> オプションは，
+<em>ソースファイル</em> の探索パスを指定するのに対し，標準の一括コンパイルモードでは
+<a class="reference internal" href="separate_compilation.html#ghc-flag--i"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-i</span></code></a> オプションはインターフェイスファイルの探索パスを指定することに注意してください．
+詳しくは <a class="reference internal" href="separate_compilation.html#search-path"><span>The search path</span></a> を参照してください．</td></tr>
 </tbody>
 </table>
 </div>
-<div class="section" id="making-changes-and-recompilation">
-<h3>5.2.2. Making changes and recompilation<a class="headerlink" href="#making-changes-and-recompilation" title="このヘッドラインへのパーマリンク">¶</a></h3>
-<p id="index-4">If you make some changes to the source code and want GHCi to recompile
-the program, give the <a class="reference internal" href="#ghci-cmd-:reload"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:reload</span></code></a> command. The program will be
-recompiled as necessary, with GHCi doing its best to avoid actually
-recompiling modules if their external dependencies haven&#8217;t changed. This
-is the same mechanism we use to avoid re-compiling modules in the batch
-compilation setting (see <a class="reference internal" href="separate_compilation.html#recomp"><span>The recompilation checker</span></a>).</p>
+<div class="section" id="id11">
+<h3>5.2.2. ソースコードの変更と再コンパイル<a class="headerlink" href="#id11" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<p id="index-4">ソースコードに変更を加えて，GHCiに再コンパイルさせたいときは <a class="reference internal" href="#ghci-cmd-:reload"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:reload</span></code></a>
+コマンドを使います．
+プログラムは必要に応じて再コンパイルされます．
+このとき，GHCiは依存関係の変化がないモジュールを実際に再コンパイルするのを避けようと最善をつくします．
+これは一括コンパイル時に再コンパイルを避ける機構と同じです
+(<a class="reference internal" href="separate_compilation.html#recomp"><span>The recompilation checker</span></a> 参照)．</p>
 </div>
 </div>
 <div class="section" id="loading-compiled-code">
@@ -1168,7 +1169,7 @@ running computation in order to examine the values of variables. The
 debugger is integrated into GHCi, and is turned on by default: no flags
 are required to enable the debugging facilities. There is one major
 restriction: breakpoints and single-stepping are only available in
-interpreted modules; compiled code is invisible to the debugger <a class="footnote-reference" href="#id16" id="id10">[5]</a>.</p>
+interpreted modules; compiled code is invisible to the debugger <a class="footnote-reference" href="#id18" id="id12">[5]</a>.</p>
 <p>The debugger provides the following:</p>
 <ul class="simple">
 <li>The ability to set a breakpoint on a function definition or
@@ -1246,7 +1247,7 @@ can use the <a class="reference internal" href="#ghci-cmd-:list"><code class="xr
 <p>The <a class="reference internal" href="#ghci-cmd-:list"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:list</span></code></a> command lists the source code around the current
 breakpoint. If your output device supports it, then GHCi will highlight
 the active subexpression in bold.</p>
-<p>GHCi has provided bindings for the free variables <a class="footnote-reference" href="#id17" id="id11">[6]</a> of the expression
+<p>GHCi has provided bindings for the free variables <a class="footnote-reference" href="#id19" id="id13">[6]</a> of the expression
 on which the breakpoint was placed (<code class="docutils literal"><span class="pre">a</span></code>, <code class="docutils literal"><span class="pre">left</span></code>, <code class="docutils literal"><span class="pre">right</span></code>), and
 additionally a binding for the result of the expression (<code class="docutils literal"><span class="pre">_result</span></code>).
 These variables are just like other variables that you might define in
@@ -1343,7 +1344,7 @@ right :: [a]
 <p>The execution continued at the point it previously stopped, and has now
 stopped at the breakpoint for a second time.</p>
 <div class="section" id="setting-breakpoints">
-<span id="id12"></span><h4>5.5.1.1. Setting breakpoints<a class="headerlink" href="#setting-breakpoints" title="このヘッドラインへのパーマリンク">¶</a></h4>
+<span id="id14"></span><h4>5.5.1.1. Setting breakpoints<a class="headerlink" href="#setting-breakpoints" title="このヘッドラインへのパーマリンク">¶</a></h4>
 <p>Breakpoints can be set in various ways. Perhaps the easiest way to set a
 breakpoint is to name a top-level function:</p>
 <div class="highlight-none"><div class="highlight"><pre>:break identifier
@@ -1404,7 +1405,7 @@ given in the output from <a class="reference internal" href="#ghci-cmd-:show bre
 </div>
 </div>
 <div class="section" id="single-stepping">
-<span id="id13"></span><h3>5.5.2. Single-stepping<a class="headerlink" href="#single-stepping" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<span id="id15"></span><h3>5.5.2. Single-stepping<a class="headerlink" href="#single-stepping" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <p>Single-stepping is a great way to visualise the execution of your
 program, and it is also a useful tool for identifying the source of a
 bug. GHCi offers two variants of stepping. Use <a class="reference internal" href="#ghci-cmd-:step"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:step</span></code></a> to enable all
@@ -1445,7 +1446,7 @@ _result :: [Integer]
 </div>
 </div>
 <div class="section" id="nested-breakpoints">
-<span id="id14"></span><h3>5.5.3. Nested breakpoints<a class="headerlink" href="#nested-breakpoints" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<span id="id16"></span><h3>5.5.3. Nested breakpoints<a class="headerlink" href="#nested-breakpoints" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <p>When GHCi is stopped at a breakpoint, and an expression entered at the
 prompt triggers a second breakpoint, the new breakpoint becomes the
 &#8220;current&#8221; one, and the old one is saved on a stack. An arbitrary number
@@ -1801,7 +1802,7 @@ unloaded, and you&#8217;ll be dumped back into the <code class="docutils literal
 <p id="index-18">Extra libraries may be specified on the command line using the normal
 <code class="docutils literal"><span class="pre">-llib</span></code> option. (The term <em>library</em> here refers to libraries of
 foreign object code; for using libraries of Haskell source code, see
-<a class="reference internal" href="#ghci-modules-filenames"><span>Modules vs. filenames</span></a>.) For example, to load the “m” library:</p>
+<a class="reference internal" href="#ghci-modules-filenames"><span>モジュールとファイル名</span></a>.) For example, to load the “m” library:</p>
 <div class="highlight-none"><div class="highlight"><pre>$ ghci -lm
 </pre></div>
 </div>
@@ -1825,7 +1826,7 @@ to the command line.</p>
 </div>
 </div>
 <div class="section" id="ghci-commands">
-<span id="id15"></span><h2>5.7. GHCi commands<a class="headerlink" href="#ghci-commands" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<span id="id17"></span><h2>5.7. GHCi commands<a class="headerlink" href="#ghci-commands" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <p>GHCi commands all begin with &#8220;<code class="docutils literal"><span class="pre">:</span></code>&#8221; and consist of a single command
 name followed by zero or more parameters. The command name may be
 abbreviated, with ambiguities being resolved in favour of the more
@@ -3022,17 +3023,17 @@ program thus:</p>
 </div>
 </dd>
 </dl>
-<table class="docutils footnote" frame="void" id="id16" rules="none">
+<table class="docutils footnote" frame="void" id="id18" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
-<tr><td class="label"><a class="fn-backref" href="#id10">[5]</a></td><td>Note that packages only contain compiled code, so debugging a package
+<tr><td class="label"><a class="fn-backref" href="#id12">[5]</a></td><td>Note that packages only contain compiled code, so debugging a package
 requires finding its source and loading that directly.</td></tr>
 </tbody>
 </table>
-<table class="docutils footnote" frame="void" id="id17" rules="none">
+<table class="docutils footnote" frame="void" id="id19" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
-<tr><td class="label"><a class="fn-backref" href="#id11">[6]</a></td><td>We originally provided bindings for all variables in scope, rather
+<tr><td class="label"><a class="fn-backref" href="#id13">[6]</a></td><td>We originally provided bindings for all variables in scope, rather
 than just the free variables of the expression, but found that this
 affected performance considerably, hence the current restriction to
 just the free variables.</td></tr>
