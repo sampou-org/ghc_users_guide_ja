@@ -80,7 +80,7 @@
 </ul>
 </li>
 <li><a class="reference internal" href="#main-run">5.4.6. <code class="docutils literal"><span class="pre">:main</span></code> コマンドと <code class="docutils literal"><span class="pre">:run</span></code> コマンド</a></li>
-<li><a class="reference internal" href="#the-it-variable">5.4.7. The <code class="docutils literal"><span class="pre">it</span></code> variable</a></li>
+<li><a class="reference internal" href="#it">5.4.7. <code class="docutils literal"><span class="pre">it</span></code> 変数</a></li>
 <li><a class="reference internal" href="#type-defaulting-in-ghci">5.4.8. Type defaulting in GHCi</a><ul>
 <li><a class="reference internal" href="#interactive-classes">5.4.8.1. Interactive classes</a></li>
 <li><a class="reference internal" href="#extended-rules-around-default-declarations">5.4.8.2. Extended rules around <code class="docutils literal"><span class="pre">default</span></code> declarations</a></li>
@@ -908,27 +908,27 @@ bar
 </pre></div>
 </div>
 </div>
-<div class="section" id="the-it-variable">
-<h3>5.4.7. The <code class="docutils literal"><span class="pre">it</span></code> variable<a class="headerlink" href="#the-it-variable" title="このヘッドラインへのパーマリンク">¶</a></h3>
-<p id="index-9">Whenever an expression (or a non-binding statement, to be precise) is
-typed at the prompt, GHCi implicitly binds its value to the variable
-<code class="docutils literal"><span class="pre">it</span></code>. For example:</p>
+<div class="section" id="it">
+<h3>5.4.7. <code class="docutils literal"><span class="pre">it</span></code> 変数<a class="headerlink" href="#it" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<span class="target" id="index-9"></span><p>プロンプトに式(正確には非束縛文)を入力すると，
+GHCi は暗黙のうちにその値で <code class="docutils literal"><span class="pre">it</span></code> を束縛します．
+以下はその一例です．</p>
 <div class="highlight-none"><div class="highlight"><pre>Prelude&gt; 1+2
 3
 Prelude&gt; it * 2
 6
 </pre></div>
 </div>
-<p>What actually happens is that GHCi typechecks the expression, and if it
-doesn&#8217;t have an <code class="docutils literal"><span class="pre">IO</span></code> type, then it transforms it as follows: an
-expression <code class="docutils literal"><span class="pre">e</span></code> turns into</p>
+<p>実際はなにが起こっているかというと，GHCi は型検査を行い，その式の型が <code class="docutils literal"><span class="pre">IO</span></code> 型でなければ，
+次のように変形します．
+すなわち，ここで当該の式を <code class="docutils literal"><span class="pre">e</span></code> とすると,</p>
 <div class="highlight-none"><div class="highlight"><pre>let it = e;
 print it
 </pre></div>
 </div>
-<p>which is then run as an IO-action.</p>
-<p>Hence, the original expression must have a type which is an instance of
-the <code class="docutils literal"><span class="pre">Show</span></code> class, or GHCi will complain:</p>
+<p>のように変形したのち，これをIOアクションとして実行します．</p>
+<p>そういう訳で，元の式の型は <code class="docutils literal"><span class="pre">Show</span></code> クラスのインスタンスでなければなりません．
+<code class="docutils literal"><span class="pre">Show</span></code> クラスのインスタンスでなかったら，GHCiは文句をいいます．</p>
 <div class="highlight-none"><div class="highlight"><pre>Prelude&gt; id
 
 &lt;interactive&gt;:1:0:
@@ -939,23 +939,21 @@ the <code class="docutils literal"><span class="pre">Show</span></code> class, o
     In a &#39;do&#39; expression: print it
 </pre></div>
 </div>
-<p>The error message contains some clues as to the transformation happening
-internally.</p>
-<p>If the expression was instead of type <code class="docutils literal"><span class="pre">IO</span> <span class="pre">a</span></code> for some <code class="docutils literal"><span class="pre">a</span></code>, then
-<code class="docutils literal"><span class="pre">it</span></code> will be bound to the result of the <code class="docutils literal"><span class="pre">IO</span></code> computation, which is
-of type <code class="docutils literal"><span class="pre">a</span></code>. eg.:</p>
+<p>このエラーメッセージから，内部の変形で何が起こったのか少しだけうかがい知ることができます．</p>
+<p>式の型がなにがしかの型 <code class="docutils literal"><span class="pre">a</span></code> について <code class="docutils literal"><span class="pre">IO</span> <span class="pre">a</span></code> 型である場合には，
+<code class="docutils literal"><span class="pre">it</span></code> はその <code class="docutils literal"><span class="pre">IO</span></code> コンピュテーションの結果，つまり <code class="docutils literal"><span class="pre">a</span></code> 型の値で束縛されます．</p>
 <div class="highlight-none"><div class="highlight"><pre>Prelude&gt; Data.Time.getZonedTime
 2017-04-10 12:34:56.93213581 UTC
 Prelude&gt; print it
 2017-04-10 12:34:56.93213581 UTC
 </pre></div>
 </div>
-<p>The corresponding translation for an IO-typed <code class="docutils literal"><span class="pre">e</span></code> is</p>
+<p>IO型の式 <code class="docutils literal"><span class="pre">e</span></code> に対する変形は，</p>
 <div class="highlight-none"><div class="highlight"><pre>it &lt;- e
 </pre></div>
 </div>
-<p>Note that <code class="docutils literal"><span class="pre">it</span></code> is shadowed by the new value each time you evaluate a
-new expression, and the old value of <code class="docutils literal"><span class="pre">it</span></code> is lost.</p>
+<p>となります．</p>
+<p>新しい式を評価するたびに <code class="docutils literal"><span class="pre">it</span></code> の値は新しい値でシャドウされ，古い <code class="docutils literal"><span class="pre">it</span></code> の値は失われることに注意してください．</p>
 </div>
 <div class="section" id="type-defaulting-in-ghci">
 <span id="extended-default-rules"></span><h3>5.4.8. Type defaulting in GHCi<a class="headerlink" href="#type-defaulting-in-ghci" title="このヘッドラインへのパーマリンク">¶</a></h3>
