@@ -3411,100 +3411,198 @@ GHCi がブレイクポイントで停止したとき，プロンプトに式を
    Tracing and history
    ~~~~~~~~~~~~~~~~~~~
 
-A question that we often want to ask when debugging a program is “how
-did I get here?”. Traditional imperative debuggers usually provide some
-kind of stack-tracing feature that lets you see the stack of active
-function calls (sometimes called the “lexical call stack”), describing a
-path through the code to the current location. Unfortunately this is
-hard to provide in Haskell, because execution proceeds on a
-demand-driven basis, rather than a depth-first basis as in strict
-languages. The “stack“ in GHC's execution engine bears little
-resemblance to the lexical call stack. Ideally GHCi would maintain a
-separate lexical call stack in addition to the dynamic call stack, and
-in fact this is exactly what our profiling system does
-(:ref:`profiling`), and what some other Haskell debuggers do. For the
-time being, however, GHCi doesn't maintain a lexical call stack (there
-are some technical challenges to be overcome). Instead, we provide a way
-to backtrack from a breakpoint to previous evaluation steps: essentially
-this is like single-stepping backwards, and should in many cases provide
-enough information to answer the "how did I get here?" question.
+.. _tracing:
 
-To use tracing, evaluate an expression with the :ghci-cmd:`:trace` command. For
-example, if we set a breakpoint on the base case of ``qsort``:
+トレースとヒストリ
+~~~~~~~~~~~~~~~~~~
+
+..
+   A question that we often want to ask when debugging a program is “how
+   did I get here?”. Traditional imperative debuggers usually provide some
+   kind of stack-tracing feature that lets you see the stack of active
+   function calls (sometimes called the “lexical call stack”), describing a
+   path through the code to the current location. Unfortunately this is
+   hard to provide in Haskell, because execution proceeds on a
+   demand-driven basis, rather than a depth-first basis as in strict
+   languages. The “stack“ in GHC's execution engine bears little
+   resemblance to the lexical call stack. Ideally GHCi would maintain a
+   separate lexical call stack in addition to the dynamic call stack, and
+   in fact this is exactly what our profiling system does
+   (:ref:`profiling`), and what some other Haskell debuggers do. For the
+   time being, however, GHCi doesn't maintain a lexical call stack (there
+   are some technical challenges to be overcome). Instead, we provide a way
+   to backtrack from a breakpoint to previous evaluation steps: essentially
+   this is like single-stepping backwards, and should in many cases provide
+   enough information to answer the "how did I get here?" question.
+
+プログラムをデバッグしている時によく「どうやってここに来たの？」と思うことがあります．
+伝統的な命令的デバッガは通常なにがしかのスタックトレース機能を持っていて，
+それを使ってアクティブな関数呼び出しのスタック(「レキシカルコールスタック」と呼ばれることも)を
+確認できます．
+このスタックによって，現在の位置に至るまでのコード上の道のりが判ります．
+残念ながら，これをHaskellで用意するのは難しいのです．
+正格な言語と違って，実行は深さ優先ではなく必要に応じて進むからです．
+GHCの実行エンジンにある「スタック」は字句的呼び出しスタックとは大きく異なります．
+理想的には，GHCがこの動的な呼び出しスタックに加えて，字句的呼び出しスタックを管理すれば良く，
+実はプロファイルシステムはまさにこれを行っています(:ref:`profiling`)．
+他のHaskellデバッガにもこれをしているものがある．
+しかし，現在のところGHCiは字句的呼び出しスタックを管理していません
+(克服せねばならない技術的困難がいくつかあります)．
+代わりにブレークポイントから直前の評価ステップに戻る方法を用意しています．
+これは要するにステップ実行を逆向きにするのと同じです．
+多くの場合「どうやってここに来たの？」という疑問を解決するのに十分な情報がえられます．
+
+..
+   To use tracing, evaluate an expression with the :ghci-cmd:`:trace` command. For
+   example, if we set a breakpoint on the base case of ``qsort``:
+
+   .. code-block:: none
+
+       *Main> :list qsort
+       1  qsort [] = []
+       2  qsort (a:as) = qsort left ++ [a] ++ qsort right
+       3    where (left,right) = (filter (<=a) as, filter (>a) as)
+       4
+       *Main> :b 1
+       Breakpoint 1 activated at qsort.hs:1:11-12
+       *Main>
+
+   and then run a small ``qsort`` with tracing:
+
+   .. code-block:: none
+
+       *Main> :trace qsort [3,2,1]
+       Stopped at qsort.hs:1:11-12
+       _result :: [a]
+       [qsort.hs:1:11-12] *Main>
+
+トレース機能を使うには，式を :ghci-cmd:`:trace` コマンドで評価します．
+たとえば ``qsort`` のベースケースにブレイクポイントを設定します．
 
 .. code-block:: none
 
     *Main> :list qsort
     1  qsort [] = []
     2  qsort (a:as) = qsort left ++ [a] ++ qsort right
-    3    where (left,right) = (filter (<=a) as, filter (>a) as)
-    4
-    *Main> :b 1
-    Breakpoint 1 activated at qsort.hs:1:11-12
-    *Main>
+    *Main> :break 1
+    Breakpoint 0 activated at qsort.hs:1:12-13
+    *Main> 
 
-and then run a small ``qsort`` with tracing:
+こうしておいて，小さいデータに ``qsort`` をトレース付きで実行します．
 
 .. code-block:: none
 
     *Main> :trace qsort [3,2,1]
-    Stopped at qsort.hs:1:11-12
-    _result :: [a]
-    [qsort.hs:1:11-12] *Main>
+    Stopped in Main.qsort, qsort.hs:1:12-13
+    _result :: [a] = _
+    [qsort.hs:1:12-13] *Main> 
 
-We can now inspect the history of evaluation steps:
+..
+   We can now inspect the history of evaluation steps:
+
+   .. code-block:: none
+
+       [qsort.hs:1:11-12] *Main> :hist
+       -1  : qsort.hs:3:24-38
+       -2  : qsort.hs:3:23-55
+       -3  : qsort.hs:(1,0)-(3,55)
+       -4  : qsort.hs:2:15-24
+       -5  : qsort.hs:2:15-46
+       -6  : qsort.hs:3:24-38
+       -7  : qsort.hs:3:23-55
+       -8  : qsort.hs:(1,0)-(3,55)
+       -9  : qsort.hs:2:15-24
+       -10 : qsort.hs:2:15-46
+       -11 : qsort.hs:3:24-38
+       -12 : qsort.hs:3:23-55
+       -13 : qsort.hs:(1,0)-(3,55)
+       -14 : qsort.hs:2:15-24
+       -15 : qsort.hs:2:15-46
+       -16 : qsort.hs:(1,0)-(3,55)
+       <end of history>
+
+これで評価ステップのヒストリを確認できます．
 
 .. code-block:: none
 
-    [qsort.hs:1:11-12] *Main> :hist
-    -1  : qsort.hs:3:24-38
-    -2  : qsort.hs:3:23-55
-    -3  : qsort.hs:(1,0)-(3,55)
-    -4  : qsort.hs:2:15-24
-    -5  : qsort.hs:2:15-46
-    -6  : qsort.hs:3:24-38
-    -7  : qsort.hs:3:23-55
-    -8  : qsort.hs:(1,0)-(3,55)
-    -9  : qsort.hs:2:15-24
-    -10 : qsort.hs:2:15-46
-    -11 : qsort.hs:3:24-38
-    -12 : qsort.hs:3:23-55
-    -13 : qsort.hs:(1,0)-(3,55)
-    -14 : qsort.hs:2:15-24
-    -15 : qsort.hs:2:15-46
-    -16 : qsort.hs:(1,0)-(3,55)
+    [qsort.hs:1:12-13] *Main> :history
+    -1  : qsort:(...) (qsort.hs:3:25-39)
+    -2  : qsort:(...) (qsort.hs:3:24-56)
+    -3  : qsort (qsort.hs:2:16-25)
+    -4  : qsort (qsort.hs:2:16-47)
+    -5  : qsort:(...) (qsort.hs:3:25-39)
+    -6  : qsort:(...) (qsort.hs:3:24-56)
+    -7  : qsort (qsort.hs:2:16-25)
+    -8  : qsort (qsort.hs:2:16-47)
+    -9  : qsort:(...) (qsort.hs:3:25-39)
+    -10 : qsort:(...) (qsort.hs:3:24-56)
+    -11 : qsort (qsort.hs:2:16-25)
+    -12 : qsort (qsort.hs:2:16-47)
     <end of history>
 
-To examine one of the steps in the history, use :ghci-cmd:`:back`:
+..
+   To examine one of the steps in the history, use :ghci-cmd:`:back`:
+
+   .. code-block:: none
+
+       [qsort.hs:1:11-12] *Main> :back
+       Logged breakpoint at qsort.hs:3:24-38
+       _result :: [a]
+       as :: [a]
+       a :: a
+       [-1: qsort.hs:3:24-38] *Main>
+
+ヒストリ中の特定のステップを調べるには :ghci-cmd:`:back` を使います．
 
 .. code-block:: none
 
-    [qsort.hs:1:11-12] *Main> :back
-    Logged breakpoint at qsort.hs:3:24-38
-    _result :: [a]
-    as :: [a]
-    a :: a
-    [-1: qsort.hs:3:24-38] *Main>
+    [qsort.hs:1:12-13] *Main> :back
+    Logged breakpoint at qsort.hs:3:25-39
+    _result :: [Integer]
+    a :: Integer
+    as :: [Integer]
+    [-1: qsort.hs:3:25-39] *Main> 
 
-Note that the local variables at each step in the history have been
-preserved, and can be examined as usual. Also note that the prompt has
-changed to indicate that we're currently examining the first step in the
-history: ``-1``. The command :ghci-cmd:`:forward` can be used to traverse
-forward in the history.
+..
+   Note that the local variables at each step in the history have been
+   preserved, and can be examined as usual. Also note that the prompt has
+   changed to indicate that we're currently examining the first step in the
+   history: ``-1``. The command :ghci-cmd:`:forward` can be used to traverse
+   forward in the history.
 
-The :ghci-cmd:`:trace` command can be used with or without an expression. When
-used without an expression, tracing begins from the current breakpoint,
-just like :ghci-cmd:`:step`.
+ヒストリ中の各ステップにおけるローカル変数は保存されており，
+通常と同じように値を調べられるということに注目してください．
+さらに，プロンプトが変わって ``-1`` のように，ヒストリの最初のステップを調べていることを示しています．
+:ghci-cmd:`:forward` コマンドを使えば，ヒストリを前方にたどれます．
 
-The history is only available when using :ghci-cmd:`:trace`; the reason for this
-is we found that logging each breakpoint in the history cuts performance
-by a factor of 2 or more.
+..
+   The :ghci-cmd:`:trace` command can be used with or without an expression. When
+   used without an expression, tracing begins from the current breakpoint,
+   just like :ghci-cmd:`:step`.
+
+:ghci-cmd:`:trace` コマンドには式を与えても与えなくてもかまいません．
+式を与えなかった場合は :ghci-cmd:`:step` と同様，現在のブレイクポイントからトレースが始まります．
+
+..
+   The history is only available when using :ghci-cmd:`:trace`; the reason for this
+   is we found that logging each breakpoint in the history cuts performance
+   by a factor of 2 or more.
+
+ヒストリは :ghci-cmd:`:trace` を使ったときにしか記録されません．
+そのようになっているのは，全てのブレイクポイントをヒストリに記録することで性能が2倍以上に悪化することが判っているからである．
+
+..
+   .. ghc-flag:: -fghci-hist-size=⟨n⟩
+
+       :default: 50
+
+       Modify the depth of the evaluation history tracked by GHCi.
 
 .. ghc-flag:: -fghci-hist-size=⟨n⟩
 
     :default: 50
 
-    Modify the depth of the evaluation history tracked by GHCi.
+    GHCi で追跡する評価ヒストリの深さを変更する
 
 .. _ghci-debugger-exceptions:
 
