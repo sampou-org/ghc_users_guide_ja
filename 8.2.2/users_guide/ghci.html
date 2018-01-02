@@ -100,7 +100,7 @@
 <li><a class="reference internal" href="#nested-breakpoints">5.5.3. ブレイクポイントのネスト</a></li>
 <li><a class="reference internal" href="#result">5.5.4. <code class="docutils literal"><span class="pre">_result</span></code> 変数</a></li>
 <li><a class="reference internal" href="#tracing">5.5.5. トレースとヒストリ</a></li>
-<li><a class="reference internal" href="#debugging-exceptions">5.5.6. Debugging exceptions</a></li>
+<li><a class="reference internal" href="#ghci-debugger-exceptions">5.5.6. 例外のデバッグ</a></li>
 <li><a class="reference internal" href="#example-inspecting-functions">5.5.7. Example: inspecting functions</a></li>
 <li><a class="reference internal" href="#limitations">5.5.8. Limitations</a></li>
 </ul>
@@ -1125,7 +1125,7 @@ GHCi に対する <code class="docutils literal"><span class="pre">-prof</span><
 デバッグ機能を有効にするのにフラグは必要ありません．
 1つ重要な制限があります．
 それは，ブレイクポイントとステップ実行は解釈実行されているモジュールでしか使えないということです．
-コンパイル済みのコードはデバッガからは見えません <a class="footnote-reference" href="#id32" id="id23">[5]</a> ．</p>
+コンパイル済みのコードはデバッガからは見えません <a class="footnote-reference" href="#id33" id="id23">[5]</a> ．</p>
 <p>このデバッガが提供する機能は以下のとおりです．</p>
 <ul class="simple">
 <li>プログラム中の関数定義や式にブレイクポイントを設定する機能．
@@ -1145,7 +1145,7 @@ GHCi に対する <code class="docutils literal"><span class="pre">-prof</span><
 トレース機能と履歴機能が次善の策として提供されており，
 エラー発生時の状況を知るには十分であることも多いのです．
 たとえコンパイル済みのコードから例外が投げられたときでも，自動的にブレイクするようにできます
-(<a class="reference internal" href="#ghci-debugger-exceptions"><span>Debugging exceptions</span></a> 参照)．</p>
+(<a class="reference internal" href="#ghci-debugger-exceptions"><span>例外のデバッグ</span></a> 参照)．</p>
 <div class="section" id="breakpoints">
 <span id="id24"></span><h3>5.5.1. ブレイクポイントと変数内容の表示<a class="headerlink" href="#breakpoints" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <p>実際に動く例としてクイックソートを使いましょう．以下がそのコードです．</p>
@@ -1197,7 +1197,7 @@ right :: [Integer] = _
 </div>
 <p><a class="reference internal" href="#ghci-cmd-:list"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:list</span></code></a> コマンドは，現在のブレイクポイントの周囲のコードを表示します．
 出力デバイスがサポートしている場合は，注目している部分式がボールド体で表示されます．</p>
-<p>GHCiは，ブレイクポイントを置いた式の自由変数 <a class="footnote-reference" href="#id33" id="id25">[6]</a> (<code class="docutils literal"><span class="pre">a</span></code> ， <code class="docutils literal"><span class="pre">left</span></code> ， <code class="docutils literal"><span class="pre">right</span></code>)
+<p>GHCiは，ブレイクポイントを置いた式の自由変数 <a class="footnote-reference" href="#id34" id="id25">[6]</a> (<code class="docutils literal"><span class="pre">a</span></code> ， <code class="docutils literal"><span class="pre">left</span></code> ， <code class="docutils literal"><span class="pre">right</span></code>)
 に対する束縛および当該式の結果(<code class="docutils literal"><span class="pre">_result</span></code>)に対する束縛も提供しています．
 これらの変数は，GHCi上で普通に定義する他の変数と同じです．
 プロンプトで入力する式の中で使ったり， <a class="reference internal" href="#ghci-cmd-:type"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:type</span></code></a> コマンドで型を確認するなどが可能です．</p>
@@ -1489,65 +1489,61 @@ as :: [Integer]
 </dd></dl>
 
 </div>
-<div class="section" id="debugging-exceptions">
-<span id="ghci-debugger-exceptions"></span><h3>5.5.6. Debugging exceptions<a class="headerlink" href="#debugging-exceptions" title="このヘッドラインへのパーマリンク">¶</a></h3>
-<p>Another common question that comes up when debugging is &#8220;where did this
-exception come from?&#8221;. Exceptions such as those raised by <code class="docutils literal"><span class="pre">error</span></code> or
-<code class="docutils literal"><span class="pre">head</span> <span class="pre">[]</span></code> have no context information attached to them. Finding which
-particular call to <code class="docutils literal"><span class="pre">head</span></code> in your program resulted in the error can be
-a painstaking process, usually involving <code class="docutils literal"><span class="pre">Debug.Trace.trace</span></code>, or
-compiling with profiling and using <code class="docutils literal"><span class="pre">Debug.Trace.traceStack</span></code> or
-<code class="docutils literal"><span class="pre">+RTS</span> <span class="pre">-xc</span></code> (see <a class="reference internal" href="runtime_control.html#rts-flag--xc"><code class="xref std std-rts-flag docutils literal"><span class="pre">-xc</span></code></a>).</p>
-<p>The GHCi debugger offers a way to hopefully shed some light on these
-errors quickly and without modifying or recompiling the source code. One
-way would be to set a breakpoint on the location in the source code that
-throws the exception, and then use <a class="reference internal" href="#ghci-cmd-:trace"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:trace</span></code></a> and <a class="reference internal" href="#ghci-cmd-:history"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:history</span></code></a> to
-establish the context. However, <code class="docutils literal"><span class="pre">head</span></code> is in a library and we can&#8217;t
-set a breakpoint on it directly. For this reason, GHCi provides the
-flags <a class="reference internal" href="#ghc-flag--fbreak-on-exception"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-fbreak-on-exception</span></code></a> which causes the evaluator to stop when
-an exception is thrown, and <a class="reference internal" href="#ghc-flag--fbreak-on-error"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-fbreak-on-error</span></code></a>, which works similarly
-but stops only on uncaught exceptions. When stopping at an exception,
-GHCi will act just as it does when a breakpoint is hit, with the
-deviation that it will not show you any source code location. Due to
-this, these commands are only really useful in conjunction with
-<a class="reference internal" href="#ghci-cmd-:trace"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:trace</span></code></a>, in order to log the steps leading up to the exception. For
-example:</p>
+<div class="section" id="ghci-debugger-exceptions">
+<span id="id31"></span><h3>5.5.6. 例外のデバッグ<a class="headerlink" href="#ghci-debugger-exceptions" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<p>デバッグの際にもうひとつ思うことは「この例外はどこから来たの？」ということです．
+<code class="docutils literal"><span class="pre">error</span></code> や <code class="docutils literal"><span class="pre">head</span> <span class="pre">[]</span></code> などが引き起こすような例外には文脈情報がついていません．
+プログラム中のどの <code class="docutils literal"><span class="pre">head</span></code> 呼び出しがエラーになったかを探すのは骨の折れる仕事です．
+たいていの場合 <code class="docutils literal"><span class="pre">Debug.Trace.trace</span></code> を仕込むか，プロファイル指定でコンパイルして
+<code class="docutils literal"><span class="pre">Debug.Trace.traceStack</span></code> を使うか <code class="docutils literal"><span class="pre">+RTS</span> <span class="pre">-xc</span></code> (<a class="reference internal" href="runtime_control.html#rts-flag--xc"><code class="xref std std-rts-flag docutils literal"><span class="pre">-xc</span></code></a> 参照)を使うかです．</p>
+<p>GHCiデバッガはソースコードを書き換えたり，再コンパイルしたりすることなく，
+てばやく，この手のエラーに光を当てる方法を提供しています．
+ひとつの方法は，ソースコード中で例外を投げる場所にブレークポイントを設定し <a class="reference internal" href="#ghci-cmd-:trace"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:trace</span></code></a> と <a class="reference internal" href="#ghci-cmd-:history"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:history</span></code></a> を使って
+文脈を把握することです．
+しかし <code class="docutils literal"><span class="pre">head</span></code> はライブラリ中にあり，そこに直接ブレークポイントを設定できません．
+そういうわけで，GHCiには <a class="reference internal" href="#ghc-flag--fbreak-on-exception"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-fbreak-on-exception</span></code></a> フラグが用意されています．
+これを使うと例外が投げられた時に評価器を停止できます．
+<a class="reference internal" href="#ghc-flag--fbreak-on-error"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-fbreak-on-error</span></code></a> も同様ですが，こちらは例外が捕捉されなかった場合のみ停止します．
+例外で停止すると，GHCiはちょうどブレークポイントに当ったのと同じように振る舞います．
+違うのは，ソースコード中の位置が表示されないということです．
+したがって <a class="reference internal" href="#ghci-cmd-:trace"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:trace</span></code></a> と組み合わせて，例外が発生する直前までのステップを記録するようにしないと
+あまり役には立ちません．
+たとえば，以下のようにします．</p>
 <div class="highlight-none"><div class="highlight"><pre>*Main&gt; :set -fbreak-on-exception
 *Main&gt; :trace qsort (&quot;abc&quot; ++ undefined)
-“Stopped at &lt;exception thrown&gt;
-_exception :: e
-[&lt;exception thrown&gt;] *Main&gt; :hist
--1  : qsort.hs:3:24-38
--2  : qsort.hs:3:23-55
--3  : qsort.hs:(1,0)-(3,55)
--4  : qsort.hs:2:15-24
--5  : qsort.hs:2:15-46
--6  : qsort.hs:(1,0)-(3,55)
+&quot;Stopped in &lt;exception thrown&gt;, &lt;unknown&gt;
+_exception :: e = _
+[&lt;unknown&gt;] *Main&gt; :hist
+-1  : qsort:(...) (qsort.hs:3:25-39)
+-2  : qsort:(...) (qsort.hs:3:24-56)
+-3  : qsort (qsort.hs:2:16-25)
+-4  : qsort (qsort.hs:2:16-47)
 &lt;end of history&gt;
-[&lt;exception thrown&gt;] *Main&gt; :back
-Logged breakpoint at qsort.hs:3:24-38
-_result :: [a]
-as :: [a]
-a :: a
-[-1: qsort.hs:3:24-38] *Main&gt; :force as
+[&lt;unknown&gt;] *Main&gt; :back
+Logged breakpoint at qsort.hs:3:25-39
+_result :: [Char]
+a :: Char
+as :: [Char]
+[-1: qsort.hs:3:25-39] *Main&gt; :force as
 *** Exception: Prelude.undefined
-[-1: qsort.hs:3:24-38] *Main&gt; :print as
+CallStack (from HasCallStack):
+error, called at libraries/base/GHC/Err.hs:79:14 in base:GHC.Err
+undefined, called at &lt;interactive&gt;:2:17 in interactive:Ghci1
+[-1: qsort.hs:3:25-39] *Main&gt; :print as
 as = &#39;b&#39; : &#39;c&#39; : (_t1::[Char])
 </pre></div>
 </div>
-<p>The exception itself is bound to a new variable, <code class="docutils literal"><span class="pre">_exception</span></code>.</p>
-<p>Breaking on exceptions is particularly useful for finding out what your
-program was doing when it was in an infinite loop. Just hit Control-C,
-and examine the history to find out what was going on.</p>
+<p>新しい変数 <code class="docutils literal"><span class="pre">_exception</span></code> が例外に束縛されます．</p>
+<p>例外発生時にブレークする機能は，プログラムが無限ループしているとき，それが何をしているかを調べるのに特に便利です．
+Ctrl-C を叩いて，履歴を見て，何が起こっていたかを調べればいいのです．</p>
 <dl class="ghc-flag">
 <dt id="ghc-flag--fbreak-on-exception">
 <code class="descname">-fbreak-on-exception</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag--fbreak-on-exception" title="この定義へのパーマリンク">¶</a></dt>
 <dt id="ghc-flag--fbreak-on-error">
 <code class="descname">-fbreak-on-error</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag--fbreak-on-error" title="この定義へのパーマリンク">¶</a></dt>
-<dd><p>Causes GHCi to halt evaluation and return to the interactive prompt
-in the event of an exception. While <a class="reference internal" href="#ghc-flag--fbreak-on-exception"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-fbreak-on-exception</span></code></a> breaks
-on all exceptions, <a class="reference internal" href="#ghc-flag--fbreak-on-error"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-fbreak-on-error</span></code></a> breaks on only those which
-would otherwise be uncaught.</p>
+<dd><p>GHCiが，例外のイベントで，評価を停止して対話プロンプトに戻るようにします．
+<a class="reference internal" href="#ghc-flag--fbreak-on-exception"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-fbreak-on-exception</span></code></a> はすべての例外でブレイクするのに対して，
+<a class="reference internal" href="#ghc-flag--fbreak-on-error"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-fbreak-on-error</span></code></a> は捕捉されない例外でのみブレイクします．</p>
 </dd></dl>
 
 </div>
@@ -1729,7 +1725,7 @@ to the command line.</p>
 </div>
 </div>
 <div class="section" id="ghci-commands">
-<span id="id31"></span><h2>5.7. GHCi commands<a class="headerlink" href="#ghci-commands" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<span id="id32"></span><h2>5.7. GHCi commands<a class="headerlink" href="#ghci-commands" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <p>GHCi commands all begin with &#8220;<code class="docutils literal"><span class="pre">:</span></code>&#8221; and consist of a single command
 name followed by zero or more parameters. The command name may be
 abbreviated, with ambiguities being resolved in favour of the more
@@ -2926,14 +2922,14 @@ program thus:</p>
 </div>
 </dd>
 </dl>
-<table class="docutils footnote" frame="void" id="id32" rules="none">
+<table class="docutils footnote" frame="void" id="id33" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
 <tr><td class="label"><a class="fn-backref" href="#id23">[5]</a></td><td>Note that packages only contain compiled code, so debugging a package
 requires finding its source and loading that directly.</td></tr>
 </tbody>
 </table>
-<table class="docutils footnote" frame="void" id="id33" rules="none">
+<table class="docutils footnote" frame="void" id="id34" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
 <tr><td class="label"><a class="fn-backref" href="#id25">[6]</a></td><td>We originally provided bindings for all variables in scope, rather
