@@ -3282,46 +3282,93 @@ GHCiは，ブレイクポイントを置いた式の自由変数 [6]_ (``a`` ，
     6  
     [qsort.hs:5:15-47] *Main> 
 
+..
+   .. _nested-breakpoints:
+
+   Nested breakpoints
+   ~~~~~~~~~~~~~~~~~~
+
 .. _nested-breakpoints:
 
-Nested breakpoints
-~~~~~~~~~~~~~~~~~~
+ブレイクポイントのネスト
+~~~~~~~~~~~~~~~~~~~~~~~~
 
-When GHCi is stopped at a breakpoint, and an expression entered at the
-prompt triggers a second breakpoint, the new breakpoint becomes the
-"current" one, and the old one is saved on a stack. An arbitrary number
-of breakpoint contexts can be built up in this way. For example:
+..
+   When GHCi is stopped at a breakpoint, and an expression entered at the
+   prompt triggers a second breakpoint, the new breakpoint becomes the
+   "current" one, and the old one is saved on a stack. An arbitrary number
+   of breakpoint contexts can be built up in this way. For example:
+
+   .. code-block:: none
+
+       [qsort.hs:2:15-46] *Main> :st qsort [1,3]
+       Stopped at qsort.hs:(1,0)-(3,55)
+       _result :: [a]
+       ... [qsort.hs:(1,0)-(3,55)] *Main>
+
+GHCi がブレイクポイントで停止したとき，プロンプトに式を入力すると，次のブレイクポイントまで進みます．
+この新しいブレイクポイントが現在のブレイクポイントとなり，古いブレイクポイントはスタックに保存されます．
+任意の数のブレイクポイント文脈はこうして作られます．
+以下はその例です．
 
 .. code-block:: none
 
-    [qsort.hs:2:15-46] *Main> :st qsort [1,3]
-    Stopped at qsort.hs:(1,0)-(3,55)
-    _result :: [a]
-    ... [qsort.hs:(1,0)-(3,55)] *Main>
+    [qsort.hs:2:16-47] *Main> :step qsort [1,3]
+    Stopped in Main.qsort, qsort.hs:2:16-47
+    _result :: [t] = _
+    a :: t = _
+    left :: [t] = _
+    right :: [t] = _
+    ... [qsort.hs:2:16-47] *Main> 
 
-While stopped at the breakpoint on line 2 that we set earlier, we
-started a new evaluation with ``:step qsort [1,3]``. This new evaluation
-stopped after one step (at the definition of ``qsort``). The prompt has
-changed, now prefixed with ``...``, to indicate that there are saved
-breakpoints beyond the current one. To see the stack of contexts, use
-:ghci-cmd:`:show context`:
+..
+   While stopped at the breakpoint on line 2 that we set earlier, we
+   started a new evaluation with ``:step qsort [1,3]``. This new evaluation
+   stopped after one step (at the definition of ``qsort``). The prompt has
+   changed, now prefixed with ``...``, to indicate that there are saved
+   breakpoints beyond the current one. To see the stack of contexts, use
+   :ghci-cmd:`:show context`:
+
+   .. code-block:: none
+
+       ... [qsort.hs:(1,0)-(3,55)] *Main> :show context
+       --> main
+	 Stopped at qsort.hs:2:15-46
+       --> qsort [1,3]
+	 Stopped at qsort.hs:(1,0)-(3,55)
+       ... [qsort.hs:(1,0)-(3,55)] *Main>
+
+前に設定した2行目のブレークポイントで停止したところで ``:step qsort [1,3]`` として新しい評価を開始したしました．
+この新しい評価は1ステップの後に(``qsort`` の定義で)停止しました．
+ここで，プロンプトが変わって先頭に ``...`` が付きます．
+これが現在のブレークポイントの他に保存されたブレークポイントがあることを示しています．
+この文脈スタックを見るには :ghci-cmd:`:show context` を使えばいいでしょう．
 
 .. code-block:: none
 
-    ... [qsort.hs:(1,0)-(3,55)] *Main> :show context
+    ... [qsort.hs:2:16-47] *Main> :show context
     --> main
-      Stopped at qsort.hs:2:15-46
+    Stopped in Main.qsort, qsort.hs:2:16-47
     --> qsort [1,3]
-      Stopped at qsort.hs:(1,0)-(3,55)
-    ... [qsort.hs:(1,0)-(3,55)] *Main>
+    Stopped in Main.qsort, qsort.hs:2:16-47
+    ... [qsort.hs:2:16-47] *Main> 
 
-To abandon the current evaluation, use :ghci-cmd:`:abandon`:
+..
+   To abandon the current evaluation, use :ghci-cmd:`:abandon`:
+
+   .. code-block:: none
+
+       ... [qsort.hs:(1,0)-(3,55)] *Main> :abandon
+       [qsort.hs:2:15-46] *Main> :abandon
+       *Main>
+
+現在の評価の結果を捨てるには :ghci-cmd:`:abandon`: を使います．
 
 .. code-block:: none
 
-    ... [qsort.hs:(1,0)-(3,55)] *Main> :abandon
-    [qsort.hs:2:15-46] *Main> :abandon
-    *Main>
+    ... [qsort.hs:2:16-47] *Main> :abandon
+    [qsort.hs:2:16-47] *Main> :abandon
+    *Main> 
 
 .. _ghci-debugger-result:
 
