@@ -2583,56 +2583,115 @@ GHCi に対する ``-prof`` フラグは ``-fexternal-interpreter`` と同時に
 ``-fprof-auto`` 付きでコンパイルしているか，明示的に ``SCC`` 注釈
 (:ref:`scc-pragma` 参照)を付けていないかぎり見ることはできません．
 
+..
+   .. _ghci-debugger:
+
+   The GHCi Debugger
+   -----------------
+
+   .. index::
+      single: debugger; in GHCi
+
 .. _ghci-debugger:
 
-The GHCi Debugger
------------------
+GHCiのデバッガ
+--------------
 
 .. index::
-   single: debugger; in GHCi
+   single: デバッガ; GHCiの〜
 
-GHCi contains a simple imperative-style debugger in which you can stop a
-running computation in order to examine the values of variables. The
-debugger is integrated into GHCi, and is turned on by default: no flags
-are required to enable the debugging facilities. There is one major
-restriction: breakpoints and single-stepping are only available in
-interpreted modules; compiled code is invisible to the debugger [5]_.
+..
+   GHCi contains a simple imperative-style debugger in which you can stop a
+   running computation in order to examine the values of variables. The
+   debugger is integrated into GHCi, and is turned on by default: no flags
+   are required to enable the debugging facilities. There is one major
+   restriction: breakpoints and single-stepping are only available in
+   interpreted modules; compiled code is invisible to the debugger [5]_.
 
-The debugger provides the following:
+GHCi は単純な命令スタイルのデバッガを備えています．
+これを使うと，変数の値を確認するために進行中の計算を止められます．
+このデバッガはGHCiに統合されていて，デフォルトで有効になっています．
+デバッグ機能を有効にするのにフラグは必要ありません．
+1つ重要な制限があります．
+それは，ブレイクポイントとステップ実行は解釈実行されているモジュールでしか使えないということです．
+コンパイル済みのコードはデバッガからは見えません [5]_ ．
 
--  The ability to set a breakpoint on a function definition or
-   expression in the program. When the function is called, or the
-   expression evaluated, GHCi suspends execution and returns to the
-   prompt, where you can inspect the values of local variables before
-   continuing with the execution.
+..
+   The debugger provides the following:
 
--  Execution can be single-stepped: the evaluator will suspend execution
-   approximately after every reduction, allowing local variables to be
-   inspected. This is equivalent to setting a breakpoint at every point
-   in the program.
+   -  The ability to set a breakpoint on a function definition or
+      expression in the program. When the function is called, or the
+      expression evaluated, GHCi suspends execution and returns to the
+      prompt, where you can inspect the values of local variables before
+      continuing with the execution.
 
--  Execution can take place in tracing mode, in which the evaluator
-   remembers each evaluation step as it happens, but doesn't suspend
-   execution until an actual breakpoint is reached. When this happens,
-   the history of evaluation steps can be inspected.
+   -  Execution can be single-stepped: the evaluator will suspend execution
+      approximately after every reduction, allowing local variables to be
+      inspected. This is equivalent to setting a breakpoint at every point
+      in the program.
 
--  Exceptions (e.g. pattern matching failure and ``error``) can be
-   treated as breakpoints, to help locate the source of an exception in
-   the program.
+   -  Execution can take place in tracing mode, in which the evaluator
+      remembers each evaluation step as it happens, but doesn't suspend
+      execution until an actual breakpoint is reached. When this happens,
+      the history of evaluation steps can be inspected.
 
-There is currently no support for obtaining a “stack trace”, but the
-tracing and history features provide a useful second-best, which will
-often be enough to establish the context of an error. For instance, it
-is possible to break automatically when an exception is thrown, even if
-it is thrown from within compiled code (see
-:ref:`ghci-debugger-exceptions`).
+   -  Exceptions (e.g. pattern matching failure and ``error``) can be
+      treated as breakpoints, to help locate the source of an exception in
+      the program.
+
+このデバッガが提供する機能は以下のとおりです．
+
+-  プログラム中の関数定義や式にブレイクポイントを設定する機能．
+   関数が呼ばれたとき，式が評価されたとき，GHCiは実行を中断しプロンプトに戻ります．
+   このプロンプトで局所変数の値を調べたあと，実行を再開継続できます．
+
+-  ステップ実行機能．
+   評価器はほぼ簡約ごとに実行を中断し，局所変数の値を調べられるようにします．
+   これはプログラムのあらゆるポイントにブレイクポイントを設定するのと同じことです．
+
+-  トレースモードでの実行機能． 
+   トレースモードで実行すると，評価器は発生した評価ステップをすべて記憶します．
+   ただし，実際のブレイクポイントに到達するまでは，実行を中断することはありません．
+   実行が中断されたら，評価ステップの履歴を調べることができるようになります．
+
+-  例外(たとえば，パターン照合の失敗あるいは ``error`` など)をブレイクポイントとして扱えます．
+   これにより，プログラム中の例外発生源を特定しやすくなります．
+
+..
+   There is currently no support for obtaining a “stack trace”, but the
+   tracing and history features provide a useful second-best, which will
+   often be enough to establish the context of an error. For instance, it
+   is possible to break automatically when an exception is thrown, even if
+   it is thrown from within compiled code (see
+   :ref:`ghci-debugger-exceptions`).
+
+現時点では「スタックトレース」を得る手段は提供されていませんが，
+トレース機能と履歴機能が次善の策として提供されており，
+エラー発生時の状況を知るには十分であることも多いのです．
+たとえコンパイル済みのコードから例外が投げられたときでも，自動的にブレイクするようにできます
+(:ref:`ghci-debugger-exceptions` 参照)．
+
+..
+   .. _breakpoints:
+
+   Breakpoints and inspecting variables
+   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 .. _breakpoints:
 
-Breakpoints and inspecting variables
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+ブレイクポイントと変数内容の表示
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Let's use quicksort as a running example. Here's the code: ::
+..
+   Let's use quicksort as a running example. Here's the code: ::
+
+       qsort [] = []
+       qsort (a:as) = qsort left ++ [a] ++ qsort right
+	 where (left,right) = (filter (<=a) as, filter (>a) as)
+
+       main = print (qsort [8, 4, 0, 3, 1, 23, 11, 18])
+
+実際に動く例としてクイックソートを使いましょう．以下がそのコードです． ::
 
     qsort [] = []
     qsort (a:as) = qsort left ++ [a] ++ qsort right
@@ -2640,7 +2699,17 @@ Let's use quicksort as a running example. Here's the code: ::
 
     main = print (qsort [8, 4, 0, 3, 1, 23, 11, 18])
 
-First, load the module into GHCi:
+..
+   First, load the module into GHCi:
+
+   .. code-block:: none
+
+       Prelude> :l qsort.hs
+       [1 of 1] Compiling Main             ( qsort.hs, interpreted )
+       Ok, modules loaded: Main.
+       *Main>
+
+ます，このモジュールをGHCiにロードしましょう．
 
 .. code-block:: none
 
@@ -2649,183 +2718,371 @@ First, load the module into GHCi:
     Ok, modules loaded: Main.
     *Main>
 
-Now, let's set a breakpoint on the right-hand-side of the second
-equation of qsort:
+..
+   Now, let's set a breakpoint on the right-hand-side of the second
+   equation of qsort:
+
+   .. code-block:: none
+
+       *Main> :break 2
+       Breakpoint 0 activated at qsort.hs:2:15-46
+       *Main>
+
+次に，qsort の定義2つめの等式の右辺にブレイクポイントを設定します．
 
 .. code-block:: none
 
     *Main> :break 2
-    Breakpoint 0 activated at qsort.hs:2:15-46
+    Breakpoint 0 activated at qsort.hs:2:16-47
     *Main>
 
-The command ``:break 2`` sets a breakpoint on line 2 of the most
-recently-loaded module, in this case ``qsort.hs``. Specifically, it
-picks the leftmost complete subexpression on that line on which to set
-the breakpoint, which in this case is the expression
-``(qsort left ++ [a] ++ qsort right)``.
+..
+   The command ``:break 2`` sets a breakpoint on line 2 of the most
+   recently-loaded module, in this case ``qsort.hs``. Specifically, it
+   picks the leftmost complete subexpression on that line on which to set
+   the breakpoint, which in this case is the expression
+   ``(qsort left ++ [a] ++ qsort right)``.
 
-Now, we run the program:
+``:break 2`` というコマンドは直近にロードしたモジュールの2行目にブレイクポイントを設定するものです．
+この場合は ``qsort.hs`` の2行目です．
+詳しくいえば，ブレイクポイントを設定した行にある完全な部分式のうちもっとも左側にあるものが選ばれます．
+この場合は ``(qsort left ++ [a] ++ qsort right)`` です．
+
+..
+   Now, we run the program:
+
+   .. code-block:: none
+
+       *Main> main
+       Stopped at qsort.hs:2:15-46
+       _result :: [a]
+       a :: a
+       left :: [a]
+       right :: [a]
+       [qsort.hs:2:15-46] *Main>
+
+[--ここから-- GHC Users Manual 原文の記述とghciの実際の挙動が異なるので，実際の挙動に沿って非公式に説明します．]
+
+さて，このプログラムを走らせてみましょう．
 
 .. code-block:: none
 
     *Main> main
-    Stopped at qsort.hs:2:15-46
-    _result :: [a]
-    a :: a
-    left :: [a]
-    right :: [a]
-    [qsort.hs:2:15-46] *Main>
+    Stopped in Main.qsort, qsort.hs:2:16-47
+    _result :: [Integer] = _
+    a :: Integer = 8
+    left :: [Integer] = _
+    right :: [Integer] = _
+    [qsort.hs:2:16-47] *Main> 
 
-Execution has stopped at the breakpoint. The prompt has changed to
-indicate that we are currently stopped at a breakpoint, and the
-location: ``[qsort.hs:2:15-46]``. To further clarify the location, we
-can use the :ghci-cmd:`:list` command:
+[--ここまで-- 実際の挙動に沿った非公式な記述]
+
+..
+   Execution has stopped at the breakpoint. The prompt has changed to
+   indicate that we are currently stopped at a breakpoint, and the
+   location: ``[qsort.hs:2:15-46]``. To further clarify the location, we
+   can use the :ghci-cmd:`:list` command:
+
+   .. code-block:: none
+
+       [qsort.hs:2:15-46] *Main> :list
+       1  qsort [] = []
+       2  qsort (a:as) = qsort left ++ [a] ++ qsort right
+       3    where (left,right) = (filter (<=a) as, filter (>a) as)
+
+ブレイクポイントのところで実行が中断されました．
+プロンプトが変化して，ブレイクポイントで止っていること，
+その場所が ``[qsort.hs:2:16-47]`` であることが判ります．
+その場所をさらに明確にするには :ghci-cmd:`:list` コマンドを使います．
 
 .. code-block:: none
 
-    [qsort.hs:2:15-46] *Main> :list
+    [qsort.hs:2:16-47] *Main> :list
     1  qsort [] = []
     2  qsort (a:as) = qsort left ++ [a] ++ qsort right
     3    where (left,right) = (filter (<=a) as, filter (>a) as)
 
-The :ghci-cmd:`:list` command lists the source code around the current
-breakpoint. If your output device supports it, then GHCi will highlight
-the active subexpression in bold.
+..
+   The :ghci-cmd:`:list` command lists the source code around the current
+   breakpoint. If your output device supports it, then GHCi will highlight
+   the active subexpression in bold.
 
-GHCi has provided bindings for the free variables [6]_ of the expression
-on which the breakpoint was placed (``a``, ``left``, ``right``), and
-additionally a binding for the result of the expression (``_result``).
-These variables are just like other variables that you might define in
-GHCi; you can use them in expressions that you type at the prompt, you
-can ask for their types with :ghci-cmd:`:type`, and so on. There is one
-important difference though: these variables may only have partial
-types. For example, if we try to display the value of ``left``:
+:ghci-cmd:`:list` コマンドは，現在のブレイクポイントの周囲のコードを表示します．
+出力デバイスがサポートしている場合は，注目している部分式がボールド体で表示されます．
 
-.. code-block:: none
+..
+   GHCi has provided bindings for the free variables [6]_ of the expression
+   on which the breakpoint was placed (``a``, ``left``, ``right``), and
+   additionally a binding for the result of the expression (``_result``).
+   These variables are just like other variables that you might define in
+   GHCi; you can use them in expressions that you type at the prompt, you
+   can ask for their types with :ghci-cmd:`:type`, and so on. There is one
+   important difference though: these variables may only have partial
+   types. For example, if we try to display the value of ``left``:
 
-    [qsort.hs:2:15-46] *Main> left
+   .. code-block:: none
 
-    <interactive>:1:0:
-        Ambiguous type variable `a' in the constraint:
-          `Show a' arising from a use of `print' at <interactive>:1:0-3
-        Cannot resolve unknown runtime types: a
-        Use :print or :force to determine these types
+       [qsort.hs:2:15-46] *Main> left
 
-This is because ``qsort`` is a polymorphic function, and because GHCi
-does not carry type information at runtime, it cannot determine the
-runtime types of free variables that involve type variables. Hence, when
-you ask to display ``left`` at the prompt, GHCi can't figure out which
-instance of ``Show`` to use, so it emits the type error above.
+       <interactive>:1:0:
+	   Ambiguous type variable `a' in the constraint:
+	     `Show a' arising from a use of `print' at <interactive>:1:0-3
+	   Cannot resolve unknown runtime types: a
+	   Use :print or :force to determine these types
 
-Fortunately, the debugger includes a generic printing command,
-:ghci-cmd:`:print`, which can inspect the actual runtime value of a variable and
-attempt to reconstruct its type. If we try it on ``left``:
+GHCiは，ブレイクポイントを置いた式の自由変数 [6]_ (``a`` ， ``left`` ， ``right``)
+に対する束縛および当該式の結果(``_result``)に対する束縛も提供しています．
+これらの変数は，GHCi上で普通に定義する他の変数と同じです．
+プロンプトで入力する式の中で使ったり， :ghci-cmd:`:type` コマンドで型を確認するなどが可能です．
 
-.. code-block:: none
+[--ここから-- GHC Users Manual 原文の記述とghciの実際の挙動が異なるので，実際の挙動に沿って非公式に説明します．]
 
-    [qsort.hs:2:15-46] *Main> :set -fprint-evld-with-show
-    [qsort.hs:2:15-46] *Main> :print left
-    left = (_t1::[a])
-
-This isn't particularly enlightening. What happened is that ``left`` is
-bound to an unevaluated computation (a suspension, or thunk), and
-:ghci-cmd:`:print` does not force any evaluation. The idea is that
-:ghci-cmd:`:print` can be used to inspect values at a breakpoint without any
-unfortunate side effects. It won't force any evaluation, which could cause the
-program to give a different answer than it would normally, and hence it won't
-cause any exceptions to be raised, infinite loops, or further breakpoints to be
-triggered (see :ref:`nested-breakpoints`). Rather than forcing thunks,
-:ghci-cmd:`:print` binds each thunk to a fresh variable beginning with an
-underscore, in this case ``_t1``.
-
-The flag :ghc-flag:`-fprint-evld-with-show` instructs :ghci-cmd:`:print` to reuse
-available ``Show`` instances when possible. This happens only when the
-contents of the variable being inspected are completely evaluated.
-
-If we aren't concerned about preserving the evaluatedness of a variable, we can
-use :ghci-cmd:`:force` instead of :ghci-cmd:`:print`. The :ghci-cmd:`:force`
-command behaves exactly like :ghci-cmd:`:print`, except that it forces the
-evaluation of any thunks it encounters:
+例を見ましょう．
 
 .. code-block:: none
 
-    [qsort.hs:2:15-46] *Main> :force left
+    [qsort.hs:2:16-47] *Main> :type left
+    left :: [Integer]		
+
+..
+   This is because ``qsort`` is a polymorphic function, and because GHCi
+   does not carry type information at runtime, it cannot determine the
+   runtime types of free variables that involve type variables. Hence, when
+   you ask to display ``left`` at the prompt, GHCi can't figure out which
+   instance of ``Show`` to use, so it emits the type error above.
+
+[--ここまで-- 実際の挙動に沿って非公式説明]
+
+..
+   Fortunately, the debugger includes a generic printing command,
+   :ghci-cmd:`:print`, which can inspect the actual runtime value of a variable and
+   attempt to reconstruct its type. If we try it on ``left``:
+
+   .. code-block:: none
+
+       [qsort.hs:2:15-46] *Main> :set -fprint-evld-with-show
+       [qsort.hs:2:15-46] *Main> :print left
+       left = (_t1::[a])
+
+デバッガにはジェネリックな表示コマンド
+:ghci-cmd:`:print` があり，これを使えば，変数の実行時の値と型を調べられます．
+``left`` に対して使ってみましょう．
+
+.. code-block:: none
+
+    [qsort.hs:2:16-47] *Main> :print left
+    left = (_t1::[Integer])
+
+..
+   This isn't particularly enlightening. What happened is that ``left`` is
+   bound to an unevaluated computation (a suspension, or thunk), and
+   :ghci-cmd:`:print` does not force any evaluation. The idea is that
+   :ghci-cmd:`:print` can be used to inspect values at a breakpoint without any
+   unfortunate side effects. It won't force any evaluation, which could cause the
+   program to give a different answer than it would normally, and hence it won't
+   cause any exceptions to be raised, infinite loops, or further breakpoints to be
+   triggered (see :ref:`nested-breakpoints`). Rather than forcing thunks,
+   :ghci-cmd:`:print` binds each thunk to a fresh variable beginning with an
+   underscore, in this case ``_t1``.
+
+あまり細かいことは判りません．
+``left`` は未評価の計算(サスペンションあるいはサンク)に束縛されています．
+これは ``left`` は未評価ですが :ghci-cmd:`:print` が評価を強制しないからです．
+:ghci-cmd:`:print` はブレイクポイントで値を検査する際に副作用を起こさないようにしてあるのです．
+評価を強制しないので，通常の評価と違う結果になったり，例外が投げられたり，無限ループや別のブレイクポイントに遭遇することもありません
+(:ref:`nested-breakpoints` 参照)．
+:ghci-cmd:`:print` は各サンクにアンダースコアで始まるフレッシュ(まだ使われていない)変数，ここでは ``_t1`` を束縛します．
+
+..
+   The flag :ghc-flag:`-fprint-evld-with-show` instructs :ghci-cmd:`:print` to reuse
+   available ``Show`` instances when possible. This happens only when the
+   contents of the variable being inspected are completely evaluated.
+
+[--ここでは-- GHC Users Manual 原文の記述とghciの実際の挙動が異なる部分に関連する説明を省いています．]
+
+..
+   If we aren't concerned about preserving the evaluatedness of a variable, we can
+   use :ghci-cmd:`:force` instead of :ghci-cmd:`:print`. The :ghci-cmd:`:force`
+   command behaves exactly like :ghci-cmd:`:print`, except that it forces the
+   evaluation of any thunks it encounters:
+
+   .. code-block:: none
+
+       [qsort.hs:2:15-46] *Main> :force left
+       left = [4,0,3,1]
+
+変数の評価状態を変えてしまってかまわないのなら :ghci-cmd:`:print` ではなく :ghci-cmd:`:force` を使うこともできます．
+:ghci-cmd:`:force` コマンドはサンクのときは評価を強制する以外は :ghci-cmd:`:print` と同じ振る舞いになります．
+
+.. code-block:: none
+
+    [qsort.hs:2:16-47] *Main> :force left
     left = [4,0,3,1]
 
-Now, since :ghci-cmd:`:force` has inspected the runtime value of ``left``, it
-has reconstructed its type. We can see the results of this type
-reconstruction:
+..
+   Now, since :ghci-cmd:`:force` has inspected the runtime value of ``left``, it
+   has reconstructed its type. We can see the results of this type
+   reconstruction:
+
+   .. code-block:: none
+
+       [qsort.hs:2:15-46] *Main> :show bindings
+       _result :: [Integer]
+       a :: Integer
+       left :: [Integer]
+       right :: [Integer]
+       _t1 :: [Integer]
+
+[--ここから-- GHC Users Manual 原文の記述とghciの実際の挙動が異なるので，実際の挙動に沿って非公式に説明します．]
+
+ここで :ghci-cmd:`:show bindings` を使うと，関連する束縛を表示できます．
 
 .. code-block:: none
 
-    [qsort.hs:2:15-46] *Main> :show bindings
-    _result :: [Integer]
-    a :: Integer
-    left :: [Integer]
-    right :: [Integer]
-    _t1 :: [Integer]
+    [qsort.hs:2:16-47] *Main> :show bindings
+    right :: [Integer] = _
+    left :: [Integer] = [4,0,3,1]
+    a :: Integer = 8
+    _result :: [Integer] = _
+    _t1 :: [Integer] = [4,0,3,1]
 
-Not only do we now know the type of ``left``, but all the other partial
-types have also been resolved. So we can ask for the value of ``a``, for
-example:
+..
+   Not only do we now know the type of ``left``, but all the other partial
+   types have also been resolved. So we can ask for the value of ``a``, for
+   example:
+
+   .. code-block:: none
+
+       [qsort.hs:2:15-46] *Main> a
+       8
+
+..
+   You might find it useful to use Haskell's ``seq`` function to evaluate
+   individual thunks rather than evaluating the whole expression with
+   :ghci-cmd:`:force`. For example:
+
+   .. code-block:: none
+
+       [qsort.hs:2:15-46] *Main> :print right
+       right = (_t1::[Integer])
+       [qsort.hs:2:15-46] *Main> seq _t1 ()
+       ()
+       [qsort.hs:2:15-46] *Main> :print right
+       right = 23 : (_t2::[Integer])
+
+式全体を:forceで評価してしまうのではなく，個々のサンクを評価したい場合には，Haskellの
+``seq`` 関数が便利でしょう．以下のように使います．
 
 .. code-block:: none
 
-    [qsort.hs:2:15-46] *Main> a
-    8
-
-You might find it useful to use Haskell's ``seq`` function to evaluate
-individual thunks rather than evaluating the whole expression with
-:ghci-cmd:`:force`. For example:
-
-.. code-block:: none
-
-    [qsort.hs:2:15-46] *Main> :print right
-    right = (_t1::[Integer])
-    [qsort.hs:2:15-46] *Main> seq _t1 ()
+    [qsort.hs:2:16-47] *Main> :print right
+    right = (_t2::[Integer])
+    [qsort.hs:2:16-47] *Main> seq _t2 ()
     ()
-    [qsort.hs:2:15-46] *Main> :print right
-    right = 23 : (_t2::[Integer])
+    [qsort.hs:2:16-47] *Main> :print right
+    right = 23 : (_t3::[Integer])
 
-We evaluated only the ``_t1`` thunk, revealing the head of the list, and
-the tail is another thunk now bound to ``_t2``. The ``seq`` function is
-a little inconvenient to use here, so you might want to use :ghci-cmd:`:def` to
-make a nicer interface (left as an exercise for the reader!).
+ここでは，サンク ``_t2`` だけを評価して，リストの先頭が判明しました．
+``seq`` 関数はすこし使いにくいので :ghci-cmd:`:def` を使ってもっとよいインターフェイスを作るといいでしょう
+(どうするかは練習問題にしておきます！)．
 
-Finally, we can continue the current execution:
+..
+   We evaluated only the ``_t1`` thunk, revealing the head of the list, and
+   the tail is another thunk now bound to ``_t2``. The ``seq`` function is
+   a little inconvenient to use here, so you might want to use :ghci-cmd:`:def` to
+   make a nicer interface (left as an exercise for the reader!).
+
+ここでは，サンク ``_t2`` だけを評価して，リストの先頭が判明しました．
+``seq`` 関数はすこし使いにくいので :ghci-cmd:`:def` を使ってもっとよいインターフェイスを作るといいでしょう
+(どうするかは練習問題にしておきます！)．
+
+..
+   Finally, we can continue the current execution:
+
+   .. code-block:: none
+
+       [qsort.hs:2:15-46] *Main> :continue
+       Stopped at qsort.hs:2:15-46
+       _result :: [a]
+       a :: a
+       left :: [a]
+       right :: [a]
+       [qsort.hs:2:15-46] *Main>
+
+   The execution continued at the point it previously stopped, and has now
+   stopped at the breakpoint for a second time.
+
+そして，実行を再開することもできます．
 
 .. code-block:: none
 
-    [qsort.hs:2:15-46] *Main> :continue
-    Stopped at qsort.hs:2:15-46
-    _result :: [a]
-    a :: a
-    left :: [a]
-    right :: [a]
-    [qsort.hs:2:15-46] *Main>
+    [qsort.hs:2:16-47] *Main> :continue
+    Stopped in Main.qsort, qsort.hs:2:16-47
+    _result :: [Integer] = _
+    a :: Integer = 4
+    left :: [Integer] = _
+    right :: [Integer] = _
+    [qsort.hs:2:16-47] *Main> 
 
-The execution continued at the point it previously stopped, and has now
-stopped at the breakpoint for a second time.
+実行が前に停止した点から再開し，同じブレイクで再び停止しました．
+
+[--ここまで-- 実際の挙動に沿った非公式説明．]
+
+..
+   .. _setting-breakpoints:
+
+   Setting breakpoints
+   ^^^^^^^^^^^^^^^^^^^
 
 .. _setting-breakpoints:
 
-Setting breakpoints
-^^^^^^^^^^^^^^^^^^^
+ブレイクポイントの設定
+^^^^^^^^^^^^^^^^^^^^^^
 
-Breakpoints can be set in various ways. Perhaps the easiest way to set a
-breakpoint is to name a top-level function:
+..
+   Breakpoints can be set in various ways. Perhaps the easiest way to set a
+   breakpoint is to name a top-level function:
+
+   .. code-block:: none
+
+	  :break identifier
+
+   Where ⟨identifier⟩ names any top-level function in an interpreted module
+   currently loaded into GHCi (qualified names may be used). The breakpoint
+   will be set on the body of the function, when it is fully applied but
+   before any pattern matching has taken place.
+
+ブレークポイントを設定する方法はいくつかあります．
+おそらくもっとも簡単な方法は最上位の関数の名前を使うことです．
 
 .. code-block:: none
 
        :break identifier
 
-Where ⟨identifier⟩ names any top-level function in an interpreted module
-currently loaded into GHCi (qualified names may be used). The breakpoint
-will be set on the body of the function, when it is fully applied but
-before any pattern matching has taken place.
+ここで ⟨identifier⟩ はGHCiにロードされて解釈実行されるモジュールのトップレベルにある関数の名前です
+(これには修飾名も使えます)．
+ブレイクポイントは関数の本体部分に設定されます．
+関数が完全に適用されパターン照合が行われる直前に設定されます．
 
-Breakpoints can also be set by line (and optionally column) number:
+..
+   Breakpoints can also be set by line (and optionally column) number:
 
+   .. code-block:: none
+
+	  :break line
+	  :break line column
+	  :break module line
+	  :break module line column
+
+   When a breakpoint is set on a particular line, GHCi sets the breakpoint
+   on the leftmost subexpression that begins and ends on that line. If two
+   complete subexpressions start at the same column, the longest one is
+   picked. If there is no complete subexpression on the line, then the
+   leftmost expression starting on the line is picked, and failing that the
+   rightmost expression that partially or completely covers the line.
+
+行番号(および列番号)でブレイクポイントを設定することもできます．
+   
 .. code-block:: none
 
        :break line
@@ -2833,55 +3090,97 @@ Breakpoints can also be set by line (and optionally column) number:
        :break module line
        :break module line column
 
-When a breakpoint is set on a particular line, GHCi sets the breakpoint
-on the leftmost subexpression that begins and ends on that line. If two
-complete subexpressions start at the same column, the longest one is
-picked. If there is no complete subexpression on the line, then the
-leftmost expression starting on the line is picked, and failing that the
-rightmost expression that partially or completely covers the line.
+ブレークポイントを特定の行に設定する場合，GHCiはその行で始まりその行で終わる部分式の中で
+もっとも左側にあるものに設定します．
+2つの完全な部分式が同じカラムから始まっているなら長い方が選ばれます．
+その行に完全な部分式が無い場合，その行で始まっている部分式の中でもっとも左側にあるものが選ばれます．
+それも失敗したら，その行を一部あるいは全部覆う式の中でもっとも右側にあるものが選ばれます．
 
-When a breakpoint is set on a particular line and column, GHCi picks the
-smallest subexpression that encloses that location on which to set the
-breakpoint. Note: GHC considers the TAB character to have a width of 1,
-wherever it occurs; in other words it counts characters, rather than
-columns. This matches what some editors do, and doesn't match others.
-The best advice is to avoid tab characters in your source code
-altogether (see :ghc-flag:`-Wtabs` in :ref:`options-sanity`).
+..
+   When a breakpoint is set on a particular line and column, GHCi picks the
+   smallest subexpression that encloses that location on which to set the
+   breakpoint. Note: GHC considers the TAB character to have a width of 1,
+   wherever it occurs; in other words it counts characters, rather than
+   columns. This matches what some editors do, and doesn't match others.
+   The best advice is to avoid tab characters in your source code
+   altogether (see :ghc-flag:`-Wtabs` in :ref:`options-sanity`).
 
-If the module is omitted, then the most recently-loaded module is used.
+ブレークポイントを特定の行の特定のカラムに設定する場合，GHCiはその位置を含む式の中で最小のものを選びます．
+注意: GHCはTAB文字を現れた位置に関わらず幅1とみなします．
+言い換えれば，カラム数を数えるのではなく文字を数えます．
+振る舞いと合うエディタもあり，合わないエディタもあります．
+最善はそもそもソースコード中でタブ文字を使わないことです
+(:ref:`options-sanity` にある :ghc-flag:`-Wtabs` を参照してください)．
 
-Not all subexpressions are potential breakpoint locations. Single
-variables are typically not considered to be breakpoint locations
-(unless the variable is the right-hand-side of a function definition,
-lambda, or case alternative). The rule of thumb is that all redexes are
-breakpoint locations, together with the bodies of functions, lambdas,
-case alternatives and binding statements. There is normally no
-breakpoint on a let expression, but there will always be a breakpoint on
-its body, because we are usually interested in inspecting the values of
-the variables bound by the let.
+..
+   If the module is omitted, then the most recently-loaded module is used.
 
-Listing and deleting breakpoints
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+モジュールが省略された場合，直近にロードされたモジュールが使われます．
 
-The list of breakpoints currently enabled can be displayed using
-:ghci-cmd:`:show breaks`:
+..
+   Not all subexpressions are potential breakpoint locations. Single
+   variables are typically not considered to be breakpoint locations
+   (unless the variable is the right-hand-side of a function definition,
+   lambda, or case alternative). The rule of thumb is that all redexes are
+   breakpoint locations, together with the bodies of functions, lambdas,
+   case alternatives and binding statements. There is normally no
+   breakpoint on a let expression, but there will always be a breakpoint on
+   its body, because we are usually interested in inspecting the values of
+   the variables bound by the let.
+
+ブレークポイントを設定できない部分式もあります．
+単一の変数は通常ブレークポイント位置とはみなされません(ただし，その変数が関数定義かλかcaseの選択肢の右辺である場合は除きます)．
+大まかにいうと，ブレークポイントになるのは，全ての簡約基，関数やλ抽象の本体，caseの選択肢，束縛文です．
+通常let式はブレークポイントになりませんが，その本体は常にブレークポイントになります．
+そのletで束縛された変数の値を調べたいと思うのが普通だからです．
+
+..
+   Listing and deleting breakpoints
+   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+ブレイクポイントの一覧と削除
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+..
+   The list of breakpoints currently enabled can be displayed using
+   :ghci-cmd:`:show breaks`:
+
+   .. code-block:: none
+
+       *Main> :show breaks
+       [0] Main qsort.hs:1:11-12
+       [1] Main qsort.hs:2:15-46
+
+現在有効になっているブレイクポイントを一覧するには
+:ghci-cmd:`:show breaks` を使います．
 
 .. code-block:: none
 
     *Main> :show breaks
-    [0] Main qsort.hs:1:11-12
-    [1] Main qsort.hs:2:15-46
+    [0] Main qsort.hs:1:12-13
+    [1] Main qsort.hs:2:16-47
 
-To delete a breakpoint, use the :ghci-cmd:`:delete` command with the number
-given in the output from :ghci-cmd:`:show breaks`:
+..
+   To delete a breakpoint, use the :ghci-cmd:`:delete` command with the number
+   given in the output from :ghci-cmd:`:show breaks`:
+
+   .. code-block:: none
+
+       *Main> :delete 0
+       *Main> :show breaks
+       [1] Main qsort.hs:2:15-46
+
+   To delete all breakpoints at once, use ``:delete *``.
+
+ブレイクポイントを削除するには :ghci-cmd:`:delete` コマンドを使い :ghci-cmd:`:show breaks` で出力されるブレイクポイント番号を指定します．
 
 .. code-block:: none
 
     *Main> :delete 0
     *Main> :show breaks
-    [1] Main qsort.hs:2:15-46
+    [1] Main qsort.hs:2:16-47
 
-To delete all breakpoints at once, use ``:delete *``.
+全てのブレイクポイントを一度に削除するには ``:delete *`` とします．
 
 .. _single-stepping:
 
