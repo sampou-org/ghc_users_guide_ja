@@ -3736,17 +3736,39 @@ Ctrl-C を叩いて，履歴を見て，何が起こっていたかを調べれ�
     :ghc-flag:`-fbreak-on-exception` はすべての例外でブレイクするのに対して，
     :ghc-flag:`-fbreak-on-error` は捕捉されない例外でのみブレイクします．
 
-Example: inspecting functions
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+..
+   Example: inspecting functions
+   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-It is possible to use the debugger to examine function values. When we
-are at a breakpoint and a function is in scope, the debugger cannot show
-you the source code for it; however, it is possible to get some
-information by applying it to some arguments and observing the result.
+例：関数の調査
+~~~~~~~~~~~~~~
 
-The process is slightly complicated when the binding is polymorphic. We
-show the process by means of an example. To keep things simple, we will
-use the well known ``map`` function:
+..
+   It is possible to use the debugger to examine function values. When we
+   are at a breakpoint and a function is in scope, the debugger cannot show
+   you the source code for it; however, it is possible to get some
+   information by applying it to some arguments and observing the result.
+
+このデバッガを使って関数値を調べられます．
+ブレークポイントで停止し，スコープに関数があるとき，デバッガでその関数のソースコードを表示させることはできません．
+しかし，その関数をいくつかの引数に適用して結果を観察することで，いくらかの情報をえることはできます．
+
+..
+   The process is slightly complicated when the binding is polymorphic. We
+   show the process by means of an example. To keep things simple, we will
+   use the well known ``map`` function:
+
+   ::
+
+       import Prelude hiding (map)
+
+       map :: (a->b) -> [a] -> [b]
+       map f [] = []
+       map f (x:xs) = f x : map f xs
+
+束縛が多相的な場合には，このプロセスはすこし複雑になります．
+例で見ましょう．
+簡単に考えるために，よく知られた ``map`` 関数を例にとります．
 
 ::
 
@@ -3756,134 +3778,239 @@ use the well known ``map`` function:
     map f [] = []
     map f (x:xs) = f x : map f xs
 
-We set a breakpoint on ``map``, and call it.
+..
+   We set a breakpoint on ``map``, and call it.
+
+   .. code-block:: none
+
+       *Main> :break 5
+       Breakpoint 0 activated at  map.hs:5:15-28
+       *Main> map Just [1..5]
+       Stopped at map.hs:(4,0)-(5,12)
+       _result :: [b]
+       x :: a
+       f :: a -> b
+       xs :: [a]
+
+``map`` にブレイクポイントを設定して，呼び出してみましょう．
 
 .. code-block:: none
 
     *Main> :break 5
-    Breakpoint 0 activated at  map.hs:5:15-28
+    Breakpoint 0 activated at map.hs:5:16-29
     *Main> map Just [1..5]
-    Stopped at map.hs:(4,0)-(5,12)
-    _result :: [b]
-    x :: a
-    f :: a -> b
-    xs :: [a]
+    Stopped in Main.map, map.hs:5:16-29
+    _result :: [b] = _
+    f :: Integer -> b = _
+    x :: Integer = 1
+    xs :: [Integer] = _
+    [map.hs:5:16-29] *Main> 
 
-GHCi tells us that, among other bindings, ``f`` is in scope. However,
-its type is not fully known yet, and thus it is not possible to apply it
-to any arguments. Nevertheless, observe that the type of its first
-argument is the same as the type of ``x``, and its result type is shared
-with ``_result``.
+..
+   GHCi tells us that, among other bindings, ``f`` is in scope. However,
+   its type is not fully known yet, and thus it is not possible to apply it
+   to any arguments. Nevertheless, observe that the type of its first
+   argument is the same as the type of ``x``, and its result type is shared
+   with ``_result``.
 
-As we demonstrated earlier (:ref:`breakpoints`), the debugger has some
-intelligence built-in to update the type of ``f`` whenever the types of
-``x`` or ``_result`` are discovered. So what we do in this scenario is
-force ``x`` a bit, in order to recover both its type and the argument
-part of ``f``.
+GHCi の表示を見れば ``f`` がスコープにあることがわかります．
+しかし，その型は完全に判明しているわけではありません．
+とはいうものの，最初の引数の型を見れば，これが ``x`` の型と同じ ``Integer`` であることも，
+``_result`` の型が同じ ``Integer`` を要素とするリストであることも判ります．
+
+..
+   As we demonstrated earlier (:ref:`breakpoints`), the debugger has some
+   intelligence built-in to update the type of ``f`` whenever the types of
+   ``x`` or ``_result`` are discovered. So what we do in this scenario is
+   force ``x`` a bit, in order to recover both its type and the argument
+   part of ``f``.
+
+   .. code-block:: none
+
+       *Main> seq x ()
+       *Main> :print x
+       x = 1
+
+[--ここでは-- GHC Users Guide 原文の記述とghciの実際の挙動が異なる部分に関連する説明を省いています．]
+
+..
+   We can check now that as expected, the type of ``x`` has been
+   reconstructed, and with it the type of ``f`` has been too:
+
+   .. code-block:: none
+
+       *Main> :t x
+       x :: Integer
+       *Main> :t f
+       f :: Integer -> b
+
+..
+   From here, we can apply f to any argument of type Integer and observe
+   the results.
+
+   .. code-block:: none
+
+       *Main> let b = f 10
+       *Main> :t b
+       b :: b
+       *Main> b
+       <interactive>:1:0:
+	   Ambiguous type variable `b' in the constraint:
+	     `Show b' arising from a use of `print' at <interactive>:1:0
+       *Main> :p b
+       b = (_t2::a)
+       *Main> seq b ()
+       ()
+       *Main> :t b
+       b :: a
+       *Main> :p b
+       b = Just 10
+       *Main> :t b
+       b :: Maybe Integer
+       *Main> :t f
+       f :: Integer -> Maybe Integer
+       *Main> f 20
+       Just 20
+       *Main> map f [1..5]
+       [Just 1, Just 2, Just 3, Just 4, Just 5]
+
+以降 ``f`` を ``Integer`` 型の任意の引数に適用してその結果を観察できます．
+[--ここから-- GHC Users Manual 原文の記述とghciの実際の挙動が異なるので，実際の挙動に沿って非公式に説明します．]
 
 .. code-block:: none
 
-    *Main> seq x ()
-    *Main> :print x
-    x = 1
-
-We can check now that as expected, the type of ``x`` has been
-reconstructed, and with it the type of ``f`` has been too:
-
-.. code-block:: none
-
-    *Main> :t x
-    x :: Integer
-    *Main> :t f
-    f :: Integer -> b
-
-From here, we can apply f to any argument of type Integer and observe
-the results.
-
-.. code-block:: none
-
+    [map.hs:5:16-29] *Main> :abandon
     *Main> let b = f 10
     *Main> :t b
     b :: b
-    *Main> b
-    <interactive>:1:0:
-        Ambiguous type variable `b' in the constraint:
-          `Show b' arising from a use of `print' at <interactive>:1:0
     *Main> :p b
-    b = (_t2::a)
+    b = (_t1::b)
     *Main> seq b ()
     ()
-    *Main> :t b
-    b :: a
-    *Main> :p b
-    b = Just 10
     *Main> :t b
     b :: Maybe Integer
     *Main> :t f
     f :: Integer -> Maybe Integer
     *Main> f 20
     Just 20
+    *Main> :delete *
     *Main> map f [1..5]
-    [Just 1, Just 2, Just 3, Just 4, Just 5]
+    [Just 1,Just 2,Just 3,Just 4,Just 5]
 
-In the first application of ``f``, we had to do some more type
-reconstruction in order to recover the result type of ``f``. But after
-that, we are free to use ``f`` normally.
+..
+   In the first application of ``f``, we had to do some more type
+   reconstruction in order to recover the result type of ``f``. But after
+   that, we are free to use ``f`` normally.
 
-Limitations
-~~~~~~~~~~~
+[--ここまで-- 実際の挙動に沿った非公式説明．]
 
--  When stopped at a breakpoint, if you try to evaluate a variable that
-   is already under evaluation, the second evaluation will hang. The
-   reason is that GHC knows the variable is under evaluation, so the new
-   evaluation just waits for the result before continuing, but of course
-   this isn't going to happen because the first evaluation is stopped at
-   a breakpoint. Control-C can interrupt the hung evaluation and return
-   to the prompt.
+最初の ``f`` の適用では ``f`` の結果の型を復元するために，型の再構築をもう少し行う必要がありました．
+しかし，それ以降は ``f`` を通常の方法で自由に使うことができます．
 
-   The most common way this can happen is when you're evaluating a CAF
-   (e.g. main), stop at a breakpoint, and ask for the value of the CAF
-   at the prompt again.
+..
+   Limitations
+   ~~~~~~~~~~~
 
--  Implicit parameters (see :ref:`implicit-parameters`) are only
-   available at the scope of a breakpoint if there is an explicit type
-   signature.
+制限
+~~~~
+
+..
+   -  When stopped at a breakpoint, if you try to evaluate a variable that
+      is already under evaluation, the second evaluation will hang. The
+      reason is that GHC knows the variable is under evaluation, so the new
+      evaluation just waits for the result before continuing, but of course
+      this isn't going to happen because the first evaluation is stopped at
+      a breakpoint. Control-C can interrupt the hung evaluation and return
+      to the prompt.
+
+      The most common way this can happen is when you're evaluating a CAF
+      (e.g. main), stop at a breakpoint, and ask for the value of the CAF
+      at the prompt again.
+
+   -  Implicit parameters (see :ref:`implicit-parameters`) are only
+      available at the scope of a breakpoint if there is an explicit type
+      signature.
+
+-  ブレークポイントで停止したとき，既に評価中の変数を評価しようとすると，2回目の評価はハングする．
+   その変数が評価中であることをGHCが知っていて，後の評価は先の結果を待ってからでないと続けられないからです．
+   先の評価はブレークポイントで停止しているので，もちろん結果は得られません．
+   評価がハングしたときは Ctrl-C で中断すれば，プロンプトに戻ることができます．
+
+   ありがちなのは，CAF(たとえば ``main``)を評価していて，ブレークポイントで停止し，そのCAFの値を再びプロンプトで要求するという場合です．
+
+-  暗黙パラメータ(:ref:`implicit-parameters` 参照)がブレイクポイントで利用できるのは，型が明示されている場合だけです．
+
+..
+   .. _ghci-invocation:
+
+   Invoking GHCi
+   -------------
+
+   .. index::
+      single: invoking; GHCi
+      single: --interactive
 
 .. _ghci-invocation:
 
-Invoking GHCi
--------------
+GHCi の起動
+-----------
 
 .. index::
-   single: invoking; GHCi
+   single: 起動; GHCiの〜
    single: --interactive
 
-GHCi is invoked with the command ``ghci`` or ``ghc --interactive``. One
-or more modules or filenames can also be specified on the command line;
-this instructs GHCi to load the specified modules or filenames (and all
-the modules they depend on), just as if you had said ``:load modules``
-at the GHCi prompt (see :ref:`ghci-commands`). For example, to start
-GHCi and load the program whose topmost module is in the file
-``Main.hs``, we could say:
+..
+   GHCi is invoked with the command ``ghci`` or ``ghc --interactive``. One
+   or more modules or filenames can also be specified on the command line;
+   this instructs GHCi to load the specified modules or filenames (and all
+   the modules they depend on), just as if you had said ``:load modules``
+   at the GHCi prompt (see :ref:`ghci-commands`). For example, to start
+   GHCi and load the program whose topmost module is in the file
+   ``Main.hs``, we could say:
+
+   .. code-block:: none
+
+       $ ghci Main.hs
+
+   Most of the command-line options accepted by GHC (see :ref:`using-ghc`)
+   also make sense in interactive mode. The ones that don't make sense are
+   mostly obvious.
+
+GHCiは ``ghci`` または ``ghc --interactive`` というコマンドで起動します．
+1つまたは複数のモジュールやファイル名をコマンド行で指定することもできます．
+そうすると，GHCiはプロンプトで ``:load モジュール名`` と入力したとき同じように(:ref:`ghci-commands` 参照)，指定されたモジュールやファイル(と，それらが依存するモジュール)をロードします．
+たとえば、GHCiを起動して(Main.hsに最上位モジュールがある)プログラムをロードするには，
+次のようにすればよい．
 
 .. code-block:: none
 
     $ ghci Main.hs
 
-Most of the command-line options accepted by GHC (see :ref:`using-ghc`)
-also make sense in interactive mode. The ones that don't make sense are
-mostly obvious.
+GHCが受け付けるコマンドラインオプション(:ref:`using-ghc` 参照)の大部分は対話モードでも有効です．
+GHCiで有効でないものは見れば判ります．
+
+..
+   .. ghc-flag:: -flocal-ghci-history
+
+     By default, GHCi keeps global history in ``~/.ghc/ghci_history`` or
+     ``%APPDATA%/<app>/ghci_history``, but you can use current directory, e.g.:
+
+     .. code-block:: none
+
+	 $ ghci -flocal-ghci-history
+
+     It will create ``.ghci-history`` in current folder where GHCi is launched.
 
 .. ghc-flag:: -flocal-ghci-history
 
-  By default, GHCi keeps global history in ``~/.ghc/ghci_history`` or
-  ``%APPDATA%/<app>/ghci_history``, but you can use current directory, e.g.:
+  デフォルトで GHCi グローバル履歴を ``~/.ghc/ghci_history`` に記録します．
+  Windows では ``%APPDATA%/<app>/ghci_history`` になりますが，これを現在のディレクトリに設定することもできます．
 
   .. code-block:: none
 
       $ ghci -flocal-ghci-history
 
-  It will create ``.ghci-history`` in current folder where GHCi is launched.
+  こうすると ``.ghci-history`` を GHCi を起動した現在のフォルダに作成します．
 
 Packages
 ~~~~~~~~
