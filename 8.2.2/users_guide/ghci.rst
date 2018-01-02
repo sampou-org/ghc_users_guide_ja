@@ -4012,18 +4012,40 @@ GHCiで有効でないものは見れば判ります．
 
   こうすると ``.ghci-history`` を GHCi を起動した現在のフォルダに作成します．
 
-Packages
-~~~~~~~~
+..
+   Packages
+   ~~~~~~~~
+
+   .. index::
+      single: packages; with GHCi
+
+パッケージ
+~~~~~~~~~~
 
 .. index::
-   single: packages; with GHCi
+   single: パッケージ; GHCiで〜を使う
 
-Most packages (see :ref:`using-packages`) are available without needing
-to specify any extra flags at all: they will be automatically loaded the
-first time they are needed.
+..
+   Most packages (see :ref:`using-packages`) are available without needing
+   to specify any extra flags at all: they will be automatically loaded the
+   first time they are needed.
 
-For hidden packages, however, you need to request the package be loaded
-by using the :ghc-flag:`-package ⟨pkg⟩` flag:
+ほとんどのパッケージ(:ref:`using-packages` 参照)は追加でフラグを指定しなくても利用できます．
+最初に必要になったときに自動的ロードされます．
+
+..
+   For hidden packages, however, you need to request the package be loaded
+   by using the :ghc-flag:`-package ⟨pkg⟩` flag:
+
+   .. code-block:: none
+
+       $ ghci -package readline
+       GHCi, version 8.y.z: http://www.haskell.org/ghc/  :? for help
+       Loading package base ... linking ... done.
+       Loading package readline-1.0 ... linking ... done.
+       Prelude>
+
+一方で，隠されたパッケージについては :ghc-flag:`-package ⟨pkg⟩` フラグを使ってロードを要求する必要があります．
 
 .. code-block:: none
 
@@ -4033,50 +4055,96 @@ by using the :ghc-flag:`-package ⟨pkg⟩` flag:
     Loading package readline-1.0 ... linking ... done.
     Prelude>
 
-The following command works to load new packages into a running GHCi:
+..
+   The following command works to load new packages into a running GHCi:
+
+   .. code-block:: none
+
+       Prelude> :set -package name
+
+   But note that doing this will cause all currently loaded modules to be
+   unloaded, and you'll be dumped back into the ``Prelude``.
+
+以下のコマンドを使えば起動中のGHCiに新しいパッケージをロードできます．
 
 .. code-block:: none
 
-    Prelude> :set -package name
+    *Main> :set -package ghc-8.0.2
+    package flags have changed, resetting and loading new packages...
+    Prelude> 
 
-But note that doing this will cause all currently loaded modules to be
-unloaded, and you'll be dumped back into the ``Prelude``.
+ただし，すでにロードされているモジュールが全て未ロードになり ``Prelude`` に戻されることになるので注意が必要です．
 
-Extra libraries
-~~~~~~~~~~~~~~~
+..
+   Extra libraries
+   ~~~~~~~~~~~~~~~
+
+   .. index::
+      single: libraries; with GHCi
+
+追加のライブラリ
+~~~~~~~~~~~~~~~~
 
 .. index::
-   single: libraries; with GHCi
+   single: ライブラリ; GHCiで〜を使う
 
-Extra libraries may be specified on the command line using the normal
-``-llib`` option. (The term *library* here refers to libraries of
-foreign object code; for using libraries of Haskell source code, see
-:ref:`ghci-modules-filenames`.) For example, to load the “m” library:
+..
+   Extra libraries may be specified on the command line using the normal
+   ``-llib`` option. (The term *library* here refers to libraries of
+   foreign object code; for using libraries of Haskell source code, see
+   :ref:`ghci-modules-filenames`.) For example, to load the “m” library:
+
+   .. code-block:: none
+
+       $ ghci -lm
+
+追加のライブラリは，コマンドラインから通常の ``-llib`` オプションを使って指定できます．
+(ここでいうライブラリとは，他言語のオブジェクトコードのライブラリのことです．
+Haskellソースのライブラリを使うことについては :ref:`ghci-modules-filenames` を参照してください．)
+たとえば，「m」ライブラリをロードするには，次のようにします．
 
 .. code-block:: none
 
     $ ghci -lm
 
-On systems with ``.so``-style shared libraries, the actual library
-loaded will the ``liblib.so``. GHCi searches the following places for
-libraries, in this order:
+..
+   On systems with ``.so``-style shared libraries, the actual library
+   loaded will the ``liblib.so``. GHCi searches the following places for
+   libraries, in this order:
 
--  Paths specified using the :ghc-flag:`-L ⟨dir⟩` command-line option,
+   -  Paths specified using the :ghc-flag:`-L ⟨dir⟩` command-line option,
 
--  the standard library search path for your system, which on some
-   systems may be overridden by setting the :envvar:`LD_LIBRARY_PATH`
-   environment variable.
+   -  the standard library search path for your system, which on some
+      systems may be overridden by setting the :envvar:`LD_LIBRARY_PATH`
+      environment variable.
 
-On systems with ``.dll``-style shared libraries, the actual library
-loaded will be ``lib.dll``. Again, GHCi will signal an error if it can't
-find the library.
+``.so``-形式の共有ライブラリを使うシステムでは，実際にロードされるライブラリは ``liblib.so`` です．
+GHCiは以下の順にライブラリを探します．
 
-GHCi can also load plain object files (``.o`` or ``.obj`` depending on
-your platform) from the command-line. Just add the name the object file
-to the command line.
+-  :ghc-flag:`-L ⟨dir⟩` コマンドラインオプションで指定したパス．
 
-Ordering of ``-l`` options matters: a library should be mentioned
-*before* the libraries it depends on (see :ref:`options-linker`).
+-  システムの標準ライブラリ検索パス．これはシステムによっては環境変数 :envvar:`LD_LIBRARY_PATH` を設定することで変更可能です．
+
+..
+   On systems with ``.dll``-style shared libraries, the actual library
+   loaded will be ``lib.dll``. Again, GHCi will signal an error if it can't
+   find the library.
+
+``.dll``-形式の共有ライブラリを使うシステムでは，実際にロードされるライブラリは ``lib.dll`` です．
+GHCi指定のライブラリが見つからなければ，ここでもエラーになります．
+
+..
+   GHCi can also load plain object files (``.o`` or ``.obj`` depending on
+   your platform) from the command-line. Just add the name the object file
+   to the command line.
+
+GHCi は単なるオブジェクトファイル(プラットフォームによって ``.o`` か ``.obj`` のどちらか)をコマンドラインで指定してロードできます．オブジェクトファイル名をコマンドラインに追加するだけです．
+
+..
+   Ordering of ``-l`` options matters: a library should be mentioned
+   *before* the libraries it depends on (see :ref:`options-linker`).
+
+``-l`` オプションの順序は重要です．ライブラリ指定は，そのライブラリが依存しているライブラリよりも *前に* 書いておく必要があります(:ref:`options-linker` 参照)．
 
 .. _ghci-commands:
 
