@@ -101,11 +101,11 @@
 <li><a class="reference internal" href="#result">5.5.4. <code class="docutils literal"><span class="pre">_result</span></code> 変数</a></li>
 <li><a class="reference internal" href="#tracing">5.5.5. トレースとヒストリ</a></li>
 <li><a class="reference internal" href="#ghci-debugger-exceptions">5.5.6. 例外のデバッグ</a></li>
-<li><a class="reference internal" href="#example-inspecting-functions">5.5.7. Example: inspecting functions</a></li>
-<li><a class="reference internal" href="#limitations">5.5.8. Limitations</a></li>
+<li><a class="reference internal" href="#id32">5.5.7. 例：関数の調査</a></li>
+<li><a class="reference internal" href="#id33">5.5.8. 制限</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#invoking-ghci">5.6. Invoking GHCi</a><ul>
+<li><a class="reference internal" href="#ghci-invocation">5.6. GHCi の起動</a><ul>
 <li><a class="reference internal" href="#packages">5.6.1. Packages</a></li>
 <li><a class="reference internal" href="#extra-libraries">5.6.2. Extra libraries</a></li>
 </ul>
@@ -1125,7 +1125,7 @@ GHCi に対する <code class="docutils literal"><span class="pre">-prof</span><
 デバッグ機能を有効にするのにフラグは必要ありません．
 1つ重要な制限があります．
 それは，ブレイクポイントとステップ実行は解釈実行されているモジュールでしか使えないということです．
-コンパイル済みのコードはデバッガからは見えません <a class="footnote-reference" href="#id33" id="id23">[5]</a> ．</p>
+コンパイル済みのコードはデバッガからは見えません <a class="footnote-reference" href="#id36" id="id23">[5]</a> ．</p>
 <p>このデバッガが提供する機能は以下のとおりです．</p>
 <ul class="simple">
 <li>プログラム中の関数定義や式にブレイクポイントを設定する機能．
@@ -1197,7 +1197,7 @@ right :: [Integer] = _
 </div>
 <p><a class="reference internal" href="#ghci-cmd-:list"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:list</span></code></a> コマンドは，現在のブレイクポイントの周囲のコードを表示します．
 出力デバイスがサポートしている場合は，注目している部分式がボールド体で表示されます．</p>
-<p>GHCiは，ブレイクポイントを置いた式の自由変数 <a class="footnote-reference" href="#id34" id="id25">[6]</a> (<code class="docutils literal"><span class="pre">a</span></code> ， <code class="docutils literal"><span class="pre">left</span></code> ， <code class="docutils literal"><span class="pre">right</span></code>)
+<p>GHCiは，ブレイクポイントを置いた式の自由変数 <a class="footnote-reference" href="#id37" id="id25">[6]</a> (<code class="docutils literal"><span class="pre">a</span></code> ， <code class="docutils literal"><span class="pre">left</span></code> ， <code class="docutils literal"><span class="pre">right</span></code>)
 に対する束縛および当該式の結果(<code class="docutils literal"><span class="pre">_result</span></code>)に対する束縛も提供しています．
 これらの変数は，GHCi上で普通に定義する他の変数と同じです．
 プロンプトで入力する式の中で使ったり， <a class="reference internal" href="#ghci-cmd-:type"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:type</span></code></a> コマンドで型を確認するなどが可能です．</p>
@@ -1547,15 +1547,14 @@ Ctrl-C を叩いて，履歴を見て，何が起こっていたかを調べれ�
 </dd></dl>
 
 </div>
-<div class="section" id="example-inspecting-functions">
-<h3>5.5.7. Example: inspecting functions<a class="headerlink" href="#example-inspecting-functions" title="このヘッドラインへのパーマリンク">¶</a></h3>
-<p>It is possible to use the debugger to examine function values. When we
-are at a breakpoint and a function is in scope, the debugger cannot show
-you the source code for it; however, it is possible to get some
-information by applying it to some arguments and observing the result.</p>
-<p>The process is slightly complicated when the binding is polymorphic. We
-show the process by means of an example. To keep things simple, we will
-use the well known <code class="docutils literal"><span class="pre">map</span></code> function:</p>
+<div class="section" id="id32">
+<h3>5.5.7. 例：関数の調査<a class="headerlink" href="#id32" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<p>このデバッガを使って関数値を調べられます．
+ブレークポイントで停止し，スコープに関数があるとき，デバッガでその関数のソースコードを表示させることはできません．
+しかし，その関数をいくつかの引数に適用して結果を観察することで，いくらかの情報をえることはできます．</p>
+<p>束縛が多相的な場合には，このプロセスはすこし複雑になります．
+例で見ましょう．
+簡単に考えるために，よく知られた <code class="docutils literal"><span class="pre">map</span></code> 関数を例にとります．</p>
 <div class="highlight-haskell"><div class="highlight"><pre><span class="kr">import</span> <span class="nn">Prelude</span> <span class="k">hiding</span> <span class="p">(</span><span class="nf">map</span><span class="p">)</span>
 
 <span class="nf">map</span> <span class="ow">::</span> <span class="p">(</span><span class="n">a</span><span class="ow">-&gt;</span><span class="n">b</span><span class="p">)</span> <span class="ow">-&gt;</span> <span class="p">[</span><span class="n">a</span><span class="p">]</span> <span class="ow">-&gt;</span> <span class="p">[</span><span class="n">b</span><span class="p">]</span>
@@ -1563,116 +1562,83 @@ use the well known <code class="docutils literal"><span class="pre">map</span></
 <span class="nf">map</span> <span class="n">f</span> <span class="p">(</span><span class="n">x</span><span class="kt">:</span><span class="n">xs</span><span class="p">)</span> <span class="ow">=</span> <span class="n">f</span> <span class="n">x</span> <span class="kt">:</span> <span class="n">map</span> <span class="n">f</span> <span class="n">xs</span>
 </pre></div>
 </div>
-<p>We set a breakpoint on <code class="docutils literal"><span class="pre">map</span></code>, and call it.</p>
+<p><code class="docutils literal"><span class="pre">map</span></code> にブレイクポイントを設定して，呼び出してみましょう．</p>
 <div class="highlight-none"><div class="highlight"><pre>*Main&gt; :break 5
-Breakpoint 0 activated at  map.hs:5:15-28
+Breakpoint 0 activated at map.hs:5:16-29
 *Main&gt; map Just [1..5]
-Stopped at map.hs:(4,0)-(5,12)
-_result :: [b]
-x :: a
-f :: a -&gt; b
-xs :: [a]
+Stopped in Main.map, map.hs:5:16-29
+_result :: [b] = _
+f :: Integer -&gt; b = _
+x :: Integer = 1
+xs :: [Integer] = _
+[map.hs:5:16-29] *Main&gt;
 </pre></div>
 </div>
-<p>GHCi tells us that, among other bindings, <code class="docutils literal"><span class="pre">f</span></code> is in scope. However,
-its type is not fully known yet, and thus it is not possible to apply it
-to any arguments. Nevertheless, observe that the type of its first
-argument is the same as the type of <code class="docutils literal"><span class="pre">x</span></code>, and its result type is shared
-with <code class="docutils literal"><span class="pre">_result</span></code>.</p>
-<p>As we demonstrated earlier (<a class="reference internal" href="#breakpoints"><span>ブレイクポイントと変数内容の表示</span></a>), the debugger has some
-intelligence built-in to update the type of <code class="docutils literal"><span class="pre">f</span></code> whenever the types of
-<code class="docutils literal"><span class="pre">x</span></code> or <code class="docutils literal"><span class="pre">_result</span></code> are discovered. So what we do in this scenario is
-force <code class="docutils literal"><span class="pre">x</span></code> a bit, in order to recover both its type and the argument
-part of <code class="docutils literal"><span class="pre">f</span></code>.</p>
-<div class="highlight-none"><div class="highlight"><pre>*Main&gt; seq x ()
-*Main&gt; :print x
-x = 1
-</pre></div>
-</div>
-<p>We can check now that as expected, the type of <code class="docutils literal"><span class="pre">x</span></code> has been
-reconstructed, and with it the type of <code class="docutils literal"><span class="pre">f</span></code> has been too:</p>
-<div class="highlight-none"><div class="highlight"><pre>*Main&gt; :t x
-x :: Integer
-*Main&gt; :t f
-f :: Integer -&gt; b
-</pre></div>
-</div>
-<p>From here, we can apply f to any argument of type Integer and observe
-the results.</p>
-<div class="highlight-none"><div class="highlight"><pre>*Main&gt; let b = f 10
+<p>GHCi の表示を見れば <code class="docutils literal"><span class="pre">f</span></code> がスコープにあることがわかります．
+しかし，その型は完全に判明しているわけではありません．
+とはいうものの，最初の引数の型を見れば，これが <code class="docutils literal"><span class="pre">x</span></code> の型と同じ <code class="docutils literal"><span class="pre">Integer</span></code> であることも，
+<code class="docutils literal"><span class="pre">_result</span></code> の型が同じ <code class="docutils literal"><span class="pre">Integer</span></code> を要素とするリストであることも判ります．</p>
+<p>[&#8211;ここでは&#8211; GHC Users Guide 原文の記述とghciの実際の挙動が異なる部分に関連する説明を省いています．]</p>
+<p>以降 <code class="docutils literal"><span class="pre">f</span></code> を <code class="docutils literal"><span class="pre">Integer</span></code> 型の任意の引数に適用してその結果を観察できます．
+[&#8211;ここから&#8211; GHC Users Manual 原文の記述とghciの実際の挙動が異なるので，実際の挙動に沿って非公式に説明します．]</p>
+<div class="highlight-none"><div class="highlight"><pre>[map.hs:5:16-29] *Main&gt; :abandon
+*Main&gt; let b = f 10
 *Main&gt; :t b
 b :: b
-*Main&gt; b
-&lt;interactive&gt;:1:0:
-    Ambiguous type variable `b&#39; in the constraint:
-      `Show b&#39; arising from a use of `print&#39; at &lt;interactive&gt;:1:0
 *Main&gt; :p b
-b = (_t2::a)
+b = (_t1::b)
 *Main&gt; seq b ()
 ()
-*Main&gt; :t b
-b :: a
-*Main&gt; :p b
-b = Just 10
 *Main&gt; :t b
 b :: Maybe Integer
 *Main&gt; :t f
 f :: Integer -&gt; Maybe Integer
 *Main&gt; f 20
 Just 20
+*Main&gt; :delete *
 *Main&gt; map f [1..5]
-[Just 1, Just 2, Just 3, Just 4, Just 5]
+[Just 1,Just 2,Just 3,Just 4,Just 5]
 </pre></div>
 </div>
-<p>In the first application of <code class="docutils literal"><span class="pre">f</span></code>, we had to do some more type
-reconstruction in order to recover the result type of <code class="docutils literal"><span class="pre">f</span></code>. But after
-that, we are free to use <code class="docutils literal"><span class="pre">f</span></code> normally.</p>
+<p>[&#8211;ここまで&#8211; 実際の挙動に沿った非公式説明．]</p>
+<p>最初の <code class="docutils literal"><span class="pre">f</span></code> の適用では <code class="docutils literal"><span class="pre">f</span></code> の結果の型を復元するために，型の再構築をもう少し行う必要がありました．
+しかし，それ以降は <code class="docutils literal"><span class="pre">f</span></code> を通常の方法で自由に使うことができます．</p>
 </div>
-<div class="section" id="limitations">
-<h3>5.5.8. Limitations<a class="headerlink" href="#limitations" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<div class="section" id="id33">
+<h3>5.5.8. 制限<a class="headerlink" href="#id33" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <ul>
-<li><p class="first">When stopped at a breakpoint, if you try to evaluate a variable that
-is already under evaluation, the second evaluation will hang. The
-reason is that GHC knows the variable is under evaluation, so the new
-evaluation just waits for the result before continuing, but of course
-this isn&#8217;t going to happen because the first evaluation is stopped at
-a breakpoint. Control-C can interrupt the hung evaluation and return
-to the prompt.</p>
-<p>The most common way this can happen is when you&#8217;re evaluating a CAF
-(e.g. main), stop at a breakpoint, and ask for the value of the CAF
-at the prompt again.</p>
+<li><p class="first">ブレークポイントで停止したとき，既に評価中の変数を評価しようとすると，2回目の評価はハングする．
+その変数が評価中であることをGHCが知っていて，後の評価は先の結果を待ってからでないと続けられないからです．
+先の評価はブレークポイントで停止しているので，もちろん結果は得られません．
+評価がハングしたときは Ctrl-C で中断すれば，プロンプトに戻ることができます．</p>
+<p>ありがちなのは，CAF(たとえば <code class="docutils literal"><span class="pre">main</span></code>)を評価していて，ブレークポイントで停止し，そのCAFの値を再びプロンプトで要求するという場合です．</p>
 </li>
-<li><p class="first">Implicit parameters (see <a class="reference internal" href="glasgow_exts.html#implicit-parameters"><span>Implicit parameters</span></a>) are only
-available at the scope of a breakpoint if there is an explicit type
-signature.</p>
+<li><p class="first">暗黙パラメータ(<a class="reference internal" href="glasgow_exts.html#implicit-parameters"><span>Implicit parameters</span></a> 参照)がブレイクポイントで利用できるのは，型が明示されている場合だけです．</p>
 </li>
 </ul>
 </div>
 </div>
-<div class="section" id="invoking-ghci">
-<span id="ghci-invocation"></span><h2>5.6. Invoking GHCi<a class="headerlink" href="#invoking-ghci" title="このヘッドラインへのパーマリンク">¶</a></h2>
-<p id="index-16">GHCi is invoked with the command <code class="docutils literal"><span class="pre">ghci</span></code> or <code class="docutils literal"><span class="pre">ghc</span> <span class="pre">--interactive</span></code>. One
-or more modules or filenames can also be specified on the command line;
-this instructs GHCi to load the specified modules or filenames (and all
-the modules they depend on), just as if you had said <code class="docutils literal"><span class="pre">:load</span> <span class="pre">modules</span></code>
-at the GHCi prompt (see <a class="reference internal" href="#ghci-commands"><span>GHCi commands</span></a>). For example, to start
-GHCi and load the program whose topmost module is in the file
-<code class="docutils literal"><span class="pre">Main.hs</span></code>, we could say:</p>
+<div class="section" id="ghci-invocation">
+<span id="id34"></span><h2>5.6. GHCi の起動<a class="headerlink" href="#ghci-invocation" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<span class="target" id="index-16"></span><p>GHCiは <code class="docutils literal"><span class="pre">ghci</span></code> または <code class="docutils literal"><span class="pre">ghc</span> <span class="pre">--interactive</span></code> というコマンドで起動します．
+1つまたは複数のモジュールやファイル名をコマンド行で指定することもできます．
+そうすると，GHCiはプロンプトで <code class="docutils literal"><span class="pre">:load</span> <span class="pre">モジュール名</span></code> と入力したとき同じように(<a class="reference internal" href="#ghci-commands"><span>GHCi commands</span></a> 参照)，指定されたモジュールやファイル(と，それらが依存するモジュール)をロードします．
+たとえば、GHCiを起動して(Main.hsに最上位モジュールがある)プログラムをロードするには，
+次のようにすればよい．</p>
 <div class="highlight-none"><div class="highlight"><pre>$ ghci Main.hs
 </pre></div>
 </div>
-<p>Most of the command-line options accepted by GHC (see <a class="reference internal" href="using.html#using-ghc"><span>Using GHC</span></a>)
-also make sense in interactive mode. The ones that don&#8217;t make sense are
-mostly obvious.</p>
+<p>GHCが受け付けるコマンドラインオプション(<a class="reference internal" href="using.html#using-ghc"><span>Using GHC</span></a> 参照)の大部分は対話モードでも有効です．
+GHCiで有効でないものは見れば判ります．</p>
 <dl class="ghc-flag">
 <dt id="ghc-flag--flocal-ghci-history">
 <code class="descname">-flocal-ghci-history</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag--flocal-ghci-history" title="この定義へのパーマリンク">¶</a></dt>
-<dd><p>By default, GHCi keeps global history in <code class="docutils literal"><span class="pre">~/.ghc/ghci_history</span></code> or
-<code class="docutils literal"><span class="pre">%APPDATA%/&lt;app&gt;/ghci_history</span></code>, but you can use current directory, e.g.:</p>
+<dd><p>デフォルトで GHCi グローバル履歴を <code class="docutils literal"><span class="pre">~/.ghc/ghci_history</span></code> に記録します．
+Windows では <code class="docutils literal"><span class="pre">%APPDATA%/&lt;app&gt;/ghci_history</span></code> になりますが，これを現在のディレクトリに設定することもできます．</p>
 <div class="highlight-none"><div class="highlight"><pre>$ ghci -flocal-ghci-history
 </pre></div>
 </div>
-<p>It will create <code class="docutils literal"><span class="pre">.ghci-history</span></code> in current folder where GHCi is launched.</p>
+<p>こうすると <code class="docutils literal"><span class="pre">.ghci-history</span></code> を GHCi を起動した現在のフォルダに作成します．</p>
 </dd></dl>
 
 <div class="section" id="packages">
@@ -1725,7 +1691,7 @@ to the command line.</p>
 </div>
 </div>
 <div class="section" id="ghci-commands">
-<span id="id32"></span><h2>5.7. GHCi commands<a class="headerlink" href="#ghci-commands" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<span id="id35"></span><h2>5.7. GHCi commands<a class="headerlink" href="#ghci-commands" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <p>GHCi commands all begin with &#8220;<code class="docutils literal"><span class="pre">:</span></code>&#8221; and consist of a single command
 name followed by zero or more parameters. The command name may be
 abbreviated, with ambiguities being resolved in favour of the more
@@ -2922,14 +2888,14 @@ program thus:</p>
 </div>
 </dd>
 </dl>
-<table class="docutils footnote" frame="void" id="id33" rules="none">
+<table class="docutils footnote" frame="void" id="id36" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
 <tr><td class="label"><a class="fn-backref" href="#id23">[5]</a></td><td>Note that packages only contain compiled code, so debugging a package
 requires finding its source and loading that directly.</td></tr>
 </tbody>
 </table>
-<table class="docutils footnote" frame="void" id="id34" rules="none">
+<table class="docutils footnote" frame="void" id="id37" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
 <tr><td class="label"><a class="fn-backref" href="#id25">[6]</a></td><td>We originally provided bindings for all variables in scope, rather
