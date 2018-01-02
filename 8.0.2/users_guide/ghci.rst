@@ -2801,7 +2801,6 @@ GHCiは，ブレイクポイントを置いた式の自由変数 [6]_ (``a`` ，
    a little inconvenient to use here, so you might want to use :ghci-cmd:`:def` to
    make a nicer interface (left as an exercise for the reader!).
 
-We evaluated only the ``_t1`` thunk, revealing the head of the list, and
 ここでは，サンク ``_t2`` だけを評価して，リストの先頭が判明しました．
 ``seq`` 関数はすこし使いにくいので :ghci-cmd:`:def` を使ってもっとよいインターフェイスを作るといいでしょう
 (どうするかは練習問題にしておきます！)．
@@ -2982,7 +2981,6 @@ We evaluated only the ``_t1`` thunk, revealing the head of the list, and
 
    To delete all breakpoints at once, use ``:delete *``.
 
-To delete a breakpoint, use the command with the number
 ブレイクポイントを削除するには :ghci-cmd:`:delete` コマンドを使い :ghci-cmd:`:show breaks` で出力されるブレイクポイント番号を指定します．
 
 .. code-block:: none
