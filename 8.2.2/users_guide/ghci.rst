@@ -4146,15 +4146,26 @@ GHCi は単なるオブジェクトファイル(プラットフォームによ�
 
 ``-l`` オプションの順序は重要です．ライブラリ指定は，そのライブラリが依存しているライブラリよりも *前に* 書いておく必要があります(:ref:`options-linker` 参照)．
 
+..
+   .. _ghci-commands:
+
+   GHCi commands
+   -------------
+
 .. _ghci-commands:
 
-GHCi commands
--------------
+GHCi のコマンド群
+-----------------
 
-GHCi commands all begin with "``:``" and consist of a single command
-name followed by zero or more parameters. The command name may be
-abbreviated, with ambiguities being resolved in favour of the more
-commonly used commands.
+..
+   GHCi commands all begin with "``:``" and consist of a single command
+   name followed by zero or more parameters. The command name may be
+   abbreviated, with ambiguities being resolved in favour of the more
+   commonly used commands.
+
+GHCi のコマンドはすべて「 ``:`` 」ではじまり，1つのコマンド名と0個以上のパラメータからなります．
+コマンド名は短縮可能です．
+短縮の結果曖昧になった場合は，よりよく使われるコマンドを優先します．
 
 .. comment
 
@@ -4163,69 +4174,153 @@ commonly used commands.
     commands.
 
 
+..
+   .. ghci-cmd:: :abandon
+
+       Abandons the current evaluation (only available when stopped at a
+       breakpoint).
+
 .. ghci-cmd:: :abandon
 
-    Abandons the current evaluation (only available when stopped at a
-    breakpoint).
+    現在の評価を破棄します(これはブレイクポイントで停止しているときのみ有効)．
+
+..
+   .. ghci-cmd:: :add;[*] ⟨module⟩
+
+       Add ⟨module⟩(s) to the current target set, and perform a reload.
+       Normally pre-compiled code for the module will be loaded if
+       available, or otherwise the module will be compiled to byte-code.
+       Using the ``*`` prefix forces the module to be loaded as byte-code.
+
+       ⟨module⟩ may be a file path. A "``~``" symbol at the beginning of
+       ⟨module⟩  will be replaced by the contents of the environment variable
+       :envvar:`HOME`.
 
 .. ghci-cmd:: :add;[*] ⟨module⟩
 
-    Add ⟨module⟩(s) to the current target set, and perform a reload.
-    Normally pre-compiled code for the module will be loaded if
-    available, or otherwise the module will be compiled to byte-code.
-    Using the ``*`` prefix forces the module to be loaded as byte-code.
+    ⟨module⟩ を現在のターゲット集合に追加しリロードを実行します．
+    通常，可能ならそのモジュールのコンパイル済みコードをロードし，そうでなければ，そのモジュールはバイトコードにコンパイルします．
+    ``*`` 接頭辞を使えば，強制的にバイトコードとしてロードできます．
 
-    ⟨module⟩ may be a file path. A "``~``" symbol at the beginning of
-    ⟨module⟩  will be replaced by the contents of the environment variable
-    :envvar:`HOME`.
+    ⟨module⟩ はファイルパスにすることもできます． "``~``" 記号を
+    ⟨module⟩ の前に置くとそれが環境変数 :envvar:`HOME` に置き換わります．
+
+..
+   .. ghci-cmd:: :all-types
+
+       List all types collected for expressions and (local) bindings
+       currently loaded (while :ghci-cmd:`:set +c` was active) with their respective
+       source-code span, e.g. ::
+
+	  GhciTypes> :all-types
+	  GhciTypes.hs:(38,13)-(38,24): Maybe Id
+	  GhciTypes.hs:(45,10)-(45,29): Outputable SpanInfo
+	  GhciTypes.hs:(45,10)-(45,29): (Rational -> SpanInfo -> SDoc) -> Outputable SpanInfo
 
 .. ghci-cmd:: :all-types
 
-    List all types collected for expressions and (local) bindings
-    currently loaded (while :ghci-cmd:`:set +c` was active) with their respective
-    source-code span, e.g. ::
+    (:ghci-cmd:`:set +c` をアクティブにしておいてからロードされた)現在ロードしている式や（局所）束縛の型を収集したものを一覧にします．
+    このとき，それぞれの式の始点と終点を含むソースコード上の位置情報が同時に表示します．
+    以下はその表示例です． ::
 
        GhciTypes> :all-types
        GhciTypes.hs:(38,13)-(38,24): Maybe Id
        GhciTypes.hs:(45,10)-(45,29): Outputable SpanInfo
        GhciTypes.hs:(45,10)-(45,29): (Rational -> SpanInfo -> SDoc) -> Outputable SpanInfo
 
+..
+   .. ghci-cmd:: :back; ⟨n⟩
+
+       Travel back ⟨n⟩ steps in the history. ⟨n⟩ is one if omitted. See
+       :ref:`tracing` for more about GHCi's debugging facilities. See also:
+       :ghci-cmd:`:trace`, :ghci-cmd:`:history`, :ghci-cmd:`:forward`.
+
 .. ghci-cmd:: :back; ⟨n⟩
 
-    Travel back ⟨n⟩ steps in the history. ⟨n⟩ is one if omitted. See
-    :ref:`tracing` for more about GHCi's debugging facilities. See also:
-    :ghci-cmd:`:trace`, :ghci-cmd:`:history`, :ghci-cmd:`:forward`.
+    履歴を ⟨n⟩ ステップ戻ります．⟨n⟩ の指定が省略されれば，1ステップ戻ります．
+    GHCi のデバッグ機能に関してより詳しくは :ref:`tracing` ， :ghci-cmd:`:trace` ， :ghci-cmd:`:history` ， :ghci-cmd:`:forward` などを参照してください．
+
+..
+   .. ghci-cmd:: :break; [⟨identifier⟩ | [⟨module⟩] ⟨line⟩ [⟨column⟩]]
+
+       Set a breakpoint on the specified function or line and column. See
+       :ref:`setting-breakpoints`.
 
 .. ghci-cmd:: :break; [⟨identifier⟩ | [⟨module⟩] ⟨line⟩ [⟨column⟩]]
 
-    Set a breakpoint on the specified function or line and column. See
-    :ref:`setting-breakpoints`.
+    関数あるいは行を指定してそこにブレイクポイントを設定します．
+    :ref:`setting-breakpoints` を参照してください．
+
+..
+   .. ghci-cmd:: :browse;[!] [[*] ⟨module⟩]
+
+       Displays the identifiers exported by the module ⟨module⟩, which must
+       be either loaded into GHCi or be a member of a package. If ⟨module⟩
+       is omitted, the most recently-loaded module is used.
+
+       Like all other GHCi commands, the output is always displayed in the
+       current GHCi scope (:ref:`ghci-scope`).
+
+       There are two variants of the browse command:
+
+       -  If the ``*`` symbol is placed before the module name, then *all*
+	  the identifiers in scope in ⟨module⟩ (rather that just its
+	  exports) are shown.
+
+	  The ``*``-form is only available for modules which are
+	  interpreted; for compiled modules (including modules from
+	  packages) only the non-\ ``*`` form of :ghci-cmd:`:browse` is available.
+
+       -  Data constructors and class methods are usually displayed in the
+	  context of their data type or class declaration. However, if the
+	  ``!`` symbol is appended to the command, thus ``:browse!``, they
+	  are listed individually. The ``!``-form also annotates the
+	  listing with comments giving possible imports for each group of
+	  entries. Here is an example: ::
+
+	      Prelude> :browse! Data.Maybe
+	      -- not currently imported
+	      Data.Maybe.catMaybes :: [Maybe a] -> [a]
+	      Data.Maybe.fromJust :: Maybe a -> a
+	      Data.Maybe.fromMaybe :: a -> Maybe a -> a
+	      Data.Maybe.isJust :: Maybe a -> Bool
+	      Data.Maybe.isNothing :: Maybe a -> Bool
+	      Data.Maybe.listToMaybe :: [a] -> Maybe a
+	      Data.Maybe.mapMaybe :: (a -> Maybe b) -> [a] -> [b]
+	      Data.Maybe.maybeToList :: Maybe a -> [a]
+	      -- imported via Prelude
+	      Just :: a -> Maybe a
+	      data Maybe a = Nothing | Just a
+	      Nothing :: Maybe a
+	      maybe :: b -> (a -> b) -> Maybe a -> b
+
+	  This output shows that, in the context of the current session (ie
+	  in the scope of ``Prelude``), the first group of items from
+	  ``Data.Maybe`` are not in scope (althought they are available in
+	  fully qualified form in the GHCi session - see
+	  :ref:`ghci-scope`), whereas the second group of items are in
+	  scope (via ``Prelude``) and are therefore available either
+	  unqualified, or with a ``Prelude.`` qualifier.
 
 .. ghci-cmd:: :browse;[!] [[*] ⟨module⟩]
 
-    Displays the identifiers exported by the module ⟨module⟩, which must
-    be either loaded into GHCi or be a member of a package. If ⟨module⟩
-    is omitted, the most recently-loaded module is used.
+    ⟨module⟩ からエクスポートされている識別子を表示します．
+    ⟨module⟩ はGHCiにロードされているか，パッケージの要素でなければなりません．
+    ⟨module⟩ が省略されれば，直近にロードされたモジュールを使います．
 
-    Like all other GHCi commands, the output is always displayed in the
-    current GHCi scope (:ref:`ghci-scope`).
+    他のGHCiのコマンドと同様，出力は現在のGHCiのスコープ(:ref:`ghci-scope`)で表示されます．
 
-    There are two variants of the browse command:
+    browseコマンドには2つの変種があります．
 
-    -  If the ``*`` symbol is placed before the module name, then *all*
-       the identifiers in scope in ⟨module⟩ (rather that just its
-       exports) are shown.
+    -  ``*`` 記号がモジュール名の前に置くと，その⟨module⟩のスコープにある *すべての* 識別子が（エクスポートされたものだけではなく）表示されます．
 
-       The ``*``-form is only available for modules which are
-       interpreted; for compiled modules (including modules from
-       packages) only the non-\ ``*`` form of :ghci-cmd:`:browse` is available.
+       ``*``-形式の指定は解釈実行するモジュールにのみ有効です．
+       コンパイル済みモジュール(パッケージ由来のものを含めて)については :ghci-cmd:`:browse` は ``*``-形式ではない指定のみ有効です．
 
-    -  Data constructors and class methods are usually displayed in the
-       context of their data type or class declaration. However, if the
-       ``!`` symbol is appended to the command, thus ``:browse!``, they
-       are listed individually. The ``!``-form also annotates the
-       listing with comments giving possible imports for each group of
-       entries. Here is an example: ::
+    -  データ構成子とクラスメソッドは通常そのデータ型あるいはクラス宣言の文脈で表示されます．
+       しかし ``!`` 記号をコマンドの後に付けると，すなわち ``:browse!`` のようにすると個別の一覧表示になります．
+       ``!``-形式にするとコメントで各エントリーグループごとにコメント付きで表示します．
+       以下はその例です． ::
 
            Prelude> :browse! Data.Maybe
            -- not currently imported
@@ -4238,254 +4333,485 @@ commonly used commands.
            Data.Maybe.mapMaybe :: (a -> Maybe b) -> [a] -> [b]
            Data.Maybe.maybeToList :: Maybe a -> [a]
            -- imported via Prelude
+           maybe :: b -> (a -> b) -> Maybe a -> b
            Just :: a -> Maybe a
            data Maybe a = Nothing | Just a
            Nothing :: Maybe a
-           maybe :: b -> (a -> b) -> Maybe a -> b
 
-       This output shows that, in the context of the current session (ie
-       in the scope of ``Prelude``), the first group of items from
-       ``Data.Maybe`` are not in scope (althought they are available in
-       fully qualified form in the GHCi session - see
-       :ref:`ghci-scope`), whereas the second group of items are in
-       scope (via ``Prelude``) and are therefore available either
-       unqualified, or with a ``Prelude.`` qualifier.
+       この出力は現在のセッションの文脈(すなわち ``Prelude`` の有効範囲)で，
+       最初の ``Data.Maybe`` 由来の項目グループは有効範囲にないことを示しています
+       (ただし，GHCiのセッションでは完全修飾すれば，これらの項目は利用可能です．
+       :ref:`ghci-scope` を参照)．
+       しかし，2つめの項目グループは(``Prelude`` 経由で)有効範囲内にあり，
+       修飾しなくても，あるいは ``Prelude.`` という修飾をつけて使えるということを示しています．
+
+..
+   .. ghci-cmd:: :cd; ⟨dir⟩
+
+       Changes the current working directory to ⟨dir⟩. A "``~``" symbol
+       at the beginning of ⟨dir⟩ will be replaced by the contents of the
+       environment variable :envvar:`HOME`. See also the :ghci-cmd:`:show paths`
+       command for showing the current working directory.
+
+       Note: changing directories causes all currently loaded modules to be
+       unloaded. This is because the search path is usually expressed using
+       relative directories, and changing the search path in the middle of
+       a session is not supported.
 
 .. ghci-cmd:: :cd; ⟨dir⟩
 
-    Changes the current working directory to ⟨dir⟩. A "``~``" symbol
-    at the beginning of ⟨dir⟩ will be replaced by the contents of the
-    environment variable :envvar:`HOME`. See also the :ghci-cmd:`:show paths`
-    command for showing the current working directory.
+    現在の作業ディレクトリを ⟨dir⟩ に変更します．"``~``"記号を ⟨dir⟩ の先頭に付ければ
+    この記号は環境変数 :envvar:`HOME` の内容に置き換ります．
+    現在の作業ディレクトリを表示する :ghci-cmd:`:show paths` コマンドを参照してください．
 
-    Note: changing directories causes all currently loaded modules to be
-    unloaded. This is because the search path is usually expressed using
-    relative directories, and changing the search path in the middle of
-    a session is not supported.
+    注意: 現在の作業ディレクトリを変更すると，現在ロードされているモジュールはすべてアンロードされます．
+    このようになっている理由は，検索パスは相対ディレクトリで表現されるのが普通で，
+    セッション途中での検索パス変更はサポートされていないからです．
+
+..
+   .. ghci-cmd:: :cmd; ⟨expr⟩
+
+       Executes ⟨expr⟩ as a computation of type ``IO String``, and then
+       executes the resulting string as a list of GHCi commands. Multiple
+       commands are separated by newlines. The :ghci-cmd:`:cmd` command is useful
+       with :ghci-cmd:`:def` and :ghci-cmd:`:set stop`.
 
 .. ghci-cmd:: :cmd; ⟨expr⟩
 
-    Executes ⟨expr⟩ as a computation of type ``IO String``, and then
-    executes the resulting string as a list of GHCi commands. Multiple
-    commands are separated by newlines. The :ghci-cmd:`:cmd` command is useful
-    with :ghci-cmd:`:def` and :ghci-cmd:`:set stop`.
+    ⟨expr⟩ を ``IO String`` 型のコンピュテーションを実行し，
+    実行結果の文字列をGHCiのコマンドのリストとして実行します．
+    複数のコマンドは改行で区切られます．
+    :ghci-cmd:`:cmd` コマンドは :ghci-cmd:`:def` や :ghci-cmd:`:set stop` とともに使うのが便利です．
+
+..
+   .. ghci-cmd:: :complete; ⟨type⟩ [⟨n⟩-][⟨m⟩] ⟨string-literal⟩
+
+       This command allows to request command completions from GHCi even
+       when interacting over a pipe instead of a proper terminal and is
+       designed for integrating GHCi's completion with text editors and
+       IDEs.
+
+       When called, :ghci-cmd:`:complete` prints the ⟨n⟩\ :sup:`th` to
+       ⟨m⟩\ :sup:`th` completion candidates for the partial input
+       ⟨string-literal⟩ for the completion domain denoted by ⟨type⟩.
+       Currently, only the ``repl`` domain is supported which denotes the
+       kind of completion that would be provided interactively by GHCi at
+       the input prompt.
+
+       If omitted, ⟨n⟩ and ⟨m⟩ default to the first or last available
+       completion candidate respectively. If there are less candidates than
+       requested via the range argument, ⟨n⟩ and ⟨m⟩ are implicitly capped
+       to the number of available completion candidates.
+
+       The output of :ghci-cmd:`:complete` begins with a header line containing
+       three space-delimited fields:
+
+       -  An integer denoting the number ``l`` of printed completions,
+       -  an integer denoting the total number of completions available,
+	  and finally
+       -  a string literal denoting a common prefix to be added to the
+	  returned completion candidates.
+
+       The header line is followed by ⟨l⟩ lines each containing one
+       completion candidate encoded as (quoted) string literal. Here are
+       some example invocations showing the various cases:
+
+       .. code-block:: none
+
+	   Prelude> :complete repl 0 ""
+	   0 470 ""
+	   Prelude> :complete repl 5 "import For"
+	   5 21 "import "
+	   "Foreign"
+	   "Foreign.C"
+	   "Foreign.C.Error"
+	   "Foreign.C.String"
+	   "Foreign.C.Types"
+	   Prelude> :complete repl 5-10 "import For"
+	   6 21 "import "
+	   "Foreign.C.Types"
+	   "Foreign.Concurrent"
+	   "Foreign.ForeignPtr"
+	   "Foreign.ForeignPtr.Safe"
+	   "Foreign.ForeignPtr.Unsafe"
+	   "Foreign.Marshal"
+	   Prelude> :complete repl 20- "import For"
+	   2 21 "import "
+	   "Foreign.StablePtr"
+	   "Foreign.Storable"
+	   Prelude> :complete repl "map"
+	   3 3 ""
+	   "map"
+	   "mapM"
+	   "mapM_"
+	   Prelude> :complete repl 5-10 "map"
+	   0 3 ""
 
 .. ghci-cmd:: :complete; ⟨type⟩ [⟨n⟩-][⟨m⟩] ⟨string-literal⟩
 
-    This command allows to request command completions from GHCi even
-    when interacting over a pipe instead of a proper terminal and is
-    designed for integrating GHCi's completion with text editors and
-    IDEs.
+    このコマンドを使えば，端末からではなくパイプでGHCiと繋いているときでも，コマンド補完を要求できます．
+    この機能はGHCiの補完をテキストエディタやIDEに統合するために設計してあります．
 
-    When called, :ghci-cmd:`:complete` prints the ⟨n⟩\ :sup:`th` to
-    ⟨m⟩\ :sup:`th` completion candidates for the partial input
-    ⟨string-literal⟩ for the completion domain denoted by ⟨type⟩.
-    Currently, only the ``repl`` domain is supported which denotes the
-    kind of completion that would be provided interactively by GHCi at
-    the input prompt.
+    :ghci-cmd:`:complete` は ⟨n⟩ 番目から ⟨m⟩ 番目までの補完候補を表示します．
+    補完の対象となるのは ⟨type⟩ で指定された補完ドメインの部分入力 ⟨string-literal⟩ です．
+    現時点では ``repl`` ドメインのみサポートしています．
+    このドメインはGHCiの入力プロンプトでのみ対話的に提供するものです．
 
-    If omitted, ⟨n⟩ and ⟨m⟩ default to the first or last available
-    completion candidate respectively. If there are less candidates than
-    requested via the range argument, ⟨n⟩ and ⟨m⟩ are implicitly capped
-    to the number of available completion candidates.
+    ⟨n⟩ および ⟨m⟩ は省略するとデフォルトでそれぞれ最初の補完候補および最後の補完候補を指します．
+    引数で指定した範囲よりも実際にその範囲にある候補数が小さい場合は，⟨n⟩ および ⟨m⟩ は暗黙に実際の候補数に丸められます．
 
-    The output of :ghci-cmd:`:complete` begins with a header line containing
-    three space-delimited fields:
+    :ghci-cmd:`:complete` の出力は，空白で区切られた以下の3つのフィールドを含むヘッダ行で始まります．
 
-    -  An integer denoting the number ``l`` of printed completions,
-    -  an integer denoting the total number of completions available,
-       and finally
-    -  a string literal denoting a common prefix to be added to the
-       returned completion candidates.
+    -  表示される候補の数  ``l`` を表す整数
+    -  利用可能な全ての補完の数を表す整数
+    -  返される補完後方に付加される共通接頭辞を表す文字リテラル
 
-    The header line is followed by ⟨l⟩ lines each containing one
-    completion candidate encoded as (quoted) string literal. Here are
-    some example invocations showing the various cases:
+    ヘッダ行のあとに ⟨l⟩ 行が続き，各行は1つの補完候補が引用符付きの文字列リテラルとしてエンコードされています．
+    いろいろな場合の起動例を以下に示しましょう．
 
     .. code-block:: none
 
-        Prelude> :complete repl 0 ""
-        0 470 ""
-        Prelude> :complete repl 5 "import For"
-        5 21 "import "
-        "Foreign"
-        "Foreign.C"
-        "Foreign.C.Error"
-        "Foreign.C.String"
-        "Foreign.C.Types"
-        Prelude> :complete repl 5-10 "import For"
-        6 21 "import "
-        "Foreign.C.Types"
-        "Foreign.Concurrent"
-        "Foreign.ForeignPtr"
-        "Foreign.ForeignPtr.Safe"
-        "Foreign.ForeignPtr.Unsafe"
-        "Foreign.Marshal"
-        Prelude> :complete repl 20- "import For"
-        2 21 "import "
-        "Foreign.StablePtr"
-        "Foreign.Storable"
-        Prelude> :complete repl "map"
-        3 3 ""
-        "map"
-        "mapM"
-        "mapM_"
-        Prelude> :complete repl 5-10 "map"
-        0 3 ""
+        Prelude>
+	:complete repl 0 ""
+	0 506 ""
+	Prelude> :complete repl 5 "import For"
+	5 21 "import "
+	"Foreign"
+	"Foreign.C"
+	"Foreign.C.Error"
+	"Foreign.C.String"
+	"Foreign.C.Types"
+	Prelude> :complete repl 5-10 "import For"
+	6 21 "import "
+	"Foreign.C.Types"
+	"Foreign.Concurrent"
+	"Foreign.ForeignPtr"
+	"Foreign.ForeignPtr.Safe"
+	"Foreign.ForeignPtr.Unsafe"
+	"Foreign.Marshal"
+	Prelude> :complete repl 20- "import For"
+	2 21 "import "
+	"Foreign.StablePtr"
+	"Foreign.Storable"
+	Prelude> :complete repl "map"
+	4 4 ""
+	"map"
+	"mapM"
+	"mapM_"
+	"mappend"
+
+..
+   .. ghci-cmd:: :continue
+
+       Continue the current evaluation, when stopped at a breakpoint.
 
 .. ghci-cmd:: :continue
 
-    Continue the current evaluation, when stopped at a breakpoint.
+    ブレイクポイントで停止しているとき，現在の評価を再開します．
+
+..
+   .. ghci-cmd:: :ctags; [⟨filename⟩]
+
+       Generates a "tags" file for Vi-style editors (:ghci-cmd:`:ctags`) or
+       Emacs-style editors (:ghci-cmd:`:etags`). If no filename is specified, the
+       default ``tags`` or ``TAGS`` is used, respectively. Tags for all the
+       functions, constructors and types in the currently loaded modules
+       are created. All modules must be interpreted for these commands to
+       work.
 
 .. ghci-cmd:: :ctags; [⟨filename⟩]
 
-    Generates a "tags" file for Vi-style editors (:ghci-cmd:`:ctags`) or
-    Emacs-style editors (:ghci-cmd:`:etags`). If no filename is specified, the
-    default ``tags`` or ``TAGS`` is used, respectively. Tags for all the
-    functions, constructors and types in the currently loaded modules
-    are created. All modules must be interpreted for these commands to
-    work.
+    :ghci-cmd:`:ctags` はVi系エディタ用タグファイルを生成します．
+    :ghci-cmd:`:etags` はEmacs系エディタ用です．
+    ⟨filename⟩ を指定しなかった場合は，デフォルトでそれぞれ ``tags`` あるいは ``TAGS`` をファイル名として使います．
+    現在ロードしているモジュール内のすべての関数，構成子，型のタグを生成します．
+    これらのコマンドが有効に働くためにはすべてのモジュールが解釈実行されているものでなければなりません．
+
+..
+   .. ghci-cmd:: :def;[!] ⟨name⟩ ⟨expr⟩
+
+       :ghci-cmd:`:def` is used to define new commands, or macros, in GHCi. The
+       command ``:def ⟨name⟩ ⟨expr⟩`` defines a new GHCi command ``:name``,
+       implemented by the Haskell expression ⟨expr⟩, which must have type
+       ``String -> IO String``. When ``:name args`` is typed at the prompt,
+       GHCi will run the expression ``(name args)``, take the resulting
+       ``String``, and feed it back into GHCi as a new sequence of
+       commands. Separate commands in the result must be separated by
+       "``\n``".
+
+       That's all a little confusing, so here's a few examples. To start
+       with, here's a new GHCi command which doesn't take any arguments or
+       produce any results, it just outputs the current date and time:
+
+       .. code-block:: none
+
+	   Prelude> let date _ = Data.Time.getZonedTime >>= print >> return ""
+	   Prelude> :def date date
+	   Prelude> :date
+	   2017-04-10 12:34:56.93213581 UTC
+
+       Here's an example of a command that takes an argument. It's a
+       re-implementation of :ghci-cmd:`:cd`:
+
+       .. code-block:: none
+
+	   Prelude> let mycd d = System.Directory.setCurrentDirectory d >> return ""
+	   Prelude> :def mycd mycd
+	   Prelude> :mycd ..
+
+       Or I could define a simple way to invoke "``ghc --make Main``"
+       in the current directory:
+
+       .. code-block:: none
+
+	   Prelude> :def make (\_ -> return ":! ghc --make Main")
+
+       We can define a command that reads GHCi input from a file. This
+       might be useful for creating a set of bindings that we want to
+       repeatedly load into the GHCi session:
+
+       .. code-block:: none
+
+	   Prelude> :def . readFile
+	   Prelude> :. cmds.ghci
+
+       Notice that we named the command ``:.``, by analogy with the
+       "``.``" Unix shell command that does the same thing.
+
+       Typing ``:def`` on its own lists the currently-defined macros.
+       Attempting to redefine an existing command name results in an error
+       unless the ``:def!`` form is used, in which case the old command
+       with that name is silently overwritten.
 
 .. ghci-cmd:: :def;[!] ⟨name⟩ ⟨expr⟩
 
-    :ghci-cmd:`:def` is used to define new commands, or macros, in GHCi. The
-    command ``:def ⟨name⟩ ⟨expr⟩`` defines a new GHCi command ``:name``,
-    implemented by the Haskell expression ⟨expr⟩, which must have type
-    ``String -> IO String``. When ``:name args`` is typed at the prompt,
-    GHCi will run the expression ``(name args)``, take the resulting
-    ``String``, and feed it back into GHCi as a new sequence of
-    commands. Separate commands in the result must be separated by
-    "``\n``".
+    :ghci-cmd:`:def` はGHCi内で新しいコマンド(あるいはマクロ)を定義するのに使います．
+    ``:def ⟨name⟩ ⟨expr⟩`` というコマンドはHaskellの式 ⟨expr⟩ で実装した新しいGHCiコマンド ``:name`` を定義します．
+    この式 ⟨expr⟩ の型は ``String -> IO String`` でなくてはなりません．
+    GHCiのプロンプトで ``:name args`` を入力すると，式 ``(name args)`` が実行されます．
+    その結果の ``String`` をとり，それを再度GHCiにコマンド列として戻します．
+    結果のコマンド文字列は "``\n``" で区切られていなければなりません．
 
-    That's all a little confusing, so here's a few examples. To start
-    with, here's a new GHCi command which doesn't take any arguments or
-    produce any results, it just outputs the current date and time:
+    これは少々ややこしいので，例をいくつか挙げましょう．
+    まず，次に示す新しいコマンドは引数をとらず，結果も生成せず，単に現在の日時を出力するだけのものです．
 
     .. code-block:: none
 
         Prelude> let date _ = Data.Time.getZonedTime >>= print >> return ""
-        Prelude> :def date date
-        Prelude> :date
-        2017-04-10 12:34:56.93213581 UTC
+	Prelude> :def date date
+	Prelude> :date
+	2018-01-03 09:49:04.34868 JST
 
-    Here's an example of a command that takes an argument. It's a
-    re-implementation of :ghci-cmd:`:cd`:
-
-    .. code-block:: none
-
-        Prelude> let mycd d = System.Directory.setCurrentDirectory d >> return ""
-        Prelude> :def mycd mycd
-        Prelude> :mycd ..
-
-    Or I could define a simple way to invoke "``ghc --make Main``"
-    in the current directory:
+    次は，引数を1つとるコマンドの例です．
+    これは :ghci-cmd:`:cd`: コマンドの再実装です．
 
     .. code-block:: none
 
-        Prelude> :def make (\_ -> return ":! ghc --make Main")
+        Prelude> import System.Directory
+        Prelude System.Directory> let mycd d = setCurrentDirectory d >> return ""
+        Prelude System.Directory> :def mycd mycd
+        Prelude System.Directory> :mycd ..
 
-    We can define a command that reads GHCi input from a file. This
-    might be useful for creating a set of bindings that we want to
-    repeatedly load into the GHCi session:
+    あるいは，現在のディレクトリで「 ``ghc -o foo Main`` 」を起動する単純な方法を定義できます．
+
+    .. code-block:: none
+
+        Prelude> :def make (\_ -> return ":! ghc -o foo Main")
+
+    GHCiへの入力をファイルから読み込むコマンドを定義することもできます．
+    これは，あらかじえ決った束縛を繰り返しGHCiセッションにロードしたいとうとき便利でしょう．
 
     .. code-block:: none
 
         Prelude> :def . readFile
         Prelude> :. cmds.ghci
 
-    Notice that we named the command ``:.``, by analogy with the
-    "``.``" Unix shell command that does the same thing.
+    このコマンドを ``:.`` としたのは同じことを Unix シェルの「 ``.`` 」とのアナロジーです．
 
-    Typing ``:def`` on its own lists the currently-defined macros.
-    Attempting to redefine an existing command name results in an error
-    unless the ``:def!`` form is used, in which case the old command
-    with that name is silently overwritten.
+    ``:def`` を単独で入力すると，現在定義されているマクロの一覧が表示されます．
+    既に存在するコマンド名を再定義しようとするとエラーになりますが，
+    ``:def!`` のように感嘆符をつけると古い方は黙って上書きされます．
+
+..
+   .. ghci-cmd:: :delete; * | ⟨num⟩ ...
+
+       Delete one or more breakpoints by number (use :ghci-cmd:`:show breaks` to
+       see the number of each breakpoint). The ``*`` form deletes all the
+       breakpoints.
 
 .. ghci-cmd:: :delete; * | ⟨num⟩ ...
 
-    Delete one or more breakpoints by number (use :ghci-cmd:`:show breaks` to
-    see the number of each breakpoint). The ``*`` form deletes all the
-    breakpoints.
+    1つ以上のブレイクポイントを番号で指定して削除します．
+    (それぞれのブレイクポイントの番号を知るには :ghci-cmd:`:show breaks` を使います．)
+    ``*`` を使えば，すべてのブレイクポイントが削除されます．
+
+..
+   .. ghci-cmd:: :edit; ⟨file⟩
+
+       Opens an editor to edit the file ⟨file⟩, or the most recently loaded
+       module if ⟨file⟩ is omitted. If there were errors during the last
+       loading, the cursor will be positioned at the line of the first
+       error. The editor to invoke is taken from the :envvar:`EDITOR` environment
+       variable, or a default editor on your system if :envvar:`EDITOR` is not
+       set. You can change the editor using :ghci-cmd:`:set editor`.
 
 .. ghci-cmd:: :edit; ⟨file⟩
 
-    Opens an editor to edit the file ⟨file⟩, or the most recently loaded
-    module if ⟨file⟩ is omitted. If there were errors during the last
-    loading, the cursor will be positioned at the line of the first
-    error. The editor to invoke is taken from the :envvar:`EDITOR` environment
-    variable, or a default editor on your system if :envvar:`EDITOR` is not
-    set. You can change the editor using :ghci-cmd:`:set editor`.
+    エディタを開いてファイル ⟨file⟩ を編集します． ⟨file⟩ を省略した場合は直近にロードされたモジュールを編集します．
+    直近のロードでエラーが起きたときは，カーソルが最初のエラーが起きた箇所に置かれます．
+    エディタは，環境変数 :envvar:`EDITOR` で指定されるものか，環境変数の設定がない場合はシステムのデフォルトエディタが起動します
+    使用するエディタは :ghci-cmd:`:set editor` を使って変更できます．
+
+..
+   .. ghci-cmd:: :etags
+
+       See :ghci-cmd:`:ctags`.
 
 .. ghci-cmd:: :etags
 
-    See :ghci-cmd:`:ctags`.
+    :ghci-cmd:`:ctags` を参照してください．
+
+..
+   .. ghci-cmd:: :force; ⟨identifier⟩ ...
+
+       Prints the value of ⟨identifier⟩ in the same way as :ghci-cmd:`:print`.
+       Unlike :ghci-cmd:`:print`, :ghci-cmd:`:force` evaluates each thunk that it
+       encounters while traversing the value. This may cause exceptions or
+       infinite loops, or further breakpoints (which are ignored, but
+       displayed).
 
 .. ghci-cmd:: :force; ⟨identifier⟩ ...
 
-    Prints the value of ⟨identifier⟩ in the same way as :ghci-cmd:`:print`.
-    Unlike :ghci-cmd:`:print`, :ghci-cmd:`:force` evaluates each thunk that it
-    encounters while traversing the value. This may cause exceptions or
-    infinite loops, or further breakpoints (which are ignored, but
-    displayed).
+    :ghci-cmd:`:print` と同じように ⟨identifier⟩ の値を表示します．
+    :ghci-cmd:`:print` とは違い :ghci-cmd:`:force` は値をたどっていく過程で出会ったサンクを評価しますので，
+    例外あるいは無限ループが発生したり，次のブレイクポイントに当たる(これは無視しますが，その旨を表示する)ことがあります．
+
+..
+   .. ghci-cmd:: :forward; ⟨n⟩
+
+       Move forward ⟨n⟩ steps in the history. ⟨n⟩ is one if omitted. See
+       :ref:`tracing` for more about GHCi's debugging facilities. See also:
+       :ghci-cmd:`:trace`, :ghci-cmd:`:history`, :ghci-cmd:`:back`.
 
 .. ghci-cmd:: :forward; ⟨n⟩
 
-    Move forward ⟨n⟩ steps in the history. ⟨n⟩ is one if omitted. See
-    :ref:`tracing` for more about GHCi's debugging facilities. See also:
-    :ghci-cmd:`:trace`, :ghci-cmd:`:history`, :ghci-cmd:`:back`.
+    履歴を ⟨n⟩ ステップ前進します． ⟨n⟩ の指定が省略されれば，1ステップ前進します．
+    GHCi のデバッグ機能に関してより詳しくは :ref:`tracing` ， :ghci-cmd:`:trace` ， :ghci-cmd:`:history` ， :ghci-cmd:`:back` を参照してください．
+
+..
+   .. ghci-cmd:: :help
+		 :?
+
+       Displays a list of the available commands.
 
 .. ghci-cmd:: :help
               :?
 
-    Displays a list of the available commands.
+    利用可能なコマンドの一覧を表示します．
+
+..
+   .. ghci-cmd:: :
+
+       .. index::
+	  pair: Repeating last command; in GHCi
+
+       Repeat the previous command.
 
 .. ghci-cmd:: :
 
     .. index::
-       pair: Repeating last command; in GHCi
+       pair: 直近のコマンドを反復; GHCiで〜
 
-    Repeat the previous command.
+    直近のコマンドを反復します．
+
+..
+   .. ghci-cmd:: :history; [num]
+
+       Display the history of evaluation steps. With a number, displays
+       that many steps (default: 20). For use with :ghci-cmd:`:trace`; see
+       :ref:`tracing`. To set the number of history entries stored by GHCi,
+       use the :ghc-flag:`-fghci-hist-size=⟨n⟩` flag.
 
 .. ghci-cmd:: :history; [num]
 
-    Display the history of evaluation steps. With a number, displays
-    that many steps (default: 20). For use with :ghci-cmd:`:trace`; see
-    :ref:`tracing`. To set the number of history entries stored by GHCi,
-    use the :ghc-flag:`-fghci-hist-size=⟨n⟩` flag.
+    評価ステップの履歴を表示します．数を指定すると，その数ぶんのステップを表示します(デフォルトは20)．
+    :ghci-cmd:`:trace` (:ref:`tracing` 参照)と組み合わせて使います．
+    GHCi が保存する履歴のエントリー数を設定するには :ghc-flag:`-fghci-hist-size` フラグを使います．
+
+..
+   .. ghci-cmd:: :info;[!] ⟨name⟩
+
+       Displays information about the given name(s). For example, if ⟨name⟩
+       is a class, then the class methods and their types will be printed;
+       if ⟨name⟩ is a type constructor, then its definition will be
+       printed; if ⟨name⟩ is a function, then its type will be printed. If
+       ⟨name⟩ has been loaded from a source file, then GHCi will also
+       display the location of its definition in the source.
+
+       For types and classes, GHCi also summarises instances that mention
+       them. To avoid showing irrelevant information, an instance is shown
+       only if (a) its head mentions ⟨name⟩, and (b) all the other things
+       mentioned in the instance are in scope (either qualified or
+       otherwise) as a result of a :ghci-cmd:`:load` or :ghci-cmd:`:module`
+       commands.
+
+       The command ``:info!`` works in a similar fashion but it removes
+       restriction (b), showing all instances that are in scope and mention
+       ⟨name⟩ in their head.
 
 .. ghci-cmd:: :info;[!] ⟨name⟩
 
-    Displays information about the given name(s). For example, if ⟨name⟩
-    is a class, then the class methods and their types will be printed;
-    if ⟨name⟩ is a type constructor, then its definition will be
-    printed; if ⟨name⟩ is a function, then its type will be printed. If
-    ⟨name⟩ has been loaded from a source file, then GHCi will also
-    display the location of its definition in the source.
+    与えられた名前についての情報を表示します．
+    たとえば， ⟨name⟩ がクラスなら，そのクラスのメソッドとその型が表示される．
+    ⟨name⟩ が型構成子の場合はその定義が表示され，関数なら型が表示されます．
+    また ⟨name⟩ がソースファイルからロードさればものなら，GHCiはその定義のソースコードの位置も表示します．
 
-    For types and classes, GHCi also summarises instances that mention
-    them. To avoid showing irrelevant information, an instance is shown
-    only if (a) its head mentions ⟨name⟩, and (b) all the other things
-    mentioned in the instance are in scope (either qualified or
-    otherwise) as a result of a :ghci-cmd:`:load` or :ghci-cmd:`:module`
-    commands.
+    型およびクラスについては、それに言及するインスタンスもまとめて表示します．
+    無関係な情報が表示されることがないよう，インスタンスは，(a)その頭部が ⟨name⟩ に言及しており，
+    (b)そのインスタンスで言及されているものが全て :ghci-cmd:`:load` あるいは :ghci-cmd:`:module`
+    コマンドの結果として(修飾されているかいないかにかかわらず)スコープにある場合にのみ表示されます．
 
-    The command ``:info!`` works in a similar fashion but it removes
-    restriction (b), showing all instances that are in scope and mention
-    ⟨name⟩ in their head.
+    ``:info!`` コマンドも同様に動作しますが，(b)の制限はなく ⟨name⟩ に言及するインスタンスでスコープにあるものを全て表示します．
+
+..
+   .. ghci-cmd:: :issafe; [⟨module⟩]
+
+       Displays Safe Haskell information about the given module (or the
+       current module if omitted). This includes the trust type of the
+       module and its containing package.
 
 .. ghci-cmd:: :issafe; [⟨module⟩]
 
-    Displays Safe Haskell information about the given module (or the
-    current module if omitted). This includes the trust type of the
-    module and its containing package.
+    与えられたモジュール(省略された場合は現在のモジュール)に間する Safe Haskell 情報を表示します．
+    モジュールとそれを含むパッケージの信頼のタイプの情報が表示されます．
+
+..
+   .. ghci-cmd:: :kind;[!] ⟨type⟩
+
+       Infers and prints the kind of ⟨type⟩. The latter can be an arbitrary
+       type expression, including a partial application of a type
+       constructor, such as ``Either Int``. In fact, :ghci-cmd:`:kind` even allows
+       you to write a partial application of a type synonym (usually
+       disallowed), so that this works:
+
+       .. code-block:: none
+
+	   ghci> type T a b = (a,b,a)
+	   ghci> :k T Int Bool
+	   T Int Bool :: *
+	   ghci> :k T
+	   T :: * -> * -> *
+	   ghci> :k T Int
+	   T Int :: * -> *
+
+       If you specify the optional "``!``", GHC will in addition normalise
+       the type by expanding out type synonyms and evaluating type-function
+       applications, and display the normalised result.
 
 .. ghci-cmd:: :kind;[!] ⟨type⟩
 
-    Infers and prints the kind of ⟨type⟩. The latter can be an arbitrary
-    type expression, including a partial application of a type
-    constructor, such as ``Either Int``. In fact, :ghci-cmd:`:kind` even allows
-    you to write a partial application of a type synonym (usually
-    disallowed), so that this works:
+    ⟨type⟩ のカインドを推論し表示します． ⟨type⟩ は任意の型式で ``Either Int`` のような型構成子の部分適用であってもかまいません．
+    実は :ghci-cmd:`:kind` では通常はできない型シノニムの部分適用が書けるので以下のようなことができます．
 
     .. code-block:: none
 
@@ -4497,91 +4823,188 @@ commonly used commands.
         ghci> :k T Int
         T Int :: * -> *
 
-    If you specify the optional "``!``", GHC will in addition normalise
-    the type by expanding out type synonyms and evaluating type-function
-    applications, and display the normalised result.
+    追加で「 ``!`` 」を指定すると GHCi は型関数適用を評価しその結果を表示します．
+
+..
+   .. ghci-cmd:: :list; ⟨identifier⟩
+
+       Lists the source code around the definition of ⟨identifier⟩ or the
+       current breakpoint if not given. This requires that the identifier
+       be defined in an interpreted module. If your output device supports
+       it, then GHCi will highlight the active subexpression in bold.
 
 .. ghci-cmd:: :list; ⟨identifier⟩
 
-    Lists the source code around the definition of ⟨identifier⟩ or the
-    current breakpoint if not given. This requires that the identifier
-    be defined in an interpreted module. If your output device supports
-    it, then GHCi will highlight the active subexpression in bold.
+    ⟨identifier⟩ が与えられればその定義周辺を表示し，与えられなければ現在のブレイクポイント周辺を表示します．
+    この識別子は解釈実行するモジュールで定義されている必要があります．
+    出力デバイスが対応していれば，GHCiは注目している部分式を太字で強調表示します．
+
+..
+   .. ghci-cmd:: :list [⟨module⟩]; ⟨line⟩
+
+       Lists the source code around the given line number of ⟨module⟩. This
+       requires that the module be interpreted. If your output device
+       supports it, then GHCi will highlight the active subexpression in
+       bold.
 
 .. ghci-cmd:: :list [⟨module⟩]; ⟨line⟩
 
-    Lists the source code around the given line number of ⟨module⟩. This
-    requires that the module be interpreted. If your output device
-    supports it, then GHCi will highlight the active subexpression in
-    bold.
+    ⟨module⟩ の与えられた行番号周辺のソースコードを表示します．
+    このモジュールは解釈実行するものでなければなりません．
+    出力デバイスが対応していれば，GHCiは注目している部分式を太字で強調表示します．
+	      
+..
+   .. ghci-cmd:: :load;[!] [*]⟨module⟩
+
+       Recursively loads the specified ⟨module⟩s, and all the modules they
+       depend on. Here, each ⟨module⟩ must be a module name or filename,
+       but may not be the name of a module in a package.
+
+       All previously loaded modules, except package modules, are
+       forgotten. The new set of modules is known as the target set. Note
+       that :ghci-cmd:`:load` can be used without any arguments to unload all the
+       currently loaded modules and bindings.
+
+       Normally pre-compiled code for a module will be loaded if available,
+       or otherwise the module will be compiled to byte-code. Using the
+       ``*`` prefix forces a module to be loaded as byte-code.
+
+       Adding the optional "``!``" turns type errors into warnings while
+       loading. This allows to use the portions of the module that are
+       correct, even if there are type errors in some definitions.
+       Effectively, the "-fdefer-type-errors" flag is set before loading
+       and unset after loading if the flag has not already been set before.
+       See :ref:`defer-type-errors` for further motivation and details.
+
+       After a :ghci-cmd:`:load` command, the current context is set to:
+
+       -  ⟨module⟩, if it was loaded successfully, or
+
+       -  the most recently successfully loaded module, if any other
+	  modules were loaded as a result of the current :ghci-cmd:`:load`, or
+
+       -  ``Prelude`` otherwise.
 
 .. ghci-cmd:: :load;[!] [*]⟨module⟩
 
-    Recursively loads the specified ⟨module⟩s, and all the modules they
-    depend on. Here, each ⟨module⟩ must be a module name or filename,
-    but may not be the name of a module in a package.
+    指定した ⟨module⟩ および，それが依存するすべてのモジュールを再帰的にロードします．
+    個々の ⟨module⟩ はモジュール名またはファイル名でなければならない．
+    また，パッケージ内のモジュールの名前を指定することはできません．
 
-    All previously loaded modules, except package modules, are
-    forgotten. The new set of modules is known as the target set. Note
-    that :ghci-cmd:`:load` can be used without any arguments to unload all the
-    currently loaded modules and bindings.
+    以前にロードだれていたモジュールは，パッケージ中のものを除いて，忘れられてしまいます．
+    この新しいモジュールの集合をターゲット集合といいます．
+    :ghci-cmd:`:load` を引数なしで使うと，現在ロードされているモジュールおよび束縛を全て未ロード状態にできることに注意してください．
 
-    Normally pre-compiled code for a module will be loaded if available,
-    or otherwise the module will be compiled to byte-code. Using the
-    ``*`` prefix forces a module to be loaded as byte-code.
+    通常可能ならばコンパイル済みのコードをロードしますが，そうでなければ，そのモジュールはバイトコードにコンパイルします．
+    接頭辞 ``*`` を使えば，強制的にモジュールをバイトコードとしてロードします．
 
-    Adding the optional "``!``" turns type errors into warnings while
-    loading. This allows to use the portions of the module that are
-    correct, even if there are type errors in some definitions.
-    Effectively, the "-fdefer-type-errors" flag is set before loading
-    and unset after loading if the flag has not already been set before.
-    See :ref:`defer-type-errors` for further motivation and details.
+    「 ``!`` 」を追加するとロード中の型エラーが警告になります．
+    こうすることで，型エラーになる定義を含むモジュールであっても，正しい部分だけを使うことができます．
+    実際には，ロード前に「-fdefer-type-errors」フラグを設定して，
+    ロード以前にそのフラグが設定されていなければ，ロード後このフラグを未設定にもどしています．
+    動機と詳細については :ref:`defer-type-errors` を参照してください．
 
-    After a :ghci-cmd:`:load` command, the current context is set to:
+    :ghci-cmd:`:load` コマンドを発行後，現在の文脈は以下のようになります．
 
-    -  ⟨module⟩, if it was loaded successfully, or
+    -  ⟨module⟩ のロードが成功したらその ⟨module⟩．
 
-    -  the most recently successfully loaded module, if any other
-       modules were loaded as a result of the current :ghci-cmd:`:load`, or
+    -  そうでなければ，今回の :ghci-cmd:`:load` コマンドの結果ロードが成功した他のモジュールがあればそのモジュール．
 
-    -  ``Prelude`` otherwise.
+    -  そうでなければ ``Prelude``
+
+..
+   .. ghci-cmd:: :loc-at; ⟨module⟩ ⟨line⟩ ⟨col⟩ ⟨end-line⟩ ⟨end-col⟩ [⟨name⟩]
+
+       Tries to find the definition site of the name at the given
+       source-code span, e.g.:
+
+       .. code-block:: none
+
+	   X> :loc-at X.hs 6 14 6 16 mu
+	   X.hs:(8,7)-(8,9)
+
+       This command is useful when integrating GHCi with text editors and
+       IDEs for providing a goto-definition facility.
+
+       The ``:loc-at`` command requires :ghci-cmd:`:set +c` to be set.
 
 .. ghci-cmd:: :loc-at; ⟨module⟩ ⟨line⟩ ⟨col⟩ ⟨end-line⟩ ⟨end-col⟩ [⟨name⟩]
 
-    Tries to find the definition site of the name at the given
-    source-code span, e.g.:
+    与えられたソースコードの範囲にある ⟨name⟩ の定義場所を探します．
+    以下はその例です．
 
     .. code-block:: none
 
         X> :loc-at X.hs 6 14 6 16 mu
         X.hs:(8,7)-(8,9)
 
-    This command is useful when integrating GHCi with text editors and
-    IDEs for providing a goto-definition facility.
+    このコマンドはGHCiとテキストエディタやIDEを統合したときに，定義位置へ移動する機能を提供するのに使えます．
 
-    The ``:loc-at`` command requires :ghci-cmd:`:set +c` to be set.
+    ``:loc-at`` コマンドを使うためには :ghci-cmd:`:set +c` を設定しておく必要があります．
+
+..
+   .. ghci-cmd:: :main; ⟨arg1⟩ ... ⟨argn⟩
+
+       When a program is compiled and executed, it can use the ``getArgs``
+       function to access the command-line arguments. However, we cannot
+       simply pass the arguments to the ``main`` function while we are
+       testing in ghci, as the ``main`` function doesn't take its arguments
+       directly.
+
+       Instead, we can use the :ghci-cmd:`:main` command. This runs whatever
+       ``main`` is in scope, with any arguments being treated the same as
+       command-line arguments, e.g.:
+
+       .. code-block:: none
+
+	   Prelude> main = System.Environment.getArgs >>= print
+	   Prelude> :main foo bar
+	   ["foo","bar"]
+
+       We can also quote arguments which contains characters like spaces,
+       and they are treated like Haskell strings, or we can just use
+       Haskell list syntax:
+
+       .. code-block:: none
+
+	   Prelude> :main foo "bar baz"
+	   ["foo","bar baz"]
+	   Prelude> :main ["foo", "bar baz"]
+	   ["foo","bar baz"]
+
+       Finally, other functions can be called, either with the ``-main-is``
+       flag or the :ghci-cmd:`:run` command:
+
+       .. code-block:: none
+
+	   Prelude> foo = putStrLn "foo" >> System.Environment.getArgs >>= print
+	   Prelude> bar = putStrLn "bar" >> System.Environment.getArgs >>= print
+	   Prelude> :set -main-is foo
+	   Prelude> :main foo "bar baz"
+	   foo
+	   ["foo","bar baz"]
+	   Prelude> :run bar ["foo", "bar baz"]
+	   bar
+	   ["foo","bar baz"]
 
 .. ghci-cmd:: :main; ⟨arg1⟩ ... ⟨argn⟩
 
-    When a program is compiled and executed, it can use the ``getArgs``
-    function to access the command-line arguments. However, we cannot
-    simply pass the arguments to the ``main`` function while we are
-    testing in ghci, as the ``main`` function doesn't take its arguments
-    directly.
+    プログラムをコンパイルし実行するときに ``getArgs`` を使ってコマンドライン引数にアクセスできます．
+    しかし，GHCiでテストしているときには ``main`` にコマンドライン引数を簡単には渡せません．
+    それは ``main`` は直接引数を取らないからです．
 
-    Instead, we can use the :ghci-cmd:`:main` command. This runs whatever
-    ``main`` is in scope, with any arguments being treated the same as
-    command-line arguments, e.g.:
-
+    そこで :ghci-cmd:`:main` コマンドを使います．
+    このコマンドは有効範囲にある ``main`` をとにかく実行し，任意の引数をコマンドライン引数とします．
+    以下がその実行例です．
+    
     .. code-block:: none
 
         Prelude> main = System.Environment.getArgs >>= print
         Prelude> :main foo bar
         ["foo","bar"]
 
-    We can also quote arguments which contains characters like spaces,
-    and they are treated like Haskell strings, or we can just use
-    Haskell list syntax:
+    2重引用符を使うことで，スペースを含む引数を扱えます．
+    引数はHaskellの文字列のリストになり，Haskell内でそのように処理できます．
 
     .. code-block:: none
 
@@ -4590,8 +5013,7 @@ commonly used commands.
         Prelude> :main ["foo", "bar baz"]
         ["foo","bar baz"]
 
-    Finally, other functions can be called, either with the ``-main-is``
-    flag or the :ghci-cmd:`:run` command:
+    ``-main-is`` フラグを設定するか :ghci-cmd:`:run` コマンドを使えば ``main`` 以外も実行できます．
 
     .. code-block:: none
 
@@ -4605,115 +5027,244 @@ commonly used commands.
         bar
         ["foo","bar baz"]
 
+..
+   .. ghci-cmd:: :module; +|- [*]⟨mod1⟩ ...
+   .. ghci-cmd:: import; ⟨mod⟩
+
+       Sets or modifies the current context for statements typed at the
+       prompt. The form ``import mod`` is equivalent to ``:module +mod``.
+       See :ref:`ghci-scope` for more details.
+
 .. ghci-cmd:: :module; +|- [*]⟨mod1⟩ ...
 .. ghci-cmd:: import; ⟨mod⟩
 
-    Sets or modifies the current context for statements typed at the
-    prompt. The form ``import mod`` is equivalent to ``:module +mod``.
-    See :ref:`ghci-scope` for more details.
+    プロンプトに入力する文(statement)用の文脈を設定または変更します．
+    ``import mod`` の形式は ``:module +mod`` と同等です．
+    詳しいことについては :ref:`ghci-scope` を参照してください．
+
+..
+   .. ghci-cmd:: :print; ⟨names⟩
+
+       Prints a value without forcing its evaluation. :ghci-cmd:`:print` may be
+       used on values whose types are unknown or partially known, which
+       might be the case for local variables with polymorphic types at a
+       breakpoint. While inspecting the runtime value, :ghci-cmd:`:print` attempts
+       to reconstruct the type of the value, and will elaborate the type in
+       GHCi's environment if possible. If any unevaluated components
+       (thunks) are encountered, then :ghci-cmd:`:print` binds a fresh variable
+       with a name beginning with ``_t`` to each thunk. See
+       :ref:`breakpoints` for more information. See also the :ghci-cmd:`:sprint`
+       command, which works like :ghci-cmd:`:print` but does not bind new
+       variables.
 
 .. ghci-cmd:: :print; ⟨names⟩
 
-    Prints a value without forcing its evaluation. :ghci-cmd:`:print` may be
-    used on values whose types are unknown or partially known, which
-    might be the case for local variables with polymorphic types at a
-    breakpoint. While inspecting the runtime value, :ghci-cmd:`:print` attempts
-    to reconstruct the type of the value, and will elaborate the type in
-    GHCi's environment if possible. If any unevaluated components
-    (thunks) are encountered, then :ghci-cmd:`:print` binds a fresh variable
-    with a name beginning with ``_t`` to each thunk. See
-    :ref:`breakpoints` for more information. See also the :ghci-cmd:`:sprint`
-    command, which works like :ghci-cmd:`:print` but does not bind new
-    variables.
+    評価を強制することなく値を表示します．
+    :ghci-cmd:`:print` は型が不明もしくは部分的にしか判明していない値についても使用できます．
+    ブレイクポイントにおける，多相型の局所変数がこれにあたります．
+    :ghci-cmd:`:print` は実行時の値を調査しつつ，その値を型を再構成しようとします．
+    そして可能であれば型を精密にしようとします．
+    未評価の部分(すなわちサンク)に出会うと :ghci-cmd:`:print` は ``_t`` で始まる名前の新しい変数をそれぞれのサンクに束縛します．
+    詳しくは :ref:`breakpoints` を参照してください．
+    :ghci-cmd:`:sprint` という新しい変数は束縛しませんが，それ以外は同じコマンドも参照してください．
+    
+..
+   .. ghci-cmd:: :quit
+
+       Quits GHCi. You can also quit by typing :kbd:`Control-D` at the prompt.
 
 .. ghci-cmd:: :quit
 
-    Quits GHCi. You can also quit by typing :kbd:`Control-D` at the prompt.
+    GHCiを終了します．プロンプトで :kbd:`Control-D` をタイプしても終了できます．
+
+..
+   .. ghci-cmd:: :reload;[!]
+
+       Attempts to reload the current target set (see :ghci-cmd:`:load`) if any of
+       the modules in the set, or any dependent module, has changed. Note
+       that this may entail loading new modules, or dropping modules which
+       are no longer indirectly required by the target.
+
+       Adding the optional "``!``" turns type errors into warnings while
+       loading. This allows to use the portions of the module that are
+       correct, even if there are type errors in some definitions.
+       Effectively, the "-fdefer-type-errors" flag is set before loading
+       and unset after loading if the flag has not already been set before.
+       See :ref:`defer-type-errors` for further motivation and details.
 
 .. ghci-cmd:: :reload;[!]
 
-    Attempts to reload the current target set (see :ghci-cmd:`:load`) if any of
-    the modules in the set, or any dependent module, has changed. Note
-    that this may entail loading new modules, or dropping modules which
-    are no longer indirectly required by the target.
+    現在のターゲット集合(:ghci-cmd:`:load` 参照)とそれらが依存するモジュールのうち，
+    変更のあったものがあれば，ターゲット集合を再ロードしようと試みます．
+    結果として，新しいモジュールがロードされたり，ターゲットから間接的に必要とされなくなったモジュールが外れたりする可能性がある
+    ことに注意してください．
 
-    Adding the optional "``!``" turns type errors into warnings while
-    loading. This allows to use the portions of the module that are
-    correct, even if there are type errors in some definitions.
-    Effectively, the "-fdefer-type-errors" flag is set before loading
-    and unset after loading if the flag has not already been set before.
-    See :ref:`defer-type-errors` for further motivation and details.
+    「 ``!`` 」を追加するとロード中の型エラーが警告になります．
+    こうすることで，型エラーになる定義を含むモジュールであっても，正しい部分だけを使うことができます．
+    実際には，ロード前に「-fdefer-type-errors」フラグを設定して，
+    ロード以前にそのフラグが設定されていなければ，ロード後このフラグを未設定にもどしています．
+    動機と詳細については :ref:`defer-type-errors` を参照してください．
+
+..
+   .. ghci-cmd:: :run
+
+       See :ghci-cmd:`:main`.
 
 .. ghci-cmd:: :run
 
-    See :ghci-cmd:`:main`.
+    :ghci-cmd:`:main` を参照してください．
+
+..
+   .. ghci-cmd:: :script; [⟨n⟩] ⟨filename⟩
+
+       Executes the lines of a file as a series of GHCi commands. This
+       command is compatible with multiline statements as set by
+       :ghci-cmd:`:set +m`
 
 .. ghci-cmd:: :script; [⟨n⟩] ⟨filename⟩
 
-    Executes the lines of a file as a series of GHCi commands. This
-    command is compatible with multiline statements as set by
-    :ghci-cmd:`:set +m`
+    指定したファイルの行を一連のGHCiコマンドとて実行します．
+    :ghci-cmd:`:set +m` で設定される複数行コマンドと同時に使えます．
+
+..
+   .. ghci-cmd:: :set; [⟨option⟩ ...]
+
+       Sets various options. See :ref:`ghci-set` for a list of available
+       options and :ref:`interactive-mode-options` for a list of
+       GHCi-specific flags. The :ghci-cmd:`:set` command by itself shows which
+       options are currently set. It also lists the current dynamic flag
+       settings, with GHCi-specific flags listed separately.
 
 .. ghci-cmd:: :set; [⟨option⟩ ...]
 
-    Sets various options. See :ref:`ghci-set` for a list of available
-    options and :ref:`interactive-mode-options` for a list of
-    GHCi-specific flags. The :ghci-cmd:`:set` command by itself shows which
-    options are currently set. It also lists the current dynamic flag
-    settings, with GHCi-specific flags listed separately.
+    さまざまなオプションを設定します．
+    利用可能なオプション一覧については :ref:`ghci-set` を参照して下さい．
+    また，GHCi固有のフラグ一覧については :ref:`interactive-mode-options` を参照してください．
+    :ghci-cmd:`:set` コマンドを単独で使うと，現在設定されているオプションが表示されます．
+    また，それとは分けて，動的フラグの設定状況も一覧表示します．
+
+..
+   .. ghci-cmd:: :set args; ⟨arg⟩
+
+       .. index::
+	  single: getArgs, behavior in GHCi
+
+       Sets the list of arguments which are returned when the program calls
+       ``System.getArgs``.
 
 .. ghci-cmd:: :set args; ⟨arg⟩
 
     .. index::
-       single: getArgs, behavior in GHCi
+       single: getArgs, GHCiにおける〜の振る舞い
 
-    Sets the list of arguments which are returned when the program calls
-    ``System.getArgs``.
+    プログラムが ``System.getArgs`` を呼んだときに返される引数のリストを設定します．
+
+..
+   .. ghci-cmd:: :set editor; ⟨cmd⟩
+
+       Sets the command used by :ghci-cmd:`:edit` to ⟨cmd⟩.
 
 .. ghci-cmd:: :set editor; ⟨cmd⟩
 
-    Sets the command used by :ghci-cmd:`:edit` to ⟨cmd⟩.
+    :ghci-cmd:`:edit` コマンドで使うエディタ起動を ⟨cmd⟩ に設定する．
+
+..
+   .. ghci-cmd:: :set prog; ⟨prog⟩
+
+       .. index::
+	  single: getProgName, behavior in GHCi
+
+       Sets the string to be returned when the program calls
+       ``System.getProgName``.
 
 .. ghci-cmd:: :set prog; ⟨prog⟩
 
     .. index::
-       single: getProgName, behavior in GHCi
+       single: getProgName, GHCiにおける〜の振る舞い
 
-    Sets the string to be returned when the program calls
-    ``System.getProgName``.
+    プログラムが ``System.getProgName`` を呼んだときに返される文字列を設定します．
+
+..
+   .. ghci-cmd:: :set prompt; ⟨prompt⟩
+
+       .. index::
+	  single: GHCi prompt; setting
+
+       Sets the string to be used as the prompt in GHCi. Inside ⟨prompt⟩,
+       the next sequences are replaced:
+
+       - ``%s`` by the names of the modules currently in scope.
+       - ``%l`` by the line number (as referenced in compiler messages) of the
+	 current prompt.
+       - ``%d`` by the date in "Weekday Month Date" format (e.g., "Tue May 26") .
+       - ``%t`` by the current time in 24-hour HH:MM:SS format.
+       - ``%T`` by the current time in 12-hour HH:MM:SS format.
+       - ``%@`` by the current time in 12-hour am/pm format.
+       - ``%A`` by the current time in 24-hour HH:MM format.
+       - ``%u`` by the username of the current user.
+       - ``%w`` by the current working directory.
+       - ``%o`` by the operating system.
+       - ``%a`` by the machine architecture.
+       - ``%N`` by the compiler name.
+       - ``%V`` by the compiler version.
+       - ``%call(cmd [args])`` by the result of calling ``cmd args``.
+       - ``%%`` by ``%``.
+
+       If ⟨prompt⟩ starts with ``"`` then it is parsed as a Haskell String;
+       otherwise it is treated as a literal string.
 
 .. ghci-cmd:: :set prompt; ⟨prompt⟩
 
     .. index::
-       single: GHCi prompt; setting
+       single: GHCi のプロンプト; 〜の設定
 
-    Sets the string to be used as the prompt in GHCi. Inside ⟨prompt⟩,
-    the next sequences are replaced:
+    GHCiのプロンプトとして使う文字列を設定します．
+    ⟨prompt⟩ の中では以下の並びが置き換えられます．
 
-    - ``%s`` by the names of the modules currently in scope.
-    - ``%l`` by the line number (as referenced in compiler messages) of the
-      current prompt.
-    - ``%d`` by the date in "Weekday Month Date" format (e.g., "Tue May 26") .
-    - ``%t`` by the current time in 24-hour HH:MM:SS format.
-    - ``%T`` by the current time in 12-hour HH:MM:SS format.
-    - ``%@`` by the current time in 12-hour am/pm format.
-    - ``%A`` by the current time in 24-hour HH:MM format.
-    - ``%u`` by the username of the current user.
-    - ``%w`` by the current working directory.
-    - ``%o`` by the operating system.
-    - ``%a`` by the machine architecture.
-    - ``%N`` by the compiler name.
-    - ``%V`` by the compiler version.
-    - ``%call(cmd [args])`` by the result of calling ``cmd args``.
-    - ``%%`` by ``%``.
+    - ``%s`` は現在のスコープにあるモジュール名に，
+    - ``%l`` は現在のプロンプトの行番号(コンパイラメッセージで参照されるもの)に，
+    - ``%d`` は"曜日 月 日" 形式の日付(たとえば "Tue May 26")に，
+    - ``%t`` は現在の時刻を24時間の HH:MM:SS形式で表したものに，
+    - ``%T`` は現在の時刻を12時間の HH:MM:SS形式で表したものに，
+    - ``%@`` は現在の時刻を12時間の am/pm 形式で表したものに，
+    - ``%A`` は現在の時刻を24時間の HH:MM形式で表したものに，
+    - ``%u`` は現在のユーザのユーザ名に，
+    - ``%w`` は現在の作業ディレクトリ名に，
+    - ``%o`` はOS名に，
+    - ``%a`` はマシンアーキテクチャ名に，
+    - ``%N`` はコンパイラ名に，
+    - ``%V`` はコンパイラのバージョンに，
+    - ``%call(cmd [args])`` は ``cmd args`` を呼んだ結果文字列に，
+    - ``%%`` は ``%`` に，
+     
+    にそれぞれ置き換えられます．
+   
+    ⟨prompt⟩ が ``"`` で始まる場合，Haskellの ``String`` としてパースします．
+    そうでない場合はそのまま文字列として扱います．
 
-    If ⟨prompt⟩ starts with ``"`` then it is parsed as a Haskell String;
-    otherwise it is treated as a literal string.
+..
+   .. ghci-cmd:: :set prompt-cont; ⟨prompt⟩
+
+       Sets the string to be used as the continuation prompt (used when
+       using the :ghci-cmd:`:{` command) in GHCi.
 
 .. ghci-cmd:: :set prompt-cont; ⟨prompt⟩
 
-    Sets the string to be used as the continuation prompt (used when
-    using the :ghci-cmd:`:{` command) in GHCi.
+    (:ghci-cmd:`:{` コマンドを使うときに使う)GHCiの継続プロンプトとして使う文字列を設定します．
+
+..
+   .. ghci-cmd:: :set prompt-function; ⟨prompt-function⟩
+
+       .. index::
+	  single: GHCi prompt function; setting
+
+       Sets the function to be used for the prompt displaying in GHCi. The
+       function should be of the type ``[String] -> Int -> IO String``. This
+       function is called each time the prompt is being made. The first argument
+       stands for the names of the modules currently in scope(the name of the
+       "topmost" module  will begin with a ``*``; see  :ref:`ghci-scope` for
+       more information). The second arguments is the line number (as referenced
+       in compiler  messages) of the current prompt.
 
 .. ghci-cmd:: :set prompt-function; ⟨prompt-function⟩
 
@@ -4727,6 +5278,12 @@ commonly used commands.
     "topmost" module  will begin with a ``*``; see  :ref:`ghci-scope` for
     more information). The second arguments is the line number (as referenced
     in compiler  messages) of the current prompt.
+
+..
+   .. ghci-cmd:: :set prompt-cont-function; ⟨prompt-function⟩
+
+      Sets the function to be used for the continuation prompt (used when
+      using the :ghci-cmd:`:{` command) displaying in GHCi.
 
 .. ghci-cmd:: :set prompt-cont-function; ⟨prompt-function⟩
 
