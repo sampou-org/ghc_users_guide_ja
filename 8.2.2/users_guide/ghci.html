@@ -2213,168 +2213,151 @@ bar
 <dl class="ghci-cmd">
 <dt id="ghci-cmd-:set prompt-function">
 <code class="descname">:set prompt-function</code><code class="descclassname"> ⟨prompt-function⟩</code><a class="headerlink" href="#ghci-cmd-:set prompt-function" title="この定義へのパーマリンク">¶</a></dt>
-<dd><p id="index-27">Sets the function to be used for the prompt displaying in GHCi. The
-function should be of the type <code class="docutils literal"><span class="pre">[String]</span> <span class="pre">-&gt;</span> <span class="pre">Int</span> <span class="pre">-&gt;</span> <span class="pre">IO</span> <span class="pre">String</span></code>. This
-function is called each time the prompt is being made. The first argument
-stands for the names of the modules currently in scope(the name of the
-&#8220;topmost&#8221; module  will begin with a <code class="docutils literal"><span class="pre">*</span></code>; see  <a class="reference internal" href="#ghci-scope"><span>プロンプトのスコープにあるもの</span></a> for
-more information). The second arguments is the line number (as referenced
-in compiler  messages) of the current prompt.</p>
+<dd><p id="index-27">GHCiで表示されるプロンプトに使用される関数を設定します．
+関数の型は <code class="docutils literal"><span class="pre">[String]</span> <span class="pre">-</span> <span class="pre">&gt;</span> <span class="pre">Int</span> <span class="pre">-</span> <span class="pre">&gt;</span> <span class="pre">IO</span> <span class="pre">String</span></code> 型でなければなりません．
+この関数は，プロンプトが作成されるたびに呼び出されます．
+最初の引数は現在スコープ内にあるモジュールの名前を表します（「最上位」モジュールの名前は*で始まります．
+詳細については <a class="reference internal" href="#ghci-scope"><span>プロンプトのスコープにあるもの</span></a> を参照してください）．
+2番目の引数は，現在のプロンプトの（コンパイラメッセージで参照されている）行番号です．</p>
 </dd></dl>
 
 <dl class="ghci-cmd">
 <dt id="ghci-cmd-:set prompt-cont-function">
 <code class="descname">:set prompt-cont-function</code><code class="descclassname"> ⟨prompt-function⟩</code><a class="headerlink" href="#ghci-cmd-:set prompt-cont-function" title="この定義へのパーマリンク">¶</a></dt>
-<dd><p>Sets the function to be used for the continuation prompt (used when
-using the <a class="reference internal" href="#ghci-cmd-:{"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:{</span></code></a> command) displaying in GHCi.</p>
+<dd><p>継続プロンプトに使用される関数を設定します（GHCiで：{コマンドを使用するときに使用されます）．</p>
 </dd></dl>
 
 <dl class="ghci-cmd">
 <dt id="ghci-cmd-:set stop">
 <code class="descname">:set stop</code><code class="descclassname"> ⟨num⟩ ⟨cmd⟩</code><a class="headerlink" href="#ghci-cmd-:set stop" title="この定義へのパーマリンク">¶</a></dt>
-<dd><p>Set a command to be executed when a breakpoint is hit, or a new item
-in the history is selected. The most common use of <a class="reference internal" href="#ghci-cmd-:set stop"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:set</span> <span class="pre">stop</span></code></a> is
-to display the source code at the current location, e.g.
-<code class="docutils literal"><span class="pre">:set</span> <span class="pre">stop</span> <span class="pre">:list</span></code>.</p>
-<p>If a number is given before the command, then the commands are run
-when the specified breakpoint (only) is hit. This can be quite
-useful: for example, <code class="docutils literal"><span class="pre">:set</span> <span class="pre">stop</span> <span class="pre">1</span> <span class="pre">:continue</span></code> effectively disables
-breakpoint 1, by running <a class="reference internal" href="#ghci-cmd-:continue"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:continue</span></code></a> whenever it is hit (although
-GHCi will still emit a message to say the breakpoint was hit). What&#8217;s more,
-with cunning use of <a class="reference internal" href="#ghci-cmd-:def"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:def</span></code></a> and <a class="reference internal" href="#ghci-cmd-:cmd"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:cmd</span></code></a> you can use
-<a class="reference internal" href="#ghci-cmd-:set stop"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:set</span> <span class="pre">stop</span></code></a> to implement conditional breakpoints:</p>
+<dd><p>ブレイクポイントに当たったとき，または履歴中で新しい項目が選択したときに実行するコマンドを設定します．
+<a class="reference internal" href="#ghci-cmd-:set stop"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:set</span> <span class="pre">stop</span></code></a> の最もよくある使い方は，現在の位置のソースコードを表示するこです．
+たとえば <code class="docutils literal"><span class="pre">:set</span> <span class="pre">stop</span> <span class="pre">:list</span></code> のようにします．</p>
+<p>コマンドの前に数値を指定すると，その番号のブレイクポイントにあたったときにだけそのコマンドを実行します．
+これは便利な機能です．たとえば <code class="docutils literal"><span class="pre">:set</span> <span class="pre">stop</span> <span class="pre">1</span> <span class="pre">:continue</span></code> は1番のブレイクポイントを無効にするのと同じことです．
+1番のブレイクポイントに当ったときはいつも <a class="reference internal" href="#ghci-cmd-:continue"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:continue</span></code></a> が実行されるからです
+(ただし，ブレイクポイントに当ったとのメッセージは出力されます)．
+さらに <a class="reference internal" href="#ghci-cmd-:def"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:def</span></code></a> と <a class="reference internal" href="#ghci-cmd-:cmd"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:cmd</span></code></a> をうまく使って <a class="reference internal" href="#ghci-cmd-:set stop"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:set</span> <span class="pre">stop</span></code></a> で条件付ブレイクポイントを実装することもできます．</p>
 <div class="highlight-none"><div class="highlight"><pre>*Main&gt; :def cond \expr -&gt; return (&quot;:cmd if (&quot; ++ expr ++ &quot;) then return \&quot;\&quot; else return \&quot;:continue\&quot;&quot;)
 *Main&gt; :set stop 0 :cond (x &lt; 3)
 </pre></div>
 </div>
-<p>Ignoring breakpoints for a specified number of iterations is also
-possible using similar techniques.</p>
+<p>同様の技法を使えば，指定した回数だけブレイクポイントを無視することもできます．</p>
 </dd></dl>
 
 <dl class="ghci-cmd">
 <dt id="ghci-cmd-:seti">
 <code class="descname">:seti</code><code class="descclassname"> [⟨option⟩ ...]</code><a class="headerlink" href="#ghci-cmd-:seti" title="この定義へのパーマリンク">¶</a></dt>
-<dd><p>Like <a class="reference internal" href="#ghci-cmd-:set"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:set</span></code></a>, but options set with <a class="reference internal" href="#ghci-cmd-:seti"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:seti</span></code></a> affect only
-expressions and commands typed at the prompt, and not modules loaded
-with <a class="reference internal" href="#ghci-cmd-:load"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:load</span></code></a> (in contrast, options set with <a class="reference internal" href="#ghci-cmd-:set"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:set</span></code></a> apply
-everywhere). See <a class="reference internal" href="#ghci-interactive-options"><span>Setting options for interactive evaluation only</span></a>.</p>
-<p>Without any arguments, displays the current set of options that are
-applied to expressions and commands typed at the prompt.</p>
+<dd><p><a class="reference internal" href="#ghci-cmd-:set"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:set</span></code></a> と似ていますが <a class="reference internal" href="#ghci-cmd-:seti"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:seti</span></code></a> で設定されたオプションはプロンプトに入力された式とコマンドのみに影響し，
+<a class="reference internal" href="#ghci-cmd-:load"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:load</span></code></a> でロードされたモジュールには影響しません
+(対照的に <a class="reference internal" href="#ghci-cmd-:set"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:set</span></code></a> で設定されたオプションはあらゆるところで適用されます)．
+<a class="reference internal" href="#ghci-interactive-options"><span>Setting options for interactive evaluation only</span></a> を参照してください．</p>
+<p>引数がなければ，プロンプトに入力される式とコマンドに適用されるオプションの集合を表示します．</p>
 </dd></dl>
 
 <dl class="ghci-cmd">
 <dt id="ghci-cmd-:show bindings">
 <code class="descname">:show bindings</code><code class="descclassname"></code><a class="headerlink" href="#ghci-cmd-:show bindings" title="この定義へのパーマリンク">¶</a></dt>
-<dd><p>Show the bindings made at the prompt and their types.</p>
+<dd><p>プロンプトで導入した束縛とその型を表示します．</p>
 </dd></dl>
 
 <dl class="ghci-cmd">
 <dt id="ghci-cmd-:show breaks">
 <code class="descname">:show breaks</code><code class="descclassname"></code><a class="headerlink" href="#ghci-cmd-:show breaks" title="この定義へのパーマリンク">¶</a></dt>
-<dd><p>List the active breakpoints.</p>
+<dd><p>現在有効なブレイクポイントを一覧表示します．</p>
 </dd></dl>
 
 <dl class="ghci-cmd">
 <dt id="ghci-cmd-:show context">
 <code class="descname">:show context</code><code class="descclassname"></code><a class="headerlink" href="#ghci-cmd-:show context" title="この定義へのパーマリンク">¶</a></dt>
-<dd><p>List the active evaluations that are stopped at breakpoints.</p>
+<dd><p>ブレイクポイントで停止している，有効な評価の一覧を表示します．</p>
 </dd></dl>
 
 <dl class="ghci-cmd">
 <dt id="ghci-cmd-:show imports">
 <code class="descname">:show imports</code><code class="descclassname"></code><a class="headerlink" href="#ghci-cmd-:show imports" title="この定義へのパーマリンク">¶</a></dt>
-<dd><p>Show the imports that are currently in force, as created by
-<code class="docutils literal"><span class="pre">import</span></code> and <a class="reference internal" href="#ghci-cmd-:module"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:module</span></code></a> commands.</p>
+<dd><p><code class="docutils literal"><span class="pre">import</span></code> 文や <a class="reference internal" href="#ghci-cmd-:module"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:module</span></code></a> コマンドによって作った現在な現在有効なインポートを表示します．</p>
 </dd></dl>
 
 <dl class="ghci-cmd">
 <dt id="ghci-cmd-:show modules">
 <code class="descname">:show modules</code><code class="descclassname"></code><a class="headerlink" href="#ghci-cmd-:show modules" title="この定義へのパーマリンク">¶</a></dt>
-<dd><p>Show the list of modules currently loaded.</p>
+<dd><p>現在ロードされているモジュールの一覧を表示する．</p>
 </dd></dl>
 
 <dl class="ghci-cmd">
 <dt id="ghci-cmd-:show packages">
 <code class="descname">:show packages</code><code class="descclassname"></code><a class="headerlink" href="#ghci-cmd-:show packages" title="この定義へのパーマリンク">¶</a></dt>
-<dd><p>Show the currently active package flags, as well as the list of
-packages currently loaded.</p>
+<dd><p>現在ロードされているパッケージの一覧と現在有効なパッケージフラグを表示します．</p>
 </dd></dl>
 
 <dl class="ghci-cmd">
 <dt id="ghci-cmd-:show paths">
 <code class="descname">:show paths</code><code class="descclassname"></code><a class="headerlink" href="#ghci-cmd-:show paths" title="この定義へのパーマリンク">¶</a></dt>
-<dd><p>Show the current working directory (as set via <a class="reference internal" href="#ghci-cmd-:cd"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:cd</span></code></a> command), as
-well as the list of directories searched for source files (as set by the
-<code class="docutils literal"><span class="pre">-i</span></code> option).</p>
+<dd><p>ソースファイルの検索パス一覧(<code class="docutils literal"><span class="pre">-i</span></code> オプションで指定)と現在の作業ディレクトリ(<a class="reference internal" href="#ghci-cmd-:cd"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:cd</span></code></a> コマンドで設定)を表示する．</p>
 </dd></dl>
 
 <dl class="ghci-cmd">
 <dt id="ghci-cmd-:show language">
 <code class="descname">:show language</code><code class="descclassname"></code><a class="headerlink" href="#ghci-cmd-:show language" title="この定義へのパーマリンク">¶</a></dt>
-<dd><p>Show the currently active language flags for source files.</p>
+<dd><p>ソースファイルに対して現在有効になっている言語フラグを表示する．</p>
 </dd></dl>
 
 <dl class="ghci-cmd">
 <dt id="ghci-cmd-:showi language">
 <code class="descname">:showi language</code><code class="descclassname"></code><a class="headerlink" href="#ghci-cmd-:showi language" title="この定義へのパーマリンク">¶</a></dt>
-<dd><p>Show the currently active language flags for expressions typed at
-the prompt (see also <a class="reference internal" href="#ghci-cmd-:seti"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:seti</span></code></a>).</p>
+<dd><p>プロンプトで入力される式に対して現在有効になっている言語フラグを表示します
+(<a class="reference internal" href="#ghci-cmd-:seti"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:seti</span></code></a> も参照してください)．</p>
 </dd></dl>
 
 <dl class="ghci-cmd">
 <dt id="ghci-cmd-:show">
 <code class="descname">:show</code><code class="descclassname"> [args|prog|prompt|editor|stop]</code><a class="headerlink" href="#ghci-cmd-:show" title="この定義へのパーマリンク">¶</a></dt>
-<dd><p>Displays the specified setting (see <a class="reference internal" href="#ghci-cmd-:set"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:set</span></code></a>).</p>
+<dd><p>指定した設定を表示します(<a class="reference internal" href="#ghci-cmd-:set"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:set</span></code></a> 参照)．</p>
 </dd></dl>
 
 <dl class="ghci-cmd">
 <dt id="ghci-cmd-:sprint">
 <code class="descname">:sprint</code><code class="descclassname"> ⟨expr⟩</code><a class="headerlink" href="#ghci-cmd-:sprint" title="この定義へのパーマリンク">¶</a></dt>
-<dd><p>Prints a value without forcing its evaluation. <a class="reference internal" href="#ghci-cmd-:sprint"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:sprint</span></code></a> is
-similar to <a class="reference internal" href="#ghci-cmd-:print"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:print</span></code></a>, with the difference that unevaluated subterms
-are not bound to new variables, they are simply denoted by <code class="docutils literal"><span class="pre">_</span></code>.</p>
+<dd><p>評価を強制せずに値を表示します．
+<a class="reference internal" href="#ghci-cmd-:sprint"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:sprint</span></code></a> は未評価の部分項が新しい変数に束縛せず，単に <code class="docutils literal"><span class="pre">_</span></code> と表す以外は，
+<a class="reference internal" href="#ghci-cmd-:print"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:print</span></code></a> と同じです．</p>
 </dd></dl>
 
 <dl class="ghci-cmd">
 <dt id="ghci-cmd-:step">
 <code class="descname">:step</code><code class="descclassname"> [⟨expr⟩]</code><a class="headerlink" href="#ghci-cmd-:step" title="この定義へのパーマリンク">¶</a></dt>
-<dd><p>Enable all breakpoints and begin evaluating an expression in
-single-stepping mode. In this mode evaluation will be stopped after
-every reduction, allowing local variables to be inspected. If ⟨expr⟩
-is not given, evaluation will resume at the last breakpoint. See
-<a class="reference internal" href="#single-stepping"><span>ステップ実行</span></a>.</p>
+<dd><p>すべてのブレイクポイントを有効にして，式を単一ステップモードでの評価を開始します．
+このモードでは，簡約1ステップごとに評価が停止し局所変数を確認できます．
+⟨expr⟩ が与えなかった場合は，最後のブレイクポイントから評価を開始します．
+<a class="reference internal" href="#single-stepping"><span>ステップ実行</span></a> を参照してください．</p>
 </dd></dl>
 
 <dl class="ghci-cmd">
 <dt id="ghci-cmd-:steplocal">
 <code class="descname">:steplocal</code><code class="descclassname"></code><a class="headerlink" href="#ghci-cmd-:steplocal" title="この定義へのパーマリンク">¶</a></dt>
-<dd><p>Enable only breakpoints in the current top-level binding and resume
-evaluation at the last breakpoint.</p>
+<dd><p>現在の最上位束縛の中にあるブレイクポイントのみを有効にした状態で最後のブレイクポイントから評価を再開します．</p>
 </dd></dl>
 
 <dl class="ghci-cmd">
 <dt id="ghci-cmd-:stepmodule">
 <code class="descname">:stepmodule</code><code class="descclassname"></code><a class="headerlink" href="#ghci-cmd-:stepmodule" title="この定義へのパーマリンク">¶</a></dt>
-<dd><p>Enable only breakpoints in the current module and resume evaluation
-at the last breakpoint.</p>
+<dd><p>現在のモジュール内にあるブレイクポイントのみを有効にした状態で，最後のブレイクポイントから評価を再開します．</p>
 </dd></dl>
 
 <dl class="ghci-cmd">
 <dt id="ghci-cmd-:trace">
 <code class="descname">:trace</code><code class="descclassname"> ⟨expr⟩</code><a class="headerlink" href="#ghci-cmd-:trace" title="この定義へのパーマリンク">¶</a></dt>
-<dd><p>Evaluates the given expression (or from the last breakpoint if no
-expression is given), and additionally logs the evaluation steps for
-later inspection using <a class="reference internal" href="#ghci-cmd-:history"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:history</span></code></a>. See <a class="reference internal" href="#tracing"><span>トレースとヒストリ</span></a>.</p>
+<dd><p>与えられた式を評価(式を与えられなかった場合は直近のブレークポイントから再開)しますが，
+後で <a class="reference internal" href="#ghci-cmd-:history"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:history</span></code></a> で観察できるように評価ステップのログを残します．
+<a class="reference internal" href="#tracing"><span>トレースとヒストリ</span></a> を参照してください．</p>
 </dd></dl>
 
 <dl class="ghci-cmd">
 <dt id="ghci-cmd-:type">
 <code class="descname">:type</code><code class="descclassname"> ⟨expression⟩</code><a class="headerlink" href="#ghci-cmd-:type" title="この定義へのパーマリンク">¶</a></dt>
-<dd><p>Infers and prints the type of ⟨expression⟩, including explicit
-forall quantifiers for polymorphic types.
-The type reported is the type that would be inferred
-for a variable assigned to the expression, but without the
-monomorphism restriction applied.</p>
+<dd><p>明示的な全称量化がかかる多相型も含め，⟨expression⟩ の型を推論し表示します．
+報告された型は，式に割り当てられた変数に対して推論されますが，単相性の制約は適用されません．</p>
 <div class="highlight-none"><div class="highlight"><pre>*X&gt; :type length
 length :: Foldable t =&gt; t a -&gt; Int
 </pre></div>

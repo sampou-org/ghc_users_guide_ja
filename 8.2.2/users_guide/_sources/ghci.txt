@@ -5269,15 +5269,14 @@ GHCi のコマンドはすべて「 ``:`` 」ではじまり，1つのコマン�
 .. ghci-cmd:: :set prompt-function; ⟨prompt-function⟩
 
     .. index::
-       single: GHCi prompt function; setting
+       single: GHCi のプロンプト関数; 〜の設定
 
-    Sets the function to be used for the prompt displaying in GHCi. The
-    function should be of the type ``[String] -> Int -> IO String``. This
-    function is called each time the prompt is being made. The first argument
-    stands for the names of the modules currently in scope(the name of the
-    "topmost" module  will begin with a ``*``; see  :ref:`ghci-scope` for
-    more information). The second arguments is the line number (as referenced
-    in compiler  messages) of the current prompt.
+    GHCiで表示されるプロンプトに使用される関数を設定します．
+    関数の型は ``[String] - > Int - > IO String`` 型でなければなりません．
+    この関数は，プロンプトが作成されるたびに呼び出されます．
+    最初の引数は現在スコープ内にあるモジュールの名前を表します（「最上位」モジュールの名前は*で始まります．
+    詳細については :ref:`ghci-scope` を参照してください）．
+    2番目の引数は，現在のプロンプトの（コンパイラメッセージで参照されている）行番号です．
 
 ..
    .. ghci-cmd:: :set prompt-cont-function; ⟨prompt-function⟩
@@ -5287,124 +5286,247 @@ GHCi のコマンドはすべて「 ``:`` 」ではじまり，1つのコマン�
 
 .. ghci-cmd:: :set prompt-cont-function; ⟨prompt-function⟩
 
-   Sets the function to be used for the continuation prompt (used when
-   using the :ghci-cmd:`:{` command) displaying in GHCi.
+   継続プロンプトに使用される関数を設定します（GHCiで：{コマンドを使用するときに使用されます）．
+
+..
+   .. ghci-cmd:: :set stop; ⟨num⟩ ⟨cmd⟩
+
+       Set a command to be executed when a breakpoint is hit, or a new item
+       in the history is selected. The most common use of :ghci-cmd:`:set stop` is
+       to display the source code at the current location, e.g.
+       ``:set stop :list``.
+
+       If a number is given before the command, then the commands are run
+       when the specified breakpoint (only) is hit. This can be quite
+       useful: for example, ``:set stop 1 :continue`` effectively disables
+       breakpoint 1, by running :ghci-cmd:`:continue` whenever it is hit (although
+       GHCi will still emit a message to say the breakpoint was hit). What's more,
+       with cunning use of :ghci-cmd:`:def` and :ghci-cmd:`:cmd` you can use
+       :ghci-cmd:`:set stop` to implement conditional breakpoints:
+
+       .. code-block:: none
+
+	   *Main> :def cond \expr -> return (":cmd if (" ++ expr ++ ") then return \"\" else return \":continue\"")
+	   *Main> :set stop 0 :cond (x < 3)
+
+       Ignoring breakpoints for a specified number of iterations is also
+       possible using similar techniques.
 
 .. ghci-cmd:: :set stop; ⟨num⟩ ⟨cmd⟩
 
-    Set a command to be executed when a breakpoint is hit, or a new item
-    in the history is selected. The most common use of :ghci-cmd:`:set stop` is
-    to display the source code at the current location, e.g.
-    ``:set stop :list``.
+    ブレイクポイントに当たったとき，または履歴中で新しい項目が選択したときに実行するコマンドを設定します．
+    :ghci-cmd:`:set stop` の最もよくある使い方は，現在の位置のソースコードを表示するこです．
+    たとえば ``:set stop :list`` のようにします．
 
-    If a number is given before the command, then the commands are run
-    when the specified breakpoint (only) is hit. This can be quite
-    useful: for example, ``:set stop 1 :continue`` effectively disables
-    breakpoint 1, by running :ghci-cmd:`:continue` whenever it is hit (although
-    GHCi will still emit a message to say the breakpoint was hit). What's more,
-    with cunning use of :ghci-cmd:`:def` and :ghci-cmd:`:cmd` you can use
-    :ghci-cmd:`:set stop` to implement conditional breakpoints:
+    コマンドの前に数値を指定すると，その番号のブレイクポイントにあたったときにだけそのコマンドを実行します．
+    これは便利な機能です．たとえば ``:set stop 1 :continue`` は1番のブレイクポイントを無効にするのと同じことです．
+    1番のブレイクポイントに当ったときはいつも :ghci-cmd:`:continue` が実行されるからです
+    (ただし，ブレイクポイントに当ったとのメッセージは出力されます)．
+    さらに :ghci-cmd:`:def` と :ghci-cmd:`:cmd` をうまく使って :ghci-cmd:`:set stop` で条件付ブレイクポイントを実装することもできます．
 
     .. code-block:: none
 
         *Main> :def cond \expr -> return (":cmd if (" ++ expr ++ ") then return \"\" else return \":continue\"")
         *Main> :set stop 0 :cond (x < 3)
 
-    Ignoring breakpoints for a specified number of iterations is also
-    possible using similar techniques.
+    同様の技法を使えば，指定した回数だけブレイクポイントを無視することもできます．
+
+..
+   .. ghci-cmd:: :seti; [⟨option⟩ ...]
+
+       Like :ghci-cmd:`:set`, but options set with :ghci-cmd:`:seti` affect only
+       expressions and commands typed at the prompt, and not modules loaded
+       with :ghci-cmd:`:load` (in contrast, options set with :ghci-cmd:`:set` apply
+       everywhere). See :ref:`ghci-interactive-options`.
+
+       Without any arguments, displays the current set of options that are
+       applied to expressions and commands typed at the prompt.
 
 .. ghci-cmd:: :seti; [⟨option⟩ ...]
 
-    Like :ghci-cmd:`:set`, but options set with :ghci-cmd:`:seti` affect only
-    expressions and commands typed at the prompt, and not modules loaded
-    with :ghci-cmd:`:load` (in contrast, options set with :ghci-cmd:`:set` apply
-    everywhere). See :ref:`ghci-interactive-options`.
+    :ghci-cmd:`:set` と似ていますが :ghci-cmd:`:seti` で設定されたオプションはプロンプトに入力された式とコマンドのみに影響し，
+    :ghci-cmd:`:load` でロードされたモジュールには影響しません
+    (対照的に :ghci-cmd:`:set` で設定されたオプションはあらゆるところで適用されます)．
+    :ref:`ghci-interactive-options` を参照してください．
 
-    Without any arguments, displays the current set of options that are
-    applied to expressions and commands typed at the prompt.
+    引数がなければ，プロンプトに入力される式とコマンドに適用されるオプションの集合を表示します．
+
+..
+   .. ghci-cmd:: :show bindings
+
+       Show the bindings made at the prompt and their types.
 
 .. ghci-cmd:: :show bindings
 
-    Show the bindings made at the prompt and their types.
+    プロンプトで導入した束縛とその型を表示します．
+
+..
+   .. ghci-cmd:: :show breaks
+
+       List the active breakpoints.
 
 .. ghci-cmd:: :show breaks
 
-    List the active breakpoints.
+    現在有効なブレイクポイントを一覧表示します．
+
+..
+   .. ghci-cmd:: :show context
+
+       List the active evaluations that are stopped at breakpoints.
 
 .. ghci-cmd:: :show context
 
-    List the active evaluations that are stopped at breakpoints.
+    ブレイクポイントで停止している，有効な評価の一覧を表示します．
+
+..
+   .. ghci-cmd:: :show imports
+
+       Show the imports that are currently in force, as created by
+       ``import`` and :ghci-cmd:`:module` commands.
 
 .. ghci-cmd:: :show imports
 
-    Show the imports that are currently in force, as created by
-    ``import`` and :ghci-cmd:`:module` commands.
+    ``import`` 文や :ghci-cmd:`:module` コマンドによって作った現在な現在有効なインポートを表示します．
+
+..
+   .. ghci-cmd:: :show modules
+
+       Show the list of modules currently loaded.
 
 .. ghci-cmd:: :show modules
 
-    Show the list of modules currently loaded.
+    現在ロードされているモジュールの一覧を表示する．
+
+..
+   .. ghci-cmd:: :show packages
+
+       Show the currently active package flags, as well as the list of
+       packages currently loaded.
 
 .. ghci-cmd:: :show packages
 
-    Show the currently active package flags, as well as the list of
-    packages currently loaded.
+    現在ロードされているパッケージの一覧と現在有効なパッケージフラグを表示します．
+
+..
+   .. ghci-cmd:: :show paths
+
+       Show the current working directory (as set via :ghci-cmd:`:cd` command), as
+       well as the list of directories searched for source files (as set by the
+       ``-i`` option).
 
 .. ghci-cmd:: :show paths
 
-    Show the current working directory (as set via :ghci-cmd:`:cd` command), as
-    well as the list of directories searched for source files (as set by the
-    ``-i`` option).
+    ソースファイルの検索パス一覧(``-i`` オプションで指定)と現在の作業ディレクトリ(:ghci-cmd:`:cd` コマンドで設定)を表示する．
+
+..
+   .. ghci-cmd:: :show language
+
+       Show the currently active language flags for source files.
 
 .. ghci-cmd:: :show language
 
-    Show the currently active language flags for source files.
+    ソースファイルに対して現在有効になっている言語フラグを表示する．
+
+..
+   .. ghci-cmd:: :showi language
+
+       Show the currently active language flags for expressions typed at
+       the prompt (see also :ghci-cmd:`:seti`).
 
 .. ghci-cmd:: :showi language
 
-    Show the currently active language flags for expressions typed at
-    the prompt (see also :ghci-cmd:`:seti`).
+    プロンプトで入力される式に対して現在有効になっている言語フラグを表示します
+    (:ghci-cmd:`:seti` も参照してください)．
+
+..
+   .. ghci-cmd:: :show; [args|prog|prompt|editor|stop]
+
+       Displays the specified setting (see :ghci-cmd:`:set`).
 
 .. ghci-cmd:: :show; [args|prog|prompt|editor|stop]
 
-    Displays the specified setting (see :ghci-cmd:`:set`).
+    指定した設定を表示します(:ghci-cmd:`:set` 参照)．
+
+..
+   .. ghci-cmd:: :sprint; ⟨expr⟩
+
+       Prints a value without forcing its evaluation. :ghci-cmd:`:sprint` is
+       similar to :ghci-cmd:`:print`, with the difference that unevaluated subterms
+       are not bound to new variables, they are simply denoted by ``_``.
 
 .. ghci-cmd:: :sprint; ⟨expr⟩
 
-    Prints a value without forcing its evaluation. :ghci-cmd:`:sprint` is
-    similar to :ghci-cmd:`:print`, with the difference that unevaluated subterms
-    are not bound to new variables, they are simply denoted by ``_``.
+    評価を強制せずに値を表示します．
+    :ghci-cmd:`:sprint` は未評価の部分項が新しい変数に束縛せず，単に ``_`` と表す以外は，
+    :ghci-cmd:`:print` と同じです．
+
+..
+   .. ghci-cmd:: :step; [⟨expr⟩]
+
+       Enable all breakpoints and begin evaluating an expression in
+       single-stepping mode. In this mode evaluation will be stopped after
+       every reduction, allowing local variables to be inspected. If ⟨expr⟩
+       is not given, evaluation will resume at the last breakpoint. See
+       :ref:`single-stepping`.
 
 .. ghci-cmd:: :step; [⟨expr⟩]
 
-    Enable all breakpoints and begin evaluating an expression in
-    single-stepping mode. In this mode evaluation will be stopped after
-    every reduction, allowing local variables to be inspected. If ⟨expr⟩
-    is not given, evaluation will resume at the last breakpoint. See
-    :ref:`single-stepping`.
+    すべてのブレイクポイントを有効にして，式を単一ステップモードでの評価を開始します．
+    このモードでは，簡約1ステップごとに評価が停止し局所変数を確認できます．
+    ⟨expr⟩ が与えなかった場合は，最後のブレイクポイントから評価を開始します．
+    :ref:`single-stepping` を参照してください．
+
+..
+   .. ghci-cmd:: :steplocal
+
+       Enable only breakpoints in the current top-level binding and resume
+       evaluation at the last breakpoint.
 
 .. ghci-cmd:: :steplocal
 
-    Enable only breakpoints in the current top-level binding and resume
-    evaluation at the last breakpoint.
+    現在の最上位束縛の中にあるブレイクポイントのみを有効にした状態で最後のブレイクポイントから評価を再開します．
+
+..
+   .. ghci-cmd:: :stepmodule
+
+       Enable only breakpoints in the current module and resume evaluation
+       at the last breakpoint.
 
 .. ghci-cmd:: :stepmodule
 
-    Enable only breakpoints in the current module and resume evaluation
-    at the last breakpoint.
+    現在のモジュール内にあるブレイクポイントのみを有効にした状態で，最後のブレイクポイントから評価を再開します．
+
+..
+   .. ghci-cmd:: :trace; ⟨expr⟩
+
+       Evaluates the given expression (or from the last breakpoint if no
+       expression is given), and additionally logs the evaluation steps for
+       later inspection using :ghci-cmd:`:history`. See :ref:`tracing`.
 
 .. ghci-cmd:: :trace; ⟨expr⟩
 
-    Evaluates the given expression (or from the last breakpoint if no
-    expression is given), and additionally logs the evaluation steps for
-    later inspection using :ghci-cmd:`:history`. See :ref:`tracing`.
+    与えられた式を評価(式を与えられなかった場合は直近のブレークポイントから再開)しますが，
+    後で :ghci-cmd:`:history` で観察できるように評価ステップのログを残します．
+    :ref:`tracing` を参照してください．
+
+..
+   .. ghci-cmd:: :type; ⟨expression⟩
+
+       Infers and prints the type of ⟨expression⟩, including explicit
+       forall quantifiers for polymorphic types.
+       The type reported is the type that would be inferred
+       for a variable assigned to the expression, but without the
+       monomorphism restriction applied.
+
+       .. code-block:: none
+
+	   *X> :type length
+	   length :: Foldable t => t a -> Int
 
 .. ghci-cmd:: :type; ⟨expression⟩
 
-    Infers and prints the type of ⟨expression⟩, including explicit
-    forall quantifiers for polymorphic types.
-    The type reported is the type that would be inferred
-    for a variable assigned to the expression, but without the
-    monomorphism restriction applied.
+    明示的な全称量化がかかる多相型も含め，⟨expression⟩ の型を推論し表示します．
+    報告された型は，式に割り当てられた変数に対して推論されますが，単相性の制約は適用されません．
 
     .. code-block:: none
 
