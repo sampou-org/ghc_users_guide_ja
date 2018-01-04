@@ -2367,13 +2367,11 @@ length :: Foldable t =&gt; t a -&gt; Int
 <dl class="ghci-cmd">
 <dt id="ghci-cmd-:type +v">
 <code class="descname">:type +v</code><code class="descclassname"> ⟨expression⟩</code><a class="headerlink" href="#ghci-cmd-:type +v" title="この定義へのパーマリンク">¶</a></dt>
-<dd><p>Infers and prints the type of ⟨expression⟩, but without fiddling
-with type variables or class constraints. This is useful when you
-are using <a class="reference internal" href="glasgow_exts.html#ghc-flag--XTypeApplications"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-XTypeApplications</span></code></a> and care about the distinction
-between specified type variables (available for type application)
-and inferred type variables (not available). This mode sometimes prints
-constraints (such as <code class="docutils literal"><span class="pre">Show</span> <span class="pre">Int</span></code>) that could readily be solved, but
-solving these constraints may affect the type variables, so GHC refrains.</p>
+<dd><p>型変数やクラスの制約をごまかすことなく，⟨expression⟩の型を推論して表示します．
+これは <a class="reference internal" href="glasgow_exts.html#ghc-flag--XTypeApplications"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-XTypeApplications</span></code></a> を使用しているときに,指定された型変数（型のアプリケーションで使用可能）
+と推論された型変数（使用できない）との区別に注意するときに便利です．
+このモードでは，簡単に解決できる制約（Show Intなど）が表示されることがありますが，
+これらの制約を解決すると型変数に影響する可能性があるため，GHCはこれを抑制します．</p>
 <div class="highlight-none"><div class="highlight"><pre>*X&gt; :set -fprint-explicit-foralls
 *X&gt; :type +v length
 length :: forall (t :: * -&gt; *). Foldable t =&gt; forall a. t a -&gt; Int
@@ -2384,14 +2382,11 @@ length :: forall (t :: * -&gt; *). Foldable t =&gt; forall a. t a -&gt; Int
 <dl class="ghci-cmd">
 <dt id="ghci-cmd-:type +d">
 <code class="descname">:type +d</code><code class="descclassname"> ⟨expression⟩</code><a class="headerlink" href="#ghci-cmd-:type +d" title="この定義へのパーマリンク">¶</a></dt>
-<dd><p>Infers and prints the type of ⟨expression⟩, defaulting type variables
-if possible. In this mode, if the inferred type is constrained by
-any interactive class (<code class="docutils literal"><span class="pre">Num</span></code>, <code class="docutils literal"><span class="pre">Show</span></code>, <code class="docutils literal"><span class="pre">Eq</span></code>, <code class="docutils literal"><span class="pre">Ord</span></code>, <code class="docutils literal"><span class="pre">Foldable</span></code>,
-or <code class="docutils literal"><span class="pre">Traversable</span></code>), the constrained type variable(s) are defaulted
-according to the rules described under <a class="reference internal" href="#ghc-flag--XExtendedDefaultRules"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-XExtendedDefaultRules</span></code></a>.
-This mode is quite useful when the inferred type is quite general (such
-as for <code class="docutils literal"><span class="pre">foldr</span></code>) and it may be helpful to see a more concrete
-instantiation.</p>
+<dd><p>可能であればデフォルトの型変数を推論して⟨expression⟩の型を表示します．
+このモードでは，推論された型が任意のインタラクティブクラス（Num，Show，Eq，Ord，Foldable，Traversable）
+によって制約されている場合，制約された型変数は <a class="reference internal" href="#ghc-flag--XExtendedDefaultRules"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-XExtendedDefaultRules</span></code></a> で説明されている規則に従って
+デフォルト設定されます．このモードは，推論された型がかなり一般的な場合（foldrなど），より具体的なインスタンスを
+知るのに便利です．</p>
 <div class="highlight-none"><div class="highlight"><pre>*X&gt; :type +d length
 length :: [a] -&gt; Int
 </pre></div>
@@ -2401,37 +2396,33 @@ length :: [a] -&gt; Int
 <dl class="ghci-cmd">
 <dt id="ghci-cmd-:type-at">
 <code class="descname">:type-at</code><code class="descclassname"> ⟨module⟩ ⟨line⟩ ⟨col⟩ ⟨end-line⟩ ⟨end-col⟩ [⟨name⟩]</code><a class="headerlink" href="#ghci-cmd-:type-at" title="この定義へのパーマリンク">¶</a></dt>
-<dd><p>Reports the inferred type at the given span/position in the module, e.g.:</p>
+<dd><p>当該モジュール内で与えられた範囲の型の推論結果を報告表示します．</p>
 <div class="highlight-none"><div class="highlight"><pre>*X&gt; :type-at X.hs 6 6 6 7 f
 Int -&gt; Int
 </pre></div>
 </div>
-<p>This command is useful when integrating GHCi with text editors and
-IDEs for providing a show-type-under-point facility.</p>
-<p>The last string parameter is useful for when the span is out of
-date, i.e. the file changed and the code has moved. In which case
-<a class="reference internal" href="#ghci-cmd-:type-at"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:type-at</span></code></a> falls back to a general <a class="reference internal" href="#ghci-cmd-:type"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:type</span></code></a> like lookup.</p>
-<p>The <a class="reference internal" href="#ghci-cmd-:type-at"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:type-at</span></code></a> command requires <a class="reference internal" href="#ghci-cmd-:set +c"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:set</span> <span class="pre">+c</span></code></a> to be set.</p>
+<p>このコマンドはGHCiとテキストエディタあるいはIDEを統合するさいに指定場所の型を示す機能として使えます．</p>
+<p>最後の文字列パラメータはその範囲がすでに変更済みの場合，たとえば，ファイルが変更されコードが移動した場合に役に立ちます．
+検索と同じように <a class="reference internal" href="#ghci-cmd-:type-at"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:type-at</span></code></a> はより一般的な <a class="reference internal" href="#ghci-cmd-:type"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:type</span></code></a> にフォールバックします．</p>
+<p><a class="reference internal" href="#ghci-cmd-:type-at"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:type-at</span></code></a> コマンドを使うためには <a class="reference internal" href="#ghci-cmd-:set +c"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:set</span> <span class="pre">+c</span></code></a> を設定しておく必要があります．</p>
 </dd></dl>
 
 <dl class="ghci-cmd">
 <dt id="ghci-cmd-:undef">
 <code class="descname">:undef</code><code class="descclassname"> ⟨name⟩</code><a class="headerlink" href="#ghci-cmd-:undef" title="この定義へのパーマリンク">¶</a></dt>
-<dd><p>Undefines the user-defined command ⟨name⟩ (see <a class="reference internal" href="#ghci-cmd-:def"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:def</span></code></a> above).</p>
+<dd><p>ユーザ定義のコマンド ⟨name⟩ (上述 <a class="reference internal" href="#ghci-cmd-:def"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:def</span></code></a> を参照)を未定義にします．</p>
 </dd></dl>
 
 <dl class="ghci-cmd">
 <dt id="ghci-cmd-:unset">
 <code class="descname">:unset</code><code class="descclassname"> ⟨option⟩</code><a class="headerlink" href="#ghci-cmd-:unset" title="この定義へのパーマリンク">¶</a></dt>
-<dd><p>Unsets certain options. See <a class="reference internal" href="#ghci-set"><span>The :set and :seti commands</span></a> for a list of available
-options.</p>
+<dd><p>ある種のオプションを未設定にします．利用可能なオプション一覧については <a class="reference internal" href="#ghci-set"><span>The :set and :seti commands</span></a> を参照してください．</p>
 </dd></dl>
 
 <dl class="ghci-cmd">
 <dt id="ghci-cmd-:uses">
 <code class="descname">:uses</code><code class="descclassname"> ⟨module⟩ ⟨line⟩ ⟨col⟩ ⟨end-line⟩ ⟨end-col⟩ [⟨name⟩]</code><a class="headerlink" href="#ghci-cmd-:uses" title="この定義へのパーマリンク">¶</a></dt>
-<dd><p>Reports all module-local uses of the thing at the given position
-in the module, e.g.:</p>
+<dd><p>指定したモジュール中の与えられた位置にあるものの当該モジュール内での使われている位置を報告します．</p>
 <div class="highlight-none"><div class="highlight"><pre>:uses GhciFind.hs 53 66 53 70 name
 GhciFind.hs:(46,25)-(46,29)
 GhciFind.hs:(47,37)-(47,41)
@@ -2439,15 +2430,14 @@ GhciFind.hs:(53,66)-(53,70)
 GhciFind.hs:(57,62)-(57,66)
 </pre></div>
 </div>
-<p>This command is useful for highlighting and navigating all uses of
-an identifier in editors and IDEs.</p>
-<p>The <a class="reference internal" href="#ghci-cmd-:uses"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:uses</span></code></a> command requires <a class="reference internal" href="#ghci-cmd-:set +c"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:set</span> <span class="pre">+c</span></code></a> to be set.</p>
+<p>このコマンドは，エディタやIDEで指定した識別子をハイライト表示して使用場所を示すのに便利です．</p>
+<p><a class="reference internal" href="#ghci-cmd-:uses"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:uses</span></code></a> コマンドを使うには <a class="reference internal" href="#ghci-cmd-:set +c"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:set</span> <span class="pre">+c</span></code></a> を設定しておく必要があります．</p>
 </dd></dl>
 
 <dl class="ghci-cmd">
 <dt id="ghci-cmd-:! ⟨command⟩">
 <code class="descname">:! ⟨command⟩</code><code class="descclassname"></code><a class="headerlink" href="#ghci-cmd-:! ⟨command⟩" title="この定義へのパーマリンク">¶</a></dt>
-<dd><p id="index-28">Executes the shell command ⟨command⟩.</p>
+<dd><p id="index-28">シェルコマンド ⟨command⟩ を実行します．</p>
 </dd></dl>
 
 </div>
