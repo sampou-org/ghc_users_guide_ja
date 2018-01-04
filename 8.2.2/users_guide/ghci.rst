@@ -5533,15 +5533,30 @@ GHCi のコマンドはすべて「 ``:`` 」ではじまり，1つのコマン�
 	*X> :type length
 	length :: Foldable t => t a -> Int
 
+..
+   .. ghci-cmd:: :type +v; ⟨expression⟩
+
+       Infers and prints the type of ⟨expression⟩, but without fiddling
+       with type variables or class constraints. This is useful when you
+       are using :ghc-flag:`-XTypeApplications` and care about the distinction
+       between specified type variables (available for type application)
+       and inferred type variables (not available). This mode sometimes prints
+       constraints (such as ``Show Int``) that could readily be solved, but
+       solving these constraints may affect the type variables, so GHC refrains.
+
+       .. code-block:: none
+
+	   *X> :set -fprint-explicit-foralls
+	   *X> :type +v length
+	   length :: forall (t :: * -> *). Foldable t => forall a. t a -> Int
+
 .. ghci-cmd:: :type +v; ⟨expression⟩
 
-    Infers and prints the type of ⟨expression⟩, but without fiddling
-    with type variables or class constraints. This is useful when you
-    are using :ghc-flag:`-XTypeApplications` and care about the distinction
-    between specified type variables (available for type application)
-    and inferred type variables (not available). This mode sometimes prints
-    constraints (such as ``Show Int``) that could readily be solved, but
-    solving these constraints may affect the type variables, so GHC refrains.
+    型変数やクラスの制約をごまかすことなく，⟨expression⟩の型を推論して表示します．
+    これは :ghc-flag:`-XTypeApplications` を使用しているときに,指定された型変数（型のアプリケーションで使用可能）
+    と推論された型変数（使用できない）との区別に注意するときに便利です．
+    このモードでは，簡単に解決できる制約（Show Intなど）が表示されることがありますが，
+    これらの制約を解決すると型変数に影響する可能性があるため，GHCはこれを抑制します．
 
     .. code-block:: none
 
@@ -5549,53 +5564,112 @@ GHCi のコマンドはすべて「 ``:`` 」ではじまり，1つのコマン�
 	*X> :type +v length
 	length :: forall (t :: * -> *). Foldable t => forall a. t a -> Int
 
+..
+   .. ghci-cmd:: :type +d; ⟨expression⟩
+
+       Infers and prints the type of ⟨expression⟩, defaulting type variables
+       if possible. In this mode, if the inferred type is constrained by
+       any interactive class (``Num``, ``Show``, ``Eq``, ``Ord``, ``Foldable``,
+       or ``Traversable``), the constrained type variable(s) are defaulted
+       according to the rules described under :ghc-flag:`-XExtendedDefaultRules`.
+       This mode is quite useful when the inferred type is quite general (such
+       as for ``foldr``) and it may be helpful to see a more concrete
+       instantiation.
+
+       .. code-block:: none
+
+	   *X> :type +d length
+	   length :: [a] -> Int
+
 .. ghci-cmd:: :type +d; ⟨expression⟩
 
-    Infers and prints the type of ⟨expression⟩, defaulting type variables
-    if possible. In this mode, if the inferred type is constrained by
-    any interactive class (``Num``, ``Show``, ``Eq``, ``Ord``, ``Foldable``,
-    or ``Traversable``), the constrained type variable(s) are defaulted
-    according to the rules described under :ghc-flag:`-XExtendedDefaultRules`.
-    This mode is quite useful when the inferred type is quite general (such
-    as for ``foldr``) and it may be helpful to see a more concrete
-    instantiation.
+    可能であればデフォルトの型変数を推論して⟨expression⟩の型を表示します．
+    このモードでは，推論された型が任意のインタラクティブクラス（Num，Show，Eq，Ord，Foldable，Traversable）
+    によって制約されている場合，制約された型変数は :ghc-flag:`-XExtendedDefaultRules` で説明されている規則に従って
+    デフォルト設定されます．このモードは，推論された型がかなり一般的な場合（foldrなど），より具体的なインスタンスを
+    知るのに便利です．
 
     .. code-block:: none
 
 	*X> :type +d length
 	length :: [a] -> Int
 
+..
+   .. ghci-cmd:: :type-at; ⟨module⟩ ⟨line⟩ ⟨col⟩ ⟨end-line⟩ ⟨end-col⟩ [⟨name⟩]
+
+       Reports the inferred type at the given span/position in the module, e.g.:
+
+       .. code-block:: none
+
+	  *X> :type-at X.hs 6 6 6 7 f
+	  Int -> Int
+
+       This command is useful when integrating GHCi with text editors and
+       IDEs for providing a show-type-under-point facility.
+
+       The last string parameter is useful for when the span is out of
+       date, i.e. the file changed and the code has moved. In which case
+       :ghci-cmd:`:type-at` falls back to a general :ghci-cmd:`:type` like lookup.
+
+       The :ghci-cmd:`:type-at` command requires :ghci-cmd:`:set +c` to be set.
+
 .. ghci-cmd:: :type-at; ⟨module⟩ ⟨line⟩ ⟨col⟩ ⟨end-line⟩ ⟨end-col⟩ [⟨name⟩]
 
-    Reports the inferred type at the given span/position in the module, e.g.:
+    当該モジュール内で与えられた範囲の型の推論結果を報告表示します．
 
     .. code-block:: none
 
        *X> :type-at X.hs 6 6 6 7 f
        Int -> Int
 
-    This command is useful when integrating GHCi with text editors and
-    IDEs for providing a show-type-under-point facility.
+    このコマンドはGHCiとテキストエディタあるいはIDEを統合するさいに指定場所の型を示す機能として使えます．
 
-    The last string parameter is useful for when the span is out of
-    date, i.e. the file changed and the code has moved. In which case
-    :ghci-cmd:`:type-at` falls back to a general :ghci-cmd:`:type` like lookup.
+    最後の文字列パラメータはその範囲がすでに変更済みの場合，たとえば，ファイルが変更されコードが移動した場合に役に立ちます．
+    検索と同じように :ghci-cmd:`:type-at` はより一般的な :ghci-cmd:`:type` にフォールバックします．
 
-    The :ghci-cmd:`:type-at` command requires :ghci-cmd:`:set +c` to be set.
+    :ghci-cmd:`:type-at` コマンドを使うためには :ghci-cmd:`:set +c` を設定しておく必要があります．
+
+..
+   .. ghci-cmd:: :undef; ⟨name⟩
+
+       Undefines the user-defined command ⟨name⟩ (see :ghci-cmd:`:def` above).
 
 .. ghci-cmd:: :undef; ⟨name⟩
 
-    Undefines the user-defined command ⟨name⟩ (see :ghci-cmd:`:def` above).
+    ユーザ定義のコマンド ⟨name⟩ (上述 :ghci-cmd:`:def` を参照)を未定義にします．
+
+..
+   .. ghci-cmd:: :unset; ⟨option⟩
+
+       Unsets certain options. See :ref:`ghci-set` for a list of available
+       options.
 
 .. ghci-cmd:: :unset; ⟨option⟩
 
-    Unsets certain options. See :ref:`ghci-set` for a list of available
-    options.
+    ある種のオプションを未設定にします．利用可能なオプション一覧については :ref:`ghci-set` を参照してください．
+
+..
+   .. ghci-cmd:: :uses; ⟨module⟩ ⟨line⟩ ⟨col⟩ ⟨end-line⟩ ⟨end-col⟩ [⟨name⟩]
+
+       Reports all module-local uses of the thing at the given position
+       in the module, e.g.:
+
+       .. code-block:: none
+
+	  :uses GhciFind.hs 53 66 53 70 name
+	  GhciFind.hs:(46,25)-(46,29)
+	  GhciFind.hs:(47,37)-(47,41)
+	  GhciFind.hs:(53,66)-(53,70)
+	  GhciFind.hs:(57,62)-(57,66)
+
+       This command is useful for highlighting and navigating all uses of
+       an identifier in editors and IDEs.
+
+       The :ghci-cmd:`:uses` command requires :ghci-cmd:`:set +c` to be set.
 
 .. ghci-cmd:: :uses; ⟨module⟩ ⟨line⟩ ⟨col⟩ ⟨end-line⟩ ⟨end-col⟩ [⟨name⟩]
 
-    Reports all module-local uses of the thing at the given position
-    in the module, e.g.:
+    指定したモジュール中の与えられた位置にあるものの当該モジュール内での使われている位置を報告します．
 
     .. code-block:: none
 
@@ -5605,17 +5679,24 @@ GHCi のコマンドはすべて「 ``:`` 」ではじまり，1つのコマン�
        GhciFind.hs:(53,66)-(53,70)
        GhciFind.hs:(57,62)-(57,66)
 
-    This command is useful for highlighting and navigating all uses of
-    an identifier in editors and IDEs.
+    このコマンドは，エディタやIDEで指定した識別子をハイライト表示して使用場所を示すのに便利です．
 
-    The :ghci-cmd:`:uses` command requires :ghci-cmd:`:set +c` to be set.
+    :ghci-cmd:`:uses` コマンドを使うには :ghci-cmd:`:set +c` を設定しておく必要があります．
+
+..
+   .. ghci-cmd:: :! ⟨command⟩
+
+       .. index::
+	  single: shell commands; in GHCi
+
+       Executes the shell command ⟨command⟩.
 
 .. ghci-cmd:: :! ⟨command⟩
 
     .. index::
-       single: shell commands; in GHCi
+       single: シェルコマンド; GHCiでの〜
 
-    Executes the shell command ⟨command⟩.
+    シェルコマンド ⟨command⟩ を実行します．
 
 
 .. _ghci-set:
