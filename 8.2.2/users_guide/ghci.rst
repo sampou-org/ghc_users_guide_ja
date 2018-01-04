@@ -6298,72 +6298,131 @@ GHCi は内部で `Haskeline <https://hackage.haskell.org/package/haskeline>`__ 
 `Haskeline user preferences <http://trac.haskell.org/haskeline/wiki/UserPrefs>`__
 を参照してください．
 
+..
+   .. _ghci-obj:
+
+   Compiling to object code inside GHCi
+   ------------------------------------
+
+   By default, GHCi compiles Haskell source code into byte-code that is
+   interpreted by the runtime system. GHCi can also compile Haskell code to
+   object code: to turn on this feature, use the :ghc-flag:`-fobject-code` flag
+   either on the command line or with :ghci-cmd:`:set` (the option :ghc-flag:`-fbyte-code`
+   restores byte-code compilation again). Compiling to object code takes
+   longer, but typically the code will execute 10-20 times faster than
+   byte-code.
+
 .. _ghci-obj:
 
-Compiling to object code inside GHCi
-------------------------------------
+GHCi内でオブジェクトコードにコンパイルする
+------------------------------------------
 
-By default, GHCi compiles Haskell source code into byte-code that is
-interpreted by the runtime system. GHCi can also compile Haskell code to
-object code: to turn on this feature, use the :ghc-flag:`-fobject-code` flag
-either on the command line or with :ghci-cmd:`:set` (the option :ghc-flag:`-fbyte-code`
-restores byte-code compilation again). Compiling to object code takes
-longer, but typically the code will execute 10-20 times faster than
-byte-code.
+デフォルトでは，GHCiはHaskellのソースをバイトコードにコンパイルして，ランタイムシステムがそれを解釈実行します．
+GHCiはHaskellのコードをオブジェクトコードにコンパイルすることもできます．それには :ghc-flag:`-fobject-code` フラグを，
+コマンドラインで使うか :ghci-cmd:`:set` で設定します
+(:ghc-flag:`-fbyte-code` を設定すると元のバイトコードコンパイルが復帰します)．
+オブジェクトコードへのコンパイルには時間が余分にかかりますが，通常オブジェクトコードの実行は，バイトコードの実行の10〜20倍速くなります．
 
-Compiling to object code inside GHCi is particularly useful if you are
-developing a compiled application, because the :ghci-cmd:`:reload` command
-typically runs much faster than restarting GHC with :ghc-flag:`--make` from the
-command-line, because all the interface files are already cached in
-memory.
+..
+   Compiling to object code inside GHCi is particularly useful if you are
+   developing a compiled application, because the :ghci-cmd:`:reload` command
+   typically runs much faster than restarting GHC with :ghc-flag:`--make` from the
+   command-line, because all the interface files are already cached in
+   memory.
 
-There are disadvantages to compiling to object-code: you can't set
-breakpoints in object-code modules, for example. Only the exports of an
-object-code module will be visible in GHCi, rather than all top-level
-bindings as in interpreted modules.
+GHCi内でオブジェクトコードにコンパイルする機能はコンパイル形式のアプリケーションを開発する場合に特に便利です．
+通常 :ghci-cmd:`:reload` を使うほうが，コマンドラインでGHCを :ghc-flag:`--make` オプション付きで再起動するよりずっと速いからです．
+これはインターフェイスファイルがすべてメモリにキャッシュされているからです．
+
+..
+   There are disadvantages to compiling to object-code: you can't set
+   breakpoints in object-code modules, for example. Only the exports of an
+   object-code module will be visible in GHCi, rather than all top-level
+   bindings as in interpreted modules.
+
+..
+   .. _external-interpreter:
+
+   Running the interpreter in a separate process
+   ---------------------------------------------
+
+   Normally GHCi runs the interpreted code in the same process as GHC
+   itself, on top of the same RTS and sharing the same heap.  However, if
+   the flag :ghc-flag:`-fexternal-interpreter` is given, then GHC will spawn a
+   separate process for running interpreted code, and communicate with it
+   using messages over a pipe.
 
 .. _external-interpreter:
 
-Running the interpreter in a separate process
----------------------------------------------
+インタプリタを別プロセスで走らせる
+----------------------------------
 
-Normally GHCi runs the interpreted code in the same process as GHC
-itself, on top of the same RTS and sharing the same heap.  However, if
-the flag :ghc-flag:`-fexternal-interpreter` is given, then GHC will spawn a
-separate process for running interpreted code, and communicate with it
-using messages over a pipe.
+通常GHCiは解釈実行されるコードをGHCそれ自身と同じプロセスで走らせます．
+すなわち，GHCと同じRTS上で走らせ，同じヒープ領域を共有します．
+しかし :ghc-flag:`-fexternal-interpreter` フラグを与えると，GHCは別プロセスを起こしてそちらで解釈実行コードを走らせます．
+そのプロセスとの通信にはパイプ上のメッセージを使います．
+
+..
+   .. ghc-flag:: -fexternal-interpreter
+
+       :since: 8.0.1
+
+       Run interpreted code (for GHCi, Template Haskell, Quasi-quoting,
+       or Annotations) in a separate process.  The interpreter will run
+       in profiling mode if :ghc-flag:`-prof` is in effect, and in
+       dynamically-linked mode if :ghc-flag:`-dynamic` is in effect.
+
+       There are a couple of caveats that will hopefully be removed in
+       the future: this option is currently not implemented on Windows
+       (it is a no-op), and the external interpreter does not support the
+       GHCi debugger, so breakpoints and single-stepping don't work with
+       :ghc-flag:`-fexternal-interpreter`.
+
+       See also the :ghc-flag:`-pgmi ⟨cmd⟩` (:ref:`replacing-phases`) and
+       :ghc-flag:`-opti ⟨option⟩` (:ref:`forcing-options-through`) flags.
 
 .. ghc-flag:: -fexternal-interpreter
 
     :since: 8.0.1
 
-    Run interpreted code (for GHCi, Template Haskell, Quasi-quoting,
-    or Annotations) in a separate process.  The interpreter will run
-    in profiling mode if :ghc-flag:`-prof` is in effect, and in
-    dynamically-linked mode if :ghc-flag:`-dynamic` is in effect.
+    別プロセスで(GHCi，Template Haskell，準クォートあるいはアノテーション)の解釈実行コードを走らせます．
+    インタプリタは :ghc-flag:`-prof` フラグが有効になっていれば，プロファイルモードで動作し，
+    :ghc-flag:`-dynamic` フラグが有効になっていれば，動的リンクモードで動作します．
 
-    There are a couple of caveats that will hopefully be removed in
-    the future: this option is currently not implemented on Windows
-    (it is a no-op), and the external interpreter does not support the
-    GHCi debugger, so breakpoints and single-stepping don't work with
-    :ghc-flag:`-fexternal-interpreter`.
+    このオプションには欠陥がいくつか残っています(将来，除去されるでしょう)．
+    現時点ではこのオプションはWindowsでは実現していません(指定しても何も起こりません)．
+    また，別プロセスできどうしたインタプリタはGHCiデバッガをサポートしていませんので，
+    :ghc-flag:`-fexternal-interpreter` を指定してもブレイクポイントを設定したり，ステップ実行を行うことはできません．
 
-    See also the :ghc-flag:`-pgmi ⟨cmd⟩` (:ref:`replacing-phases`) and
-    :ghc-flag:`-opti ⟨option⟩` (:ref:`forcing-options-through`) flags.
+    :ghc-flag:`-pgmi ⟨cmd⟩` (:ref:`replacing-phases`) および :ghc-flag:`-opti ⟨option⟩`
+    (:ref:`forcing-options-through`) フラグも参照してください．
 
-Why might we want to do this?  The main reason is that the RTS running
-the interpreted code can be a different flavour (profiling or
-dynamically-linked) from GHC itself.  So for example:
+..
+   Why might we want to do this?  The main reason is that the RTS running
+   the interpreted code can be a different flavour (profiling or
+   dynamically-linked) from GHC itself.  So for example:
 
-- We can use the profiler to collect stack traces when using GHCi (see
-  :ref:`ghci-stack-traces`).
+   - We can use the profiler to collect stack traces when using GHCi (see
+     :ref:`ghci-stack-traces`).
 
-- When compiling Template Haskell code with :ghc-flag:`-prof` we don't need to
-  compile the modules without :ghc-flag:`-prof` first (see :ref:`th-profiling`)
-  because we can run the profiled object code in the interpreter.
+   - When compiling Template Haskell code with :ghc-flag:`-prof` we don't need to
+     compile the modules without :ghc-flag:`-prof` first (see :ref:`th-profiling`)
+     because we can run the profiled object code in the interpreter.
 
-This feature is experimental in GHC 8.0.x, but it may become the
-default in future releases.
+   This feature is experimental in GHC 8.0.x, but it may become the
+   default in future releases.
+
+なぜこの機能が必要なのでしょうか．
+主な理由は，解釈実行するコードを走らせる RTS と GHC そのものとでは(プロファイリングや動的リンクかどうかなど)異なる性質のものだからです．
+たとえば，
+
+- GHCi使用時にはプロファイラを使ってスタックトレースを収集できます(:ref:`ghci-stack-traces` 参照)．
+
+- Template Haskell のコードを :ghc-flag:`-prof` でコンパイルする場合，先にモジュールを :ghc-flag:`-prof` なしで
+  コンパイルする必要はありません(:ref:`th-profiling` 参照)．
+  インタプリタでプロファイル設定されたオブジェクトコードを走らせることが可能だからです．
+
+GHC 8.0.x ではこの機能は実験的なものですが，将来のリリースではデフォルト機能になる予定です．
 
 .. _ghci-faq:
 
