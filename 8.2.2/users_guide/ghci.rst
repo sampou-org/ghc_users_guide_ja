@@ -6424,71 +6424,134 @@ GHCi内でオブジェクトコードにコンパイルする機能はコンパ�
 
 GHC 8.0.x ではこの機能は実験的なものですが，将来のリリースではデフォルト機能になる予定です．
 
+..
+   .. _ghci-faq:
+
+   FAQ and Things To Watch Out For
+   -------------------------------
+
+   The interpreter can't load modules with foreign export declarations!
+       Unfortunately not. We haven't implemented it yet. Please compile any
+       offending modules by hand before loading them into GHCi.
+
 .. _ghci-faq:
 
-FAQ and Things To Watch Out For
--------------------------------
+FAQ と注意事項
+--------------
 
-The interpreter can't load modules with foreign export declarations!
-    Unfortunately not. We haven't implemented it yet. Please compile any
-    offending modules by hand before loading them into GHCi.
+インタプリタはforeign export宣言のあるモジュールをロードできません！
+    残念ながらその通りです．まだその機能は実装していません．その問題のあるモジュールは手でコンパイルしてからGHCiにロードしてください．
 
-:ghc-flag:`-O` doesn't work with GHCi!
+..
+   :ghc-flag:`-O` doesn't work with GHCi!
+
+       .. index::
+	  single: optimization; and GHCi
+
+       For technical reasons, the bytecode compiler doesn't interact well
+       with one of the optimisation passes, so we have disabled
+       optimisation when using the interpreter. This isn't a great loss:
+       you'll get a much bigger win by compiling the bits of your code that
+       need to go fast, rather than interpreting them with optimisation
+       turned on.
+
+GHCiで :ghc-flag:`-O` が効きません！
 
     .. index::
-       single: optimization; and GHCi
+       single: 最適化; 〜とGHCi
 
-    For technical reasons, the bytecode compiler doesn't interact well
-    with one of the optimisation passes, so we have disabled
-    optimisation when using the interpreter. This isn't a great loss:
-    you'll get a much bigger win by compiling the bits of your code that
-    need to go fast, rather than interpreting them with optimisation
-    turned on.
+    技術的な理由から，バイトコードコンパイラは最適化過程と上手くやりとりできないので，
+    インタプリタを使う場合には最適化を無効にしてあります．
+    だからといって大した問題にはなりません．
+    高速実行が必要になるようなコードはコンパイルしておけば，最適化を有効にして解釈実行するよりずっと速いからです．
 
-Unboxed tuples don't work with GHCi
-    That's right. You can always compile a module that uses unboxed
-    tuples and load it into GHCi, however. (Incidentally the previous
-    point, namely that :ghc-flag:`-O` is incompatible with GHCi, is because the
-    bytecode compiler can't deal with unboxed tuples).
+..
+   Unboxed tuples don't work with GHCi
+       That's right. You can always compile a module that uses unboxed
+       tuples and load it into GHCi, however. (Incidentally the previous
+       point, namely that :ghc-flag:`-O` is incompatible with GHCi, is because the
+       bytecode compiler can't deal with unboxed tuples).
 
-Concurrent threads don't carry on running when GHCi is waiting for input.
-    This should work, as long as your GHCi was built with the
-    :ghc-flag:`-threaded` switch, which is the default. Consult whoever supplied
-    your GHCi installation.
+GHCiで非ボックス化タプルが使えません．
+    その通りです．ただし，非ボックス化タプルを使うモジュールをコンパイルしてからGHCiにロードすることはできます．
+    (ちなみに，上記の :ghc-flag:`-O` がGHCiで使えなにのは，バイトコードコンパイラが非ボックス化タプルを扱えないからです．)
 
+..
+   Concurrent threads don't carry on running when GHCi is waiting for input.
+       This should work, as long as your GHCi was built with the
+       :ghc-flag:`-threaded` switch, which is the default. Consult whoever supplied
+       your GHCi installation.
 
-After using ``getContents``, I can't use ``stdin``, until I do ``:load`` or ``:reload``
-    This is the defined behaviour of ``getContents``: it puts the stdin
-    Handle in a state known as semi-closed, wherein any further I/O
-    operations on it are forbidden. Because I/O state is retained
-    between computations, the semi-closed state persists until the next
-    :ghci-cmd:`:load` or :ghci-cmd:`:reload` command.
+GHCiが入力待ちのとき，裏で並行スレッドが走っててくれない．
+    GHCiが :ghc-flag:`-threaded` スイッチを有効(デフォルト)にしてコンパイルされたものであれば，ちゃんと機能するはずです．
+    GHCiをインストールしてくれた人に相談してください．
 
-    You can make ``stdin`` reset itself after every evaluation by giving
-    GHCi the command ``:set +r``. This works because ``stdin`` is just a
-    top-level expression that can be reverted to its unevaluated state
-    in the same way as any other top-level expression (CAF).
+..
+   After using ``getContents``, I can't use ``stdin``, until I do ``:load`` or ``:reload``
+       This is the defined behaviour of ``getContents``: it puts the stdin
+       Handle in a state known as semi-closed, wherein any further I/O
+       operations on it are forbidden. Because I/O state is retained
+       between computations, the semi-closed state persists until the next
+       :ghci-cmd:`:load` or :ghci-cmd:`:reload` command.
 
-I can't use :kbd:`Control-C` to interrupt computations in GHCi on Windows.
-    See :ref:`ghci-windows`.
+       You can make ``stdin`` reset itself after every evaluation by giving
+       GHCi the command ``:set +r``. This works because ``stdin`` is just a
+       top-level expression that can be reverted to its unevaluated state
+       in the same way as any other top-level expression (CAF).
 
-The default buffering mode is different in GHCi to GHC.
-    In GHC, the stdout handle is line-buffered by default. However, in
-    GHCi we turn off the buffering on stdout, because this is normally
-    what you want in an interpreter: output appears as it is generated.
+``getContents`` を使うと，その後 ``:load`` あるいは ``:reload`` しないと ``stdin`` が使えません．
+    これは ``getContents`` 定義どおりの振る舞いです．
+    ``getContents`` は ``stdin`` ハンドルをセミクローズドという状態にします．
+    この状態のハンドル上ではいかなるＩ／Ｏ操作もできません．
+    計算と計算の間ではＩ／Ｏの状態は保持されるので，次に :ghci-cmd:`:load` コマンド，あるいは，
+    :ghci-cmd:`:reload` コマンドを実行するまではセミクローズド状態が続きます．
 
-    If you want line-buffered behaviour, as in GHC, you can start your
-    program thus: ::
+    GHCiの ``:set +r`` というコマンドを使えば ``stdin`` が毎回元の状態に復元するようにできます．
+    これがうまく行くのは ``stdin`` が単なるトップレベルの式で，他のトップレベルの式(CAF)と同様の方法で未評価状態に戻せるからです．
+
+..
+   I can't use :kbd:`Control-C` to interrupt computations in GHCi on Windows.
+       See :ref:`ghci-windows`.
+
+Windows で :kbd:`Control-C` を使って計算を中断できません．
+    :ref:`ghci-windows` を参照してください．
+
+..
+   The default buffering mode is different in GHCi to GHC.
+       In GHC, the stdout handle is line-buffered by default. However, in
+       GHCi we turn off the buffering on stdout, because this is normally
+       what you want in an interpreter: output appears as it is generated.
+
+       If you want line-buffered behaviour, as in GHC, you can start your
+       program thus: ::
+
+	   main = do { hSetBuffering stdout LineBuffering; ... }
+
+GHCi と GHC とで，デフォルトのバッファリングモードが異なります．
+    GHC では ``stdout`` ハンドルは行バッファモードになっています．
+    他方，GHCi では ``stdout`` のバッファリングはオフになっています．
+    出力がすぐに見えるというのが，インタプリタに期待する動作だからです．
+
+    GHCiで行バッファモードが必要ときは，プログラムを以下のように始めるとよいでしょう． ::
 
         main = do { hSetBuffering stdout LineBuffering; ... }
 
 
+..
+   .. [5]
+      Note that packages only contain compiled code, so debugging a package
+      requires finding its source and loading that directly.
+
 .. [5]
-   Note that packages only contain compiled code, so debugging a package
-   requires finding its source and loading that directly.
+   パッケージはコンパイル済みのコードだけを含んでいるので，パッケージのデバッグにはソースコードを探してそれを直接ロードしなければならないことに注意してください．
+
+..
+   .. [6]
+      We originally provided bindings for all variables in scope, rather
+      than just the free variables of the expression, but found that this
+      affected performance considerably, hence the current restriction to
+      just the free variables.
 
 .. [6]
-   We originally provided bindings for all variables in scope, rather
-   than just the free variables of the expression, but found that this
-   affected performance considerably, hence the current restriction to
-   just the free variables.
+   もともと，当該式の自由変数だけではなく，スコープ内にあるすべての変数の束縛を提供していました．
+   しかし，実行性能に大いに影響することが判明したので，それ以来，自由変数のみに制限しています．
