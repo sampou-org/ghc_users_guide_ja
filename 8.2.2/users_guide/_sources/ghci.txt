@@ -6042,133 +6042,261 @@ GHCiは実は *2つ* のオプション集合を保持しています．
 
 -  単相性制限を無効にする(:ref:`monomorphism` 参照)．
 
+..
+   .. _ghci-dot-files:
+
+   The ``.ghci`` and ``.haskeline`` files
+   --------------------------------------
+
 .. _ghci-dot-files:
 
-The ``.ghci`` and ``.haskeline`` files
---------------------------------------
+``.ghci`` ファイルと ``.haskeline`` ファイル
+--------------------------------------------
+
+..
+   .. _dot-ghci-files:
+
+   The ``.ghci`` files
+   ~~~~~~~~~~~~~~~~~~~
+
+   .. index::
+      single: .ghci; file
+      single: startup; files, GHCi
 
 .. _dot-ghci-files:
 
-The ``.ghci`` files
-~~~~~~~~~~~~~~~~~~~
+``.ghci`` ファイル
+~~~~~~~~~~~~~~~~~~
 
 .. index::
-   single: .ghci; file
-   single: startup; files, GHCi
+   single: .ghci; 〜ファイル
+   single: スタートアップ; 〜ファイル, GHCi〜
 
-When it starts, unless the :ghc-flag:`-ignore-dot-ghci` flag is given, GHCi
-reads and executes commands from the following files, in this order, if
-they exist:
+..
+   When it starts, unless the :ghc-flag:`-ignore-dot-ghci` flag is given, GHCi
+   reads and executes commands from the following files, in this order, if
+   they exist:
+
+   1. :file:`./.ghci`
+
+   2. :file:`{appdata}/ghc/ghci.conf`, where ⟨appdata⟩ depends on your system,
+      but is usually something like
+      :file:`C:/Documents and Settings/user/Application Data`
+
+   3. On Unix: :file:`$HOME/.ghc/ghci.conf`
+
+   4. :file:`$HOME/.ghci`
+
+   The :file:`ghci.conf` file is most useful for turning on favourite options
+   (e.g. ``:set +s``), and defining useful macros.
+
+GHCiは起動するとき :ghc-flag:`-ignore-dot-ghci` フラグが指定されていなければ，以下の各ファイルを順に探し，
+存在すれば，そのファイルに書かれているコマンドを読み込み実行します．   
 
 1. :file:`./.ghci`
 
-2. :file:`{appdata}/ghc/ghci.conf`, where ⟨appdata⟩ depends on your system,
-   but is usually something like
-   :file:`C:/Documents and Settings/user/Application Data`
+2. :file:`{appdata}/ghc/ghci.conf` ただし ⟨appdata⟩ はシステムに依存します．
+   通常は :file:`C:\Documents and Settings\user\Application Data` のようなところです．
 
-3. On Unix: :file:`$HOME/.ghc/ghci.conf`
+3. Unixでは :file:`$HOME/.ghc/ghci.conf`
 
 4. :file:`$HOME/.ghci`
 
-The :file:`ghci.conf` file is most useful for turning on favourite options
-(e.g. ``:set +s``), and defining useful macros.
+:file:`ghci.conf` ファイルは，お気に入りのオプション(たとえば ``:set +s``)を有効にしたり便利なマクロを定義するのに向いています．
+
+..
+   .. note::
+       When setting language options in this file it is usually desirable to use
+       :ghci-cmd:`:seti` rather than :ghci-cmd:`:set` (see :ref:`ghci-interactive-options`).
 
 .. note::
-    When setting language options in this file it is usually desirable to use
-    :ghci-cmd:`:seti` rather than :ghci-cmd:`:set` (see :ref:`ghci-interactive-options`).
+    このファイルで言語オプションを設定する場合は，通常は :ghci-cmd:`:seti` のほうが
+    :ghci-cmd:`:set` より適しています(:ref:`ghci-interactive-options` 参照)．
 
-Placing a :file:`.ghci` file in a directory with a Haskell project is a
-useful way to set certain project-wide options so you don't have to type
-them every time you start GHCi: eg. if your project uses multi-parameter
-type classes, scoped type variables, and CPP, and has source files in
-three subdirectories A, B and C, you might put the following lines in
-:file:`.ghci`:
+..
+   Placing a :file:`.ghci` file in a directory with a Haskell project is a
+   useful way to set certain project-wide options so you don't have to type
+   them every time you start GHCi: eg. if your project uses multi-parameter
+   type classes, scoped type variables, and CPP, and has source files in
+   three subdirectories A, B and C, you might put the following lines in
+   :file:`.ghci`:
+
+   .. code-block:: none
+
+       :set -XMultiParamTypeClasses -XScopedTypeVariables -cpp
+       :set -iA:B:C
+
+   (Note that strictly speaking the :ghc-flag:`-i` flag is a static one, but in
+   fact it works to set it using :ghci-cmd:`:set` like this. The changes won't take
+   effect until the next :ghci-cmd:`:load`, though.)
+
+:file:`.ghci` ファイルをHaskellプロジェクトのディレクトリに置いて，プロジェクトで使う共通オプションを設定するようにしておくと，
+GHCiを立ち上げるたびにそれを打ち込まなくて済むので便利です．
+たとえば，プロジェクトが多引数の型クラスとスコープのある型変数とCPPを使い，ソースファイルがA，B，Cという3つのサブディレクトリに置いているなら，
+次のような行を :file:`.ghci`: に書くことになるでしょう．
 
 .. code-block:: none
 
     :set -XMultiParamTypeClasses -XScopedTypeVariables -cpp
     :set -iA:B:C
 
-(Note that strictly speaking the :ghc-flag:`-i` flag is a static one, but in
-fact it works to set it using :ghci-cmd:`:set` like this. The changes won't take
-effect until the next :ghci-cmd:`:load`, though.)
+(厳密には :ghc-flag:`-i` フラグは静的オプションですが，このように :ghci-cmd:`:set` コマンドでも有効にできます．
+ただし，この変更は，次に :ghci-cmd:`:load` 実行されてはじめて有効になります．)
 
-Once you have a library of GHCi macros, you may want to source them from
-separate files, or you may want to source your ``.ghci`` file into your
-running GHCi session while debugging it
+..
+   Once you have a library of GHCi macros, you may want to source them from
+   separate files, or you may want to source your ``.ghci`` file into your
+   running GHCi session while debugging it
+
+   .. code-block:: none
+
+       :def source readFile
+
+   With this macro defined in your ``.ghci`` file, you can use
+   ``:source file`` to read GHCi commands from ``file``. You can find (and
+   contribute!-) other suggestions for ``.ghci`` files on this Haskell wiki
+   page: `GHC/GHCi <http://haskell.org/haskellwiki/GHC/GHCi>`__
+
+GHCiのマクロライブラリを持つようになれば，別のファイルから読み込みたくなります．
+あるいはデバッグに ``.ghci`` ファイルをGHCiセッションから読み込みたくなります．
+そういうときは，
 
 .. code-block:: none
 
     :def source readFile
 
-With this macro defined in your ``.ghci`` file, you can use
-``:source file`` to read GHCi commands from ``file``. You can find (and
-contribute!-) other suggestions for ``.ghci`` files on this Haskell wiki
-page: `GHC/GHCi <http://haskell.org/haskellwiki/GHC/GHCi>`__
+というマクロを ``.ghci`` ファイルに置いておけば
+``:source file`` とやるだけでGHCiコマンドを ``file`` から読み込めます．
+Haskell wikiのページ `GHC/GHCi <http://haskell.org/haskellwiki/GHC/GHCi>`__
+では，他にも `.ghci` に関する助言が読めますし，貢献もできます．
 
-Additionally, any files specified with :ghc-flag:`-ghci-script` flags will be
-read after the standard files, allowing the use of custom .ghci files.
+..
+   Additionally, any files specified with :ghc-flag:`-ghci-script` flags will be
+   read after the standard files, allowing the use of custom .ghci files.
 
-Two command-line options control whether the startup files files are
-read:
+   Two command-line options control whether the startup files files are
+   read:
+
+   .. ghc-flag:: -ignore-dot-ghci
+
+       Don't read either :file:`./.ghci` or the other startup files when
+       starting up.
+
+   .. ghc-flag:: -ghci-script
+
+       Read a specific file after the usual startup files. Maybe be
+       specified repeatedly for multiple inputs.
+
+さらに，標準ファイルが読み込まれた後に :ghc-flag:`-ghci-script` フラグで指定されたファイルが読み込まれます．
+これによって，自分専用の .ghci ファイルが使えます．
+
+どの開始時ファイルを読み込むかを制御するためのコマンドラインオプションが2つあります．
 
 .. ghc-flag:: -ignore-dot-ghci
 
-    Don't read either :file:`./.ghci` or the other startup files when
-    starting up.
+    開始時に :file:`./.ghci` および他の開始時ファイルを読み込みません．
 
 .. ghc-flag:: -ghci-script
 
-    Read a specific file after the usual startup files. Maybe be
-    specified repeatedly for multiple inputs.
+    通常の開始時ファイルを読み込んだ後に，指定したファイルを読み込みます．
+    複数の入力は指定を繰り返せば可能です．
 
-When defining GHCi macros, there is some important behavior you should
-be aware of when names may conflict with built-in commands, especially
-regarding tab completion.
+..
+   When defining GHCi macros, there is some important behavior you should
+   be aware of when names may conflict with built-in commands, especially
+   regarding tab completion.
 
-For example, consider if you had a macro named ``:time`` and in the
-shell, typed ``:t 3`` — what should happen? The current algorithm we use
-for completing commands is:
+GHCiマクロを定義する場合，名前が組み込みのコマンドと衝突する可能性があります．
+そのときの振る舞いについて，特にTAB補完に関して知っておくべきことがあります．
 
-1. First, look up an exact match on the name from the defined macros.
+..
+   For example, consider if you had a macro named ``:time`` and in the
+   shell, typed ``:t 3`` — what should happen? The current algorithm we use
+   for completing commands is:
 
-2. Look for the exact match on the name in the built-in command list.
+   1. First, look up an exact match on the name from the defined macros.
 
-3. Do a prefix lookup on the list of built-in commands - if a built-in
-   command matches, but a macro is defined with the same name as the
-   built-in defined, pick the macro.
+   2. Look for the exact match on the name in the built-in command list.
 
-4. Do a prefix lookup on the list of built-in commands.
+   3. Do a prefix lookup on the list of built-in commands - if a built-in
+      command matches, but a macro is defined with the same name as the
+      built-in defined, pick the macro.
 
-5. Do a prefix lookup on the list of defined macros.
+   4. Do a prefix lookup on the list of built-in commands.
 
-Here are some examples:
+   5. Do a prefix lookup on the list of defined macros.
 
-1. You have a macro ``:time`` and enter ``:t 3``
+たとえば ``:time`` というマクロを定義したとして，プロンプトで ``:t 3`` とタイプしたとき何が起るべきでしょう．
+コマンド補完のアルゴリズムは現在のところ以下のようになっています．
 
-   You get ``:type 3``
+1. 定義済みマクロの中から完全一致のものを探索．
 
-2. You have a macro ``:type`` and enter ``:t 3``
+2. 組み込みコマンド一覧の中から完全一致のものを探索．
 
-   You get ``:type 3`` with your defined macro, not the builtin.
+3. 組み込みコマンド一覧の中から前方一致のものを探索．
+   該当する組み込みコマンドがあり，さらにそれと同名のマクロも見つかれば，マクロのほうを選択．
 
-3. You have a macro ``:time`` and a macro ``:type``, and enter ``:t 3``
+4. 組み込みコマンド一覧の中から前方一致のものを探索．
 
-   You get ``:type 3`` with your defined macro.
+5. 定義済みマクロの一覧の中から前方一致のものを探索．
+
+..
+   Here are some examples:
+
+   1. You have a macro ``:time`` and enter ``:t 3``
+
+      You get ``:type 3``
+
+   2. You have a macro ``:type`` and enter ``:t 3``
+
+      You get ``:type 3`` with your defined macro, not the builtin.
+
+   3. You have a macro ``:time`` and a macro ``:type``, and enter ``:t 3``
+
+      You get ``:type 3`` with your defined macro.
+
+例をいくつか示します．
+
+1. ``:time`` というマクロがあり ``:t 3`` と入力すると
+
+   ``:type 3`` となります．
+
+2. ``:type`` というマクロがあり ``:t 3`` と入力すると
+
+   組み込みのものではなく，定義されたマクロを使って ``:type 3`` となります．
+
+3. ``:time`` マクロと ``:type`` マクロの両方があり ``:t 3`` と入力すると
+
+   定義されたマクロを使って ``:type 3`` となります．
+
+..
+   .. _dot-haskeline-file:
+
+   The ``.haskeline`` file
+   ~~~~~~~~~~~~~~~~~~~~~~~
+
+   .. index::
+      single: .haskeline; file
+      single: startup; files, GHCi
+
+   GHCi uses `Haskeline <https://hackage.haskell.org/package/haskeline>`__ under
+   the hood. You can configure it to, among other
+   things, prune duplicates from GHCi history. See:
+   `Haskeline user preferences <http://trac.haskell.org/haskeline/wiki/UserPrefs>`__.
 
 .. _dot-haskeline-file:
 
-The ``.haskeline`` file
+``.haskeline`` ファイル
 ~~~~~~~~~~~~~~~~~~~~~~~
 
 .. index::
-   single: .haskeline; file
-   single: startup; files, GHCi
+   single: .haskeline; 〜ファイル
+   single: 開始時; 〜ファイル, GHCiの〜
 
-GHCi uses `Haskeline <https://hackage.haskell.org/package/haskeline>`__ under
-the hood. You can configure it to, among other
-things, prune duplicates from GHCi history. See:
-`Haskeline user preferences <http://trac.haskell.org/haskeline/wiki/UserPrefs>`__.
+GHCi は内部で `Haskeline <https://hackage.haskell.org/package/haskeline>`__ を使っています．
+他のものと同じように，これを設定することで，GHCiの履歴中の重複を取り除けます．
+`Haskeline user preferences <http://trac.haskell.org/haskeline/wiki/UserPrefs>`__
+を参照してください．
 
 .. _ghci-obj:
 
