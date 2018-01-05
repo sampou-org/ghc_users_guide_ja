@@ -1,157 +1,310 @@
+..
+   .. _using-ghc:
+
+   Using GHC
+   =========
+
+   .. index::
+      single: GHC, using
+      single: using GHC
+
 .. _using-ghc:
 
-Using GHC
+GHCを使う
 =========
 
 .. index::
-   single: GHC, using
-   single: using GHC
+   single: GHC, 〜を使う
+   single: GHCを使う
 
-Getting started: compiling programs
------------------------------------
+..
+   Getting started: compiling programs
+   -----------------------------------
 
-In this chapter you'll find a complete reference to the GHC command-line
-syntax, including all 400+ flags. It's a large and complex system, and
-there are lots of details, so it can be quite hard to figure out how to
-get started. With that in mind, this introductory section provides a
-quick introduction to the basic usage of GHC for compiling a Haskell
-program, before the following sections dive into the full syntax.
+   In this chapter you'll find a complete reference to the GHC command-line
+   syntax, including all 400+ flags. It's a large and complex system, and
+   there are lots of details, so it can be quite hard to figure out how to
+   get started. With that in mind, this introductory section provides a
+   quick introduction to the basic usage of GHC for compiling a Haskell
+   program, before the following sections dive into the full syntax.
 
-Let's create a Hello World program, and compile and run it. First,
-create a file :file:`hello.hs` containing the Haskell code: ::
+始めよう: プログラムをコンパイルする
+------------------------------------
+
+この章では，400を超えるフラグを含むGHCのコマンドライン構文の完全なリファレンスを示します．
+GHCは大きく複雑なシステムで，大量の詳細がありますのですので，どう始めてよいのかが判りにくでしょう．
+これを踏まえて，この節ではHaskellプログラムをコンパイルするためのGHCの基本的な使い方をざっと紹介します．
+これを読んでから，以降の節での完全な構文の解説に飛び込むのがいいでしょう．
+
+..
+   Let's create a Hello World program, and compile and run it. First,
+   create a file :file:`hello.hs` containing the Haskell code: ::
+
+       main = putStrLn "Hello, World!"
+
+   To compile the program, use GHC like this:
+
+   .. code-block:: sh
+
+       $ ghc hello.hs
+
+   (where ``$`` represents the prompt: don't type it). GHC will compile the
+   source file :file:`hello.hs`, producing an object file :file:`hello.o` and an
+   interface file :file:`hello.hi`, and then it will link the object file to
+   the libraries that come with GHC to produce an executable called
+   :file:`hello` on Unix/Linux/Mac, or :file:`hello.exe` on Windows.
+
+Hello World プログラムを作って，これをコンパイルして，走らせてみましょう．
+まず，以下のHaskellコードを含む :file:`hello.hs` を作成しましょう．
 
     main = putStrLn "Hello, World!"
 
-To compile the program, use GHC like this:
+このプログラムをコンパイルするには以下のようにGHCを使います．
 
 .. code-block:: sh
 
     $ ghc hello.hs
 
-(where ``$`` represents the prompt: don't type it). GHC will compile the
-source file :file:`hello.hs`, producing an object file :file:`hello.o` and an
-interface file :file:`hello.hi`, and then it will link the object file to
-the libraries that come with GHC to produce an executable called
-:file:`hello` on Unix/Linux/Mac, or :file:`hello.exe` on Windows.
+(ここで ``$`` はシェルのプロンプトですので，タイプする必要はありません．)
+GHCはソースファイル :file:`hello.hs` をコンパイルして，オブジェクトファイル :file:`hello.o` と
+インターフェイス :file:`hello.hi` を生成してから，オブジェクトをGHC付属のライブラリとリンクして，
+Unix/Linux/Mac では :file:`hello` という実行可能ファイルを Windowsでは :file:`hello.exe` という実行ファイルを生成します．
 
-By default GHC will be very quiet about what it is doing, only printing
-error messages. If you want to see in more detail what's going on behind
-the scenes, add :ghc-flag:`-v` to the command line.
+..
+   By default GHC will be very quiet about what it is doing, only printing
+   error messages. If you want to see in more detail what's going on behind
+   the scenes, add :ghc-flag:`-v` to the command line.
 
-Then we can run the program like this:
+   Then we can run the program like this:
+
+   .. code-block:: sh
+
+       $ ./hello
+       Hello World!
+
+デフォルトではGHCは自身の動作について寡黙で，表示するのはエラーメッセージだけです．
+裏で何が行われているか詳細をみたいときには，コマンドラインに :ghc-flag:`-v` を追加すれば良いでしょう．
+
+コンパイルができたら，以下のようにすればプログラムを実行できます．
 
 .. code-block:: sh
 
     $ ./hello
     Hello World!
 
-If your program contains multiple modules, then you only need to tell
-GHC the name of the source file containing the ``Main`` module, and GHC
-will examine the ``import`` declarations to find the other modules that
-make up the program and find their source files. This means that, with
-the exception of the ``Main`` module, every source file should be named
-after the module name that it contains (with dots replaced by directory
-separators). For example, the module ``Data.Person`` would be in the
-file ``Data/Person.hs`` on Unix/Linux/Mac, or ``Data\Person.hs`` on
-Windows.
+..
+   If your program contains multiple modules, then you only need to tell
+   GHC the name of the source file containing the ``Main`` module, and GHC
+   will examine the ``import`` declarations to find the other modules that
+   make up the program and find their source files. This means that, with
+   the exception of the ``Main`` module, every source file should be named
+   after the module name that it contains (with dots replaced by directory
+   separators). For example, the module ``Data.Person`` would be in the
+   file ``Data/Person.hs`` on Unix/Linux/Mac, or ``Data\Person.hs`` on
+   Windows.
 
-Options overview
+プログラムが複数のモジュールから構成されている場合でも，単に ``Main`` モジュールのファイル名を指定するだけですみます．
+GHCは ``Main`` モジュールの ``import`` 宣言を見て，プログラムを構成するその他のモジュールを見つけ，そのソースファイルを探します．
+したがって ``Main`` モジュールを除くモジュールのソースファイルはモジュール名を反映していなければなりません
+(ドットはディレクトリ区切り子に変換します)．
+たとえば ``Data.Person`` モジュールは，Unix/Linux/Macでは ``Data/Person.hs`` というファイルに，
+Windowsでは ``Data\Person.hs`` というファイルに置くことになります．
+
+..
+   Options overview
+   ----------------
+
+   GHC's behaviour is controlled by options, which for historical reasons
+   are also sometimes referred to as command-line flags or arguments.
+   Options can be specified in three ways:
+
+オプションの概要
 ----------------
 
-GHC's behaviour is controlled by options, which for historical reasons
-are also sometimes referred to as command-line flags or arguments.
-Options can be specified in three ways:
+GHCの振る舞いはオプションによって制御します．
+歴史的理由からオプションのことをコマンドラインフラグとかコマンドライン引数ともいいます．
+オプションの指定方法は3つあります．
 
-Command-line arguments
-~~~~~~~~~~~~~~~~~~~~~~
+..
+   Command-line arguments
+   ~~~~~~~~~~~~~~~~~~~~~~
+
+   .. index::
+      single: structure, command-line
+      single: command-line; arguments
+      single: arguments; command-line
+
+   An invocation of GHC takes the following form:
+
+   .. code-block:: none
+
+       ghc [argument...]
+
+   Command-line arguments are either options or file names.
+
+コマンドライン引数
+~~~~~~~~~~~~~~~~~~
 
 .. index::
-   single: structure, command-line
-   single: command-line; arguments
-   single: arguments; command-line
+   single: 構造, コマンドラインの〜
+   single: コマンドライン; 〜引数
+   single: 引数; コマンドライン〜
 
-An invocation of GHC takes the following form:
+GHCを起動する構文は以下の形式になります．
 
 .. code-block:: none
 
     ghc [argument...]
 
-Command-line arguments are either options or file names.
+コマンドライン引数はオプションもしくはファイル名です．
 
-Command-line options begin with ``-``. They may *not* be grouped:
-``-vO`` is different from ``-v -O``. Options need not precede filenames:
-e.g., ``ghc *.o -o foo``. All options are processed and then applied to
-all files; you cannot, for example, invoke
-``ghc -c -O1 Foo.hs -O2 Bar.hs`` to apply different optimisation levels
-to the files ``Foo.hs`` and ``Bar.hs``.
+..
+   Command-line options begin with ``-``. They may *not* be grouped:
+   ``-vO`` is different from ``-v -O``. Options need not precede filenames:
+   e.g., ``ghc *.o -o foo``. All options are processed and then applied to
+   all files; you cannot, for example, invoke
+   ``ghc -c -O1 Foo.hs -O2 Bar.hs`` to apply different optimisation levels
+   to the files ``Foo.hs`` and ``Bar.hs``.
+
+コマンドラインオプションは ``-`` で始まります．
+これをひとまとめにすることは**できません**．
+``-vO`` と ``-v -O`` とは違うものであるということです．
+オプションをファイル名より前で指定する必要はありません．
+たとえば ``ghc *.o -o foo`` のようにできます．
+すべてのオプションを処理してから，それらをすべてのファイルに適用します．
+そのため ``ghc -c -O1 Foo.hs -O2 Bar.hs`` とやって ``Foo.hs`` と ``Bar.hs`` に異なる最適化水準を適用することはできません．
+
+..
+   .. note::
+
+       .. index::
+	  single: command-line; order of arguments
+
+       Note that command-line options are *order-dependent*, with arguments being
+       evaluated from left-to-right. This can have seemingly strange effects in the
+       presence of flag implication. For instance, consider
+       :ghc-flag:`-fno-specialise <-fspecialise>` and :ghc-flag:`-O1` (which implies
+       :ghc-flag:`-fspecialise`). These two command lines mean very different
+       things:
+
+       ``-fno-specialise -O1``
+
+	   ``-fspecialise`` will be enabled as the ``-fno-specialise`` is overriden
+	   by the ``-O1``.
+
+       ``-O1 -fno-specialise``
+
+	   ``-fspecialise`` will not be enabled, since the ``-fno-specialise``
+	   overrides the ``-fspecialise`` implied by ``-O1``.
 
 .. note::
 
     .. index::
-       single: command-line; order of arguments
+       single: コマンドライン; 〜における引数の順序
 
-    Note that command-line options are *order-dependent*, with arguments being
-    evaluated from left-to-right. This can have seemingly strange effects in the
-    presence of flag implication. For instance, consider
-    :ghc-flag:`-fno-specialise <-fspecialise>` and :ghc-flag:`-O1` (which implies
-    :ghc-flag:`-fspecialise`). These two command lines mean very different
-    things:
+    コマンドラインオプションは *順序依存* であることに注意してください．引数は左から右へ評価されます．
+    このことによって，フラグの連動がある場合おかしな効果があらわれことがあります．
+    たとえば :ghc-flag:`-fno-specialise <-fspecialise>` と :ghc-flag:`-O1` (このフラグにより :ghc-flag:`-fspecialise` が有効になる) とを考えてみましょう．
+    つぎの2つのコマンドラインは全く別ものです．
 
     ``-fno-specialise -O1``
 
-        ``-fspecialise`` will be enabled as the ``-fno-specialise`` is overriden
-        by the ``-O1``.
+        ``-fno-specialise`` に  ``-O1`` が上書きして ``-fspecialise`` が有効になります．
 
     ``-O1 -fno-specialise``
 
-        ``-fspecialise`` will not be enabled, since the ``-fno-specialise``
-        overrides the ``-fspecialise`` implied by ``-O1``.
+        ``-O1`` に連動する ``-fspecialise`` は ``-fno-specialise`` で上書きされてしまうので有効になりません．
+
+..
+   .. _source-file-options:
+
+   Command line options in source files
+   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+   .. index::
+      single: source-file options
+
+   Sometimes it is useful to make the connection between a source file and
+   the command-line options it requires quite tight. For instance, if a
+   Haskell source file deliberately uses name shadowing, it should be
+   compiled with the ``-Wno-name-shadowing`` option. Rather than
+   maintaining the list of per-file options in a ``Makefile``, it is
+   possible to do this directly in the source file using the
+   ``OPTIONS_GHC`` :ref:`pragma <options-pragma>` ::
+
+       {-# OPTIONS_GHC -Wno-name-shadowing #-}
+       module X where
+       ...
+
+   ``OPTIONS_GHC`` is a *file-header pragma* (see :ref:`options-pragma`).
 
 .. _source-file-options:
 
-Command line options in source files
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+ソースファイル中のコマンドラインオプション
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 .. index::
-   single: source-file options
+   single: ソースファイルオプション
 
-Sometimes it is useful to make the connection between a source file and
-the command-line options it requires quite tight. For instance, if a
-Haskell source file deliberately uses name shadowing, it should be
-compiled with the ``-Wno-name-shadowing`` option. Rather than
-maintaining the list of per-file options in a ``Makefile``, it is
-possible to do this directly in the source file using the
-``OPTIONS_GHC`` :ref:`pragma <options-pragma>` ::
+ソースファイルとコマンドラインを強く結びつけた方が便利なことがあります．
+たとえば，意図して名前のシャドーイングをおこなっているHaskellソースがあれば，
+そのファイルについては ``-Wno-name-shadowing`` オプション付きでコンパイルすべきです．
+``Makefile`` をつかって，ファイルごとのオプション一覧を管理する代りに，
+``OPTIONS_GHC`` :ref:`pragma <options-pragma>` を使ってソースファイルに直接書いておけます． ::
 
     {-# OPTIONS_GHC -Wno-name-shadowing #-}
     module X where
     ...
 
-``OPTIONS_GHC`` is a *file-header pragma* (see :ref:`options-pragma`).
+``OPTIONS_GHC`` は *ファイルヘッダプラグマ* (:ref:`options-pragma` 参照)です．
 
-Only *dynamic* flags can be used in an ``OPTIONS_GHC`` pragma (see
-:ref:`static-dynamic-flags`).
+..
+   Only *dynamic* flags can be used in an ``OPTIONS_GHC`` pragma (see
+   :ref:`static-dynamic-flags`).
 
-Note that your command shell does not get to the source file options,
-they are just included literally in the array of command-line arguments
-the compiler maintains internally, so you'll be desperately disappointed
-if you try to glob etc. inside ``OPTIONS_GHC``.
+   Note that your command shell does not get to the source file options,
+   they are just included literally in the array of command-line arguments
+   the compiler maintains internally, so you'll be desperately disappointed
+   if you try to glob etc. inside ``OPTIONS_GHC``.
+
+``OPTIONS_GHC`` プラグマ中で使えるのは *動的* フラグだけです(:ref:`static-dynamic-flags` 参照)．
+
+コマンドシェルからこのソースオプションを取得するわけではなく，
+コンパイラが内部的に保持しているコマンドライン引数配列に含めるだけであることに注意してください．
+そのため ``OPTIONS_GHC`` の中でワイルドカードを使おうとすると残念なことになります．
+
+..
+   .. note::
+      The contents of ``OPTIONS_GHC`` are appended to the command-line
+      options, so options given in the source file override those given on the
+      command-line.
 
 .. note::
-   The contents of ``OPTIONS_GHC`` are appended to the command-line
-   options, so options given in the source file override those given on the
-   command-line.
+   ``OPTIONS_GHC`` の内容はコマンドラインオプションの後に連結するので，
+   コマンドラインで与えられたオプションがソースファイルオプションで上書きされます．
 
-It is not recommended to move all the contents of your Makefiles into
-your source files, but in some circumstances, the ``OPTIONS_GHC`` pragma
-is the Right Thing. (If you use :ghc-flag:`-keep-hc-file` and have ``OPTION`` flags in
-your module, the ``OPTIONS_GHC`` will get put into the generated ``.hc`` file).
+..
+   It is not recommended to move all the contents of your Makefiles into
+   your source files, but in some circumstances, the ``OPTIONS_GHC`` pragma
+   is the Right Thing. (If you use :ghc-flag:`-keep-hc-file` and have ``OPTION`` flags in
+   your module, the ``OPTIONS_GHC`` will get put into the generated ``.hc`` file).
 
-Setting options in GHCi
-~~~~~~~~~~~~~~~~~~~~~~~
+Makefile の内容をすべてソースファイルに移すのは推奨しませんが，
+場合によっては ``OPTIONS_GHC`` プラグマを使うのが正しいやり方になります．
+(:ghc-flag:`-keep-hc-file` を使っていて，モジュールに ``OPTION`` フラグがあるなら，
+生成した ``.hc`` ファイルには ``OPTIONS_GHC`` が置かれます．)
 
-Options may also be modified from within GHCi, using the :ghci-cmd:`:set`
-command.
+..
+   Setting options in GHCi
+   ~~~~~~~~~~~~~~~~~~~~~~~
+
+   Options may also be modified from within GHCi, using the :ghci-cmd:`:set`
+   command.
+
+GHCiからオプションを設定する
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+GHCi内から :ghci-cmd:`:set` コマンドを使ってオプションを変更することもできます．
 
 .. _static-dynamic-flags:
 

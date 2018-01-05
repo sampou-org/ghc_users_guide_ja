@@ -7,7 +7,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>7.1. Using GHC &mdash; Glasgow Haskell Compiler 8.2.2 User&#39;s Guide</title>
+    <title>7.1. GHCを使う &mdash; Glasgow Haskell Compiler 8.2.2 User&#39;s Guide</title>
     
     <link rel="stylesheet" href="_static/ghc-theme.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -30,9 +30,9 @@
           title="Glasgow Haskell Compiler 8.2.2 User&#39;s Guide 内を検索"
           href="_static/opensearch.xml"/>
     <link rel="top" title="Glasgow Haskell Compiler 8.2.2 User&#39;s Guide" href="index.html" />
-    <link rel="up" title="7. Using GHC" href="usage.html" />
+    <link rel="up" title="7. GHCを使う" href="usage.html" />
     <link rel="next" title="7.2. Warnings and sanity-checking" href="using-warnings.html" />
-    <link rel="prev" title="7. Using GHC" href="usage.html" /> 
+    <link rel="prev" title="7. GHCを使う" href="usage.html" /> 
   </head>
   <body role="document">
 <div class="logo">
@@ -49,10 +49,10 @@
           <a href="using-warnings.html" title="7.2. Warnings and sanity-checking"
              accesskey="N">次へ</a> |</li>
         <li class="right" >
-          <a href="usage.html" title="7. Using GHC"
+          <a href="usage.html" title="7. GHCを使う"
              accesskey="P">前へ</a> |</li>
         <li class="nav-item nav-item-0"><a href="index.html">GHC 8.2.2 User&#39;s Guide</a> &raquo;</li>
-          <li class="nav-item nav-item-1"><a href="usage.html" accesskey="U">7. Using GHC</a> &raquo;</li> 
+          <li class="nav-item nav-item-1"><a href="usage.html" accesskey="U">7. GHCを使う</a> &raquo;</li> 
       </ul>
     </div>
 
@@ -60,12 +60,12 @@
         <div class="sphinxsidebarwrapper">
   <h3><a href="index.html">目次</a></h3>
   <ul>
-<li><a class="reference internal" href="#">7.1. Using GHC</a><ul>
-<li><a class="reference internal" href="#getting-started-compiling-programs">7.1.1. Getting started: compiling programs</a></li>
-<li><a class="reference internal" href="#options-overview">7.1.2. Options overview</a><ul>
-<li><a class="reference internal" href="#command-line-arguments">7.1.2.1. Command-line arguments</a></li>
-<li><a class="reference internal" href="#command-line-options-in-source-files">7.1.2.2. Command line options in source files</a></li>
-<li><a class="reference internal" href="#setting-options-in-ghci">7.1.2.3. Setting options in GHCi</a></li>
+<li><a class="reference internal" href="#">7.1. GHCを使う</a><ul>
+<li><a class="reference internal" href="#id1">7.1.1. 始めよう: プログラムをコンパイルする</a></li>
+<li><a class="reference internal" href="#id2">7.1.2. オプションの概要</a><ul>
+<li><a class="reference internal" href="#id3">7.1.2.1. コマンドライン引数</a></li>
+<li><a class="reference internal" href="#source-file-options">7.1.2.2. ソースファイル中のコマンドラインオプション</a></li>
+<li><a class="reference internal" href="#ghci">7.1.2.3. GHCiからオプションを設定する</a></li>
 </ul>
 </li>
 <li><a class="reference internal" href="#static-dynamic-and-mode-options">7.1.3. Static, Dynamic, and Mode options</a></li>
@@ -87,7 +87,7 @@
 
   <h4>前のトピックへ</h4>
   <p class="topless"><a href="usage.html"
-                        title="前の章へ">7. Using GHC</a></p>
+                        title="前の章へ">7. GHCを使う</a></p>
   <h4>次のトピックへ</h4>
   <p class="topless"><a href="using-warnings.html"
                         title="次の章へ">7.2. Warnings and sanity-checking</a></p>
@@ -119,120 +119,103 @@
         <div class="bodywrapper">
           <div class="body" role="main">
             
-  <div class="section" id="using-ghc">
-<span id="id1"></span><h1>7.1. Using GHC<a class="headerlink" href="#using-ghc" title="このヘッドラインへのパーマリンク">¶</a></h1>
-<div class="section" id="getting-started-compiling-programs">
-<span id="index-0"></span><h2>7.1.1. Getting started: compiling programs<a class="headerlink" href="#getting-started-compiling-programs" title="このヘッドラインへのパーマリンク">¶</a></h2>
-<p>In this chapter you&#8217;ll find a complete reference to the GHC command-line
-syntax, including all 400+ flags. It&#8217;s a large and complex system, and
-there are lots of details, so it can be quite hard to figure out how to
-get started. With that in mind, this introductory section provides a
-quick introduction to the basic usage of GHC for compiling a Haskell
-program, before the following sections dive into the full syntax.</p>
-<p>Let&#8217;s create a Hello World program, and compile and run it. First,
-create a file <code class="file docutils literal"><span class="pre">hello.hs</span></code> containing the Haskell code:</p>
-<div class="highlight-haskell"><div class="highlight"><pre><span class="nf">main</span> <span class="ow">=</span> <span class="n">putStrLn</span> <span class="s">&quot;Hello, World!&quot;</span>
-</pre></div>
-</div>
-<p>To compile the program, use GHC like this:</p>
+  <div class="section" id="ghc">
+<span id="using-ghc"></span><h1>7.1. GHCを使う<a class="headerlink" href="#ghc" title="このヘッドラインへのパーマリンク">¶</a></h1>
+<span class="target" id="index-0"></span><div class="section" id="id1">
+<h2>7.1.1. 始めよう: プログラムをコンパイルする<a class="headerlink" href="#id1" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>この章では，400を超えるフラグを含むGHCのコマンドライン構文の完全なリファレンスを示します．
+GHCは大きく複雑なシステムで，大量の詳細がありますのですので，どう始めてよいのかが判りにくでしょう．
+これを踏まえて，この節ではHaskellプログラムをコンパイルするためのGHCの基本的な使い方をざっと紹介します．
+これを読んでから，以降の節での完全な構文の解説に飛び込むのがいいでしょう．</p>
+<p>Hello World プログラムを作って，これをコンパイルして，走らせてみましょう．
+まず，以下のHaskellコードを含む <code class="file docutils literal"><span class="pre">hello.hs</span></code> を作成しましょう．</p>
+<blockquote>
+<div>main = putStrLn &#8220;Hello, World!&#8221;</div></blockquote>
+<p>このプログラムをコンパイルするには以下のようにGHCを使います．</p>
 <div class="highlight-sh"><div class="highlight"><pre>$ ghc hello.hs
 </pre></div>
 </div>
-<p>(where <code class="docutils literal"><span class="pre">$</span></code> represents the prompt: don&#8217;t type it). GHC will compile the
-source file <code class="file docutils literal"><span class="pre">hello.hs</span></code>, producing an object file <code class="file docutils literal"><span class="pre">hello.o</span></code> and an
-interface file <code class="file docutils literal"><span class="pre">hello.hi</span></code>, and then it will link the object file to
-the libraries that come with GHC to produce an executable called
-<code class="file docutils literal"><span class="pre">hello</span></code> on Unix/Linux/Mac, or <code class="file docutils literal"><span class="pre">hello.exe</span></code> on Windows.</p>
-<p>By default GHC will be very quiet about what it is doing, only printing
-error messages. If you want to see in more detail what&#8217;s going on behind
-the scenes, add <a class="reference internal" href="#ghc-flag--v"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-v</span></code></a> to the command line.</p>
-<p>Then we can run the program like this:</p>
+<p>(ここで <code class="docutils literal"><span class="pre">$</span></code> はシェルのプロンプトですので，タイプする必要はありません．)
+GHCはソースファイル <code class="file docutils literal"><span class="pre">hello.hs</span></code> をコンパイルして，オブジェクトファイル <code class="file docutils literal"><span class="pre">hello.o</span></code> と
+インターフェイス <code class="file docutils literal"><span class="pre">hello.hi</span></code> を生成してから，オブジェクトをGHC付属のライブラリとリンクして，
+Unix/Linux/Mac では <code class="file docutils literal"><span class="pre">hello</span></code> という実行可能ファイルを Windowsでは <code class="file docutils literal"><span class="pre">hello.exe</span></code> という実行ファイルを生成します．</p>
+<p>デフォルトではGHCは自身の動作について寡黙で，表示するのはエラーメッセージだけです．
+裏で何が行われているか詳細をみたいときには，コマンドラインに <a class="reference internal" href="#ghc-flag--v"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-v</span></code></a> を追加すれば良いでしょう．</p>
+<p>コンパイルができたら，以下のようにすればプログラムを実行できます．</p>
 <div class="highlight-sh"><div class="highlight"><pre>$ ./hello
 Hello World!
 </pre></div>
 </div>
-<p>If your program contains multiple modules, then you only need to tell
-GHC the name of the source file containing the <code class="docutils literal"><span class="pre">Main</span></code> module, and GHC
-will examine the <code class="docutils literal"><span class="pre">import</span></code> declarations to find the other modules that
-make up the program and find their source files. This means that, with
-the exception of the <code class="docutils literal"><span class="pre">Main</span></code> module, every source file should be named
-after the module name that it contains (with dots replaced by directory
-separators). For example, the module <code class="docutils literal"><span class="pre">Data.Person</span></code> would be in the
-file <code class="docutils literal"><span class="pre">Data/Person.hs</span></code> on Unix/Linux/Mac, or <code class="docutils literal"><span class="pre">Data\Person.hs</span></code> on
-Windows.</p>
+<p>プログラムが複数のモジュールから構成されている場合でも，単に <code class="docutils literal"><span class="pre">Main</span></code> モジュールのファイル名を指定するだけですみます．
+GHCは <code class="docutils literal"><span class="pre">Main</span></code> モジュールの <code class="docutils literal"><span class="pre">import</span></code> 宣言を見て，プログラムを構成するその他のモジュールを見つけ，そのソースファイルを探します．
+したがって <code class="docutils literal"><span class="pre">Main</span></code> モジュールを除くモジュールのソースファイルはモジュール名を反映していなければなりません
+(ドットはディレクトリ区切り子に変換します)．
+たとえば <code class="docutils literal"><span class="pre">Data.Person</span></code> モジュールは，Unix/Linux/Macでは <code class="docutils literal"><span class="pre">Data/Person.hs</span></code> というファイルに，
+Windowsでは <code class="docutils literal"><span class="pre">Data\Person.hs</span></code> というファイルに置くことになります．</p>
 </div>
-<div class="section" id="options-overview">
-<h2>7.1.2. Options overview<a class="headerlink" href="#options-overview" title="このヘッドラインへのパーマリンク">¶</a></h2>
-<p>GHC&#8217;s behaviour is controlled by options, which for historical reasons
-are also sometimes referred to as command-line flags or arguments.
-Options can be specified in three ways:</p>
-<div class="section" id="command-line-arguments">
-<h3>7.1.2.1. Command-line arguments<a class="headerlink" href="#command-line-arguments" title="このヘッドラインへのパーマリンク">¶</a></h3>
-<p id="index-1">An invocation of GHC takes the following form:</p>
+<div class="section" id="id2">
+<h2>7.1.2. オプションの概要<a class="headerlink" href="#id2" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>GHCの振る舞いはオプションによって制御します．
+歴史的理由からオプションのことをコマンドラインフラグとかコマンドライン引数ともいいます．
+オプションの指定方法は3つあります．</p>
+<div class="section" id="id3">
+<h3>7.1.2.1. コマンドライン引数<a class="headerlink" href="#id3" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<p id="index-1">GHCを起動する構文は以下の形式になります．</p>
 <div class="highlight-none"><div class="highlight"><pre>ghc [argument...]
 </pre></div>
 </div>
-<p>Command-line arguments are either options or file names.</p>
-<p>Command-line options begin with <code class="docutils literal"><span class="pre">-</span></code>. They may <em>not</em> be grouped:
-<code class="docutils literal"><span class="pre">-vO</span></code> is different from <code class="docutils literal"><span class="pre">-v</span> <span class="pre">-O</span></code>. Options need not precede filenames:
-e.g., <code class="docutils literal"><span class="pre">ghc</span> <span class="pre">*.o</span> <span class="pre">-o</span> <span class="pre">foo</span></code>. All options are processed and then applied to
-all files; you cannot, for example, invoke
-<code class="docutils literal"><span class="pre">ghc</span> <span class="pre">-c</span> <span class="pre">-O1</span> <span class="pre">Foo.hs</span> <span class="pre">-O2</span> <span class="pre">Bar.hs</span></code> to apply different optimisation levels
-to the files <code class="docutils literal"><span class="pre">Foo.hs</span></code> and <code class="docutils literal"><span class="pre">Bar.hs</span></code>.</p>
+<p>コマンドライン引数はオプションもしくはファイル名です．</p>
+<p>コマンドラインオプションは <code class="docutils literal"><span class="pre">-</span></code> で始まります．
+これをひとまとめにすることは**できません**．
+<code class="docutils literal"><span class="pre">-vO</span></code> と <code class="docutils literal"><span class="pre">-v</span> <span class="pre">-O</span></code> とは違うものであるということです．
+オプションをファイル名より前で指定する必要はありません．
+たとえば <code class="docutils literal"><span class="pre">ghc</span> <span class="pre">*.o</span> <span class="pre">-o</span> <span class="pre">foo</span></code> のようにできます．
+すべてのオプションを処理してから，それらをすべてのファイルに適用します．
+そのため <code class="docutils literal"><span class="pre">ghc</span> <span class="pre">-c</span> <span class="pre">-O1</span> <span class="pre">Foo.hs</span> <span class="pre">-O2</span> <span class="pre">Bar.hs</span></code> とやって <code class="docutils literal"><span class="pre">Foo.hs</span></code> と <code class="docutils literal"><span class="pre">Bar.hs</span></code> に異なる最適化水準を適用することはできません．</p>
 <div class="admonition note">
 <p class="first admonition-title">注釈</p>
-<p id="index-2">Note that command-line options are <em>order-dependent</em>, with arguments being
-evaluated from left-to-right. This can have seemingly strange effects in the
-presence of flag implication. For instance, consider
-<a class="reference internal" href="using-optimisation.html#ghc-flag--fspecialise"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-fno-specialise</span></code></a> and <a class="reference internal" href="using-optimisation.html#ghc-flag--O1"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-O1</span></code></a> (which implies
-<a class="reference internal" href="using-optimisation.html#ghc-flag--fspecialise"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-fspecialise</span></code></a>). These two command lines mean very different
-things:</p>
+<p id="index-2">コマンドラインオプションは <em>順序依存</em> であることに注意してください．引数は左から右へ評価されます．
+このことによって，フラグの連動がある場合おかしな効果があらわれことがあります．
+たとえば <a class="reference internal" href="using-optimisation.html#ghc-flag--fspecialise"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-fno-specialise</span></code></a> と <a class="reference internal" href="using-optimisation.html#ghc-flag--O1"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-O1</span></code></a> (このフラグにより <a class="reference internal" href="using-optimisation.html#ghc-flag--fspecialise"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-fspecialise</span></code></a> が有効になる) とを考えてみましょう．
+つぎの2つのコマンドラインは全く別ものです．</p>
 <p><code class="docutils literal"><span class="pre">-fno-specialise</span> <span class="pre">-O1</span></code></p>
 <blockquote>
-<div><code class="docutils literal"><span class="pre">-fspecialise</span></code> will be enabled as the <code class="docutils literal"><span class="pre">-fno-specialise</span></code> is overriden
-by the <code class="docutils literal"><span class="pre">-O1</span></code>.</div></blockquote>
+<div><code class="docutils literal"><span class="pre">-fno-specialise</span></code> に  <code class="docutils literal"><span class="pre">-O1</span></code> が上書きして <code class="docutils literal"><span class="pre">-fspecialise</span></code> が有効になります．</div></blockquote>
 <p><code class="docutils literal"><span class="pre">-O1</span> <span class="pre">-fno-specialise</span></code></p>
 <blockquote class="last">
-<div><code class="docutils literal"><span class="pre">-fspecialise</span></code> will not be enabled, since the <code class="docutils literal"><span class="pre">-fno-specialise</span></code>
-overrides the <code class="docutils literal"><span class="pre">-fspecialise</span></code> implied by <code class="docutils literal"><span class="pre">-O1</span></code>.</div></blockquote>
+<div><code class="docutils literal"><span class="pre">-O1</span></code> に連動する <code class="docutils literal"><span class="pre">-fspecialise</span></code> は <code class="docutils literal"><span class="pre">-fno-specialise</span></code> で上書きされてしまうので有効になりません．</div></blockquote>
 </div>
 </div>
-<div class="section" id="command-line-options-in-source-files">
-<span id="source-file-options"></span><h3>7.1.2.2. Command line options in source files<a class="headerlink" href="#command-line-options-in-source-files" title="このヘッドラインへのパーマリンク">¶</a></h3>
-<p id="index-3">Sometimes it is useful to make the connection between a source file and
-the command-line options it requires quite tight. For instance, if a
-Haskell source file deliberately uses name shadowing, it should be
-compiled with the <code class="docutils literal"><span class="pre">-Wno-name-shadowing</span></code> option. Rather than
-maintaining the list of per-file options in a <code class="docutils literal"><span class="pre">Makefile</span></code>, it is
-possible to do this directly in the source file using the
-<code class="docutils literal"><span class="pre">OPTIONS_GHC</span></code> <a class="reference internal" href="glasgow_exts.html#options-pragma"><span>pragma</span></a></p>
+<div class="section" id="source-file-options">
+<span id="id4"></span><h3>7.1.2.2. ソースファイル中のコマンドラインオプション<a class="headerlink" href="#source-file-options" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<p id="index-3">ソースファイルとコマンドラインを強く結びつけた方が便利なことがあります．
+たとえば，意図して名前のシャドーイングをおこなっているHaskellソースがあれば，
+そのファイルについては <code class="docutils literal"><span class="pre">-Wno-name-shadowing</span></code> オプション付きでコンパイルすべきです．
+<code class="docutils literal"><span class="pre">Makefile</span></code> をつかって，ファイルごとのオプション一覧を管理する代りに，
+<code class="docutils literal"><span class="pre">OPTIONS_GHC</span></code> <a class="reference internal" href="glasgow_exts.html#options-pragma"><span>pragma</span></a> を使ってソースファイルに直接書いておけます．</p>
 <div class="highlight-haskell"><div class="highlight"><pre><span class="cm">{-# OPTIONS_GHC -Wno-name-shadowing #-}</span>
 <span class="kr">module</span> <span class="nn">X</span> <span class="kr">where</span>
 <span class="o">...</span>
 </pre></div>
 </div>
-<p><code class="docutils literal"><span class="pre">OPTIONS_GHC</span></code> is a <em>file-header pragma</em> (see <a class="reference internal" href="glasgow_exts.html#options-pragma"><span>OPTIONS_GHC pragma</span></a>).</p>
-<p>Only <em>dynamic</em> flags can be used in an <code class="docutils literal"><span class="pre">OPTIONS_GHC</span></code> pragma (see
-<a class="reference internal" href="#static-dynamic-flags"><span>Static, Dynamic, and Mode options</span></a>).</p>
-<p>Note that your command shell does not get to the source file options,
-they are just included literally in the array of command-line arguments
-the compiler maintains internally, so you&#8217;ll be desperately disappointed
-if you try to glob etc. inside <code class="docutils literal"><span class="pre">OPTIONS_GHC</span></code>.</p>
+<p><code class="docutils literal"><span class="pre">OPTIONS_GHC</span></code> は <em>ファイルヘッダプラグマ</em> (<a class="reference internal" href="glasgow_exts.html#options-pragma"><span>OPTIONS_GHC pragma</span></a> 参照)です．</p>
+<p><code class="docutils literal"><span class="pre">OPTIONS_GHC</span></code> プラグマ中で使えるのは <em>動的</em> フラグだけです(<a class="reference internal" href="#static-dynamic-flags"><span>Static, Dynamic, and Mode options</span></a> 参照)．</p>
+<p>コマンドシェルからこのソースオプションを取得するわけではなく，
+コンパイラが内部的に保持しているコマンドライン引数配列に含めるだけであることに注意してください．
+そのため <code class="docutils literal"><span class="pre">OPTIONS_GHC</span></code> の中でワイルドカードを使おうとすると残念なことになります．</p>
 <div class="admonition note">
 <p class="first admonition-title">注釈</p>
-<p class="last">The contents of <code class="docutils literal"><span class="pre">OPTIONS_GHC</span></code> are appended to the command-line
-options, so options given in the source file override those given on the
-command-line.</p>
+<p class="last"><code class="docutils literal"><span class="pre">OPTIONS_GHC</span></code> の内容はコマンドラインオプションの後に連結するので，
+コマンドラインで与えられたオプションがソースファイルオプションで上書きされます．</p>
 </div>
-<p>It is not recommended to move all the contents of your Makefiles into
-your source files, but in some circumstances, the <code class="docutils literal"><span class="pre">OPTIONS_GHC</span></code> pragma
-is the Right Thing. (If you use <a class="reference internal" href="separate_compilation.html#ghc-flag--keep-hc-file"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-keep-hc-file</span></code></a> and have <code class="docutils literal"><span class="pre">OPTION</span></code> flags in
-your module, the <code class="docutils literal"><span class="pre">OPTIONS_GHC</span></code> will get put into the generated <code class="docutils literal"><span class="pre">.hc</span></code> file).</p>
+<p>Makefile の内容をすべてソースファイルに移すのは推奨しませんが，
+場合によっては <code class="docutils literal"><span class="pre">OPTIONS_GHC</span></code> プラグマを使うのが正しいやり方になります．
+(<a class="reference internal" href="separate_compilation.html#ghc-flag--keep-hc-file"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-keep-hc-file</span></code></a> を使っていて，モジュールに <code class="docutils literal"><span class="pre">OPTION</span></code> フラグがあるなら，
+生成した <code class="docutils literal"><span class="pre">.hc</span></code> ファイルには <code class="docutils literal"><span class="pre">OPTIONS_GHC</span></code> が置かれます．)</p>
 </div>
-<div class="section" id="setting-options-in-ghci">
-<h3>7.1.2.3. Setting options in GHCi<a class="headerlink" href="#setting-options-in-ghci" title="このヘッドラインへのパーマリンク">¶</a></h3>
-<p>Options may also be modified from within GHCi, using the <a class="reference internal" href="ghci.html#ghci-cmd-:set"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:set</span></code></a>
-command.</p>
+<div class="section" id="ghci">
+<h3>7.1.2.3. GHCiからオプションを設定する<a class="headerlink" href="#ghci" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<p>GHCi内から <a class="reference internal" href="ghci.html#ghci-cmd-:set"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:set</span></code></a> コマンドを使ってオプションを変更することもできます．</p>
 </div>
 </div>
 <div class="section" id="static-dynamic-and-mode-options">
@@ -467,7 +450,7 @@ it defaults to the number of processors.</p>
 can be used with <code class="docutils literal"><span class="pre">--make</span></code>, but note that any options you give on the
 command line will apply to all the source files compiled, so if you want
 any options to apply to a single source file only, you&#8217;ll need to use an
-<code class="docutils literal"><span class="pre">OPTIONS_GHC</span></code> pragma (see <a class="reference internal" href="#source-file-options"><span>Command line options in source files</span></a>).</p>
+<code class="docutils literal"><span class="pre">OPTIONS_GHC</span></code> pragma (see <a class="reference internal" href="#source-file-options"><span>ソースファイル中のコマンドラインオプション</span></a>).</p>
 <p>If the program needs to be linked with additional objects (say, some
 auxiliary C code), then the object files can be given on the command
 line and GHC will include them when linking the executable.</p>
@@ -982,10 +965,10 @@ so no flag is required.</p>
           <a href="using-warnings.html" title="7.2. Warnings and sanity-checking"
              >次へ</a> |</li>
         <li class="right" >
-          <a href="usage.html" title="7. Using GHC"
+          <a href="usage.html" title="7. GHCを使う"
              >前へ</a> |</li>
         <li class="nav-item nav-item-0"><a href="index.html">GHC 8.2.2 User&#39;s Guide</a> &raquo;</li>
-          <li class="nav-item nav-item-1"><a href="usage.html" >7. Using GHC</a> &raquo;</li> 
+          <li class="nav-item nav-item-1"><a href="usage.html" >7. GHCを使う</a> &raquo;</li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">
