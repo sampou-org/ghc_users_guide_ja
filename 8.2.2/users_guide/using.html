@@ -80,7 +80,7 @@
 </ul>
 </li>
 <li><a class="reference internal" href="#options-help">7.1.6. 饒舌性に関するオプション</a></li>
-<li><a class="reference internal" href="#platform-specific-flags">7.1.7. Platform-specific Flags</a></li>
+<li><a class="reference internal" href="#options-platform">7.1.7. プラットフォーム固有のオプション</a></li>
 </ul>
 </li>
 </ul>
@@ -845,34 +845,29 @@ ANSIカラーコードをサポートしていなければ，文字化けした�
 </dd></dl>
 
 </div>
-<div class="section" id="platform-specific-flags">
-<span id="options-platform"></span><h2>7.1.7. Platform-specific Flags<a class="headerlink" href="#platform-specific-flags" title="このヘッドラインへのパーマリンク">¶</a></h2>
-<p id="index-19">Some flags only make sense for particular target platforms.</p>
+<div class="section" id="options-platform">
+<span id="id12"></span><h2>7.1.7. プラットフォーム固有のオプション<a class="headerlink" href="#options-platform" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p id="index-19">特定のターゲットプラットフォームについてのみ意味のあるフラグがいくつかあります．</p>
 <dl class="ghc-flag">
 <dt id="ghc-flag--msse2">
 <code class="descname">-msse2</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag--msse2" title="この定義へのパーマリンク">¶</a></dt>
-<dd><p>(x86 only, added in GHC 7.0.1) Use the SSE2 registers and
-instruction set to implement floating point operations when using
-the <a class="reference internal" href="codegens.html#native-code-gen"><span>native code generator</span></a>. This gives a
-substantial performance improvement for floating point, but the
-resulting compiled code will only run on processors that support
-SSE2 (Intel Pentium 4 and later, or AMD Athlon 64 and later). The
-<a class="reference internal" href="codegens.html#llvm-code-gen"><span>LLVM backend</span></a> will also use SSE2 if your
-processor supports it but detects this automatically so no flag is
-required.</p>
-<p>SSE2 is unconditionally used on x86-64 platforms.</p>
+<dd><p>(x86 のみ．GHC 7.0.1 で追加) <a class="reference internal" href="codegens.html#native-code-gen"><span>native code generator</span></a> を使う場合，
+浮動小数点演算を実装するのに SSE2 のレジスタと命令セットを使います．
+これを指定すれば大幅に浮動小数点演算が改善されますが，コンパイルして得たコードは SSE2
+をサポートしているプロセッサ(Intel の Pentium 4 以降と AMD Athlon 64 以降)上でないと動きません．
+プロセッサが SSE2 をサポートしていれば <a class="reference internal" href="codegens.html#llvm-code-gen"><span>LLVM backend</span></a> は SSE2 を使いますが，
+こちらは自動で認識しますので，フラグでの指定は不要です．</p>
+<p>x86-64 のプラットフォームでは SSE2 は無条件で使われます．</p>
 </dd></dl>
 
 <dl class="ghc-flag">
 <dt id="ghc-flag--msse4.2">
 <code class="descname">-msse4.2</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag--msse4.2" title="この定義へのパーマリンク">¶</a></dt>
-<dd><p>(x86 only, added in GHC 7.4.1) Use the SSE4.2 instruction set to
-implement some floating point and bit operations when using the
-<a class="reference internal" href="codegens.html#native-code-gen"><span>native code generator</span></a>. The resulting compiled
-code will only run on processors that support SSE4.2 (Intel Core i7
-and later). The <a class="reference internal" href="codegens.html#llvm-code-gen"><span>LLVM backend</span></a> will also use
-SSE4.2 if your processor supports it but detects this automatically
-so no flag is required.</p>
+<dd><p>(x86 のみ．GHC 7.4.1 で追加)． <a class="reference internal" href="codegens.html#native-code-gen"><span>native code generator</span></a> を使う場合，
+いくつかの浮動小数点演算とビット演算を実装するのに SSE4.2 命令セットを使います．
+コンパイルして得たコードは SSE4.2 をサポートしているプロセッサ(Intel の Core i7 以降)上でないと動きません．
+プロセッサが SSE4.2 をサポートしていれば <a class="reference internal" href="codegens.html#llvm-code-gen"><span>LLVM backend</span></a> は自動的にそれを認識しますので，
+して使うようになりますので，フラグ指定は不要です．</p>
 </dd></dl>
 
 </div>
