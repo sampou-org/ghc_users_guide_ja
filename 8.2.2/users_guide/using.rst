@@ -1747,38 +1747,73 @@ GHCは文句をいうことに注意してください．
     このオプションは ``+RTS -tstderr`` と同じです．
     :ref:`rts-options-gc` を参照してください．
 
+..
+   .. _options-platform:
+
+   Platform-specific Flags
+   -----------------------
+
+   .. index::
+      single: -m\* options
+      single: platform-specific options
+      single: machine-specific options
+
+   Some flags only make sense for particular target platforms.
+
 .. _options-platform:
 
-Platform-specific Flags
------------------------
+プラットフォーム固有のオプション
+--------------------------------
 
 .. index::
-   single: -m\* options
-   single: platform-specific options
-   single: machine-specific options
+   single: -m\* オプション
+   single: プラットフォーム固有のオプション
+   single: マシン固有のオプション
 
-Some flags only make sense for particular target platforms.
+特定のターゲットプラットフォームについてのみ意味のあるフラグがいくつかあります．
+
+..
+   .. ghc-flag:: -msse2
+
+       (x86 only, added in GHC 7.0.1) Use the SSE2 registers and
+       instruction set to implement floating point operations when using
+       the :ref:`native code generator <native-code-gen>`. This gives a
+       substantial performance improvement for floating point, but the
+       resulting compiled code will only run on processors that support
+       SSE2 (Intel Pentium 4 and later, or AMD Athlon 64 and later). The
+       :ref:`LLVM backend <llvm-code-gen>` will also use SSE2 if your
+       processor supports it but detects this automatically so no flag is
+       required.
+
+       SSE2 is unconditionally used on x86-64 platforms.
 
 .. ghc-flag:: -msse2
 
-    (x86 only, added in GHC 7.0.1) Use the SSE2 registers and
-    instruction set to implement floating point operations when using
-    the :ref:`native code generator <native-code-gen>`. This gives a
-    substantial performance improvement for floating point, but the
-    resulting compiled code will only run on processors that support
-    SSE2 (Intel Pentium 4 and later, or AMD Athlon 64 and later). The
-    :ref:`LLVM backend <llvm-code-gen>` will also use SSE2 if your
-    processor supports it but detects this automatically so no flag is
-    required.
+    (x86 のみ．GHC 7.0.1 で追加) :ref:`native code generator <native-code-gen>` を使う場合，
+    浮動小数点演算を実装するのに SSE2 のレジスタと命令セットを使います．
+    これを指定すれば大幅に浮動小数点演算が改善されますが，コンパイルして得たコードは SSE2
+    をサポートしているプロセッサ(Intel の Pentium 4 以降と AMD Athlon 64 以降)上でないと動きません．
+    プロセッサが SSE2 をサポートしていれば :ref:`LLVM backend <llvm-code-gen>` は SSE2 を使いますが，
+    こちらは自動で認識しますので，フラグでの指定は不要です．
 
-    SSE2 is unconditionally used on x86-64 platforms.
+    x86-64 のプラットフォームでは SSE2 は無条件で使われます．
+
+..
+   .. ghc-flag:: -msse4.2
+
+       (x86 only, added in GHC 7.4.1) Use the SSE4.2 instruction set to
+       implement some floating point and bit operations when using the
+       :ref:`native code generator <native-code-gen>`. The resulting compiled
+       code will only run on processors that support SSE4.2 (Intel Core i7
+       and later). The :ref:`LLVM backend <llvm-code-gen>` will also use
+       SSE4.2 if your processor supports it but detects this automatically
+       so no flag is required.
 
 .. ghc-flag:: -msse4.2
 
-    (x86 only, added in GHC 7.4.1) Use the SSE4.2 instruction set to
-    implement some floating point and bit operations when using the
-    :ref:`native code generator <native-code-gen>`. The resulting compiled
-    code will only run on processors that support SSE4.2 (Intel Core i7
-    and later). The :ref:`LLVM backend <llvm-code-gen>` will also use
-    SSE4.2 if your processor supports it but detects this automatically
-    so no flag is required.
+    (x86 のみ．GHC 7.4.1 で追加)． :ref:`native code generator <native-code-gen>` を使う場合，
+    いくつかの浮動小数点演算とビット演算を実装するのに SSE4.2 命令セットを使います．
+    コンパイルして得たコードは SSE4.2 をサポートしているプロセッサ(Intel の Core i7 以降)上でないと動きません．
+    プロセッサが SSE4.2 をサポートしていれば :ref:`LLVM backend <llvm-code-gen>` は自動的にそれを認識しますので，
+    して使うようになりますので，フラグ指定は不要です．
+
