@@ -7,7 +7,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>7.2. Warnings and sanity-checking &mdash; Glasgow Haskell Compiler 8.2.2 User&#39;s Guide</title>
+    <title>7.2. 警告と整合性検査 &mdash; Glasgow Haskell Compiler 8.2.2 User&#39;s Guide</title>
     
     <link rel="stylesheet" href="_static/ghc-theme.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -30,9 +30,9 @@
           title="Glasgow Haskell Compiler 8.2.2 User&#39;s Guide 内を検索"
           href="_static/opensearch.xml"/>
     <link rel="top" title="Glasgow Haskell Compiler 8.2.2 User&#39;s Guide" href="index.html" />
-    <link rel="up" title="7. Using GHC" href="usage.html" />
+    <link rel="up" title="7. GHCを使う" href="usage.html" />
     <link rel="next" title="7.3. Optimisation (code improvement)" href="using-optimisation.html" />
-    <link rel="prev" title="7.1. Using GHC" href="using.html" /> 
+    <link rel="prev" title="7.1. GHCを使う" href="using.html" /> 
   </head>
   <body role="document">
 <div class="logo">
@@ -49,10 +49,10 @@
           <a href="using-optimisation.html" title="7.3. Optimisation (code improvement)"
              accesskey="N">次へ</a> |</li>
         <li class="right" >
-          <a href="using.html" title="7.1. Using GHC"
+          <a href="using.html" title="7.1. GHCを使う"
              accesskey="P">前へ</a> |</li>
         <li class="nav-item nav-item-0"><a href="index.html">GHC 8.2.2 User&#39;s Guide</a> &raquo;</li>
-          <li class="nav-item nav-item-1"><a href="usage.html" accesskey="U">7. Using GHC</a> &raquo;</li> 
+          <li class="nav-item nav-item-1"><a href="usage.html" accesskey="U">7. GHCを使う</a> &raquo;</li> 
       </ul>
     </div>
 
@@ -60,7 +60,7 @@
         <div class="sphinxsidebarwrapper">
   <h4>前のトピックへ</h4>
   <p class="topless"><a href="using.html"
-                        title="前の章へ">7.1. Using GHC</a></p>
+                        title="前の章へ">7.1. GHCを使う</a></p>
   <h4>次のトピックへ</h4>
   <p class="topless"><a href="using-optimisation.html"
                         title="次の章へ">7.3. Optimisation (code improvement)</a></p>
@@ -92,12 +92,11 @@
         <div class="bodywrapper">
           <div class="body" role="main">
             
-  <div class="section" id="warnings-and-sanity-checking">
-<span id="options-sanity"></span><h1>7.2. Warnings and sanity-checking<a class="headerlink" href="#warnings-and-sanity-checking" title="このヘッドラインへのパーマリンク">¶</a></h1>
-<p id="index-0">GHC has a number of options that select which types of non-fatal error
-messages, otherwise known as warnings, can be generated during
-compilation. By default, you get a standard set of warnings which are
-generally likely to indicate bugs in your program. These are:</p>
+  <div class="section" id="options-sanity">
+<span id="id1"></span><h1>7.2. 警告と整合性検査<a class="headerlink" href="#options-sanity" title="このヘッドラインへのパーマリンク">¶</a></h1>
+<span class="target" id="index-0"></span><p>GHC では，いくつものオプションを使って，コンパイル中の致命的ではないエラーに対して，
+どのようなメッセージ(警告ともいいます)を生成するかを選択できます．
+デフォルトでは，プログラム中のバグを示していることが多い以下の警告が有効になっています．</p>
 <table class="hlist"><tr><td><ul class="simple">
 <li><a class="reference internal" href="#ghc-flag--Woverlapping-patterns"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-Woverlapping-patterns</span></code></a></li>
 <li><a class="reference internal" href="#ghc-flag--Wwarnings-deprecations"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-Wwarnings-deprecations</span></code></a></li>
@@ -123,11 +122,11 @@ generally likely to indicate bugs in your program. These are:</p>
 <li><a class="reference internal" href="#ghc-flag--Wunrecognised-warning-flags"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-Wunrecognised-warning-flags</span></code></a></li>
 </ul>
 </td></tr></table>
-<p>The following flags are simple ways to select standard &#8220;packages&#8221; of warnings:</p>
+<p>以下のフラグは標準的な警告の「詰め合せ」を簡単に選択するためのものです．</p>
 <dl class="ghc-flag">
 <dt id="ghc-flag--W">
 <code class="descname">-W</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag--W" title="この定義へのパーマリンク">¶</a></dt>
-<dd><p>Provides the standard warnings plus</p>
+<dd><p>標準の警告に加えて以下を有効にします．</p>
 <table class="hlist"><tr><td><ul class="simple">
 <li><a class="reference internal" href="#ghc-flag--Wunused-binds"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-Wunused-binds</span></code></a></li>
 <li><a class="reference internal" href="#ghc-flag--Wunused-matches"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-Wunused-matches</span></code></a></li>
@@ -148,8 +147,8 @@ generally likely to indicate bugs in your program. These are:</p>
 <dl class="ghc-flag">
 <dt id="ghc-flag--Wall">
 <code class="descname">-Wall</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag--Wall" title="この定義へのパーマリンク">¶</a></dt>
-<dd><p>Turns on all warning options that indicate potentially suspicious
-code. The warnings that are <em>not</em> enabled by <a class="reference internal" href="#ghc-flag--Wall"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-Wall</span></code></a> are</p>
+<dd><p>疑わしいコードであることを示しうるすべての警告オプションを有効にします．
+<a class="reference internal" href="#ghc-flag--Wall"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-Wall</span></code></a> で <em>有効にならない</em> 警告は以下のものです．</p>
 <table class="hlist"><tr><td><ul class="simple">
 <li><a class="reference internal" href="#ghc-flag--Wincomplete-uni-patterns"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-Wincomplete-uni-patterns</span></code></a></li>
 <li><a class="reference internal" href="#ghc-flag--Wincomplete-record-updates"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-Wincomplete-record-updates</span></code></a></li>
@@ -172,11 +171,9 @@ code. The warnings that are <em>not</em> enabled by <a class="reference internal
 <dl class="ghc-flag">
 <dt id="ghc-flag--Wcompat">
 <code class="descname">-Wcompat</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag--Wcompat" title="この定義へのパーマリンク">¶</a></dt>
-<dd><p>Turns on warnings that will be enabled by default in the future, but remain
-off in normal compilations for the time being. This allows library authors
-eager to make their code future compatible to adapt to new features before
-they even generate warnings.</p>
-<p>This currently enables</p>
+<dd><p>当面の間はデフォルトでは無効になっていますが，将来，デフォルトで有効になる予定の警告を有効にします．
+このフラグを有効にするとこで，ライブラリの作者は，警告を出さずに，新しい機能との互換性を確保しやすくなります．</p>
+<p>これで有効になるのは，現時点では以下の警告です．</p>
 <table class="hlist"><tr><td><ul class="simple">
 <li><a class="reference internal" href="#ghc-flag--Wmissing-monadfail-instances"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-Wmissing-monadfail-instances</span></code></a></li>
 </ul>
@@ -192,7 +189,7 @@ they even generate warnings.</p>
 <dl class="ghc-flag">
 <dt id="ghc-flag--Wno-compat">
 <code class="descname">-Wno-compat</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag--Wno-compat" title="この定義へのパーマリンク">¶</a></dt>
-<dd><p>Disables all warnings enabled by <a class="reference internal" href="#ghc-flag--Wcompat"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-Wcompat</span></code></a>.</p>
+<dd><p><a class="reference internal" href="#ghc-flag--Wcompat"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-Wcompat</span></code></a> で有効になる警告をすべて無効にします．</p>
 </dd></dl>
 
 <dl class="ghc-flag">
@@ -1208,10 +1205,10 @@ sanity, not yours.)</p>
           <a href="using-optimisation.html" title="7.3. Optimisation (code improvement)"
              >次へ</a> |</li>
         <li class="right" >
-          <a href="using.html" title="7.1. Using GHC"
+          <a href="using.html" title="7.1. GHCを使う"
              >前へ</a> |</li>
         <li class="nav-item nav-item-0"><a href="index.html">GHC 8.2.2 User&#39;s Guide</a> &raquo;</li>
-          <li class="nav-item nav-item-1"><a href="usage.html" >7. Using GHC</a> &raquo;</li> 
+          <li class="nav-item nav-item-1"><a href="usage.html" >7. GHCを使う</a> &raquo;</li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">

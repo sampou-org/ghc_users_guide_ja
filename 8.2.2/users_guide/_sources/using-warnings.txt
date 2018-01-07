@@ -1,16 +1,53 @@
+..
+   .. _options-sanity:
+
+   Warnings and sanity-checking
+   ----------------------------
+
+   .. index::
+      single: sanity-checking options
+      single: warnings
+
 .. _options-sanity:
 
-Warnings and sanity-checking
-----------------------------
+警告と整合性検査
+----------------
 
 .. index::
-   single: sanity-checking options
-   single: warnings
+   single: 整合性検査オプション
+   single: 警告
 
-GHC has a number of options that select which types of non-fatal error
-messages, otherwise known as warnings, can be generated during
-compilation. By default, you get a standard set of warnings which are
-generally likely to indicate bugs in your program. These are:
+..
+   GHC has a number of options that select which types of non-fatal error
+   messages, otherwise known as warnings, can be generated during
+   compilation. By default, you get a standard set of warnings which are
+   generally likely to indicate bugs in your program. These are:
+
+   .. hlist::
+       :columns: 3
+
+       * :ghc-flag:`-Woverlapping-patterns`
+       * :ghc-flag:`-Wwarnings-deprecations`
+       * :ghc-flag:`-Wdeprecations`
+       * :ghc-flag:`-Wdeprecated-flags`
+       * :ghc-flag:`-Wunrecognised-pragmas`
+       * :ghc-flag:`-Wduplicate-constraints`
+       * :ghc-flag:`-Wduplicate-exports`
+       * :ghc-flag:`-Woverflowed-literals`
+       * :ghc-flag:`-Wempty-enumerations`
+       * :ghc-flag:`-Wmissing-fields`
+       * :ghc-flag:`-Wmissing-methods`
+       * :ghc-flag:`-Wwrong-do-bind`
+       * :ghc-flag:`-Wunsupported-calling-conventions`
+       * :ghc-flag:`-Wdodgy-foreign-imports`
+       * :ghc-flag:`-Winline-rule-shadowing`
+       * :ghc-flag:`-Wunsupported-llvm-version`
+       * :ghc-flag:`-Wtabs`
+       * :ghc-flag:`-Wunrecognised-warning-flags`
+
+GHC では，いくつものオプションを使って，コンパイル中の致命的ではないエラーに対して，
+どのようなメッセージ(警告ともいいます)を生成するかを選択できます．
+デフォルトでは，プログラム中のバグを示していることが多い以下の警告が有効になっています．
 
 .. hlist::
     :columns: 3
@@ -34,11 +71,30 @@ generally likely to indicate bugs in your program. These are:
     * :ghc-flag:`-Wtabs`
     * :ghc-flag:`-Wunrecognised-warning-flags`
 
-The following flags are simple ways to select standard "packages" of warnings:
+..
+   The following flags are simple ways to select standard "packages" of warnings:
+
+   .. ghc-flag:: -W
+
+       Provides the standard warnings plus
+
+       .. hlist::
+	   :columns: 3
+
+	   * :ghc-flag:`-Wunused-binds`
+	   * :ghc-flag:`-Wunused-matches`
+	   * :ghc-flag:`-Wunused-foralls`
+	   * :ghc-flag:`-Wunused-imports`
+	   * :ghc-flag:`-Wincomplete-patterns`
+	   * :ghc-flag:`-Wdodgy-exports`
+	   * :ghc-flag:`-Wdodgy-imports`
+	   * :ghc-flag:`-Wunbanged-strict-patterns`
+
+以下のフラグは標準的な警告の「詰め合せ」を簡単に選択するためのものです．
 
 .. ghc-flag:: -W
 
-    Provides the standard warnings plus
+    標準の警告に加えて以下を有効にします．
 
     .. hlist::
         :columns: 3
@@ -50,12 +106,32 @@ The following flags are simple ways to select standard "packages" of warnings:
         * :ghc-flag:`-Wincomplete-patterns`
         * :ghc-flag:`-Wdodgy-exports`
         * :ghc-flag:`-Wdodgy-imports`
-        * :ghc-flag:`-Wunbanged-strict-patterns`
+	* :ghc-flag:`-Wunbanged-strict-patterns`
+
+..
+   .. ghc-flag:: -Wall
+
+       Turns on all warning options that indicate potentially suspicious
+       code. The warnings that are *not* enabled by :ghc-flag:`-Wall` are
+
+       .. hlist::
+	   :columns: 3
+
+	   * :ghc-flag:`-Wincomplete-uni-patterns`
+	   * :ghc-flag:`-Wincomplete-record-updates`
+	   * :ghc-flag:`-Wmonomorphism-restriction`
+	   * :ghc-flag:`-Wimplicit-prelude`
+	   * :ghc-flag:`-Wmissing-local-signatures`
+	   * :ghc-flag:`-Wmissing-exported-signatures`
+	   * :ghc-flag:`-Wmissing-import-lists`
+	   * :ghc-flag:`-Wmissing-home-modules`
+	   * :ghc-flag:`-Widentities`
+	   * :ghc-flag:`-Wredundant-constraints`
 
 .. ghc-flag:: -Wall
 
-    Turns on all warning options that indicate potentially suspicious
-    code. The warnings that are *not* enabled by :ghc-flag:`-Wall` are
+    疑わしいコードであることを示しうるすべての警告オプションを有効にします．
+    :ghc-flag:`-Wall` で *有効にならない* 警告は以下のものです．
 
     .. hlist::
         :columns: 3
@@ -67,18 +143,33 @@ The following flags are simple ways to select standard "packages" of warnings:
         * :ghc-flag:`-Wmissing-local-signatures`
         * :ghc-flag:`-Wmissing-exported-signatures`
         * :ghc-flag:`-Wmissing-import-lists`
-        * :ghc-flag:`-Wmissing-home-modules`
-        * :ghc-flag:`-Widentities`
-        * :ghc-flag:`-Wredundant-constraints`
+	* :ghc-flag:`-Wmissing-home-modules`
+	* :ghc-flag:`-Widentities`
+	* :ghc-flag:`-Wredundant-constraints`
+
+..
+   .. ghc-flag:: -Wcompat
+
+       Turns on warnings that will be enabled by default in the future, but remain
+       off in normal compilations for the time being. This allows library authors
+       eager to make their code future compatible to adapt to new features before
+       they even generate warnings.
+
+       This currently enables
+
+       .. hlist::
+	   :columns: 3
+
+	   * :ghc-flag:`-Wmissing-monadfail-instances`
+	   * :ghc-flag:`-Wsemigroup`
+	   * :ghc-flag:`-Wnoncanonical-monoid-instances`
 
 .. ghc-flag:: -Wcompat
 
-    Turns on warnings that will be enabled by default in the future, but remain
-    off in normal compilations for the time being. This allows library authors
-    eager to make their code future compatible to adapt to new features before
-    they even generate warnings.
+    当面の間はデフォルトでは無効になっていますが，将来，デフォルトで有効になる予定の警告を有効にします．
+    このフラグを有効にするとこで，ライブラリの作者は，警告を出さずに，新しい機能との互換性を確保しやすくなります．
 
-    This currently enables
+    これで有効になるのは，現時点では以下の警告です．
 
     .. hlist::
         :columns: 3
@@ -87,9 +178,14 @@ The following flags are simple ways to select standard "packages" of warnings:
         * :ghc-flag:`-Wsemigroup`
         * :ghc-flag:`-Wnoncanonical-monoid-instances`
 
+..
+   .. ghc-flag:: -Wno-compat
+
+       Disables all warnings enabled by :ghc-flag:`-Wcompat`.
+
 .. ghc-flag:: -Wno-compat
 
-    Disables all warnings enabled by :ghc-flag:`-Wcompat`.
+    :ghc-flag:`-Wcompat` で有効になる警告をすべて無効にします．
 
 .. ghc-flag:: -w
 
