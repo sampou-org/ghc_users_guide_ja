@@ -187,18 +187,30 @@ GHC では，いくつものオプションを使って，コンパイル中の�
 
     :ghc-flag:`-Wcompat` で有効になる警告をすべて無効にします．
 
+..
+   .. ghc-flag:: -w
+
+       Turns off all warnings, including the standard ones and those that
+       :ghc-flag:`-Wall` doesn't enable.
+
+   These options control which warnings are considered fatal and cause compilation
+   to abort.
+
 .. ghc-flag:: -w
 
-    Turns off all warnings, including the standard ones and those that
-    :ghc-flag:`-Wall` doesn't enable.
+    標準警告に含まれないもの :ghc-flag:`-Wall` が有効にしないものを含めて，すべての警告を無効にします．
 
-These options control which warnings are considered fatal and cause compilation
-to abort.
+以下のオプションでは，警告をすべて致命的なものとみなし，コンパイルを中断します．
+
+..
+   .. ghc-flag:: -Werror
+
+       Makes any warning into a fatal error. Useful so that you don't miss
+       warnings when doing batch compilation.
 
 .. ghc-flag:: -Werror
 
-    Makes any warning into a fatal error. Useful so that you don't miss
-    warnings when doing batch compilation.
+    すべての警告を致命的エラーにします．これを有効にすると，一括コンパイルのときに警告を見逃さずにすみます．
 
 .. ghc-flag:: -Werror=⟨wflag⟩
     :noindex:
