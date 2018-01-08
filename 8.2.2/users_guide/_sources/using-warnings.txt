@@ -212,42 +212,80 @@ GHC では，いくつものオプションを使って，コンパイル中の�
 
     すべての警告を致命的エラーにします．これを有効にすると，一括コンパイルのときに警告を見逃さずにすみます．
 
+..
+   .. ghc-flag:: -Werror=⟨wflag⟩
+       :noindex:
+
+       :implies: ``-W<wflag>``
+
+       Makes a specific warning into a fatal error. The warning will be enabled if
+       it hasn't been enabled yet.
+
 .. ghc-flag:: -Werror=⟨wflag⟩
     :noindex:
 
     :implies: ``-W<wflag>``
 
-    Makes a specific warning into a fatal error. The warning will be enabled if
-    it hasn't been enabled yet.
+    指定した警告を致命的エラーにします．これを指定しない警告はそのまま警告として使えます．
+
+..
+   .. ghc-flag:: -Wwarn
+
+       Warnings are treated only as warnings, not as errors. This is the
+       default, but can be useful to negate a :ghc-flag:`-Werror` flag.
 
 .. ghc-flag:: -Wwarn
 
-    Warnings are treated only as warnings, not as errors. This is the
-    default, but can be useful to negate a :ghc-flag:`-Werror` flag.
+    警告を警告として扱い，エラーにはしません．これはデフォルトですが，
+    :ghc-flag:`-Werror` フラグを否定するのに便利です．
+
+..
+   .. ghc-flag:: -Wwarn=⟨wflag⟩
+       :noindex:
+
+       Causes a specific warning to be treated as normal warning, not fatal error.
+
+       Note that it doesn't fully negate the effects of ``-Werror=<wflag>`` - the
+       warning will still be enabled.
 
 .. ghc-flag:: -Wwarn=⟨wflag⟩
     :noindex:
 
-    Causes a specific warning to be treated as normal warning, not fatal error.
+    指定した警告を警告として扱い，エラーにはしません．
 
-    Note that it doesn't fully negate the effects of ``-Werror=<wflag>`` - the
-    warning will still be enabled.
+    ``-Werror=<wflag>`` を完全に否定するものではなく，警告としてそのまま使えます．
 
-When a warning is emitted, the specific warning flag which controls
-it is shown.
+..
+   When a warning is emitted, the specific warning flag which controls
+   it is shown.
+
+警告が発行されると，それを制御する警告フラグが表示されます．
+
+..
+   .. ghc-flag:: -fshow-warning-groups
+
+       When showing which flag controls a warning, also show the
+       respective warning group flag(s) that warning is contained in.
+
+       This option is off by default.
 
 .. ghc-flag:: -fshow-warning-groups
 
-    When showing which flag controls a warning, also show the
-    respective warning group flag(s) that warning is contained in.
+    どのフラグがその警告を制御しているかを表示する際，
+    その警告を含む警告フラググループについても表示します．
 
-    This option is off by default.
+    このオプションはデフォルトでは有効になっていません．
 
-The full set of warning options is described below. To turn off any
-warning, simply give the corresponding ``-Wno-...`` option on the
-command line. For backwards compatibility with GHC versions prior to 8.0,
-all these warnings can still be controlled with ``-f(no-)warn-*`` instead
-of ``-W(no-)*``.
+..
+   The full set of warning options is described below. To turn off any
+   warning, simply give the corresponding ``-Wno-...`` option on the
+   command line. For backwards compatibility with GHC versions prior to 8.0,
+   all these warnings can still be controlled with ``-f(no-)warn-*`` instead
+   of ``-W(no-)*``.
+
+以下に警告オプションのすべてを説明します．
+なんらかの警告を無効にしたい場合には，その警告に対応する ``-Wno-...`` というオプションをコマンドラインで指定するといいでしょう．
+いまのところ GHC 8.0 よりも前のバージョンとの後方互換性のために，すべての警告は ``-W(no-)*`` でなくても ``-f(no-)warn-*`` ででも制御できます．
 
 .. ghc-flag:: -Wunrecognised-warning-flags
 

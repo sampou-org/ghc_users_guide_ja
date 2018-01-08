@@ -216,40 +216,35 @@
 </tr>
 </tbody>
 </table>
-<p>Makes a specific warning into a fatal error. The warning will be enabled if
-it hasn&#8217;t been enabled yet.</p>
+<p>指定した警告を致命的エラーにします．これを指定しない警告はそのまま警告として使えます．</p>
 </dd></dl>
 
 <dl class="ghc-flag">
 <dt id="ghc-flag--Wwarn">
 <code class="descname">-Wwarn</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag--Wwarn" title="この定義へのパーマリンク">¶</a></dt>
-<dd><p>Warnings are treated only as warnings, not as errors. This is the
-default, but can be useful to negate a <a class="reference internal" href="#ghc-flag--Werror"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-Werror</span></code></a> flag.</p>
+<dd><p>警告を警告として扱い，エラーにはしません．これはデフォルトですが，
+<a class="reference internal" href="#ghc-flag--Werror"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-Werror</span></code></a> フラグを否定するのに便利です．</p>
 </dd></dl>
 
 <dl class="ghc-flag">
 <dt>
 <code class="descname">-Wwarn</code><code class="descclassname">=⟨wflag⟩</code></dt>
-<dd><p>Causes a specific warning to be treated as normal warning, not fatal error.</p>
-<p>Note that it doesn&#8217;t fully negate the effects of <code class="docutils literal"><span class="pre">-Werror=&lt;wflag&gt;</span></code> - the
-warning will still be enabled.</p>
+<dd><p>指定した警告を警告として扱い，エラーにはしません．</p>
+<p><code class="docutils literal"><span class="pre">-Werror=&lt;wflag&gt;</span></code> を完全に否定するものではなく，警告としてそのまま使えます．</p>
 </dd></dl>
 
-<p>When a warning is emitted, the specific warning flag which controls
-it is shown.</p>
+<p>警告が発行されると，それを制御する警告フラグが表示されます．</p>
 <dl class="ghc-flag">
 <dt id="ghc-flag--fshow-warning-groups">
 <code class="descname">-fshow-warning-groups</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag--fshow-warning-groups" title="この定義へのパーマリンク">¶</a></dt>
-<dd><p>When showing which flag controls a warning, also show the
-respective warning group flag(s) that warning is contained in.</p>
-<p>This option is off by default.</p>
+<dd><p>どのフラグがその警告を制御しているかを表示する際，
+その警告を含む警告フラググループについても表示します．</p>
+<p>このオプションはデフォルトでは有効になっていません．</p>
 </dd></dl>
 
-<p>The full set of warning options is described below. To turn off any
-warning, simply give the corresponding <code class="docutils literal"><span class="pre">-Wno-...</span></code> option on the
-command line. For backwards compatibility with GHC versions prior to 8.0,
-all these warnings can still be controlled with <code class="docutils literal"><span class="pre">-f(no-)warn-*</span></code> instead
-of <code class="docutils literal"><span class="pre">-W(no-)*</span></code>.</p>
+<p>以下に警告オプションのすべてを説明します．
+なんらかの警告を無効にしたい場合には，その警告に対応する <code class="docutils literal"><span class="pre">-Wno-...</span></code> というオプションをコマンドラインで指定するといいでしょう．
+いまのところ GHC 8.0 よりも前のバージョンとの後方互換性のために，すべての警告は <code class="docutils literal"><span class="pre">-W(no-)*</span></code> でなくても <code class="docutils literal"><span class="pre">-f(no-)warn-*</span></code> ででも制御できます．</p>
 <dl class="ghc-flag">
 <dt id="ghc-flag--Wunrecognised-warning-flags">
 <code class="descname">-Wunrecognised-warning-flags</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag--Wunrecognised-warning-flags" title="この定義へのパーマリンク">¶</a></dt>
