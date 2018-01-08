@@ -287,58 +287,113 @@ GHC では，いくつものオプションを使って，コンパイル中の�
 なんらかの警告を無効にしたい場合には，その警告に対応する ``-Wno-...`` というオプションをコマンドラインで指定するといいでしょう．
 いまのところ GHC 8.0 よりも前のバージョンとの後方互換性のために，すべての警告は ``-W(no-)*`` でなくても ``-f(no-)warn-*`` ででも制御できます．
 
+..
+   .. ghc-flag:: -Wunrecognised-warning-flags
+
+       Enables warnings when the compiler encounters a ``-W...`` flag that is not
+       recognised.
+
+       This warning is on by default.
+
 .. ghc-flag:: -Wunrecognised-warning-flags
 
-    Enables warnings when the compiler encounters a ``-W...`` flag that is not
-    recognised.
+    認識できない ``-W...`` フラグをコンパイラに指定したことを警告します．
 
-    This warning is on by default.
+    この警告はデフォルトで有効になっています．
+
+..
+   .. ghc-flag:: -Wtyped-holes
+
+       Determines whether the compiler reports typed holes warnings. Has no
+       effect unless typed holes errors are deferred until runtime. See
+       :ref:`typed-holes` and :ref:`defer-type-errors`
+
+       This warning is on by default.
 
 .. ghc-flag:: -Wtyped-holes
 
-    Determines whether the compiler reports typed holes warnings. Has no
-    effect unless typed holes errors are deferred until runtime. See
-    :ref:`typed-holes` and :ref:`defer-type-errors`
+    コンパイラが型付きホールの警告を出すかを決めます．
+    型付きホールのエラーがランタイムまで遅延されているときにのみ効果があります．
+    :ref:`typed-holes` および :ref:`defer-type-errors` を参照してください．
 
-    This warning is on by default.
+    この警告はデフォルトで有効になっています．
+
+..
+   .. ghc-flag:: -Wtype-errors
+
+       Causes a warning to be reported when a type error is deferred until
+       runtime. See :ref:`defer-type-errors`
+
+       This warning is on by default.
 
 .. ghc-flag:: -Wtype-errors
 
-    Causes a warning to be reported when a type error is deferred until
-    runtime. See :ref:`defer-type-errors`
+    型エラーが実行時まで遅延されているときに警告を出します．
+    :ref:`defer-type-errors` を参照してください．
 
-    This warning is on by default.
+    この警告はデフォルトで有効になっています．
+
+..
+   .. ghc-flag:: -fdefer-type-errors
+
+       :implies: :ghc-flag:`-fdefer-typed-holes`
+
+       Defer as many type errors as possible until runtime. At compile time
+       you get a warning (instead of an error). At runtime, if you use a
+       value that depends on a type error, you get a runtime error; but you
+       can run any type-correct parts of your code just fine. See
+       :ref:`defer-type-errors`
 
 .. ghc-flag:: -fdefer-type-errors
 
     :implies: :ghc-flag:`-fdefer-typed-holes`
 
-    Defer as many type errors as possible until runtime. At compile time
-    you get a warning (instead of an error). At runtime, if you use a
-    value that depends on a type error, you get a runtime error; but you
-    can run any type-correct parts of your code just fine. See
-    :ref:`defer-type-errors`
+    可能なかぎり多くの型エラーを実行時まで引き延ばします．
+    コンパイル時にはエラーではなく警告がでます．
+    実行時には，型エラーを起こす変数を使ったときに実行時エラーになります．
+    しかし，型が正しい部分については，正しく動きます．
+    :ref:`defer-type-errors` を参照してください．
+
+..
+   .. ghc-flag:: -fdefer-typed-holes
+
+       Defer typed holes errors (errors about names with a leading underscore
+       (e.g., “_”, “_foo”, “_bar”)) until runtime. This will turn the errors
+       produced by :ref:`typed holes <typed-holes>` into warnings. Using a value
+       that depends on a typed hole produces a runtime error, the same as
+       :ghc-flag:`-fdefer-type-errors` (which implies this option). See :ref:`typed-holes`
+       and :ref:`defer-type-errors`.
+
+       Implied by :ghc-flag:`-fdefer-type-errors`. See also :ghc-flag:`-Wtyped-holes`.
 
 .. ghc-flag:: -fdefer-typed-holes
 
-    Defer typed holes errors (errors about names with a leading underscore
-    (e.g., “_”, “_foo”, “_bar”)) until runtime. This will turn the errors
-    produced by :ref:`typed holes <typed-holes>` into warnings. Using a value
-    that depends on a typed hole produces a runtime error, the same as
-    :ghc-flag:`-fdefer-type-errors` (which implies this option). See :ref:`typed-holes`
-    and :ref:`defer-type-errors`.
+    型付きホールのエラー(アンダースコアで始まる名前(たとえば ``_`` ， ``_foo`` ， ``_bar``)に関するエラー)を実行時まで遅延します．
+    これは :ref:`typed holes <typed-holes>` によって起きたエラーを警告にします．
+    型付きホールに依存する値を使うと :ghc-flag:`-fdefer-type-errors` (これを指定すると :ghc-flag:`-fdefer-typed-holes` が有効になる)のときと同じく実行時エラーになります．
+    :ref:`typed-holes` および :ref:`defer-type-errors` を参照してください．
 
-    Implied by :ghc-flag:`-fdefer-type-errors`. See also :ghc-flag:`-Wtyped-holes`.
+    :ghc-flag:`-fdefer-type-errors` によって有効になります． :ghc-flag:`-Wtyped-holes` も参照してください．
+
+..
+   .. ghc-flag:: -fdefer-out-of-scope-variables
+
+       Defer variable out-of-scope errors (errors about names without a leading underscore)
+       until runtime. This will turn variable-out-of-scope errors into warnings.
+       Using a value that depends on a typed hole produces a runtime error,
+       the same as :ghc-flag:`-fdefer-type-errors` (which implies this option).
+       See :ref:`typed-holes` and :ref:`defer-type-errors`.
+
+       Implied by :ghc-flag:`-fdefer-type-errors`. See also :ghc-flag:`-Wdeferred-out-of-scope-variables`.
 
 .. ghc-flag:: -fdefer-out-of-scope-variables
 
-    Defer variable out-of-scope errors (errors about names without a leading underscore)
-    until runtime. This will turn variable-out-of-scope errors into warnings.
-    Using a value that depends on a typed hole produces a runtime error,
-    the same as :ghc-flag:`-fdefer-type-errors` (which implies this option).
-    See :ref:`typed-holes` and :ref:`defer-type-errors`.
+    変数の有効範囲外エラー(アンダースコアで始まらない名前に関するエラー)を実行時まで遅延します．
+    これは変数の有効範囲外エラーを警告に換えるものです．
+    有効範囲外の変数に依存する値を使うと :ghc-flag:`-fdefer-type-errors` (これを指定すると :ghc-flag:`-fdefer-out-of-scope-variables`が有効になる)のときと同じく実行時エラーになります．
+    :ref:`typed-holes` および :ref:`defer-type-errors` を参照してください．
 
-    Implied by :ghc-flag:`-fdefer-type-errors`. See also :ghc-flag:`-Wdeferred-out-of-scope-variables`.
+    :ghc-flag:`-fdefer-type-errors` によって有効になります． :ghc-flag:`-Wdeferred-out-of-scope-variables` も参照してください．
 
 .. ghc-flag:: -Wdeferred-out-of-scope-variables
 

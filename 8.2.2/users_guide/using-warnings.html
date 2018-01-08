@@ -248,26 +248,25 @@
 <dl class="ghc-flag">
 <dt id="ghc-flag--Wunrecognised-warning-flags">
 <code class="descname">-Wunrecognised-warning-flags</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag--Wunrecognised-warning-flags" title="この定義へのパーマリンク">¶</a></dt>
-<dd><p>Enables warnings when the compiler encounters a <code class="docutils literal"><span class="pre">-W...</span></code> flag that is not
-recognised.</p>
-<p>This warning is on by default.</p>
+<dd><p>認識できない <code class="docutils literal"><span class="pre">-W...</span></code> フラグをコンパイラに指定したことを警告します．</p>
+<p>この警告はデフォルトで有効になっています．</p>
 </dd></dl>
 
 <dl class="ghc-flag">
 <dt id="ghc-flag--Wtyped-holes">
 <code class="descname">-Wtyped-holes</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag--Wtyped-holes" title="この定義へのパーマリンク">¶</a></dt>
-<dd><p>Determines whether the compiler reports typed holes warnings. Has no
-effect unless typed holes errors are deferred until runtime. See
-<a class="reference internal" href="glasgow_exts.html#typed-holes"><span>Typed Holes</span></a> and <a class="reference internal" href="glasgow_exts.html#defer-type-errors"><span>Deferring type errors to runtime</span></a></p>
-<p>This warning is on by default.</p>
+<dd><p>コンパイラが型付きホールの警告を出すかを決めます．
+型付きホールのエラーがランタイムまで遅延されているときにのみ効果があります．
+<a class="reference internal" href="glasgow_exts.html#typed-holes"><span>Typed Holes</span></a> および <a class="reference internal" href="glasgow_exts.html#defer-type-errors"><span>Deferring type errors to runtime</span></a> を参照してください．</p>
+<p>この警告はデフォルトで有効になっています．</p>
 </dd></dl>
 
 <dl class="ghc-flag">
 <dt id="ghc-flag--Wtype-errors">
 <code class="descname">-Wtype-errors</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag--Wtype-errors" title="この定義へのパーマリンク">¶</a></dt>
-<dd><p>Causes a warning to be reported when a type error is deferred until
-runtime. See <a class="reference internal" href="glasgow_exts.html#defer-type-errors"><span>Deferring type errors to runtime</span></a></p>
-<p>This warning is on by default.</p>
+<dd><p>型エラーが実行時まで遅延されているときに警告を出します．
+<a class="reference internal" href="glasgow_exts.html#defer-type-errors"><span>Deferring type errors to runtime</span></a> を参照してください．</p>
+<p>この警告はデフォルトで有効になっています．</p>
 </dd></dl>
 
 <dl class="ghc-flag">
@@ -281,34 +280,31 @@ runtime. See <a class="reference internal" href="glasgow_exts.html#defer-type-er
 </tr>
 </tbody>
 </table>
-<p>Defer as many type errors as possible until runtime. At compile time
-you get a warning (instead of an error). At runtime, if you use a
-value that depends on a type error, you get a runtime error; but you
-can run any type-correct parts of your code just fine. See
-<a class="reference internal" href="glasgow_exts.html#defer-type-errors"><span>Deferring type errors to runtime</span></a></p>
+<p>可能なかぎり多くの型エラーを実行時まで引き延ばします．
+コンパイル時にはエラーではなく警告がでます．
+実行時には，型エラーを起こす変数を使ったときに実行時エラーになります．
+しかし，型が正しい部分については，正しく動きます．
+<a class="reference internal" href="glasgow_exts.html#defer-type-errors"><span>Deferring type errors to runtime</span></a> を参照してください．</p>
 </dd></dl>
 
 <dl class="ghc-flag">
 <dt id="ghc-flag--fdefer-typed-holes">
 <code class="descname">-fdefer-typed-holes</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag--fdefer-typed-holes" title="この定義へのパーマリンク">¶</a></dt>
-<dd><p>Defer typed holes errors (errors about names with a leading underscore
-(e.g., “_”, “_foo”, “_bar”)) until runtime. This will turn the errors
-produced by <a class="reference internal" href="glasgow_exts.html#typed-holes"><span>typed holes</span></a> into warnings. Using a value
-that depends on a typed hole produces a runtime error, the same as
-<a class="reference internal" href="#ghc-flag--fdefer-type-errors"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-fdefer-type-errors</span></code></a> (which implies this option). See <a class="reference internal" href="glasgow_exts.html#typed-holes"><span>Typed Holes</span></a>
-and <a class="reference internal" href="glasgow_exts.html#defer-type-errors"><span>Deferring type errors to runtime</span></a>.</p>
-<p>Implied by <a class="reference internal" href="#ghc-flag--fdefer-type-errors"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-fdefer-type-errors</span></code></a>. See also <a class="reference internal" href="#ghc-flag--Wtyped-holes"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-Wtyped-holes</span></code></a>.</p>
+<dd><p>型付きホールのエラー(アンダースコアで始まる名前(たとえば <code class="docutils literal"><span class="pre">_</span></code> ， <code class="docutils literal"><span class="pre">_foo</span></code> ， <code class="docutils literal"><span class="pre">_bar</span></code>)に関するエラー)を実行時まで遅延します．
+これは <a class="reference internal" href="glasgow_exts.html#typed-holes"><span>typed holes</span></a> によって起きたエラーを警告にします．
+型付きホールに依存する値を使うと <a class="reference internal" href="#ghc-flag--fdefer-type-errors"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-fdefer-type-errors</span></code></a> (これを指定すると <a class="reference internal" href="#ghc-flag--fdefer-typed-holes"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-fdefer-typed-holes</span></code></a> が有効になる)のときと同じく実行時エラーになります．
+<a class="reference internal" href="glasgow_exts.html#typed-holes"><span>Typed Holes</span></a> および <a class="reference internal" href="glasgow_exts.html#defer-type-errors"><span>Deferring type errors to runtime</span></a> を参照してください．</p>
+<p><a class="reference internal" href="#ghc-flag--fdefer-type-errors"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-fdefer-type-errors</span></code></a> によって有効になります． <a class="reference internal" href="#ghc-flag--Wtyped-holes"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-Wtyped-holes</span></code></a> も参照してください．</p>
 </dd></dl>
 
 <dl class="ghc-flag">
 <dt id="ghc-flag--fdefer-out-of-scope-variables">
 <code class="descname">-fdefer-out-of-scope-variables</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag--fdefer-out-of-scope-variables" title="この定義へのパーマリンク">¶</a></dt>
-<dd><p>Defer variable out-of-scope errors (errors about names without a leading underscore)
-until runtime. This will turn variable-out-of-scope errors into warnings.
-Using a value that depends on a typed hole produces a runtime error,
-the same as <a class="reference internal" href="#ghc-flag--fdefer-type-errors"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-fdefer-type-errors</span></code></a> (which implies this option).
-See <a class="reference internal" href="glasgow_exts.html#typed-holes"><span>Typed Holes</span></a> and <a class="reference internal" href="glasgow_exts.html#defer-type-errors"><span>Deferring type errors to runtime</span></a>.</p>
-<p>Implied by <a class="reference internal" href="#ghc-flag--fdefer-type-errors"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-fdefer-type-errors</span></code></a>. See also <a class="reference internal" href="#ghc-flag--Wdeferred-out-of-scope-variables"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-Wdeferred-out-of-scope-variables</span></code></a>.</p>
+<dd><p>変数の有効範囲外エラー(アンダースコアで始まらない名前に関するエラー)を実行時まで遅延します．
+これは変数の有効範囲外エラーを警告に換えるものです．
+有効範囲外の変数に依存する値を使うと <a class="reference internal" href="#ghc-flag--fdefer-type-errors"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-fdefer-type-errors</span></code></a> (これを指定すると <code class="xref std std-ghc-flag docutils literal"><span class="pre">-fdefer-out-of-scope-variables`が有効になる)のときと同じく実行時エラーになります．</span>
+<span class="pre">:ref:`typed-holes</span></code> および <a class="reference internal" href="glasgow_exts.html#defer-type-errors"><span>Deferring type errors to runtime</span></a> を参照してください．</p>
+<p><a class="reference internal" href="#ghc-flag--fdefer-type-errors"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-fdefer-type-errors</span></code></a> によって有効になります． <a class="reference internal" href="#ghc-flag--Wdeferred-out-of-scope-variables"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-Wdeferred-out-of-scope-variables</span></code></a> も参照してください．</p>
 </dd></dl>
 
 <dl class="ghc-flag">
