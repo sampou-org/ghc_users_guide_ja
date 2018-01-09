@@ -310,36 +310,33 @@
 <dl class="ghc-flag">
 <dt id="ghc-flag--Wdeferred-out-of-scope-variables">
 <code class="descname">-Wdeferred-out-of-scope-variables</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag--Wdeferred-out-of-scope-variables" title="この定義へのパーマリンク">¶</a></dt>
-<dd><p>Warn when a deferred out-of-scope variable is encountered.</p>
+<dd><p>有効範囲外エラーが遅延されている変数に対して警告を出します．</p>
 </dd></dl>
 
 <dl class="ghc-flag">
 <dt id="ghc-flag--Wpartial-type-signatures">
 <code class="descname">-Wpartial-type-signatures</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag--Wpartial-type-signatures" title="この定義へのパーマリンク">¶</a></dt>
-<dd><p>Determines whether the compiler reports holes in partial type
-signatures as warnings. Has no effect unless
-<a class="reference internal" href="glasgow_exts.html#ghc-flag--XPartialTypeSignatures"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-XPartialTypeSignatures</span></code></a> is enabled, which controls whether
-errors should be generated for holes in types or not. See
-<a class="reference internal" href="glasgow_exts.html#partial-type-signatures"><span>Partial Type Signatures</span></a>.</p>
-<p>This warning is on by default.</p>
+<dd><p>部分型シグネチャ中にホールがあることをコンパイラが警告として報告するかを決定します．
+<a class="reference internal" href="glasgow_exts.html#ghc-flag--XPartialTypeSignatures"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-XPartialTypeSignatures</span></code></a> が有効になってい場合に限り効果があります．
+この言語拡張は型中のホールに関してエラーにするかどうかを制御します．
+<a class="reference internal" href="glasgow_exts.html#partial-type-signatures"><span>Partial Type Signatures</span></a> を参照してください．</p>
+<p>この警告はデフォルトで有効になっています．</p>
 </dd></dl>
 
 <dl class="ghc-flag">
 <dt id="ghc-flag--fhelpful-errors">
 <code class="descname">-fhelpful-errors</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag--fhelpful-errors" title="この定義へのパーマリンク">¶</a></dt>
-<dd><p>When a name or package is not found in scope, make suggestions for
-the name or package you might have meant instead.</p>
-<p>This option is on by default.</p>
+<dd><p>名前やパッケージが有効範囲になければ，意図していたと推測した名前やパッケージを提案します．</p>
+<p>このオプションはデフォルトで有効になっています．</p>
 </dd></dl>
 
 <dl class="ghc-flag">
 <dt id="ghc-flag--Wunrecognised-pragmas">
 <code class="descname">-Wunrecognised-pragmas</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag--Wunrecognised-pragmas" title="この定義へのパーマリンク">¶</a></dt>
-<dd><p>Causes a warning to be emitted when a pragma that GHC doesn&#8217;t
-recognise is used. As well as pragmas that GHC itself uses, GHC also
-recognises pragmas known to be used by other tools, e.g.
-<code class="docutils literal"><span class="pre">OPTIONS_HUGS</span></code> and <code class="docutils literal"><span class="pre">DERIVE</span></code>.</p>
-<p>This option is on by default.</p>
+<dd><p>GHC が認識できないプラグマが使われたときに警告を発します．
+GHC 自身が使うプラグマだけではなく，他のツールが使うことが判っているプラグマも認識します．
+たとえば <code class="docutils literal"><span class="pre">OPTIONS_HUGS</span></code> や <code class="docutils literal"><span class="pre">DERIVE</span></code> がそれにあたります．</p>
+<p>このオプションはデフォルトで有効になっています．</p>
 </dd></dl>
 
 <dl class="ghc-flag">
@@ -347,228 +344,197 @@ recognises pragmas known to be used by other tools, e.g.
 <code class="descname">-Wmissed-specialisations</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag--Wmissed-specialisations" title="この定義へのパーマリンク">¶</a></dt>
 <dt id="ghc-flag--Wall-missed-specialisations">
 <code class="descname">-Wall-missed-specialisations</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag--Wall-missed-specialisations" title="この定義へのパーマリンク">¶</a></dt>
-<dd><p>Emits a warning if GHC cannot specialise an overloaded function, usually
-because the function needs an <code class="docutils literal"><span class="pre">INLINABLE</span></code> pragma. The &#8220;all&#8221; form reports
-all such situations whereas the &#8220;non-all&#8221; form only reports when the
-situation arises during specialisation of an imported function.</p>
-<p>The &#8220;non-all&#8221; form is intended to catch cases where an imported function
-that is marked as <code class="docutils literal"><span class="pre">INLINABLE</span></code> (presumably to enable specialisation) cannot
-be specialised as it calls other functions that are themselves not specialised.</p>
-<p>Note that these warnings will not throw errors if used with <a class="reference internal" href="#ghc-flag--Werror"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-Werror</span></code></a>.</p>
-<p>These options are both off by default.</p>
+<dd><p>GHC が多重定義された関数を特定化できない場合に警告を発します．
+通常そのような関数は <code class="docutils literal"><span class="pre">INLINEABLE</span></code> プラグマが必要だからです．
+「all」付きの形式で指定した場合は，そうなる状況すべてを報告します．
+「all」が付かない形式ではインポートされた関数の特定化過程で起りうる状況についてのみ報告します．</p>
+<p>「all」が付かない形式は(おそらく特定化可能であるということで) <code class="docutils literal"><span class="pre">INLINABLE</span></code> がついたインポートされた関数が，
+特定化されていない別の関数を呼んでいるために，特定できないという場合を捕捉するためのものです．</p>
+<p>これらの警告は <a class="reference internal" href="#ghc-flag--Werror"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-Werror</span></code></a> を使ってもエラーにはならないことに注意してください．</p>
+<p>これらのオプションはデフォルトでは無効です．</p>
 </dd></dl>
 
 <dl class="ghc-flag">
 <dt id="ghc-flag--Wwarnings-deprecations">
 <code class="descname">-Wwarnings-deprecations</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag--Wwarnings-deprecations" title="この定義へのパーマリンク">¶</a></dt>
-<dd><p id="index-1">Causes a warning to be emitted when a module, function or type with
-a <code class="docutils literal"><span class="pre">WARNING</span></code> or <code class="docutils literal"><span class="pre">DEPRECATED</span> <span class="pre">pragma</span></code> is used. See
-<a class="reference internal" href="glasgow_exts.html#warning-deprecated-pragma"><span>WARNING and DEPRECATED pragmas</span></a> for more details on the pragmas.</p>
-<p>This option is on by default.</p>
+<dd><p id="index-1"><code class="docutils literal"><span class="pre">WARNING</span></code> あるいは <code class="docutils literal"><span class="pre">DEPRECATED</span></code> プラグマの付いたモジュール，関数，型を使ったときに警告を発行します．
+対応するプラグマについて詳しくは <a class="reference internal" href="glasgow_exts.html#warning-deprecated-pragma"><span>WARNING and DEPRECATED pragmas</span></a> を参照してください．</p>
+<p>このオプションはデフォルトで有効です．</p>
 </dd></dl>
 
 <dl class="ghc-flag">
 <dt id="ghc-flag--Wdeprecations">
 <code class="descname">-Wdeprecations</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag--Wdeprecations" title="この定義へのパーマリンク">¶</a></dt>
-<dd><p id="index-2">Causes a warning to be emitted when a module, function or type with
-a <code class="docutils literal"><span class="pre">WARNING</span></code> or <code class="docutils literal"><span class="pre">DEPRECATED</span> <span class="pre">pragma</span></code> is used. See
-<a class="reference internal" href="glasgow_exts.html#warning-deprecated-pragma"><span>WARNING and DEPRECATED pragmas</span></a> for more details on the pragmas.
-An alias for <a class="reference internal" href="#ghc-flag--Wwarnings-deprecations"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-Wwarnings-deprecations</span></code></a>.</p>
-<p>This option is on by default.</p>
+<dd><p id="index-2"><code class="docutils literal"><span class="pre">WARNING</span></code> あるいは <code class="docutils literal"><span class="pre">DEPRECATED</span></code> プラグマの付いたモジュール，関数，型を使ったときに警告を発行します．
+対応するプラグマについて詳しくは <a class="reference internal" href="glasgow_exts.html#warning-deprecated-pragma"><span>WARNING and DEPRECATED pragmas</span></a> を参照してください．
+これは <a class="reference internal" href="#ghc-flag--Wwarnings-deprecations"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-Wwarnings-deprecations</span></code></a> の別名です．</p>
+<p>このオプションはデフォルトで有効です．</p>
 </dd></dl>
 
 <dl class="ghc-flag">
 <dt id="ghc-flag--Wamp">
 <code class="descname">-Wamp</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag--Wamp" title="この定義へのパーマリンク">¶</a></dt>
-<dd><p id="index-3">This option is deprecated.</p>
-<p>Caused a warning to be emitted when a definition was in conflict with
-the AMP (Applicative-Monad proosal).</p>
+<dd><p id="index-3">このオプションは廃止予定で非推奨です．</p>
+<p>AMP (Applicative-Monad proosal)と衝突する定義があった場合に警告を発行します．</p>
 </dd></dl>
 
 <dl class="ghc-flag">
 <dt id="ghc-flag--Wnoncanonical-monad-instances">
 <code class="descname">-Wnoncanonical-monad-instances</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag--Wnoncanonical-monad-instances" title="この定義へのパーマリンク">¶</a></dt>
-<dd><p>Warn if noncanonical <code class="docutils literal"><span class="pre">Applicative</span></code> or <code class="docutils literal"><span class="pre">Monad</span></code> instances
-declarations are detected.</p>
-<p>When this warning is enabled, the following conditions are verified:</p>
-<p>In <code class="docutils literal"><span class="pre">Monad</span></code> instances declarations warn if any of the following
-conditions does not hold:</p>
+<dd><p>非標準の <code class="docutils literal"><span class="pre">Applicative</span></code> あるいは <code class="docutils literal"><span class="pre">Monad</span></code> インスタンス宣言を検出した場合に警告を発行します．</p>
+<p>この警告が有効になっている場合は，以下の条件を確認します．</p>
+<p><code class="docutils literal"><span class="pre">Monad</span></code> のインスタンス宣言において，以下の条件が満たされていなければ警告になります．</p>
 <blockquote>
 <div><ul class="simple">
-<li>If <code class="docutils literal"><span class="pre">return</span></code> is defined it must be canonical (i.e. <code class="docutils literal"><span class="pre">return</span> <span class="pre">=</span> <span class="pre">pure</span></code>).</li>
-<li>If <code class="docutils literal"><span class="pre">(&gt;&gt;)</span></code> is defined it must be canonical (i.e. <code class="docutils literal"><span class="pre">(&gt;&gt;)</span> <span class="pre">=</span> <span class="pre">(*&gt;)</span></code>).</li>
+<li><code class="docutils literal"><span class="pre">return</span></code> が定義されているなら，標準的定義(すなわち <code class="docutils literal"><span class="pre">return</span> <span class="pre">=</span> <span class="pre">pure</span></code>)でなければならない．</li>
+<li><code class="docutils literal"><span class="pre">(&gt;&gt;)</span></code> が定義されているなら，標準的定義(すなわち <code class="docutils literal"><span class="pre">(&gt;&gt;)</span> <span class="pre">=</span> <span class="pre">(*&gt;)</span></code>)でなければならない．</li>
 </ul>
 </div></blockquote>
-<p>Moreover, in <code class="docutils literal"><span class="pre">Applicative</span></code> instance declarations:</p>
+<p>さらに <code class="docutils literal"><span class="pre">Applicative</span></code> のインスタンス定義においては，</p>
 <blockquote>
 <div><ul class="simple">
-<li>Warn if <code class="docutils literal"><span class="pre">pure</span></code> is defined backwards (i.e. <code class="docutils literal"><span class="pre">pure</span> <span class="pre">=</span> <span class="pre">return</span></code>).</li>
-<li>Warn if <code class="docutils literal"><span class="pre">(*&gt;)</span></code> is defined backwards (i.e. <code class="docutils literal"><span class="pre">(*&gt;)</span> <span class="pre">=</span> <span class="pre">(&gt;&gt;)</span></code>).</li>
+<li><code class="docutils literal"><span class="pre">pure</span></code> が逆方向定義(すなわち <code class="docutils literal"><span class="pre">pure</span> <span class="pre">=</span> <span class="pre">return</span></code>) であれば警告します．</li>
+<li><code class="docutils literal"><span class="pre">(*&gt;)</span></code> が逆方向定義(すなわち <code class="docutils literal"><span class="pre">(*&gt;)</span> <span class="pre">=</span> <span class="pre">(&gt;&gt;)</span></code>)であれば警告します．</li>
 </ul>
 </div></blockquote>
-<p>This option is off by default.</p>
+<p>このオプションはデフォルトでは無効です．</p>
 </dd></dl>
 
 <dl class="ghc-flag">
 <dt id="ghc-flag--Wnoncanonical-monadfail-instances">
 <code class="descname">-Wnoncanonical-monadfail-instances</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag--Wnoncanonical-monadfail-instances" title="この定義へのパーマリンク">¶</a></dt>
-<dd><p>Warn if noncanonical <code class="docutils literal"><span class="pre">Monad</span></code> or <code class="docutils literal"><span class="pre">MonadFail</span></code> instances
-declarations are detected.</p>
-<p>When this warning is enabled, the following conditions are verified:</p>
-<p>In <code class="docutils literal"><span class="pre">Monad</span></code> instances declarations warn if any of the following
-conditions does not hold:</p>
+<dd><p><code class="docutils literal"><span class="pre">Monad</span></code> あるいは <code class="docutils literal"><span class="pre">MonadFail</span></code> のインスタンス宣言が標準的ではない場合に警告を発行します．</p>
+<p>この警告が有効になっている場合は，以下の条件を確認します．</p>
+<p><code class="docutils literal"><span class="pre">Monad</span></code> のインスタンス宣言において，以下の条件が満されていなければ警告になります．</p>
 <blockquote>
 <div><ul class="simple">
-<li>If <code class="docutils literal"><span class="pre">fail</span></code> is defined it must be canonical
-(i.e. <code class="docutils literal"><span class="pre">fail</span> <span class="pre">=</span> <span class="pre">Control.Monad.Fail.fail</span></code>).</li>
+<li><code class="docutils literal"><span class="pre">fail</span></code> が定義されているなら，標準的定義(すなわち <code class="docutils literal"><span class="pre">fail</span> <span class="pre">=</span> <span class="pre">Control.Monad.Fail.fail</span></code>)でなければならない．</li>
 </ul>
 </div></blockquote>
-<p>Moreover, in <code class="docutils literal"><span class="pre">MonadFail</span></code> instance declarations:</p>
+<p>さらに <code class="docutils literal"><span class="pre">MonadFail</span></code> のインスタンス定義においては，</p>
 <blockquote>
 <div><ul class="simple">
-<li>Warn if <code class="docutils literal"><span class="pre">fail</span></code> is defined backwards
-(i.e. <code class="docutils literal"><span class="pre">fail</span> <span class="pre">=</span> <span class="pre">Control.Monad.fail</span></code>).</li>
+<li><code class="docutils literal"><span class="pre">fail</span></code> が逆方向定義(すなわち <code class="docutils literal"><span class="pre">fail</span> <span class="pre">=</span> <span class="pre">Control.Monad.fail</span></code>)であれば警告します．</li>
 </ul>
 </div></blockquote>
-<p>See also <a class="reference internal" href="#ghc-flag--Wmissing-monadfail-instances"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-Wmissing-monadfail-instances</span></code></a>.</p>
-<p>This option is off by default.</p>
+<p><a class="reference internal" href="#ghc-flag--Wmissing-monadfail-instances"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-Wmissing-monadfail-instances</span></code></a> も参照してください．</p>
+<p>このオプションはデフォルトでは無効です．</p>
 </dd></dl>
 
 <dl class="ghc-flag">
 <dt id="ghc-flag--Wnoncanonical-monoid-instances">
 <code class="descname">-Wnoncanonical-monoid-instances</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag--Wnoncanonical-monoid-instances" title="この定義へのパーマリンク">¶</a></dt>
-<dd><p>Warn if noncanonical <code class="docutils literal"><span class="pre">Semigroup</span></code> or <code class="docutils literal"><span class="pre">Monoid</span></code> instances
-declarations are detected.</p>
-<p>When this warning is enabled, the following conditions are verified:</p>
-<p>In <code class="docutils literal"><span class="pre">Monoid</span></code> instances declarations warn if any of the following
-conditions does not hold:</p>
+<dd><p><code class="docutils literal"><span class="pre">Semigroup</span></code> あるいは <code class="docutils literal"><span class="pre">Monoid</span></code> のインスタンス宣言が標準的でないときに警告を発行します．</p>
+<p>この警告が有効になっている場合は，以下の条件を確認します．</p>
+<p><code class="docutils literal"><span class="pre">Monoid</span></code> のインスタンス宣言において，以下の条件が満たされていなければ警告になります．</p>
 <blockquote>
 <div><ul class="simple">
-<li>If <code class="docutils literal"><span class="pre">mappend</span></code> is defined it must be canonical
-(i.e. <code class="docutils literal"><span class="pre">mappend</span> <span class="pre">=</span> <span class="pre">(Data.Semigroup.&lt;&gt;)</span></code>).</li>
+<li><code class="docutils literal"><span class="pre">mappend</span></code> が定義されているなら，標準的定義(すなわち <code class="docutils literal"><span class="pre">mappend</span> <span class="pre">=</span> <span class="pre">(Data.Semigroup.&lt;&gt;)</span></code>)でなければならない．</li>
 </ul>
 </div></blockquote>
-<p>Moreover, in <code class="docutils literal"><span class="pre">Semigroup</span></code> instance declarations:</p>
+<p>さらに <code class="docutils literal"><span class="pre">Semigroup</span></code> のインスタンス宣言において</p>
 <blockquote>
 <div><ul class="simple">
-<li>Warn if <code class="docutils literal"><span class="pre">(&lt;&gt;)</span></code> is defined backwards (i.e. <code class="docutils literal"><span class="pre">(&lt;&gt;)</span> <span class="pre">=</span> <span class="pre">mappend</span></code>).</li>
+<li><code class="docutils literal"><span class="pre">(&lt;&gt;)</span></code> が逆方向定義(すなわち <code class="docutils literal"><span class="pre">(&lt;&gt;)</span> <span class="pre">=</span> <span class="pre">mappend</span></code>)であれば警告します．</li>
 </ul>
 </div></blockquote>
-<p>This warning is off by default. However, it is part of the
-<a class="reference internal" href="#ghc-flag--Wcompat"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-Wcompat</span></code></a> option group.</p>
+<p>この警告はデフォルトでは無効になっています．しかし，この警告は <a class="reference internal" href="#ghc-flag--Wcompat"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-Wcompat</span></code></a> というオプショングループに属しています．</p>
 </dd></dl>
 
 <dl class="ghc-flag">
 <dt id="ghc-flag--Wmissing-monadfail-instances">
 <code class="descname">-Wmissing-monadfail-instances</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag--Wmissing-monadfail-instances" title="この定義へのパーマリンク">¶</a></dt>
-<dd><p id="index-4">Warn when a failable pattern is used in a do-block that does not have a
-<code class="docutils literal"><span class="pre">MonadFail</span></code> instance.</p>
-<p>See also <a class="reference internal" href="#ghc-flag--Wnoncanonical-monadfail-instances"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-Wnoncanonical-monadfail-instances</span></code></a>.</p>
-<p>Being part of the <a class="reference internal" href="#ghc-flag--Wcompat"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-Wcompat</span></code></a> option group, this warning is off by
-default, but will be switched on in a future GHC release, as part of
-the <a class="reference external" href="https://prime.haskell.org/wiki/Libraries/Proposals/MonadFail">MonadFail Proposal (MFP)</a>.</p>
+<dd><p id="index-4">do ブロックで失敗する可能性のあるパターンが用いられていて <code class="docutils literal"><span class="pre">MonadFail</span></code> のインスタンスではないときに警告を発行します．</p>
+<p><a class="reference internal" href="#ghc-flag--Wnoncanonical-monadfail-instances"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-Wnoncanonical-monadfail-instances</span></code></a> も参照してください．</p>
+<p>この警告フラグは <a class="reference internal" href="#ghc-flag--Wcompat"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-Wcompat</span></code></a> というオプショングループに属していていますが，
+デフォルトでは無効になっています．しかし，将来のリリースでは <a class="reference external" href="https://prime.haskell.org/wiki/Libraries/Proposals/MonadFail">MonadFail Proposal (MFP)</a> の一部としてデフォルトで有効になる予定です．</p>
 </dd></dl>
 
 <dl class="ghc-flag">
 <dt id="ghc-flag--Wsemigroup">
 <code class="descname">-Wsemigroup</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag--Wsemigroup" title="この定義へのパーマリンク">¶</a></dt>
-<dd><p id="index-5">Warn when definitions are in conflict with the future inclusion of
-<code class="docutils literal"><span class="pre">Semigroup</span></code> into the standard typeclasses.</p>
+<dd><p id="index-5">将来，標準の型クラスに <code class="docutils literal"><span class="pre">Semigroup</span></code> が含まれるようになったときに，衝突を引き起す定義に対して警告を出します．</p>
 <blockquote>
 <div><ol class="arabic simple">
-<li>Instances of <code class="docutils literal"><span class="pre">Monoid</span></code> should also be instances of <code class="docutils literal"><span class="pre">Semigroup</span></code></li>
-<li>The <code class="docutils literal"><span class="pre">Semigroup</span></code> operator <code class="docutils literal"><span class="pre">(&lt;&gt;)</span></code> will be in <code class="docutils literal"><span class="pre">Prelude</span></code>, which
-clashes with custom local definitions of such an operator</li>
+<li><code class="docutils literal"><span class="pre">Monoid</span></code> のインスタンスは，<code class="docutils literal"><span class="pre">Semigroup</span></code> のインスタンスでもなければなりません．</li>
+<li><code class="docutils literal"><span class="pre">Semigroup</span></code> の演算子 <code class="docutils literal"><span class="pre">(&lt;&gt;)</span></code> は <code class="docutils literal"><span class="pre">Prelude</span></code> に入る予定ですので，このような演算子を独自に定義しているとクラッシュします．</li>
 </ol>
 </div></blockquote>
-<p>Being part of the <a class="reference internal" href="#ghc-flag--Wcompat"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-Wcompat</span></code></a> option group, this warning is off by
-default, but will be switched on in a future GHC release.</p>
+<p>このフラグは <a class="reference internal" href="#ghc-flag--Wcompat"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-Wcompat</span></code></a> オプショングループに属しています．デフォルトでは無効になっていますが，
+将来の GHC のリリースでは，デフォルトで有効になります．</p>
 </dd></dl>
 
 <dl class="ghc-flag">
 <dt id="ghc-flag--Wdeprecated-flags">
 <code class="descname">-Wdeprecated-flags</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag--Wdeprecated-flags" title="この定義へのパーマリンク">¶</a></dt>
-<dd><p id="index-6">Causes a warning to be emitted when a deprecated command-line flag
-is used.</p>
-<p>This option is on by default.</p>
+<dd><p id="index-6">非推奨になっているコマンドラインを使っていると警告を発行します．</p>
+<p>このオプションはデフォルトで有効です．</p>
 </dd></dl>
 
 <dl class="ghc-flag">
 <dt id="ghc-flag--Wunsupported-calling-conventions">
 <code class="descname">-Wunsupported-calling-conventions</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag--Wunsupported-calling-conventions" title="この定義へのパーマリンク">¶</a></dt>
-<dd><p>Causes a warning to be emitted for foreign declarations that use
-unsupported calling conventions. In particular, if the <code class="docutils literal"><span class="pre">stdcall</span></code>
-calling convention is used on an architecture other than i386 then
-it will be treated as <code class="docutils literal"><span class="pre">ccall</span></code>.</p>
+<dd><p>サポートされていない呼び出し方法を外部宣言で用いると警告を発行します．
+具体的には <code class="docutils literal"><span class="pre">stdcall</span></code> という呼び出し方法を i386 以外のアーキテクチャ上のシステムで使うと
+<code class="docutils literal"><span class="pre">ccall</span></code> として扱います．</p>
 </dd></dl>
 
 <dl class="ghc-flag">
 <dt id="ghc-flag--Wdodgy-foreign-imports">
 <code class="descname">-Wdodgy-foreign-imports</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag--Wdodgy-foreign-imports" title="この定義へのパーマリンク">¶</a></dt>
-<dd><p>Causes a warning to be emitted for foreign imports of the following
-form:</p>
+<dd><p>以下の形式の外部インポートに対して警告を発行します．</p>
 <div class="highlight-haskell"><div class="highlight"><pre><span class="nf">foreign</span> <span class="kr">import</span> <span class="s">&quot;f&quot;</span> <span class="nn">f</span> <span class="ow">::</span> <span class="kt">FunPtr</span> <span class="n">t</span>
 </pre></div>
 </div>
-<p>on the grounds that it probably should be</p>
+<p>おそらく</p>
 <div class="highlight-haskell"><div class="highlight"><pre><span class="nf">foreign</span> <span class="kr">import</span> <span class="s">&quot;&amp;f&quot;</span> <span class="nn">f</span> <span class="ow">::</span> <span class="kt">FunPtr</span> <span class="n">t</span>
 </pre></div>
 </div>
-<p>The first form declares that `f` is a (pure) C function that takes
-no arguments and returns a pointer to a C function with type `t`,
-whereas the second form declares that `f` itself is a C function
-with type `t`. The first declaration is usually a mistake, and one
-that is hard to debug because it results in a crash, hence this
-warning.</p>
+<p>と書くべきだったと思われます．
+1つめの形式では `f` は(純粋な) C の関数で，引数はとらず，型 `t` の C の関数へのポインタを宣言しています．
+1つめの宣言は通常は誤りで，クラッシュにつながりデバッグのしにくいバグになるので，この警告が用意されています．</p>
 </dd></dl>
 
 <dl class="ghc-flag">
 <dt id="ghc-flag--Wdodgy-exports">
 <code class="descname">-Wdodgy-exports</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag--Wdodgy-exports" title="この定義へのパーマリンク">¶</a></dt>
-<dd><p>Causes a warning to be emitted when a datatype <code class="docutils literal"><span class="pre">T</span></code> is exported
-with all constructors, i.e. <code class="docutils literal"><span class="pre">T(..)</span></code>, but is it just a type
-synonym.</p>
-<p>Also causes a warning to be emitted when a module is re-exported,
-but that module exports nothing.</p>
+<dd><p>型シノニムにすぎないデータ型 <code class="docutils literal"><span class="pre">T</span></code> がすべての構成子を <code class="docutils literal"><span class="pre">T(..)</span></code> のようにエクスポートしているときに警告を発行します．</p>
+<p>また，何もエクスポートしていないモジュールを再エクスポートしているときも警告を発行します．</p>
 </dd></dl>
 
 <dl class="ghc-flag">
 <dt id="ghc-flag--Wdodgy-imports">
 <code class="descname">-Wdodgy-imports</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag--Wdodgy-imports" title="この定義へのパーマリンク">¶</a></dt>
-<dd><p>Causes a warning to be emitted in the following cases:</p>
+<dd><p>以下の場合に警告を発行します．</p>
 <ul class="simple">
-<li>When a datatype <code class="docutils literal"><span class="pre">T</span></code> is imported with all constructors, i.e.
-<code class="docutils literal"><span class="pre">T(..)</span></code>, but has been exported abstractly, i.e. <code class="docutils literal"><span class="pre">T</span></code>.</li>
-<li>When an <code class="docutils literal"><span class="pre">import</span></code> statement hides an entity that is not
-exported.</li>
+<li>データ型 <code class="docutils literal"><span class="pre">T</span></code> を <code class="docutils literal"><span class="pre">T(..)</span></code> のようにすべての構成子付きでインポートしているのに，その型が <code class="docutils literal"><span class="pre">T</span></code> のように
+抽象的にしかエクスポートされていない場合．</li>
+<li><code class="docutils literal"><span class="pre">import</span></code> 宣言がエクスポートされていない実体を隠蔽している場合．</li>
 </ul>
 </dd></dl>
 
 <dl class="ghc-flag">
 <dt id="ghc-flag--Woverflowed-literals">
 <code class="descname">-Woverflowed-literals</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag--Woverflowed-literals" title="この定義へのパーマリンク">¶</a></dt>
-<dd><p>Causes a warning to be emitted if a literal will overflow, e.g.
-<code class="docutils literal"><span class="pre">300</span> <span class="pre">::</span> <span class="pre">Word8</span></code>.</p>
+<dd><p>リテラルがオーバーフローを起こすような場合，たとえば <code class="docutils literal"><span class="pre">300</span> <span class="pre">::</span> <span class="pre">Word8</span></code> のような場合に警告を発行します．</p>
 </dd></dl>
 
 <dl class="ghc-flag">
 <dt id="ghc-flag--Wempty-enumerations">
 <code class="descname">-Wempty-enumerations</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag--Wempty-enumerations" title="この定義へのパーマリンク">¶</a></dt>
-<dd><p>Causes a warning to be emitted if an enumeration is empty, e.g.
-<code class="docutils literal"><span class="pre">[5</span> <span class="pre">..</span> <span class="pre">3]</span></code>.</p>
+<dd><p>たとえば <code class="docutils literal"><span class="pre">[5</span> <span class="pre">..</span> <span class="pre">3]</span></code> のように列挙が空になる場合に警告を発行します．</p>
 </dd></dl>
 
 <dl class="ghc-flag">
 <dt id="ghc-flag--Wduplicate-constraints">
 <code class="descname">-Wduplicate-constraints</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag--Wduplicate-constraints" title="この定義へのパーマリンク">¶</a></dt>
-<dd><p id="index-7">Have the compiler warn about duplicate constraints in a type
-signature. For example</p>
+<dd><p id="index-7">型シグネチャで制約の重複がある場合コンパイラが警告を発行するようにします．
+たとえば，以下のような場合です．</p>
 <div class="highlight-haskell"><div class="highlight"><pre><span class="nf">f</span> <span class="ow">::</span> <span class="p">(</span><span class="kt">Eq</span> <span class="n">a</span><span class="p">,</span> <span class="kt">Show</span> <span class="n">a</span><span class="p">,</span> <span class="kt">Eq</span> <span class="n">a</span><span class="p">)</span> <span class="ow">=&gt;</span> <span class="n">a</span> <span class="ow">-&gt;</span> <span class="n">a</span>
 </pre></div>
 </div>
-<p>The warning will indicate the duplicated <code class="docutils literal"><span class="pre">Eq</span> <span class="pre">a</span></code> constraint.</p>
-<p>This option is now deprecated in favour of
-<a class="reference internal" href="#ghc-flag--Wredundant-constraints"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-Wredundant-constraints</span></code></a>.</p>
+<p>この警告では <code class="docutils literal"><span class="pre">Eq</span> <span class="pre">a</span></code> という制約が重複していることを表示します．</p>
+<p>このオプションは <a class="reference internal" href="#ghc-flag--Wredundant-constraints"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-Wredundant-constraints</span></code></a> があるので，非推奨になっています．</p>
 </dd></dl>
 
 <dl class="ghc-flag">
