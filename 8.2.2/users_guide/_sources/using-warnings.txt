@@ -885,147 +885,284 @@ GHC では，いくつものオプションを使って，コンパイル中の�
 
     このオプションは :ghc-flag:`-Wredundant-constraints` があるので，非推奨になっています．
 
+..
+   .. ghc-flag:: -Wredundant-constraints
+
+       :since: 8.0
+
+       .. index::
+	  single: redundant constraints, warning
+
+       Have the compiler warn about redundant constraints in a type
+       signature. In particular:
+
+       -  A redundant constraint within the type signature itself: ::
+
+	       f :: (Eq a, Ord a) => a -> a
+
+	  The warning will indicate the redundant ``Eq a`` constraint: it
+	  is subsumed by the ``Ord a`` constraint.
+
+       -  A constraint in the type signature is not used in the code it
+	  covers: ::
+
+	       f :: Eq a => a -> a -> Bool
+	       f x y = True
+
+	  The warning will indicate the redundant ``Eq a`` constraint: : it
+	  is not used by the definition of ``f``.)
+
+       Similar warnings are given for a redundant constraint in an instance
+       declaration.
+
+       This option is on by default. As usual you can suppress it on a
+       per-module basis with :ghc-flag:`-Wno-redundant-constraints <-Wredundant-constraints>`.
+       Occasionally you may specifically want a function to have a more
+       constrained signature than necessary, perhaps to leave yourself
+       wiggle-room for changing the implementation without changing the
+       API. In that case, you can suppress the warning on a per-function
+       basis, using a call in a dead binding. For example: ::
+
+	   f :: Eq a => a -> a -> Bool
+	   f x y = True
+	   where
+	       _ = x == x  -- Suppress the redundant-constraint warning for (Eq a)
+
+       Here the call to ``(==)`` makes GHC think that the ``(Eq a)``
+       constraint is needed, so no warning is issued.
+
 .. ghc-flag:: -Wredundant-constraints
 
     :since: 8.0
 
     .. index::
-       single: redundant constraints, warning
+       single: 冗長な制約, 〜の警告
 
-    Have the compiler warn about redundant constraints in a type
-    signature. In particular:
+    型シグネチャで冗長な制約がある場合にコンパイラが警告を発行するようにします．
+    具体的には，
 
-    -  A redundant constraint within the type signature itself: ::
+    -  型シグネチャ内に冗長な制約がある場合． ::
 
             f :: (Eq a, Ord a) => a -> a
 
-       The warning will indicate the redundant ``Eq a`` constraint: it
-       is subsumed by the ``Ord a`` constraint.
+       この警告では ``Eq a`` という警告が冗長であることが表示されます．
+       ``Ord a`` 制約によって ``Eq a`` 制約は仮定済みになるからです．
 
-    -  A constraint in the type signature is not used in the code it
-       covers: ::
+    -  型シグネチャ内の制約がカバーする範囲のコードで，その制約が使われていない場合． ::
 
             f :: Eq a => a -> a -> Bool
             f x y = True
 
-       The warning will indicate the redundant ``Eq a`` constraint: : it
-       is not used by the definition of ``f``.)
+       この警告では ``Eq a`` という制約が冗長であることが示されます．
+       (この制約は ``f`` の定義で使われていません．)
 
-    Similar warnings are given for a redundant constraint in an instance
-    declaration.
+    インスタンス宣言中に冗長な制約がある場合についても同様の警告がでます．
 
-    This option is on by default. As usual you can suppress it on a
-    per-module basis with :ghc-flag:`-Wno-redundant-constraints <-Wredundant-constraints>`.
-    Occasionally you may specifically want a function to have a more
-    constrained signature than necessary, perhaps to leave yourself
-    wiggle-room for changing the implementation without changing the
-    API. In that case, you can suppress the warning on a per-function
-    basis, using a call in a dead binding. For example: ::
+    このオプションはデフォルトで有効です．
+    通常どおり :ghc-flag:`-Wno-redundant-constraints <-Wredundant-constraints>` を使えば，モジュール毎にこの警告を抑制できます．
+    必要とされる以上の制約を加えた型シグネチャを書きたい場合には，APIを変更することなく，実装を変更する余地が残されています．
+    そのような場合には，使われない束縛を使って，関数ごとに警告を抑制できます．
+    たとえば，以下のようにします．  ::
 
         f :: Eq a => a -> a -> Bool
         f x y = True
         where
-            _ = x == x  -- Suppress the redundant-constraint warning for (Eq a)
+            _ = x == x  -- (Eq a)に対する冗長な制約警告を抑制
 
-    Here the call to ``(==)`` makes GHC think that the ``(Eq a)``
-    constraint is needed, so no warning is issued.
+    ここでは ``(==)`` を呼び出すことで，GHC は ``(Eq a)`` という制約が必要であると判断しますので，警告は発行されません．
+
+..
+   .. ghc-flag:: -Wduplicate-exports
+
+       .. index::
+	  single: duplicate exports, warning
+	  single: export lists, duplicates
+
+       Have the compiler warn about duplicate entries in export lists. This
+       is useful information if you maintain large export lists, and want
+       to avoid the continued export of a definition after you've deleted
+       (one) mention of it in the export list.
+
+       This option is on by default.
 
 .. ghc-flag:: -Wduplicate-exports
 
     .. index::
-       single: duplicate exports, warning
-       single: export lists, duplicates
+       single: 重複エクスポート, 〜の警告
+       single: エクスポートリスト, 〜での重複
 
-    Have the compiler warn about duplicate entries in export lists. This
-    is useful information if you maintain large export lists, and want
-    to avoid the continued export of a definition after you've deleted
-    (one) mention of it in the export list.
+    エクスポートリストに重複したエントリがある場合にコンパイラが警告を発行するようにします．
+    この機能は大きなエクスポートリストを保守するのに便利です．
+    削除したはずのエクスポートリストのエントリがエクスポートされつづけるというようなことを避けられます．
 
-    This option is on by default.
+    このオプションはデフォルトで有効です．
+
+..
+   .. ghc-flag:: -Whi-shadowing
+
+       .. index::
+	  single: shadowing; interface files
+
+       Causes the compiler to emit a warning when a module or interface
+       file in the current directory is shadowing one with the same module
+       name in a library or other directory.
 
 .. ghc-flag:: -Whi-shadowing
 
     .. index::
-       single: shadowing; interface files
+       single: シャドーイング; インターフェイスファイルの〜
 
-    Causes the compiler to emit a warning when a module or interface
-    file in the current directory is shadowing one with the same module
-    name in a library or other directory.
+    現在のディレクトリにあるモジュールやインターフェイスファイルが，ライブラリや別のディレクトリにある同名のモジュールをシャドーイングしてしまっている場合，コンパイラが警告を発行するようになります．
+
+..
+   .. ghc-flag:: -Widentities
+
+       Causes the compiler to emit a warning when a Prelude numeric
+       conversion converts a type ``T`` to the same type ``T``; such calls are
+       probably no-ops and can be omitted. The functions checked for are:
+       ``toInteger``, ``toRational``, ``fromIntegral``, and ``realToFrac``.
 
 .. ghc-flag:: -Widentities
 
-    Causes the compiler to emit a warning when a Prelude numeric
-    conversion converts a type ``T`` to the same type ``T``; such calls are
-    probably no-ops and can be omitted. The functions checked for are:
-    ``toInteger``, ``toRational``, ``fromIntegral``, and ``realToFrac``.
+    Prelude の数値変換が ``T`` 型の値を同じ ``T``型の値に変換しようとしている場合に，コンパイラが警告を発行するようになります．
+    このような呼び出しは何もしないのと同じで省略できます．
+    検査される関数は  ``toInteger`` ， ``toRational`` ， ``fromIntegral`` ， ``realToFrac`` です．
+
+..
+   .. ghc-flag:: -Wimplicit-prelude
+
+       .. index::
+	  single: implicit prelude, warning
+
+       Have the compiler warn if the Prelude is implicitly imported. This
+       happens unless either the Prelude module is explicitly imported with
+       an ``import ... Prelude ...`` line, or this implicit import is
+       disabled (either by :ghc-flag:`-XNoImplicitPrelude` or a
+       ``LANGUAGE NoImplicitPrelude`` pragma).
+
+       Note that no warning is given for syntax that implicitly refers to
+       the Prelude, even if :ghc-flag:`-XNoImplicitPrelude` would change whether it
+       refers to the Prelude. For example, no warning is given when ``368``
+       means ``Prelude.fromInteger (368::Prelude.Integer)`` (where
+       ``Prelude`` refers to the actual Prelude module, regardless of the
+       imports of the module being compiled).
+
+       This warning is off by default.
 
 .. ghc-flag:: -Wimplicit-prelude
 
     .. index::
-       single: implicit prelude, warning
+       single: 暗黙のPrelude, 〜警告
 
-    Have the compiler warn if the Prelude is implicitly imported. This
-    happens unless either the Prelude module is explicitly imported with
-    an ``import ... Prelude ...`` line, or this implicit import is
-    disabled (either by :ghc-flag:`-XNoImplicitPrelude` or a
-    ``LANGUAGE NoImplicitPrelude`` pragma).
+    Preludeが暗黙に(インポート宣言なしで)インポートされる場合にコンパイラが警告を発行するようにします．
+    Prelude の暗黙のインポートは ``import ... Prelude ...`` というインポート宣言で明示的にインポートされている場合や，
+    暗黙のインポートが(:ghc-flag:`-XNoImplicitPrelude` あるいは ``LANGUAGE NoImplicitPrelude`` プラグマにより)無効になっている場合を除きいつでも起ります．
 
-    Note that no warning is given for syntax that implicitly refers to
-    the Prelude, even if :ghc-flag:`-XNoImplicitPrelude` would change whether it
-    refers to the Prelude. For example, no warning is given when ``368``
-    means ``Prelude.fromInteger (368::Prelude.Integer)`` (where
-    ``Prelude`` refers to the actual Prelude module, regardless of the
-    imports of the module being compiled).
+    Preludeを暗黙に参照する構文に対して警告が出るわけではありません．
+    :ghc-flag:`-XNoImplicitPrelude` によって Preludeを参照するかどうかが変化するような場合でも警告は出ません．
+    たとえば ``368`` は ``Prelude.fromInteger (368::Prelude.Integer)`` という意味であっても警告はでないということに注意してください．
+    ここで ``Prelude`` はコンパイル中のモジュールが何をインポートしているかにかかわらず，実際のPreludeモジュールを参照します．
 
-    This warning is off by default.
+    この警告はデフォルトでは無効です．
+
+..
+   .. ghc-flag:: -Wincomplete-patterns
+		 -Wincomplete-uni-patterns
+
+       .. index::
+	  single: incomplete patterns, warning
+	  single: patterns, incomplete
+
+       The option :ghc-flag:`-Wincomplete-patterns` warns about places where a
+       pattern-match might fail at runtime. The function ``g`` below will
+       fail when applied to non-empty lists, so the compiler will emit a
+       warning about this when :ghc-flag:`-Wincomplete-patterns` is enabled. ::
+
+	   g [] = 2
+
+       This option isn't enabled by default because it can be a bit noisy,
+       and it doesn't always indicate a bug in the program. However, it's
+       generally considered good practice to cover all the cases in your
+       functions, and it is switched on by :ghc-flag:`-W`.
+
+       The flag :ghc-flag:`-Wincomplete-uni-patterns` is similar, except that
+       it applies only to lambda-expressions and pattern bindings,
+       constructs that only allow a single pattern: ::
+
+	   h = \[] -> 2
+	   Just k = f y
 
 .. ghc-flag:: -Wincomplete-patterns
               -Wincomplete-uni-patterns
 
     .. index::
-       single: incomplete patterns, warning
-       single: patterns, incomplete
+       single: 不完全パターン, 〜警告
+       single: パターン, 不完全な〜
 
-    The option :ghc-flag:`-Wincomplete-patterns` warns about places where a
-    pattern-match might fail at runtime. The function ``g`` below will
-    fail when applied to non-empty lists, so the compiler will emit a
-    warning about this when :ghc-flag:`-Wincomplete-patterns` is enabled. ::
+    :ghc-flag:`-Wincomplete-patterns` はパターン照合が実行時に失敗する可能性がある場合に警告を発行します．
+    以下の関数 ``g`` は空ではないリストに適用すると失敗するので :ghc-flag:`-Wincomplete-patterns` が有効ならコンパイラは警告を発行します． ::
 
         g [] = 2
 
-    This option isn't enabled by default because it can be a bit noisy,
-    and it doesn't always indicate a bug in the program. However, it's
-    generally considered good practice to cover all the cases in your
-    functions, and it is switched on by :ghc-flag:`-W`.
+    このオプションは小うるさいことがあり，また常にバグを示しているわけもないので，デフォルトでは有効になっていません．
+    しかし，関数を定義するときにはすべての場合を網羅するのが一般的に良い習慣です．
+    このオプションは :ghc-flag:`-W` で有効になります．
 
-    The flag :ghc-flag:`-Wincomplete-uni-patterns` is similar, except that
-    it applies only to lambda-expressions and pattern bindings,
-    constructs that only allow a single pattern: ::
+    :ghc-flag:`-Wincomplete-uni-patterns` というフラグは，単一パターンしか許されない構文要素，つまりλ抽象式およびパターン束縛にのみ適用されるという点を除けば :ghc-flag:`-Wincomplete-patterns` と同じである． ::
 
         h = \[] -> 2
         Just k = f y
 
-.. ghc-flag:: -fmax-pmcheck-iterations=⟨n⟩
+..
+   .. ghc-flag:: -fmax-pmcheck-iterations=⟨n⟩
+
+       :default: 2000000
+
+       Sets how many iterations of the pattern-match checker will perform before
+       giving up. This limit is to catch cases where pattern-match checking might
+       be excessively costly (due to the exponential complexity of coverage
+       checking in the general case). It typically shouldn't be necessary to set
+       this unless GHC informs you that it has exceeded the pattern match checker's
+       iteration limit (in which case you may want to consider refactoring your
+       pattern match, for the sake of future readers of your code.
+
+.. ghc-flag:: -fmax-pmcheck-iterations=<N>
 
     :default: 2000000
 
-    Sets how many iterations of the pattern-match checker will perform before
-    giving up. This limit is to catch cases where pattern-match checking might
-    be excessively costly (due to the exponential complexity of coverage
-    checking in the general case). It typically shouldn't be necessary to set
-    this unless GHC informs you that it has exceeded the pattern match checker's
-    iteration limit (in which case you may want to consider refactoring your
-    pattern match, for the sake of future readers of your code.
+    パターン照合検査器が諦めるまでの反復回数を設定します．
+    この制限はパターン照合が(一般的な場合の検査範囲のカバー率が指数オーダーになるなど)極端にコストがかかるような場合を捕捉するためのものです．
+    GHC がパターン照合検査器の反復限界を超えたと報告しないかぎり，通常は設定する必要はありません．
+    (そのような場合には，将来そのコードを読む人のために，パターン照合の部分のリファクタリングを考えることになるでしょう．)
+
+..
+   .. ghc-flag:: -Wincomplete-record-updates
+
+       .. index::
+	  single: incomplete record updates, warning
+	  single: record updates, incomplete
+
+       The function ``f`` below will fail when applied to ``Bar``, so the
+       compiler will emit a warning about this when
+       :ghc-flag:`-Wincomplete-record-updates` is enabled. ::
+
+	   data Foo = Foo { x :: Int }
+		    | Bar
+
+	   f :: Foo -> Foo
+	   f foo = foo { x = 6 }
+
+       This option isn't enabled by default because it can be very noisy,
+       and it often doesn't indicate a bug in the program.
 
 .. ghc-flag:: -Wincomplete-record-updates
 
     .. index::
-       single: incomplete record updates, warning
-       single: record updates, incomplete
+       single: 不完全なレコードの更新, 〜警告
+       single: レコードの更新, 不完全な〜
 
-    The function ``f`` below will fail when applied to ``Bar``, so the
-    compiler will emit a warning about this when
-    :ghc-flag:`-Wincomplete-record-updates` is enabled. ::
+    以下の関数 ``f`` は ``Bar`` に適用すると失敗します．
+    :ghc-flag:`-Wincomplete-record-updates` を有効にしておくと，この場合に警告が発行されます． ::
 
         data Foo = Foo { x :: Int }
                  | Bar
@@ -1033,30 +1170,62 @@ GHC では，いくつものオプションを使って，コンパイル中の�
         f :: Foo -> Foo
         f foo = foo { x = 6 }
 
-    This option isn't enabled by default because it can be very noisy,
-    and it often doesn't indicate a bug in the program.
+    このオプションは小うるさく，プログラムのバグを示さないことも多いので，デフォルトでは有効になっていません．
+
+..
+   .. ghc-flag:: -Wmissing-fields
+
+       .. index::
+	  single: missing fields, warning
+	  single: fields, missing
+
+       This option is on by default, and warns you whenever the
+       construction of a labelled field constructor isn't complete, missing
+       initialisers for one or more fields. While not an error (the missing
+       fields are initialised with bottoms), it is often an indication of a
+       programmer error.
 
 .. ghc-flag:: -Wmissing-fields
 
     .. index::
-       single: missing fields, warning
-       single: fields, missing
+       single: フィールドの欠如, 〜警告
+       single: フィールド, 〜の欠如
 
-    This option is on by default, and warns you whenever the
-    construction of a labelled field constructor isn't complete, missing
-    initialisers for one or more fields. While not an error (the missing
-    fields are initialised with bottoms), it is often an indication of a
-    programmer error.
+    このオプションはデフォルトで有効です．
+    ラベル付きフィールド構成子を構成するときに，1つ以上のフィールドについて初期化子が欠如している場合に警告を発行します．
+    これはエラーではありません(省略されたフィールドはボトムで初期化されます)が，多くの場合プログラムに誤りがあることを示します．
+
+..
+   .. ghc-flag:: -Wmissing-import-lists
+
+       .. index::
+	  single: missing import lists, warning
+	  single: import lists, missing
+
+       This flag warns if you use an unqualified ``import`` declaration
+       that does not explicitly list the entities brought into scope. For
+       example ::
+
+	   module M where
+	     import X( f )
+	     import Y
+	     import qualified Z
+	     p x = f x x
+
+       The :ghc-flag:`-Wmissing-import-lists` flag will warn about the import of
+       ``Y`` but not ``X`` If module ``Y`` is later changed to export (say) ``f``,
+       then the reference to ``f`` in ``M`` will become ambiguous. No warning is
+       produced for the import of ``Z`` because extending ``Z``\'s exports would be
+       unlikely to produce ambiguity in ``M``.
 
 .. ghc-flag:: -Wmissing-import-lists
 
     .. index::
-       single: missing import lists, warning
-       single: import lists, missing
+       single: インポートリストの欠如, 〜警告
+       single: インポートリスト, 〜の欠如
 
-    This flag warns if you use an unqualified ``import`` declaration
-    that does not explicitly list the entities brought into scope. For
-    example ::
+    qualified ではない ``import`` 宣言で，スコープに持ち込む実体を明示的に列挙していないインポート宣言に対して警告を発行する．
+    たとえば ::
 
         module M where
           import X( f )
@@ -1064,113 +1233,212 @@ GHC では，いくつものオプションを使って，コンパイル中の�
           import qualified Z
           p x = f x x
 
-    The :ghc-flag:`-Wmissing-import-lists` flag will warn about the import of
-    ``Y`` but not ``X`` If module ``Y`` is later changed to export (say) ``f``,
-    then the reference to ``f`` in ``M`` will become ambiguous. No warning is
-    produced for the import of ``Z`` because extending ``Z``\'s exports would be
-    unlikely to produce ambiguity in ``M``.
+    :ghc-flag:`-Wmissing-import-lists` フラグが有効なら ``Y`` のインポートに対して警告が発行されます．
+    ``X`` については警告はでません．
+    後から ``Y`` がたとえば ``f`` をエクスポートするように変更されると ``M`` の中での ``f`` への参照は曖昧になってしまいます．
+    ``Z`` のエクスポートを拡張しても ``M`` で曖昧な部分ができる可能性は低いので ``Z`` をインポートすることについては警告はでません．
+
+..
+   .. ghc-flag:: -Wmissing-methods
+
+       .. index::
+	  single: missing methods, warning
+	  single: methods, missing
+
+       This option is on by default, and warns you whenever an instance
+       declaration is missing one or more methods, and the corresponding
+       class declaration has no default declaration for them.
+
+       The warning is suppressed if the method name begins with an
+       underscore. Here's an example where this is useful: ::
+
+	   class C a where
+	       _simpleFn :: a -> String
+	       complexFn :: a -> a -> String
+	       complexFn x y = ... _simpleFn ...
+
+       The idea is that: (a) users of the class will only call
+       ``complexFn``; never ``_simpleFn``; and (b) instance declarations
+       can define either ``complexFn`` or ``_simpleFn``.
+
+       The ``MINIMAL`` pragma can be used to change which combination of
+       methods will be required for instances of a particular class. See
+       :ref:`minimal-pragma`.
 
 .. ghc-flag:: -Wmissing-methods
 
     .. index::
-       single: missing methods, warning
-       single: methods, missing
+       single: メソッドの欠如, 〜警告
+       single: メソッド, 〜の欠如
 
-    This option is on by default, and warns you whenever an instance
-    declaration is missing one or more methods, and the corresponding
-    class declaration has no default declaration for them.
-
-    The warning is suppressed if the method name begins with an
-    underscore. Here's an example where this is useful: ::
+    このオプションはデフォルトで有効です．
+    インスタンス宣言が1つ以上のメソッドを欠き，そのメソッドのデフォルト定義が対応するクラス宣言にないときに警告を発行します．
+    
+    メソッド名がアンダースコアで始まっているときにはこの警告はでません．
+    このことは以下のような場合に便利です． ::
 
         class C a where
             _simpleFn :: a -> String
             complexFn :: a -> a -> String
             complexFn x y = ... _simpleFn ...
 
-    The idea is that: (a) users of the class will only call
-    ``complexFn``; never ``_simpleFn``; and (b) instance declarations
-    can define either ``complexFn`` or ``_simpleFn``.
+    基本的な考え方は (a) クラスの利用者はもっぱら ``complexFn`` を呼び ``_simpleFn`` を呼ぶことはなく，かつ，
+    (b) インスタンス宣言では ``complexFn`` か ``_simpleFn`` のどちらか一方を定義すればよいということです．
 
-    The ``MINIMAL`` pragma can be used to change which combination of
-    methods will be required for instances of a particular class. See
-    :ref:`minimal-pragma`.
+    ``MINIMAL`` プラグマを使うと，特定のクラスに対して，どのメソッドの組み合わせが要求されるかを変更できます．
+    詳しくは :ref:`minimal-pragma` を参照してください．
+
+..
+   .. ghc-flag:: -Wmissing-signatures
+
+       .. index::
+	  single: type signatures, missing
+
+       If you would like GHC to check that every top-level function/value
+       has a type signature, use the :ghc-flag:`-Wmissing-signatures` option.
+       As part of the warning GHC also reports the inferred type. The
+       option is off by default.
 
 .. ghc-flag:: -Wmissing-signatures
 
     .. index::
-       single: type signatures, missing
+       single: 型シグネチャ, 〜の欠如
 
-    If you would like GHC to check that every top-level function/value
-    has a type signature, use the :ghc-flag:`-Wmissing-signatures` option.
-    As part of the warning GHC also reports the inferred type. The
-    option is off by default.
+    どのトップレベルの関数や値にも型シグネチャがあることを GHC に確認させたければ，
+    :ghc-flag:`-Wmissing-signatures` オプションを使うのがよいでしょう．
+    GHC はこの警告の一部として，推論できた型を報告します．
+    このオプションはデフォルトでは無効になっています．
+
+..
+   .. ghc-flag:: -Wmissing-exported-sigs
+
+       .. index::
+	  single: type signatures, missing
+
+       This option is now deprecated in favour of
+       :ghc-flag:`-Wmissing-exported-signatures`.
 
 .. ghc-flag:: -Wmissing-exported-sigs
 
     .. index::
-       single: type signatures, missing
+       single: 型シグネチャ, 〜の欠如
 
-    This option is now deprecated in favour of
-    :ghc-flag:`-Wmissing-exported-signatures`.
+    このオプションは :ghc-flag:`-Wmissing-exported-signatures` があるので，非推奨となっています．
+
+..
+   .. ghc-flag:: -Wmissing-exported-signatures
+
+       .. index::
+	  single: type signatures, missing
+
+       If you would like GHC to check that every exported top-level
+       function/value has a type signature, but not check unexported
+       values, use the :ghc-flag:`-Wmissing-exported-signatures`
+       option. This option takes precedence over
+       :ghc-flag:`-Wmissing-signatures`. As part of the warning GHC also
+       reports the inferred type. The option is off by default.
 
 .. ghc-flag:: -Wmissing-exported-signatures
 
     .. index::
-       single: type signatures, missing
+       single: 型シグネチャ, 〜の欠如
 
-    If you would like GHC to check that every exported top-level
-    function/value has a type signature, but not check unexported
-    values, use the :ghc-flag:`-Wmissing-exported-signatures`
-    option. This option takes precedence over
-    :ghc-flag:`-Wmissing-signatures`. As part of the warning GHC also
-    reports the inferred type. The option is off by default.
+    エクスポートされるどのトップレベルの関数や値にも型シグネチャがあることを GHC に確認させ，
+    エクスポートしないトップレベルの関数や値については確認しないということをしたければ :ghc-flag:`-Wmissing-exported-signatures` オプションを使うのが良いでしょう．
+    このオプションは :ghc-flag:`-Wmissing-signatures` より優先されます．
+    この警告の一部として GHC は推論できた型を報告します．
+    このオプションはデフォルトでは無効になっています．
+
+..
+   .. ghc-flag:: -Wmissing-local-sigs
+
+       .. index::
+	  single: type signatures, missing
+
+       This option is now deprecated in favour of
+       :ghc-flag:`-Wmissing-local-signatures`.
 
 .. ghc-flag:: -Wmissing-local-sigs
 
     .. index::
-       single: type signatures, missing
+       single: 型シグネチャ, 〜の欠如
 
-    This option is now deprecated in favour of
-    :ghc-flag:`-Wmissing-local-signatures`.
+    このオプションは :ghc-flag:`-Wmissing-local-signatures` があるので，非推奨となっています．
+
+..
+   .. ghc-flag:: -Wmissing-local-signatures
+
+       .. index::
+	  single: type signatures, missing
+
+       If you use the :ghc-flag:`-Wmissing-local-signatures` flag GHC
+       will warn you about any polymorphic local bindings. As part of the
+       warning GHC also reports the inferred type. The option is off by
+       default.
 
 .. ghc-flag:: -Wmissing-local-signatures
 
     .. index::
-       single: type signatures, missing
+       single: 型シグネチャ, 〜の欠如
 
-    If you use the :ghc-flag:`-Wmissing-local-signatures` flag GHC
-    will warn you about any polymorphic local bindings. As part of the
-    warning GHC also reports the inferred type. The option is off by
-    default.
+    :ghc-flag:`-Wmissing-local-signatures` を使えば，GHC はあらゆる多相的な局所束縛について警告を発行するようになります．
+    警告の一部として，GHC は推論できた型を報告します．
+    このオプションはデフォルトでは無効です．
+
+..
+   .. ghc-flag:: -Wmissing-pattern-synonym-signatures
+
+       .. index::
+	    single: type signatures, missing, pattern synonyms
+
+       If you would like GHC to check that every pattern synonym has a
+       type signature, use the
+       :ghc-flag:`-Wmissing-pattern-synonym-signatures` option. If this
+       option is used in conjunction with
+       :ghc-flag:`-Wmissing-exported-signatures` then only exported pattern
+       synonyms must have a type signature. GHC also reports the inferred
+       type. This option is off by default.
 
 .. ghc-flag:: -Wmissing-pattern-synonym-signatures
 
     .. index::
-         single: type signatures, missing, pattern synonyms
+       single: 型シグネチャ, 〜の欠如, パターンシノニムの〜
 
-    If you would like GHC to check that every pattern synonym has a
-    type signature, use the
-    :ghc-flag:`-Wmissing-pattern-synonym-signatures` option. If this
-    option is used in conjunction with
-    :ghc-flag:`-Wmissing-exported-signatures` then only exported pattern
-    synonyms must have a type signature. GHC also reports the inferred
-    type. This option is off by default.
+    どのパターンシノニムにも型シグネチャがあることを GHC に確認させたければ，
+    :ghc-flag:`-Wmissing-pattern-synonym-signatures` オプションを使うのが良いでしょう．
+    オプションを :ghc-flag:`-Wmissing-exported-signatures` と同時に使えば，エクスポートするパターンシノニムだけが型シグネチャを付けなければならなくなります．
+    警告の一部として，GHC は推論できた型も報告します．
+    このオプションはデフォルトでは無効になっています．
+
+..
+   .. ghc-flag:: -Wname-shadowing
+
+       .. index::
+	  single: shadowing, warning
+
+       This option causes a warning to be emitted whenever an inner-scope
+       value has the same name as an outer-scope value, i.e. the inner
+       value shadows the outer one. This can catch typographical errors
+       that turn into hard-to-find bugs, e.g., in the inadvertent capture
+       of what would be a recursive call in
+       ``f = ... let f = id in ... f ...``.
+
+       The warning is suppressed for names beginning with an underscore.
+       For example ::
+
+	   f x = do { _ignore <- this; _ignore <- that; return (the other) }
 
 .. ghc-flag:: -Wname-shadowing
 
     .. index::
-       single: shadowing, warning
+       single: シャドウ, 〜警告
 
-    This option causes a warning to be emitted whenever an inner-scope
-    value has the same name as an outer-scope value, i.e. the inner
-    value shadows the outer one. This can catch typographical errors
-    that turn into hard-to-find bugs, e.g., in the inadvertent capture
-    of what would be a recursive call in
-    ``f = ... let f = id in ... f ...``.
+    このオプションを有効にすると，内側のスコープの値と同じ名前の値が外側のスコープにあるとき，
+    すなわち，内側の名前が外側の名前を隠す(シャドウする)ときに警告を発行する．
+    この警告によって，ミスタイプによる見つけにくいバグを捕捉できることがある．
+    たとえば ``f = ... let f = id in ... f ...`` において，再帰呼び出しであるはずのものがそうなっていないことが捕捉されます．
 
-    The warning is suppressed for names beginning with an underscore.
-    For example ::
+    この警告は，以下のようにアンダースコアで始まる名前については発行されません． ::
 
         f x = do { _ignore <- this; _ignore <- that; return (the other) }
 
