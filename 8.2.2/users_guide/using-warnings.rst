@@ -395,74 +395,156 @@ GHC では，いくつものオプションを使って，コンパイル中の�
 
     :ghc-flag:`-fdefer-type-errors` によって有効になります． :ghc-flag:`-Wdeferred-out-of-scope-variables` も参照してください．
 
+..
+   .. ghc-flag:: -Wdeferred-out-of-scope-variables
+
+       Warn when a deferred out-of-scope variable is encountered.
+
 .. ghc-flag:: -Wdeferred-out-of-scope-variables
 
-    Warn when a deferred out-of-scope variable is encountered.
+    有効範囲外エラーが遅延されている変数に対して警告を出します．
+
+..
+   .. ghc-flag:: -Wpartial-type-signatures
+
+       Determines whether the compiler reports holes in partial type
+       signatures as warnings. Has no effect unless
+       :ghc-flag:`-XPartialTypeSignatures` is enabled, which controls whether
+       errors should be generated for holes in types or not. See
+       :ref:`partial-type-signatures`.
+
+       This warning is on by default.
 
 .. ghc-flag:: -Wpartial-type-signatures
 
-    Determines whether the compiler reports holes in partial type
-    signatures as warnings. Has no effect unless
-    :ghc-flag:`-XPartialTypeSignatures` is enabled, which controls whether
-    errors should be generated for holes in types or not. See
-    :ref:`partial-type-signatures`.
+    部分型シグネチャ中にホールがあることをコンパイラが警告として報告するかを決定します．
+    :ghc-flag:`-XPartialTypeSignatures` が有効になってい場合に限り効果があります．
+    この言語拡張は型中のホールに関してエラーにするかどうかを制御します．
+    :ref:`partial-type-signatures` を参照してください．
 
-    This warning is on by default.
+    この警告はデフォルトで有効になっています．
+
+..
+   .. ghc-flag:: -fhelpful-errors
+
+       When a name or package is not found in scope, make suggestions for
+       the name or package you might have meant instead.
+
+       This option is on by default.
 
 .. ghc-flag:: -fhelpful-errors
 
-    When a name or package is not found in scope, make suggestions for
-    the name or package you might have meant instead.
+    名前やパッケージが有効範囲になければ，意図していたと推測した名前やパッケージを提案します．
 
-    This option is on by default.
+    このオプションはデフォルトで有効になっています．
+
+..
+   .. ghc-flag:: -Wunrecognised-pragmas
+
+       Causes a warning to be emitted when a pragma that GHC doesn't
+       recognise is used. As well as pragmas that GHC itself uses, GHC also
+       recognises pragmas known to be used by other tools, e.g.
+       ``OPTIONS_HUGS`` and ``DERIVE``.
+
+       This option is on by default.
 
 .. ghc-flag:: -Wunrecognised-pragmas
 
-    Causes a warning to be emitted when a pragma that GHC doesn't
-    recognise is used. As well as pragmas that GHC itself uses, GHC also
-    recognises pragmas known to be used by other tools, e.g.
-    ``OPTIONS_HUGS`` and ``DERIVE``.
+    GHC が認識できないプラグマが使われたときに警告を発します．
+    GHC 自身が使うプラグマだけではなく，他のツールが使うことが判っているプラグマも認識します．
+    たとえば ``OPTIONS_HUGS`` や ``DERIVE`` がそれにあたります．
 
-    This option is on by default.
+    このオプションはデフォルトで有効になっています．
+
+..
+   .. ghc-flag:: -Wmissed-specialisations
+		 -Wall-missed-specialisations
+
+       Emits a warning if GHC cannot specialise an overloaded function, usually
+       because the function needs an ``INLINABLE`` pragma. The "all" form reports
+       all such situations whereas the "non-all" form only reports when the
+       situation arises during specialisation of an imported function.
+
+       The "non-all" form is intended to catch cases where an imported function
+       that is marked as ``INLINABLE`` (presumably to enable specialisation) cannot
+       be specialised as it calls other functions that are themselves not specialised.
+
+       Note that these warnings will not throw errors if used with :ghc-flag:`-Werror`.
+
+       These options are both off by default.
 
 .. ghc-flag:: -Wmissed-specialisations
               -Wall-missed-specialisations
 
-    Emits a warning if GHC cannot specialise an overloaded function, usually
-    because the function needs an ``INLINABLE`` pragma. The "all" form reports
-    all such situations whereas the "non-all" form only reports when the
-    situation arises during specialisation of an imported function.
+    GHC が多重定義された関数を特定化できない場合に警告を発します．
+    通常そのような関数は ``INLINEABLE`` プラグマが必要だからです．
+    「all」付きの形式で指定した場合は，そうなる状況すべてを報告します．
+    「all」が付かない形式ではインポートされた関数の特定化過程で起りうる状況についてのみ報告します．
 
-    The "non-all" form is intended to catch cases where an imported function
-    that is marked as ``INLINABLE`` (presumably to enable specialisation) cannot
-    be specialised as it calls other functions that are themselves not specialised.
+    「all」が付かない形式は(おそらく特定化可能であるということで) ``INLINABLE`` がついたインポートされた関数が，
+    特定化されていない別の関数を呼んでいるために，特定できないという場合を捕捉するためのものです．
 
-    Note that these warnings will not throw errors if used with :ghc-flag:`-Werror`.
+    これらの警告は :ghc-flag:`-Werror` を使ってもエラーにはならないことに注意してください．
 
-    These options are both off by default.
+    これらのオプションはデフォルトでは無効です．
+
+..
+   .. ghc-flag:: -Wwarnings-deprecations
+
+       .. index::
+	  pair: deprecations; warnings
+
+       Causes a warning to be emitted when a module, function or type with
+       a ``WARNING`` or ``DEPRECATED pragma`` is used. See
+       :ref:`warning-deprecated-pragma` for more details on the pragmas.
+
+       This option is on by default.
 
 .. ghc-flag:: -Wwarnings-deprecations
 
     .. index::
-       pair: deprecations; warnings
+       pair: 非推奨; 〜警告
 
-    Causes a warning to be emitted when a module, function or type with
-    a ``WARNING`` or ``DEPRECATED pragma`` is used. See
-    :ref:`warning-deprecated-pragma` for more details on the pragmas.
+    ``WARNING`` あるいは ``DEPRECATED`` プラグマの付いたモジュール，関数，型を使ったときに警告を発行します．
+    対応するプラグマについて詳しくは :ref:`warning-deprecated-pragma` を参照してください．
 
-    This option is on by default.
+    このオプションはデフォルトで有効です．
+
+..
+   .. ghc-flag:: -Wdeprecations
+
+       .. index::
+	  single: deprecations
+
+       Causes a warning to be emitted when a module, function or type with
+       a ``WARNING`` or ``DEPRECATED pragma`` is used. See
+       :ref:`warning-deprecated-pragma` for more details on the pragmas.
+       An alias for :ghc-flag:`-Wwarnings-deprecations`.
+
+       This option is on by default.
 
 .. ghc-flag:: -Wdeprecations
 
     .. index::
-       single: deprecations
+       single: 非推奨
 
-    Causes a warning to be emitted when a module, function or type with
-    a ``WARNING`` or ``DEPRECATED pragma`` is used. See
-    :ref:`warning-deprecated-pragma` for more details on the pragmas.
-    An alias for :ghc-flag:`-Wwarnings-deprecations`.
+    ``WARNING`` あるいは ``DEPRECATED`` プラグマの付いたモジュール，関数，型を使ったときに警告を発行します．
+    対応するプラグマについて詳しくは :ref:`warning-deprecated-pragma` を参照してください．
+    これは :ghc-flag:`-Wwarnings-deprecations` の別名です．
 
-    This option is on by default.
+    このオプションはデフォルトで有効です．
+
+..
+   .. ghc-flag:: -Wamp
+
+       .. index::
+	  single: AMP
+	  single: Applicative-Monad Proposal
+
+       This option is deprecated.
+
+       Caused a warning to be emitted when a definition was in conflict with
+       the AMP (Applicative-Monad proosal).
 
 .. ghc-flag:: -Wamp
 
@@ -470,72 +552,143 @@ GHC では，いくつものオプションを使って，コンパイル中の�
        single: AMP
        single: Applicative-Monad Proposal
 
-    This option is deprecated.
+    このオプションは廃止予定で非推奨です．
 
-    Caused a warning to be emitted when a definition was in conflict with
-    the AMP (Applicative-Monad proosal).
+    AMP (Applicative-Monad proosal)と衝突する定義があった場合に警告を発行します．
+
+..
+   .. ghc-flag:: -Wnoncanonical-monad-instances
+
+       Warn if noncanonical ``Applicative`` or ``Monad`` instances
+       declarations are detected.
+
+       When this warning is enabled, the following conditions are verified:
+
+       In ``Monad`` instances declarations warn if any of the following
+       conditions does not hold:
+
+	* If ``return`` is defined it must be canonical (i.e. ``return = pure``).
+	* If ``(>>)`` is defined it must be canonical (i.e. ``(>>) = (*>)``).
+
+       Moreover, in ``Applicative`` instance declarations:
+
+	* Warn if ``pure`` is defined backwards (i.e. ``pure = return``).
+	* Warn if ``(*>)`` is defined backwards (i.e. ``(*>) = (>>)``).
+
+       This option is off by default.
 
 .. ghc-flag:: -Wnoncanonical-monad-instances
 
-    Warn if noncanonical ``Applicative`` or ``Monad`` instances
-    declarations are detected.
+    非標準の ``Applicative`` あるいは ``Monad`` インスタンス宣言を検出した場合に警告を発行します．
 
-    When this warning is enabled, the following conditions are verified:
+    この警告が有効になっている場合は，以下の条件を確認します．
 
-    In ``Monad`` instances declarations warn if any of the following
-    conditions does not hold:
+    ``Monad`` のインスタンス宣言において，以下の条件が満たされていなければ警告になります．
 
-     * If ``return`` is defined it must be canonical (i.e. ``return = pure``).
-     * If ``(>>)`` is defined it must be canonical (i.e. ``(>>) = (*>)``).
+     * ``return`` が定義されているなら，標準的定義(すなわち ``return = pure``)でなければならない．
+     * ``(>>)`` が定義されているなら，標準的定義(すなわち ``(>>) = (*>)``)でなければならない．
 
-    Moreover, in ``Applicative`` instance declarations:
+    さらに ``Applicative`` のインスタンス定義においては，
 
-     * Warn if ``pure`` is defined backwards (i.e. ``pure = return``).
-     * Warn if ``(*>)`` is defined backwards (i.e. ``(*>) = (>>)``).
+     * ``pure`` が逆方向定義(すなわち ``pure = return``) であれば警告します．
+     * ``(*>)`` が逆方向定義(すなわち ``(*>) = (>>)``)であれば警告します．
 
-    This option is off by default.
+    このオプションはデフォルトでは無効です．
+
+..
+   .. ghc-flag:: -Wnoncanonical-monadfail-instances
+
+       Warn if noncanonical ``Monad`` or ``MonadFail`` instances
+       declarations are detected.
+
+       When this warning is enabled, the following conditions are verified:
+
+       In ``Monad`` instances declarations warn if any of the following
+       conditions does not hold:
+
+	* If ``fail`` is defined it must be canonical
+	  (i.e. ``fail = Control.Monad.Fail.fail``).
+
+       Moreover, in ``MonadFail`` instance declarations:
+
+	* Warn if ``fail`` is defined backwards
+	  (i.e. ``fail = Control.Monad.fail``).
+
+       See also :ghc-flag:`-Wmissing-monadfail-instances`.
+
+       This option is off by default.
 
 .. ghc-flag:: -Wnoncanonical-monadfail-instances
 
-    Warn if noncanonical ``Monad`` or ``MonadFail`` instances
-    declarations are detected.
+    ``Monad`` あるいは ``MonadFail`` のインスタンス宣言が標準的ではない場合に警告を発行します．
 
-    When this warning is enabled, the following conditions are verified:
+    この警告が有効になっている場合は，以下の条件を確認します．
 
-    In ``Monad`` instances declarations warn if any of the following
-    conditions does not hold:
+    ``Monad`` のインスタンス宣言において，以下の条件が満されていなければ警告になります．
 
-     * If ``fail`` is defined it must be canonical
-       (i.e. ``fail = Control.Monad.Fail.fail``).
+     * ``fail`` が定義されているなら，標準的定義(すなわち ``fail = Control.Monad.Fail.fail``)でなければならない．
 
-    Moreover, in ``MonadFail`` instance declarations:
+    さらに ``MonadFail`` のインスタンス定義においては，
 
-     * Warn if ``fail`` is defined backwards
-       (i.e. ``fail = Control.Monad.fail``).
+     * ``fail`` が逆方向定義(すなわち ``fail = Control.Monad.fail``)であれば警告します．
 
-    See also :ghc-flag:`-Wmissing-monadfail-instances`.
+    :ghc-flag:`-Wmissing-monadfail-instances` も参照してください．
 
-    This option is off by default.
+    このオプションはデフォルトでは無効です．
+
+..
+   .. ghc-flag:: -Wnoncanonical-monoid-instances
+
+       Warn if noncanonical ``Semigroup`` or ``Monoid`` instances
+       declarations are detected.
+
+       When this warning is enabled, the following conditions are verified:
+
+       In ``Monoid`` instances declarations warn if any of the following
+       conditions does not hold:
+
+	* If ``mappend`` is defined it must be canonical
+	  (i.e. ``mappend = (Data.Semigroup.<>)``).
+
+       Moreover, in ``Semigroup`` instance declarations:
+
+	* Warn if ``(<>)`` is defined backwards (i.e. ``(<>) = mappend``).
+
+       This warning is off by default. However, it is part of the
+       :ghc-flag:`-Wcompat` option group.
 
 .. ghc-flag:: -Wnoncanonical-monoid-instances
+			       
+    ``Semigroup`` あるいは ``Monoid`` のインスタンス宣言が標準的でないときに警告を発行します．
 
-    Warn if noncanonical ``Semigroup`` or ``Monoid`` instances
-    declarations are detected.
+    この警告が有効になっている場合は，以下の条件を確認します．
 
-    When this warning is enabled, the following conditions are verified:
+    ``Monoid`` のインスタンス宣言において，以下の条件が満たされていなければ警告になります．
 
-    In ``Monoid`` instances declarations warn if any of the following
-    conditions does not hold:
+     * ``mappend`` が定義されているなら，標準的定義(すなわち ``mappend = (Data.Semigroup.<>)``)でなければならない．
 
-     * If ``mappend`` is defined it must be canonical
-       (i.e. ``mappend = (Data.Semigroup.<>)``).
+    さらに ``Semigroup`` のインスタンス宣言において
 
-    Moreover, in ``Semigroup`` instance declarations:
+     * ``(<>)`` が逆方向定義(すなわち ``(<>) = mappend``)であれば警告します．
 
-     * Warn if ``(<>)`` is defined backwards (i.e. ``(<>) = mappend``).
+    この警告はデフォルトでは無効になっています．しかし，この警告は :ghc-flag:`-Wcompat` というオプショングループに属しています．
 
-    This warning is off by default. However, it is part of the
-    :ghc-flag:`-Wcompat` option group.
+..
+   .. ghc-flag:: -Wmissing-monadfail-instances
+
+       .. index::
+	  single: MFP
+	  single: MonadFail Proposal
+
+       Warn when a failable pattern is used in a do-block that does not have a
+       ``MonadFail`` instance.
+
+       See also :ghc-flag:`-Wnoncanonical-monadfail-instances`.
+
+       Being part of the :ghc-flag:`-Wcompat` option group, this warning is off by
+       default, but will be switched on in a future GHC release, as part of
+       the `MonadFail Proposal (MFP)
+       <https://prime.haskell.org/wiki/Libraries/Proposals/MonadFail>`__.
 
 .. ghc-flag:: -Wmissing-monadfail-instances
 
@@ -543,109 +696,194 @@ GHC では，いくつものオプションを使って，コンパイル中の�
        single: MFP
        single: MonadFail Proposal
 
-    Warn when a failable pattern is used in a do-block that does not have a
-    ``MonadFail`` instance.
+    do ブロックで失敗する可能性のあるパターンが用いられていて ``MonadFail`` のインスタンスではないときに警告を発行します．
 
-    See also :ghc-flag:`-Wnoncanonical-monadfail-instances`.
+    :ghc-flag:`-Wnoncanonical-monadfail-instances` も参照してください．
 
-    Being part of the :ghc-flag:`-Wcompat` option group, this warning is off by
-    default, but will be switched on in a future GHC release, as part of
-    the `MonadFail Proposal (MFP)
-    <https://prime.haskell.org/wiki/Libraries/Proposals/MonadFail>`__.
+    この警告フラグは :ghc-flag:`-Wcompat` というオプショングループに属していていますが，
+    デフォルトでは無効になっています．しかし，将来のリリースでは `MonadFail Proposal (MFP) <https://prime.haskell.org/wiki/Libraries/Proposals/MonadFail>`__ の一部としてデフォルトで有効になる予定です．
+
+..
+   .. ghc-flag:: -Wsemigroup
+
+       .. index::
+	  single: semigroup; warning
+
+       Warn when definitions are in conflict with the future inclusion of
+       ``Semigroup`` into the standard typeclasses.
+
+	1. Instances of ``Monoid`` should also be instances of ``Semigroup``
+	2. The ``Semigroup`` operator ``(<>)`` will be in ``Prelude``, which
+	   clashes with custom local definitions of such an operator
+
+       Being part of the :ghc-flag:`-Wcompat` option group, this warning is off by
+       default, but will be switched on in a future GHC release.
 
 .. ghc-flag:: -Wsemigroup
 
     .. index::
-       single: semigroup; warning
+       single: semigroup; 〜の警告
 
-    Warn when definitions are in conflict with the future inclusion of
-    ``Semigroup`` into the standard typeclasses.
+    将来，標準の型クラスに ``Semigroup`` が含まれるようになったときに，衝突を引き起す定義に対して警告を出します．
 
-     1. Instances of ``Monoid`` should also be instances of ``Semigroup``
-     2. The ``Semigroup`` operator ``(<>)`` will be in ``Prelude``, which
-        clashes with custom local definitions of such an operator
+     1. ``Monoid`` のインスタンスは，``Semigroup`` のインスタンスでもなければなりません．
+     2. ``Semigroup`` の演算子 ``(<>)`` は ``Prelude`` に入る予定ですので，このような演算子を独自に定義しているとクラッシュします．
 
-    Being part of the :ghc-flag:`-Wcompat` option group, this warning is off by
-    default, but will be switched on in a future GHC release.
+    このフラグは :ghc-flag:`-Wcompat` オプショングループに属しています．デフォルトでは無効になっていますが，
+    将来の GHC のリリースでは，デフォルトで有効になります．
+
+..
+   .. ghc-flag:: -Wdeprecated-flags
+
+       .. index::
+	  single: deprecated flags
+
+       Causes a warning to be emitted when a deprecated command-line flag
+       is used.
+
+       This option is on by default.
 
 .. ghc-flag:: -Wdeprecated-flags
 
     .. index::
-       single: deprecated flags
+       single: 非推奨フラグ
 
-    Causes a warning to be emitted when a deprecated command-line flag
-    is used.
+    非推奨になっているコマンドラインを使っていると警告を発行します．
 
-    This option is on by default.
+    このオプションはデフォルトで有効です．
+
+..
+   .. ghc-flag:: -Wunsupported-calling-conventions
+
+       Causes a warning to be emitted for foreign declarations that use
+       unsupported calling conventions. In particular, if the ``stdcall``
+       calling convention is used on an architecture other than i386 then
+       it will be treated as ``ccall``.
 
 .. ghc-flag:: -Wunsupported-calling-conventions
 
-    Causes a warning to be emitted for foreign declarations that use
-    unsupported calling conventions. In particular, if the ``stdcall``
-    calling convention is used on an architecture other than i386 then
-    it will be treated as ``ccall``.
+    サポートされていない呼び出し方法を外部宣言で用いると警告を発行します．
+    具体的には ``stdcall`` という呼び出し方法を i386 以外のアーキテクチャ上のシステムで使うと
+    ``ccall`` として扱います．
+
+..
+   .. ghc-flag:: -Wdodgy-foreign-imports
+
+       Causes a warning to be emitted for foreign imports of the following
+       form: ::
+
+	   foreign import "f" f :: FunPtr t
+
+       on the grounds that it probably should be ::
+
+	   foreign import "&f" f :: FunPtr t
+
+       The first form declares that \`f\` is a (pure) C function that takes
+       no arguments and returns a pointer to a C function with type \`t\`,
+       whereas the second form declares that \`f\` itself is a C function
+       with type \`t\`. The first declaration is usually a mistake, and one
+       that is hard to debug because it results in a crash, hence this
+       warning.
 
 .. ghc-flag:: -Wdodgy-foreign-imports
 
-    Causes a warning to be emitted for foreign imports of the following
-    form: ::
+    以下の形式の外部インポートに対して警告を発行します． ::
 
         foreign import "f" f :: FunPtr t
 
-    on the grounds that it probably should be ::
+    おそらく ::
 
         foreign import "&f" f :: FunPtr t
 
-    The first form declares that \`f\` is a (pure) C function that takes
-    no arguments and returns a pointer to a C function with type \`t\`,
-    whereas the second form declares that \`f\` itself is a C function
-    with type \`t\`. The first declaration is usually a mistake, and one
-    that is hard to debug because it results in a crash, hence this
-    warning.
+    と書くべきだったと思われます．
+    1つめの形式では \`f\` は(純粋な) C の関数で，引数はとらず，型 \`t\` の C の関数へのポインタを宣言しています．
+    1つめの宣言は通常は誤りで，クラッシュにつながりデバッグのしにくいバグになるので，この警告が用意されています．
+
+..
+   .. ghc-flag:: -Wdodgy-exports
+
+       Causes a warning to be emitted when a datatype ``T`` is exported
+       with all constructors, i.e. ``T(..)``, but is it just a type
+       synonym.
+
+       Also causes a warning to be emitted when a module is re-exported,
+       but that module exports nothing.
 
 .. ghc-flag:: -Wdodgy-exports
 
-    Causes a warning to be emitted when a datatype ``T`` is exported
-    with all constructors, i.e. ``T(..)``, but is it just a type
-    synonym.
+    型シノニムにすぎないデータ型 ``T`` がすべての構成子を ``T(..)`` のようにエクスポートしているときに警告を発行します．
 
-    Also causes a warning to be emitted when a module is re-exported,
-    but that module exports nothing.
+    また，何もエクスポートしていないモジュールを再エクスポートしているときも警告を発行します．
+
+..
+   .. ghc-flag:: -Wdodgy-imports
+
+       Causes a warning to be emitted in the following cases:
+
+       -  When a datatype ``T`` is imported with all constructors, i.e.
+	  ``T(..)``, but has been exported abstractly, i.e. ``T``.
+
+       -  When an ``import`` statement hides an entity that is not
+	  exported.
 
 .. ghc-flag:: -Wdodgy-imports
 
-    Causes a warning to be emitted in the following cases:
+    以下の場合に警告を発行します．
 
-    -  When a datatype ``T`` is imported with all constructors, i.e.
-       ``T(..)``, but has been exported abstractly, i.e. ``T``.
+    -  データ型 ``T`` を ``T(..)`` のようにすべての構成子付きでインポートしているのに，その型が ``T`` のように
+       抽象的にしかエクスポートされていない場合．		 
 
-    -  When an ``import`` statement hides an entity that is not
-       exported.
+    -  ``import`` 宣言がエクスポートされていない実体を隠蔽している場合．
+
+..
+   .. ghc-flag:: -Woverflowed-literals
+
+       Causes a warning to be emitted if a literal will overflow, e.g.
+       ``300 :: Word8``.
 
 .. ghc-flag:: -Woverflowed-literals
 
-    Causes a warning to be emitted if a literal will overflow, e.g.
-    ``300 :: Word8``.
+    リテラルがオーバーフローを起こすような場合，たとえば ``300 :: Word8`` のような場合に警告を発行します．
+
+..
+   .. ghc-flag:: -Wempty-enumerations
+
+       Causes a warning to be emitted if an enumeration is empty, e.g.
+       ``[5 .. 3]``.
 
 .. ghc-flag:: -Wempty-enumerations
 
-    Causes a warning to be emitted if an enumeration is empty, e.g.
-    ``[5 .. 3]``.
+    たとえば ``[5 .. 3]`` のように列挙が空になる場合に警告を発行します．
+
+..
+   .. ghc-flag:: -Wduplicate-constraints
+
+       .. index::
+	  single: duplicate constraints, warning
+
+       Have the compiler warn about duplicate constraints in a type
+       signature. For example ::
+
+	   f :: (Eq a, Show a, Eq a) => a -> a
+
+       The warning will indicate the duplicated ``Eq a`` constraint.
+
+       This option is now deprecated in favour of
+       :ghc-flag:`-Wredundant-constraints`.
 
 .. ghc-flag:: -Wduplicate-constraints
 
     .. index::
-       single: duplicate constraints, warning
+       single: 重複のある制約, 〜の警告
 
-    Have the compiler warn about duplicate constraints in a type
-    signature. For example ::
+    型シグネチャで制約の重複がある場合コンパイラが警告を発行するようにします．
+    たとえば，以下のような場合です． ::
 
         f :: (Eq a, Show a, Eq a) => a -> a
 
-    The warning will indicate the duplicated ``Eq a`` constraint.
+    この警告では ``Eq a`` という制約が重複していることを表示します．
 
-    This option is now deprecated in favour of
-    :ghc-flag:`-Wredundant-constraints`.
+    このオプションは :ghc-flag:`-Wredundant-constraints` があるので，非推奨になっています．
 
 .. ghc-flag:: -Wredundant-constraints
 
