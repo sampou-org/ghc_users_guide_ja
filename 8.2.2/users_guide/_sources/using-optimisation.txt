@@ -1,127 +1,252 @@
-.. _options-optimise:
+..
+   .. _options-optimise:
 
-Optimisation (code improvement)
--------------------------------
+   Optimisation (code improvement)
+   -------------------------------
+
+   .. index::
+      single: optimisation
+      single: improvement, code
+
+   The ``-O*`` options specify convenient "packages" of optimisation flags;
+   the ``-f*`` options described later on specify *individual*
+   optimisations to be turned on/off; the ``-m*`` options specify
+   *machine-specific* optimisations to be turned on/off.
+
+最適化 (コードの改善)
+---------------------
 
 .. index::
-   single: optimisation
-   single: improvement, code
+   single: 最適化
+   single: 改善, コードの〜
 
-The ``-O*`` options specify convenient "packages" of optimisation flags;
-the ``-f*`` options described later on specify *individual*
-optimisations to be turned on/off; the ``-m*`` options specify
-*machine-specific* optimisations to be turned on/off.
+``-O*`` オプションば便利な最適化フラグの「詰め合わせ」を指定するのに使います．
+*個別の* 最適化を有効/無効にするには，後述する ``-f*`` オプションを使います．
+*マシン固有* の最適化を有効/無効にするには ``-m*`` オプションを使います．
 
-Most of these options are boolean and have options to turn them both "on" and
-"off" (beginning with the prefix ``no-``). For instance, while ``-fspecialise``
-enables specialisation, ``-fno-specialise`` disables it. When multiple flags for
-the same option appear in the command-line they are evaluated from left to
-right. For instance, ``-fno-specialise -fspecialise`` will enable
-specialisation.
+..
+   Most of these options are boolean and have options to turn them both "on" and
+   "off" (beginning with the prefix ``no-``). For instance, while ``-fspecialise``
+   enables specialisation, ``-fno-specialise`` disables it. When multiple flags for
+   the same option appear in the command-line they are evaluated from left to
+   right. For instance, ``-fno-specialise -fspecialise`` will enable
+   specialisation.
 
-It is important to note that the ``-O*`` flags are roughly equivalent to
-combinations of ``-f*`` flags. For this reason, the effect of the
-``-O*`` and ``-f*`` flags is dependent upon the order in which they
-occur on the command line.
+こうしたオプションのほとんどは，オプションをオン/オフする論理値になっています(オフにする場合は ``no-`` が前置されます)．
+``-fspecialise`` は特定化を有効にし，``-fno-specialise`` は無効にします．
+同じオプションに関して複数のフラグが1つのコマンドラインにあらわれたときは左から右への順で評価されますので，
+``-fno-specialise -fspecialise`` という指定では，特定化は有効になります．
 
-For instance, take the example of ``-fno-specialise -O1``. Despite the
-``-fno-specialise`` appearing in the command line, specialisation will
-still be enabled. This is the case as ``-O1`` implies ``-fspecialise``,
-overriding the previous flag. By contrast, ``-O1 -fno-specialise`` will
-compile without specialisation, as one would expect.
+..
+   It is important to note that the ``-O*`` flags are roughly equivalent to
+   combinations of ``-f*`` flags. For this reason, the effect of the
+   ``-O*`` and ``-f*`` flags is dependent upon the order in which they
+   occur on the command line.
 
-.. _optimise-pkgs:
+``-O*`` という型のフラグは大まかにいって ``-f*`` という型のフラグの組み合わせを指定しているものになっているということに注意をしてください．
+したがって ``-O*`` フラグと ``-f*`` フラグの効果はコマンドライン中にあらわれる順番に依存します．
 
-``-O*``: convenient “packages” of optimisation flags.
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+..
+   For instance, take the example of ``-fno-specialise -O1``. Despite the
+   ``-fno-specialise`` appearing in the command line, specialisation will
+   still be enabled. This is the case as ``-O1`` implies ``-fspecialise``,
+   overriding the previous flag. By contrast, ``-O1 -fno-specialise`` will
+   compile without specialisation, as one would expect.
 
-There are *many* options that affect the quality of code produced by
-GHC. Most people only have a general goal, something like "Compile
-quickly" or "Make my program run like greased lightning." The following
-"packages" of optimisations (or lack thereof) should suffice.
+``-fno-specialise -O1`` を例にとってみましょう．
+コマンドラインに ``-fno-specialise`` があっても，特定化(specialisation)は有効になります．
+これは ``-O1`` が ``-fspecialise`` を有効にするので，先に指定したフラグを上書きしてしまいます．
+これとは対照的に ``-O1 -fno-specialise`` のようにすると予想どおり特定化は発動しません．
 
-Note that higher optimisation levels cause more cross-module
-optimisation to be performed, which can have an impact on how much of
-your program needs to be recompiled when you change something. This is
-one reason to stick to no-optimisation when developing code.
+..
+   .. _optimise-pkgs:
 
-**No ``-O*``-type option specified:** This is taken to mean “Please 
-compile quickly; I'm not over-bothered about compiled-code quality.”
-So, for example, ``ghc -c Foo.hs``
+   ``-O*``: convenient “packages” of optimisation flags.
+   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+   There are *many* options that affect the quality of code produced by
+   GHC. Most people only have a general goal, something like "Compile
+   quickly" or "Make my program run like greased lightning." The following
+   "packages" of optimisations (or lack thereof) should suffice.
+
+``-O*``: 便利な最適化フラグの「詰め合わせ」
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+GHCが生成するコードの質に影響を与えるオプションは *大量に* あります．
+ほとんどの人にとっては，最適化の目標は「素早くコンパイルする」とか「電光石火のごとく走るプログラムコードを生成する」など一般的なものです．
+したがって，以下にしめすような最適化の「詰め合わせ」を指定(あるいは指定しない)する選択をするだけで十分です．
+
+..
+   Note that higher optimisation levels cause more cross-module
+   optimisation to be performed, which can have an impact on how much of
+   your program needs to be recompiled when you change something. This is
+   one reason to stick to no-optimisation when developing code.
+
+最適化のレベルを高くすると，モジュールを跨ぐ最適化が増えます．
+これは，ソースコードを変更したときにどの程度の再コンパイルする必要があるかに大きく影響します．
+これは開発中は最適化をしないようにすることの理由の1つです．
+
+..
+   **No ``-O*``-type option specified:** This is taken to mean “Please 
+   compile quickly; I'm not over-bothered about compiled-code quality.”
+   So, for example, ``ghc -c Foo.hs``
+
+**``-O*``-タイプのオプションを指定することはありません．**
+このオプション意味は，「急いでコンパイルしてね．生成したコードのインスタンスについてはうるさいことは言わないから」です．
+たとえば ``ghc -c Foo.hs`` のようにします．
+
+..
+   .. ghc-flag:: -O0
+
+       Means "turn off all optimisation", reverting to the same settings as
+       if no ``-O`` options had been specified. Saying ``-O0`` can be
+       useful if e.g. ``make`` has inserted a ``-O`` on the command line
+       already.
 
 .. ghc-flag:: -O0
 
-    Means "turn off all optimisation", reverting to the same settings as
-    if no ``-O`` options had been specified. Saying ``-O0`` can be
-    useful if e.g. ``make`` has inserted a ``-O`` on the command line
-    already.
+    「すべての最適化を無効にする」という意味です． ``-O``オプションを全く指定しないのと同じ状態にするということです．
+    わざわざ ``-O0`` を指定するのは ``make`` が既に ``-O`` オプションを指定してしまっているときに便利です．
+
+..
+   .. ghc-flag:: -O
+		 -O1
+
+       .. index::
+	  single: optimise; normally
+
+       Means: "Generate good-quality code without taking too long about
+       it." Thus, for example: ``ghc -c -O Main.lhs``
 
 .. ghc-flag:: -O
               -O1
 
     .. index::
-       single: optimise; normally
+       single: 最適化する; 通常の〜
 
-    Means: "Generate good-quality code without taking too long about
-    it." Thus, for example: ``ghc -c -O Main.lhs``
+    「高品質のコードをそれほど時間をかけないで生成する」という意味です．
+    ``ghc -c -O Main.lhs`` のように使います．
+
+..
+   .. ghc-flag:: -O2
+
+       .. index::
+	  single: optimise; aggressively
+
+       Means: "Apply every non-dangerous optimisation, even if it means
+       significantly longer compile times."
+
+       The avoided "dangerous" optimisations are those that can make
+       runtime or space *worse* if you're unlucky. They are normally turned
+       on or off individually.
 
 .. ghc-flag:: -O2
 
     .. index::
-       single: optimise; aggressively
+       single: 最適化する; アグレッシブに〜
 
-    Means: "Apply every non-dangerous optimisation, even if it means
-    significantly longer compile times."
+    「危険のない最適化をすべて適用する．コンパイルにかなりの時間を書けてもよい」という意味です．
 
-    The avoided "dangerous" optimisations are those that can make
-    runtime or space *worse* if you're unlucky. They are normally turned
-    on or off individually.
+    ここで回避しようとしている「危険な」最適化とは，運が悪ければ，実行時における時間・空間性能を *悪化させる* 可能性があるということです．
+    通常これらの最適化は個別に指定します．
+
+..
+   .. ghc-flag:: -Odph
+
+       .. index::
+	  single: optimise; DPH
+
+       Enables all ``-O2`` optimisation, sets
+       ``-fmax-simplifier-iterations=20`` and ``-fsimplifier-phases=3``.
+       Designed for use with :ref:`Data Parallel Haskell (DPH) <dph>`.
 
 .. ghc-flag:: -Odph
 
     .. index::
-       single: optimise; DPH
+       single: 最適化する; DPH〜
 
-    Enables all ``-O2`` optimisation, sets
-    ``-fmax-simplifier-iterations=20`` and ``-fsimplifier-phases=3``.
-    Designed for use with :ref:`Data Parallel Haskell (DPH) <dph>`.
+    すべての ``-O2`` の最適化を有効にした上で ``-fmax-simplifier-iterations=20`` と ``-fsimplifier-phases=3`` を設定します．
+    :ref:`Data Parallel Haskell (DPH) <dph>` を使うときように設計されました．
 
-We don't use a ``-O*`` flag for day-to-day work. We use ``-O`` to get
-respectable speed; e.g., when we want to measure something. When we want
-to go for broke, we tend to use ``-O2`` (and we go for lots of coffee
-breaks).
+..
+   We don't use a ``-O*`` flag for day-to-day work. We use ``-O`` to get
+   respectable speed; e.g., when we want to measure something. When we want
+   to go for broke, we tend to use ``-O2`` (and we go for lots of coffee
+   breaks).
 
-The easiest way to see what ``-O`` (etc.) “really mean” is to run with
-:ghc-flag:`-v`, then stand back in amazement.
+   The easiest way to see what ``-O`` (etc.) “really mean” is to run with
+   :ghc-flag:`-v`, then stand back in amazement.
 
-.. _options-f:
+日常の作業で ``-O*`` フラグを使うことはありません．
+それなりの速度が必要なときには ``-O`` を使います．
+たとえば，何かを計測したいときなどです．
+ちょっと休憩したいときには ``-O2`` を使い(たっぷりのコーヒーブレイクに行き)ます．
 
-``-f*``: platform-independent flags
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+``-O`` (など)の「実際の意味」を知りたければ :ghc-flag:`-v` を付ければいいでしょう．
+びっくりして，後ずさりすることになるでしょうね．
+
+..
+   .. _options-f:
+
+   ``-f*``: platform-independent flags
+   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+   .. index::
+      single: -f\* options (GHC)
+      single: -fno-\* options (GHC)
+
+   These flags turn on and off individual optimisations. Flags marked as
+   on by default are enabled by ``-O``, and as such you shouldn't
+   need to set any of them explicitly. A flag ``-fwombat`` can be negated
+   by saying ``-fno-wombat``.
+
+``-f*``: プラットフォーム非依存のフラグ
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 .. index::
-   single: -f\* options (GHC)
-   single: -fno-\* options (GHC)
+   single: -f\* オプション (GHC)
+   single: -fno-\* オプション (GHC)
 
-These flags turn on and off individual optimisations. Flags marked as
-on by default are enabled by ``-O``, and as such you shouldn't
-need to set any of them explicitly. A flag ``-fwombat`` can be negated
-by saying ``-fno-wombat``.
+これらのフラグは個々の最適化を有効/無効にするのに使います．
+``-O`` を使えば，「デフォルトで有効」となっているフラグをすべて有効にできます．
+したがって，明示的に指定する必要はないはずです．
+``-fwombat`` というフラグの否定は ``-fno-wombat`` です．
+
+..
+   .. ghc-flag:: -fcase-merge
+
+       :default: on
+
+       Merge immediately-nested case expressions that scrutinise the same variable.
+       For example, ::
+
+	     case x of
+		Red -> e1
+		_   -> case x of
+			 Blue -> e2
+			 Green -> e3
+
+       Is transformed to, ::
+
+	     case x of
+		Red -> e1
+		Blue -> e2
+		Green -> e2
 
 .. ghc-flag:: -fcase-merge
 
-    :default: on
+    :default: 有効
 
-    Merge immediately-nested case expressions that scrutinise the same variable.
-    For example, ::
+    直接入れ子になった case 式の検査対象が同じ変数である場合，1つにまとめます．
+    たとえば， ::
 
           case x of
              Red -> e1
-             _   -> case x of
+             _   -> case x of 
                       Blue -> e2
                       Green -> e3
 
-    Is transformed to, ::
+    は以下のよう変換する． ::
 
           case x of
              Red -> e1
@@ -135,17 +260,17 @@ by saying ``-fno-wombat``.
     Allow constant folding in case expressions that scrutinise some primops:
     For example, ::
 
-          case x `minusWord#` 10## of
-             10## -> e1
-             20## -> e2
-             v    -> e3
+	  case x `minusWord#` 10## of
+	     10## -> e1
+	     20## -> e2
+	     v    -> e3
 
     Is transformed to, ::
 
-          case x of
-             20## -> e1
-             30## -> e2
-             _    -> let v = x `minusWord#` 10## in e3
+	  case x of
+	     20## -> e1
+	     30## -> e2
+	     _    -> let v = x `minusWord#` 10## in e3
 
 .. ghc-flag:: -fcall-arity
 
