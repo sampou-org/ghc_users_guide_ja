@@ -246,263 +246,515 @@ GHCが生成するコードの質に影響を与えるオプションは *大量
                       Blue -> e2
                       Green -> e3
 
-    は以下のよう変換する． ::
+    は以下のよう変換します． ::
 
           case x of
              Red -> e1
              Blue -> e2
              Green -> e2
 
+..
+   .. ghc-flag:: -fcase-folding
+
+       :default: on
+
+       Allow constant folding in case expressions that scrutinise some primops:
+       For example, ::
+
+	     case x `minusWord#` 10## of
+		10## -> e1
+		20## -> e2
+		v    -> e3
+
+       Is transformed to, ::
+
+	     case x of
+		20## -> e1
+		30## -> e2
+		_    -> let v = x `minusWord#` 10## in e3
+
 .. ghc-flag:: -fcase-folding
 
-    :default: on
+    :default: 有効
 
-    Allow constant folding in case expressions that scrutinise some primops:
-    For example, ::
+    あるプリミティブ演算を確認する ``case`` 式で定数畳み込みを可能にします．
+    たとえば， ::
 
 	  case x `minusWord#` 10## of
 	     10## -> e1
 	     20## -> e2
 	     v    -> e3
 
-    Is transformed to, ::
+    は以下のように変換します． ::
 
 	  case x of
 	     20## -> e1
 	     30## -> e2
 	     _    -> let v = x `minusWord#` 10## in e3
 
+..
+   .. ghc-flag:: -fcall-arity
+
+       :default: on
+
+       Enable call-arity analysis.
+
 .. ghc-flag:: -fcall-arity
 
-    :default: on
+    :default: 有効
 
-    Enable call-arity analysis.
+    コール・アリティ解析を有効にします．
+
+..
+   .. ghc-flag:: -fcmm-elim-common-blocks
+
+       :default: on
+
+       Enables the common block elimination optimisation
+       in the code generator. This optimisation attempts to find identical
+       Cmm blocks and eliminate the duplicates.
 
 .. ghc-flag:: -fcmm-elim-common-blocks
 
-    :default: on
+    :default: 有効
 
-    Enables the common block elimination optimisation
-    in the code generator. This optimisation attempts to find identical
-    Cmm blocks and eliminate the duplicates.
+    コード生成器における共通ブロック除去を有効にします．
+    この最適化の目的は，同一の Cmm ブロックを探し，それを除去します．
+
+..
+   .. ghc-flag:: -fcmm-sink
+
+       :default: on
+
+       Enables the sinking pass in the code generator.
+       This optimisation attempts to find identical Cmm blocks and
+       eliminate the duplicates attempts to move variable bindings closer
+       to their usage sites. It also inlines simple expressions like
+       literals or registers.
 
 .. ghc-flag:: -fcmm-sink
 
-    :default: on
+    :default: 有効
 
-    Enables the sinking pass in the code generator.
-    This optimisation attempts to find identical Cmm blocks and
-    eliminate the duplicates attempts to move variable bindings closer
-    to their usage sites. It also inlines simple expressions like
-    literals or registers.
+    コード生成器におけるシンキング(コード位置を後ろにずらすこと)のパスを有効にします．
+    この最適化の目的は Cmm の同一のブロックを探すことです．
+    その重複を除去すれば変数束縛を使う場所に近づけられます．
+    このパスではリテラルやレジスタなどの単純な式を埋め込みます．
+
+..
+   .. ghc-flag:: -fcpr-off
+
+       Switch off CPR analysis in the demand analyser.
 
 .. ghc-flag:: -fcpr-off
 
-    Switch off CPR analysis in the demand analyser.
+    デマンド解析器における CPR 解析を無効にする．
+
+..
+   .. ghc-flag:: -fcse
+
+       :default: on
+
+       Enables the common-sub-expression elimination
+       optimisation. Switching this off can be useful if you have some
+       ``unsafePerformIO`` expressions that you don't want commoned-up.
 
 .. ghc-flag:: -fcse
 
-    :default: on
+    :default: 有効
 
-    Enables the common-sub-expression elimination
-    optimisation. Switching this off can be useful if you have some
-    ``unsafePerformIO`` expressions that you don't want commoned-up.
+    共通部分式除去の最適化を有効にします．
+    共通式としてまとめたくないような ``unsafePerformIO`` 式を使っている場合にはこれを無効にするのが便利です．
+
+..
+   .. ghc-flag:: -fstg-cse
+
+       :default: on
+
+       Enables the common-sub-expression elimination optimisation on the STG
+       intermediate language, where it is able to common up some subexpressions
+       that differ in their types, but not their represetation.
 
 .. ghc-flag:: -fstg-cse
 
-    :default: on
+    :default: 有効
 
-    Enables the common-sub-expression elimination optimisation on the STG
-    intermediate language, where it is able to common up some subexpressions
-    that differ in their types, but not their represetation.
+    STG 中間言語での共通部分式除去の最適化を有効にします．
+    この段階で表現は同じで型の異なる部分式をまとめられます．
+
+..
+   .. ghc-flag:: -fdicts-cheap
+
+       :default: off
+
+       A very experimental flag that makes dictionary-valued expressions
+       seem cheap to the optimiser.
 
 .. ghc-flag:: -fdicts-cheap
 
-    :default: off
+    :default: 無効
 
-    A very experimental flag that makes dictionary-valued expressions
-    seem cheap to the optimiser.
+    かなり実験的なフラグで，辞書を値にもつような式のコストを最適化器が安く見積るようにします．
+
+..
+   .. ghc-flag:: -fdicts-strict
+
+       :default: off
+
+       Make dictionaries strict.
 
 .. ghc-flag:: -fdicts-strict
 
-    :default: off
+    :default: 無効
 
-    Make dictionaries strict.
+    辞書を正格にします．
+
+..
+   .. ghc-flag:: -fdmd-tx-dict-sel
+
+       :default: on
+
+       Use a special demand transformer for dictionary selectors.
 
 .. ghc-flag:: -fdmd-tx-dict-sel
 
-    :default: on
+    :default: 有効
 
-    Use a special demand transformer for dictionary selectors.
+    辞書選択子ように特別な要求変換子を使います．
+
+..
+   .. ghc-flag:: -fdo-eta-reduction
+
+       :default: on
+
+       Eta-reduce lambda expressions, if doing so gets rid of a whole group of
+       lambdas.
 
 .. ghc-flag:: -fdo-eta-reduction
 
-    :default: on
+    :default: 有効
 
-    Eta-reduce lambda expressions, if doing so gets rid of a whole group of
-    lambdas.
+    λ抽象式をη簡約することで，複数のλ抽象式をまとめて除去できるなら，そうします．
+
+..
+   .. ghc-flag:: -fdo-lambda-eta-expansion
+
+       :default: on
+
+       Eta-expand let-bindings to increase their arity.
 
 .. ghc-flag:: -fdo-lambda-eta-expansion
 
-    :default: on
+    :default: 有効
 
-    Eta-expand let-bindings to increase their arity.
+    アリティを増やすために let 束縛をη展開します．
+
+..
+   .. ghc-flag:: -feager-blackholing
+
+       :default: off
+
+       Usually GHC black-holes a thunk only when it switches threads. This
+       flag makes it do so as soon as the thunk is entered. See `Haskell on
+       a shared-memory
+       multiprocessor <http://community.haskell.org/~simonmar/papers/multiproc.pdf>`__.
 
 .. ghc-flag:: -feager-blackholing
 
-    :default: off
+    :default: 無効
 
-    Usually GHC black-holes a thunk only when it switches threads. This
-    flag makes it do so as soon as the thunk is entered. See `Haskell on
-    a shared-memory
-    multiprocessor <http://community.haskell.org/~simonmar/papers/multiproc.pdf>`__.
+    通常 GHC はスレッドを切り替える場合にのみサンクをブラックホール化します．
+    このフラグは，サンクに入ってすぐにこれを行うようにします．
+    以下を参照してください． `Haskell on a shared-memory
+    multiprocessor <http://community.haskell.org/~simonmar/papers/multiproc.pdf>`__
+
+..
+   .. ghc-flag:: -fexcess-precision
+
+       :default: off
+
+       When this option is given, intermediate floating point values can
+       have a *greater* precision/range than the final type. Generally this
+       is a good thing, but some programs may rely on the exact
+       precision/range of ``Float``/``Double`` values and should not use
+       this option for their compilation.
+
+       Note that the 32-bit x86 native code generator only supports
+       excess-precision mode, so neither ``-fexcess-precision`` nor
+       ``-fno-excess-precision`` has any effect. This is a known bug, see
+       :ref:`bugs-ghc`.
 
 .. ghc-flag:: -fexcess-precision
 
-    :default: off
+    :default: 無効
 
-    When this option is given, intermediate floating point values can
-    have a *greater* precision/range than the final type. Generally this
-    is a good thing, but some programs may rely on the exact
-    precision/range of ``Float``/``Double`` values and should not use
-    this option for their compilation.
+    このオプションを指定すると，中間の浮動小数点数が最終的な型よりも *大きな* 精度/範囲をもつことを許すことになります．
+    このことは一般的には良いことです．
+    しかし ``Float``/``Double`` 値がその精度/範囲に正確におさまっていることに依存するプログラムが存在することもあり，
+    そのようなプログラムにはこのオプションを指定してコンパイルしてはいけません．
 
-    Note that the 32-bit x86 native code generator only supports
-    excess-precision mode, so neither ``-fexcess-precision`` nor
-    ``-fno-excess-precision`` has any effect. This is a known bug, see
-    :ref:`bugs-ghc`.
+    32-bit x86 のネイティブコード生成器は excess-precision モードしかサポートしておらず ``-fexcess-precision`` も
+    ``-fno-excess-precision`` も効果を持ちません．これは既知のバグです． :ref:`bugs-ghc` を参照してください．
+
+..
+   .. ghc-flag:: -fexpose-all-unfoldings
+
+       :default: off
+
+       An experimental flag to expose all unfoldings, even for very large
+       or recursive functions. This allows for all functions to be inlined
+       while usually GHC would avoid inlining larger functions.
 
 .. ghc-flag:: -fexpose-all-unfoldings
 
-    :default: off
+    :default: 無効
 
-    An experimental flag to expose all unfoldings, even for very large
-    or recursive functions. This allows for all functions to be inlined
-    while usually GHC would avoid inlining larger functions.
+    実験的なフラグです．非常に大きな関数や再帰関数も含め，すべての展開を露出します．
+    通常GHCは大きい関数をインライン化することを避けますが，このフラグによって，全ての関数がインライン化可能になります．
+
+..
+   .. ghc-flag:: -ffloat-in
+
+       :default: on
+
+       Float let-bindings inwards, nearer their binding
+       site. See `Let-floating: moving bindings to give faster programs
+       (ICFP'96) <http://research.microsoft.com/en-us/um/people/simonpj/papers/float.ps.gz>`__.
+
+       This optimisation moves let bindings closer to their use site. The
+       benefit here is that this may avoid unnecessary allocation if the
+       branch the let is now on is never executed. It also enables other
+       optimisation passes to work more effectively as they have more
+       information locally.
+
+       This optimisation isn't always beneficial though (so GHC applies
+       some heuristics to decide when to apply it). The details get
+       complicated but a simple example is that it is often beneficial to
+       move let bindings outwards so that multiple let bindings can be
+       grouped into a larger single let binding, effectively batching their
+       allocation and helping the garbage collector and allocator.
 
 .. ghc-flag:: -ffloat-in
 
-    :default: on
+    :default: 有効
 
-    Float let-bindings inwards, nearer their binding
-    site. See `Let-floating: moving bindings to give faster programs
-    (ICFP'96) <http://research.microsoft.com/en-us/um/people/simonpj/papers/float.ps.gz>`__.
+    let 束縛を内側，利用位置に近づく方向に移動します．
+    `Let-floating: moving bindings to give faster programs
+    (ICFP'96) <http://research.microsoft.com/en-us/um/people/simonpj/papers/float.ps.gz>`__
+    を参照してください．
+    
+    この最適化は let 束縛を仕様の位置に近づけます．
+    こうすることの利点は，let の移動先の選択肢が実行されない場合，不要なメモリ領域確保を防ぐことができる点です．
+    また，局所的により多くの情報が得られることになるので，他の最適化パスがより効率よく機能できることになります．
 
-    This optimisation moves let bindings closer to their use site. The
-    benefit here is that this may avoid unnecessary allocation if the
-    branch the let is now on is never executed. It also enables other
-    optimisation passes to work more effectively as they have more
-    information locally.
+    この最適化は常によい方向の効果があるというわけではありません．
+    そういうわけで，GHC はこれを適用するかどうかをある種のヒューリスティクスを使って決定しています．
+    詳細は複雑ですが，この最適化がよい効果をもたらさない単純な例としては，let 束縛を外側に移動することで，
+    複数の束縛を1つの大きな束縛にまとめ，メモリ領域の確保を一度に行うことで，ガーベッジコレクタとアロケータが楽になるという場合です．
 
-    This optimisation isn't always beneficial though (so GHC applies
-    some heuristics to decide when to apply it). The details get
-    complicated but a simple example is that it is often beneficial to
-    move let bindings outwards so that multiple let bindings can be
-    grouped into a larger single let binding, effectively batching their
-    allocation and helping the garbage collector and allocator.
+..
+   .. ghc-flag:: -ffull-laziness
+
+       :default: on
+
+       Run the full laziness optimisation (also known as
+       let-floating), which floats let-bindings outside enclosing lambdas,
+       in the hope they will be thereby be computed less often. See
+       `Let-floating: moving bindings to give faster programs
+       (ICFP'96) <http://research.microsoft.com/en-us/um/people/simonpj/papers/float.ps.gz>`__.
+       Full laziness increases sharing, which can lead to increased memory
+       residency.
+
+       .. note::
+	  GHC doesn't implement complete full-laziness. When
+	  optimisation in on, and ``-fno-full-laziness`` is not given, some
+	  transformations that increase sharing are performed, such as
+	  extracting repeated computations from a loop. These are the same
+	  transformations that a fully lazy implementation would do, the
+	  difference is that GHC doesn't consistently apply full-laziness, so
+	  don't rely on it.
 
 .. ghc-flag:: -ffull-laziness
 
-    :default: on
+    :default: 有効
 
-    Run the full laziness optimisation (also known as
-    let-floating), which floats let-bindings outside enclosing lambdas,
-    in the hope they will be thereby be computed less often. See
+    完全遅延性最適化(let-floating ともいいます)を走らせます．
+    これは let 束縛を計算が少くなるようにと願って，それを囲むλ抽象の外へ移動させることです．
+    これについては
     `Let-floating: moving bindings to give faster programs
-    (ICFP'96) <http://research.microsoft.com/en-us/um/people/simonpj/papers/float.ps.gz>`__.
-    Full laziness increases sharing, which can lead to increased memory
-    residency.
+    (ICFP'96) <http://research.microsoft.com/en-us/um/people/simonpj/papers/float.ps.gz>`__
+    を参照してください．共有を促進する完全遅延性はメモリの使用量を増加させることになります．
 
     .. note::
-       GHC doesn't implement complete full-laziness. When
-       optimisation in on, and ``-fno-full-laziness`` is not given, some
-       transformations that increase sharing are performed, such as
-       extracting repeated computations from a loop. These are the same
-       transformations that a fully lazy implementation would do, the
-       difference is that GHC doesn't consistently apply full-laziness, so
-       don't rely on it.
+       GHC は完全遅延性を完全には実装していません．
+       最適化が有効で ``-fno-full-laziness`` が指定されていなければ，
+       共有を促進するある種の変換が実施されます．
+       たとえば，ループの中から繰り返し計算される部分を抽出するといった変換です．
+       この変換は完全遅延の実装で行われるのと同じものですが，GHC は常に完全遅延性を適用するとは限らないので，これに頼ってはいけません．
+
+..
+   .. ghc-flag:: -ffun-to-thunk
+
+       :default: off
+
+       Worker-wrapper removes unused arguments, but usually we do not
+       remove them all, lest it turn a function closure into a thunk,
+       thereby perhaps creating a space leak and/or disrupting inlining.
+       This flag allows worker/wrapper to remove *all* value lambdas.
 
 .. ghc-flag:: -ffun-to-thunk
 
-    :default: off
+    :default: 無効
 
-    Worker-wrapper removes unused arguments, but usually we do not
-    remove them all, lest it turn a function closure into a thunk,
-    thereby perhaps creating a space leak and/or disrupting inlining.
-    This flag allows worker/wrapper to remove *all* value lambdas.
+    worker-wrapper は使われていない引数を削除しますが，通常はクロージャをサンクにしてしまわないように，全部を削除することはしません．
+    そんなことをしてしまうと，スペースリークしたり，インライン化の妨げになるからです．
+    このフラグは worker/wrapper が *すべての* λ抽象値を削除できるようにします．
+
+..
+   .. ghc-flag:: -fignore-asserts
+
+       :default: on
+
+       Causes GHC to ignore uses of the function ``Exception.assert`` in source
+       code (in other words, rewriting ``Exception.assert p e`` to ``e`` (see
+       :ref:`assertions`).
 
 .. ghc-flag:: -fignore-asserts
 
-    :default: on
+    :default: 有効
 
-    Causes GHC to ignore uses of the function ``Exception.assert`` in source
-    code (in other words, rewriting ``Exception.assert p e`` to ``e`` (see
-    :ref:`assertions`).
+    ソースコード中で ``Exception.assert`` を使っていても，GHC はこれを無視し(すなわち ``Exception.assert p e`` を ``e`` に書き換え)ます(:ref:`assertions` を参照してください)．
+
+..
+   .. ghc-flag:: -fignore-interface-pragmas
+
+       :default: off
+
+       Tells GHC to ignore all inessential information when reading
+       interface files. That is, even if :file:`M.hi` contains unfolding or
+       strictness information for a function, GHC will ignore that
+       information.
 
 .. ghc-flag:: -fignore-interface-pragmas
 
-    :default: off
+    :default: 無効
 
-    Tells GHC to ignore all inessential information when reading
-    interface files. That is, even if :file:`M.hi` contains unfolding or
-    strictness information for a function, GHC will ignore that
-    information.
+    インターフェイスファイルを読み込むときに不必要な情報はすべて無視するよう GHC に指示します．
+    すなわち :file:`M.hi` にある関数の展開情報や正格性情報があっても，GHC はこれらの情報を無視します．
+
+..
+   .. ghc-flag:: -flate-dmd-anal
+
+       :default: off
+
+       Run demand analysis again, at the end of the simplification
+       pipeline. We found some opportunities for discovering strictness
+       that were not visible earlier; and optimisations like
+       :ghc-flag:`-fspec-constr` can create functions with unused arguments which
+       are eliminated by late demand analysis. Improvements are modest, but
+       so is the cost. See notes on the :ghc-wiki:`Trac wiki page <LateDmd>`.
 
 .. ghc-flag:: -flate-dmd-anal
 
-    :default: off
+    :default: 無効
 
-    Run demand analysis again, at the end of the simplification
-    pipeline. We found some opportunities for discovering strictness
-    that were not visible earlier; and optimisations like
-    :ghc-flag:`-fspec-constr` can create functions with unused arguments which
-    are eliminated by late demand analysis. Improvements are modest, but
-    so is the cost. See notes on the :ghc-wiki:`Trac wiki page <LateDmd>`.
+    単純化パイプラインの最後に再度，要求解析(demand analysys)を走らせます．
+    前段階では見えなかった正格性を発見する場合があり
+    :ghc-flag:`-fspec-constr` などの最適化によって作られた関数の未使用引数をこの後段階で取り除けることが判っています．
+    改善はささやかなものですが，コストもわずかです．
+    :ghc-wiki:`Trac wiki page <LateDmd>` にある注も参照してください．
+
+..
+   .. ghc-flag:: -fliberate-case
+
+       :default: off but enabled with :ghc-flag:`-O2`.
+
+       Turn on the liberate-case transformation. This unrolls recursive function
+       once in its own RHS, to avoid repeated case analysis of free variables. It's
+       a bit like the call-pattern specialiser (:ghc-flag:`-fspec-constr`) but for
+       free variables rather than arguments.
 
 .. ghc-flag:: -fliberate-case
 
-    :default: off but enabled with :ghc-flag:`-O2`.
+    :default: 無効だが， :ghc-flag:`-O2` で有効
 
-    Turn on the liberate-case transformation. This unrolls recursive function
-    once in its own RHS, to avoid repeated case analysis of free variables. It's
-    a bit like the call-pattern specialiser (:ghc-flag:`-fspec-constr`) but for
-    free variables rather than arguments.
+    liberate-case変換を有効にします．
+    これは再帰関数をその右辺で1回展開して，自由変数がくりかえしcaseで検査されるのを回避します．
+    これは，呼び出しパターンの特殊化(:ghc-flag:`-fspec-constr`)に似ていますが
+    :ghc-flag:`-fliberate-case` は引数ではなく自由変数を対象にしています．
+
+..
+   .. ghc-flag:: -fliberate-case-threshold=⟨n⟩
+
+       :default: 2000
+
+       Set the size threshold for the liberate-case transformation.
 
 .. ghc-flag:: -fliberate-case-threshold=⟨n⟩
 
     :default: 2000
 
-    Set the size threshold for the liberate-case transformation.
+    liberate-case変換サイズの閾値を設定します．
+
+..
+   .. ghc-flag:: -floopification
+
+       :default: on
+
+       When this optimisation is enabled the code generator will turn all
+       self-recursive saturated tail calls into local jumps rather than
+       function calls.
 
 .. ghc-flag:: -floopification
 
-    :default: on
+    :default: 有効
 
-    When this optimisation is enabled the code generator will turn all
-    self-recursive saturated tail calls into local jumps rather than
-    function calls.
+    この最適化を有効にするとコードジェネレータはすべての自己再帰的飽和末尾呼び出しを関数呼び出しではなくローカルジャンプに変換します．
+
+..
+   .. ghc-flag:: -fmax-inline-alloc-size=⟨n⟩
+
+       :default: 128
+
+       Set the maximum size of inline array allocations to n bytes.
+       GHC will allocate non-pinned arrays of statically known size in the current
+       nursery block if they're no bigger than n bytes, ignoring GC overheap. This
+       value should be quite a bit smaller than the block size (typically: 4096).
 
 .. ghc-flag:: -fmax-inline-alloc-size=⟨n⟩
 
     :default: 128
 
-    Set the maximum size of inline array allocations to n bytes.
-    GHC will allocate non-pinned arrays of statically known size in the current
-    nursery block if they're no bigger than n bytes, ignoring GC overheap. This
-    value should be quite a bit smaller than the block size (typically: 4096).
+    インライン配列の割り当ての最大サイズをnバイトに設定します．
+    GHCは現在の苗床ブロックに静的に判明しているサイズの非固定配列をnバイトで割り当てます．
+    GCの過熱を無視しての割り当てになります．この値はブロックサイズ（通常は4096）よりもかなり小さくする必要があります．
+
+..
+   .. ghc-flag:: -fmax-inline-memcpy-insns=⟨n⟩
+
+       :default: 32
+
+       Inline ``memcpy`` calls if they would generate no more than ⟨n⟩ pseudo-instructions.
 
 .. ghc-flag:: -fmax-inline-memcpy-insns=⟨n⟩
 
     :default: 32
 
-    Inline ``memcpy`` calls if they would generate no more than ⟨n⟩ pseudo-instructions.
+    展開後の疑似命令が⟨n⟩バイトを超えない場合に ``memcpy`` の呼び出しをインライン展開します．
+
+..
+   .. ghc-flag:: -fmax-inline-memset-insns=⟨n⟩
+
+       :default: 32
+
+       Inline ``memset`` calls if they would generate no more than n pseudo
+       instructions.
 
 .. ghc-flag:: -fmax-inline-memset-insns=⟨n⟩
 
     :default: 32
 
-    Inline ``memset`` calls if they would generate no more than n pseudo
-    instructions.
+    展開後の疑似命令が⟨n⟩バイトを超えない場合に ``memset`` の呼び出しをインライン展開します．
 
 .. ghc-flag:: -fmax-relevant-binds=⟨n⟩
               -fno-max-relevant-bindings
