@@ -883,16 +883,14 @@ GHCが生成するコードの質に影響を与えるオプションは *大量
 
 .. ghc-flag:: -fomit-interface-pragmas
 
-    :default: off
+    :default: 無効
 
-    Tells GHC to omit all inessential information from the interface
-    file generated for the module being compiled (say M). This means
-    that a module importing M will see only the *types* of the functions
-    that M exports, but not their unfoldings, strictness info, etc.
-    Hence, for example, no function exported by M will be inlined into
-    an importing module. The benefit is that modules that import M will
-    need to be recompiled less often (only when M's exports change their
-    type, not when they change their implementation).
+    GHCに，コンパイルしようとしているモジュール（例えば M）用に生成するインタフェースファイルから
+    すべての本質的ではないな情報を省略するよう指示します．
+    すなわち，M をインポートするモジュールには，M がエクスポートする関数の型だけが見えていますが，
+    展開や正格性情報などは見えません．したがって，Mがエクスポートする関数は，インポートモジュールでインライン展は開されません．
+    そのメリットは，Mをインポートするモジュールは再コンパイルしなければならない頻度が少なくなるということです．
+    (M のエクスポートで型が変更されたときのみで，実装ののみの変更時は再コンパイルが不要です．)
 
 .. ghc-flag:: -fomit-yields
 
