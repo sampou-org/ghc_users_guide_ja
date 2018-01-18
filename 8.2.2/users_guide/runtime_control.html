@@ -3,11 +3,11 @@
   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
 
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="ja">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>7.7. Running a compiled program &mdash; Glasgow Haskell Compiler 8.2.2 User&#39;s Guide</title>
+    <title>7.7. Running a compiled program &#8212; Glasgow Haskell Compiler 8.2.2 User&#39;s Guide</title>
     
     <link rel="stylesheet" href="_static/ghc-theme.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -18,19 +18,20 @@
         VERSION:     '8.2.2',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
-        HAS_SOURCE:  true
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
       };
     </script>
     <script type="text/javascript" src="_static/jquery.js"></script>
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
     <script type="text/javascript" src="_static/translations.js"></script>
-    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="search" type="application/opensearchdescription+xml"
           title="Glasgow Haskell Compiler 8.2.2 User&#39;s Guide 内を検索"
           href="_static/opensearch.xml"/>
-    <link rel="top" title="Glasgow Haskell Compiler 8.2.2 User&#39;s Guide" href="index.html" />
-    <link rel="up" title="7. Using GHC" href="usage.html" />
+    <link rel="index" title="索引" href="genindex.html" />
+    <link rel="search" title="検索" href="search.html" />
     <link rel="next" title="7.8. Filenames and separate compilation" href="separate_compilation.html" />
     <link rel="prev" title="7.6. Flag reference" href="flags.html" /> 
   </head>
@@ -51,8 +52,8 @@
         <li class="right" >
           <a href="flags.html" title="7.6. Flag reference"
              accesskey="P">前へ</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">GHC 8.2.2 User&#39;s Guide</a> &raquo;</li>
-          <li class="nav-item nav-item-1"><a href="usage.html" accesskey="U">7. Using GHC</a> &raquo;</li> 
+        <li class="nav-item nav-item-0"><a href="index.html">GHC 8.2.2 User&#39;s Guide</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="usage.html" accesskey="U">7. GHCを使う</a> &#187;</li> 
       </ul>
     </div>
 
@@ -93,21 +94,18 @@
   <div role="note" aria-label="source link">
     <h3>このページ</h3>
     <ul class="this-page-menu">
-      <li><a href="_sources/runtime_control.txt"
+      <li><a href="_sources/runtime_control.rst.txt"
             rel="nofollow">ソースコードを表示</a></li>
     </ul>
    </div>
 <div id="searchbox" style="display: none" role="search">
   <h3>クイック検索</h3>
     <form class="search" action="search.html" method="get">
-      <input type="text" name="q" />
-      <input type="submit" value="検索" />
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="検索" /></div>
       <input type="hidden" name="check_keywords" value="yes" />
       <input type="hidden" name="area" value="default" />
     </form>
-    <p class="searchtip" style="font-size: 90%">
-    モジュール、クラス、または関数名を入力してください
-    </p>
 </div>
 <script type="text/javascript">$('#searchbox').show(0);</script>
         </div>
@@ -127,28 +125,28 @@ storage management, thread scheduling, profiling, and so on.</p>
 can change the context-switch interval, the default size of the heap,
 and enable heap profiling. These options can be passed to the runtime
 system in a variety of different ways; the next section
-(<a class="reference internal" href="#setting-rts-options"><span>Setting RTS options</span></a>) describes the various methods, and the
+(<a class="reference internal" href="#setting-rts-options"><span class="std std-ref">Setting RTS options</span></a>) describes the various methods, and the
 following sections describe the RTS options themselves.</p>
 <div class="section" id="setting-rts-options">
 <span id="id1"></span><h2>7.7.1. Setting RTS options<a class="headerlink" href="#setting-rts-options" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <p id="index-1">There are four ways to set RTS options:</p>
 <ul class="simple">
 <li>on the command line between <code class="docutils literal"><span class="pre">+RTS</span> <span class="pre">...</span> <span class="pre">-RTS</span></code>, when running the
-program (<a class="reference internal" href="#rts-opts-cmdline"><span>Setting RTS options on the command line</span></a>)</li>
+program (<a class="reference internal" href="#rts-opts-cmdline"><span class="std std-ref">Setting RTS options on the command line</span></a>)</li>
 <li>at compile-time, using <a class="reference internal" href="phases.html#ghc-flag--with-rtsopts=⟨opts⟩"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-with-rtsopts=⟨opts⟩</span></code></a>
-(<a class="reference internal" href="#rts-opts-compile-time"><span>Setting RTS options at compile time</span></a>)</li>
+(<a class="reference internal" href="#rts-opts-compile-time"><span class="std std-ref">Setting RTS options at compile time</span></a>)</li>
 <li>with the environment variable <span class="target" id="index-2"></span><a class="reference internal" href="#envvar-GHCRTS"><code class="xref std std-envvar docutils literal"><span class="pre">GHCRTS</span></code></a>
-(<a class="reference internal" href="#rts-options-environment"><span>Setting RTS options with the GHCRTS environment variable</span></a>)</li>
-<li>by overriding &#8220;hooks&#8221; in the runtime system (<a class="reference internal" href="#rts-hooks"><span>&#8220;Hooks&#8221; to change RTS behaviour</span></a>)</li>
+(<a class="reference internal" href="#rts-options-environment"><span class="std std-ref">Setting RTS options with the GHCRTS environment variable</span></a>)</li>
+<li>by overriding &#8220;hooks&#8221; in the runtime system (<a class="reference internal" href="#rts-hooks"><span class="std std-ref">&#8220;Hooks&#8221; to change RTS behaviour</span></a>)</li>
 </ul>
 <div class="section" id="setting-rts-options-on-the-command-line">
 <span id="rts-opts-cmdline"></span><h3>7.7.1.1. Setting RTS options on the command line<a class="headerlink" href="#setting-rts-options-on-the-command-line" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <p id="index-3">If you set the <a class="reference internal" href="phases.html#ghc-flag--rtsopts[=⟨none|some|all⟩]"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-rtsopts[=⟨none|some|all⟩]</span></code></a> flag appropriately when
-linking (see <a class="reference internal" href="phases.html#options-linker"><span>Options affecting linking</span></a>), you can give RTS options on the command
+linking (see <a class="reference internal" href="phases.html#options-linker"><span class="std std-ref">Options affecting linking</span></a>), you can give RTS options on the command
 line when running your program.</p>
 <p>When your Haskell program starts up, the RTS extracts command-line
 arguments bracketed between <code class="docutils literal"><span class="pre">+RTS</span></code> and <code class="docutils literal"><span class="pre">-RTS</span></code> as its own. For example:</p>
-<div class="highlight-none"><div class="highlight"><pre>$ ghc prog.hs -rtsopts
+<div class="highlight-none"><div class="highlight"><pre><span></span>$ ghc prog.hs -rtsopts
 [1 of 1] Compiling Main             ( prog.hs, prog.o )
 Linking prog ...
 $ ./prog -f +RTS -H32m -S -RTS -h foo bar
@@ -159,7 +157,7 @@ arguments <code class="docutils literal"><span class="pre">-f</span> <span class
 calls <code class="docutils literal"><span class="pre">System.Environment.getArgs</span></code>.</p>
 <p>No <code class="docutils literal"><span class="pre">-RTS</span></code> option is required if the runtime-system options extend to
 the end of the command line, as in this example:</p>
-<div class="highlight-none"><div class="highlight"><pre>% hls -ltr /usr/etc +RTS -A5m
+<div class="highlight-none"><div class="highlight"><pre><span></span>% hls -ltr /usr/etc +RTS -A5m
 </pre></div>
 </div>
 <p>If you absolutely positively want all the rest of the options in a
@@ -183,7 +181,7 @@ the maximum heap size for a compilation to 128M, you would add
 <div class="section" id="setting-rts-options-at-compile-time">
 <span id="rts-opts-compile-time"></span><h3>7.7.1.2. Setting RTS options at compile time<a class="headerlink" href="#setting-rts-options-at-compile-time" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <p>GHC lets you change the default RTS options for a program at compile
-time, using the <code class="docutils literal"><span class="pre">-with-rtsopts</span></code> flag (<a class="reference internal" href="phases.html#options-linker"><span>Options affecting linking</span></a>). A common
+time, using the <code class="docutils literal"><span class="pre">-with-rtsopts</span></code> flag (<a class="reference internal" href="phases.html#options-linker"><span class="std std-ref">Options affecting linking</span></a>). A common
 use for this is to give your program a default heap and/or stack size
 that is greater than the default. For example, to set <code class="docutils literal"><span class="pre">-H128m</span> <span class="pre">-K64m</span></code>,
 link with <code class="docutils literal"><span class="pre">-with-rtsopts=&quot;-H128m</span> <span class="pre">-K64m&quot;</span></code>.</p>
@@ -197,7 +195,7 @@ link with <code class="docutils literal"><span class="pre">-with-rtsopts=&quot;-
 linking, RTS options are also taken from the environment variable
 <span class="target" id="index-5"></span><a class="reference internal" href="#envvar-GHCRTS"><code class="xref std std-envvar docutils literal"><span class="pre">GHCRTS</span></code></a>. For example, to set the maximum heap size to 2G
 for all GHC-compiled programs (using an <code class="docutils literal"><span class="pre">sh</span></code>-like shell):</p>
-<div class="highlight-sh"><div class="highlight"><pre><span class="nv">GHCRTS</span><span class="o">=</span><span class="s1">&#39;-M2G&#39;</span>
+<div class="highlight-sh"><div class="highlight"><pre><span></span><span class="nv">GHCRTS</span><span class="o">=</span><span class="s1">&#39;-M2G&#39;</span>
 <span class="nb">export</span> GHCRTS
 </pre></div>
 </div>
@@ -656,7 +654,7 @@ programs that create large amounts of long-lived data.</p>
 </tbody>
 </table>
 <p id="index-19">In the threaded and SMP versions of the RTS (see
-<a class="reference internal" href="phases.html#ghc-flag--threaded"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-threaded</span></code></a>, <a class="reference internal" href="phases.html#options-linker"><span>Options affecting linking</span></a>), a major GC is automatically
+<a class="reference internal" href="phases.html#ghc-flag--threaded"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-threaded</span></code></a>, <a class="reference internal" href="phases.html#options-linker"><span class="std std-ref">Options affecting linking</span></a>), a major GC is automatically
 performed if the runtime has been idle (no Haskell computation has
 been running) for a period of time. The amount of idle time which
 must pass before a GC is performed is set by the <code class="docutils literal"><span class="pre">-I</span> <span class="pre">⟨seconds⟩</span></code>
@@ -900,7 +898,7 @@ output is sent to <code class="docutils literal"><span class="pre">stderr</span>
 using <a class="reference external" href="../libraries/base-4.10.1.0/GHC-Stats.html">GHC.Stats</a>.</p>
 <p>If you use the <code class="docutils literal"><span class="pre">-t</span></code> flag then, when your program finishes, you
 will see something like this:</p>
-<div class="highlight-none"><div class="highlight"><pre>&lt;&lt;ghc: 36169392 bytes, 69 GCs, 603392/1065272 avg/max bytes residency (2 samples), 3M in use, 0.00 INIT (0.00 elapsed), 0.02 MUT (0.02 elapsed), 0.07 GC (0.07 elapsed) :ghc&gt;&gt;
+<div class="highlight-none"><div class="highlight"><pre><span></span>&lt;&lt;ghc: 36169392 bytes, 69 GCs, 603392/1065272 avg/max bytes residency (2 samples), 3M in use, 0.00 INIT (0.00 elapsed), 0.02 MUT (0.02 elapsed), 0.07 GC (0.07 elapsed) :ghc&gt;&gt;
 </pre></div>
 </div>
 <p>This tells you:</p>
@@ -913,7 +911,7 @@ data in bytes. The runtime can only determine the amount of live
 data during a major GC, which is why the number of samples
 corresponds to the number of major GCs (and is usually relatively
 small). To get a better picture of the heap profile of your
-program, use the <a class="reference internal" href="#rts-flag--hT"><code class="xref std std-rts-flag docutils literal"><span class="pre">-hT</span></code></a> RTS option (<a class="reference internal" href="#rts-profiling"><span>RTS options for profiling</span></a>).</li>
+program, use the <a class="reference internal" href="#rts-flag--hT"><code class="xref std std-rts-flag docutils literal"><span class="pre">-hT</span></code></a> RTS option (<a class="reference internal" href="#rts-profiling"><span class="std std-ref">RTS options for profiling</span></a>).</li>
 <li>The peak memory the RTS has allocated from the OS.</li>
 <li>The amount of CPU time and elapsed wall clock time while
 initialising the runtime system (INIT), running the program
@@ -921,7 +919,7 @@ itself (MUT, the mutator), and garbage collecting (GC).</li>
 </ul>
 <p>You can also get this in a more future-proof, machine readable
 format, with <code class="docutils literal"><span class="pre">-t</span> <span class="pre">--machine-readable</span></code>:</p>
-<div class="highlight-haskell"><div class="highlight"><pre><span class="p">[(</span><span class="s">&quot;bytes allocated&quot;</span><span class="p">,</span> <span class="s">&quot;36169392&quot;</span><span class="p">)</span>
+<div class="highlight-haskell"><div class="highlight"><pre><span></span><span class="p">[(</span><span class="s">&quot;bytes allocated&quot;</span><span class="p">,</span> <span class="s">&quot;36169392&quot;</span><span class="p">)</span>
 <span class="p">,(</span><span class="s">&quot;num_GCs&quot;</span><span class="p">,</span> <span class="s">&quot;69&quot;</span><span class="p">)</span>
 <span class="p">,(</span><span class="s">&quot;average_bytes_used&quot;</span><span class="p">,</span> <span class="s">&quot;603392&quot;</span><span class="p">)</span>
 <span class="p">,(</span><span class="s">&quot;max_bytes_used&quot;</span><span class="p">,</span> <span class="s">&quot;1065272&quot;</span><span class="p">)</span>
@@ -940,7 +938,7 @@ format, with <code class="docutils literal"><span class="pre">-t</span> <span cl
 will see something like this (the exact details will vary depending
 on what sort of RTS you have, e.g. you will only see profiling data
 if your RTS is compiled for profiling):</p>
-<div class="highlight-none"><div class="highlight"><pre>    36,169,392 bytes allocated in the heap
+<div class="highlight-none"><div class="highlight"><pre><span></span>    36,169,392 bytes allocated in the heap
      4,057,632 bytes copied during GC
      1,065,272 bytes maximum residency (2 sample(s))
         54,312 bytes maximum slop
@@ -1018,7 +1016,7 @@ CPU and wall clock elapsed times are spent in the mutator (MUT).</p>
 </ul>
 <p>The <code class="docutils literal"><span class="pre">-S</span></code> flag, as well as giving the same output as the <code class="docutils literal"><span class="pre">-s</span></code>
 flag, prints information about each GC as it happens:</p>
-<div class="highlight-none"><div class="highlight"><pre>    Alloc    Copied     Live    GC    GC     TOT     TOT  Page Flts
+<div class="highlight-none"><div class="highlight"><pre><span></span>    Alloc    Copied     Live    GC    GC     TOT     TOT  Page Flts
     bytes     bytes     bytes  user  elap    user    elap
    528496     47728    141512  0.01  0.02    0.02    0.02    0    0  (Gen:  1)
 [...]
@@ -1045,14 +1043,14 @@ collection.</li>
 <div class="section" id="rts-options-for-concurrency-and-parallelism">
 <h2>7.7.5. RTS options for concurrency and parallelism<a class="headerlink" href="#rts-options-for-concurrency-and-parallelism" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <p>The RTS options related to concurrency are described in
-<a class="reference internal" href="using-concurrent.html#using-concurrent"><span>Using Concurrent Haskell</span></a>, and those for parallelism in
-<a class="reference internal" href="using-concurrent.html#parallel-options"><span>RTS options for SMP parallelism</span></a>.</p>
+<a class="reference internal" href="using-concurrent.html#using-concurrent"><span class="std std-ref">Using Concurrent Haskell</span></a>, and those for parallelism in
+<a class="reference internal" href="using-concurrent.html#parallel-options"><span class="std std-ref">RTS options for SMP parallelism</span></a>.</p>
 </div>
 <div class="section" id="rts-options-for-profiling">
 <span id="rts-profiling"></span><h2>7.7.6. RTS options for profiling<a class="headerlink" href="#rts-options-for-profiling" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <p>Most profiling runtime options are only available when you compile your
-program for profiling (see <a class="reference internal" href="profiling.html#prof-compiler-options"><span>Compiler options for profiling</span></a>, and
-<a class="reference internal" href="profiling.html#rts-options-heap-prof"><span>RTS options for heap profiling</span></a> for the runtime options). However, there is
+program for profiling (see <a class="reference internal" href="profiling.html#prof-compiler-options"><span class="std std-ref">Compiler options for profiling</span></a>, and
+<a class="reference internal" href="profiling.html#rts-options-heap-prof"><span class="std std-ref">RTS options for heap profiling</span></a> for the runtime options). However, there is
 one profiling option that is available for ordinary non-profiled
 executables:</p>
 <dl class="rts-flag">
@@ -1061,11 +1059,11 @@ executables:</p>
 <dt id="rts-flag--h">
 <code class="descname">-h</code><code class="descclassname"></code><a class="headerlink" href="#rts-flag--h" title="この定義へのパーマリンク">¶</a></dt>
 <dd><p>Generates a basic heap profile, in the file <code class="file docutils literal"><span class="pre">prog.hp</span></code>. To produce the
-heap profile graph, use <strong class="command">hp2ps</strong> (see <a class="reference internal" href="profiling.html#hp2ps"><span>hp2ps &#8211; Rendering heap profiles to PostScript</span></a>). The basic heap
+heap profile graph, use <strong class="command">hp2ps</strong> (see <a class="reference internal" href="profiling.html#hp2ps"><span class="std std-ref">hp2ps &#8211; Rendering heap profiles to PostScript</span></a>). The basic heap
 profile is broken down by data constructor, with other types of closures
 (functions, thunks, etc.) grouped into broad categories (e.g. <code class="docutils literal"><span class="pre">FUN</span></code>,
 <code class="docutils literal"><span class="pre">THUNK</span></code>). To get a more detailed profile, use the full profiling support
-(<a class="reference internal" href="profiling.html#profiling"><span>Profiling</span></a>). Can be shortened to <a class="reference internal" href="#rts-flag--h"><code class="xref std std-rts-flag docutils literal"><span class="pre">-h</span></code></a>.</p>
+(<a class="reference internal" href="profiling.html#profiling"><span class="std std-ref">Profiling</span></a>). Can be shortened to <a class="reference internal" href="#rts-flag--h"><code class="xref std std-rts-flag docutils literal"><span class="pre">-h</span></code></a>.</p>
 </dd></dl>
 
 <dl class="rts-flag">
@@ -1086,7 +1084,7 @@ profile is broken down by data constructor, with other types of closures
 <div class="section" id="tracing">
 <span id="rts-eventlog"></span><h2>7.7.7. Tracing<a class="headerlink" href="#tracing" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <p id="index-28">When the program is linked with the <a class="reference internal" href="phases.html#ghc-flag--eventlog"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-eventlog</span></code></a> option
-(<a class="reference internal" href="phases.html#options-linker"><span>Options affecting linking</span></a>), runtime events can be logged in several ways:</p>
+(<a class="reference internal" href="phases.html#options-linker"><span class="std std-ref">Options affecting linking</span></a>), runtime events can be logged in several ways:</p>
 <ul class="simple">
 <li>In binary format to a file for later analysis by a variety of tools.
 One such tool is
@@ -1198,7 +1196,7 @@ reducing the overhead of debug tracing.</p>
 available if the program was linked with <a class="reference internal" href="phases.html#ghc-flag--debug"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-debug</span></code></a>). The ⟨file⟩
 business works just like on the <a class="reference internal" href="#rts-flag--S [⟨file⟩]"><code class="xref std std-rts-flag docutils literal"><span class="pre">-S</span> <span class="pre">[⟨file⟩]</span></code></a> RTS option, above.</p>
 <p>For more information on ticky-ticky profiling, see
-<a class="reference internal" href="profiling.html#ticky-ticky"><span>Using “ticky-ticky” profiling (for implementors)</span></a>.</p>
+<a class="reference internal" href="profiling.html#ticky-ticky"><span class="std std-ref">Using “ticky-ticky” profiling (for implementors)</span></a>.</p>
 </dd></dl>
 
 <dl class="rts-flag">
@@ -1216,7 +1214,7 @@ raised.</p>
 <p>The output contains one report for each exception raised in the
 program (the program might raise and catch several exceptions during
 its execution), where each report looks something like this:</p>
-<div class="highlight-none"><div class="highlight"><pre>*** Exception raised (reporting due to +RTS -xc), stack trace:
+<div class="highlight-none"><div class="highlight"><pre><span></span>*** Exception raised (reporting due to +RTS -xc), stack trace:
   GHC.List.CAF
   --&gt; evaluated by: Main.polynomial.table_search,
   called from Main.polynomial.theta_index,
@@ -1262,7 +1260,7 @@ counts.)</p>
 <code class="descname">--info</code><code class="descclassname"></code><a class="headerlink" href="#rts-flag---info" title="この定義へのパーマリンク">¶</a></dt>
 <dd><p>It is possible to ask the RTS to give some information about itself. To
 do this, use the <a class="reference internal" href="#rts-flag---info"><code class="xref std std-rts-flag docutils literal"><span class="pre">--info</span></code></a> flag, e.g.</p>
-<div class="highlight-none"><div class="highlight"><pre>$ ./a.out +RTS --info
+<div class="highlight-none"><div class="highlight"><pre><span></span>$ ./a.out +RTS --info
 [(&quot;GHC RTS&quot;, &quot;YES&quot;)
 ,(&quot;GHC version&quot;, &quot;6.7&quot;)
 ,(&quot;RTS way&quot;, &quot;rts_p&quot;)
@@ -1314,7 +1312,7 @@ would normally be identical to the build and target platforms.</dd>
 <dd>Either <code class="docutils literal"><span class="pre">&quot;32&quot;</span></code> or <code class="docutils literal"><span class="pre">&quot;64&quot;</span></code>, reflecting the word size of the target
 platform.</dd>
 <dt><code class="docutils literal"><span class="pre">Compiler</span> <span class="pre">unregistered</span></code></dt>
-<dd>Was this program compiled with an <a class="reference internal" href="codegens.html#unreg"><span>&#8220;unregistered&#8221;</span></a>
+<dd>Was this program compiled with an <a class="reference internal" href="codegens.html#unreg"><span class="std std-ref">&#8220;unregistered&#8221;</span></a>
 version of GHC? (I.e., a version of GHC that has no
 platform-specific optimisations compiled in, usually because this is
 a currently unsupported platform.) This value will usually be no,
@@ -1348,13 +1346,13 @@ optimisation. (Usually yes, except on unusual platforms.)</dd>
         <li class="right" >
           <a href="flags.html" title="7.6. Flag reference"
              >前へ</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">GHC 8.2.2 User&#39;s Guide</a> &raquo;</li>
-          <li class="nav-item nav-item-1"><a href="usage.html" >7. Using GHC</a> &raquo;</li> 
+        <li class="nav-item nav-item-0"><a href="index.html">GHC 8.2.2 User&#39;s Guide</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="usage.html" >7. GHCを使う</a> &#187;</li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">
-        &copy; Copyright 2015, GHC Team.
-      このドキュメントは <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.6 で生成しました。
+        &#169; Copyright 2015, GHC Team.
+      このドキュメントは <a href="http://sphinx-doc.org/">Sphinx</a> 1.5.6 で生成しました。
     </div>
   </body>
 </html>

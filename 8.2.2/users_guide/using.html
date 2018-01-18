@@ -3,11 +3,11 @@
   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
 
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="ja">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>7.1. GHCを使う &mdash; Glasgow Haskell Compiler 8.2.2 User&#39;s Guide</title>
+    <title>7.1. GHCを使う &#8212; Glasgow Haskell Compiler 8.2.2 User&#39;s Guide</title>
     
     <link rel="stylesheet" href="_static/ghc-theme.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -18,20 +18,21 @@
         VERSION:     '8.2.2',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
-        HAS_SOURCE:  true
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
       };
     </script>
     <script type="text/javascript" src="_static/jquery.js"></script>
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
     <script type="text/javascript" src="_static/translations.js"></script>
-    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="search" type="application/opensearchdescription+xml"
           title="Glasgow Haskell Compiler 8.2.2 User&#39;s Guide 内を検索"
           href="_static/opensearch.xml"/>
-    <link rel="top" title="Glasgow Haskell Compiler 8.2.2 User&#39;s Guide" href="index.html" />
-    <link rel="up" title="7. GHCを使う" href="usage.html" />
-    <link rel="next" title="7.2. Warnings and sanity-checking" href="using-warnings.html" />
+    <link rel="index" title="索引" href="genindex.html" />
+    <link rel="search" title="検索" href="search.html" />
+    <link rel="next" title="7.2. 警告と整合性検査" href="using-warnings.html" />
     <link rel="prev" title="7. GHCを使う" href="usage.html" /> 
   </head>
   <body role="document">
@@ -46,13 +47,13 @@
           <a href="genindex.html" title="総合索引"
              accesskey="I">索引</a></li>
         <li class="right" >
-          <a href="using-warnings.html" title="7.2. Warnings and sanity-checking"
+          <a href="using-warnings.html" title="7.2. 警告と整合性検査"
              accesskey="N">次へ</a> |</li>
         <li class="right" >
           <a href="usage.html" title="7. GHCを使う"
              accesskey="P">前へ</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">GHC 8.2.2 User&#39;s Guide</a> &raquo;</li>
-          <li class="nav-item nav-item-1"><a href="usage.html" accesskey="U">7. GHCを使う</a> &raquo;</li> 
+        <li class="nav-item nav-item-0"><a href="index.html">GHC 8.2.2 User&#39;s Guide</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="usage.html" accesskey="U">7. GHCを使う</a> &#187;</li> 
       </ul>
     </div>
 
@@ -90,25 +91,22 @@
                         title="前の章へ">7. GHCを使う</a></p>
   <h4>次のトピックへ</h4>
   <p class="topless"><a href="using-warnings.html"
-                        title="次の章へ">7.2. Warnings and sanity-checking</a></p>
+                        title="次の章へ">7.2. 警告と整合性検査</a></p>
   <div role="note" aria-label="source link">
     <h3>このページ</h3>
     <ul class="this-page-menu">
-      <li><a href="_sources/using.txt"
+      <li><a href="_sources/using.rst.txt"
             rel="nofollow">ソースコードを表示</a></li>
     </ul>
    </div>
 <div id="searchbox" style="display: none" role="search">
   <h3>クイック検索</h3>
     <form class="search" action="search.html" method="get">
-      <input type="text" name="q" />
-      <input type="submit" value="検索" />
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="検索" /></div>
       <input type="hidden" name="check_keywords" value="yes" />
       <input type="hidden" name="area" value="default" />
     </form>
-    <p class="searchtip" style="font-size: 90%">
-    モジュール、クラス、または関数名を入力してください
-    </p>
 </div>
 <script type="text/javascript">$('#searchbox').show(0);</script>
         </div>
@@ -132,7 +130,7 @@ GHCは大きく複雑なシステムで，大量の詳細がありますので�
 <blockquote>
 <div>main = putStrLn &#8220;Hello, World!&#8221;</div></blockquote>
 <p>このプログラムをコンパイルするには以下のようにGHCを使います．</p>
-<div class="highlight-sh"><div class="highlight"><pre>$ ghc hello.hs
+<div class="highlight-sh"><div class="highlight"><pre><span></span>$ ghc hello.hs
 </pre></div>
 </div>
 <p>(ここで <code class="docutils literal"><span class="pre">$</span></code> はシェルのプロンプトですので，タイプする必要はありません．)
@@ -142,7 +140,7 @@ Unix/Linux/Mac では <code class="file docutils literal"><span class="pre">hell
 <p>デフォルトではGHCは自身の動作について寡黙で，表示するのはエラーメッセージだけです．
 裏で何が行われているか詳細をみたいときには，コマンドラインに <a class="reference internal" href="#ghc-flag--v"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-v</span></code></a> を追加すれば良いでしょう．</p>
 <p>コンパイルができたら，以下のようにすればプログラムを実行できます．</p>
-<div class="highlight-sh"><div class="highlight"><pre>$ ./hello
+<div class="highlight-sh"><div class="highlight"><pre><span></span>$ ./hello
 Hello World!
 </pre></div>
 </div>
@@ -161,7 +159,7 @@ Windowsでは <code class="docutils literal"><span class="pre">Data\Person.hs</s
 <div class="section" id="id3">
 <h3>7.1.2.1. コマンドライン引数<a class="headerlink" href="#id3" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <p id="index-1">GHCを起動する構文は以下の形式になります．</p>
-<div class="highlight-none"><div class="highlight"><pre>ghc [argument...]
+<div class="highlight-none"><div class="highlight"><pre><span></span>ghc [argument...]
 </pre></div>
 </div>
 <p>コマンドライン引数はオプションもしくはファイル名です．</p>
@@ -192,14 +190,14 @@ Windowsでは <code class="docutils literal"><span class="pre">Data\Person.hs</s
 たとえば，意図して名前のシャドーイングをおこなっているHaskellソースがあれば，
 そのファイルについては <code class="docutils literal"><span class="pre">-Wno-name-shadowing</span></code> オプション付きでコンパイルすべきです．
 <code class="docutils literal"><span class="pre">Makefile</span></code> をつかって，ファイルごとのオプション一覧を管理する代りに，
-<code class="docutils literal"><span class="pre">OPTIONS_GHC</span></code> <a class="reference internal" href="glasgow_exts.html#options-pragma"><span>pragma</span></a> を使ってソースファイルに直接書いておけます．</p>
-<div class="highlight-haskell"><div class="highlight"><pre><span class="cm">{-# OPTIONS_GHC -Wno-name-shadowing #-}</span>
+<code class="docutils literal"><span class="pre">OPTIONS_GHC</span></code> <a class="reference internal" href="glasgow_exts.html#options-pragma"><span class="std std-ref">pragma</span></a> を使ってソースファイルに直接書いておけます．</p>
+<div class="highlight-haskell"><div class="highlight"><pre><span></span><span class="cm">{-# OPTIONS_GHC -Wno-name-shadowing #-}</span>
 <span class="kr">module</span> <span class="nn">X</span> <span class="kr">where</span>
 <span class="o">...</span>
 </pre></div>
 </div>
-<p><code class="docutils literal"><span class="pre">OPTIONS_GHC</span></code> は <em>ファイルヘッダプラグマ</em> (<a class="reference internal" href="glasgow_exts.html#options-pragma"><span>OPTIONS_GHC pragma</span></a> 参照)です．</p>
-<p><code class="docutils literal"><span class="pre">OPTIONS_GHC</span></code> プラグマ中で使えるのは <em>動的</em> フラグだけです(<a class="reference internal" href="#static-dynamic-flags"><span>静的オプション，動的オプション，モード指定オプション</span></a> 参照)．</p>
+<p><code class="docutils literal"><span class="pre">OPTIONS_GHC</span></code> は <em>ファイルヘッダプラグマ</em> (<a class="reference internal" href="glasgow_exts.html#options-pragma"><span class="std std-ref">OPTIONS_GHC pragma</span></a> 参照)です．</p>
+<p><code class="docutils literal"><span class="pre">OPTIONS_GHC</span></code> プラグマ中で使えるのは <em>動的</em> フラグだけです(<a class="reference internal" href="#static-dynamic-flags"><span class="std std-ref">静的オプション，動的オプション，モード指定オプション</span></a> 参照)．</p>
 <p>コマンドシェルからこのソースオプションを取得するわけではなく，
 コンパイラが内部的に保持しているコマンドライン引数配列に含めるだけであることに注意してください．
 そのため <code class="docutils literal"><span class="pre">OPTIONS_GHC</span></code> の中でワイルドカードを使おうとすると残念なことになります．</p>
@@ -223,13 +221,13 @@ Windowsでは <code class="docutils literal"><span class="pre">Data\Person.hs</s
 <p id="index-4">GHCのコマンドラインオプションは，静的オプション，動的オプション，モード指定オプションのいずれかに分類されます．</p>
 <blockquote>
 <div><p><a class="reference internal" href="#ghc-flag---make"><code class="xref std std-ghc-flag docutils literal"><span class="pre">--make</span></code></a> や <a class="reference internal" href="#ghc-flag--E"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-E</span></code></a> はモード指定フラグです．モード指定フラグはコマンドラインで1つだけ指定できます．
-利用可能なモードの一覧は <a class="reference internal" href="#modes"><span>実行モード</span></a> にあります．</p>
+利用可能なモードの一覧は <a class="reference internal" href="#modes"><span class="std std-ref">実行モード</span></a> にあります．</p>
 <p>モード指定フラグではない大部分のフラグは動的フラグに分類されます．
 動的フラグは，コマンドライン，ソースファイルの <code class="docutils literal"><span class="pre">OPTIONS_GHC</span></code> プラグマ，
 GHCi内の <a class="reference internal" href="ghci.html#ghci-cmd-:set"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:set</span></code></a> コマンドのいずれの方法でも設定できます．</p>
 <p>残りのすこしばかりのフラグが静的フラグに分類されます．これらのフラグはコマンドラインでのみ使用可能で，1回のGHC/GHCiの実行を通し有効です．</p>
 </div></blockquote>
-<p>フラグの参照表は(<a class="reference internal" href="flags.html#flag-reference"><span>Flag reference</span></a>)にはそれぞれどのフラグがどれに分類されているかが判るようになっています．</p>
+<p>フラグの参照表は(<a class="reference internal" href="flags.html#flag-reference"><span class="std std-ref">Flag reference</span></a>)にはそれぞれどのフラグがどれに分類されているかが判るようになっています．</p>
 <p>静的でありながら，GHCiの <a class="reference internal" href="ghci.html#ghci-cmd-:set"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:set</span></code></a> コマンドで設定できるフラグも少しながらあります．
 これは参照表では「static/<code class="docutils literal"><span class="pre">:set</span></code>」と表記されています．</p>
 </div>
@@ -266,17 +264,17 @@ GHCi内の <a class="reference internal" href="ghci.html#ghci-cmd-:set"><code cl
 <p id="index-7">GHCの振る舞いはまずモード指定フラグで制御します．
 モード指定フラグは1つしか与えられませんが，コマンドラインにおいて最初のオプションである必要はありません．
 以下は指定例です．</p>
-<div class="highlight-none"><div class="highlight"><pre>$ ghc Main.hs --make -o my-application
+<div class="highlight-none"><div class="highlight"><pre><span></span>$ ghc Main.hs --make -o my-application
 </pre></div>
 </div>
 <p>モード指定フラグがない場合，コマンドラインでHaskellのソースファイルが指定されていれば <a class="reference internal" href="#ghc-flag---make"><code class="xref std std-ghc-flag docutils literal"><span class="pre">--make</span></code></a>
-モード(<a class="reference internal" href="#make-mode"><span>ghc &#8211;make を使う</span></a>)になり，そうでなければ，コマンドライン中で指定さたオブジェクトをリンクして実行可能ファイルを生成します．</p>
+モード(<a class="reference internal" href="#make-mode"><span class="std std-ref">ghc &#8211;make を使う</span></a>)になり，そうでなければ，コマンドライン中で指定さたオブジェクトをリンクして実行可能ファイルを生成します．</p>
 <p>以下のモード指定フラグが利用可能です．</p>
 <dl class="ghc-flag">
 <dt id="ghc-flag---interactive">
 <code class="descname">--interactive</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag---interactive" title="この定義へのパーマリンク">¶</a></dt>
 <dd><p id="index-8">対話モード． <strong class="program">ghci</strong> としても使えます．
-対話モードの詳しい説明は <a class="reference internal" href="ghci.html#ghci"><span>GHCi を使う</span></a> を参照してください．</p>
+対話モードの詳しい説明は <a class="reference internal" href="ghci.html#ghci"><span class="std std-ref">GHCi を使う</span></a> を参照してください．</p>
 </dd></dl>
 
 <dl class="ghc-flag">
@@ -284,7 +282,7 @@ GHCi内の <a class="reference internal" href="ghci.html#ghci-cmd-:set"><code cl
 <code class="descname">--make</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag---make" title="この定義へのパーマリンク">¶</a></dt>
 <dd><p id="index-9">このモードではGHCは複数のモジュールからなるHaskellプログラムを依存性を解析しながら自動的にビルドします．
 単純なHaskellプログラムなら，これは <strong class="command">make</strong> を使うよりずっと簡単でしかも速くビルドできます．
-makeモードについては <a class="reference internal" href="#make-mode"><span>ghc &#8211;make を使う</span></a> で解説しています．</p>
+makeモードについては <a class="reference internal" href="#make-mode"><span class="std std-ref">ghc &#8211;make を使う</span></a> で解説しています．</p>
 <p>コマンドラインでHaskellのソースコードを指定した場合は，このモードがデフォルトになります．
 その場合 <a class="reference internal" href="#ghc-flag---make"><code class="xref std std-ghc-flag docutils literal"><span class="pre">--make</span></code></a> オプションは省略できます．</p>
 </dd></dl>
@@ -294,7 +292,7 @@ makeモードについては <a class="reference internal" href="#make-mode"><sp
 <code class="descname">-e</code><code class="descclassname"> ⟨expr⟩</code><a class="headerlink" href="#ghc-flag--e ⟨expr⟩" title="この定義へのパーマリンク">¶</a></dt>
 <dd><p id="index-10">式評価モード．対話モードとほぼ同じですが，
 評価する式(⟨expr⟩)は1つだけで，コマンドラインで与えます．
-詳細については <a class="reference internal" href="#eval-mode"><span>式評価モード</span></a> を参照してください．</p>
+詳細については <a class="reference internal" href="#eval-mode"><span class="std std-ref">式評価モード</span></a> を参照してください．</p>
 </dd></dl>
 
 <dl class="ghc-flag">
@@ -308,26 +306,26 @@ makeモードについては <a class="reference internal" href="#make-mode"><sp
 <code class="descname">-c</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag--c" title="この定義へのパーマリンク">¶</a></dt>
 <dd><p>これは伝統的なバッチ処理コンパイラモードです．GHCは1度に1つのソースファイルをコンパイルするか，
 オブジェクトファイルをリンクして1つの実行可能ファイルを生成します．
-<a class="reference internal" href="#options-order"><span>一括コンパイラモード</span></a> を参照してください．</p>
+<a class="reference internal" href="#options-order"><span class="std std-ref">一括コンパイラモード</span></a> を参照してください．</p>
 </dd></dl>
 
 <dl class="ghc-flag">
 <dt id="ghc-flag--M">
 <code class="descname">-M</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag--M" title="この定義へのパーマリンク">¶</a></dt>
 <dd><p id="index-11">依存性生成モード．このモードでは，GHCを使って <code class="docutils literal"><span class="pre">Makefile</span></code> ファイルで使うのに適した依存性情報を生成できます．
-<a class="reference internal" href="separate_compilation.html#makefile-dependencies"><span>Dependency generation</span></a> を参照してください．</p>
+<a class="reference internal" href="separate_compilation.html#makefile-dependencies"><span class="std std-ref">Dependency generation</span></a> を参照してください．</p>
 </dd></dl>
 
 <dl class="ghc-flag">
 <dt id="ghc-flag---frontend ⟨module⟩">
 <code class="descname">--frontend</code><code class="descclassname"> ⟨module⟩</code><a class="headerlink" href="#ghc-flag---frontend ⟨module⟩" title="この定義へのパーマリンク">¶</a></dt>
-<dd><p id="index-12">指定したフロントエンドプラグインを使ってGHCを走らせます．詳細は <a class="reference internal" href="extending_ghc.html#frontend-plugins"><span>Frontend plugins</span></a> を参照してください．</p>
+<dd><p id="index-12">指定したフロントエンドプラグインを使ってGHCを走らせます．詳細は <a class="reference internal" href="extending_ghc.html#frontend-plugins"><span class="std std-ref">Frontend plugins</span></a> を参照してください．</p>
 </dd></dl>
 
 <dl class="ghc-flag">
 <dt id="ghc-flag---mk-dll">
 <code class="descname">--mk-dll</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag---mk-dll" title="この定義へのパーマリンク">¶</a></dt>
-<dd><p id="index-13">DLL作成モード(Windows のみ)． <a class="reference internal" href="win32-dlls.html#win32-dlls-create"><span>Creating a DLL</span></a> を参照してください．</p>
+<dd><p id="index-13">DLL作成モード(Windows のみ)． <a class="reference internal" href="win32-dlls.html#win32-dlls-create"><span class="std std-ref">Creating a DLL</span></a> を参照してください．</p>
 </dd></dl>
 
 <dl class="ghc-flag">
@@ -385,7 +383,7 @@ makeモードについては <a class="reference internal" href="#make-mode"><sp
 <dd><p id="index-14">GHCライブラリディレクトリのパスを表示します．
 このパスはGHCのライブラリ，インターフェイス，インクルードファイルが置かれているディレクトリツリーの最上位です
 (通常 Unix では <code class="docutils literal"><span class="pre">/usr/local/lib/ghc-8.0.2</span></code> のような場所です)．
-これはパッケージの設定ファイル(<a class="reference internal" href="packages.html#packages"><span>Packages</span></a> 参照)における <code class="docutils literal"><span class="pre">$libdir</span></code> の値です．</p>
+これはパッケージの設定ファイル(<a class="reference internal" href="packages.html#packages"><span class="std std-ref">Packages</span></a> 参照)における <code class="docutils literal"><span class="pre">$libdir</span></code> の値です．</p>
 </dd></dl>
 
 <div class="section" id="ghc-make">
@@ -394,12 +392,12 @@ makeモードについては <a class="reference internal" href="#make-mode"><sp
 このとき，GHCは1つ以上のルートモジュール(通常は <code class="docutils literal"><span class="pre">Main</span></code> のみ)から依存性を追跡します．
 たとえば <code class="docutils literal"><span class="pre">Main</span></code> モジュールが <code class="file docutils literal"><span class="pre">Main.hs</span></code> というファイルに置かれているとき，
 次のようにすればこのプログラムをコンパイルリンクできます．</p>
-<div class="highlight-none"><div class="highlight"><pre>ghc --make Main.hs
+<div class="highlight-none"><div class="highlight"><pre><span></span>ghc --make Main.hs
 </pre></div>
 </div>
 <p>実際には，コマンドライン中に1つでもHaskellソースファイルがあり，他のモードが指定されていなければ，GHCは自動的にmakeモードになります．
 したがって，これ例では以下のようにタイプするだけでよいのです．</p>
-<div class="highlight-none"><div class="highlight"><pre>ghc Main.hs
+<div class="highlight-none"><div class="highlight"><pre><span></span>ghc Main.hs
 </pre></div>
 </div>
 <p>ソースファイル名やモジュール名はいくつでも指定できます．
@@ -422,7 +420,7 @@ GHCは，指定されたこれらの初期ファイルからインポートを�
 </ul>
 <p>この章でこれ以降に解説するコマンドラインオプションはどれも <code class="docutils literal"><span class="pre">--make</span></code> オプションと共用できます．
 ただし，コマンドラインから与えれらたオプションはコンパイルするすべてのソースファイルに適用されるので，
-個別のファイルにだけ適用したいオプションについては <code class="docutils literal"><span class="pre">OPTIONS_GHC</span></code> プラグマを使う必要があります(<a class="reference internal" href="#source-file-options"><span>ソースファイル中のコマンドラインオプション</span></a> 参照)．</p>
+個別のファイルにだけ適用したいオプションについては <code class="docutils literal"><span class="pre">OPTIONS_GHC</span></code> プラグマを使う必要があります(<a class="reference internal" href="#source-file-options"><span class="std std-ref">ソースファイル中のコマンドラインオプション</span></a> 参照)．</p>
 <p>プログラムを追加のオブジェクト(たとえば，補助的なCのコード)とリンクする必要があるなら，
 そのオブジェクトファイルをコマンド行で与えれば，GHCは実行可能ファイルをリンクするときに指定されたオブジェクトを含めます．</p>
 <p>既存の make スクリプトとの後方互換性確保のため <a class="reference internal" href="#ghc-flag--c"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-c</span></code></a> と組み合わせて使うと，リンクのフェーズは省略します
@@ -433,7 +431,7 @@ GHCは，指定されたこれらの初期ファイルからインポートを�
 GHCは文句をいうことに注意してください．
 ただし，パッケージモジュールの場合は例外で，このときはソースファイルはあってもなくてもかまいません．</p>
 <p>プログラムのソースファイルはすべて同一のディレクトリにある必要はありません．
-<a class="reference internal" href="separate_compilation.html#ghc-flag--i"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-i</span></code></a> オプションを使って探索パスを追加できます(<a class="reference internal" href="separate_compilation.html#search-path"><span>The search path</span></a> 参照)．</p>
+<a class="reference internal" href="separate_compilation.html#ghc-flag--i"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-i</span></code></a> オプションを使って探索パスを追加できます(<a class="reference internal" href="separate_compilation.html#search-path"><span class="std std-ref">The search path</span></a> 参照)．</p>
 <dl class="ghc-flag">
 <dt id="ghc-flag--j [⟨n⟩]">
 <code class="descname">-j</code><code class="descclassname"> [⟨n⟩]</code><a class="headerlink" href="#ghc-flag--j [⟨n⟩]" title="この定義へのパーマリンク">¶</a></dt>
@@ -449,11 +447,11 @@ GHCは文句をいうことに注意してください．
 指定したファイルは対話モードと全く同じようにロードします．
 指定した式はロードしたモジュールの文脈で評価します．</p>
 <p>たとえば <code class="docutils literal"><span class="pre">Main</span></code> というモジュールを含む Haskell プログラムをロードして走らせるには，次のようにすればよいでしょう．</p>
-<div class="highlight-none"><div class="highlight"><pre>ghc -e Main.main Main.hs
+<div class="highlight-none"><div class="highlight"><pre><span></span>ghc -e Main.main Main.hs
 </pre></div>
 </div>
 <p>また，このモードを使えば，単に式を <code class="docutils literal"><span class="pre">Prelude</span></code> の文脈で評価できます．</p>
-<div class="highlight-none"><div class="highlight"><pre>$ ghc -e &quot;interact (unlines.map reverse.lines)&quot;
+<div class="highlight-none"><div class="highlight"><pre><span></span>$ ghc -e &quot;interact (unlines.map reverse.lines)&quot;
 hello
 olleh
 </pre></div>
@@ -483,7 +481,7 @@ olleh
 <tbody valign="top">
 <tr class="row-even"><td>文芸形式プリプロセッサ</td>
 <td><code class="docutils literal"><span class="pre">.lhs</span></code></td>
-<td>&nbsp;</td>
+<td>&#160;</td>
 <td><code class="docutils literal"><span class="pre">.hs</span></code></td>
 </tr>
 <tr class="row-odd"><td>C プリプロセッサ(省略可)</td>
@@ -508,25 +506,25 @@ olleh
 </tr>
 <tr class="row-odd"><td>リンカ</td>
 <td>⟨other⟩</td>
-<td>&nbsp;</td>
+<td>&#160;</td>
 <td><code class="docutils literal"><span class="pre">a.out</span></code></td>
 </tr>
 </tbody>
 </table>
 <p id="index-17">そういうわけで，多くの場合，次のように起動します．</p>
-<div class="highlight-none"><div class="highlight"><pre>ghc -c Foo.hs
+<div class="highlight-none"><div class="highlight"><pre><span></span>ghc -c Foo.hs
 </pre></div>
 </div>
 <p>これで，Haskellのソースファイルが <code class="docutils literal"><span class="pre">Foo.hs</span></code> をコンパイルすると，オブジェクトファイル <code class="docutils literal"><span class="pre">Foo.o</span></code> が生成されます．</p>
 <div class="admonition note">
 <p class="first admonition-title">注釈</p>
 <p class="last">Haskellのコンパイラが実際に出力するのが何かはバックエンドのコード生成器が何であるかによります．
-詳細については <a class="reference internal" href="codegens.html#code-generators"><span>GHC Backends</span></a> を参照してください．</p>
+詳細については <a class="reference internal" href="codegens.html#code-generators"><span class="std std-ref">GHC Backends</span></a> を参照してください．</p>
 </div>
 <div class="admonition note">
 <p class="first admonition-title">注釈</p>
 <p class="last">C のプリプロセッサは省略可能で <a class="reference internal" href="phases.html#ghc-flag--cpp"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-cpp</span></code></a> フラグを指定すれば有効になります．
-詳細については <a class="reference internal" href="phases.html#c-pre-processor"><span>Options affecting the C pre-processor</span></a> を参照してください．</p>
+詳細については <a class="reference internal" href="phases.html#c-pre-processor"><span class="std std-ref">Options affecting the C pre-processor</span></a> を参照してください．</p>
 </div>
 <div class="admonition note">
 <p class="first admonition-title">注釈</p>
@@ -535,7 +533,7 @@ olleh
 <div class="admonition note">
 <p class="first admonition-title">注釈</p>
 <p class="last"><a class="reference internal" href="#ghc-flag--C"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-C</span></code></a> オプションはGHCが未登録モードでビルドされているときにだけ利用可能です．
-詳細については <a class="reference internal" href="codegens.html#unreg"><span>Unregisterised compilation</span></a> を参照してください．</p>
+詳細については <a class="reference internal" href="codegens.html#unreg"><span class="std std-ref">Unregisterised compilation</span></a> を参照してください．</p>
 </div>
 <div class="section" id="overriding-suffixes">
 <span id="id10"></span><h4>7.1.5.3.1. ファイルに対するデフォルトの振る舞いを上書きする<a class="headerlink" href="#overriding-suffixes" title="このヘッドラインへのパーマリンク">¶</a></h4>
@@ -553,7 +551,7 @@ olleh
 </div>
 <div class="section" id="options-help">
 <span id="id11"></span><h2>7.1.6. 饒舌性に関するオプション<a class="headerlink" href="#options-help" title="このヘッドラインへのパーマリンク">¶</a></h2>
-<p id="index-18"><a class="reference internal" href="#modes"><span>実行モード</span></a> にある <code class="docutils literal"><span class="pre">--help</span></code> ， <code class="docutils literal"><span class="pre">--version</span></code> ， <code class="docutils literal"><span class="pre">--numeric-version</span></code> ， <code class="docutils literal"><span class="pre">--print-libdir</span></code> の各モードについても参照してください．</p>
+<p id="index-18"><a class="reference internal" href="#modes"><span class="std std-ref">実行モード</span></a> にある <code class="docutils literal"><span class="pre">--help</span></code> ， <code class="docutils literal"><span class="pre">--version</span></code> ， <code class="docutils literal"><span class="pre">--numeric-version</span></code> ， <code class="docutils literal"><span class="pre">--print-libdir</span></code> の各モードについても参照してください．</p>
 <dl class="ghc-flag">
 <dt id="ghc-flag--v">
 <code class="descname">-v</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag--v" title="この定義へのパーマリンク">¶</a></dt>
@@ -604,7 +602,7 @@ GHCは各コンパイルされたモジュールの名前，ソースパス，�
 <code class="descname">-fprint-unicode-syntax</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag--fprint-unicode-syntax" title="この定義へのパーマリンク">¶</a></dt>
 <dd><p>このフラグが有効になっていれば，GHC は型シグネチャを言語拡張 <a class="reference internal" href="glasgow_exts.html#ghc-flag--XUnicodeSyntax"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-XUnicodeSyntax</span></code></a> 由来のユニコード記号を使って表示します．
 たとえば，以下のような表示になります．</p>
-<div class="highlight-none"><div class="highlight"><pre>ghci&gt; :set -fprint-unicode-syntax
+<div class="highlight-none"><div class="highlight"><pre><span></span>ghci&gt; :set -fprint-unicode-syntax
 ghci&gt; :t +v (&gt;&gt;)
 (&gt;&gt;) :: Monad m ⇒ m a → m b → m b
 </pre></div>
@@ -617,7 +615,7 @@ ghci&gt; :t +v (&gt;&gt;)
 <dd><p><a class="reference internal" href="#ghc-flag--fprint-explicit-foralls"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-fprint-explicit-foralls</span></code></a> を指定すると
 GHC は型のトップレベルに，通常は表示されない <code class="docutils literal"><span class="pre">forall</span></code> 量化子を表示します．
 GHCi では，たとえば，以下のようになります．</p>
-<div class="highlight-none"><div class="highlight"><pre>ghci&gt; let f x = x
+<div class="highlight-none"><div class="highlight"><pre><span></span>ghci&gt; let f x = x
 ghci&gt; :t f
 f :: a -&gt; a
 ghci&gt; :set -fprint-explicit-foralls
@@ -628,13 +626,13 @@ f :: forall a. a -&gt; a
 <p>ただし，このフラグの設定いかんにかかわらず，以下の場合には量化子が表示されます．</p>
 <ul>
 <li><p class="first">入れ子になった <code class="docutils literal"><span class="pre">forall</span></code></p>
-<div class="highlight-none"><div class="highlight"><pre>ghci&gt; :t GHC.ST.runST
+<div class="highlight-none"><div class="highlight"><pre><span></span>ghci&gt; :t GHC.ST.runST
 GHC.ST.runST :: (forall s. GHC.ST.ST s a) -&gt; a
 </pre></div>
 </div>
 </li>
 <li><p class="first">量化子付きの型変数のどれかがカインド変数で言及されているカインドをもつ</p>
-<div class="highlight-none"><div class="highlight"><pre>ghci&gt; :i Data.Type.Equality.sym
+<div class="highlight-none"><div class="highlight"><pre><span></span>ghci&gt; :i Data.Type.Equality.sym
 Data.Type.Equality.sym ::
   forall (k :: BOX) (a :: k) (b :: k).
   (a Data.Type.Equality.:~: b) -&gt; b Data.Type.Equality.:~: a
@@ -650,7 +648,7 @@ Data.Type.Equality.sym ::
 <code class="descname">-fprint-explicit-kinds</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag--fprint-explicit-kinds" title="この定義へのパーマリンク">¶</a></dt>
 <dd><p><a class="reference internal" href="#ghc-flag--fprint-explicit-kinds"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-fprint-explicit-kinds</span></code></a> を指定すると，通常は表示されないカインドが型に表示されます．
 カインド多相を使っているときには重要な機能です．</p>
-<div class="highlight-none"><div class="highlight"><pre>ghci&gt; :set -XPolyKinds
+<div class="highlight-none"><div class="highlight"><pre><span></span>ghci&gt; :set -XPolyKinds
 ghci&gt; data T a = MkT
 ghci&gt; :t MkT
 MkT :: forall (k :: BOX) (a :: k). T a
@@ -668,7 +666,7 @@ MkT :: forall (k :: BOX) (a :: k). T k a
 GHC はレヴィティ多相型について <code class="docutils literal"><span class="pre">RuntimeRep</span></code> 型変数を表示します．
 このフラグが有効になっていなければデフォルトでは <code class="docutils literal"><span class="pre">PtrRepLifted</span></code> になります．
 以下はその表示例です．</p>
-<div class="highlight-none"><div class="highlight"><pre>ghci&gt; :t ($)
+<div class="highlight-none"><div class="highlight"><pre><span></span>ghci&gt; :t ($)
 ($) :: (a -&gt; b) -&gt; a -&gt; b
 ghci&gt; :set -fprint-explicit-runtime-reps
 ghci&gt; :t ($)
@@ -697,7 +695,7 @@ ghci&gt; :t ($)
 一般にユーザはこの微妙な部分について気を配る必要があるべきではなく， <code class="docutils literal"><span class="pre">~</span></code> が
 ユーザが欲っしているものでしょう．
 <a class="reference internal" href="#ghc-flag--fprint-equality-relations"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-fprint-equality-relations</span></code></a> が指定されていなければ，GHCはすべて <code class="docutils literal"><span class="pre">~</span></code> として表示します．
-<a class="reference internal" href="glasgow_exts.html#equality-constraints"><span>Equality constraints</span></a> も参照してください．</p>
+<a class="reference internal" href="glasgow_exts.html#equality-constraints"><span class="std std-ref">Equality constraints</span></a> も参照してください．</p>
 </dd></dl>
 
 <dl class="ghc-flag">
@@ -705,19 +703,19 @@ ghci&gt; :t ($)
 <code class="descname">-fprint-expanded-synonyms</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag--fprint-expanded-synonyms" title="この定義へのパーマリンク">¶</a></dt>
 <dd><p>これが有効になっていれば，GHC は型エラーメッセージで型シノニムを展開した型も表示します．
 たとえば，以下のような型シノニムがあったとしましょう．</p>
-<div class="highlight-haskell"><div class="highlight"><pre><span class="kr">type</span> <span class="kt">Foo</span> <span class="ow">=</span> <span class="kt">Int</span>
+<div class="highlight-haskell"><div class="highlight"><pre><span></span><span class="kr">type</span> <span class="kt">Foo</span> <span class="ow">=</span> <span class="kt">Int</span>
 <span class="kr">type</span> <span class="kt">Bar</span> <span class="ow">=</span> <span class="kt">Bool</span>
 <span class="kr">type</span> <span class="kt">MyBarST</span> <span class="n">s</span> <span class="ow">=</span> <span class="kt">ST</span> <span class="n">s</span> <span class="kt">Bar</span>
 </pre></div>
 </div>
 <p>以下のような型エラーメッセージ</p>
-<div class="highlight-none"><div class="highlight"><pre>Couldn&#39;t match type &#39;Int&#39; with &#39;Bool&#39;
+<div class="highlight-none"><div class="highlight"><pre><span></span>Couldn&#39;t match type &#39;Int&#39; with &#39;Bool&#39;
 Expected type: ST s Foo
   Actual type: MyBarST s
 </pre></div>
 </div>
 <p>が以下のような型エラーメッセージになります．</p>
-<div class="highlight-none"><div class="highlight"><pre>Couldn&#39;t match type &#39;Int&#39; with &#39;Bool&#39;
+<div class="highlight-none"><div class="highlight"><pre><span></span>Couldn&#39;t match type &#39;Int&#39; with &#39;Bool&#39;
 Expected type: ST s Foo
   Actual type: MyBarST s
 Type synonyms expanded:
@@ -732,21 +730,21 @@ Expected type: ST s Int
 <code class="descname">-fprint-typechecker-elaboration</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag--fprint-typechecker-elaboration" title="この定義へのパーマリンク">¶</a></dt>
 <dd><p>これが有効であれば GHC は警告メッセージで型検査器よりの追加の情報を表示します．
 たとえば，</p>
-<div class="highlight-haskell"><div class="highlight"><pre><span class="nf">main</span> <span class="ow">::</span> <span class="kt">IO</span> <span class="nb">()</span>
+<div class="highlight-haskell"><div class="highlight"><pre><span></span><span class="nf">main</span> <span class="ow">::</span> <span class="kt">IO</span> <span class="nb">()</span>
 <span class="nf">main</span> <span class="ow">=</span> <span class="kr">do</span>
   <span class="n">return</span> <span class="o">$</span> <span class="kr">let</span> <span class="n">a</span> <span class="ow">=</span> <span class="s">&quot;hello&quot;</span> <span class="kr">in</span> <span class="n">a</span>
   <span class="n">return</span> <span class="nb">()</span>
 </pre></div>
 </div>
 <p>であるとします．以下の警告メッセージは</p>
-<div class="highlight-none"><div class="highlight"><pre>A do-notation statement discarded a result of type ‘[Char]’
+<div class="highlight-none"><div class="highlight"><pre><span></span>A do-notation statement discarded a result of type ‘[Char]’
 Suppress this warning by saying
   ‘_ &lt;- ($) return let a = &quot;hello&quot; in a’
 or by using the flag -fno-warn-unused-do-bind
 </pre></div>
 </div>
 <p>は以下のように表示されるようになります．</p>
-<div class="highlight-none"><div class="highlight"><pre>A do-notation statement discarded a result of type ‘[Char]’
+<div class="highlight-none"><div class="highlight"><pre><span></span>A do-notation statement discarded a result of type ‘[Char]’
 Suppress this warning by saying
   ‘_ &lt;- ($)
           return
@@ -772,7 +770,7 @@ ANSIカラーコードをサポートしていなければ，文字化けした�
 <p>正確な配色は，環境変数 <code class="docutils literal"><span class="pre">GHC_COLORS</span></code> (または <code class="docutils literal"><span class="pre">GHC_COLOURS</span></code>)によって制御されます．
 これは，コロンで区切られた <code class="docutils literal"><span class="pre">key=value</span></code> ペアのリストで設定できます．
 デフォルトの設定は以下のようになっています．</p>
-<div class="highlight-none"><div class="highlight"><pre>header=:message=1:warning=1;35:error=1;31:fatal=1;31:margin=1;34
+<div class="highlight-none"><div class="highlight"><pre><span></span>header=:message=1:warning=1;35:error=1;31:fatal=1;31:margin=1;34
 </pre></div>
 </div>
 <p>各値は <a class="reference external" href="https://en.wikipedia.org/wiki/ANSI_escape_code#graphics">Select Graphic Rendition (SGR) substring</a>
@@ -810,15 +808,15 @@ ANSIカラーコードをサポートしていなければ，文字化けした�
 <dd><p>これを有効にすると，GHC はエラーメッセージに関連する構文上の実体のソースコード上の範囲を表示します．
 通常 GHC は構文上の実体のソースコードの開始位置だけを表示します．</p>
 <p>たとえば，</p>
-<div class="highlight-none"><div class="highlight"><pre>test.hs:3:6: parse error on input `where&#39;
+<div class="highlight-none"><div class="highlight"><pre><span></span>test.hs:3:6: parse error on input `where&#39;
 </pre></div>
 </div>
 <p>という表示だったものが，</p>
-<div class="highlight-none"><div class="highlight"><pre>test296.hs:3:6-10: parse error on input `where&#39;
+<div class="highlight-none"><div class="highlight"><pre><span></span>test296.hs:3:6-10: parse error on input `where&#39;
 </pre></div>
 </div>
 <p>のような表示になります．また，範囲は複数行にまたがることもあるので，その場合は</p>
-<div class="highlight-none"><div class="highlight"><pre>test.hs:(5,4)-(6,7):
+<div class="highlight-none"><div class="highlight"><pre><span></span>test.hs:(5,4)-(6,7):
     Conflicting definitions for `a&#39;
     Bound at: test.hs:5:4
               test.hs:6:7
@@ -833,7 +831,7 @@ ANSIカラーコードをサポートしていなければ，文字化けした�
 <dt id="ghc-flag--H ⟨size⟩">
 <code class="descname">-H</code><code class="descclassname"> ⟨size⟩</code><a class="headerlink" href="#ghc-flag--H ⟨size⟩" title="この定義へのパーマリンク">¶</a></dt>
 <dd><p>ヒープの最小サイズを ⟨size⟩ に設定します．このオプションは
-<code class="docutils literal"><span class="pre">+RTS</span> <span class="pre">-Hsize</span></code> と同じです． <a class="reference internal" href="runtime_control.html#rts-options-gc"><span>RTS options to control the garbage collector</span></a> を参照してください．</p>
+<code class="docutils literal"><span class="pre">+RTS</span> <span class="pre">-Hsize</span></code> と同じです． <a class="reference internal" href="runtime_control.html#rts-options-gc"><span class="std std-ref">RTS options to control the garbage collector</span></a> を参照してください．</p>
 </dd></dl>
 
 <dl class="ghc-flag">
@@ -841,7 +839,7 @@ ANSIカラーコードをサポートしていなければ，文字化けした�
 <code class="descname">-Rghc-timing</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag--Rghc-timing" title="この定義へのパーマリンク">¶</a></dt>
 <dd><p>GHC の実行に要した時間について統計情報を1行にまとめて表示します．
 このオプションは <code class="docutils literal"><span class="pre">+RTS</span> <span class="pre">-tstderr</span></code> と同じです．
-<a class="reference internal" href="runtime_control.html#rts-options-gc"><span>RTS options to control the garbage collector</span></a> を参照してください．</p>
+<a class="reference internal" href="runtime_control.html#rts-options-gc"><span class="std std-ref">RTS options to control the garbage collector</span></a> を参照してください．</p>
 </dd></dl>
 
 </div>
@@ -851,11 +849,11 @@ ANSIカラーコードをサポートしていなければ，文字化けした�
 <dl class="ghc-flag">
 <dt id="ghc-flag--msse2">
 <code class="descname">-msse2</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag--msse2" title="この定義へのパーマリンク">¶</a></dt>
-<dd><p>(x86 のみ．GHC 7.0.1 で追加) <a class="reference internal" href="codegens.html#native-code-gen"><span>native code generator</span></a> を使う場合，
+<dd><p>(x86 のみ．GHC 7.0.1 で追加) <a class="reference internal" href="codegens.html#native-code-gen"><span class="std std-ref">native code generator</span></a> を使う場合，
 浮動小数点演算を実装するのに SSE2 のレジスタと命令セットを使います．
 これを指定すれば大幅に浮動小数点演算が改善されますが，コンパイルして得たコードは SSE2
 をサポートしているプロセッサ(Intel の Pentium 4 以降と AMD Athlon 64 以降)上でないと動きません．
-プロセッサが SSE2 をサポートしていれば <a class="reference internal" href="codegens.html#llvm-code-gen"><span>LLVM backend</span></a> は SSE2 を使いますが，
+プロセッサが SSE2 をサポートしていれば <a class="reference internal" href="codegens.html#llvm-code-gen"><span class="std std-ref">LLVM backend</span></a> は SSE2 を使いますが，
 こちらは自動で認識しますので，フラグでの指定は不要です．</p>
 <p>x86-64 のプラットフォームでは SSE2 は無条件で使われます．</p>
 </dd></dl>
@@ -863,10 +861,10 @@ ANSIカラーコードをサポートしていなければ，文字化けした�
 <dl class="ghc-flag">
 <dt id="ghc-flag--msse4.2">
 <code class="descname">-msse4.2</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag--msse4.2" title="この定義へのパーマリンク">¶</a></dt>
-<dd><p>(x86 のみ．GHC 7.4.1 で追加)． <a class="reference internal" href="codegens.html#native-code-gen"><span>native code generator</span></a> を使う場合，
+<dd><p>(x86 のみ．GHC 7.4.1 で追加)． <a class="reference internal" href="codegens.html#native-code-gen"><span class="std std-ref">native code generator</span></a> を使う場合，
 いくつかの浮動小数点演算とビット演算を実装するのに SSE4.2 命令セットを使います．
 コンパイルして得たコードは SSE4.2 をサポートしているプロセッサ(Intel の Core i7 以降)上でないと動きません．
-プロセッサが SSE4.2 をサポートしていれば <a class="reference internal" href="codegens.html#llvm-code-gen"><span>LLVM backend</span></a> は自動的にそれを認識しますので，
+プロセッサが SSE4.2 をサポートしていれば <a class="reference internal" href="codegens.html#llvm-code-gen"><span class="std std-ref">LLVM backend</span></a> は自動的にそれを認識しますので，
 して使うようになりますので，フラグ指定は不要です．</p>
 </dd></dl>
 
@@ -886,18 +884,18 @@ ANSIカラーコードをサポートしていなければ，文字化けした�
           <a href="genindex.html" title="総合索引"
              >索引</a></li>
         <li class="right" >
-          <a href="using-warnings.html" title="7.2. Warnings and sanity-checking"
+          <a href="using-warnings.html" title="7.2. 警告と整合性検査"
              >次へ</a> |</li>
         <li class="right" >
           <a href="usage.html" title="7. GHCを使う"
              >前へ</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">GHC 8.2.2 User&#39;s Guide</a> &raquo;</li>
-          <li class="nav-item nav-item-1"><a href="usage.html" >7. GHCを使う</a> &raquo;</li> 
+        <li class="nav-item nav-item-0"><a href="index.html">GHC 8.2.2 User&#39;s Guide</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="usage.html" >7. GHCを使う</a> &#187;</li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">
-        &copy; Copyright 2015, GHC Team.
-      このドキュメントは <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.6 で生成しました。
+        &#169; Copyright 2015, GHC Team.
+      このドキュメントは <a href="http://sphinx-doc.org/">Sphinx</a> 1.5.6 で生成しました。
     </div>
   </body>
 </html>

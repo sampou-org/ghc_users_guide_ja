@@ -3,11 +3,11 @@
   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
 
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="ja">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>19. Care and feeding of your GHC User’s Guide &mdash; Glasgow Haskell Compiler 8.2.2 User&#39;s Guide</title>
+    <title>19. Care and feeding of your GHC User’s Guide &#8212; Glasgow Haskell Compiler 8.2.2 User&#39;s Guide</title>
     
     <link rel="stylesheet" href="_static/ghc-theme.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -18,18 +18,20 @@
         VERSION:     '8.2.2',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
-        HAS_SOURCE:  true
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
       };
     </script>
     <script type="text/javascript" src="_static/jquery.js"></script>
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
     <script type="text/javascript" src="_static/translations.js"></script>
-    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="search" type="application/opensearchdescription+xml"
           title="Glasgow Haskell Compiler 8.2.2 User&#39;s Guide 内を検索"
           href="_static/opensearch.xml"/>
-    <link rel="top" title="Glasgow Haskell Compiler 8.2.2 User&#39;s Guide" href="index.html" />
+    <link rel="index" title="索引" href="genindex.html" />
+    <link rel="search" title="検索" href="search.html" />
     <link rel="prev" title="18. Eventlog encodings" href="eventlog-formats.html" /> 
   </head>
   <body role="document">
@@ -46,7 +48,7 @@
         <li class="right" >
           <a href="eventlog-formats.html" title="18. Eventlog encodings"
              accesskey="P">前へ</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">GHC 8.2.2 User&#39;s Guide</a> &raquo;</li> 
+        <li class="nav-item nav-item-0"><a href="index.html">GHC 8.2.2 User&#39;s Guide</a> &#187;</li> 
       </ul>
     </div>
 
@@ -93,21 +95,18 @@
   <div role="note" aria-label="source link">
     <h3>このページ</h3>
     <ul class="this-page-menu">
-      <li><a href="_sources/editing-guide.txt"
+      <li><a href="_sources/editing-guide.rst.txt"
             rel="nofollow">ソースコードを表示</a></li>
     </ul>
    </div>
 <div id="searchbox" style="display: none" role="search">
   <h3>クイック検索</h3>
     <form class="search" action="search.html" method="get">
-      <input type="text" name="q" />
-      <input type="submit" value="検索" />
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="検索" /></div>
       <input type="hidden" name="check_keywords" value="yes" />
       <input type="hidden" name="area" value="default" />
     </form>
-    <p class="searchtip" style="font-size: 90%">
-    モジュール、クラス、または関数名を入力してください
-    </p>
 </div>
 <script type="text/javascript">$('#searchbox').show(0);</script>
         </div>
@@ -136,7 +135,7 @@ to be a thorough guide to ReST. For this see the resources referenced
 <h2>19.1. Basics<a class="headerlink" href="#basics" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <p>Unicode characters are allowed in the document.</p>
 <p>The basic syntax works largely as one would expect. For instance,</p>
-<div class="highlight-rest"><div class="highlight"><pre>This is a paragraph containing a few sentences of text. Purple turtles walk
+<div class="highlight-rest"><div class="highlight"><pre><span></span>This is a paragraph containing a few sentences of text. Purple turtles walk
 through green fields of lofty maize. Lorem ipsum dolor sit amet, consectetur
 adipiscing elit. Some lists,
 
@@ -203,7 +202,7 @@ adipiscing elit. Some lists,</p>
 <h3>19.1.1. Headings<a class="headerlink" href="#headings" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <p>While ReST can accommodate a wide range of heading styles, we have standardized
 on this convention in the User&#8217;s Guide,</p>
-<div class="highlight-rest"><div class="highlight"><pre><span class="gh">Header level 1</span>
+<div class="highlight-rest"><div class="highlight"><pre><span></span><span class="gh">Header level 1</span>
 <span class="gh">==============</span>
 
 <span class="gh">Header level 2</span>
@@ -224,7 +223,7 @@ on this convention in the User&#8217;s Guide,</p>
 <p>Code snippets can be included as both inline and block elements. Inline
 code is denoted with double-backticks whereas block of code are introduced
 by ending a paragraph with double-colons and indentation,</p>
-<div class="highlight-rest"><div class="highlight"><pre>The <span class="s">``fib``</span> function is defined as, <span class="se">::</span>
+<div class="highlight-rest"><div class="highlight"><pre><span></span>The <span class="s">``fib``</span> function is defined as, <span class="se">::</span>
 
 <span class="s">    fib :: Integer -&gt; Integer</span>
 <span class="s">    fib 1 = 1</span>
@@ -234,7 +233,7 @@ by ending a paragraph with double-colons and indentation,</p>
 <p>Which would be rendered as,</p>
 <blockquote>
 <div><p>The <code class="docutils literal"><span class="pre">fib</span></code> function is defined as,</p>
-<div class="highlight-haskell"><div class="highlight"><pre><span class="nf">fib</span> <span class="ow">::</span> <span class="kt">Integer</span> <span class="ow">-&gt;</span> <span class="kt">Integer</span>
+<div class="highlight-haskell"><div class="highlight"><pre><span></span><span class="nf">fib</span> <span class="ow">::</span> <span class="kt">Integer</span> <span class="ow">-&gt;</span> <span class="kt">Integer</span>
 <span class="nf">fib</span> <span class="mi">1</span> <span class="ow">=</span> <span class="mi">1</span>
 <span class="nf">fib</span> <span class="n">n</span> <span class="ow">=</span> <span class="n">n</span> <span class="o">*</span> <span class="n">fib</span> <span class="p">(</span><span class="n">n</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
 </pre></div>
@@ -247,7 +246,7 @@ by ending a paragraph with double-colons and indentation,</p>
 use a
 <code class="docutils literal"><span class="pre">..</span> <span class="pre">code-block</span></code> <a class="reference external" href="http://sphinx-doc.org/markup/code.html#directive-code-block">directive</a> with explicit
 language designation,</p>
-<div class="highlight-rest"><div class="highlight"><pre>This is a simple shell script,
+<div class="highlight-rest"><div class="highlight"><pre><span></span>This is a simple shell script,
 
 <span class="p">..</span> <span class="ow">code-block</span><span class="p">::</span> <span class="k">sh</span>
 
@@ -263,7 +262,7 @@ language designation,</p>
 <h4>19.1.3.1. Within the User&#8217;s Guide<a class="headerlink" href="#within-the-user-s-guide" title="このヘッドラインへのパーマリンク">¶</a></h4>
 <p>Frequently we want to give a name to a section so it can be referred to
 from other points in the document,</p>
-<div class="highlight-rest"><div class="highlight"><pre><span class="p">..</span> <span class="nt">_options-platform:</span>
+<div class="highlight-rest"><div class="highlight"><pre><span></span><span class="p">..</span> <span class="nt">_options-platform:</span>
 
 <span class="gh">Platform-specific Flags</span>
 <span class="gh">-----------------------</span>
@@ -283,7 +282,7 @@ See <span class="na">:ref:</span><span class="nv">`options-platform`</span> for 
 <h4>19.1.3.2. To GHC Trac resources<a class="headerlink" href="#to-ghc-trac-resources" title="このヘッドラインへのパーマリンク">¶</a></h4>
 <p>There are special macros for conveniently linking to GHC Trac
 Wiki articles and tickets,</p>
-<div class="highlight-rest"><div class="highlight"><pre>See <span class="na">:ghc-wiki:</span><span class="nv">`Commentary/Latedmd`</span> for details on demand analysis.
+<div class="highlight-rest"><div class="highlight"><pre><span></span>See <span class="na">:ghc-wiki:</span><span class="nv">`Commentary/Latedmd`</span> for details on demand analysis.
 
 See the <span class="na">:ghc-wiki:</span><span class="nv">`coding style &lt;Commentary/CodingStyle&gt;`</span> for guidelines.
 
@@ -296,7 +295,7 @@ See the <span class="na">:ghc-ticket:</span><span class="nv">`this bug &lt;123&g
 <div class="section" id="to-external-resources">
 <h4>19.1.3.3. To external resources<a class="headerlink" href="#to-external-resources" title="このヘッドラインへのパーマリンク">¶</a></h4>
 <p>External links can be written in either of these ways,</p>
-<div class="highlight-rest"><div class="highlight"><pre>See the <span class="s">`GHC Wiki </span><span class="si">&lt;http://ghc.haskell.org/wiki&gt;</span><span class="s">`_</span> for details.
+<div class="highlight-rest"><div class="highlight"><pre><span></span>See the <span class="s">`GHC Wiki </span><span class="si">&lt;http://ghc.haskell.org/wiki&gt;</span><span class="s">`_</span> for details.
 
 See the <span class="s">`GHC Wiki`_</span> for details.
 
@@ -316,7 +315,7 @@ commands for referring to documentation for the following core GHC packages,</p>
 </ul>
 <p>These are defined in <code class="file docutils literal"><span class="pre">docs/users_guide/ghc_config.py.in</span></code>.</p>
 <p>For instance,</p>
-<div class="highlight-rest"><div class="highlight"><pre>See the documentation for <span class="na">:base-ref:</span><span class="nv">`Control.Applicative &lt;Control-Applicative.html&gt;`</span>
+<div class="highlight-rest"><div class="highlight"><pre><span></span>See the documentation for <span class="na">:base-ref:</span><span class="nv">`Control.Applicative &lt;Control-Applicative.html&gt;`</span>
 for details.
 </pre></div>
 </div>
@@ -324,7 +323,7 @@ for details.
 <div class="section" id="math">
 <h4>19.1.3.5. Math<a class="headerlink" href="#math" title="このヘッドラインへのパーマリンク">¶</a></h4>
 <p>You can insert type-set equations using <code class="docutils literal"><span class="pre">:math:</span></code>. For instance,</p>
-<div class="highlight-rest"><div class="highlight"><pre>Fick&#39;s law of diffusion, <span class="na">:math:</span><span class="nv">`J = -D \frac{d \varphi}{d x}`</span>, ...
+<div class="highlight-rest"><div class="highlight"><pre><span></span>Fick&#39;s law of diffusion, <span class="na">:math:</span><span class="nv">`J = -D \frac{d \varphi}{d x}`</span>, ...
 </pre></div>
 </div>
 <p>will render as,</p>
@@ -336,7 +335,7 @@ for details.
 <h3>19.1.4. Index entries<a class="headerlink" href="#index-entries" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <p>Index entries can be included anywhere in the document as a block element.
 They look like,</p>
-<div class="highlight-rest"><div class="highlight"><pre>Here is some discussion on the Strict Haskell extension.
+<div class="highlight-rest"><div class="highlight"><pre><span></span>Here is some discussion on the Strict Haskell extension.
 
 <span class="p">..</span> <span class="ow">index</span><span class="p">::</span>
     single: strict haskell
@@ -353,7 +352,7 @@ index headings.</p>
 <div class="section" id="citations">
 <h2>19.2. Citations<a class="headerlink" href="#citations" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <p>Citations can be marked-up like this,</p>
-<div class="highlight-rest"><div class="highlight"><pre>See the original paper <span class="s">[Doe2008]_</span>
+<div class="highlight-rest"><div class="highlight"><pre><span></span>See the original paper <span class="s">[Doe2008]_</span>
 
 <span class="p">..</span> <span class="nt">[Doe2008]</span> John Doe and Leslie Conway.
              &quot;This is the title of our paper&quot; (2008)
@@ -365,7 +364,7 @@ index headings.</p>
 <p><a class="reference external" href="http://docutils.sourceforge.net/docs/ref/rst/directives.html#admonitions">Admonitions</a> are block elements used to draw the readers attention to a point.
 They should not be over-used for the sake of readability but they can be quite
 effective in separating and drawing attention to points of importance,</p>
-<div class="highlight-rest"><div class="highlight"><pre><span class="p">..</span> <span class="ow">important</span><span class="p">::</span>
+<div class="highlight-rest"><div class="highlight"><pre><span></span><span class="p">..</span> <span class="ow">important</span><span class="p">::</span>
 
     Be friendly and supportive to your fellow contributors.
 </pre></div>
@@ -405,7 +404,7 @@ effective in separating and drawing attention to points of importance,</p>
 <p>The <code class="docutils literal"><span class="pre">ghc-flag</span></code> and <code class="docutils literal"><span class="pre">rts-flag</span></code> roles/directives can be used to document
 command-line arguments to the <strong class="program">ghc</strong> executable and runtime system,
 respectively. For instance,</p>
-<div class="highlight-rest"><div class="highlight"><pre><span class="p">..</span> <span class="ow">rts-flag</span><span class="p">::</span> -C ⟨seconds⟩
+<div class="highlight-rest"><div class="highlight"><pre><span></span><span class="p">..</span> <span class="ow">rts-flag</span><span class="p">::</span> -C ⟨seconds⟩
 
    <span class="nc">:default:</span> <span class="nf">20 milliseconds</span>
 
@@ -434,11 +433,11 @@ in Style Conventions below, we use <code class="docutils literal"><span class="p
 signs. To reference a <code class="docutils literal"><span class="pre">ghc-flag</span></code> or <code class="docutils literal"><span class="pre">rts-flag</span></code>, you must match the
 definition exactly, including the arguments. A quick way to find the exact
 names and special characters is,</p>
-<div class="highlight-sh"><div class="highlight"><pre>$ git grep -- <span class="s2">&quot;flag:: -o &quot;</span>
+<div class="highlight-sh"><div class="highlight"><pre><span></span>$ git grep -- <span class="s2">&quot;flag:: -o &quot;</span>
 </pre></div>
 </div>
 <p>which will generate the appropriate,</p>
-<div class="highlight-none"><div class="highlight"><pre>separate_compilation.rst:.. ghc-flag:: -o ⟨file⟩
+<div class="highlight-none"><div class="highlight"><pre><span></span>separate_compilation.rst:.. ghc-flag:: -o ⟨file⟩
 </pre></div>
 </div>
 </div>
@@ -446,7 +445,7 @@ names and special characters is,</p>
 <h3>19.4.2. GHCi commands<a class="headerlink" href="#ghci-commands" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <p>The <code class="docutils literal"><span class="pre">ghci-cmd</span></code> role and directive can be used to document GHCi directives. For
 instance, we can describe the GHCi <code class="docutils literal"><span class="pre">:module</span></code> command,</p>
-<div class="highlight-rest"><div class="highlight"><pre><span class="p">..</span> <span class="ow">ghci-cmd</span><span class="p">::</span> :module; [*]⟨file⟩
+<div class="highlight-rest"><div class="highlight"><pre><span></span><span class="p">..</span> <span class="ow">ghci-cmd</span><span class="p">::</span> :module; [*]⟨file⟩
 
     Load a module
 </pre></div>
@@ -461,7 +460,7 @@ instance, we can describe the GHCi <code class="docutils literal"><span class="p
 
 </div></blockquote>
 <p>And later refer to it by just the command name, <code class="docutils literal"><span class="pre">:module</span></code>,</p>
-<div class="highlight-rest"><div class="highlight"><pre>The GHCi <span class="na">:ghci-cmd:</span><span class="nv">`:load`</span> and <span class="na">:ghci-cmd:</span><span class="nv">`:module`</span> commands are used
+<div class="highlight-rest"><div class="highlight"><pre><span></span>The GHCi <span class="na">:ghci-cmd:</span><span class="nv">`:load`</span> and <span class="na">:ghci-cmd:</span><span class="nv">`:module`</span> commands are used
 to modify the modules in scope.
 </pre></div>
 </div>
@@ -509,12 +508,12 @@ be added to the appropriate file in <code class="file docutils literal"><span cl
         <li class="right" >
           <a href="eventlog-formats.html" title="18. Eventlog encodings"
              >前へ</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">GHC 8.2.2 User&#39;s Guide</a> &raquo;</li> 
+        <li class="nav-item nav-item-0"><a href="index.html">GHC 8.2.2 User&#39;s Guide</a> &#187;</li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">
-        &copy; Copyright 2015, GHC Team.
-      このドキュメントは <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.6 で生成しました。
+        &#169; Copyright 2015, GHC Team.
+      このドキュメントは <a href="http://sphinx-doc.org/">Sphinx</a> 1.5.6 で生成しました。
     </div>
   </body>
 </html>

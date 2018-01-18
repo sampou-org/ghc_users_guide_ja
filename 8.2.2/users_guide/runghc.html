@@ -3,11 +3,11 @@
   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
 
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="ja">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>6. runghc を使う &mdash; Glasgow Haskell Compiler 8.2.2 User&#39;s Guide</title>
+    <title>6. runghc を使う &#8212; Glasgow Haskell Compiler 8.2.2 User&#39;s Guide</title>
     
     <link rel="stylesheet" href="_static/ghc-theme.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -18,19 +18,21 @@
         VERSION:     '8.2.2',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
-        HAS_SOURCE:  true
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
       };
     </script>
     <script type="text/javascript" src="_static/jquery.js"></script>
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
     <script type="text/javascript" src="_static/translations.js"></script>
-    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="search" type="application/opensearchdescription+xml"
           title="Glasgow Haskell Compiler 8.2.2 User&#39;s Guide 内を検索"
           href="_static/opensearch.xml"/>
-    <link rel="top" title="Glasgow Haskell Compiler 8.2.2 User&#39;s Guide" href="index.html" />
-    <link rel="next" title="7. Using GHC" href="usage.html" />
+    <link rel="index" title="索引" href="genindex.html" />
+    <link rel="search" title="検索" href="search.html" />
+    <link rel="next" title="7. GHCを使う" href="usage.html" />
     <link rel="prev" title="5. GHCi を使う" href="ghci.html" /> 
   </head>
   <body role="document">
@@ -45,12 +47,12 @@
           <a href="genindex.html" title="総合索引"
              accesskey="I">索引</a></li>
         <li class="right" >
-          <a href="usage.html" title="7. Using GHC"
+          <a href="usage.html" title="7. GHCを使う"
              accesskey="N">次へ</a> |</li>
         <li class="right" >
           <a href="ghci.html" title="5. GHCi を使う"
              accesskey="P">前へ</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">GHC 8.2.2 User&#39;s Guide</a> &raquo;</li> 
+        <li class="nav-item nav-item-0"><a href="index.html">GHC 8.2.2 User&#39;s Guide</a> &#187;</li> 
       </ul>
     </div>
 
@@ -71,25 +73,22 @@
                         title="前の章へ">5. GHCi を使う</a></p>
   <h4>次のトピックへ</h4>
   <p class="topless"><a href="usage.html"
-                        title="次の章へ">7. Using GHC</a></p>
+                        title="次の章へ">7. GHCを使う</a></p>
   <div role="note" aria-label="source link">
     <h3>このページ</h3>
     <ul class="this-page-menu">
-      <li><a href="_sources/runghc.txt"
+      <li><a href="_sources/runghc.rst.txt"
             rel="nofollow">ソースコードを表示</a></li>
     </ul>
    </div>
 <div id="searchbox" style="display: none" role="search">
   <h3>クイック検索</h3>
     <form class="search" action="search.html" method="get">
-      <input type="text" name="q" />
-      <input type="submit" value="検索" />
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="検索" /></div>
       <input type="hidden" name="check_keywords" value="yes" />
       <input type="hidden" name="area" value="default" />
     </form>
-    <p class="searchtip" style="font-size: 90%">
-    モジュール、クラス、または関数名を入力してください
-    </p>
 </div>
 <script type="text/javascript">$('#searchbox').show(0);</script>
         </div>
@@ -106,7 +105,7 @@
 <div class="section" id="runghc-introduction">
 <span id="id2"></span><h2>6.1. 使い方<a class="headerlink" href="#runghc-introduction" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <p><code class="docutils literal"><span class="pre">runghc</span></code> のコマンドラインは以下のようになります．</p>
-<div class="highlight-none"><div class="highlight"><pre>runghc [runghc flags] [GHC flags] module [program args]
+<div class="highlight-none"><div class="highlight"><pre><span></span>runghc [runghc flags] [GHC flags] module [program args]
 </pre></div>
 </div>
 <p>runghcが認識しないフラグはすべて自動的にGHCへ渡します．
@@ -163,17 +162,17 @@ GHCフラグが引数を取る場合 <code class="docutils literal"><span class=
           <a href="genindex.html" title="総合索引"
              >索引</a></li>
         <li class="right" >
-          <a href="usage.html" title="7. Using GHC"
+          <a href="usage.html" title="7. GHCを使う"
              >次へ</a> |</li>
         <li class="right" >
           <a href="ghci.html" title="5. GHCi を使う"
              >前へ</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">GHC 8.2.2 User&#39;s Guide</a> &raquo;</li> 
+        <li class="nav-item nav-item-0"><a href="index.html">GHC 8.2.2 User&#39;s Guide</a> &#187;</li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">
-        &copy; Copyright 2015, GHC Team.
-      このドキュメントは <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.6 で生成しました。
+        &#169; Copyright 2015, GHC Team.
+      このドキュメントは <a href="http://sphinx-doc.org/">Sphinx</a> 1.5.6 で生成しました。
     </div>
   </body>
 </html>

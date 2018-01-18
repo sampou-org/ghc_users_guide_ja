@@ -3,11 +3,11 @@
   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
 
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="ja">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>7.2. 警告と整合性検査 &mdash; Glasgow Haskell Compiler 8.2.2 User&#39;s Guide</title>
+    <title>7.2. 警告と整合性検査 &#8212; Glasgow Haskell Compiler 8.2.2 User&#39;s Guide</title>
     
     <link rel="stylesheet" href="_static/ghc-theme.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -18,20 +18,21 @@
         VERSION:     '8.2.2',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
-        HAS_SOURCE:  true
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
       };
     </script>
     <script type="text/javascript" src="_static/jquery.js"></script>
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
     <script type="text/javascript" src="_static/translations.js"></script>
-    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="search" type="application/opensearchdescription+xml"
           title="Glasgow Haskell Compiler 8.2.2 User&#39;s Guide 内を検索"
           href="_static/opensearch.xml"/>
-    <link rel="top" title="Glasgow Haskell Compiler 8.2.2 User&#39;s Guide" href="index.html" />
-    <link rel="up" title="7. GHCを使う" href="usage.html" />
-    <link rel="next" title="7.3. Optimisation (code improvement)" href="using-optimisation.html" />
+    <link rel="index" title="索引" href="genindex.html" />
+    <link rel="search" title="検索" href="search.html" />
+    <link rel="next" title="7.3. 最適化 (コードの改善)" href="using-optimisation.html" />
     <link rel="prev" title="7.1. GHCを使う" href="using.html" /> 
   </head>
   <body role="document">
@@ -46,13 +47,13 @@
           <a href="genindex.html" title="総合索引"
              accesskey="I">索引</a></li>
         <li class="right" >
-          <a href="using-optimisation.html" title="7.3. Optimisation (code improvement)"
+          <a href="using-optimisation.html" title="7.3. 最適化 (コードの改善)"
              accesskey="N">次へ</a> |</li>
         <li class="right" >
           <a href="using.html" title="7.1. GHCを使う"
              accesskey="P">前へ</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">GHC 8.2.2 User&#39;s Guide</a> &raquo;</li>
-          <li class="nav-item nav-item-1"><a href="usage.html" accesskey="U">7. GHCを使う</a> &raquo;</li> 
+        <li class="nav-item nav-item-0"><a href="index.html">GHC 8.2.2 User&#39;s Guide</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="usage.html" accesskey="U">7. GHCを使う</a> &#187;</li> 
       </ul>
     </div>
 
@@ -63,25 +64,22 @@
                         title="前の章へ">7.1. GHCを使う</a></p>
   <h4>次のトピックへ</h4>
   <p class="topless"><a href="using-optimisation.html"
-                        title="次の章へ">7.3. Optimisation (code improvement)</a></p>
+                        title="次の章へ">7.3. 最適化 (コードの改善)</a></p>
   <div role="note" aria-label="source link">
     <h3>このページ</h3>
     <ul class="this-page-menu">
-      <li><a href="_sources/using-warnings.txt"
+      <li><a href="_sources/using-warnings.rst.txt"
             rel="nofollow">ソースコードを表示</a></li>
     </ul>
    </div>
 <div id="searchbox" style="display: none" role="search">
   <h3>クイック検索</h3>
     <form class="search" action="search.html" method="get">
-      <input type="text" name="q" />
-      <input type="submit" value="検索" />
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="検索" /></div>
       <input type="hidden" name="check_keywords" value="yes" />
       <input type="hidden" name="area" value="default" />
     </form>
-    <p class="searchtip" style="font-size: 90%">
-    モジュール、クラス、または関数名を入力してください
-    </p>
 </div>
 <script type="text/javascript">$('#searchbox').show(0);</script>
         </div>
@@ -257,7 +255,7 @@
 <code class="descname">-Wtyped-holes</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag--Wtyped-holes" title="この定義へのパーマリンク">¶</a></dt>
 <dd><p>コンパイラが型付きホールの警告を出すかを決めます．
 型付きホールのエラーがランタイムまで遅延されているときにのみ効果があります．
-<a class="reference internal" href="glasgow_exts.html#typed-holes"><span>Typed Holes</span></a> および <a class="reference internal" href="glasgow_exts.html#defer-type-errors"><span>Deferring type errors to runtime</span></a> を参照してください．</p>
+<a class="reference internal" href="glasgow_exts.html#typed-holes"><span class="std std-ref">Typed Holes</span></a> および <a class="reference internal" href="glasgow_exts.html#defer-type-errors"><span class="std std-ref">Deferring type errors to runtime</span></a> を参照してください．</p>
 <p>この警告はデフォルトで有効になっています．</p>
 </dd></dl>
 
@@ -265,7 +263,7 @@
 <dt id="ghc-flag--Wtype-errors">
 <code class="descname">-Wtype-errors</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag--Wtype-errors" title="この定義へのパーマリンク">¶</a></dt>
 <dd><p>型エラーが実行時まで遅延されているときに警告を出します．
-<a class="reference internal" href="glasgow_exts.html#defer-type-errors"><span>Deferring type errors to runtime</span></a> を参照してください．</p>
+<a class="reference internal" href="glasgow_exts.html#defer-type-errors"><span class="std std-ref">Deferring type errors to runtime</span></a> を参照してください．</p>
 <p>この警告はデフォルトで有効になっています．</p>
 </dd></dl>
 
@@ -284,16 +282,16 @@
 コンパイル時にはエラーではなく警告がでます．
 実行時には，型エラーを起こす変数を使ったときに実行時エラーになります．
 しかし，型が正しい部分については，正しく動きます．
-<a class="reference internal" href="glasgow_exts.html#defer-type-errors"><span>Deferring type errors to runtime</span></a> を参照してください．</p>
+<a class="reference internal" href="glasgow_exts.html#defer-type-errors"><span class="std std-ref">Deferring type errors to runtime</span></a> を参照してください．</p>
 </dd></dl>
 
 <dl class="ghc-flag">
 <dt id="ghc-flag--fdefer-typed-holes">
 <code class="descname">-fdefer-typed-holes</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag--fdefer-typed-holes" title="この定義へのパーマリンク">¶</a></dt>
 <dd><p>型付きホールのエラー(アンダースコアで始まる名前(たとえば <code class="docutils literal"><span class="pre">_</span></code> ， <code class="docutils literal"><span class="pre">_foo</span></code> ， <code class="docutils literal"><span class="pre">_bar</span></code>)に関するエラー)を実行時まで遅延します．
-これは <a class="reference internal" href="glasgow_exts.html#typed-holes"><span>typed holes</span></a> によって起きたエラーを警告にします．
+これは <a class="reference internal" href="glasgow_exts.html#typed-holes"><span class="std std-ref">typed holes</span></a> によって起きたエラーを警告にします．
 型付きホールに依存する値を使うと <a class="reference internal" href="#ghc-flag--fdefer-type-errors"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-fdefer-type-errors</span></code></a> (これを指定すると <a class="reference internal" href="#ghc-flag--fdefer-typed-holes"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-fdefer-typed-holes</span></code></a> が有効になる)のときと同じく実行時エラーになります．
-<a class="reference internal" href="glasgow_exts.html#typed-holes"><span>Typed Holes</span></a> および <a class="reference internal" href="glasgow_exts.html#defer-type-errors"><span>Deferring type errors to runtime</span></a> を参照してください．</p>
+<a class="reference internal" href="glasgow_exts.html#typed-holes"><span class="std std-ref">Typed Holes</span></a> および <a class="reference internal" href="glasgow_exts.html#defer-type-errors"><span class="std std-ref">Deferring type errors to runtime</span></a> を参照してください．</p>
 <p><a class="reference internal" href="#ghc-flag--fdefer-type-errors"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-fdefer-type-errors</span></code></a> によって有効になります． <a class="reference internal" href="#ghc-flag--Wtyped-holes"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-Wtyped-holes</span></code></a> も参照してください．</p>
 </dd></dl>
 
@@ -303,7 +301,7 @@
 <dd><p>変数の有効範囲外エラー(アンダースコアで始まらない名前に関するエラー)を実行時まで遅延します．
 これは変数の有効範囲外エラーを警告に換えるものです．
 有効範囲外の変数に依存する値を使うと <a class="reference internal" href="#ghc-flag--fdefer-type-errors"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-fdefer-type-errors</span></code></a> (これを指定すると <code class="xref std std-ghc-flag docutils literal"><span class="pre">-fdefer-out-of-scope-variables`が有効になる)のときと同じく実行時エラーになります．</span>
-<span class="pre">:ref:`typed-holes</span></code> および <a class="reference internal" href="glasgow_exts.html#defer-type-errors"><span>Deferring type errors to runtime</span></a> を参照してください．</p>
+<span class="pre">:ref:`typed-holes</span></code> および <a class="reference internal" href="glasgow_exts.html#defer-type-errors"><span class="std std-ref">Deferring type errors to runtime</span></a> を参照してください．</p>
 <p><a class="reference internal" href="#ghc-flag--fdefer-type-errors"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-fdefer-type-errors</span></code></a> によって有効になります． <a class="reference internal" href="#ghc-flag--Wdeferred-out-of-scope-variables"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-Wdeferred-out-of-scope-variables</span></code></a> も参照してください．</p>
 </dd></dl>
 
@@ -319,7 +317,7 @@
 <dd><p>部分型シグネチャ中にホールがあることをコンパイラが警告として報告するかを決定します．
 <a class="reference internal" href="glasgow_exts.html#ghc-flag--XPartialTypeSignatures"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-XPartialTypeSignatures</span></code></a> が有効になってい場合に限り効果があります．
 この言語拡張は型中のホールに関してエラーにするかどうかを制御します．
-<a class="reference internal" href="glasgow_exts.html#partial-type-signatures"><span>Partial Type Signatures</span></a> を参照してください．</p>
+<a class="reference internal" href="glasgow_exts.html#partial-type-signatures"><span class="std std-ref">Partial Type Signatures</span></a> を参照してください．</p>
 <p>この警告はデフォルトで有効になっています．</p>
 </dd></dl>
 
@@ -358,7 +356,7 @@ GHC 自身が使うプラグマだけではなく，他のツールが使うこ�
 <dt id="ghc-flag--Wwarnings-deprecations">
 <code class="descname">-Wwarnings-deprecations</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag--Wwarnings-deprecations" title="この定義へのパーマリンク">¶</a></dt>
 <dd><p id="index-1"><code class="docutils literal"><span class="pre">WARNING</span></code> あるいは <code class="docutils literal"><span class="pre">DEPRECATED</span></code> プラグマの付いたモジュール，関数，型を使ったときに警告を発行します．
-対応するプラグマについて詳しくは <a class="reference internal" href="glasgow_exts.html#warning-deprecated-pragma"><span>WARNING and DEPRECATED pragmas</span></a> を参照してください．</p>
+対応するプラグマについて詳しくは <a class="reference internal" href="glasgow_exts.html#warning-deprecated-pragma"><span class="std std-ref">WARNING and DEPRECATED pragmas</span></a> を参照してください．</p>
 <p>このオプションはデフォルトで有効です．</p>
 </dd></dl>
 
@@ -366,7 +364,7 @@ GHC 自身が使うプラグマだけではなく，他のツールが使うこ�
 <dt id="ghc-flag--Wdeprecations">
 <code class="descname">-Wdeprecations</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag--Wdeprecations" title="この定義へのパーマリンク">¶</a></dt>
 <dd><p id="index-2"><code class="docutils literal"><span class="pre">WARNING</span></code> あるいは <code class="docutils literal"><span class="pre">DEPRECATED</span></code> プラグマの付いたモジュール，関数，型を使ったときに警告を発行します．
-対応するプラグマについて詳しくは <a class="reference internal" href="glasgow_exts.html#warning-deprecated-pragma"><span>WARNING and DEPRECATED pragmas</span></a> を参照してください．
+対応するプラグマについて詳しくは <a class="reference internal" href="glasgow_exts.html#warning-deprecated-pragma"><span class="std std-ref">WARNING and DEPRECATED pragmas</span></a> を参照してください．
 これは <a class="reference internal" href="#ghc-flag--Wwarnings-deprecations"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-Wwarnings-deprecations</span></code></a> の別名です．</p>
 <p>このオプションはデフォルトで有効です．</p>
 </dd></dl>
@@ -483,11 +481,11 @@ GHC 自身が使うプラグマだけではなく，他のツールが使うこ�
 <dt id="ghc-flag--Wdodgy-foreign-imports">
 <code class="descname">-Wdodgy-foreign-imports</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag--Wdodgy-foreign-imports" title="この定義へのパーマリンク">¶</a></dt>
 <dd><p>以下の形式の外部インポートに対して警告を発行します．</p>
-<div class="highlight-haskell"><div class="highlight"><pre><span class="nf">foreign</span> <span class="kr">import</span> <span class="s">&quot;f&quot;</span> <span class="nn">f</span> <span class="ow">::</span> <span class="kt">FunPtr</span> <span class="n">t</span>
+<div class="highlight-haskell"><div class="highlight"><pre><span></span><span class="nf">foreign</span> <span class="kr">import</span> <span class="s">&quot;f&quot;</span> <span class="nn">f</span> <span class="ow">::</span> <span class="kt">FunPtr</span> <span class="n">t</span>
 </pre></div>
 </div>
 <p>おそらく</p>
-<div class="highlight-haskell"><div class="highlight"><pre><span class="nf">foreign</span> <span class="kr">import</span> <span class="s">&quot;&amp;f&quot;</span> <span class="nn">f</span> <span class="ow">::</span> <span class="kt">FunPtr</span> <span class="n">t</span>
+<div class="highlight-haskell"><div class="highlight"><pre><span></span><span class="nf">foreign</span> <span class="kr">import</span> <span class="s">&quot;&amp;f&quot;</span> <span class="nn">f</span> <span class="ow">::</span> <span class="kt">FunPtr</span> <span class="n">t</span>
 </pre></div>
 </div>
 <p>と書くべきだったと思われます．
@@ -530,7 +528,7 @@ GHC 自身が使うプラグマだけではなく，他のツールが使うこ�
 <code class="descname">-Wduplicate-constraints</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag--Wduplicate-constraints" title="この定義へのパーマリンク">¶</a></dt>
 <dd><p id="index-7">型シグネチャで制約の重複がある場合コンパイラが警告を発行するようにします．
 たとえば，以下のような場合です．</p>
-<div class="highlight-haskell"><div class="highlight"><pre><span class="nf">f</span> <span class="ow">::</span> <span class="p">(</span><span class="kt">Eq</span> <span class="n">a</span><span class="p">,</span> <span class="kt">Show</span> <span class="n">a</span><span class="p">,</span> <span class="kt">Eq</span> <span class="n">a</span><span class="p">)</span> <span class="ow">=&gt;</span> <span class="n">a</span> <span class="ow">-&gt;</span> <span class="n">a</span>
+<div class="highlight-haskell"><div class="highlight"><pre><span></span><span class="nf">f</span> <span class="ow">::</span> <span class="p">(</span><span class="kt">Eq</span> <span class="n">a</span><span class="p">,</span> <span class="kt">Show</span> <span class="n">a</span><span class="p">,</span> <span class="kt">Eq</span> <span class="n">a</span><span class="p">)</span> <span class="ow">=&gt;</span> <span class="n">a</span> <span class="ow">-&gt;</span> <span class="n">a</span>
 </pre></div>
 </div>
 <p>この警告では <code class="docutils literal"><span class="pre">Eq</span> <span class="pre">a</span></code> という制約が重複していることを表示します．</p>
@@ -552,14 +550,14 @@ GHC 自身が使うプラグマだけではなく，他のツールが使うこ�
 具体的には，</p>
 <ul>
 <li><p class="first">型シグネチャ内に冗長な制約がある場合．</p>
-<div class="highlight-haskell"><div class="highlight"><pre><span class="nf">f</span> <span class="ow">::</span> <span class="p">(</span><span class="kt">Eq</span> <span class="n">a</span><span class="p">,</span> <span class="kt">Ord</span> <span class="n">a</span><span class="p">)</span> <span class="ow">=&gt;</span> <span class="n">a</span> <span class="ow">-&gt;</span> <span class="n">a</span>
+<div class="highlight-haskell"><div class="highlight"><pre><span></span><span class="nf">f</span> <span class="ow">::</span> <span class="p">(</span><span class="kt">Eq</span> <span class="n">a</span><span class="p">,</span> <span class="kt">Ord</span> <span class="n">a</span><span class="p">)</span> <span class="ow">=&gt;</span> <span class="n">a</span> <span class="ow">-&gt;</span> <span class="n">a</span>
 </pre></div>
 </div>
 <p>この警告では <code class="docutils literal"><span class="pre">Eq</span> <span class="pre">a</span></code> という警告が冗長であることが表示されます．
 <code class="docutils literal"><span class="pre">Ord</span> <span class="pre">a</span></code> 制約によって <code class="docutils literal"><span class="pre">Eq</span> <span class="pre">a</span></code> 制約は仮定済みになるからです．</p>
 </li>
 <li><p class="first">型シグネチャ内の制約がカバーする範囲のコードで，その制約が使われていない場合．</p>
-<div class="highlight-haskell"><div class="highlight"><pre><span class="nf">f</span> <span class="ow">::</span> <span class="kt">Eq</span> <span class="n">a</span> <span class="ow">=&gt;</span> <span class="n">a</span> <span class="ow">-&gt;</span> <span class="n">a</span> <span class="ow">-&gt;</span> <span class="kt">Bool</span>
+<div class="highlight-haskell"><div class="highlight"><pre><span></span><span class="nf">f</span> <span class="ow">::</span> <span class="kt">Eq</span> <span class="n">a</span> <span class="ow">=&gt;</span> <span class="n">a</span> <span class="ow">-&gt;</span> <span class="n">a</span> <span class="ow">-&gt;</span> <span class="kt">Bool</span>
 <span class="nf">f</span> <span class="n">x</span> <span class="n">y</span> <span class="ow">=</span> <span class="kt">True</span>
 </pre></div>
 </div>
@@ -573,7 +571,7 @@ GHC 自身が使うプラグマだけではなく，他のツールが使うこ�
 必要とされる以上の制約を加えた型シグネチャを書きたい場合には，APIを変更することなく，実装を変更する余地が残されています．
 そのような場合には，使われない束縛を使って，関数ごとに警告を抑制できます．
 たとえば，以下のようにします．</p>
-<div class="highlight-haskell"><div class="highlight"><pre><span class="nf">f</span> <span class="ow">::</span> <span class="kt">Eq</span> <span class="n">a</span> <span class="ow">=&gt;</span> <span class="n">a</span> <span class="ow">-&gt;</span> <span class="n">a</span> <span class="ow">-&gt;</span> <span class="kt">Bool</span>
+<div class="highlight-haskell"><div class="highlight"><pre><span></span><span class="nf">f</span> <span class="ow">::</span> <span class="kt">Eq</span> <span class="n">a</span> <span class="ow">=&gt;</span> <span class="n">a</span> <span class="ow">-&gt;</span> <span class="n">a</span> <span class="ow">-&gt;</span> <span class="kt">Bool</span>
 <span class="nf">f</span> <span class="n">x</span> <span class="n">y</span> <span class="ow">=</span> <span class="kt">True</span>
 <span class="kr">where</span>
     <span class="kr">_</span> <span class="ow">=</span> <span class="n">x</span> <span class="o">==</span> <span class="n">x</span>  <span class="c1">-- (Eq a)に対する冗長な制約警告を抑制</span>
@@ -602,7 +600,7 @@ GHC 自身が使うプラグマだけではなく，他のツールが使うこ�
 <code class="descname">-Widentities</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag--Widentities" title="この定義へのパーマリンク">¶</a></dt>
 <dd><p>Prelude の数値変換が <code class="docutils literal"><span class="pre">T</span></code> 型の値を同じ <code class="docutils literal"><span class="pre">T``型の値に変換しようとしている場合に，コンパイラが警告を発行するようになります．</span>
 <span class="pre">このような呼び出しは何もしないのと同じで省略できます．</span>
-<span class="pre">検査される関数は</span>&nbsp; <span class="pre">``toInteger</span></code> ， <code class="docutils literal"><span class="pre">toRational</span></code> ， <code class="docutils literal"><span class="pre">fromIntegral</span></code> ， <code class="docutils literal"><span class="pre">realToFrac</span></code> です．</p>
+<span class="pre">検査される関数は</span>&#160; <span class="pre">``toInteger</span></code> ， <code class="docutils literal"><span class="pre">toRational</span></code> ， <code class="docutils literal"><span class="pre">fromIntegral</span></code> ， <code class="docutils literal"><span class="pre">realToFrac</span></code> です．</p>
 </dd></dl>
 
 <dl class="ghc-flag">
@@ -625,14 +623,14 @@ Prelude の暗黙のインポートは <code class="docutils literal"><span clas
 <code class="descname">-Wincomplete-uni-patterns</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag--Wincomplete-uni-patterns" title="この定義へのパーマリンク">¶</a></dt>
 <dd><p id="index-12"><a class="reference internal" href="#ghc-flag--Wincomplete-patterns"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-Wincomplete-patterns</span></code></a> はパターン照合が実行時に失敗する可能性がある場合に警告を発行します．
 以下の関数 <code class="docutils literal"><span class="pre">g</span></code> は空ではないリストに適用すると失敗するので <a class="reference internal" href="#ghc-flag--Wincomplete-patterns"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-Wincomplete-patterns</span></code></a> が有効ならコンパイラは警告を発行します．</p>
-<div class="highlight-haskell"><div class="highlight"><pre><span class="nf">g</span> <span class="kt">[]</span> <span class="ow">=</span> <span class="mi">2</span>
+<div class="highlight-haskell"><div class="highlight"><pre><span></span><span class="nf">g</span> <span class="kt">[]</span> <span class="ow">=</span> <span class="mi">2</span>
 </pre></div>
 </div>
 <p>このオプションは小うるさいことがあり，また常にバグを示しているわけもないので，デフォルトでは有効になっていません．
 しかし，関数を定義するときにはすべての場合を網羅するのが一般的に良い習慣です．
 このオプションは <a class="reference internal" href="#ghc-flag--W"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-W</span></code></a> で有効になります．</p>
 <p><a class="reference internal" href="#ghc-flag--Wincomplete-uni-patterns"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-Wincomplete-uni-patterns</span></code></a> というフラグは，単一パターンしか許されない構文要素，つまりλ抽象式およびパターン束縛にのみ適用されるという点を除けば <a class="reference internal" href="#ghc-flag--Wincomplete-patterns"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-Wincomplete-patterns</span></code></a> と同じである．</p>
-<div class="highlight-haskell"><div class="highlight"><pre><span class="nf">h</span> <span class="ow">=</span> <span class="nf">\</span><span class="kt">[]</span> <span class="ow">-&gt;</span> <span class="mi">2</span>
+<div class="highlight-haskell"><div class="highlight"><pre><span></span><span class="nf">h</span> <span class="ow">=</span> <span class="nf">\</span><span class="kt">[]</span> <span class="ow">-&gt;</span> <span class="mi">2</span>
 <span class="kt">Just</span> <span class="n">k</span> <span class="ow">=</span> <span class="n">f</span> <span class="n">y</span>
 </pre></div>
 </div>
@@ -660,7 +658,7 @@ GHC がパターン照合検査器の反復限界を超えたと報告しない�
 <code class="descname">-Wincomplete-record-updates</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag--Wincomplete-record-updates" title="この定義へのパーマリンク">¶</a></dt>
 <dd><p id="index-13">以下の関数 <code class="docutils literal"><span class="pre">f</span></code> は <code class="docutils literal"><span class="pre">Bar</span></code> に適用すると失敗します．
 <a class="reference internal" href="#ghc-flag--Wincomplete-record-updates"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-Wincomplete-record-updates</span></code></a> を有効にしておくと，この場合に警告が発行されます．</p>
-<div class="highlight-haskell"><div class="highlight"><pre><span class="kr">data</span> <span class="kt">Foo</span> <span class="ow">=</span> <span class="kt">Foo</span> <span class="p">{</span> <span class="n">x</span> <span class="ow">::</span> <span class="kt">Int</span> <span class="p">}</span>
+<div class="highlight-haskell"><div class="highlight"><pre><span></span><span class="kr">data</span> <span class="kt">Foo</span> <span class="ow">=</span> <span class="kt">Foo</span> <span class="p">{</span> <span class="n">x</span> <span class="ow">::</span> <span class="kt">Int</span> <span class="p">}</span>
          <span class="o">|</span> <span class="kt">Bar</span>
 
 <span class="nf">f</span> <span class="ow">::</span> <span class="kt">Foo</span> <span class="ow">-&gt;</span> <span class="kt">Foo</span>
@@ -683,7 +681,7 @@ GHC がパターン照合検査器の反復限界を超えたと報告しない�
 <code class="descname">-Wmissing-import-lists</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag--Wmissing-import-lists" title="この定義へのパーマリンク">¶</a></dt>
 <dd><p id="index-15">qualified ではない <code class="docutils literal"><span class="pre">import</span></code> 宣言で，スコープに持ち込む実体を明示的に列挙していないインポート宣言に対して警告を発行する．
 たとえば</p>
-<div class="highlight-haskell"><div class="highlight"><pre><span class="kr">module</span> <span class="nn">M</span> <span class="kr">where</span>
+<div class="highlight-haskell"><div class="highlight"><pre><span></span><span class="kr">module</span> <span class="nn">M</span> <span class="kr">where</span>
   <span class="kr">import</span> <span class="nn">X</span><span class="p">(</span> <span class="n">f</span> <span class="p">)</span>
   <span class="kr">import</span> <span class="nn">Y</span>
   <span class="kr">import</span> <span class="k">qualified</span> <span class="nn">Z</span>
@@ -703,7 +701,7 @@ GHC がパターン照合検査器の反復限界を超えたと報告しない�
 インスタンス宣言が1つ以上のメソッドを欠き，そのメソッドのデフォルト定義が対応するクラス宣言にないときに警告を発行します．</p>
 <p>メソッド名がアンダースコアで始まっているときにはこの警告はでません．
 このことは以下のような場合に便利です．</p>
-<div class="highlight-haskell"><div class="highlight"><pre><span class="kr">class</span> <span class="kt">C</span> <span class="n">a</span> <span class="kr">where</span>
+<div class="highlight-haskell"><div class="highlight"><pre><span></span><span class="kr">class</span> <span class="kt">C</span> <span class="n">a</span> <span class="kr">where</span>
     <span class="n">_simpleFn</span> <span class="ow">::</span> <span class="n">a</span> <span class="ow">-&gt;</span> <span class="kt">String</span>
     <span class="n">complexFn</span> <span class="ow">::</span> <span class="n">a</span> <span class="ow">-&gt;</span> <span class="n">a</span> <span class="ow">-&gt;</span> <span class="kt">String</span>
     <span class="n">complexFn</span> <span class="n">x</span> <span class="n">y</span> <span class="ow">=</span> <span class="o">...</span> <span class="n">_simpleFn</span> <span class="o">...</span>
@@ -712,7 +710,7 @@ GHC がパターン照合検査器の反復限界を超えたと報告しない�
 <p>基本的な考え方は (a) クラスの利用者はもっぱら <code class="docutils literal"><span class="pre">complexFn</span></code> を呼び <code class="docutils literal"><span class="pre">_simpleFn</span></code> を呼ぶことはなく，かつ，
 (b) インスタンス宣言では <code class="docutils literal"><span class="pre">complexFn</span></code> か <code class="docutils literal"><span class="pre">_simpleFn</span></code> のどちらか一方を定義すればよいということです．</p>
 <p><code class="docutils literal"><span class="pre">MINIMAL</span></code> プラグマを使うと，特定のクラスに対して，どのメソッドの組み合わせが要求されるかを変更できます．
-詳しくは <a class="reference internal" href="glasgow_exts.html#minimal-pragma"><span>MINIMAL pragma</span></a> を参照してください．</p>
+詳しくは <a class="reference internal" href="glasgow_exts.html#minimal-pragma"><span class="std std-ref">MINIMAL pragma</span></a> を参照してください．</p>
 </dd></dl>
 
 <dl class="ghc-flag">
@@ -772,7 +770,7 @@ GHC はこの警告の一部として，推論できた型を報告します．
 この警告によって，ミスタイプによる見つけにくいバグを捕捉できることがある．
 たとえば <code class="docutils literal"><span class="pre">f</span> <span class="pre">=</span> <span class="pre">...</span> <span class="pre">let</span> <span class="pre">f</span> <span class="pre">=</span> <span class="pre">id</span> <span class="pre">in</span> <span class="pre">...</span> <span class="pre">f</span> <span class="pre">...</span></code> において，再帰呼び出しであるはずのものがそうなっていないことが捕捉されます．</p>
 <p>この警告は，以下のようにアンダースコアで始まる名前については発行されません．</p>
-<div class="highlight-haskell"><div class="highlight"><pre><span class="nf">f</span> <span class="n">x</span> <span class="ow">=</span> <span class="kr">do</span> <span class="p">{</span> <span class="n">_ignore</span> <span class="ow">&lt;-</span> <span class="n">this</span><span class="p">;</span> <span class="n">_ignore</span> <span class="ow">&lt;-</span> <span class="n">that</span><span class="p">;</span> <span class="n">return</span> <span class="p">(</span><span class="n">the</span> <span class="n">other</span><span class="p">)</span> <span class="p">}</span>
+<div class="highlight-haskell"><div class="highlight"><pre><span></span><span class="nf">f</span> <span class="n">x</span> <span class="ow">=</span> <span class="kr">do</span> <span class="p">{</span> <span class="n">_ignore</span> <span class="ow">&lt;-</span> <span class="n">this</span><span class="p">;</span> <span class="n">_ignore</span> <span class="ow">&lt;-</span> <span class="n">that</span><span class="p">;</span> <span class="n">return</span> <span class="p">(</span><span class="n">the</span> <span class="n">other</span><span class="p">)</span> <span class="p">}</span>
 </pre></div>
 </div>
 </dd></dl>
@@ -786,7 +784,7 @@ GHC はこの警告の一部として，推論できた型を報告します．
 孤立したインスタンス宣言や書き換え規則を含むモジュールを孤立モジュールと呼びます．</p>
 <p>孤立インスタンスや孤立規則の問題は，インスタンスや規則が役割を果さなければならない場合にそなえて，
 他には何の役に立たなくても GHC はすべての孤立モジュールに対するインターフェイスファイルを積極的に読み込んでおかなければならないことです．
-詳細については <a class="reference internal" href="separate_compilation.html#orphan-modules"><span>Orphan modules and instance declarations</span></a> を参照してください．</p>
+詳細については <a class="reference internal" href="separate_compilation.html#orphan-modules"><span class="std std-ref">Orphan modules and instance declarations</span></a> を参照してください．</p>
 <p>この <a class="reference internal" href="#ghc-flag--Worphans"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-Worphans</span></code></a> フラグは，ユーザが書いた孤立インスタンスや孤立規則について警告をだします．</p>
 </dd></dl>
 
@@ -795,7 +793,7 @@ GHC はこの警告の一部として，推論できた型を報告します．
 <code class="descname">-Woverlapping-patterns</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag--Woverlapping-patterns" title="この定義へのパーマリンク">¶</a></dt>
 <dd><p id="index-25">デフォルトで，コンパイラはパターンが重複しているときに警告を発行します．
 例をあげると</p>
-<div class="highlight-haskell"><div class="highlight"><pre><span class="nf">f</span> <span class="ow">::</span> <span class="kt">String</span> <span class="ow">-&gt;</span> <span class="kt">Int</span>
+<div class="highlight-haskell"><div class="highlight"><pre><span></span><span class="nf">f</span> <span class="ow">::</span> <span class="kt">String</span> <span class="ow">-&gt;</span> <span class="kt">Int</span>
 <span class="nf">f</span> <span class="kt">[]</span>     <span class="ow">=</span> <span class="mi">0</span>
 <span class="nf">f</span> <span class="p">(</span><span class="kr">_</span><span class="kt">:</span><span class="n">xs</span><span class="p">)</span> <span class="ow">=</span> <span class="mi">1</span>
 <span class="nf">f</span> <span class="s">&quot;2&quot;</span>    <span class="ow">=</span> <span class="mi">2</span>
@@ -819,13 +817,13 @@ GHC はこの警告の一部として，推論できた型を報告します．
 </table>
 <p id="index-26">トップレベルのインスタンス宣言を使用して簡略化できる型シグネチャのクラス制約について警告します．
 たとえば</p>
-<div class="highlight-haskell"><div class="highlight"><pre><span class="nf">f</span> <span class="ow">::</span> <span class="kt">Eq</span> <span class="p">[</span><span class="n">a</span><span class="p">]</span> <span class="ow">=&gt;</span> <span class="n">a</span> <span class="ow">-&gt;</span> <span class="n">a</span>
+<div class="highlight-haskell"><div class="highlight"><pre><span></span><span class="nf">f</span> <span class="ow">::</span> <span class="kt">Eq</span> <span class="p">[</span><span class="n">a</span><span class="p">]</span> <span class="ow">=&gt;</span> <span class="n">a</span> <span class="ow">-&gt;</span> <span class="n">a</span>
 </pre></div>
 </div>
 <p>においては，シグネチャ内の <code class="docutils literal"><span class="pre">Eq</span> <span class="pre">[a]</span></code> は <code class="docutils literal"><span class="pre">Eq</span> <span class="pre">a</span></code> のトップレベルインスタンスとオーバーラップしています．
 GHCは前者を使おうとしますが，後者を使う場面で <code class="docutils literal"><span class="pre">Eq</span> <span class="pre">a</span></code> は解決できない制約になってしまいます．
 これを避ける最善の方法は</p>
-<div class="highlight-haskell"><div class="highlight"><pre><span class="nf">f</span> <span class="ow">::</span> <span class="kt">Eq</span> <span class="n">a</span> <span class="ow">=&gt;</span> <span class="n">a</span> <span class="ow">-&gt;</span> <span class="n">a</span>
+<div class="highlight-haskell"><div class="highlight"><pre><span></span><span class="nf">f</span> <span class="ow">::</span> <span class="kt">Eq</span> <span class="n">a</span> <span class="ow">=&gt;</span> <span class="n">a</span> <span class="ow">-&gt;</span> <span class="n">a</span>
 </pre></div>
 </div>
 <p>と書くことです．
@@ -868,7 +866,7 @@ GHCは前者を使おうとしますが，後者を使う場面で <code class="
 <code class="descname">-Wunticked-promoted-constructors</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag--Wunticked-promoted-constructors" title="この定義へのパーマリンク">¶</a></dt>
 <dd><p id="index-30">昇格したデータ構成子をアポストロフィの前置なしに使うと警告を出します．</p>
 <p>例をあげると</p>
-<div class="highlight-haskell"><div class="highlight"><pre><span class="kr">data</span> <span class="kt">Nat</span> <span class="ow">=</span> <span class="kt">Succ</span> <span class="kt">Nat</span> <span class="o">|</span> <span class="kt">Zero</span>
+<div class="highlight-haskell"><div class="highlight"><pre><span></span><span class="kr">data</span> <span class="kt">Nat</span> <span class="ow">=</span> <span class="kt">Succ</span> <span class="kt">Nat</span> <span class="o">|</span> <span class="kt">Zero</span>
 
 <span class="kr">data</span> <span class="kt">Vec</span> <span class="n">n</span> <span class="n">s</span> <span class="kr">where</span>
   <span class="kt">Nil</span>  <span class="ow">::</span> <span class="kt">Vec</span> <span class="kt">Zero</span> <span class="n">a</span>
@@ -903,7 +901,7 @@ GHCは前者を使おうとしますが，後者を使う場面で <code class="
 <li>すくなくとも1つの使用されている変数を束縛する右辺に現れている場合</li>
 </ul>
 <p>以下に例をあげます．</p>
-<div class="highlight-haskell"><div class="highlight"><pre><span class="kr">module</span> <span class="nn">A</span> <span class="p">(</span><span class="nf">f</span><span class="p">)</span> <span class="kr">where</span>
+<div class="highlight-haskell"><div class="highlight"><pre><span></span><span class="kr">module</span> <span class="nn">A</span> <span class="p">(</span><span class="nf">f</span><span class="p">)</span> <span class="kr">where</span>
 <span class="nf">f</span> <span class="ow">=</span> <span class="kr">let</span> <span class="p">(</span><span class="n">p</span><span class="p">,</span><span class="n">q</span><span class="p">)</span> <span class="ow">=</span> <span class="n">rhs1</span> <span class="kr">in</span> <span class="n">t</span> <span class="n">p</span>  <span class="c1">-- 無警告: q は未使用ですが，局所的な束縛です．</span>
 <span class="nf">t</span> <span class="ow">=</span> <span class="n">rhs3</span>                     <span class="c1">-- 無警告: f は使用されており，したがって，t も使用されています．</span>
 <span class="nf">g</span> <span class="ow">=</span> <span class="n">h</span> <span class="n">x</span>                      <span class="c1">-- 警告: g は未使用です．</span>
@@ -917,7 +915,7 @@ GHCは前者を使おうとしますが，後者を使う場面で <code class="
 <dt id="ghc-flag--Wunused-local-binds">
 <code class="descname">-Wunused-local-binds</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag--Wunused-local-binds" title="この定義へのパーマリンク">¶</a></dt>
 <dd><p id="index-33">未使用の局所定義をすべて報告します．たとえば以下のとおりです．</p>
-<div class="highlight-haskell"><div class="highlight"><pre><span class="kr">module</span> <span class="nn">A</span> <span class="p">(</span><span class="nf">f</span><span class="p">)</span> <span class="kr">where</span>
+<div class="highlight-haskell"><div class="highlight"><pre><span></span><span class="kr">module</span> <span class="nn">A</span> <span class="p">(</span><span class="nf">f</span><span class="p">)</span> <span class="kr">where</span>
 <span class="nf">f</span> <span class="ow">=</span> <span class="kr">let</span> <span class="p">(</span><span class="n">p</span><span class="p">,</span><span class="n">q</span><span class="p">)</span> <span class="ow">=</span> <span class="n">rhs1</span> <span class="kr">in</span> <span class="n">t</span> <span class="n">p</span>  <span class="c1">-- 警告: q は未使用です．</span>
 <span class="nf">g</span> <span class="ow">=</span> <span class="n">h</span> <span class="n">x</span>                      <span class="c1">-- 無警告: g は未使用ですが，トップレベルの束縛です．</span>
 </pre></div>
@@ -930,7 +928,7 @@ GHCは前者を使おうとしますが，後者を使う場面で <code class="
 <dd><p id="index-34">パターン束縛が変数を1つも束縛しないときに警告がでます．
 ただし，単独のワイルドカード(バン付きも含む)のときは警告を出しません．
 以下はその例です．</p>
-<div class="highlight-haskell"><div class="highlight"><pre><span class="kt">Just</span> <span class="kr">_</span> <span class="ow">=</span> <span class="n">rhs3</span>    <span class="c1">-- 警告: 未使用パターン束縛</span>
+<div class="highlight-haskell"><div class="highlight"><pre><span></span><span class="kt">Just</span> <span class="kr">_</span> <span class="ow">=</span> <span class="n">rhs3</span>    <span class="c1">-- 警告: 未使用パターン束縛</span>
 <span class="p">(</span><span class="kr">_</span><span class="p">,</span> <span class="kr">_</span><span class="p">)</span> <span class="ow">=</span> <span class="n">rhs4</span>    <span class="c1">-- 警告: 未使用パターン束縛</span>
 <span class="kr">_</span>  <span class="ow">=</span> <span class="n">rhs3</span>        <span class="c1">-- 無警告: 単独ワイルドカードパターン</span>
 <span class="o">!</span><span class="kr">_</span> <span class="ow">=</span> <span class="n">rhs4</span>        <span class="c1">-- 無警告: バン付き単独ワイルドカードパターン，seq と同じ効果があります．</span>
@@ -956,7 +954,7 @@ GHCは前者を使おうとしますが，後者を使う場面で <code class="
 これには，単一の変数から構成されるパターンも含まれます．
 たとえば <code class="docutils literal"><span class="pre">f</span> <span class="pre">x</span> <span class="pre">y</span> <span class="pre">=</span> <span class="pre">[]</span></code> では <code class="docutils literal"><span class="pre">x</span></code> と <code class="docutils literal"><span class="pre">y</span></code> が未使用と報告されます．
 この警告は変数がアンダースコアで始まる変数の場合，すなわち以下のような場合には抑制されます．</p>
-<div class="highlight-haskell"><div class="highlight"><pre><span class="nf">f</span> <span class="n">_x</span> <span class="ow">=</span> <span class="kt">True</span>
+<div class="highlight-haskell"><div class="highlight"><pre><span></span><span class="nf">f</span> <span class="n">_x</span> <span class="ow">=</span> <span class="kt">True</span>
 </pre></div>
 </div>
 <p><a class="reference internal" href="#ghc-flag--Wunused-matches"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-Wunused-matches</span></code></a> では型族やデータ族のインスタンスに見られるようなトップレベルパターンの変数については警告を出しません．
@@ -970,11 +968,11 @@ GHCは前者を使おうとしますが，後者を使う場面で <code class="
 たとえば <code class="docutils literal"><span class="pre">do</span> <span class="pre">{</span> <span class="pre">mapM</span> <span class="pre">popInt</span> <span class="pre">xs</span> <span class="pre">;</span> <span class="pre">return</span> <span class="pre">10</span> <span class="pre">}</span></code> の場合 <code class="docutils literal"><span class="pre">do</span></code> ブロックの最初の文があやしいと報告されます．
 型は <code class="docutils literal"><span class="pre">StackM</span> <span class="pre">[Int]</span></code> であって <code class="docutils literal"><span class="pre">StackM</span> <span class="pre">()</span></code> ではないにもかかわらず <code class="docutils literal"><span class="pre">[Int]</span></code> 型の値は何も束縛しないからです．
 この警告は，何かを捨てていることをプログラム中で明示的に示せば抑制されます．</p>
-<div class="highlight-haskell"><div class="highlight"><pre><span class="kr">do</span> <span class="p">{</span> <span class="kr">_</span> <span class="ow">&lt;-</span> <span class="n">mapM</span> <span class="n">popInt</span> <span class="n">xs</span> <span class="p">;</span> <span class="n">return</span> <span class="mi">10</span> <span class="p">}</span>
+<div class="highlight-haskell"><div class="highlight"><pre><span></span><span class="kr">do</span> <span class="p">{</span> <span class="kr">_</span> <span class="ow">&lt;-</span> <span class="n">mapM</span> <span class="n">popInt</span> <span class="n">xs</span> <span class="p">;</span> <span class="n">return</span> <span class="mi">10</span> <span class="p">}</span>
 </pre></div>
 </div>
 <p>もちろん場合によってはもっと良い方法があります．</p>
-<div class="highlight-haskell"><div class="highlight"><pre><span class="kr">do</span> <span class="p">{</span> <span class="n">mapM_</span> <span class="n">popInt</span> <span class="n">xs</span> <span class="p">;</span> <span class="n">return</span> <span class="mi">10</span> <span class="p">}</span>
+<div class="highlight-haskell"><div class="highlight"><pre><span></span><span class="kr">do</span> <span class="p">{</span> <span class="n">mapM_</span> <span class="n">popInt</span> <span class="n">xs</span> <span class="p">;</span> <span class="n">return</span> <span class="mi">10</span> <span class="p">}</span>
 </pre></div>
 </div>
 </dd></dl>
@@ -983,12 +981,12 @@ GHCは前者を使おうとしますが，後者を使う場面で <code class="
 <dt id="ghc-flag--Wunused-type-patterns">
 <code class="descname">-Wunused-type-patterns</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag--Wunused-type-patterns" title="この定義へのパーマリンク">¶</a></dt>
 <dd><p id="index-38">型族およびデータ族のインスタンスで発生する未使用型変数をすべて報告します．たとえば</p>
-<div class="highlight-haskell"><div class="highlight"><pre><span class="kr">type</span> <span class="kr">instance</span> <span class="kt">F</span> <span class="n">x</span> <span class="n">y</span> <span class="ow">=</span> <span class="kt">[]</span>
+<div class="highlight-haskell"><div class="highlight"><pre><span></span><span class="kr">type</span> <span class="kr">instance</span> <span class="kt">F</span> <span class="n">x</span> <span class="n">y</span> <span class="ow">=</span> <span class="kt">[]</span>
 </pre></div>
 </div>
 <p>では <code class="docutils literal"><span class="pre">x</span></code> および <code class="docutils literal"><span class="pre">y</span></code> が未使用と報告されます．
 この警告は，型変数名がアンダースコアで始まる場合，たとえば，以下のような場合には抑制されます．</p>
-<div class="highlight-haskell"><div class="highlight"><pre><span class="kr">type</span> <span class="kr">instance</span> <span class="kt">F</span> <span class="n">_x</span> <span class="n">_y</span> <span class="ow">=</span> <span class="kt">[]</span>
+<div class="highlight-haskell"><div class="highlight"><pre><span></span><span class="kr">type</span> <span class="kr">instance</span> <span class="kt">F</span> <span class="n">_x</span> <span class="n">_y</span> <span class="ow">=</span> <span class="kt">[]</span>
 </pre></div>
 </div>
 <p><a class="reference internal" href="#ghc-flag--Wunused-matches"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-Wunused-matches</span></code></a> とは違い <a class="reference internal" href="#ghc-flag--Wunused-type-patterns"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-Wunused-type-patterns</span></code></a> は
@@ -1001,7 +999,7 @@ GHCは前者を使おうとしますが，後者を使う場面で <code class="
 <dt id="ghc-flag--Wunused-foralls">
 <code class="descname">-Wunused-foralls</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag--Wunused-foralls" title="この定義へのパーマリンク">¶</a></dt>
 <dd><p id="index-39">ユーザが明示的に書いた <code class="docutils literal"><span class="pre">forall</span></code> 文にある未使用型変数をすべて報告する．たとえば</p>
-<div class="highlight-haskell"><div class="highlight"><pre><span class="nf">g</span> <span class="ow">::</span> <span class="n">forall</span> <span class="n">a</span> <span class="n">b</span> <span class="n">c</span><span class="o">.</span> <span class="p">(</span><span class="n">b</span> <span class="ow">-&gt;</span> <span class="n">b</span><span class="p">)</span>
+<div class="highlight-haskell"><div class="highlight"><pre><span></span><span class="nf">g</span> <span class="ow">::</span> <span class="n">forall</span> <span class="n">a</span> <span class="n">b</span> <span class="n">c</span><span class="o">.</span> <span class="p">(</span><span class="n">b</span> <span class="ow">-&gt;</span> <span class="n">b</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>の場合は <code class="docutils literal"><span class="pre">a</span></code> および <code class="docutils literal"><span class="pre">c</span></code> が未使用として報告される．</p>
@@ -1014,12 +1012,12 @@ GHCは前者を使おうとしますが，後者を使う場面で <code class="
 たとえば <code class="docutils literal"><span class="pre">do</span> <span class="pre">{</span> <span class="pre">return</span> <span class="pre">(popInt</span> <span class="pre">10)</span> <span class="pre">;</span> <span class="pre">return</span> <span class="pre">10</span> <span class="pre">}</span></code> の場合 <code class="docutils literal"><span class="pre">do</span></code> ブロックにおいて1つめの文は怪しいと報告されます．
 型は <code class="docutils literal"><span class="pre">StackM</span> <span class="pre">(StackM</span> <span class="pre">Int)</span></code> (同じモナド構成子を2重に適用しています)ですが，結果で束縛することで「解かれて」いません．
 この警告は，結果を捨てるように明示するコードを書くことで抑制できます．</p>
-<div class="highlight-haskell"><div class="highlight"><pre><span class="kr">do</span> <span class="p">{</span> <span class="kr">_</span> <span class="ow">&lt;-</span> <span class="n">return</span> <span class="p">(</span><span class="n">popInt</span> <span class="mi">10</span><span class="p">)</span> <span class="p">;</span> <span class="n">return</span> <span class="mi">10</span> <span class="p">}</span>
+<div class="highlight-haskell"><div class="highlight"><pre><span></span><span class="kr">do</span> <span class="p">{</span> <span class="kr">_</span> <span class="ow">&lt;-</span> <span class="n">return</span> <span class="p">(</span><span class="n">popInt</span> <span class="mi">10</span><span class="p">)</span> <span class="p">;</span> <span class="n">return</span> <span class="mi">10</span> <span class="p">}</span>
 </pre></div>
 </div>
 <p>ほとんどのまともなプログラムでは，このような部分はバグであることを示しています．
 意図はおそらく以下のようになコードでしょう．</p>
-<div class="highlight-haskell"><div class="highlight"><pre><span class="kr">do</span> <span class="p">{</span> <span class="n">popInt</span> <span class="mi">10</span> <span class="p">;</span> <span class="n">return</span> <span class="mi">10</span> <span class="p">}</span>
+<div class="highlight-haskell"><div class="highlight"><pre><span></span><span class="kr">do</span> <span class="p">{</span> <span class="n">popInt</span> <span class="mi">10</span> <span class="p">;</span> <span class="n">return</span> <span class="mi">10</span> <span class="p">}</span>
 </pre></div>
 </div>
 </dd></dl>
@@ -1028,7 +1026,7 @@ GHCは前者を使おうとしますが，後者を使う場面で <code class="
 <dt id="ghc-flag--Winline-rule-shadowing">
 <code class="descname">-Winline-rule-shadowing</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag--Winline-rule-shadowing" title="この定義へのパーマリンク">¶</a></dt>
 <dd><p>関数がインライン展開されてしまって，書き換え規則が発火できない場合に警告を出します．
-<a class="reference internal" href="glasgow_exts.html#rules-inline"><span>How rules interact with INLINE/NOINLINE pragmas</span></a> を参照してください．</p>
+<a class="reference internal" href="glasgow_exts.html#rules-inline"><span class="std std-ref">How rules interact with INLINE/NOINLINE pragmas</span></a> を参照してください．</p>
 </dd></dl>
 
 <dl class="ghc-flag">
@@ -1043,7 +1041,7 @@ GHCは前者を使おうとしますが，後者を使う場面で <code class="
 <code class="descname">-Wunbanged-strict-patterns</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag--Wunbanged-strict-patterns" title="この定義へのパーマリンク">¶</a></dt>
 <dd><p>このフラグは，リフトされていない型の値による束縛が起るようなパターンで，
 バンパターンでも裸の変数でもない場合に警告します．
-リフトされていない型の情報については <a class="reference internal" href="glasgow_exts.html#glasgow-unboxed"><span>Unboxed types</span></a> を参照してください．</p>
+リフトされていない型の情報については <a class="reference internal" href="glasgow_exts.html#glasgow-unboxed"><span class="std std-ref">Unboxed types</span></a> を参照してください．</p>
 </dd></dl>
 
 <dl class="ghc-flag">
@@ -1079,18 +1077,18 @@ Cabalg で GHCが <code class="docutils literal"><span class="pre">exposed-modul
           <a href="genindex.html" title="総合索引"
              >索引</a></li>
         <li class="right" >
-          <a href="using-optimisation.html" title="7.3. Optimisation (code improvement)"
+          <a href="using-optimisation.html" title="7.3. 最適化 (コードの改善)"
              >次へ</a> |</li>
         <li class="right" >
           <a href="using.html" title="7.1. GHCを使う"
              >前へ</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">GHC 8.2.2 User&#39;s Guide</a> &raquo;</li>
-          <li class="nav-item nav-item-1"><a href="usage.html" >7. GHCを使う</a> &raquo;</li> 
+        <li class="nav-item nav-item-0"><a href="index.html">GHC 8.2.2 User&#39;s Guide</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="usage.html" >7. GHCを使う</a> &#187;</li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">
-        &copy; Copyright 2015, GHC Team.
-      このドキュメントは <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.6 で生成しました。
+        &#169; Copyright 2015, GHC Team.
+      このドキュメントは <a href="http://sphinx-doc.org/">Sphinx</a> 1.5.6 で生成しました。
     </div>
   </body>
 </html>

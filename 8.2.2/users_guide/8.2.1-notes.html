@@ -3,11 +3,11 @@
   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
 
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="ja">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>3. バージョン 8.2.1 のリリースノート &mdash; Glasgow Haskell Compiler 8.2.2 User&#39;s Guide</title>
+    <title>3. バージョン 8.2.1 のリリースノート &#8212; Glasgow Haskell Compiler 8.2.2 User&#39;s Guide</title>
     
     <link rel="stylesheet" href="_static/ghc-theme.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -18,18 +18,20 @@
         VERSION:     '8.2.2',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
-        HAS_SOURCE:  true
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
       };
     </script>
     <script type="text/javascript" src="_static/jquery.js"></script>
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
     <script type="text/javascript" src="_static/translations.js"></script>
-    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="search" type="application/opensearchdescription+xml"
           title="Glasgow Haskell Compiler 8.2.2 User&#39;s Guide 内を検索"
           href="_static/opensearch.xml"/>
-    <link rel="top" title="Glasgow Haskell Compiler 8.2.2 User&#39;s Guide" href="index.html" />
+    <link rel="index" title="索引" href="genindex.html" />
+    <link rel="search" title="検索" href="search.html" />
     <link rel="next" title="4. バージョン 8.2.2 のリリースノート" href="8.2.2-notes.html" />
     <link rel="prev" title="2. GHC の紹介" href="intro.html" /> 
   </head>
@@ -50,7 +52,7 @@
         <li class="right" >
           <a href="intro.html" title="2. GHC の紹介"
              accesskey="P">前へ</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">GHC 8.2.2 User&#39;s Guide</a> &raquo;</li> 
+        <li class="nav-item nav-item-0"><a href="index.html">GHC 8.2.2 User&#39;s Guide</a> &#187;</li> 
       </ul>
     </div>
 
@@ -108,21 +110,18 @@
   <div role="note" aria-label="source link">
     <h3>このページ</h3>
     <ul class="this-page-menu">
-      <li><a href="_sources/8.2.1-notes.txt"
+      <li><a href="_sources/8.2.1-notes.rst.txt"
             rel="nofollow">ソースコードを表示</a></li>
     </ul>
    </div>
 <div id="searchbox" style="display: none" role="search">
   <h3>クイック検索</h3>
     <form class="search" action="search.html" method="get">
-      <input type="text" name="q" />
-      <input type="submit" value="検索" />
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="検索" /></div>
       <input type="hidden" name="check_keywords" value="yes" />
       <input type="hidden" name="area" value="default" />
     </form>
-    <p class="searchtip" style="font-size: 90%">
-    モジュール、クラス、または関数名を入力してください
-    </p>
 </div>
 <script type="text/javascript">$('#searchbox').show(0);</script>
         </div>
@@ -164,25 +163,25 @@
 <h3>3.2.2. 言語<a class="headerlink" href="#id5" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <ul class="simple">
 <li>パターンシノニムシグネチャが，値レベルの束縛シグネチャと同様に，複数パターンに適用できるようになりました．
-詳細については <a class="reference internal" href="glasgow_exts.html#patsyn-typing"><span>Typing of pattern synonyms</span></a> を参照してください．</li>
+詳細については <a class="reference internal" href="glasgow_exts.html#patsyn-typing"><span class="std std-ref">Typing of pattern synonyms</span></a> を参照してください．</li>
 </ul>
 <ul class="simple">
 <li>クラスインスタンスを自動導出するときに使う戦略を明示できるようになりました．
 これには言語拡張 <a class="reference internal" href="glasgow_exts.html#ghc-flag--XDerivingStrategies"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-XDerivingStrategies</span></code></a> を有効にします
-(<a class="reference internal" href="glasgow_exts.html#deriving-strategies"><span>Deriving strategies</span></a> を参照してください)．</li>
+(<a class="reference internal" href="glasgow_exts.html#deriving-strategies"><span class="std std-ref">Deriving strategies</span></a> を参照してください)．</li>
 </ul>
 <ul class="simple">
 <li>新たに言語拡張 <a class="reference internal" href="glasgow_exts.html#ghc-flag--XUnboxedSums"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-XUnboxedSums</span></code></a> を使って，直和データのより効率のよい表現が使えるようになりました．
 将来の GHC リリースにおいて，直和データ引数のワーカー/ラッパー変換および構成子アンパッキングがサポートされる予定です．</li>
 </ul>
 <ul class="simple">
-<li>新しく導入された <code class="docutils literal"><span class="pre">HasField</span></code> クラスと関連のコンパイラのロジック(<a class="reference internal" href="glasgow_exts.html#record-field-selector-polymorphism"><span>Record field selector polymorphism</span></a> を参照してください)
+<li>新しく導入された <code class="docutils literal"><span class="pre">HasField</span></code> クラスと関連のコンパイラのロジック(<a class="reference internal" href="glasgow_exts.html#record-field-selector-polymorphism"><span class="std std-ref">Record field selector polymorphism</span></a> を参照してください)
 により多重定義されたレコードフィールドがサポートされます．</li>
 </ul>
 <ul class="simple">
 <li>GHC が <code class="docutils literal"><span class="pre">COMPLETE</span></code> プラグマを識別するようになりました．
 これによりユーザが(パターンシノニムを含む)パターン集合を指定して，
-パターン照合を完全なものにできるようになりました．詳細は <a class="reference internal" href="glasgow_exts.html#complete-pragma"><span>COMPLETE pragmas</span></a> を参照してください．</li>
+パターン照合を完全なものにできるようになりました．詳細は <a class="reference internal" href="glasgow_exts.html#complete-pragma"><span class="std std-ref">COMPLETE pragmas</span></a> を参照してください．</li>
 </ul>
 </div>
 <div class="section" id="id6">
@@ -215,14 +214,14 @@
 </ul>
 <ul class="simple">
 <li>宣言へのコストセンター追加をサポートするようにしました．従来の <code class="docutils literal"><span class="pre">SCC</span></code> の構文が使えます．
-また，コストセンター名を指定する形式が追加になっています．例は <a class="reference internal" href="profiling.html#scc-pragma"><span>Inserting cost centres by hand</span></a> を参照してください．</li>
+また，コストセンター名を指定する形式が追加になっています．例は <a class="reference internal" href="profiling.html#scc-pragma"><span class="std std-ref">Inserting cost centres by hand</span></a> を参照してください．</li>
 </ul>
 <ul class="simple">
 <li>GHC は :<cite>-XDefaultSignatures</cite> に関して細かく制約するようになりました．
 型クラスのデフォルトメソッドの型シグネチャは，当該型シグネチャの文脈における差異を除いては，
 関連する主要メソッドの型シグネチャと同じでなければならなくなりました．
 この条件が満されない場合は，型検査器がクラスの定義を拒絶します．
-詳細については <a class="reference internal" href="glasgow_exts.html#class-default-signatures"><span>Default method signatures</span></a> を参照してください．</li>
+詳細については <a class="reference internal" href="glasgow_exts.html#class-default-signatures"><span class="std std-ref">Default method signatures</span></a> を参照してください．</li>
 </ul>
 <ul class="simple">
 <li><a class="reference internal" href="glasgow_exts.html#ghc-flag--XDeriveAnyClass"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-XDeriveAnyClass</span></code></a> は，引数のカインドが <code class="docutils literal"><span class="pre">*</span></code> あるいは <code class="docutils literal"><span class="pre">*</span> <span class="pre">-&gt;</span> <span class="pre">*</span></code> でなければならないという
@@ -233,18 +232,18 @@
 インスタンスコンテキストは派生クラスのメソッドの型シグネチャ(およびデフォルト型シグネチャ）を使って推論するようにしました．
 以前はこの推論にはデータ型定義を使っており，制約の強すぎるインスタンスになったり，
 型検査が通らなかったり（ひどい時には GHC がパニックになったり）します．詳細については
-<a class="reference internal" href="glasgow_exts.html#derive-any-class"><span>DeriveAnyClass</span></a> のセクションを参照してください．</li>
+<a class="reference internal" href="glasgow_exts.html#derive-any-class"><span class="std std-ref">DeriveAnyClass</span></a> のセクションを参照してください．</li>
 </ul>
 <ul>
 <li><p class="first">GHCでは，データコンストラクタがスコープに含まれていなくても  <a class="reference internal" href="glasgow_exts.html#ghc-flag--XDeriveAnyClass"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-XDeriveAnyClass</span></code></a> を有効にすれば，
 スタンドアロンでの導出が可能になりました．
 すなわち <a class="reference internal" href="glasgow_exts.html#ghc-flag--XDeriveAnyClass"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-XDeriveAnyClass</span></code></a> が指定されていれば，
 以下のコード:</p>
-<div class="highlight-haskell"><div class="highlight"><pre><span class="kr">deriving</span> <span class="kr">instance</span> <span class="kt">C</span> <span class="kt">T</span>
+<div class="highlight-haskell"><div class="highlight"><pre><span></span><span class="kr">deriving</span> <span class="kr">instance</span> <span class="kt">C</span> <span class="kt">T</span>
 </pre></div>
 </div>
 <p>が，次のコード:</p>
-<div class="highlight-haskell"><div class="highlight"><pre><span class="kr">instance</span> <span class="kt">C</span> <span class="kt">T</span>
+<div class="highlight-haskell"><div class="highlight"><pre><span></span><span class="kr">instance</span> <span class="kt">C</span> <span class="kt">T</span>
 </pre></div>
 </div>
 <p>と同一であり，後者のコードでは <code class="docutils literal"><span class="pre">T</span></code> のデータ構成子が有効範囲にあるかどうかという制約はないということです．</p>
@@ -252,29 +251,29 @@
 </ul>
 <ul class="simple">
 <li><a class="reference internal" href="glasgow_exts.html#ghc-flag--XGeneralizedNewtypeDeriving"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-XGeneralizedNewtypeDeriving</span></code></a> は、関連付けられた型族を持つ型クラスを派生させるようになりました。
-<a class="reference internal" href="glasgow_exts.html#gnd-and-associated-types"><span>GeneralizedNewtypeDeriving and associated type families</span></a> を参照してください．</li>
+<a class="reference internal" href="glasgow_exts.html#gnd-and-associated-types"><span class="std std-ref">GeneralizedNewtypeDeriving and associated type families</span></a> を参照してください．</li>
 </ul>
 <ul>
 <li><p class="first"><a class="reference internal" href="glasgow_exts.html#ghc-flag--XGeneralizedNewtypeDeriving"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-XGeneralizedNewtypeDeriving</span></code></a> は，メソッドを持たないクラスを派生させるとき，制約を推測しなくなります．
 すなわち</p>
-<div class="highlight-haskell"><div class="highlight"><pre><span class="kr">class</span> <span class="kt">Throws</span> <span class="n">e</span>
+<div class="highlight-haskell"><div class="highlight"><pre><span></span><span class="kr">class</span> <span class="kt">Throws</span> <span class="n">e</span>
 <span class="kr">newtype</span> <span class="kt">Id</span> <span class="n">a</span> <span class="ow">=</span> <span class="kt">MkId</span> <span class="n">a</span>
   <span class="kr">deriving</span> <span class="kt">Throws</span>
 </pre></div>
 </div>
 <p>というコードでは以下の</p>
-<div class="highlight-haskell"><div class="highlight"><pre><span class="kr">instance</span> <span class="kt">Throws</span> <span class="p">(</span><span class="kt">Id</span> <span class="n">a</span><span class="p">)</span>
+<div class="highlight-haskell"><div class="highlight"><pre><span></span><span class="kr">instance</span> <span class="kt">Throws</span> <span class="p">(</span><span class="kt">Id</span> <span class="n">a</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>というインスタンスが生成されるようになり</p>
-<div class="highlight-haskell"><div class="highlight"><pre><span class="kr">instance</span> <span class="kt">Throws</span> <span class="n">a</span> <span class="ow">=&gt;</span> <span class="kt">Throws</span> <span class="p">(</span><span class="kt">Id</span> <span class="n">a</span><span class="p">)</span>
+<div class="highlight-haskell"><div class="highlight"><pre><span></span><span class="kr">instance</span> <span class="kt">Throws</span> <span class="n">a</span> <span class="ow">=&gt;</span> <span class="kt">Throws</span> <span class="p">(</span><span class="kt">Id</span> <span class="n">a</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>というインスタンスは生成しません．
 この変更は，後者のコードには冗長な <code class="docutils literal"><span class="pre">Throws</span> <span class="pre">a</span></code> という制約がかかっているために，
 <a class="reference internal" href="using-warnings.html#ghc-flag--Wredundant-constraints"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-Wredundant-constraints</span></code></a> フラグでコンパイルすると警告が出ることに対応したものです．
 後者のインスタンスは，必要に応じて <a class="reference internal" href="glasgow_exts.html#ghc-flag--XStandaloneDeriving"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-XStandaloneDeriving</span></code></a> を使うことで導出できます．</p>
-<div class="highlight-haskell"><div class="highlight"><pre><span class="kr">deriving</span> <span class="kr">instance</span> <span class="kt">Throws</span> <span class="n">a</span> <span class="ow">=&gt;</span> <span class="kt">Throws</span> <span class="p">(</span><span class="kt">Id</span> <span class="n">a</span><span class="p">)</span>
+<div class="highlight-haskell"><div class="highlight"><pre><span></span><span class="kr">deriving</span> <span class="kr">instance</span> <span class="kt">Throws</span> <span class="n">a</span> <span class="ow">=&gt;</span> <span class="kt">Throws</span> <span class="p">(</span><span class="kt">Id</span> <span class="n">a</span><span class="p">)</span>
 </pre></div>
 </div>
 </li>
@@ -286,11 +285,11 @@
 <li><p class="first">GHC は高階ランク型シノニムのカインドを自動推論することはなくなりました．
 カインドシグネチャにより明示的に型シノニムに注釈を付けなければなりません．
 たとえば</p>
-<div class="highlight-haskell"><div class="highlight"><pre><span class="kr">data</span> <span class="kt">T</span> <span class="ow">::</span> <span class="p">(</span><span class="n">forall</span> <span class="n">k</span><span class="o">.</span> <span class="n">k</span> <span class="ow">-&gt;</span> <span class="kt">Type</span><span class="p">)</span> <span class="ow">-&gt;</span> <span class="kt">Type</span>
+<div class="highlight-haskell"><div class="highlight"><pre><span></span><span class="kr">data</span> <span class="kt">T</span> <span class="ow">::</span> <span class="p">(</span><span class="n">forall</span> <span class="n">k</span><span class="o">.</span> <span class="n">k</span> <span class="ow">-&gt;</span> <span class="kt">Type</span><span class="p">)</span> <span class="ow">-&gt;</span> <span class="kt">Type</span>
 </pre></div>
 </div>
 <p>という型があるとして， <code class="docutils literal"><span class="pre">T</span></code> の型シノニムを定義するには以下のように書かなければなりません．</p>
-<div class="highlight-haskell"><div class="highlight"><pre><span class="kr">type</span> <span class="kt">TSyn</span> <span class="ow">=</span> <span class="p">(</span><span class="kt">T</span> <span class="ow">::</span> <span class="p">(</span><span class="n">forall</span> <span class="n">k</span><span class="o">.</span> <span class="n">k</span> <span class="ow">-&gt;</span> <span class="kt">Type</span><span class="p">)</span> <span class="ow">-&gt;</span> <span class="kt">Type</span><span class="p">)</span>
+<div class="highlight-haskell"><div class="highlight"><pre><span></span><span class="kr">type</span> <span class="kt">TSyn</span> <span class="ow">=</span> <span class="p">(</span><span class="kt">T</span> <span class="ow">::</span> <span class="p">(</span><span class="n">forall</span> <span class="n">k</span><span class="o">.</span> <span class="n">k</span> <span class="ow">-&gt;</span> <span class="kt">Type</span><span class="p">)</span> <span class="ow">-&gt;</span> <span class="kt">Type</span><span class="p">)</span>
 </pre></div>
 </div>
 </li>
@@ -303,7 +302,7 @@ GHC は <cite>GCC 6.2.0</cite> および <cite>binutils 2.27</cite> を使いま
 <li><p class="first">以前は <a class="reference internal" href="using-warnings.html#ghc-flag--Wmissing-methods"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-Wmissing-methods</span></code></a> が指定されていても，アンダースコアで始まる型クラスメソッドについては，
 インスタンス実装で定義されていなくても警告されませんでした．
 たとえば，以下のコードはなんの警告もなくコンパイルされました．</p>
-<div class="highlight-haskell"><div class="highlight"><pre><span class="kr">class</span> <span class="kt">Foo</span> <span class="n">a</span> <span class="kr">where</span>
+<div class="highlight-haskell"><div class="highlight"><pre><span></span><span class="kr">class</span> <span class="kt">Foo</span> <span class="n">a</span> <span class="kr">where</span>
   <span class="n">_Bar</span> <span class="ow">::</span> <span class="n">a</span> <span class="ow">-&gt;</span> <span class="kt">Int</span>
 
 <span class="kr">instance</span> <span class="kt">Foo</span> <span class="kt">Int</span>
@@ -321,7 +320,7 @@ GHC は <cite>GCC 6.2.0</cite> および <cite>binutils 2.27</cite> を使いま
 <ul>
 <li><p class="first">GHC は，可能であれば既知のスーパークラスの辞書を使うことにより，
 多相型の式の最適化をよりよく行えるようになりました．以下はその例です．</p>
-<div class="highlight-haskell"><div class="highlight"><pre><span class="c1">-- ここで `Monad IO` あるいは `Applicative IO` を使えば改善になります．</span>
+<div class="highlight-haskell"><div class="highlight"><pre><span></span><span class="c1">-- ここで `Monad IO` あるいは `Applicative IO` を使えば改善になります．</span>
 <span class="nf">foo</span> <span class="ow">::</span> <span class="kt">MonadBaseControl</span> <span class="kt">IO</span> <span class="n">m</span> <span class="ow">=&gt;</span> <span class="o">...</span>
 
 <span class="c1">-- ここで `Monoid MyMonoid` を使えば改善になります．</span>
@@ -342,12 +341,12 @@ GHC は <cite>GCC 6.2.0</cite> および <cite>binutils 2.27</cite> を使いま
 <ul>
 <li><p class="first">GHC はデータ構成子に対する <code class="docutils literal"><span class="pre">RULES</span></code> を無視するようになりました(<a class="reference external" href="https://ghc.haskell.org/trac/ghc/ticket/13290">Trac #13290</a>)．
 以前は，以下を受けつけていました．</p>
-<div class="highlight-haskell"><div class="highlight"><pre><span class="cm">{-# RULES &quot;NotAllowed&quot; forall x. Just x = e #-}</span>
+<div class="highlight-haskell"><div class="highlight"><pre><span></span><span class="cm">{-# RULES &quot;NotAllowed&quot; forall x. Just x = e #-}</span>
 </pre></div>
 </div>
 <p>このルールはもう効力を失い，警告が出ます．
 以下の <code class="docutils literal"><span class="pre">RULES</span></code> はデータ構成子に言及していますが，最も外側にはありません．</p>
-<div class="highlight-haskell"><div class="highlight"><pre><span class="cm">{-# RULES &quot;StillWorks&quot; forall x. f (Just x) = e #-}</span>
+<div class="highlight-haskell"><div class="highlight"><pre><span></span><span class="cm">{-# RULES &quot;StillWorks&quot; forall x. f (Just x) = e #-}</span>
 </pre></div>
 </div>
 </li>
@@ -355,7 +354,7 @@ GHC は <cite>GCC 6.2.0</cite> および <cite>binutils 2.27</cite> を使いま
 <ul>
 <li><p class="first">型シノニムはインスタンスのクラス位置には現れなくなりました．
 すなわち，以下は許されなくなりました．</p>
-<div class="highlight-haskell"><div class="highlight"><pre><span class="kr">type</span> <span class="kt">ReadShow</span> <span class="n">a</span> <span class="ow">=</span> <span class="p">(</span><span class="kt">Read</span> <span class="n">a</span><span class="p">,</span> <span class="kt">Show</span> <span class="n">a</span><span class="p">)</span>
+<div class="highlight-haskell"><div class="highlight"><pre><span></span><span class="kr">type</span> <span class="kt">ReadShow</span> <span class="n">a</span> <span class="ow">=</span> <span class="p">(</span><span class="kt">Read</span> <span class="n">a</span><span class="p">,</span> <span class="kt">Show</span> <span class="n">a</span><span class="p">)</span>
 <span class="kr">instance</span> <span class="kt">Read</span> <span class="kt">Foo</span>
 <span class="kr">instance</span> <span class="kt">Show</span> <span class="kt">Foo</span>
 <span class="kr">instance</span> <span class="kt">ReadShow</span> <span class="kt">Foo</span> <span class="c1">-- illegal</span>
@@ -367,7 +366,7 @@ GHC は <cite>GCC 6.2.0</cite> および <cite>binutils 2.27</cite> を使いま
 <ul>
 <li><p class="first">関連型族の正当性検査は多少強化されています．
 以前は以下は受け入れられていました．</p>
-<div class="highlight-haskell"><div class="highlight"><pre><span class="kr">class</span> <span class="kt">Foo</span> <span class="n">a</span> <span class="kr">where</span>
+<div class="highlight-haskell"><div class="highlight"><pre><span></span><span class="kr">class</span> <span class="kt">Foo</span> <span class="n">a</span> <span class="kr">where</span>
   <span class="kr">type</span> <span class="kt">Bar</span> <span class="n">a</span>
 
 <span class="kr">instance</span> <span class="kt">Foo</span> <span class="p">(</span><span class="kt">Either</span> <span class="n">a</span> <span class="n">b</span><span class="p">)</span> <span class="kr">where</span>
@@ -377,17 +376,17 @@ GHC は <cite>GCC 6.2.0</cite> および <cite>binutils 2.27</cite> を使いま
 <p>これは <code class="docutils literal"><span class="pre">Bar</span></code> インスタンスで使用されている型変数がインスタンスヘッドの型変数と一致しないため，現在は許可されていません．
 このインスタンスは，以下のように変更すれば許可されます． ::
 it to:</p>
-<div class="highlight-haskell"><div class="highlight"><pre><span class="kr">instance</span> <span class="kt">Foo</span> <span class="p">(</span><span class="kt">Either</span> <span class="n">a</span> <span class="n">b</span><span class="p">)</span> <span class="kr">where</span>
+<div class="highlight-haskell"><div class="highlight"><pre><span></span><span class="kr">instance</span> <span class="kt">Foo</span> <span class="p">(</span><span class="kt">Either</span> <span class="n">a</span> <span class="n">b</span><span class="p">)</span> <span class="kr">where</span>
   <span class="kr">type</span> <span class="kt">Bar</span> <span class="p">(</span><span class="kt">Either</span> <span class="n">a</span> <span class="n">b</span><span class="p">)</span> <span class="ow">=</span> <span class="n">b</span> <span class="ow">-&gt;</span> <span class="n">a</span>
 </pre></div>
 </div>
-<p>詳細については <a class="reference internal" href="glasgow_exts.html#assoc-data-inst"><span>associated type family instances</span></a> の節を参照してください．</p>
+<p>詳細については <a class="reference internal" href="glasgow_exts.html#assoc-data-inst"><span class="std std-ref">associated type family instances</span></a> の節を参照してください．</p>
 </li>
 </ul>
 <ul class="simple">
 <li><a class="reference internal" href="glasgow_exts.html#ghc-flag--XMonoLocalBinds"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-XMonoLocalBinds</span></code></a> と <a class="reference internal" href="glasgow_exts.html#ghc-flag--XPolyKinds"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-XPolyKinds</span></code></a> の間の相互作用に関するバグが修正されました．
 この修正により，明示的に型シグネチャが与えられていない場合には，型検査に通らないプログラムがあります．
-例については <a class="reference internal" href="glasgow_exts.html#kind-generalisation"><span>Kind generalisation</span></a> を参照してください．</li>
+例については <a class="reference internal" href="glasgow_exts.html#kind-generalisation"><span class="std std-ref">Kind generalisation</span></a> を参照してください．</li>
 </ul>
 </div>
 <div class="section" id="ghci">
@@ -437,20 +436,20 @@ it to:</p>
 </dl>
 </div></blockquote>
 <p>Template Haskell が戻すの実際には以下のようになります．</p>
-<div class="highlight-haskell"><div class="highlight"><pre><span class="nf">id</span> <span class="ow">::</span> <span class="n">forall</span> <span class="n">a</span><span class="o">.</span> <span class="n">a</span> <span class="ow">-&gt;</span> <span class="n">a</span>
+<div class="highlight-haskell"><div class="highlight"><pre><span></span><span class="nf">id</span> <span class="ow">::</span> <span class="n">forall</span> <span class="n">a</span><span class="o">.</span> <span class="n">a</span> <span class="ow">-&gt;</span> <span class="n">a</span>
 <span class="nf">id</span> <span class="n">x</span> <span class="ow">=</span> <span class="n">x</span>
 </pre></div>
 </div>
 <p>つまり，クォートすると元のソースでは暗黙であっても限量化が，すべての型変数について明示されるということです．
 これは，カインド変数が暗黙に限量化されている場合には特に有害です．
 たとえば，以下のようなクォート宣言をしたとしましょう．</p>
-<div class="highlight-haskell"><div class="highlight"><pre><span class="p">[</span><span class="n">d</span><span class="o">|</span> <span class="n">idProxy</span> <span class="ow">::</span> <span class="n">forall</span> <span class="n">proxy</span> <span class="p">(</span><span class="n">b</span> <span class="ow">::</span> <span class="n">k</span><span class="p">)</span><span class="o">.</span> <span class="n">proxy</span> <span class="n">b</span> <span class="ow">-&gt;</span> <span class="n">proxy</span> <span class="n">b</span>
+<div class="highlight-haskell"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">d</span><span class="o">|</span> <span class="n">idProxy</span> <span class="ow">::</span> <span class="n">forall</span> <span class="n">proxy</span> <span class="p">(</span><span class="n">b</span> <span class="ow">::</span> <span class="n">k</span><span class="p">)</span><span class="o">.</span> <span class="n">proxy</span> <span class="n">b</span> <span class="ow">-&gt;</span> <span class="n">proxy</span> <span class="n">b</span>
     <span class="n">idProxy</span> <span class="n">x</span> <span class="ow">=</span> <span class="n">x</span>
   <span class="o">|</span><span class="p">]</span>
 </pre></div>
 </div>
 <p>これをスプライスすると，以下のうようになります．</p>
-<div class="highlight-haskell"><div class="highlight"><pre><span class="nf">idProxy</span> <span class="ow">::</span> <span class="n">forall</span> <span class="n">k</span> <span class="n">proxy</span> <span class="p">(</span><span class="n">b</span> <span class="ow">::</span> <span class="n">k</span><span class="p">)</span><span class="o">.</span> <span class="n">proxy</span> <span class="n">b</span> <span class="ow">-&gt;</span> <span class="n">proxy</span> <span class="n">b</span>
+<div class="highlight-haskell"><div class="highlight"><pre><span></span><span class="nf">idProxy</span> <span class="ow">::</span> <span class="n">forall</span> <span class="n">k</span> <span class="n">proxy</span> <span class="p">(</span><span class="n">b</span> <span class="ow">::</span> <span class="n">k</span><span class="p">)</span><span class="o">.</span> <span class="n">proxy</span> <span class="n">b</span> <span class="ow">-&gt;</span> <span class="n">proxy</span> <span class="n">b</span>
 <span class="nf">idProxy</span> <span class="n">x</span> <span class="ow">=</span> <span class="n">x</span>
 </pre></div>
 </div>
@@ -492,7 +491,7 @@ it to:</p>
 に解説があります．</li>
 </ul>
 <ul class="simple">
-<li><a class="reference internal" href="profiling.html#prof-heap"><span>heap profiler</span></a> はヒープセンサスデータを GHC のイベントログに出力できるようになり，
+<li><a class="reference internal" href="profiling.html#prof-heap"><span class="std std-ref">heap profiler</span></a> はヒープセンサスデータを GHC のイベントログに出力できるようになり，
 ヒーププロファイルを他のトレースイベントと関連付けられるようになりました(<a class="reference external" href="https://ghc.haskell.org/trac/ghc/ticket/11094">Trac #11094</a> 参照)．</li>
 </ul>
 <ul class="simple">
@@ -506,7 +505,7 @@ it to:</p>
 (64を超えるコアなど <a class="reference external" href="https://ghc.haskell.org/trac/ghc/ticket/11054">Trac #11054</a> を参照してください．)</li>
 </ul>
 <ul class="simple">
-<li><a class="reference internal" href="runtime_control.html#rts-eventlog"><span>Event log</span></a> の出力を設定して，外部ツールがアプリケーションの実行中に
+<li><a class="reference internal" href="runtime_control.html#rts-eventlog"><span class="std std-ref">Event log</span></a> の出力を設定して，外部ツールがアプリケーションの実行中に
 イベントログデータを収集分析できるようすることが可能になりました。</li>
 </ul>
 <ul class="simple">
@@ -722,12 +721,12 @@ it to:</p>
         <li class="right" >
           <a href="intro.html" title="2. GHC の紹介"
              >前へ</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">GHC 8.2.2 User&#39;s Guide</a> &raquo;</li> 
+        <li class="nav-item nav-item-0"><a href="index.html">GHC 8.2.2 User&#39;s Guide</a> &#187;</li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">
-        &copy; Copyright 2015, GHC Team.
-      このドキュメントは <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.6 で生成しました。
+        &#169; Copyright 2015, GHC Team.
+      このドキュメントは <a href="http://sphinx-doc.org/">Sphinx</a> 1.5.6 で生成しました。
     </div>
   </body>
 </html>

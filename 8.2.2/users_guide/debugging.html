@@ -3,11 +3,11 @@
   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
 
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="ja">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>7.13. Debugging the compiler &mdash; Glasgow Haskell Compiler 8.2.2 User&#39;s Guide</title>
+    <title>7.13. Debugging the compiler &#8212; Glasgow Haskell Compiler 8.2.2 User&#39;s Guide</title>
     
     <link rel="stylesheet" href="_static/ghc-theme.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -18,19 +18,20 @@
         VERSION:     '8.2.2',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
-        HAS_SOURCE:  true
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
       };
     </script>
     <script type="text/javascript" src="_static/jquery.js"></script>
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
     <script type="text/javascript" src="_static/translations.js"></script>
-    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="search" type="application/opensearchdescription+xml"
           title="Glasgow Haskell Compiler 8.2.2 User&#39;s Guide 内を検索"
           href="_static/opensearch.xml"/>
-    <link rel="top" title="Glasgow Haskell Compiler 8.2.2 User&#39;s Guide" href="index.html" />
-    <link rel="up" title="7. Using GHC" href="usage.html" />
+    <link rel="index" title="索引" href="genindex.html" />
+    <link rel="search" title="検索" href="search.html" />
     <link rel="next" title="8. Profiling" href="profiling.html" />
     <link rel="prev" title="7.12. Using shared libraries" href="shared_libs.html" /> 
   </head>
@@ -51,8 +52,8 @@
         <li class="right" >
           <a href="shared_libs.html" title="7.12. Using shared libraries"
              accesskey="P">前へ</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">GHC 8.2.2 User&#39;s Guide</a> &raquo;</li>
-          <li class="nav-item nav-item-1"><a href="usage.html" accesskey="U">7. Using GHC</a> &raquo;</li> 
+        <li class="nav-item nav-item-0"><a href="index.html">GHC 8.2.2 User&#39;s Guide</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="usage.html" accesskey="U">7. GHCを使う</a> &#187;</li> 
       </ul>
     </div>
 
@@ -79,21 +80,18 @@
   <div role="note" aria-label="source link">
     <h3>このページ</h3>
     <ul class="this-page-menu">
-      <li><a href="_sources/debugging.txt"
+      <li><a href="_sources/debugging.rst.txt"
             rel="nofollow">ソースコードを表示</a></li>
     </ul>
    </div>
 <div id="searchbox" style="display: none" role="search">
   <h3>クイック検索</h3>
     <form class="search" action="search.html" method="get">
-      <input type="text" name="q" />
-      <input type="submit" value="検索" />
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="検索" /></div>
       <input type="hidden" name="check_keywords" value="yes" />
       <input type="hidden" name="area" value="default" />
     </form>
-    <p class="searchtip" style="font-size: 90%">
-    モジュール、クラス、または関数名を入力してください
-    </p>
 </div>
 <script type="text/javascript">$('#searchbox').show(0);</script>
         </div>
@@ -206,7 +204,7 @@ compiler.</p>
 <dt id="ghc-flag--ddump-rules">
 <code class="descname">-ddump-rules</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag--ddump-rules" title="この定義へのパーマリンク">¶</a></dt>
 <dd><p>Dumps all rewrite rules specified in this module; see
-<a class="reference internal" href="glasgow_exts.html#controlling-rules"><span>Controlling what&#8217;s going on in rewrite rules</span></a>.</p>
+<a class="reference internal" href="glasgow_exts.html#controlling-rules"><span class="std std-ref">Controlling what&#8217;s going on in rewrite rules</span></a>.</p>
 </dd></dl>
 
 <dl class="ghc-flag">
@@ -313,7 +311,7 @@ file parsing.</p>
 <dl class="ghc-flag">
 <dt id="ghc-flag--ddump-asm">
 <code class="descname">-ddump-asm</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag--ddump-asm" title="この定義へのパーマリンク">¶</a></dt>
-<dd><p>Dump assembly language produced by the <a class="reference internal" href="codegens.html#native-code-gen"><span>native code
+<dd><p>Dump assembly language produced by the <a class="reference internal" href="codegens.html#native-code-gen"><span class="std std-ref">native code
 generator</span></a></p>
 </dd></dl>
 
@@ -328,7 +326,7 @@ generator</span></a></p>
 </tr>
 </tbody>
 </table>
-<p>LLVM code from the <a class="reference internal" href="codegens.html#llvm-code-gen"><span>LLVM code generator</span></a></p>
+<p>LLVM code from the <a class="reference internal" href="codegens.html#llvm-code-gen"><span class="std std-ref">LLVM code generator</span></a></p>
 </dd></dl>
 
 <dl class="ghc-flag">
@@ -414,7 +412,7 @@ bring in.</p>
 <dd><p>Show the output of the intermediate Core-to-Core and STG-to-STG
 passes, respectively. (<em>lots</em> of output!) So: when we&#8217;re really
 desperate:</p>
-<div class="highlight-sh"><div class="highlight"><pre>% ghc -noC -O -ddump-simpl -dverbose-core2core -dcore-lint Foo.hs
+<div class="highlight-sh"><div class="highlight"><pre><span></span>% ghc -noC -O -ddump-simpl -dverbose-core2core -dcore-lint Foo.hs
 </pre></div>
 </div>
 </dd></dl>
@@ -644,13 +642,13 @@ to overflow often - nonsequential order</li>
         <li class="right" >
           <a href="shared_libs.html" title="7.12. Using shared libraries"
              >前へ</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">GHC 8.2.2 User&#39;s Guide</a> &raquo;</li>
-          <li class="nav-item nav-item-1"><a href="usage.html" >7. Using GHC</a> &raquo;</li> 
+        <li class="nav-item nav-item-0"><a href="index.html">GHC 8.2.2 User&#39;s Guide</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="usage.html" >7. GHCを使う</a> &#187;</li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">
-        &copy; Copyright 2015, GHC Team.
-      このドキュメントは <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.6 で生成しました。
+        &#169; Copyright 2015, GHC Team.
+      このドキュメントは <a href="http://sphinx-doc.org/">Sphinx</a> 1.5.6 で生成しました。
     </div>
   </body>
 </html>
