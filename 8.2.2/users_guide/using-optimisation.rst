@@ -892,17 +892,37 @@ GHCが生成するコードの質に影響を与えるオプションは *大量
     そのメリットは，Mをインポートするモジュールは再コンパイルしなければならない頻度が少なくなるということです．
     (M のエクスポートで型が変更されたときのみで，実装ののみの変更時は再コンパイルが不要です．)
 
+..
+   .. ghc-flag:: -fomit-yields
+
+       :default: on
+
+       Tells GHC to omit heap checks when no allocation is
+       being performed. While this improves binary sizes by about 5%, it
+       also means that threads run in tight non-allocating loops will not
+       get preempted in a timely fashion. If it is important to always be
+       able to interrupt such threads, you should turn this optimization
+       off. Consider also recompiling all libraries with this optimization
+       turned off, if you need to guarantee interruptibility.
+
 .. ghc-flag:: -fomit-yields
 
-    :default: on
+    :default: 有効
 
-    Tells GHC to omit heap checks when no allocation is
-    being performed. While this improves binary sizes by about 5%, it
-    also means that threads run in tight non-allocating loops will not
-    get preempted in a timely fashion. If it is important to always be
-    able to interrupt such threads, you should turn this optimization
-    off. Consider also recompiling all libraries with this optimization
-    turned off, if you need to guarantee interruptibility.
+    メモリが確保されない場合，GHC がヒープ検査を省略するようにします．
+    これによりバイナリのサイズが 5% ほど改善されますが，メモリ確保のないループを実行している場合，
+    すぐには割り込みがかからないということも意味します．
+    このようなスレッドで常にすぐに割り込みできることが重要な場合は，この最適化を無効にすべきです．
+    割り込みができることを保証したければ，この最適化を無効にしたうえで，
+    すべてのライブラリを再コンパイルすることを検討してください．
+
+..
+   .. ghc-flag:: -fpedantic-bottoms
+
+       Make GHC be more precise about its treatment of bottom (but see also
+       :ghc-flag:`-fno-state-hack`). In particular, stop GHC eta-expanding through
+       a case expression, which is good for performance, but bad if you are
+       using ``seq`` on partial applications.
 
 .. ghc-flag:: -fpedantic-bottoms
 
