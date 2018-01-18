@@ -766,17 +766,16 @@ GCの過熱を無視しての割り当てになります．この値はブロッ
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Default:</th><td class="field-body">on</td>
+<tr class="field-odd field"><th class="field-name">Default:</th><td class="field-body">有効</td>
 </tr>
 </tbody>
 </table>
-<p>Tells GHC to omit heap checks when no allocation is
-being performed. While this improves binary sizes by about 5%, it
-also means that threads run in tight non-allocating loops will not
-get preempted in a timely fashion. If it is important to always be
-able to interrupt such threads, you should turn this optimization
-off. Consider also recompiling all libraries with this optimization
-turned off, if you need to guarantee interruptibility.</p>
+<p>メモリが確保されない場合，GHC がヒープ検査を省略するようにします．
+これによりバイナリのサイズが 5% ほど改善されますが，メモリ確保のないループを実行している場合，
+すぐには割り込みがかからないということも意味します．
+このようなスレッドで常にすぐに割り込みできることが重要な場合は，この最適化を無効にすべきです．
+割り込みができることを保証したければ，この最適化を無効にしたうえで，
+すべてのライブラリを再コンパイルすることを検討してください．</p>
 </dd></dl>
 
 <dl class="ghc-flag">
