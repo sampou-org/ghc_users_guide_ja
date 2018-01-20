@@ -678,7 +678,7 @@ GCの過熱を無視しての割り当てになります．この値はブロッ
 </tr>
 </tbody>
 </table>
-<p>シンプリファイアの反復回数の最大値を設定します．</p>
+<p>単純化器の反復回数の最大値を設定します．</p>
 </dd></dl>
 
 <dl class="ghc-flag">
@@ -813,15 +813,14 @@ GCの過熱を無視しての割り当てになります．この値はブロッ
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Default:</th><td class="field-body">off</td>
+<tr class="field-odd field"><th class="field-name">Default:</th><td class="field-body">無効</td>
 </tr>
 </tbody>
 </table>
-<p><em>Only applies in combination with the native code generator.</em> Use the
-iterative coalescing graph colouring register allocator for register
-allocation in the native code generator. This is the same register allocator
-as the <a class="reference internal" href="#ghc-flag--fregs-graph"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-fregs-graph</span></code></a> one but also enables iterative coalescing
-during register allocation.</p>
+<p><em>ネイティブコード生成器との組み合わせでのみ適用します．</em>
+ネイティブコード生成器において，反復合併グラフ彩色レジスタ割り付けをつかいます．
+これは <a class="reference internal" href="#ghc-flag--fregs-graph"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-fregs-graph</span></code></a> で有効になるレジスタ割り付けと同じですが，
+レジスタ割り付けのさなかの反復合併(iterative coalescing)が有効になります．</p>
 </dd></dl>
 
 <dl class="ghc-flag">
@@ -835,7 +834,7 @@ during register allocation.</p>
 </tr>
 </tbody>
 </table>
-<p>Set the number of phases for the simplifier. Ignored with <code class="docutils literal"><span class="pre">-O0</span></code>.</p>
+<p>単純化器のフェーズ数を指定の数値に設定します． <code class="docutils literal"><span class="pre">-O0</span></code> を指定すると，この値は無視します．</p>
 </dd></dl>
 
 <dl class="ghc-flag">
@@ -849,20 +848,18 @@ during register allocation.</p>
 </tr>
 </tbody>
 </table>
-<p>GHC&#8217;s optimiser can diverge if you write rewrite rules
-(<a class="reference internal" href="glasgow_exts.html#rewrite-rules"><span class="std std-ref">Rewrite rules</span></a>) that don&#8217;t terminate, or (less satisfactorily)
-if you code up recursion through data types (<a class="reference internal" href="bugs.html#bugs-ghc"><span class="std std-ref">Bugs in GHC</span></a>). To
-avoid making the compiler fall into an infinite loop, the optimiser
-carries a &#8220;tick count&#8221; and stops inlining and applying rewrite rules
-when this count is exceeded. The limit is set as a multiple of the
-program size, so bigger programs get more ticks. The
-<code class="docutils literal"><span class="pre">-fsimpl-tick-factor</span></code> flag lets you change the multiplier. The
-default is 100; numbers larger than 100 give more ticks, and numbers
-smaller than 100 give fewer.</p>
-<p>If the tick-count expires, GHC summarises what simplifier steps it
-has done; you can use <code class="docutils literal"><span class="pre">-fddump-simpl-stats</span></code> to generate a much
-more detailed list. Usually that identifies the loop quite
-accurately, because some numbers are very large.</p>
+<p>停止しない書き換え規則(<a class="reference internal" href="glasgow_exts.html#rewrite-rules"><span class="std std-ref">Rewrite rules</span></a>)を書いてしまったり，
+(もうすこし嫌なことに)データ型を通して再帰するコードを書いてしまったりすると，
+GHCの最適化器は発散してしまいます(<a class="reference internal" href="bugs.html#bugs-ghc"><span class="std std-ref">Bugs in GHC</span></a>)．
+コンパイラが無限ループに陥いるのを避けるため，最適化器は「tickの回数」を保持し，
+この回数を超過したときには，インライン化と書き換え規則の適用をやめます．
+大きいプログラムが多くのtickを使えるように，この限界はプログラムのサイズの定数倍になります．
+<code class="docutils literal"><span class="pre">-fsimpl-tick-factor</span></code> フラッグはこの定数を変更できるようにしたものです．
+デフォルトの値は 100 で，100より大きな値を指定するとより多くのtick数が使え，
+100より小さな値を指定するとより少ないtick数しか使えなくなります．</p>
+<p>tick数が尽きると GHC は単純化器をとめ，それまで実行した部分を要約します．
+<code class="docutils literal"><span class="pre">-fddump-simpl-stats</span></code> を使えばより詳細な一覧を生成できます．
+これにより，ループのほとんどは正確に把握できます．いくつかの数値がかなりの大きさになるからである．</p>
 </dd></dl>
 
 <dl class="ghc-flag">
@@ -872,12 +869,14 @@ accurately, because some numbers are very large.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Default:</th><td class="field-body">off but enabled by <a class="reference internal" href="#ghc-flag--O2"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-O2</span></code></a>.</td>
+<tr class="field-odd field"><th class="field-name">Default:</th><td class="field-body">無効．<a class="reference internal" href="#ghc-flag--O2"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-O2</span></code></a> によって有効になる．</td>
 </tr>
 </tbody>
 </table>
-<p>Turn on call-pattern specialisation; see <a class="reference external" href="https://www.microsoft.com/en-us/research/publication/system-f-with-type-equality-coercions-2/">Call-pattern specialisation for
-Haskell programs</a>.</p>
+<p>呼び出しパターン特殊化を有効にします．
+<a class="reference external" href="https://www.microsoft.com/en-us/research/publication/system-f-with-type-equality-coercions-2/">Call-pattern specialisation for
+Haskell programs</a>
+を参照してください．</p>
 <p>This optimisation specializes recursive functions according to their
 argument &#8220;shapes&#8221;. This is best explained by example so consider:</p>
 <div class="highlight-haskell"><div class="highlight"><pre><span></span><span class="nf">last</span> <span class="ow">::</span> <span class="p">[</span><span class="n">a</span><span class="p">]</span> <span class="ow">-&gt;</span> <span class="n">a</span>
