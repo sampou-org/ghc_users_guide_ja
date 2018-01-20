@@ -781,10 +781,10 @@ GCの過熱を無視しての割り当てになります．この値はブロッ
 <dl class="ghc-flag">
 <dt id="ghc-flag--fpedantic-bottoms">
 <code class="descname">-fpedantic-bottoms</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag--fpedantic-bottoms" title="この定義へのパーマリンク">¶</a></dt>
-<dd><p>Make GHC be more precise about its treatment of bottom (but see also
-<a class="reference internal" href="#ghc-flag--fno-state-hack"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-fno-state-hack</span></code></a>). In particular, stop GHC eta-expanding through
-a case expression, which is good for performance, but bad if you are
-using <code class="docutils literal"><span class="pre">seq</span></code> on partial applications.</p>
+<dd><p>GHC が底値(ボトム，⊥)をより精密に扱うようにします
+(ただし <a class="reference internal" href="#ghc-flag--fno-state-hack"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-fno-state-hack</span></code></a> も参照してください)．
+具体的には，case 式を通しての η 展開が行われなくなります．
+通常この η 展開は性能にはよいのですが，部分適用で <code class="docutils literal"><span class="pre">seq</span></code> を使っていると悪影響になります．</p>
 </dd></dl>
 
 <dl class="ghc-flag">
@@ -794,17 +794,16 @@ using <code class="docutils literal"><span class="pre">seq</span></code> on part
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Default:</th><td class="field-body">off due to a performance regression bug (<a class="reference external" href="https://ghc.haskell.org/trac/ghc/ticket/7679">Trac #7679</a>)</td>
+<tr class="field-odd field"><th class="field-name">Default:</th><td class="field-body">性能を劣化させるバグ(<a class="reference external" href="https://ghc.haskell.org/trac/ghc/ticket/7679">Trac #7679</a>)があるために無効</td>
 </tr>
 </tbody>
 </table>
-<p><em>Only applies in combination with the native code generator.</em> Use the graph
-colouring register allocator for register allocation in the native code
-generator. By default, GHC uses a simpler, faster linear register allocator.
-The downside being that the linear register allocator usually generates
-worse code.</p>
-<p>Note that the graph colouring allocator is a bit experimental and may fail
-when faced with code with high register pressure <a class="reference external" href="https://ghc.haskell.org/trac/ghc/ticket/8657">Trac #8657</a>.</p>
+<p><em>ネイティブコード生成器との組み合わせでのみ適用します．</em>
+ネイティブコード生成器において，グラフ彩色レジスタ割り付けをつかいます．
+デフォルトでは，GHCはもっと単純で速い線形レジスタ割り付けを使います．
+その欠点は，線形割り付けは通常，よりよくないコードを生成するいことがあるということです．</p>
+<p>グラフ彩色割り付けはいくぶんか実験的な実装になっており，レジスタの使い方が厳しいコードでは失敗することがあります．
+<a class="reference external" href="https://ghc.haskell.org/trac/ghc/ticket/8657">Trac #8657</a></p>
 </dd></dl>
 
 <dl class="ghc-flag">
