@@ -926,23 +926,36 @@ GHCが生成するコードの質に影響を与えるオプションは *大量
 
 .. ghc-flag:: -fpedantic-bottoms
 
-    Make GHC be more precise about its treatment of bottom (but see also
-    :ghc-flag:`-fno-state-hack`). In particular, stop GHC eta-expanding through
-    a case expression, which is good for performance, but bad if you are
-    using ``seq`` on partial applications.
+    GHC が底値(ボトム，⊥)をより精密に扱うようにします
+    (ただし :ghc-flag:`-fno-state-hack` も参照してください)．
+    具体的には，case 式を通しての η 展開が行われなくなります．
+    通常この η 展開は性能にはよいのですが，部分適用で ``seq`` を使っていると悪影響になります．
+
+..
+   .. ghc-flag:: -fregs-graph
+
+       :default: off due to a performance regression bug (:ghc-ticket:`7679`)
+
+       *Only applies in combination with the native code generator.* Use the graph
+       colouring register allocator for register allocation in the native code
+       generator. By default, GHC uses a simpler, faster linear register allocator.
+       The downside being that the linear register allocator usually generates
+       worse code.
+
+       Note that the graph colouring allocator is a bit experimental and may fail
+       when faced with code with high register pressure :ghc-ticket:`8657`.
 
 .. ghc-flag:: -fregs-graph
 
-    :default: off due to a performance regression bug (:ghc-ticket:`7679`)
+    :default: 性能を劣化させるバグ(:ghc-ticket:`7679`)があるために無効
 
-    *Only applies in combination with the native code generator.* Use the graph
-    colouring register allocator for register allocation in the native code
-    generator. By default, GHC uses a simpler, faster linear register allocator.
-    The downside being that the linear register allocator usually generates
-    worse code.
-
-    Note that the graph colouring allocator is a bit experimental and may fail
-    when faced with code with high register pressure :ghc-ticket:`8657`.
+    *ネイティブコード生成器との組み合わせでのみ適用します．*
+    ネイティブコード生成器において，グラフ彩色レジスタ割り付けをつかいます．
+    デフォルトでは，GHCはもっと単純で速い線形レジスタ割り付けを使います．
+    その欠点は，線形割り付けは通常，よりよくないコードを生成するいことがあるということです．
+    
+    グラフ彩色割り付けはいくぶんか実験的な実装になっており，レジスタの使い方が厳しいコードでは失敗することがあります．
+    :ghc-ticket:`8657`
 
 .. ghc-flag:: -fregs-iterative
 
