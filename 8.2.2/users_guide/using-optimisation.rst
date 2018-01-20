@@ -807,7 +807,7 @@ GHCが生成するコードの質に影響を与えるオプションは *大量
 
     :default: 4
 
-    シンプリファイアの反復回数の最大値を設定します．
+    単純化器の反復回数の最大値を設定します．
 
 ..
    .. ghc-flag:: -fmax-worker-args=⟨n⟩
@@ -957,50 +957,153 @@ GHCが生成するコードの質に影響を与えるオプションは *大量
     グラフ彩色割り付けはいくぶんか実験的な実装になっており，レジスタの使い方が厳しいコードでは失敗することがあります．
     :ghc-ticket:`8657`
 
+..
+   .. ghc-flag:: -fregs-iterative
+
+       :default: off
+
+       *Only applies in combination with the native code generator.* Use the
+       iterative coalescing graph colouring register allocator for register
+       allocation in the native code generator. This is the same register allocator
+       as the :ghc-flag:`-fregs-graph` one but also enables iterative coalescing
+       during register allocation.
+
 .. ghc-flag:: -fregs-iterative
 
-    :default: off
+    :default: 無効
 
-    *Only applies in combination with the native code generator.* Use the
-    iterative coalescing graph colouring register allocator for register
-    allocation in the native code generator. This is the same register allocator
-    as the :ghc-flag:`-fregs-graph` one but also enables iterative coalescing
-    during register allocation.
+    *ネイティブコード生成器との組み合わせでのみ適用します．*
+    ネイティブコード生成器において，反復合併グラフ彩色レジスタ割り付けをつかいます．
+    これは :ghc-flag:`-fregs-graph` で有効になるレジスタ割り付けと同じですが，
+    レジスタ割り付けのさなかの反復合併(iterative coalescing)が有効になります．
+
+..
+   .. ghc-flag:: -fsimplifier-phases=⟨n⟩
+
+       :default: 2
+
+       Set the number of phases for the simplifier. Ignored with ``-O0``.
 
 .. ghc-flag:: -fsimplifier-phases=⟨n⟩
 
     :default: 2
 
-    Set the number of phases for the simplifier. Ignored with ``-O0``.
+    単純化器のフェーズ数を指定の数値に設定します． ``-O0`` を指定すると，この値は無視します．
+
+..
+   .. ghc-flag:: -fsimpl-tick-factor=⟨n⟩
+
+       :default: 100
+
+       GHC's optimiser can diverge if you write rewrite rules
+       (:ref:`rewrite-rules`) that don't terminate, or (less satisfactorily)
+       if you code up recursion through data types (:ref:`bugs-ghc`). To
+       avoid making the compiler fall into an infinite loop, the optimiser
+       carries a "tick count" and stops inlining and applying rewrite rules
+       when this count is exceeded. The limit is set as a multiple of the
+       program size, so bigger programs get more ticks. The
+       ``-fsimpl-tick-factor`` flag lets you change the multiplier. The
+       default is 100; numbers larger than 100 give more ticks, and numbers
+       smaller than 100 give fewer.
+
+       If the tick-count expires, GHC summarises what simplifier steps it
+       has done; you can use ``-fddump-simpl-stats`` to generate a much
+       more detailed list. Usually that identifies the loop quite
+       accurately, because some numbers are very large.
 
 .. ghc-flag:: -fsimpl-tick-factor=⟨n⟩
 
     :default: 100
 
-    GHC's optimiser can diverge if you write rewrite rules
-    (:ref:`rewrite-rules`) that don't terminate, or (less satisfactorily)
-    if you code up recursion through data types (:ref:`bugs-ghc`). To
-    avoid making the compiler fall into an infinite loop, the optimiser
-    carries a "tick count" and stops inlining and applying rewrite rules
-    when this count is exceeded. The limit is set as a multiple of the
-    program size, so bigger programs get more ticks. The
-    ``-fsimpl-tick-factor`` flag lets you change the multiplier. The
-    default is 100; numbers larger than 100 give more ticks, and numbers
-    smaller than 100 give fewer.
+    停止しない書き換え規則(:ref:`rewrite-rules`)を書いてしまったり，
+    (もうすこし嫌なことに)データ型を通して再帰するコードを書いてしまったりすると，
+    GHCの最適化器は発散してしまいます(:ref:`bugs-ghc`)．
+    コンパイラが無限ループに陥いるのを避けるため，最適化器は「tickの回数」を保持し，
+    この回数を超過したときには，インライン化と書き換え規則の適用をやめます．
+    大きいプログラムが多くのtickを使えるように，この限界はプログラムのサイズの定数倍になります．
+    ``-fsimpl-tick-factor`` フラッグはこの定数を変更できるようにしたものです．
+    デフォルトの値は 100 で，100より大きな値を指定するとより多くのtick数が使え，
+    100より小さな値を指定するとより少ないtick数しか使えなくなります．
 
-    If the tick-count expires, GHC summarises what simplifier steps it
-    has done; you can use ``-fddump-simpl-stats`` to generate a much
-    more detailed list. Usually that identifies the loop quite
-    accurately, because some numbers are very large.
+    tick数が尽きると GHC は単純化器をとめ，それまで実行した部分を要約します．
+    ``-fddump-simpl-stats`` を使えばより詳細な一覧を生成できます．
+    これにより，ループのほとんどは正確に把握できます．いくつかの数値がかなりの大きさになるからである．
+
+..
+   .. ghc-flag:: -fspec-constr
+
+       :default: off but enabled by :ghc-flag:`-O2`.
+
+       Turn on call-pattern specialisation; see `Call-pattern specialisation for
+       Haskell programs
+       <https://www.microsoft.com/en-us/research/publication/system-f-with-type-equality-coercions-2/>`__.
+
+       This optimisation specializes recursive functions according to their
+       argument "shapes". This is best explained by example so consider: ::
+
+	   last :: [a] -> a
+	   last [] = error "last"
+	   last (x : []) = x
+	   last (x : xs) = last xs
+
+       In this code, once we pass the initial check for an empty list we
+       know that in the recursive case this pattern match is redundant. As
+       such ``-fspec-constr`` will transform the above code to: ::
+
+	   last :: [a] -> a
+	   last []       = error "last"
+	   last (x : xs) = last' x xs
+	       where
+		 last' x []       = x
+		 last' x (y : ys) = last' y ys
+
+       As well avoid unnecessary pattern matching it also helps avoid
+       unnecessary allocation. This applies when a argument is strict in
+       the recursive call to itself but not on the initial entry. As strict
+       recursive branch of the function is created similar to the above
+       example.
+
+       It is also possible for library writers to instruct GHC to perform
+       call-pattern specialisation extremely aggressively. This is
+       necessary for some highly optimized libraries, where we may want to
+       specialize regardless of the number of specialisations, or the size
+       of the code. As an example, consider a simplified use-case from the
+       ``vector`` library: ::
+
+	   import GHC.Types (SPEC(..))
+
+	   foldl :: (a -> b -> a) -> a -> Stream b -> a
+	   {-# INLINE foldl #-}
+	   foldl f z (Stream step s _) = foldl_loop SPEC z s
+	     where
+	       foldl_loop !sPEC z s = case step s of
+				       Yield x s' -> foldl_loop sPEC (f z x) s'
+				       Skip       -> foldl_loop sPEC z s'
+				       Done       -> z
+
+       Here, after GHC inlines the body of ``foldl`` to a call site, it
+       will perform call-pattern specialisation very aggressively on
+       ``foldl_loop`` due to the use of ``SPEC`` in the argument of the
+       loop body. ``SPEC`` from ``GHC.Types`` is specifically recognised by
+       the compiler.
+
+       (NB: it is extremely important you use ``seq`` or a bang pattern on
+       the ``SPEC`` argument!)
+
+       In particular, after inlining this will expose ``f`` to the loop
+       body directly, allowing heavy specialisation over the recursive
+       cases.
 
 .. ghc-flag:: -fspec-constr
 
-    :default: off but enabled by :ghc-flag:`-O2`.
+    :default: 無効．:ghc-flag:`-O2` によって有効になる．
 
-    Turn on call-pattern specialisation; see `Call-pattern specialisation for
+    呼び出しパターン特殊化を有効にします．
+    `Call-pattern specialisation for
     Haskell programs
-    <https://www.microsoft.com/en-us/research/publication/system-f-with-type-equality-coercions-2/>`__.
-
+    <https://www.microsoft.com/en-us/research/publication/system-f-with-type-equality-coercions-2/>`__
+    を参照してください．
+    
     This optimisation specializes recursive functions according to their
     argument "shapes". This is best explained by example so consider: ::
 
