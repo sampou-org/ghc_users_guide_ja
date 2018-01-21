@@ -1157,18 +1157,16 @@ GHCが適用できるようになります．</p>
 </tbody>
 </table>
 <p id="index-7">Governs the maximum size that GHC will allow a
-function unfolding to be. (An unfolding has a “size” that reflects
-the cost in terms of “code bloat” of expanding (aka inlining) that
-unfolding at a call site. A bigger function would be assigned a
-bigger cost.)</p>
-<p>Consequences:</p>
+関数の展開候補(unfolding)に許される最大の大きさを定めます．
+(展開候補には、それが呼び出し点で展開されたときの「コード膨張」のコストを反映した「大きさ」が与えられるます．
+大きい関数ほど大きなコストになります．)</p>
+<p>その結果として，</p>
 <ol class="loweralpha simple">
-<li>nothing larger than this will be inlined (unless it has an <code class="docutils literal"><span class="pre">INLINE</span></code> pragma)</li>
-<li>nothing larger than this will be spewed into an interface file.</li>
+<li>これより大きいものは(<code class="docutils literal"><span class="pre">INLINE</span></code> プラグマがないかぎり)インライン展開されることはありません．</li>
+<li>これより大きいものはインターフェイスファイルにはきだされることはありません．</li>
 </ol>
-<p>Increasing this figure is more likely to result in longer compile times
-than faster code. The <a class="reference internal" href="#ghc-flag--funfolding-use-threshold=⟨n⟩"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-funfolding-use-threshold=⟨n⟩</span></code></a> is more
-useful.</p>
+<p>この値を増やしても，結果として速いコードがえられるというより，単にコンパイル時間が長くなるだけの公算が高いので，
+<a class="reference internal" href="#ghc-flag--funfolding-use-threshold=⟨n⟩"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-funfolding-use-threshold=⟨n⟩</span></code></a> の方が便利です．</p>
 </dd></dl>
 
 <dl class="ghc-flag">
@@ -1182,7 +1180,7 @@ useful.</p>
 </tr>
 </tbody>
 </table>
-<p id="index-8">How eager should the compiler be to inline dictionaries?</p>
+<p id="index-8">どの程度，先行してディクショナリのインライン展開を行うか．</p>
 </dd></dl>
 
 <dl class="ghc-flag">
@@ -1196,7 +1194,7 @@ useful.</p>
 </tr>
 </tbody>
 </table>
-<p id="index-9">How eager should the compiler be to inline functions?</p>
+<p id="index-9">どの程度，先行して関数のインライン展開を行うか．</p>
 </dd></dl>
 
 <dl class="ghc-flag">
@@ -1210,7 +1208,7 @@ useful.</p>
 </tr>
 </tbody>
 </table>
-<p id="index-10">How eager should the compiler be to inline functions?</p>
+<p id="index-10">どの程度，先行して関数のインライン展開を行うか．</p>
 </dd></dl>
 
 <dl class="ghc-flag">
@@ -1224,17 +1222,14 @@ useful.</p>
 </tr>
 </tbody>
 </table>
-<p id="index-11">This is the magic cut-off figure for unfolding (aka
-inlining): below this size, a function definition will be unfolded
-at the call-site, any bigger and it won&#8217;t. The size computed for a
-function depends on two things: the actual size of the expression
-minus any discounts that apply depending on the context into which
-the expression is to be inlined.</p>
-<p>The difference between this and
-<a class="reference internal" href="#ghc-flag--funfolding-creation-threshold=⟨n⟩"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-funfolding-creation-threshold=⟨n⟩</span></code></a> is that this one determines
-if a function definition will be inlined <em>at a call site</em>. The other option
-determines if a function definition will be kept around at all for
-potential inlining.</p>
+<p id="index-11">これはインライン展開にあたっての魔法のカットオフ値です．
+これより小さい関数定義は呼び出し元に展開され，これより大きい物は展開されません．
+関数の大きさは2つのものに依存します．
+それは式の実際の大きさと，それにコンテキストに依存するインライン展開適用後の式の大きさです．</p>
+<p>これと
+<a class="reference internal" href="#ghc-flag--funfolding-creation-threshold=⟨n⟩"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-funfolding-creation-threshold=⟨n⟩</span></code></a> との違いは，
+こちらは，関数がインライン化されるかどうかを <em>呼び出し側</em> で決定するのに対し，
+あちらは，将来のインライン化のために関数定義を持っておくかどうかを決定することです．</p>
 </dd></dl>
 
 <dl class="ghc-flag">
@@ -1244,18 +1239,17 @@ potential inlining.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Default:</th><td class="field-body">on</td>
+<tr class="field-odd field"><th class="field-name">Default:</th><td class="field-body">有効</td>
 </tr>
 </tbody>
 </table>
-<p id="index-12">Part of <a class="reference internal" href="parallel.html#dph"><span class="std std-ref">Data Parallel Haskell (DPH)</span></a>.</p>
-<p>Enable the <em>vectorisation</em> avoidance optimisation.
-This optimisation only works when used in combination with the
-<code class="docutils literal"><span class="pre">-fvectorise</span></code> transformation.</p>
-<p>While vectorisation of code using DPH is often a big win, it can
-also produce worse results for some kinds of code. This optimisation
-modifies the vectorisation transformation to try to determine if a
-function would be better of unvectorised and if so, do just that.</p>
+<p id="index-12"><a class="reference internal" href="parallel.html#dph"><span class="std std-ref">Data Parallel Haskell (DPH)</span></a> の一部です．</p>
+<p><em>ベクトル化</em> 回避最適化を有効にします．
+この最適化は <code class="docutils literal"><span class="pre">-fvectorise</span></code> 変換との組み合わせでのみ意味をなします．</p>
+<p>DPHを使ったコードのベクトル化は多くの場合非常に効果的ですが，
+ある種のコードでは酷い結果になることがあります．
+この最適化は，ベクトル化変換を変更して，関数がベクトル化しないほうが良いかどうかを判断して，
+良くなる場合にのみベクトル化を実行するようにします．</p>
 </dd></dl>
 
 <dl class="ghc-flag">
@@ -1265,16 +1259,14 @@ function would be better of unvectorised and if so, do just that.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Default:</th><td class="field-body">off</td>
+<tr class="field-odd field"><th class="field-name">Default:</th><td class="field-body">無効</td>
 </tr>
 </tbody>
 </table>
-<p>Part of <a class="reference internal" href="parallel.html#dph"><span class="std std-ref">Data Parallel Haskell (DPH)</span></a>.</p>
-<p>Enable the <em>vectorisation</em> optimisation
-transformation. This optimisation transforms the nested data
-parallelism code of programs using DPH into flat data parallelism.
-Flat data parallel programs should have better load balancing,
-enable SIMD parallelism and friendlier cache behaviour.</p>
+<p><a class="reference internal" href="parallel.html#dph"><span class="std std-ref">Data Parallel Haskell (DPH)</span></a> の一部です．</p>
+<p><em>ベクトル化</em> 最適化変換を有効にします．
+この最適化は DPH を使ったネストしたデータ並列コードを平坦なデータ並列コードに変換します．
+平坦なデータ並列コードはよりよい負荷分散が可能で SIMD 並列を可能にし，キャッシュの振舞とも相性がよい．</p>
 </dd></dl>
 
 </div>
