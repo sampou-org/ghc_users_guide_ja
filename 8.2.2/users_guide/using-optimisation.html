@@ -928,15 +928,13 @@ Haskell programs</a>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Default:</th><td class="field-body">off</td>
+<tr class="field-odd field"><th class="field-name">Default:</th><td class="field-body">無効</td>
 </tr>
 </tbody>
 </table>
-<p>If this flag is on, call-pattern specialisation will specialise a call
-<code class="docutils literal"><span class="pre">(f</span> <span class="pre">(Just</span> <span class="pre">x))</span></code> with an explicit constructor argument, even if the argument
-is not scrutinised in the body of the function. This is sometimes
-beneficial; e.g. the argument might be given to some other function
-that can itself be specialised.</p>
+<p>このフラグが有効であれば，呼び出しパターン特殊化が，明示的な構成子の引数をもつ，
+たとえば <code class="docutils literal"><span class="pre">(f</span> <span class="pre">(Just</span> <span class="pre">x)</span></code> に対して行われます．これは関数本体が精査されてなくても行われます．
+これは時として有益で，たとえば，引数はそれ自体が特殊化できる他の関数に渡せることもあります．</p>
 </dd></dl>
 
 <dl class="ghc-flag">
@@ -950,8 +948,7 @@ that can itself be specialised.</p>
 </tr>
 </tbody>
 </table>
-<p>Set the maximum number of specialisations that will be created for
-any one function by the SpecConstr transformation.</p>
+<p>SpecConstr 変換による1つの関数に対する特殊化の最大数を設定します．</p>
 </dd></dl>
 
 <dl class="ghc-flag">
@@ -965,7 +962,7 @@ any one function by the SpecConstr transformation.</p>
 </tr>
 </tbody>
 </table>
-<p>Set the size threshold for the SpecConstr transformation.</p>
+<p>SpecConstr 変換用のサイズ閾値を設定します．</p>
 </dd></dl>
 
 <dl class="ghc-flag">
@@ -975,15 +972,14 @@ any one function by the SpecConstr transformation.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Default:</th><td class="field-body">on</td>
+<tr class="field-odd field"><th class="field-name">Default:</th><td class="field-body">有効</td>
 </tr>
 </tbody>
 </table>
-<p>Specialise each type-class-overloaded function
-defined in this module for the types at which it is called in this
-module. If <a class="reference internal" href="#ghc-flag--fcross-module-specialise"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-fcross-module-specialise</span></code></a> is set imported functions
-that have an INLINABLE pragma (<a class="reference internal" href="glasgow_exts.html#inlinable-pragma"><span class="std std-ref">INLINABLE pragma</span></a>) will be
-specialised as well.</p>
+<p>このモジュールで定義された，型クラスによる多重定義関数それぞれをこのモジュールで使われている型について特殊化します．
+また，<a class="reference internal" href="#ghc-flag--fcross-module-specialise"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-fcross-module-specialise</span></code></a> が有効である場合，
+INLINABLE プラグマ (<a class="reference internal" href="glasgow_exts.html#inlinable-pragma"><span class="std std-ref">INLINABLE pragma</span></a>) をもつインポートされた関数について，
+このモジュールで呼ばれている型で特殊化します．</p>
 </dd></dl>
 
 <dl class="ghc-flag">
@@ -993,16 +989,14 @@ specialised as well.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Default:</th><td class="field-body">off</td>
+<tr class="field-odd field"><th class="field-name">Default:</th><td class="field-body">無効</td>
 </tr>
 </tbody>
 </table>
-<p>By default only type class methods and methods marked <code class="docutils literal"><span class="pre">INLINABLE</span></code> or
-<code class="docutils literal"><span class="pre">INLINE</span></code> are specialised. This flag will specialise any overloaded function
-regardless of size if its unfolding is available. This flag is not
-included in any optimisation level as it can massively increase code
-size. It can be used in conjunction with <a class="reference internal" href="#ghc-flag--fexpose-all-unfoldings"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-fexpose-all-unfoldings</span></code></a>
-if you want to ensure all calls are specialised.</p>
+<p>デフォルトでは，型クラスメソッドおよび <code class="docutils literal"><span class="pre">INLINABLE</span></code> あるいは <code class="docutils literal"><span class="pre">INLINE</span></code> のマークが付いている関数だけ特殊化します．
+このフラグを指定すると，展開可能であればそのサイズにかかわらず多重定義された関数を特殊化します．
+コードサイズが著しく大きくなるので，このフラグはどの最適化レベルにも含まれていません．
+すべての呼び出しを確実に特殊化したければ <a class="reference internal" href="#ghc-flag--fexpose-all-unfoldings"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-fexpose-all-unfoldings</span></code></a> と同時に有効にすることもできます．</p>
 </dd></dl>
 
 <dl class="ghc-flag">
@@ -1012,14 +1006,13 @@ if you want to ensure all calls are specialised.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Default:</th><td class="field-body">on</td>
+<tr class="field-odd field"><th class="field-name">Default:</th><td class="field-body">有効</td>
 </tr>
 </tbody>
 </table>
-<p>Specialise <code class="docutils literal"><span class="pre">INLINABLE</span></code> (<a class="reference internal" href="glasgow_exts.html#inlinable-pragma"><span class="std std-ref">INLINABLE pragma</span></a>)
-type-class-overloaded functions imported from other modules for the types at
-which they are called in this module. Note that specialisation must be
-enabled (by <code class="docutils literal"><span class="pre">-fspecialise</span></code>) for this to have any effect.</p>
+<p>他のモジュール由来の``INLINABLE`` (<a class="reference internal" href="glasgow_exts.html#inlinable-pragma"><span class="std std-ref">INLINABLE pragma</span></a>)の付いた型クラスにより多重定義された関数を
+このモジュールで呼ばれる型について特殊化します．
+これが効果を発揮するためには，特殊化が(<code class="docutils literal"><span class="pre">-fspecialise</span></code> によって)有効になっていなければなりません．</p>
 </dd></dl>
 
 <dl class="ghc-flag">
