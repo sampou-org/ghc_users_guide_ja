@@ -692,7 +692,7 @@ GCの過熱を無視しての割り当てになります．この値はブロッ
 </tr>
 </tbody>
 </table>
-<p>この数までのワーカーの引数はまとめられることはありません．</p>
+<p>この数までのワーカーの引数はアンパックされることはありません．</p>
 </dd></dl>
 
 <dl class="ghc-flag">
@@ -1022,13 +1022,12 @@ INLINABLE プラグマ (<a class="reference internal" href="glasgow_exts.html#in
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Default:</th><td class="field-body">on</td>
+<tr class="field-odd field"><th class="field-name">Default:</th><td class="field-body">有効</td>
 </tr>
 </tbody>
 </table>
-<p>When solving constraints, try to eagerly solve
-super classes using available dictionaries.</p>
-<p>For example:</p>
+<p>制約解決のときに，利用可能な辞書を使てスーパークラスを先行して解決します．</p>
+<p>たとえば，</p>
 <div class="highlight-haskell"><div class="highlight"><pre><span></span><span class="kr">class</span> <span class="kt">M</span> <span class="n">a</span> <span class="n">b</span> <span class="kr">where</span> <span class="n">m</span> <span class="ow">::</span> <span class="n">a</span> <span class="ow">-&gt;</span> <span class="n">b</span>
 
 <span class="kr">type</span> <span class="kt">C</span> <span class="n">a</span> <span class="n">b</span> <span class="ow">=</span> <span class="p">(</span><span class="kt">Num</span> <span class="n">a</span><span class="p">,</span> <span class="kt">M</span> <span class="n">a</span> <span class="n">b</span><span class="p">)</span>
@@ -1037,17 +1036,14 @@ super classes using available dictionaries.</p>
 <span class="nf">f</span> <span class="kr">_</span> <span class="n">x</span> <span class="ow">=</span> <span class="n">x</span> <span class="o">+</span> <span class="mi">1</span>
 </pre></div>
 </div>
-<p>The body of <cite>f</cite> requires a <cite>Num Int</cite> instance. We could solve this
-constraint from the context  because we have <cite>C Int b</cite> and that provides us
-a
-solution for <cite>Num Int</cite>. However, we can often produce much better code
-by directly solving for an available <cite>Num Int</cite> dictionary we might have at
-hand. This removes potentially many layers of indirection and crucially
-allows other optimisations to fire as the dictionary will be statically
-known and selector functions can be inlined.</p>
-<p>The optimisation also works for GADTs which bind dictionaries. If we
-statically know which class dictionary we need then we will solve it
-directly rather than indirectly using the one passed in at run time.</p>
+<p>の場合 <cite>f</cite> の本体には <cite>Num Int</cite> インスタンスが必要です．
+この制約をコンテキストから解決できるのは <cite>C Int b</cite> が <cite>Num Int</cite> の解決をもたらすからです．
+しかし，利用可能な <cite>Num Int</cite> の辞書を直接解決することで，より良いコードを生成できます．
+そうすることで，潜在的に多くの関節参照レイヤを除去でき，ディクショナリが静的に識別され，
+セレクタ関数がインライン展開されるために，その他の最適化に非常によく効きます．</p>
+<p>この最適化は辞書を束縛する GADT でも有効です．
+どのクラスのディクショナリが必要なのか静的に判れば，
+実行時に渡されたものを関節的に使用するのではなく，直接解決できます．</p>
 </dd></dl>
 
 <dl class="ghc-flag">
@@ -1057,14 +1053,14 @@ directly rather than indirectly using the one passed in at run time.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Default:</th><td class="field-body">off</td>
+<tr class="field-odd field"><th class="field-name">Default:</th><td class="field-body">無効</td>
 </tr>
 </tbody>
 </table>
-<p>Turn on the static argument transformation, which turns a recursive
-function into a non-recursive one with a local recursive loop. See
-Chapter 7 of <a class="reference external" href="http://research.microsoft.com/en-us/um/people/simonpj/papers/santos-thesis.ps.gz">Andre Santos&#8217;s PhD
-thesis</a></p>
+<p>静的引数変換を有効にします．静的引数変換は再帰関数を局所的なループをもつ非再帰関数に変換します．
+<a class="reference external" href="http://research.microsoft.com/en-us/um/people/simonpj/papers/santos-thesis.ps.gz">Andre Santos&#8217;s PhD
+thesis</a>
+の第7章を参照してください．</p>
 </dd></dl>
 
 <dl class="ghc-flag">
@@ -1074,27 +1070,24 @@ thesis</a></p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Default:</th><td class="field-body">on</td>
+<tr class="field-odd field"><th class="field-name">Default:</th><td class="field-body">有効</td>
 </tr>
 </tbody>
 </table>
-<p>Switch on the strictness analyser. There is a very
-old paper about GHC&#8217;s strictness analyser, <a class="reference external" href="http://research.microsoft.com/en-us/um/people/simonpj/papers/simple-strictnes-analyser.ps.gz">Measuring the
+<p>正格性解析器を有効にします．GHC の正格性解析器に関するかなり古い論文に
+<a class="reference external" href="http://research.microsoft.com/en-us/um/people/simonpj/papers/simple-strictnes-analyser.ps.gz">Measuring the
 effectiveness of a simple strictness
-analyser</a>,
-but the current one is quite a bit different.</p>
-<p>The strictness analyser figures out when arguments and variables in
-a function can be treated &#8216;strictly&#8217; (that is they are always
-evaluated in the function at some point). This allow GHC to apply
-certain optimisations such as unboxing that otherwise don&#8217;t apply as
-they change the semantics of the program when applied to lazy
-arguments.</p>
+analyser</a>
+がありますが，現在の正格性解析器はそれとはかなり違っています．</p>
+<p>正格性解析器は，どの引数と変数が関数内で「正格に」使われている(つまり，その関数内でいずれ評価される)かを調べます．
+これにより，lazyな引数に適用された場合にはプログラムの意味を変えてしまうような最適化(非ボックス化)を
+GHCが適用できるようになります．</p>
 </dd></dl>
 
 <dl class="ghc-flag">
 <dt id="ghc-flag--fstrictness-before=⟨n⟩">
 <code class="descname">-fstrictness-before</code><code class="descclassname">=⟨n⟩</code><a class="headerlink" href="#ghc-flag--fstrictness-before=⟨n⟩" title="この定義へのパーマリンク">¶</a></dt>
-<dd><p>Run an additional strictness analysis before simplifier phase ⟨n⟩.</p>
+<dd><p>単純化器フェーズ ⟨n⟩ の前に正格性解析を追加で走らせます．</p>
 </dd></dl>
 
 <dl class="ghc-flag">
@@ -1104,33 +1097,28 @@ arguments.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Default:</th><td class="field-body">on</td>
+<tr class="field-odd field"><th class="field-name">Default:</th><td class="field-body">有効</td>
 </tr>
 </tbody>
 </table>
-<p id="index-5">This option causes all constructor fields which
-are marked strict (i.e. “!”) and which representation is smaller or
-equal to the size of a pointer to be unpacked, if possible. It is
-equivalent to adding an <code class="docutils literal"><span class="pre">UNPACK</span></code> pragma (see <a class="reference internal" href="glasgow_exts.html#unpack-pragma"><span class="std std-ref">UNPACK pragma</span></a>)
-to every strict constructor field that fulfils the size restriction.</p>
-<p>For example, the constructor fields in the following data types</p>
+<p id="index-5">このオプションは，正格であると標示(つまり「!」)された構築子フィールドで，
+表現がポインタ一個以下の大きさであるものを可能なら全てアンパックする．
+これは，大きさの制約を満たす全ての正格なフィールドに
+<code class="docutils literal"><span class="pre">UNPACK</span></code> プラグマ(<a class="reference internal" href="glasgow_exts.html#unpack-pragma"><span class="std std-ref">UNPACK pragma</span></a> を参照)を付けるのと同じです．</p>
+<p>例として，以下のようなデータ型の構成子フィールドを考えましょう．</p>
 <div class="highlight-haskell"><div class="highlight"><pre><span></span><span class="kr">data</span> <span class="kt">A</span> <span class="ow">=</span> <span class="kt">A</span> <span class="o">!</span><span class="kt">Int</span>
 <span class="kr">data</span> <span class="kt">B</span> <span class="ow">=</span> <span class="kt">B</span> <span class="o">!</span><span class="kt">A</span>
 <span class="kr">newtype</span> <span class="kt">C</span> <span class="ow">=</span> <span class="kt">C</span> <span class="kt">B</span>
 <span class="kr">data</span> <span class="kt">D</span> <span class="ow">=</span> <span class="kt">D</span> <span class="o">!</span><span class="kt">C</span>
 </pre></div>
 </div>
-<p>would all be represented by a single <code class="docutils literal"><span class="pre">Int#</span></code> (see
-<a class="reference internal" href="glasgow_exts.html#primitives"><span class="std std-ref">Unboxed types and primitive operations</span></a>) value with <code class="docutils literal"><span class="pre">-funbox-small-strict-fields</span></code>
-enabled.</p>
-<p>This option is less of a sledgehammer than
-<code class="docutils literal"><span class="pre">-funbox-strict-fields</span></code>: it should rarely make things worse. If
-you use <code class="docutils literal"><span class="pre">-funbox-small-strict-fields</span></code> to turn on unboxing by
-default you can disable it for certain constructor fields using the
-<code class="docutils literal"><span class="pre">NOUNPACK</span></code> pragma (see <a class="reference internal" href="glasgow_exts.html#nounpack-pragma"><span class="std std-ref">NOUNPACK pragma</span></a>).</p>
-<p>Note that for consistency <code class="docutils literal"><span class="pre">Double</span></code>, <code class="docutils literal"><span class="pre">Word64</span></code>, and <code class="docutils literal"><span class="pre">Int64</span></code>
-constructor fields are unpacked on 32-bit platforms, even though
-they are technically larger than a pointer on those platforms.</p>
+<p><code class="docutils literal"><span class="pre">-funbox-small-strict-fields</span></code> を有効にすると，これらのフィールドは全て単一の
+<code class="docutils literal"><span class="pre">Int#</span></code> (<a class="reference internal" href="glasgow_exts.html#primitives"><span class="std std-ref">Unboxed types and primitive operations</span></a> 参照)の値で表現されます．</p>
+<p>このオプションは <code class="docutils literal"><span class="pre">-funbox-strict-fields</span></code> に比べると大槌を振り回す感は少なくなります．
+<code class="docutils literal"><span class="pre">-funbox-small-strict-fields</span></code> を使えば，非ボックス化を有効にしている場合，
+<code class="docutils literal"><span class="pre">NOUNPACK</span></code> プラグマ(<a class="reference internal" href="glasgow_exts.html#nounpack-pragma"><span class="std std-ref">NOUNPACK pragma</span></a> 参照)を使って個々の構成子フィールドについてこれを無効にできます．</p>
+<p>32ビットプラットフォームでは <code class="docutils literal"><span class="pre">Double</span></code> ， <code class="docutils literal"><span class="pre">Word64</span></code> ， <code class="docutils literal"><span class="pre">Int64</span></code> の構成子フィールドは，
+技術的にポインタよりも大きいにもかかわらず，アンパックされることに注意してください．</p>
 </dd></dl>
 
 <dl class="ghc-flag">
@@ -1140,22 +1128,21 @@ they are technically larger than a pointer on those platforms.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Default:</th><td class="field-body">off</td>
+<tr class="field-odd field"><th class="field-name">Default:</th><td class="field-body">無効</td>
 </tr>
 </tbody>
 </table>
-<p id="index-6">This option causes all constructor fields which are marked strict
-(i.e. <code class="docutils literal"><span class="pre">!</span></code>) to be unpacked if possible. It is equivalent to adding an
-<code class="docutils literal"><span class="pre">UNPACK</span></code> pragma to every strict constructor field (see
-<a class="reference internal" href="glasgow_exts.html#unpack-pragma"><span class="std std-ref">UNPACK pragma</span></a>).</p>
-<p>This option is a bit of a sledgehammer: it might sometimes make
-things worse. Selectively unboxing fields by using <code class="docutils literal"><span class="pre">UNPACK</span></code>
-pragmas might be better. An alternative is to use
-<code class="docutils literal"><span class="pre">-funbox-strict-fields</span></code> to turn on unboxing by default but disable
-it for certain constructor fields using the <code class="docutils literal"><span class="pre">NOUNPACK</span></code> pragma (see
-<a class="reference internal" href="glasgow_exts.html#nounpack-pragma"><span class="std std-ref">NOUNPACK pragma</span></a>).</p>
-<p>Alternatively you can use <a class="reference internal" href="#ghc-flag--funbox-small-strict-fields"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-funbox-small-strict-fields</span></code></a> to only
-unbox strict fields which are &#8220;small&#8221;.</p>
+<p id="index-6">このオプションは，正格性を示すマーク(つまり「!」)が付けられた構成子フィールドで，
+表現がポインタ一個以下の大きさであるものを可能なら全てアンパックします．
+これは大きさの制約を満たす全ての正格なフィールドに <code class="docutils literal"><span class="pre">UNPACK</span></code> プラグマ(<a class="reference internal" href="glasgow_exts.html#unpack-pragma"><span class="std std-ref">UNPACK pragma</span></a> 参照)を
+付けまわるのと同等です．</p>
+<p>このオプションには少々大槌を振り回す感があります．
+場合によっては事態を悪化させることもありえます．
+<code class="docutils literal"><span class="pre">UNPACK</span></code> を使ってフィールドを選択的に非ボックス化する方が良いかもしれません．
+あるいは <code class="docutils literal"><span class="pre">-funbox-strict-fields</span></code> を使ってデフォルトで非ボックス化を有効にしつつ，
+<code class="docutils literal"><span class="pre">NOUNPACK</span></code> プラグマ(<a class="reference internal" href="glasgow_exts.html#nounpack-pragma"><span class="std std-ref">NOUNPACK pragma</span></a> 参照)で特定の構成子フィールドをについて
+非ボックス化を無効する方が良いかもしれません．</p>
+<p>あるいは <a class="reference internal" href="#ghc-flag--funbox-small-strict-fields"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-funbox-small-strict-fields</span></code></a> を使って「小さい」非ボックスフィールドだけにする手もあります．</p>
 </dd></dl>
 
 <dl class="ghc-flag">
