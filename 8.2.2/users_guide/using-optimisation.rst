@@ -1150,59 +1150,142 @@ GHCが生成するコードの質に影響を与えるオプションは *大量
     インライン展開した後では，ループ本体から ``f`` が直接見えるようになるので，
     帰納部に対して激しい特殊化が可能になります．
 
+..
+   .. ghc-flag:: -fspec-constr-keen
+
+       :default: off
+
+       If this flag is on, call-pattern specialisation will specialise a call
+       ``(f (Just x))`` with an explicit constructor argument, even if the argument
+       is not scrutinised in the body of the function. This is sometimes
+       beneficial; e.g. the argument might be given to some other function
+       that can itself be specialised.
+
 .. ghc-flag:: -fspec-constr-keen
 
-    :default: off
+    :default: 無効
 
-    If this flag is on, call-pattern specialisation will specialise a call
-    ``(f (Just x))`` with an explicit constructor argument, even if the argument
-    is not scrutinised in the body of the function. This is sometimes
-    beneficial; e.g. the argument might be given to some other function
-    that can itself be specialised.
+    このフラグが有効であれば，呼び出しパターン特殊化が，明示的な構成子の引数をもつ，
+    たとえば ``(f (Just x)`` に対して行われます．これは関数本体が精査されてなくても行われます．
+    これは時として有益で，たとえば，引数はそれ自体が特殊化できる他の関数に渡せることもあります．
+
+..
+   .. ghc-flag:: -fspec-constr-count=⟨n⟩
+
+       :default: 3
+
+       Set the maximum number of specialisations that will be created for
+       any one function by the SpecConstr transformation.
 
 .. ghc-flag:: -fspec-constr-count=⟨n⟩
 
     :default: 3
 
-    Set the maximum number of specialisations that will be created for
-    any one function by the SpecConstr transformation.
+    SpecConstr 変換による1つの関数に対する特殊化の最大数を設定します．
+
+..
+   .. ghc-flag:: -fspec-constr-threshold=⟨n⟩
+
+       :default: 2000
+
+       Set the size threshold for the SpecConstr transformation.
 
 .. ghc-flag:: -fspec-constr-threshold=⟨n⟩
 
     :default: 2000
 
-    Set the size threshold for the SpecConstr transformation.
+    SpecConstr 変換用のサイズ閾値を設定します．
+
+..
+   .. ghc-flag:: -fspecialise
+
+       :default: on
+
+       Specialise each type-class-overloaded function
+       defined in this module for the types at which it is called in this
+       module. If :ghc-flag:`-fcross-module-specialise` is set imported functions
+       that have an INLINABLE pragma (:ref:`inlinable-pragma`) will be
+       specialised as well.
 
 .. ghc-flag:: -fspecialise
 
-    :default: on
+    :default: 有効
 
-    Specialise each type-class-overloaded function
-    defined in this module for the types at which it is called in this
-    module. If :ghc-flag:`-fcross-module-specialise` is set imported functions
-    that have an INLINABLE pragma (:ref:`inlinable-pragma`) will be
-    specialised as well.
+    このモジュールで定義された，型クラスによる多重定義関数それぞれをこのモジュールで使われている型について特殊化します．
+    また，:ghc-flag:`-fcross-module-specialise` が有効である場合，
+    INLINABLE プラグマ (:ref:`inlinable-pragma`) をもつインポートされた関数について，
+    このモジュールで呼ばれている型で特殊化します．
+    
+..
+   .. ghc-flag:: -fspecialise-aggressively
+
+       :default: off
+
+       By default only type class methods and methods marked ``INLINABLE`` or
+       ``INLINE`` are specialised. This flag will specialise any overloaded function
+       regardless of size if its unfolding is available. This flag is not
+       included in any optimisation level as it can massively increase code
+       size. It can be used in conjunction with :ghc-flag:`-fexpose-all-unfoldings`
+       if you want to ensure all calls are specialised.
+
 
 .. ghc-flag:: -fspecialise-aggressively
 
-    :default: off
+    :default: 無効
 
-    By default only type class methods and methods marked ``INLINABLE`` or
-    ``INLINE`` are specialised. This flag will specialise any overloaded function
-    regardless of size if its unfolding is available. This flag is not
-    included in any optimisation level as it can massively increase code
-    size. It can be used in conjunction with :ghc-flag:`-fexpose-all-unfoldings`
-    if you want to ensure all calls are specialised.
+    デフォルトでは，型クラスメソッドおよび ``INLINABLE`` あるいは ``INLINE`` のマークが付いている関数だけ特殊化します．
+    このフラグを指定すると，展開可能であればそのサイズにかかわらず多重定義された関数を特殊化します．
+    コードサイズが著しく大きくなるので，このフラグはどの最適化レベルにも含まれていません．
+    すべての呼び出しを確実に特殊化したければ :ghc-flag:`-fexpose-all-unfoldings` と同時に有効にすることもできます．
 
+
+..
+   .. ghc-flag:: -fcross-module-specialise
+
+       :default: on
+
+       Specialise ``INLINABLE`` (:ref:`inlinable-pragma`)
+       type-class-overloaded functions imported from other modules for the types at
+       which they are called in this module. Note that specialisation
+       must be enabled (by ``-fspecialise``) for this to have any effect.
 
 .. ghc-flag:: -fcross-module-specialise
 
-    :default: on
+    :default: 有効
 
-    Specialise ``INLINABLE`` (:ref:`inlinable-pragma`)
-    type-class-overloaded functions imported from other modules for the types at
-    which they are called in this module. Note that specialisation must be
-    enabled (by ``-fspecialise``) for this to have any effect.
+    他のモジュール由来の``INLINABLE`` (:ref:`inlinable-pragma`)の付いた型クラスにより多重定義された関数を
+    このモジュールで呼ばれる型について特殊化します．
+    これが効果を発揮するためには，特殊化が(``-fspecialise`` によって)有効になっていなければなりません．
+
+..
+   .. ghc-flag:: -fsolve-constant-dicts
+
+       :default: on
+
+       When solving constraints, try to eagerly solve
+       super classes using available dictionaries.
+
+       For example::
+
+	 class M a b where m :: a -> b
+
+	 type C a b = (Num a, M a b)
+
+	 f :: C Int b => b -> Int -> Int
+	 f _ x = x + 1
+
+       The body of `f` requires a `Num Int` instance. We could solve this
+       constraint from the context  because we have `C Int b` and that provides us
+       a
+       solution for `Num Int`. However, we can often produce much better code
+       by directly solving for an available `Num Int` dictionary we might have at
+       hand. This removes potentially many layers of indirection and crucially
+       allows other optimisations to fire as the dictionary will be statically
+       known and selector functions can be inlined.
+
+       The optimisation also works for GADTs which bind dictionaries. If we
+       statically know which class dictionary we need then we will solve it
+       directly rather than indirectly using the one passed in at run time.
 
 .. ghc-flag:: -fsolve-constant-dicts
 
@@ -1232,8 +1315,6 @@ GHCが生成するコードの質に影響を与えるオプションは *大量
     The optimisation also works for GADTs which bind dictionaries. If we
     statically know which class dictionary we need then we will solve it
     directly rather than indirectly using the one passed in at run time.
-
-
 
 .. ghc-flag:: -fstatic-argument-transformation
 
