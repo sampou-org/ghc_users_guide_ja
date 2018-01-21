@@ -873,21 +873,20 @@ GHCの最適化器は発散してしまいます(<a class="reference internal" h
 </tr>
 </tbody>
 </table>
-<p>呼び出しパターン特殊化を有効にします．
-<a class="reference external" href="https://www.microsoft.com/en-us/research/publication/system-f-with-type-equality-coercions-2/">Call-pattern specialisation for
+<p>呼び出しパターン特殊化
+(<a class="reference external" href="https://www.microsoft.com/en-us/research/publication/system-f-with-type-equality-coercions-2/">Call-pattern specialisation for
 Haskell programs</a>
-を参照してください．</p>
-<p>This optimisation specializes recursive functions according to their
-argument &#8220;shapes&#8221;. This is best explained by example so consider:</p>
+を参照してください)を有効にします．</p>
+<p>この最適化は，引数の「シェイプ」にしたがって再帰関数を特殊化します．
+このことは例で説明するのがよいでしょう．以下のような場合を考えましょう．</p>
 <div class="highlight-haskell"><div class="highlight"><pre><span></span><span class="nf">last</span> <span class="ow">::</span> <span class="p">[</span><span class="n">a</span><span class="p">]</span> <span class="ow">-&gt;</span> <span class="n">a</span>
 <span class="nf">last</span> <span class="kt">[]</span> <span class="ow">=</span> <span class="ne">error</span> <span class="s">&quot;last&quot;</span>
 <span class="nf">last</span> <span class="p">(</span><span class="n">x</span> <span class="kt">:</span> <span class="kt">[]</span><span class="p">)</span> <span class="ow">=</span> <span class="n">x</span>
 <span class="nf">last</span> <span class="p">(</span><span class="n">x</span> <span class="kt">:</span> <span class="n">xs</span><span class="p">)</span> <span class="ow">=</span> <span class="n">last</span> <span class="n">xs</span>
 </pre></div>
 </div>
-<p>In this code, once we pass the initial check for an empty list we
-know that in the recursive case this pattern match is redundant. As
-such <code class="docutils literal"><span class="pre">-fspec-constr</span></code> will transform the above code to:</p>
+<p>このコードでは，リストが空でないとき，帰納部でのパターン照合が冗長であることがわかります．
+このような場合 <code class="docutils literal"><span class="pre">-fspec-constr</span></code> は上のコードを以下のように変換します．</p>
 <div class="highlight-haskell"><div class="highlight"><pre><span></span><span class="nf">last</span> <span class="ow">::</span> <span class="p">[</span><span class="n">a</span><span class="p">]</span> <span class="ow">-&gt;</span> <span class="n">a</span>
 <span class="nf">last</span> <span class="kt">[]</span>       <span class="ow">=</span> <span class="ne">error</span> <span class="s">&quot;last&quot;</span>
 <span class="nf">last</span> <span class="p">(</span><span class="n">x</span> <span class="kt">:</span> <span class="n">xs</span><span class="p">)</span> <span class="ow">=</span> <span class="n">last&#39;</span> <span class="n">x</span> <span class="n">xs</span>
@@ -896,17 +895,12 @@ such <code class="docutils literal"><span class="pre">-fspec-constr</span></code
       <span class="n">last&#39;</span> <span class="n">x</span> <span class="p">(</span><span class="n">y</span> <span class="kt">:</span> <span class="n">ys</span><span class="p">)</span> <span class="ow">=</span> <span class="n">last&#39;</span> <span class="n">y</span> <span class="n">ys</span>
 </pre></div>
 </div>
-<p>As well avoid unnecessary pattern matching it also helps avoid
-unnecessary allocation. This applies when a argument is strict in
-the recursive call to itself but not on the initial entry. As strict
-recursive branch of the function is created similar to the above
-example.</p>
-<p>It is also possible for library writers to instruct GHC to perform
-call-pattern specialisation extremely aggressively. This is
-necessary for some highly optimized libraries, where we may want to
-specialize regardless of the number of specialisations, or the size
-of the code. As an example, consider a simplified use-case from the
-<code class="docutils literal"><span class="pre">vector</span></code> library:</p>
+<p>不必要なパターン照合を避けるだけでなく，不要な割り当てを回避するのにも役立ちます．
+これは，引数が自分自身への再帰呼び出しについて正格であっても，最初のエントリについては正格でない場合に適用します．
+上記の例のように，関数の正格な再帰的分岐が作成されるのです．</p>
+<p>またライブラリの作者が GHC に呼び出しパターンの特殊化を相当積極的に指示することもできます．
+高度に最適化するライブラリでは，特殊化の数やコードサイズにかかわらず必要になります．
+一例として <code class="docutils literal"><span class="pre">vector</span></code> ライブラリから単純化した場合を考えてみましょう．</p>
 <div class="highlight-haskell"><div class="highlight"><pre><span></span><span class="kr">import</span> <span class="nn">GHC.Types</span> <span class="p">(</span><span class="kt">SPEC</span><span class="p">(</span><span class="o">..</span><span class="p">))</span>
 
 <span class="nf">foldl</span> <span class="ow">::</span> <span class="p">(</span><span class="n">a</span> <span class="ow">-&gt;</span> <span class="n">b</span> <span class="ow">-&gt;</span> <span class="n">a</span><span class="p">)</span> <span class="ow">-&gt;</span> <span class="n">a</span> <span class="ow">-&gt;</span> <span class="kt">Stream</span> <span class="n">b</span> <span class="ow">-&gt;</span> <span class="n">a</span>
@@ -919,16 +913,12 @@ of the code. As an example, consider a simplified use-case from the
                             <span class="kt">Done</span>       <span class="ow">-&gt;</span> <span class="n">z</span>
 </pre></div>
 </div>
-<p>Here, after GHC inlines the body of <code class="docutils literal"><span class="pre">foldl</span></code> to a call site, it
-will perform call-pattern specialisation very aggressively on
-<code class="docutils literal"><span class="pre">foldl_loop</span></code> due to the use of <code class="docutils literal"><span class="pre">SPEC</span></code> in the argument of the
-loop body. <code class="docutils literal"><span class="pre">SPEC</span></code> from <code class="docutils literal"><span class="pre">GHC.Types</span></code> is specifically recognised by
-the compiler.</p>
-<p>(NB: it is extremely important you use <code class="docutils literal"><span class="pre">seq</span></code> or a bang pattern on
-the <code class="docutils literal"><span class="pre">SPEC</span></code> argument!)</p>
-<p>In particular, after inlining this will expose <code class="docutils literal"><span class="pre">f</span></code> to the loop
-body directly, allowing heavy specialisation over the recursive
-cases.</p>
+<p>ここで，ループ本体の引数に <code class="docutils literal"><span class="pre">SPEC</span></code> が使われていますので， GHC は <code class="docutils literal"><span class="pre">foldl</span></code> 本体を呼び出し側でインライン展開し，
+<code class="docutils literal"><span class="pre">foldl_loop</span></code> で呼び出しパターンの特殊化を相当積極的に行います．
+<code class="docutils literal"><span class="pre">GHC.Types</span></code> 由来の <code class="docutils literal"><span class="pre">SPEC</span></code> はコンパイラが特別に認識します．</p>
+<p>(注意: <code class="docutils literal"><span class="pre">SPEC</span></code> 引数に対して <code class="docutils literal"><span class="pre">seq</span></code> またはバンパターンを使うことが非常に重要です．)</p>
+<p>インライン展開した後では，ループ本体から <code class="docutils literal"><span class="pre">f</span></code> が直接見えるようになるので，
+帰納部に対して激しい特殊化が可能になります．</p>
 </dd></dl>
 
 <dl class="ghc-flag">
