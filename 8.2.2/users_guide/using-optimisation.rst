@@ -1098,23 +1098,22 @@ GHCが生成するコードの質に影響を与えるオプションは *大量
 
     :default: 無効．:ghc-flag:`-O2` によって有効になる．
 
-    呼び出しパターン特殊化を有効にします．
-    `Call-pattern specialisation for
+    呼び出しパターン特殊化
+    (`Call-pattern specialisation for
     Haskell programs
     <https://www.microsoft.com/en-us/research/publication/system-f-with-type-equality-coercions-2/>`__
-    を参照してください．
+    を参照してください)を有効にします．
     
-    This optimisation specializes recursive functions according to their
-    argument "shapes". This is best explained by example so consider: ::
+    この最適化は，引数の「シェイプ」にしたがって再帰関数を特殊化します．
+    このことは例で説明するのがよいでしょう．以下のような場合を考えましょう． ::
 
         last :: [a] -> a
         last [] = error "last"
         last (x : []) = x
         last (x : xs) = last xs
 
-    In this code, once we pass the initial check for an empty list we
-    know that in the recursive case this pattern match is redundant. As
-    such ``-fspec-constr`` will transform the above code to: ::
+    このコードでは，リストが空でないとき，帰納部でのパターン照合が冗長であることがわかります．
+    このような場合 ``-fspec-constr`` は上のコードを以下のように変換します． ::
 
         last :: [a] -> a
         last []       = error "last"
@@ -1123,18 +1122,13 @@ GHCが生成するコードの質に影響を与えるオプションは *大量
               last' x []       = x
               last' x (y : ys) = last' y ys
 
-    As well avoid unnecessary pattern matching it also helps avoid
-    unnecessary allocation. This applies when a argument is strict in
-    the recursive call to itself but not on the initial entry. As strict
-    recursive branch of the function is created similar to the above
-    example.
+    不必要なパターン照合を避けるだけでなく，不要な割り当てを回避するのにも役立ちます．
+    これは，引数が自分自身への再帰呼び出しについて正格であっても，最初のエントリについては正格でない場合に適用します．
+    上記の例のように，関数の正格な再帰的分岐が作成されるのです．
 
-    It is also possible for library writers to instruct GHC to perform
-    call-pattern specialisation extremely aggressively. This is
-    necessary for some highly optimized libraries, where we may want to
-    specialize regardless of the number of specialisations, or the size
-    of the code. As an example, consider a simplified use-case from the
-    ``vector`` library: ::
+    またライブラリの作者が GHC に呼び出しパターンの特殊化を相当積極的に指示することもできます．
+    高度に最適化するライブラリでは，特殊化の数やコードサイズにかかわらず必要になります．
+    一例として ``vector`` ライブラリから単純化した場合を考えてみましょう． ::
 
         import GHC.Types (SPEC(..))
 
@@ -1147,18 +1141,14 @@ GHCが生成するコードの質に影響を与えるオプションは *大量
                                     Skip       -> foldl_loop sPEC z s'
                                     Done       -> z
 
-    Here, after GHC inlines the body of ``foldl`` to a call site, it
-    will perform call-pattern specialisation very aggressively on
-    ``foldl_loop`` due to the use of ``SPEC`` in the argument of the
-    loop body. ``SPEC`` from ``GHC.Types`` is specifically recognised by
-    the compiler.
+    ここで，ループ本体の引数に ``SPEC`` が使われていますので， GHC は ``foldl`` 本体を呼び出し側でインライン展開し，
+    ``foldl_loop`` で呼び出しパターンの特殊化を相当積極的に行います．
+    ``GHC.Types`` 由来の ``SPEC`` はコンパイラが特別に認識します．
 
-    (NB: it is extremely important you use ``seq`` or a bang pattern on
-    the ``SPEC`` argument!)
+    (注意: ``SPEC`` 引数に対して ``seq`` またはバンパターンを使うことが非常に重要です．)
 
-    In particular, after inlining this will expose ``f`` to the loop
-    body directly, allowing heavy specialisation over the recursive
-    cases.
+    インライン展開した後では，ループ本体から ``f`` が直接見えるようになるので，
+    帰納部に対して激しい特殊化が可能になります．
 
 .. ghc-flag:: -fspec-constr-keen
 
