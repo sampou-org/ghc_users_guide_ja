@@ -820,7 +820,7 @@ GHCが生成するコードの質に影響を与えるオプションは *大量
 
     :default: 10
 
-    この数までのワーカーの引数はまとめられることはありません．
+    この数までのワーカーの引数はアンパックされることはありません．
 
 ..
    .. ghc-flag:: -fno-opt-coercion
@@ -1289,12 +1289,11 @@ GHCが生成するコードの質に影響を与えるオプションは *大量
 
 .. ghc-flag:: -fsolve-constant-dicts
 
-    :default: on
+    :default: 有効
 
-    When solving constraints, try to eagerly solve
-    super classes using available dictionaries.
+    制約解決のときに，利用可能な辞書を使てスーパークラスを先行して解決します．
 
-    For example::
+    たとえば， ::
 
       class M a b where m :: a -> b
 
@@ -1303,106 +1302,211 @@ GHCが生成するコードの質に影響を与えるオプションは *大量
       f :: C Int b => b -> Int -> Int
       f _ x = x + 1
 
-    The body of `f` requires a `Num Int` instance. We could solve this
-    constraint from the context  because we have `C Int b` and that provides us
-    a
-    solution for `Num Int`. However, we can often produce much better code
-    by directly solving for an available `Num Int` dictionary we might have at
-    hand. This removes potentially many layers of indirection and crucially
-    allows other optimisations to fire as the dictionary will be statically
-    known and selector functions can be inlined.
+    の場合 `f` の本体には `Num Int` インスタンスが必要です．
+    この制約をコンテキストから解決できるのは `C Int b` が `Num Int` の解決をもたらすからです．
+    しかし，利用可能な `Num Int` の辞書を直接解決することで，より良いコードを生成できます．
+    そうすることで，潜在的に多くの関節参照レイヤを除去でき，ディクショナリが静的に識別され，
+    セレクタ関数がインライン展開されるために，その他の最適化に非常によく効きます．
 
-    The optimisation also works for GADTs which bind dictionaries. If we
-    statically know which class dictionary we need then we will solve it
-    directly rather than indirectly using the one passed in at run time.
+    この最適化は辞書を束縛する GADT でも有効です．
+    どのクラスのディクショナリが必要なのか静的に判れば，
+    実行時に渡されたものを関節的に使用するのではなく，直接解決できます．
+
+..
+   .. ghc-flag:: -fstatic-argument-transformation
+
+       :default: off
+
+       Turn on the static argument transformation, which turns a recursive
+       function into a non-recursive one with a local recursive loop. See
+       Chapter 7 of `Andre Santos's PhD
+       thesis <http://research.microsoft.com/en-us/um/people/simonpj/papers/santos-thesis.ps.gz>`__
 
 .. ghc-flag:: -fstatic-argument-transformation
 
-    :default: off
+    :default: 無効
 
-    Turn on the static argument transformation, which turns a recursive
-    function into a non-recursive one with a local recursive loop. See
-    Chapter 7 of `Andre Santos's PhD
+    静的引数変換を有効にします．静的引数変換は再帰関数を局所的なループをもつ非再帰関数に変換します．
+    `Andre Santos's PhD
     thesis <http://research.microsoft.com/en-us/um/people/simonpj/papers/santos-thesis.ps.gz>`__
+    の第7章を参照してください．
+
+..
+   .. ghc-flag:: -fstrictness
+
+       :default: on
+
+       Switch on the strictness analyser. There is a very
+       old paper about GHC's strictness analyser, `Measuring the
+       effectiveness of a simple strictness
+       analyser <http://research.microsoft.com/en-us/um/people/simonpj/papers/simple-strictnes-analyser.ps.gz>`__,
+       but the current one is quite a bit different.
+
+       The strictness analyser figures out when arguments and variables in
+       a function can be treated 'strictly' (that is they are always
+       evaluated in the function at some point). This allow GHC to apply
+       certain optimisations such as unboxing that otherwise don't apply as
+       they change the semantics of the program when applied to lazy
+       arguments.
 
 .. ghc-flag:: -fstrictness
 
-    :default: on
+    :default: 有効
 
-    Switch on the strictness analyser. There is a very
-    old paper about GHC's strictness analyser, `Measuring the
+    正格性解析器を有効にします．GHC の正格性解析器に関するかなり古い論文に
+    `Measuring the
     effectiveness of a simple strictness
-    analyser <http://research.microsoft.com/en-us/um/people/simonpj/papers/simple-strictnes-analyser.ps.gz>`__,
-    but the current one is quite a bit different.
+    analyser <http://research.microsoft.com/en-us/um/people/simonpj/papers/simple-strictnes-analyser.ps.gz>`__
+    がありますが，現在の正格性解析器はそれとはかなり違っています．
 
-    The strictness analyser figures out when arguments and variables in
-    a function can be treated 'strictly' (that is they are always
-    evaluated in the function at some point). This allow GHC to apply
-    certain optimisations such as unboxing that otherwise don't apply as
-    they change the semantics of the program when applied to lazy
-    arguments.
+    正格性解析器は，どの引数と変数が関数内で「正格に」使われている(つまり，その関数内でいずれ評価される)かを調べます．
+    これにより，lazyな引数に適用された場合にはプログラムの意味を変えてしまうような最適化(非ボックス化)を
+    GHCが適用できるようになります．
+
+..
+   .. ghc-flag:: -fstrictness-before=⟨n⟩
+
+       Run an additional strictness analysis before simplifier phase ⟨n⟩.
 
 .. ghc-flag:: -fstrictness-before=⟨n⟩
 
-    Run an additional strictness analysis before simplifier phase ⟨n⟩.
+    単純化器フェーズ ⟨n⟩ の前に正格性解析を追加で走らせます．
+
+..
+   .. ghc-flag:: -funbox-small-strict-fields
+
+       :default: on
+
+       .. index::
+	  single: strict constructor fields
+	  single: constructor fields, strict
+
+       This option causes all constructor fields which
+       are marked strict (i.e. “!”) and which representation is smaller or
+       equal to the size of a pointer to be unpacked, if possible. It is
+       equivalent to adding an ``UNPACK`` pragma (see :ref:`unpack-pragma`)
+       to every strict constructor field that fulfils the size restriction.
+
+       For example, the constructor fields in the following data types ::
+
+	   data A = A !Int
+	   data B = B !A
+	   newtype C = C B
+	   data D = D !C
+
+       would all be represented by a single ``Int#`` (see
+       :ref:`primitives`) value with ``-funbox-small-strict-fields``
+       enabled.
+
+       This option is less of a sledgehammer than
+       ``-funbox-strict-fields``: it should rarely make things worse. If
+       you use ``-funbox-small-strict-fields`` to turn on unboxing by
+       default you can disable it for certain constructor fields using the
+       ``NOUNPACK`` pragma (see :ref:`nounpack-pragma`).
+
+       Note that for consistency ``Double``, ``Word64``, and ``Int64``
+       constructor fields are unpacked on 32-bit platforms, even though
+       they are technically larger than a pointer on those platforms.
 
 .. ghc-flag:: -funbox-small-strict-fields
 
-    :default: on
+    :default: 有効
 
     .. index::
-       single: strict constructor fields
-       single: constructor fields, strict
+       single: 正格な構成子フィールド
+       single: 構成子フィールド, 正格な〜
 
-    This option causes all constructor fields which
-    are marked strict (i.e. “!”) and which representation is smaller or
-    equal to the size of a pointer to be unpacked, if possible. It is
-    equivalent to adding an ``UNPACK`` pragma (see :ref:`unpack-pragma`)
-    to every strict constructor field that fulfils the size restriction.
+    このオプションは，正格であると標示(つまり「!」)された構築子フィールドで，
+    表現がポインタ一個以下の大きさであるものを可能なら全てアンパックする．
+    これは，大きさの制約を満たす全ての正格なフィールドに
+    ``UNPACK`` プラグマ(:ref:`unpack-pragma` を参照)を付けるのと同じです．
 
-    For example, the constructor fields in the following data types ::
+    例として，以下のようなデータ型の構成子フィールドを考えましょう． ::
 
         data A = A !Int
         data B = B !A
         newtype C = C B
         data D = D !C
 
-    would all be represented by a single ``Int#`` (see
-    :ref:`primitives`) value with ``-funbox-small-strict-fields``
-    enabled.
+    ``-funbox-small-strict-fields`` を有効にすると，これらのフィールドは全て単一の
+    ``Int#`` (:ref:`primitives` 参照)の値で表現されます．
 
-    This option is less of a sledgehammer than
-    ``-funbox-strict-fields``: it should rarely make things worse. If
-    you use ``-funbox-small-strict-fields`` to turn on unboxing by
-    default you can disable it for certain constructor fields using the
-    ``NOUNPACK`` pragma (see :ref:`nounpack-pragma`).
+    このオプションは ``-funbox-strict-fields`` に比べると大槌を振り回す感は少なくなります．
+    ``-funbox-small-strict-fields`` を使えば，非ボックス化を有効にしている場合，
+    ``NOUNPACK`` プラグマ(:ref:`nounpack-pragma` 参照)を使って個々の構成子フィールドについてこれを無効にできます．
 
-    Note that for consistency ``Double``, ``Word64``, and ``Int64``
-    constructor fields are unpacked on 32-bit platforms, even though
-    they are technically larger than a pointer on those platforms.
+    32ビットプラットフォームでは ``Double`` ， ``Word64`` ， ``Int64`` の構成子フィールドは，
+    技術的にポインタよりも大きいにもかかわらず，アンパックされることに注意してください．
+
+..
+   .. ghc-flag:: -funbox-strict-fields
+
+       :default: off
+
+       .. index::
+	  single: strict constructor fields
+	  single: constructor fields, strict
+
+       This option causes all constructor fields which are marked strict
+       (i.e. ``!``) to be unpacked if possible. It is equivalent to adding an
+       ``UNPACK`` pragma to every strict constructor field (see
+       :ref:`unpack-pragma`).
+
+       This option is a bit of a sledgehammer: it might sometimes make
+       things worse. Selectively unboxing fields by using ``UNPACK``
+       pragmas might be better. An alternative is to use
+       ``-funbox-strict-fields`` to turn on unboxing by default but disable
+       it for certain constructor fields using the ``NOUNPACK`` pragma (see
+       :ref:`nounpack-pragma`).
+
+       Alternatively you can use :ghc-flag:`-funbox-small-strict-fields` to only
+       unbox strict fields which are "small".
 
 .. ghc-flag:: -funbox-strict-fields
 
-    :default: off
+    :default: 無効
 
     .. index::
-       single: strict constructor fields
-       single: constructor fields, strict
+       single: 正格な構成子フィールド
+       single: 構成子フィールド, 正格な〜
 
-    This option causes all constructor fields which are marked strict
-    (i.e. ``!``) to be unpacked if possible. It is equivalent to adding an
-    ``UNPACK`` pragma to every strict constructor field (see
-    :ref:`unpack-pragma`).
+    このオプションは，正格性を示すマーク(つまり「!」)が付けられた構成子フィールドで，
+    表現がポインタ一個以下の大きさであるものを可能なら全てアンパックします．
+    これは大きさの制約を満たす全ての正格なフィールドに ``UNPACK`` プラグマ(:ref:`unpack-pragma` 参照)を
+    付けまわるのと同等です．
 
-    This option is a bit of a sledgehammer: it might sometimes make
-    things worse. Selectively unboxing fields by using ``UNPACK``
-    pragmas might be better. An alternative is to use
-    ``-funbox-strict-fields`` to turn on unboxing by default but disable
-    it for certain constructor fields using the ``NOUNPACK`` pragma (see
-    :ref:`nounpack-pragma`).
+    このオプションには少々大槌を振り回す感があります．
+    場合によっては事態を悪化させることもありえます．
+    ``UNPACK`` を使ってフィールドを選択的に非ボックス化する方が良いかもしれません．
+    あるいは ``-funbox-strict-fields`` を使ってデフォルトで非ボックス化を有効にしつつ，
+    ``NOUNPACK`` プラグマ(:ref:`nounpack-pragma` 参照)で特定の構成子フィールドをについて
+    非ボックス化を無効する方が良いかもしれません．
 
-    Alternatively you can use :ghc-flag:`-funbox-small-strict-fields` to only
-    unbox strict fields which are "small".
+    あるいは :ghc-flag:`-funbox-small-strict-fields` を使って「小さい」非ボックスフィールドだけにする手もあります．
+
+..
+   .. ghc-flag:: -funfolding-creation-threshold=⟨n⟩
+
+       :default: 750
+
+       .. index::
+	  single: inlining, controlling
+	  single: unfolding, controlling
+
+       Governs the maximum size that GHC will allow a
+       function unfolding to be. (An unfolding has a “size” that reflects
+       the cost in terms of “code bloat” of expanding (aka inlining) that
+       unfolding at a call site. A bigger function would be assigned a
+       bigger cost.)
+
+       Consequences:
+
+       a. nothing larger than this will be inlined (unless it has an ``INLINE`` pragma)
+       b. nothing larger than this will be spewed into an interface file.
+
+       Increasing this figure is more likely to result in longer compile times
+       than faster code. The :ghc-flag:`-funfolding-use-threshold=⟨n⟩` is more
+       useful.
 
 .. ghc-flag:: -funfolding-creation-threshold=⟨n⟩
 
