@@ -1513,101 +1513,180 @@ GHCが生成するコードの質に影響を与えるオプションは *大量
     :default: 750
 
     .. index::
-       single: inlining, controlling
-       single: unfolding, controlling
+       single: インライン展開, 〜の制御
+       single: 展開, 〜の制御
 
     Governs the maximum size that GHC will allow a
-    function unfolding to be. (An unfolding has a “size” that reflects
-    the cost in terms of “code bloat” of expanding (aka inlining) that
-    unfolding at a call site. A bigger function would be assigned a
-    bigger cost.)
+    関数の展開候補(unfolding)に許される最大の大きさを定めます．
+    (展開候補には、それが呼び出し点で展開されたときの「コード膨張」のコストを反映した「大きさ」が与えられるます．
+    大きい関数ほど大きなコストになります．)
 
-    Consequences:
+    その結果として，
 
-    a. nothing larger than this will be inlined (unless it has an ``INLINE`` pragma)
-    b. nothing larger than this will be spewed into an interface file.
+    a. これより大きいものは(``INLINE`` プラグマがないかぎり)インライン展開されることはありません．
+    b. これより大きいものはインターフェイスファイルにはきだされることはありません．
 
-    Increasing this figure is more likely to result in longer compile times
-    than faster code. The :ghc-flag:`-funfolding-use-threshold=⟨n⟩` is more
-    useful.
+    この値を増やしても，結果として速いコードがえられるというより，単にコンパイル時間が長くなるだけの公算が高いので，
+    :ghc-flag:`-funfolding-use-threshold=⟨n⟩` の方が便利です．
+
+..
+   .. ghc-flag:: -funfolding-dict-discount=⟨n⟩
+
+       :default: 30
+
+       .. index::
+	  single: inlining, controlling
+	  single: unfolding, controlling
+
+       How eager should the compiler be to inline dictionaries?
 
 .. ghc-flag:: -funfolding-dict-discount=⟨n⟩
 
     :default: 30
 
     .. index::
-       single: inlining, controlling
-       single: unfolding, controlling
+       single: インライン展開, 〜の制御
+       single: 展開, 〜の制御
 
-    How eager should the compiler be to inline dictionaries?
+    どの程度，先行してディクショナリのインライン展開を行うか．
+
+..
+   .. ghc-flag:: -funfolding-fun-discount=⟨n⟩
+
+       :default: 60
+
+       .. index::
+	  single: inlining, controlling
+	  single: unfolding, controlling
+
+       How eager should the compiler be to inline functions?
 
 .. ghc-flag:: -funfolding-fun-discount=⟨n⟩
 
     :default: 60
 
     .. index::
-       single: inlining, controlling
-       single: unfolding, controlling
+       single: インライン展開, 〜の制御
+       single: 展開, 〜の制御
 
-    How eager should the compiler be to inline functions?
+    どの程度，先行して関数のインライン展開を行うか．
+
+..
+   .. ghc-flag:: -funfolding-keeness-factor=⟨n⟩
+
+       :default: 1.5
+
+       .. index::
+	  single: inlining, controlling
+	  single: unfolding, controlling
+
+       How eager should the compiler be to inline functions?
 
 .. ghc-flag:: -funfolding-keeness-factor=⟨n⟩
 
     :default: 1.5
 
     .. index::
-       single: inlining, controlling
-       single: unfolding, controlling
+       single: インライン展開, 〜の制御
+       single: 展開, 〜の制御
 
-    How eager should the compiler be to inline functions?
+    どの程度，先行して関数のインライン展開を行うか．
+
+..
+   .. ghc-flag:: -funfolding-use-threshold=⟨n⟩
+
+       :default: 60
+
+       .. index::
+	  single: inlining, controlling
+	  single: unfolding, controlling
+
+       This is the magic cut-off figure for unfolding (aka
+       inlining): below this size, a function definition will be unfolded
+       at the call-site, any bigger and it won't. The size computed for a
+       function depends on two things: the actual size of the expression
+       minus any discounts that apply depending on the context into which
+       the expression is to be inlined.
+
+       The difference between this and
+       :ghc-flag:`-funfolding-creation-threshold=⟨n⟩` is that this one determines
+       if a function definition will be inlined *at a call site*. The other option
+       determines if a function definition will be kept around at all for
+       potential inlining.
 
 .. ghc-flag:: -funfolding-use-threshold=⟨n⟩
 
     :default: 60
 
     .. index::
-       single: inlining, controlling
-       single: unfolding, controlling
+       single: インライン展開, 〜の制御
+       single: 展開, 〜の制御
 
-    This is the magic cut-off figure for unfolding (aka
-    inlining): below this size, a function definition will be unfolded
-    at the call-site, any bigger and it won't. The size computed for a
-    function depends on two things: the actual size of the expression
-    minus any discounts that apply depending on the context into which
-    the expression is to be inlined.
+    これはインライン展開にあたっての魔法のカットオフ値です．
+    これより小さい関数定義は呼び出し元に展開され，これより大きい物は展開されません．
+    関数の大きさは2つのものに依存します．
+    それは式の実際の大きさと，それにコンテキストに依存するインライン展開適用後の式の大きさです．
 
-    The difference between this and
-    :ghc-flag:`-funfolding-creation-threshold=⟨n⟩` is that this one determines
-    if a function definition will be inlined *at a call site*. The other option
-    determines if a function definition will be kept around at all for
-    potential inlining.
+    これと
+    :ghc-flag:`-funfolding-creation-threshold=⟨n⟩` との違いは，
+    こちらは，関数がインライン化されるかどうかを *呼び出し側* で決定するのに対し，
+    あちらは，将来のインライン化のために関数定義を持っておくかどうかを決定することです．
+
+..
+   .. ghc-flag:: -fvectorisation-avoidance
+
+       :default: on
+
+       .. index::
+	  single: -fvectorisation-avoidance
+
+       Part of :ref:`Data Parallel Haskell (DPH) <dph>`.
+
+       Enable the *vectorisation* avoidance optimisation.
+       This optimisation only works when used in combination with the
+       ``-fvectorise`` transformation.
+
+       While vectorisation of code using DPH is often a big win, it can
+       also produce worse results for some kinds of code. This optimisation
+       modifies the vectorisation transformation to try to determine if a
+       function would be better of unvectorised and if so, do just that.
 
 .. ghc-flag:: -fvectorisation-avoidance
 
-    :default: on
+    :default: 有効
 
     .. index::
        single: -fvectorisation-avoidance
 
-    Part of :ref:`Data Parallel Haskell (DPH) <dph>`.
+    :ref:`Data Parallel Haskell (DPH) <dph>` の一部です．
 
-    Enable the *vectorisation* avoidance optimisation.
-    This optimisation only works when used in combination with the
-    ``-fvectorise`` transformation.
+    *ベクトル化* 回避最適化を有効にします．
+    この最適化は ``-fvectorise`` 変換との組み合わせでのみ意味をなします．
 
-    While vectorisation of code using DPH is often a big win, it can
-    also produce worse results for some kinds of code. This optimisation
-    modifies the vectorisation transformation to try to determine if a
-    function would be better of unvectorised and if so, do just that.
+    DPHを使ったコードのベクトル化は多くの場合非常に効果的ですが，
+    ある種のコードでは酷い結果になることがあります．
+    この最適化は，ベクトル化変換を変更して，関数がベクトル化しないほうが良いかどうかを判断して，
+    良くなる場合にのみベクトル化を実行するようにします．
+
+..
+   .. ghc-flag:: -fvectorise
+
+       :default: off
+
+       Part of :ref:`Data Parallel Haskell (DPH) <dph>`.
+
+       Enable the *vectorisation* optimisation
+       transformation. This optimisation transforms the nested data
+       parallelism code of programs using DPH into flat data parallelism.
+       Flat data parallel programs should have better load balancing,
+       enable SIMD parallelism and friendlier cache behaviour.
 
 .. ghc-flag:: -fvectorise
 
-    :default: off
+    :default: 無効
 
-    Part of :ref:`Data Parallel Haskell (DPH) <dph>`.
+    :ref:`Data Parallel Haskell (DPH) <dph>` の一部です．
 
-    Enable the *vectorisation* optimisation
-    transformation. This optimisation transforms the nested data
-    parallelism code of programs using DPH into flat data parallelism.
-    Flat data parallel programs should have better load balancing,
-    enable SIMD parallelism and friendlier cache behaviour.
+    *ベクトル化* 最適化変換を有効にします．
+    この最適化は DPH を使ったネストしたデータ並列コードを平坦なデータ並列コードに変換します．
+    平坦なデータ並列コードはよりよい負荷分散が可能で SIMD 並列を可能にし，キャッシュの振舞とも相性がよい．
