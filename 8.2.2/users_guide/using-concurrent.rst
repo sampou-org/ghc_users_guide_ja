@@ -384,6 +384,5 @@ SMP 並列を使うためのヒント
 	  question; please feel free to experiment and let us know what results you
 	  find.
 
-.. [1] Whether hyperthreading cores should be counted or not is an open
-       question; please feel free to experiment and let us know what results you
-       find.
+.. [1] ハイパースレッディングのコアを数に含めるめきかどうかは未解決の問題です．
+       遠慮なく実験して結果を知らせてください．
