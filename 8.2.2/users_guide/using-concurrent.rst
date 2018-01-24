@@ -30,7 +30,7 @@ Concurrent Haskellのサポートライブラリにアクセスするには単�
 Concurrent Haskell に関する情報については，このモジュールの文書が提供しています．
 
 ..
-   Optionally, the program may be linked with the :ghc-flat:`-threaded` option (sea :ref:`options-linker`).
+   Optionally, the program may be linked with the :ghc-flag:`-threaded` option (sea :ref:`options-linker`).
    This provides two benefits:
 
    - It enables the :rts-flag:`-N ⟨x⟩` to be used, which allows threads to run in
@@ -42,7 +42,7 @@ Concurrent Haskell に関する情報については，このモジュールの�
      ``foreign export``\ ed Haskell functions may be called from multiple
      OS threads simultaneously. See :ref:`ffi-threads`.
 
-任意選択で，プログラムを :ghc-flat:`-threaded` オプション(:ref:`options-linker` 参照)でリンクできます．
+任意選択で，プログラムを :ghc-flag:`-threaded` オプション(:ref:`options-linker` 参照)でリンクできます．
 これには2つの利点があります．
 
 - :rts-flag:`-N ⟨x⟩` を使って，スレッドをマルチプロセッサあるいマルチコアの計算機で動かせます．
