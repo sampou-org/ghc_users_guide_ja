@@ -7,7 +7,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>7.4. Using Concurrent Haskell &#8212; Glasgow Haskell Compiler 8.2.2 User&#39;s Guide</title>
+    <title>7.4. Concurrent Haskell を使う &#8212; Glasgow Haskell Compiler 8.2.2 User&#39;s Guide</title>
     
     <link rel="stylesheet" href="_static/ghc-theme.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -61,11 +61,11 @@
         <div class="sphinxsidebarwrapper">
   <h3><a href="index.html">目次</a></h3>
   <ul>
-<li><a class="reference internal" href="#">7.4. Using Concurrent Haskell</a></li>
-<li><a class="reference internal" href="#using-smp-parallelism">7.5. Using SMP parallelism</a><ul>
-<li><a class="reference internal" href="#compile-time-options-for-smp-parallelism">7.5.1. Compile-time options for SMP parallelism</a></li>
-<li><a class="reference internal" href="#rts-options-for-smp-parallelism">7.5.2. RTS options for SMP parallelism</a></li>
-<li><a class="reference internal" href="#hints-for-using-smp-parallelism">7.5.3. Hints for using SMP parallelism</a></li>
+<li><a class="reference internal" href="#">7.4. Concurrent Haskell を使う</a></li>
+<li><a class="reference internal" href="#smp">7.5. SMP 並列を使う</a><ul>
+<li><a class="reference internal" href="#parallel-compile-options">7.5.1. SMP 並列のためのコンパイルオプション</a></li>
+<li><a class="reference internal" href="#smp-rts">7.5.2. SMP 並列のための RTS オプション</a></li>
+<li><a class="reference internal" href="#id3">7.5.3. SMP 並列を使うためのヒント</a></li>
 </ul>
 </li>
 </ul>
@@ -101,27 +101,24 @@
         <div class="bodywrapper">
           <div class="body" role="main">
             
-  <div class="section" id="using-concurrent-haskell">
-<span id="using-concurrent"></span><h1>7.4. Using Concurrent Haskell<a class="headerlink" href="#using-concurrent-haskell" title="このヘッドラインへのパーマリンク">¶</a></h1>
-<p id="index-0">GHC supports Concurrent Haskell by default, without requiring a special
-option or libraries compiled in a certain way. To get access to the
-support libraries for Concurrent Haskell, just import
-<a class="reference external" href="../libraries/base-4.10.1.0/Control-Concurrent.html">Control.Concurrent</a>.
-More information on Concurrent Haskell is provided in the documentation
-for that module.</p>
-<p>Optionally, the program may be linked with the <a class="reference internal" href="phases.html#ghc-flag--threaded"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-threaded</span></code></a> option (see
-<a class="reference internal" href="phases.html#options-linker"><span class="std std-ref">Options affecting linking</span></a>. This provides two benefits:</p>
+  <div class="section" id="concurrent-haskell">
+<span id="using-concurrent"></span><h1>7.4. Concurrent Haskell を使う<a class="headerlink" href="#concurrent-haskell" title="このヘッドラインへのパーマリンク">¶</a></h1>
+<span class="target" id="index-0"></span><p>GHC は特別なオプションや専用にコンパイルしたライブラリなしのデフォルトで Concurrent Haskell をサポートしています．
+Concurrent Haskellのサポートライブラリにアクセスするには単に
+<a class="reference external" href="../libraries/base-4.10.1.0/Control-Concurrent.html">Control.Concurrent</a>
+をインポートすればよいだけです．
+Concurrent Haskell に関する情報については，このモジュールの文書が提供しています．</p>
+<p>任意選択で，プログラムを <a class="reference internal" href="phases.html#ghc-flag--threaded"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-threaded</span></code></a> オプション(<a class="reference internal" href="phases.html#options-linker"><span class="std std-ref">Options affecting linking</span></a> 参照)でリンクできます．
+これには2つの利点があります．</p>
 <ul class="simple">
-<li>It enables the <a class="reference internal" href="#rts-flag--N ⟨x⟩"><code class="xref std std-rts-flag docutils literal"><span class="pre">-N</span> <span class="pre">⟨x⟩</span></code></a> to be used, which allows threads to run in
-parallelism on a multi-processor or multi-core machine. See <a class="reference internal" href="#using-smp"><span class="std std-ref">Using SMP parallelism</span></a>.</li>
-<li>If a thread makes a foreign call (and the call is not marked
-<code class="docutils literal"><span class="pre">unsafe</span></code>), then other Haskell threads in the program will continue
-to run while the foreign call is in progress. Additionally,
-<code class="docutils literal"><span class="pre">foreign</span> <span class="pre">export</span></code>ed Haskell functions may be called from multiple
-OS threads simultaneously. See <a class="reference internal" href="ffi-chap.html#ffi-threads"><span class="std std-ref">Multi-threading and the FFI</span></a>.</li>
+<li><a class="reference internal" href="#rts-flag--N ⟨x⟩"><code class="xref std std-rts-flag docutils literal"><span class="pre">-N</span> <span class="pre">⟨x⟩</span></code></a> を使って，スレッドをマルチプロセッサあるいマルチコアの計算機で動かせます．
+<a class="reference internal" href="#using-smp"><span class="std std-ref">SMP 並列を使う</span></a> を参照してください．</li>
+<li>あるスレッドが外部呼び出しを行うと(その呼び出しに <code class="docutils literal"><span class="pre">unsafe</span></code> が付いていなければ)，
+その外部呼び出し中にプログラム中の他のHaskellスレッドが走り続けます．
+さらに <code class="docutils literal"><span class="pre">foreign</span> <span class="pre">export</span></code> された Haskell の関数が複数のOSスレッドから同時に呼ばれてもよい．
+<a class="reference internal" href="ffi-chap.html#ffi-threads"><span class="std std-ref">Multi-threading and the FFI</span></a> を参照</li>
 </ul>
-<p>The following RTS option(s) affect the behaviour of Concurrent Haskell
-programs:</p>
+<p>以下の RTS オプションが Concurrent Haskell プログラムの振舞いに影響します．</p>
 <span class="target" id="index-1"></span><dl class="rts-flag">
 <dt id="rts-flag--C ⟨s⟩">
 <code class="descname">-C</code><code class="descclassname"> ⟨s⟩</code><a class="headerlink" href="#rts-flag--C ⟨s⟩" title="この定義へのパーマリンク">¶</a></dt>
@@ -129,151 +126,130 @@ programs:</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Default:</th><td class="field-body">20 milliseconds</td>
+<tr class="field-odd field"><th class="field-name">Default:</th><td class="field-body">20 ミリ秒</td>
 </tr>
 </tbody>
 </table>
-<p>Sets the context switch interval to ⟨s⟩ seconds.
-A context switch will occur at the next heap block allocation after
-the timer expires (a heap block allocation occurs every 4k of
-allocation). With <code class="docutils literal"><span class="pre">-C0</span></code> or <code class="docutils literal"><span class="pre">-C</span></code>, context switches will occur as
-often as possible (at every heap block allocation).</p>
+<p>コンテキストスイッチの間隔を ⟨s⟩ 秒に設定する．
+コンテキストスイッチは，時間切れの後の最初のヒープブロック確保の際に発生します．
+(ヒープブロックの確保は確保4k毎に発生します．)
+<code class="docutils literal"><span class="pre">-C0</span></code> または <code class="docutils literal"><span class="pre">-C</span></code> を使うと，コンテキストスイッチは可能なかぎり頻繁に起こります
+(ヒープブロック確保毎になります)．</p>
 </dd></dl>
 
 </div>
-<div class="section" id="using-smp-parallelism">
-<span id="using-smp"></span><h1>7.5. Using SMP parallelism<a class="headerlink" href="#using-smp-parallelism" title="このヘッドラインへのパーマリンク">¶</a></h1>
-<p id="index-2">GHC supports running Haskell programs in parallel on an SMP (symmetric
-multiprocessor).</p>
-<p>There&#8217;s a fine distinction between <em>concurrency</em> and <em>parallelism</em>:
-parallelism is all about making your program run <em>faster</em> by making use
-of multiple processors simultaneously. Concurrency, on the other hand,
-is a means of abstraction: it is a convenient way to structure a program
-that must respond to multiple asynchronous events.</p>
-<p>However, the two terms are certainly related. By making use of multiple
-CPUs it is possible to run concurrent threads in parallel, and this is
-exactly what GHC&#8217;s SMP parallelism support does. But it is also possible
-to obtain performance improvements with parallelism on programs that do
-not use concurrency. This section describes how to use GHC to compile
-and run parallel programs, in <a class="reference internal" href="parallel.html#lang-parallel"><span class="std std-ref">Concurrent and Parallel Haskell</span></a> we describe the
-language features that affect parallelism.</p>
-<div class="section" id="compile-time-options-for-smp-parallelism">
-<span id="parallel-compile-options"></span><h2>7.5.1. Compile-time options for SMP parallelism<a class="headerlink" href="#compile-time-options-for-smp-parallelism" title="このヘッドラインへのパーマリンク">¶</a></h2>
-<p>In order to make use of multiple CPUs, your program must be linked with
-the <a class="reference internal" href="phases.html#ghc-flag--threaded"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-threaded</span></code></a> option (see <a class="reference internal" href="phases.html#options-linker"><span class="std std-ref">Options affecting linking</span></a>). Additionally, the
-following compiler options affect parallelism:</p>
+<div class="section" id="smp">
+<span id="using-smp"></span><h1>7.5. SMP 並列を使う<a class="headerlink" href="#smp" title="このヘッドラインへのパーマリンク">¶</a></h1>
+<span class="target" id="index-2"></span><p>GHC はSMP(対称マルチプロセッサ)上でHaskellプログラムが並列に走るのをサポートしています．</p>
+<p><em>並行性</em> と <em>並列性</em> の間には細かい違いがあります．
+並列性とは，複数のプロセッサーを同時に使用することで，プログラムの実行速度を向上させることです．
+一方，並行処理は抽象化の手段であり，複数の非同期イベントに応答する必要があるプログラムを構造化する便利な方法です．</p>
+<p>しかし，この2つの用語は確かに関連しています．
+複数のCPUを使用することにより，並行スレッドを並列で実行することが可能になります．
+これは，まさにGHCのSMP並列処理のサポートと同じです．
+しかし，並行性を使用しないプログラムでは，並列性を使用してパフォーマンスを向上させることも可能です．
+このセクションでは，GHCを使用して並列プログラムをコンパイルおよび実行する方法について説明します．
+<a class="reference internal" href="parallel.html#lang-parallel"><span class="std std-ref">Concurrent and Parallel Haskell</span></a> では並列性に影響を与える言語機能について説明します．</p>
+<div class="section" id="parallel-compile-options">
+<span id="id1"></span><h2>7.5.1. SMP 並列のためのコンパイルオプション<a class="headerlink" href="#parallel-compile-options" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>複数のCPUを使うためには，プログラムは <a class="reference internal" href="phases.html#ghc-flag--threaded"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-threaded</span></code></a> オプション(<a class="reference internal" href="phases.html#options-linker"><span class="std std-ref">Options affecting linking</span></a> 参照)で
+リンクしなければなりません．
+さらに，次のコンパイルオプションが並列性に影響します．</p>
 <dl class="ghc-flag">
 <dt id="ghc-flag--feager-blackholing">
 <code class="descname">-feager-blackholing</code><code class="descclassname"></code><a class="headerlink" href="#ghc-flag--feager-blackholing" title="この定義へのパーマリンク">¶</a></dt>
-<dd><p>Blackholing is the act of marking a thunk (lazy computation) as
-being under evaluation. It is useful for three reasons: firstly it
-lets us detect certain kinds of infinite loop (the
-<code class="docutils literal"><span class="pre">NonTermination</span></code> exception), secondly it avoids certain kinds of
-space leak, and thirdly it avoids repeating a computation in a
-parallel program, because we can tell when a computation is already
-in progress.</p>
-<p>The option <a class="reference internal" href="using-optimisation.html#ghc-flag--feager-blackholing"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-feager-blackholing</span></code></a> causes each thunk to be
-blackholed as soon as evaluation begins. The default is &#8220;lazy
-blackholing&#8221;, whereby thunks are only marked as being under
-evaluation when a thread is paused for some reason. Lazy blackholing
-is typically more efficient (by 1-2% or so), because most thunks
-don&#8217;t need to be blackholed. However, eager blackholing can avoid
-more repeated computation in a parallel program, and this often
-turns out to be important for parallelism.</p>
-<p>We recommend compiling any code that is intended to be run in
-parallel with the <a class="reference internal" href="using-optimisation.html#ghc-flag--feager-blackholing"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-feager-blackholing</span></code></a> flag.</p>
+<dd><p>ブラックホール化は，評価中のサンク（遅延計算）をマークする行為です．
+第1にある種の無限ループ(<code class="docutils literal"><span class="pre">NonTermination</span></code> 例外)を検出させ，
+第2にある種の空間リークを回避し，
+第3に並列プログラムで計算の反復を避けられます．
+計算が進行中であるタイミングを教えられるからです．</p>
+<p><a class="reference internal" href="#ghc-flag--feager-blackholing"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-feager-blackholing</span></code></a> オプションは，評価が始まるとすぐに，各サンクをブラックホール化します．
+デフォルトでは，「遅延ブラックホール化」で，スレッドが何らかの理由で一時停止している場合に，
+評価中のサンクであることを示すマークだけを付けます．
+遅延ブラックホール化は通常より効率的(およぼ1-2%程度)です．
+ほとんどのサンクはブラックホール化の必要がないからです．
+しかし，先行ブラックホール化を使えば，並列プログラム中の何度も行われる計算を避けることができます．
+そして多くの場合並列性にとって重要であることが判ります．</p>
+<p>並列に走らせたいコードはどれも <a class="reference internal" href="#ghc-flag--feager-blackholing"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-feager-blackholing</span></code></a> フラグを付けてコンパイルすることを推奨します．</p>
 </dd></dl>
 
 </div>
-<div class="section" id="rts-options-for-smp-parallelism">
-<span id="parallel-options"></span><h2>7.5.2. RTS options for SMP parallelism<a class="headerlink" href="#rts-options-for-smp-parallelism" title="このヘッドラインへのパーマリンク">¶</a></h2>
-<p>There are two ways to run a program on multiple processors: call
-<a class="reference external" href="../libraries/base-4.10.1.0/Control.Concurrent.html#v:setNumCapabilities">Control.Concurrent.setNumCapabilities</a> from your program, or
-use the RTS <a class="reference internal" href="#rts-flag--N ⟨x⟩"><code class="xref std std-rts-flag docutils literal"><span class="pre">-N</span> <span class="pre">⟨x⟩</span></code></a> options.</p>
+<div class="section" id="smp-rts">
+<span id="parallel-options"></span><h2>7.5.2. SMP 並列のための RTS オプション<a class="headerlink" href="#smp-rts" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>マルチプロセッサ上でプログラムを走らせる方法は2とおりあります．
+プログラムから <a class="reference external" href="../libraries/base-4.10.1.0/Control.Concurrent.html#v:setNumCapabilities">Control.Concurrent.setNumCapabilities</a> を呼ぶ方法と，
+RTSオプション <a class="reference internal" href="#rts-flag--N ⟨x⟩"><code class="xref std std-rts-flag docutils literal"><span class="pre">-N</span> <span class="pre">⟨x⟩</span></code></a> を使う方法です．</p>
 <dl class="rts-flag">
 <dt id="rts-flag--N ⟨x⟩">
 <code class="descname">-N</code><code class="descclassname"> ⟨x⟩</code><a class="headerlink" href="#rts-flag--N ⟨x⟩" title="この定義へのパーマリンク">¶</a></dt>
 <dt id="rts-flag--maxN ⟨x⟩">
 <code class="descname">-maxN</code><code class="descclassname"> ⟨x⟩</code><a class="headerlink" href="#rts-flag--maxN ⟨x⟩" title="この定義へのパーマリンク">¶</a></dt>
-<dd><p>Use ⟨x⟩ simultaneous threads when running the program.</p>
-<p>The runtime manages a set of virtual processors, which we call
-<em>capabilities</em>, the number of which is determined by the <code class="docutils literal"><span class="pre">-N</span></code>
-option. Each capability can run one Haskell thread at a time, so the
-number of capabilities is equal to the number of Haskell threads
-that can run physically in parallel. A capability is animated by one
-or more OS threads; the runtime manages a pool of OS threads for
-each capability, so that if a Haskell thread makes a foreign call
-(see <a class="reference internal" href="ffi-chap.html#ffi-threads"><span class="std std-ref">Multi-threading and the FFI</span></a>) another OS thread can take over that
-capability.</p>
-<p>Normally ⟨x⟩ should be chosen to match the number of CPU cores on
-the machine <a class="footnote-reference" href="#id2" id="id1">[1]</a>. For example, on a dual-core machine we would
-probably use <code class="docutils literal"><span class="pre">+RTS</span> <span class="pre">-N2</span> <span class="pre">-RTS</span></code>.</p>
-<p>Omitting ⟨x⟩, i.e. <code class="docutils literal"><span class="pre">+RTS</span> <span class="pre">-N</span> <span class="pre">-RTS</span></code>, lets the runtime choose the
-value of ⟨x⟩ itself based on how many processors are in your
-machine.</p>
-<p>With <code class="docutils literal"><span class="pre">-maxN⟨x⟩</span></code>, i.e. <code class="docutils literal"><span class="pre">+RTS</span> <span class="pre">-maxN3</span> <span class="pre">-RTS</span></code>, the runtime will choose
-at most (x), also limited by the number of processors on the system.
-Omitting (x) is an error, if you need a default use option <code class="docutils literal"><span class="pre">-N</span></code>.</p>
-<p>Be careful when using all the processors in your machine: if some of
-your processors are in use by other programs, this can actually harm
-performance rather than improve it. Asking GHC to create more capabilities
-than you have physical threads is almost always a bad idea.</p>
-<p>Setting <code class="docutils literal"><span class="pre">-N</span></code> also has the effect of enabling the parallel garbage
-collector (see <a class="reference internal" href="runtime_control.html#rts-options-gc"><span class="std std-ref">RTS options to control the garbage collector</span></a>).</p>
-<p>The current value of the <code class="docutils literal"><span class="pre">-N</span></code> option is available to the Haskell
-program via <code class="docutils literal"><span class="pre">Control.Concurrent.getNumCapabilities</span></code>, and it may be
-changed while the program is running by calling
-<code class="docutils literal"><span class="pre">Control.Concurrent.setNumCapabilities</span></code>.</p>
+<dd><p>プログラムを走らせる際， ⟨x⟩本のスレッドを同時に使います．</p>
+<p>実行時システムは仮想プロセッサ一式を管理します．
+<em>ケーパビリティ</em> と呼ぶ仮想プロセッサの数は <code class="docutils literal"><span class="pre">-N</span></code> オプションで指定します．
+各ケーパビリティは一度に1つのHaskellスレッドを走らせられます．
+したがって，ケーパビリティ数は物理的に並列に走れるHaskellスレッドの数と等しくなります．
+1つのケーパビリティは1つ以上のOSスレッドによって起動されます．
+実行時システムは各ケーパビリティに対応するOSスレッドプールを管理します．
+Haskellスレッドが外部呼び出し(<a class="reference internal" href="ffi-chap.html#ffi-threads"><span class="std std-ref">Multi-threading and the FFI</span></a> 参照)をすると，
+別のOSスレッドがこのケーパビリティを引き継げるようになっています．</p>
+<p>通常⟨x⟩はマシン上のCPUコアの数と一致させるべきです <a class="footnote-reference" href="#id4" id="id2">[1]</a> ．
+たとえば，デュアルコアマシンであれば <code class="docutils literal"><span class="pre">+RTS</span> <span class="pre">-N2</span> <span class="pre">-RTS</span></code> を使うことになるでしょう．</p>
+<p>⟨x⟩を省略して <code class="docutils literal"><span class="pre">+RTS</span> <span class="pre">-N</span> <span class="pre">-RTS</span></code> のように書くと，実行時システムがマシン上のプロセッサ数にもとづいて⟨x⟩の値を決めます．</p>
+<p><code class="docutils literal"><span class="pre">-maxN</span> <span class="pre">⟨x⟩</span></code> を使って <code class="docutils literal"><span class="pre">+RTS</span> <span class="pre">-maxN3</span> <span class="pre">-RTS</span></code> のように書くと，実行時システムは
+高々⟨x⟩の値に決めることになります．この値の上限はシステム上のプロセッサ数です．
+⟨x⟩を省略するとエラーになります．デフォルトでの値が必要なら <code class="docutils literal"><span class="pre">-N</span></code> オプションを使って下さい．</p>
+<p>マシン内のすべてのプロセッサを使用する場合は注意が必要です．
+一部のプロセッサが他のプログラムで使用されている場合，パフォーマンスは向上せず，パフォーマンスに悪影響を与えます．
+どのような場合でも，GHCに物理スレッドよりも多くのケーパビリティを作成させるのは良くない考えです．</p>
+<p><code class="docutils literal"><span class="pre">-N</span></code> を設定すると，並列ガーベッジコレクタ(<a class="reference internal" href="runtime_control.html#rts-options-gc"><span class="std std-ref">RTS options to control the garbage collector</span></a> 参照)も有効になります．</p>
+<p>現在の <code class="docutils literal"><span class="pre">-N</span></code> オプションの値は，Haskellのプログラム内から，
+<code class="docutils literal"><span class="pre">Control.Concurrent.getNumCapabilities</span></code> を通じて利用可能で <code class="docutils literal"><span class="pre">Control.Concurrent.setNumCapabilities</span></code>
+を呼べば，プログラムを走らせながら変更することも可能です．</p>
 </dd></dl>
 
-<p>The following options affect the way the runtime schedules threads on
-CPUs:</p>
+<p>以下のオプションを指定すると実行時システムがCPUにスレッドを割り振る方法に影響を与えられます．</p>
 <dl class="rts-flag">
 <dt id="rts-flag--qa">
 <code class="descname">-qa</code><code class="descclassname"></code><a class="headerlink" href="#rts-flag--qa" title="この定義へのパーマリンク">¶</a></dt>
-<dd><p>Use the OS&#8217;s affinity facilities to try to pin OS threads to CPU
-cores.</p>
-<p>When this option is enabled, the OS threads for a capability <span class="math">\(i\)</span> are
-bound to the CPU core <span class="math">\(i\)</span> using the API provided by the OS for setting
-thread affinity. e.g. on Linux GHC uses <code class="docutils literal"><span class="pre">sched_setaffinity()</span></code>.</p>
-<p>Depending on your workload and the other activity on the machine,
-this may or may not result in a performance improvement. We
-recommend trying it out and measuring the difference.</p>
+<dd><p>OS アフィニティ機能を使って OS スレッドを CPUコアにピン留めします．</p>
+<p>このオプションが有効なら，ケーパビリティ <span class="math">\(i\)</span> に対応する OS のスレッドは
+OS が適用する API でスレッドアフィニティ(Linunx 用の GHC なら <code class="docutils literal"><span class="pre">sched_setaffinity()</span></code> を使って)を設定すれば，
+CPUのコア <span class="math">\(i\)</span> に束縛できます．</p>
+<p>ワークロードやマシン上の他のアクティビティーによって，パフォーマンスが向上する場合もあれば，
+そうでない場合もあります．実際に試して、違いを測定することをお勧めします．</p>
 </dd></dl>
 
 <dl class="rts-flag">
 <dt id="rts-flag--qm">
 <code class="descname">-qm</code><code class="descclassname"></code><a class="headerlink" href="#rts-flag--qm" title="この定義へのパーマリンク">¶</a></dt>
-<dd><p>Disable automatic migration for load balancing. Normally the runtime
-will automatically try to schedule threads across the available CPUs
-to make use of idle CPUs; this option disables that behaviour. Note
-that migration only applies to threads; sparks created by <code class="docutils literal"><span class="pre">par</span></code>
-are load-balanced separately by work-stealing.</p>
-<p>This option is probably only of use for concurrent programs that
-explicitly schedule threads onto CPUs with
-<a class="reference external" href="../libraries/base-4.10.1.0/Control-Concurrent.html#v:forkOn">Control.Concurrent.forkOn</a>.</p>
+<dd><p>負荷分散のための自動マイグレーションを無効にします．
+通常実行時システムは，ひまなCPUを活用するためにCPUをまたいでスレッドをスケジュールしようとします．
+このオプションはこの振る舞いを無効にします．
+マイグレーションはスレッドにしか適用されないことに注意してください．
+<code class="docutils literal"><span class="pre">par</span></code> によって作られたスパークは，別途 work-stealing で負荷分散されます．</p>
+<p>このオプションが役に立つのは，並行プログラムで
+<a class="reference external" href="../libraries/base-4.10.1.0/Control-Concurrent.html#v:forkOn">Control.Concurrent.forkOn</a> を使ってスレッドを
+明示的にCPUにスケジュールする場合だけでしょう．</p>
 </dd></dl>
 
 </div>
-<div class="section" id="hints-for-using-smp-parallelism">
-<h2>7.5.3. Hints for using SMP parallelism<a class="headerlink" href="#hints-for-using-smp-parallelism" title="このヘッドラインへのパーマリンク">¶</a></h2>
-<p>Add the <a class="reference internal" href="runtime_control.html#rts-flag--s [⟨file⟩]"><code class="xref std std-rts-flag docutils literal"><span class="pre">-s</span> <span class="pre">[⟨file⟩]</span></code></a> RTS option when running the program to see
-timing stats, which will help to tell you whether your program got faster by
-using more CPUs or not. If the user time is greater than the elapsed time, then
-the program used more than one CPU. You should also run the program without
-<a class="reference internal" href="#rts-flag--N ⟨x⟩"><code class="xref std std-rts-flag docutils literal"><span class="pre">-N</span> <span class="pre">⟨x⟩</span></code></a> for comparison.</p>
-<p>The output of <code class="docutils literal"><span class="pre">+RTS</span> <span class="pre">-s</span></code> tells you how many &#8220;sparks&#8221; were created and
-executed during the run of the program (see <a class="reference internal" href="runtime_control.html#rts-options-gc"><span class="std std-ref">RTS options to control the garbage collector</span></a>),
-which will give you an idea how well your <code class="docutils literal"><span class="pre">par</span></code> annotations are
-working.</p>
-<p>GHC&#8217;s parallelism support has improved in 6.12.1 as a result of much
-experimentation and tuning in the runtime system. We&#8217;d still be
-interested to hear how well it works for you, and we&#8217;re also interested
-in collecting parallel programs to add to our benchmarking suite.</p>
-<table class="docutils footnote" frame="void" id="id2" rules="none">
+<div class="section" id="id3">
+<h2>7.5.3. SMP 並列を使うためのヒント<a class="headerlink" href="#id3" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>プログラムの実行時に <a class="reference internal" href="runtime_control.html#rts-flag--s [⟨file⟩]"><code class="xref std std-rts-flag docutils literal"><span class="pre">-s</span> <span class="pre">[⟨file⟩]</span></code></a> という RTS オプションを付けると，
+時間統計情報を見られます．これを使えば，使用するCPU数を増やしたことでプログラムが速くなったかを確認できます．
+ユーザ(user)時間が消費時間(elapsed)時間よりも大きいなら，プログラムは複数のCPUを使ったことになります．
+比較のために <a class="reference internal" href="#rts-flag--N ⟨x⟩"><code class="xref std std-rts-flag docutils literal"><span class="pre">-N</span> <span class="pre">⟨x⟩</span></code></a> なしでプログラムを走らせてみるのもよいでしょう．</p>
+<p><code class="docutils literal"><span class="pre">+RTS</span> <span class="pre">-s</span></code> による出力を見れば，プログラム実行中にいくつの「スパーク」(sparks)が作られ，実行されたかが判ります
+(<a class="reference internal" href="runtime_control.html#rts-options-gc"><span class="std std-ref">RTS options to control the garbage collector</span></a> 参照)．
+そうすれば <code class="docutils literal"><span class="pre">par</span></code> がどの程度うまく働らいているかの感触が得られることでしょう．</p>
+<p>多くの実験と実行時システムのチューニングにより，GHC の並列性サポートは 6.12.1 で改善されました．
+この機能がどの程度上手くいっているかについては引き続き，教えていただきたいと思います．
+また，ベンチマーク用の並列プログラムも集めたいと考えています．</p>
+<table class="docutils footnote" frame="void" id="id4" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
-<tr><td class="label"><a class="fn-backref" href="#id1">[1]</a></td><td>Whether hyperthreading cores should be counted or not is an open
+<tr><td class="label"><a class="fn-backref" href="#id2">[1]</a></td><td>Whether hyperthreading cores should be counted or not is an open
 question; please feel free to experiment and let us know what results you
 find.</td></tr>
 </tbody>
