@@ -7,7 +7,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>7.6. Flag reference &#8212; Glasgow Haskell Compiler 8.2.2 User&#39;s Guide</title>
+    <title>7.6. フラグの一覧表 &#8212; Glasgow Haskell Compiler 8.2.2 User&#39;s Guide</title>
     
     <link rel="stylesheet" href="_static/ghc-theme.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -33,7 +33,7 @@
     <link rel="index" title="索引" href="genindex.html" />
     <link rel="search" title="検索" href="search.html" />
     <link rel="next" title="7.7. Running a compiled program" href="runtime_control.html" />
-    <link rel="prev" title="7.4. Using Concurrent Haskell" href="using-concurrent.html" /> 
+    <link rel="prev" title="7.4. Concurrent Haskell を使う" href="using-concurrent.html" /> 
   </head>
   <body role="document">
 <div class="logo">
@@ -50,7 +50,7 @@
           <a href="runtime_control.html" title="7.7. Running a compiled program"
              accesskey="N">次へ</a> |</li>
         <li class="right" >
-          <a href="using-concurrent.html" title="7.4. Using Concurrent Haskell"
+          <a href="using-concurrent.html" title="7.4. Concurrent Haskell を使う"
              accesskey="P">前へ</a> |</li>
         <li class="nav-item nav-item-0"><a href="index.html">GHC 8.2.2 User&#39;s Guide</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="usage.html" accesskey="U">7. GHCを使う</a> &#187;</li> 
@@ -61,8 +61,8 @@
         <div class="sphinxsidebarwrapper">
   <h3><a href="index.html">目次</a></h3>
   <ul>
-<li><a class="reference internal" href="#">7.6. Flag reference</a><ul>
-<li><a class="reference internal" href="#verbosity-options">7.6.1. Verbosity options</a></li>
+<li><a class="reference internal" href="#">7.6. フラグの一覧表</a><ul>
+<li><a class="reference internal" href="#id2">7.6.1. 饒舌性に関するオプション</a></li>
 <li><a class="reference internal" href="#alternative-modes-of-operation">7.6.2. Alternative modes of operation</a></li>
 <li><a class="reference internal" href="#which-phases-to-run">7.6.3. Which phases to run</a></li>
 <li><a class="reference internal" href="#redirecting-output">7.6.4. Redirecting output</a></li>
@@ -94,7 +94,7 @@
 
   <h4>前のトピックへ</h4>
   <p class="topless"><a href="using-concurrent.html"
-                        title="前の章へ">7.4. Using Concurrent Haskell</a></p>
+                        title="前の章へ">7.4. Concurrent Haskell を使う</a></p>
   <h4>次のトピックへ</h4>
   <p class="topless"><a href="runtime_control.html"
                         title="次の章へ">7.7. Running a compiled program</a></p>
@@ -124,111 +124,12 @@
           <div class="body" role="main">
             
   <div class="section" id="flag-reference">
-<span id="id1"></span><h1>7.6. Flag reference<a class="headerlink" href="#flag-reference" title="このヘッドラインへのパーマリンク">¶</a></h1>
-<p>This section is a quick-reference for GHC&#8217;s command-line flags. For each
-flag, we also list its static/dynamic status (see
-<a class="reference internal" href="using.html#static-dynamic-flags"><span class="std std-ref">静的オプション，動的オプション，モード指定オプション</span></a>), and the flag&#8217;s opposite (if available).</p>
-<div class="section" id="verbosity-options">
-<h2>7.6.1. Verbosity options<a class="headerlink" href="#verbosity-options" title="このヘッドラインへのパーマリンク">¶</a></h2>
-<p>More details in <a class="reference internal" href="using.html#options-help"><span class="std std-ref">饒舌性に関するオプション</span></a></p>
-<table border="1" class="docutils">
-<colgroup>
-<col width="25%" />
-<col width="40%" />
-<col width="13%" />
-<col width="23%" />
-</colgroup>
-<thead valign="bottom">
-<tr class="row-odd"><th class="head">Flag</th>
-<th class="head">Description</th>
-<th class="head">Type</th>
-<th class="head">Reverse</th>
-</tr>
-</thead>
-<tbody valign="top">
-<tr class="row-even"><td><a class="reference internal" href="using.html#ghc-flag--v"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-v</span></code></a></td>
-<td>verbose mode (equivalent to <code class="docutils literal"><span class="pre">-v3</span></code>)</td>
-<td>dynamic</td>
-<td>&#160;</td>
-</tr>
-<tr class="row-odd"><td><code class="xref std std-ghc-flag docutils literal"><span class="pre">-v</span> <span class="pre">⟨n⟩</span></code></td>
-<td>set verbosity level</td>
-<td>dynamic</td>
-<td>&#160;</td>
-</tr>
-<tr class="row-even"><td><a class="reference internal" href="using.html#ghc-flag--fhide-source-paths"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-fhide-source-paths</span></code></a></td>
-<td>hide module source and object paths</td>
-<td>dynamic</td>
-<td>&#160;</td>
-</tr>
-<tr class="row-odd"><td><a class="reference internal" href="using.html#ghc-flag--fprint-potential-instances"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-fprint-potential-instances</span></code></a></td>
-<td>display all available instances in type error messages</td>
-<td>dynamic</td>
-<td><code class="xref std std-ghc-flag docutils literal"><span class="pre">-fno-print-potential-instances</span></code></td>
-</tr>
-<tr class="row-even"><td><a class="reference internal" href="using.html#ghc-flag--fprint-explicit-foralls"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-fprint-explicit-foralls</span></code></a></td>
-<td>Print explicit <code class="docutils literal"><span class="pre">forall</span></code> quantification in types. See also <a class="reference internal" href="glasgow_exts.html#ghc-flag--XExplicitForAll"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-XExplicitForAll</span></code></a></td>
-<td>dynamic</td>
-<td><code class="xref std std-ghc-flag docutils literal"><span class="pre">-fno-print-explicit-foralls</span></code></td>
-</tr>
-<tr class="row-odd"><td><a class="reference internal" href="using.html#ghc-flag--fprint-explicit-kinds"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-fprint-explicit-kinds</span></code></a></td>
-<td>Print explicit kind foralls and kind arguments in types. See also <a class="reference internal" href="glasgow_exts.html#ghc-flag--XKindSignatures"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-XKindSignatures</span></code></a></td>
-<td>dynamic</td>
-<td><code class="xref std std-ghc-flag docutils literal"><span class="pre">-fno-print-explicit-kinds</span></code></td>
-</tr>
-<tr class="row-even"><td><a class="reference internal" href="using.html#ghc-flag--fprint-explicit-runtime-reps"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-fprint-explicit-runtime-reps</span></code></a></td>
-<td>Print <code class="docutils literal"><span class="pre">RuntimeRep</span></code> variables in types which are runtime-representation polymorphic.</td>
-<td>dynamic</td>
-<td><code class="xref std std-ghc-flag docutils literal"><span class="pre">-fno-print-explicit-runtime-reps</span></code></td>
-</tr>
-<tr class="row-odd"><td><a class="reference internal" href="using.html#ghc-flag--fprint-unicode-syntax"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-fprint-unicode-syntax</span></code></a></td>
-<td>Use unicode syntax when printing expressions, types and kinds. See also
-<a class="reference internal" href="glasgow_exts.html#ghc-flag--XUnicodeSyntax"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-XUnicodeSyntax</span></code></a></td>
-<td>dynamic</td>
-<td><code class="xref std std-ghc-flag docutils literal"><span class="pre">-fno-print-unicode-syntax</span></code></td>
-</tr>
-<tr class="row-even"><td><a class="reference internal" href="using.html#ghc-flag--fprint-expanded-synonyms"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-fprint-expanded-synonyms</span></code></a></td>
-<td>In type errors, also print type-synonym-expanded types.</td>
-<td>dynamic</td>
-<td><code class="xref std std-ghc-flag docutils literal"><span class="pre">-fno-print-expanded-synonyms</span></code></td>
-</tr>
-<tr class="row-odd"><td><a class="reference internal" href="using.html#ghc-flag--fprint-typechecker-elaboration"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-fprint-typechecker-elaboration</span></code></a></td>
-<td>Print extra information from typechecker.</td>
-<td>dynamic</td>
-<td><code class="xref std std-ghc-flag docutils literal"><span class="pre">-fno-print-typechecker-elaboration</span></code></td>
-</tr>
-<tr class="row-even"><td><code class="xref std std-ghc-flag docutils literal"><span class="pre">-fdiagnostics-color=(always|auto|never)</span></code></td>
-<td>Use colors in error messages</td>
-<td>dynamic</td>
-<td>&#160;</td>
-</tr>
-<tr class="row-odd"><td><a class="reference internal" href="using.html#ghc-flag--f[no-]diagnostics-show-caret"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-f[no-]diagnostics-show-caret</span></code></a></td>
-<td>Whether to show snippets of original source code</td>
-<td>dynamic</td>
-<td>&#160;</td>
-</tr>
-<tr class="row-even"><td><a class="reference internal" href="using.html#ghc-flag--ferror-spans"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-ferror-spans</span></code></a></td>
-<td>Output full span in error messages</td>
-<td>dynamic</td>
-<td>&#160;</td>
-</tr>
-<tr class="row-odd"><td><a class="reference internal" href="using.html#ghc-flag--Rghc-timing"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-Rghc-timing</span></code></a></td>
-<td>Summarise timing stats for GHC (same as <code class="docutils literal"><span class="pre">+RTS</span> <span class="pre">-tstderr</span></code>).</td>
-<td>dynamic</td>
-<td>&#160;</td>
-</tr>
-<tr class="row-even"><td><a class="reference internal" href="glasgow_exts.html#ghc-flag--fshow-hole-constraints"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-fshow-hole-constraints</span></code></a></td>
-<td>Show constraints when reporting typed holes</td>
-<td>dynamic</td>
-<td>&#160;</td>
-</tr>
-<tr class="row-odd"><td><code class="xref std std-ghc-flag docutils literal"><span class="pre">-fshow-loaded-modules</span></code></td>
-<td>Show the names of modules that GHCi loaded after a <a class="reference internal" href="ghci.html#ghci-cmd-:load"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:load</span></code></a> command.</td>
-<td>dynamic</td>
-<td>&#160;</td>
-</tr>
-</tbody>
-</table>
+<span id="id1"></span><h1>7.6. フラグの一覧表<a class="headerlink" href="#flag-reference" title="このヘッドラインへのパーマリンク">¶</a></h1>
+<p>このセクションは GHC のコマンドラインフラグの早見表です．
+それぞれのフラグについて，動的/静的の区別(<a class="reference internal" href="using.html#static-dynamic-flags"><span class="std std-ref">静的オプション，動的オプション，モード指定オプション</span></a> 参照)と逆のフラグ(存在すれば)も載せています．</p>
+<div class="section" id="id2">
+<h2>7.6.1. 饒舌性に関するオプション<a class="headerlink" href="#id2" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>より詳しくは <a class="reference internal" href="using.html#options-help"><span class="std std-ref">饒舌性に関するオプション</span></a> にあります．</p>
 </div>
 <div class="section" id="alternative-modes-of-operation">
 <h2>7.6.2. Alternative modes of operation<a class="headerlink" href="#alternative-modes-of-operation" title="このヘッドラインへのパーマリンク">¶</a></h2>
@@ -634,7 +535,7 @@ single file (i.e. when using <a class="reference internal" href="using.html#ghc-
 </table>
 </div>
 <div class="section" id="interactive-mode-options">
-<span id="id2"></span><h2>7.6.10. Interactive-mode options<a class="headerlink" href="#interactive-mode-options" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<span id="id3"></span><h2>7.6.10. Interactive-mode options<a class="headerlink" href="#interactive-mode-options" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <p>More details in <a class="reference internal" href="ghci.html#ghci-dot-files"><span class="std std-ref">.ghci ファイルと .haskeline ファイル</span></a></p>
 <table border="1" class="docutils">
 <colgroup>
@@ -1935,7 +1836,7 @@ flag description explicitly says otherwise). If a flag is implied by
 <td>dynamic</td>
 <td><code class="xref std std-ghc-flag docutils literal"><span class="pre">-fno-do-lambda-eta-expansion</span></code></td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="using-optimisation.html#ghc-flag--feager-blackholing"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-feager-blackholing</span></code></a></td>
+<tr class="row-even"><td><a class="reference internal" href="using-concurrent.html#ghc-flag--feager-blackholing"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-feager-blackholing</span></code></a></td>
 <td>Turn on <a class="reference internal" href="using-concurrent.html#parallel-compile-options"><span class="std std-ref">eager blackholing</span></a></td>
 <td>dynamic</td>
 <td>&#160;</td>
@@ -3191,7 +3092,7 @@ thread.</td>
           <a href="runtime_control.html" title="7.7. Running a compiled program"
              >次へ</a> |</li>
         <li class="right" >
-          <a href="using-concurrent.html" title="7.4. Using Concurrent Haskell"
+          <a href="using-concurrent.html" title="7.4. Concurrent Haskell を使う"
              >前へ</a> |</li>
         <li class="nav-item nav-item-0"><a href="index.html">GHC 8.2.2 User&#39;s Guide</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="usage.html" >7. GHCを使う</a> &#187;</li> 
