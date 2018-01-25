@@ -5,11 +5,11 @@ import Types
 findingImportsOptions :: [Flag]
 findingImportsOptions =
   [ flag { flagName = "-i⟨dir⟩[:⟨dir⟩]*"
-         , flagDescription = "add ⟨dir⟩, ⟨dir2⟩, etc. to import path"
+         , flagDescription = "⟨dir⟩, ⟨dir2⟩, などをインポートパスに追加"
          , flagType = DynamicSettableFlag
          }
   , flag { flagName = "-i"
-         , flagDescription = "Empty the import directory list"
+         , flagDescription = "インポートディレクトリの一覧を空にする"
          , flagType = DynamicSettableFlag
          }
   ]

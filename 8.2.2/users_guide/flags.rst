@@ -106,10 +106,18 @@
 
 .. include:: flags-temporary-files.gen.rst
 
+..
+   Finding imports
+   ---------------
+
+   More details in :ref:`search-path`
+
+   .. include:: flags-finding-imports.gen.rst
+
 Finding imports
 ---------------
 
-More details in :ref:`search-path`
+詳しくは :ref:`search-path` にあります．
 
 .. include:: flags-finding-imports.gen.rst
 
