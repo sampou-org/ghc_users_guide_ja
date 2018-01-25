@@ -66,7 +66,7 @@
 <li><a class="reference internal" href="#id3">7.6.2. 通常以外の実行モード</a></li>
 <li><a class="reference internal" href="#id4">7.6.3. どの段階を実行するか</a></li>
 <li><a class="reference internal" href="#id5">7.6.4. 出力先の変更</a></li>
-<li><a class="reference internal" href="#keeping-intermediate-files">7.6.5. Keeping intermediate files</a></li>
+<li><a class="reference internal" href="#id6">7.6.5. 中間ファイルの保持</a></li>
 <li><a class="reference internal" href="#temporary-files">7.6.6. Temporary files</a></li>
 <li><a class="reference internal" href="#finding-imports">7.6.7. Finding imports</a></li>
 <li><a class="reference internal" href="#interface-file-options">7.6.8. Interface file options</a></li>
@@ -454,9 +454,9 @@
 </tbody>
 </table>
 </div>
-<div class="section" id="keeping-intermediate-files">
-<h2>7.6.5. Keeping intermediate files<a class="headerlink" href="#keeping-intermediate-files" title="このヘッドラインへのパーマリンク">¶</a></h2>
-<p>More details in <a class="reference internal" href="separate_compilation.html#keeping-intermediates"><span class="std std-ref">Keeping Intermediate Files</span></a></p>
+<div class="section" id="id6">
+<h2>7.6.5. 中間ファイルの保持<a class="headerlink" href="#id6" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>より詳しくは <a class="reference internal" href="separate_compilation.html#keeping-intermediates"><span class="std std-ref">Keeping Intermediate Files</span></a> にあります．</p>
 <table border="1" class="docutils">
 <colgroup>
 <col width="25%" />
@@ -473,33 +473,33 @@
 </thead>
 <tbody valign="top">
 <tr class="row-even"><td><a class="reference internal" href="separate_compilation.html#ghc-flag--keep-hc-file"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-keep-hc-file</span></code></a>, <a class="reference internal" href="separate_compilation.html#ghc-flag--keep-hc-files"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-keep-hc-files</span></code></a></td>
-<td>Retain intermediate <code class="docutils literal"><span class="pre">.hc</span></code> files.</td>
+<td>中間の <code class="docutils literal"><span class="pre">.hc</span></code> ファイルを保持</td>
 <td>dynamic</td>
 <td>&#160;</td>
 </tr>
 <tr class="row-odd"><td><a class="reference internal" href="separate_compilation.html#ghc-flag--keep-hi-files"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-keep-hi-files</span></code></a></td>
-<td>Retain intermediate <code class="docutils literal"><span class="pre">.hi</span></code> files (the default).</td>
+<td>中間の <code class="docutils literal"><span class="pre">.hi</span></code> ファイルを保持 (デフォルト)</td>
 <td>dynamic</td>
 <td><code class="xref std std-ghc-flag docutils literal"><span class="pre">-no-keep-hi-files</span></code></td>
 </tr>
 <tr class="row-even"><td><a class="reference internal" href="separate_compilation.html#ghc-flag--keep-llvm-file"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-keep-llvm-file</span></code></a>,
 <a class="reference internal" href="separate_compilation.html#ghc-flag--keep-llvm-files"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-keep-llvm-files</span></code></a></td>
-<td>Retain intermediate LLVM <code class="docutils literal"><span class="pre">.ll</span></code> files. Implies <a class="reference internal" href="phases.html#ghc-flag--fllvm"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-fllvm</span></code></a>.</td>
+<td>中間の LLVM <code class="docutils literal"><span class="pre">.ll</span></code> ファイルを保持． <a class="reference internal" href="phases.html#ghc-flag--fllvm"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-fllvm</span></code></a> によって有効になる</td>
 <td>dynamic</td>
 <td>&#160;</td>
 </tr>
 <tr class="row-odd"><td><a class="reference internal" href="separate_compilation.html#ghc-flag--keep-o-files"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-keep-o-files</span></code></a></td>
-<td>Retain intermediate <code class="docutils literal"><span class="pre">.o</span></code> files (the default).</td>
+<td>中間の <code class="docutils literal"><span class="pre">.o</span></code> ファイルを保持 (デフォルト)</td>
 <td>dynamic</td>
 <td><code class="xref std std-ghc-flag docutils literal"><span class="pre">-no-keep-o-files</span></code></td>
 </tr>
 <tr class="row-even"><td><a class="reference internal" href="separate_compilation.html#ghc-flag--keep-s-file"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-keep-s-file</span></code></a>, <a class="reference internal" href="separate_compilation.html#ghc-flag--keep-s-files"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-keep-s-files</span></code></a></td>
-<td>Retain intermediate <code class="docutils literal"><span class="pre">.s</span></code> files.</td>
+<td>中間の <code class="docutils literal"><span class="pre">.s</span></code> ファイルを保持</td>
 <td>dynamic</td>
 <td>&#160;</td>
 </tr>
 <tr class="row-odd"><td><a class="reference internal" href="separate_compilation.html#ghc-flag--keep-tmp-files"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-keep-tmp-files</span></code></a></td>
-<td>Retain all intermediate temporary files.</td>
+<td>すべての中間ファイルを保持</td>
 <td>dynamic</td>
 <td>&#160;</td>
 </tr>
@@ -632,7 +632,7 @@ single file (i.e. when using <a class="reference internal" href="using.html#ghc-
 </table>
 </div>
 <div class="section" id="interactive-mode-options">
-<span id="id6"></span><h2>7.6.10. Interactive-mode options<a class="headerlink" href="#interactive-mode-options" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<span id="id7"></span><h2>7.6.10. Interactive-mode options<a class="headerlink" href="#interactive-mode-options" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <p>More details in <a class="reference internal" href="ghci.html#ghci-dot-files"><span class="std std-ref">.ghci ファイルと .haskeline ファイル</span></a></p>
 <table border="1" class="docutils">
 <colgroup>
