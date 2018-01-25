@@ -1,16 +1,33 @@
+..
+   .. _flag-reference:
+
+   Flag reference
+   ==============
+
+   This section is a quick-reference for GHC's command-line flags. For each
+   flag, we also list its static/dynamic status (see
+   :ref:`static-dynamic-flags`), and the flag's opposite (if available).
+
 .. _flag-reference:
 
-Flag reference
+フラグの一覧表
 ==============
 
-This section is a quick-reference for GHC's command-line flags. For each
-flag, we also list its static/dynamic status (see
-:ref:`static-dynamic-flags`), and the flag's opposite (if available).
+このセクションは GHC のコマンドラインフラグの早見表です．
+それぞれのフラグについて，動的/静的の区別(:ref:`static-dynamic-flags` 参照)と逆のフラグ(存在すれば)も載せています．
 
-Verbosity options
------------------
+..
+   Verbosity options
+   -----------------
 
-More details in :ref:`options-help`
+   More details in :ref:`options-help`
+
+   .. include:: flags-verbosity.gen.rst
+
+饒舌性に関するオプション
+------------------------
+
+より詳しくは :ref:`options-help` にあります．
 
 .. include:: flags-verbosity.gen.rst
 
