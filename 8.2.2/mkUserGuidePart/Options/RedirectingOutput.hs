@@ -5,55 +5,55 @@ import Types
 redirectingOutputOptions :: [Flag]
 redirectingOutputOptions =
   [ flag { flagName = "-hcsuf ⟨suffix⟩"
-         , flagDescription = "set the suffix to use for intermediate C files"
+         , flagDescription = "中間 C ファイル用の接尾辞を設定"
          , flagType = DynamicFlag
          }
   , flag { flagName = "-hidir ⟨dir⟩"
-         , flagDescription = "set directory for interface files"
+         , flagDescription = "インターフェイスファイルを置くディレクトリを設定"
          , flagType = DynamicFlag
          }
   , flag { flagName = "-hisuf ⟨suffix⟩"
-         , flagDescription = "set the suffix to use for interface files"
+         , flagDescription = "インターフェイス用の接尾辞を設定"
          , flagType = DynamicFlag
          }
   , flag { flagName = "-o ⟨file⟩"
-         , flagDescription = "set output filename"
+         , flagDescription = "出力ファイル名を設定"
          , flagType = DynamicFlag
          }
   , flag { flagName = "-odir ⟨dir⟩"
-         , flagDescription = "set directory for object files"
+         , flagDescription = "オブジェクトファイルを置くディレクトリを設定"
          , flagType = DynamicFlag
          }
   , flag { flagName = "-ohi ⟨file⟩"
-         , flagDescription = "set the filename in which to put the interface"
+         , flagDescription = "インターフェイスを置くファイルの名前を設定"
          , flagType = DynamicFlag
          }
   , flag { flagName = "-osuf ⟨suffix⟩"
-         , flagDescription = "set the output file suffix"
+         , flagDescription = "出力ファイルの接尾辞を設定"
          , flagType = DynamicFlag
          }
   , flag { flagName = "-stubdir ⟨dir⟩"
-         , flagDescription = "redirect FFI stub files"
+         , flagDescription = "FFI のスタブファイルの出力先を変更"
          , flagType = DynamicFlag
          }
   , flag { flagName = "-dumpdir ⟨dir⟩"
-         , flagDescription = "redirect dump files"
+         , flagDescription = "ダンプファイルの出力先を変更"
          , flagType = DynamicFlag
          }
   , flag { flagName = "-outputdir ⟨dir⟩"
-         , flagDescription = "set output directory"
+         , flagDescription = "出力ファイルを置くディレクトリを設定"
          , flagType = DynamicFlag
          }
   , flag { flagName = "-dyno ⟨file⟩"
-         , flagDescription = "Set the output filename for dynamic object files (see ``-dynamic-too``)"
+         , flagDescription = "動的オブジェクト出力用ファイル名を設定 (``-dynamic-too`` 参照)"
          , flagType = DynamicFlag
          }
   , flag { flagName = "-dynosuf ⟨suffix⟩"
-         , flagDescription = "Set the object suffix for dynamic object files (see ``-dynamic-too``)"
+         , flagDescription = "動的オブジェクトファイルの接尾辞を設定 (``-dynamic-too`` 参照)"
          , flagType = DynamicFlag
          }
   , flag { flagName = "-dynhisuf ⟨suffix⟩"
-         , flagDescription = "Set the hi suffix for dynamic object files (see ``-dynamic-too``)"
+         , flagDescription = "動的オブジェクト用インターフェイスファイル接尾辞を設定 (``-dynamic-too`` 参照)"
          , flagType = DynamicFlag
          }
   ]

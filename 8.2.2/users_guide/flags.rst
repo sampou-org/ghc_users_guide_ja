@@ -45,10 +45,10 @@
 
 .. include:: flags-phases.gen.rst
 
-Redirecting output
-------------------
+出力先の変更
+------------
 
-More details in :ref:`options-output`
+より詳しくは :ref:`options-output` にあります．
 
 .. include:: flags-redirecting-output.gen.rst
 
