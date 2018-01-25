@@ -136,10 +136,20 @@ Finding imports
 
 .. include:: flags-interface-files.gen.rst
 
-Recompilation checking
-----------------------
+..
+   Recompilation checking
+   ----------------------
 
-More details in :ref:`recomp`
+   More details in :ref:`recomp`
+
+   .. include:: flags-recompilation-checking.gen.rst
+
+   .. _interactive-mode-options:
+
+再コンパイル検査
+----------------
+
+詳しくは :ref:`recomp`
 
 .. include:: flags-recompilation-checking.gen.rst
 
