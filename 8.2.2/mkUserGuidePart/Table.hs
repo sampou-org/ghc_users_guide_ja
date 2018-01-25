@@ -26,11 +26,14 @@ wrapAt width = wrapLine
        -> String            -- ^ remaining string
        -> WrappedString
     go 0 _     back _        = back
-    go n accum _    (c:rest)
+    go 1 _     back (c:rest)
+      | isZenkaku c          = back
+    go n accum back (c:rest)
       | breakable c          = go (n-1) accum'
                                   (DList.toList accum' : wrapLine rest) rest
+      | isZenkaku c          = go (n-2) accum' back rest
+      | otherwise            = go (n-1) accum' back rest
       where accum' = accum `DList.snoc` c
-    go n accum back (c:rest) = go (n-1) (accum `DList.snoc` c) back rest
     go _ accum _    []       = [DList.toList accum]
 
     breakable = isSpace
@@ -73,3 +76,6 @@ table widths hdr rows = unlines $
       ++intercalate [lineChar,'+',lineChar]
                     (map (\n -> replicate n lineChar) widths)
       ++[lineChar,'+']
+
+isZenkaku :: Char -> Bool     -- not accurate
+isZenkaku c = ord c > 0x3000
