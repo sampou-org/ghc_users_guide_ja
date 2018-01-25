@@ -91,10 +91,18 @@
 
 .. include:: flags-keeping-intermediates.gen.rst
 
-Temporary files
----------------
+..
+   Temporary files
+   ---------------
 
-More details in :ref:`temp-files`
+   More details in :ref:`temp-files`
+
+   .. include:: flags-temporary-files.gen.rst
+
+一時ファイル
+------------
+
+より詳しくは :ref:`temp-files` にあります．
 
 .. include:: flags-temporary-files.gen.rst
 

@@ -5,7 +5,7 @@ import Types
 temporaryFilesOptions :: [Flag]
 temporaryFilesOptions =
   [ flag { flagName = "-tmpdir ⟨dir⟩"
-         , flagDescription = "set the directory for temporary files"
+         , flagDescription = "一時ファイルを置くディレクトリを設定"
          , flagType = DynamicFlag
          }
   ]
