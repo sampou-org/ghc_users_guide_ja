@@ -5,7 +5,7 @@ import Types
 verbosityOptions :: [Flag]
 verbosityOptions =
   [ flag { flagName = "-v"
-         , flagDescription = "verbose mode (equivalent to ``-v3``)"
+         , flagDescription = "饒舌モード (``-v3`` と同じ)"
          , flagType = DynamicFlag
          }
   , flag { flagName = "-v ⟨n⟩"

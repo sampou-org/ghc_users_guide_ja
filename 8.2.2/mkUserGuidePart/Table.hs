@@ -68,8 +68,9 @@ table widths hdr rows = unlines $
 
     rawRow :: Row -> String
     rawRow cols = "| " ++ intercalate " | " (zipWith padTo widths cols) ++ " |"
-    padTo width content = take width $ content ++ repeat ' '
-
+    padTo width content = take width' $ content ++ repeat ' '
+      where
+        width' = width - length (filter isZenkaku content)
     rule :: Char -> String
     rule lineChar =
       ['+',lineChar]
