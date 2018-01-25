@@ -31,10 +31,10 @@
 
 .. include:: flags-verbosity.gen.rst
 
-Alternative modes of operation
-------------------------------
+通常以外の実行モード
+--------------------
 
-More details in :ref:`modes`
+より詳しくは :ref:`modes` にあります．
 
 .. include:: flags-modes.gen.rst
 
