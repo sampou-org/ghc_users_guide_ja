@@ -170,10 +170,18 @@ Finding imports
 
 .. include:: flags-interactive.gen.rst
 
-Packages
---------
+..
+   Packages
+   --------
 
-More details in :ref:`packages`
+   More details in :ref:`packages`
+
+   .. include:: flags-packages.gen.rst
+
+パッケージ
+----------
+
+詳しくは :ref:`packages` にあります．
 
 .. include:: flags-packages.gen.rst
 

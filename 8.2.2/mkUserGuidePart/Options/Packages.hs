@@ -6,70 +6,70 @@ packagesOptions :: [Flag]
 packagesOptions =
   [ flag { flagName = "-this-unit-id ⟨unit-id⟩"
          , flagDescription =
-           "Compile to be part of unit (i.e. package)" ++
-           " ⟨unit-id⟩"
+           "⟨unit-id⟩ ユニット(たとえばパッケージ)の一部としてコンパイル"
+
          , flagType = DynamicFlag
          }
   , flag { flagName = "-package ⟨pkg⟩"
-         , flagDescription = "Expose package ⟨pkg⟩"
+         , flagDescription = "パッケージ ⟨pkg⟩ の露出"
          , flagType = DynamicSettableFlag
          }
   , flag { flagName = "-hide-all-packages"
-         , flagDescription = "Hide all packages by default"
+         , flagDescription = "デフォルトですべてのパッケージを隠す"
          , flagType = DynamicFlag
          }
   , flag { flagName = "-hide-package ⟨pkg⟩"
-         , flagDescription = "Hide package ⟨pkg⟩"
+         , flagDescription = "パッケージ ⟨pkg⟩ を隠す"
          , flagType = DynamicSettableFlag
          }
   , flag { flagName = "-ignore-package ⟨pkg⟩"
-         , flagDescription = "Ignore package ⟨pkg⟩"
+         , flagDescription = "パッケージ ⟨pkg⟩ を無視"
          , flagType = DynamicSettableFlag
          }
   , flag { flagName = "-package-db ⟨file⟩"
-         , flagDescription = "Add ⟨file⟩ to the package db stack."
+         , flagDescription = "⟨file⟩ をパッケージ DB スタックに追加"
          , flagType = DynamicFlag
          }
   , flag { flagName = "-clear-package-db"
-         , flagDescription = "Clear the package db stack."
+         , flagDescription = "パッケージ DB スタックをクリア"
          , flagType = DynamicFlag
          }
   , flag { flagName = "-no-global-package-db"
-         , flagDescription = "Remove the global package db from the stack."
+         , flagDescription = "グローバルパッケージ DB をスタックから除去"
          , flagType = DynamicFlag
          }
   , flag { flagName = "-global-package-db"
-         , flagDescription = "Add the global package db to the stack."
+         , flagDescription = "グローバルパッケージ DB をスタックへ追加"
          , flagType = DynamicFlag
          }
   , flag { flagName = "-no-user-package-db"
-         , flagDescription = "Remove the user's package db from the stack."
+         , flagDescription = "ユーザーパッケージ DB をスタックから除去"
          , flagType = DynamicFlag
          }
   , flag { flagName = "-user-package-db"
-         , flagDescription = "Add the user's package db to the stack."
+         , flagDescription = "ユーザーパッケージ DB をスタックへ追加"
          , flagType = DynamicFlag
          }
   , flag { flagName = "-no-auto-link-packages"
          , flagDescription =
-           "Don't automatically link in the base and rts packages."
+           "base パッケージと rts パッケージの自動リンクを無効に設定"
          , flagType = DynamicFlag
          }
   , flag { flagName = "-trust ⟨pkg⟩"
-         , flagDescription = "Expose package ⟨pkg⟩ and set it to be trusted"
+         , flagDescription = "パッケージ ⟨pkg⟩ を露出し trusted に設定"
          , flagType = DynamicSettableFlag
          }
   , flag { flagName = "-distrust ⟨pkg⟩"
          , flagDescription =
-           "Expose package ⟨pkg⟩ and set it to be distrusted"
+           "パッケージ ⟨pkg⟩ を露出し distrusted に設定"
          , flagType = DynamicSettableFlag
          }
   , flag { flagName = "-distrust-all"
-         , flagDescription = "Distrust all packages by default"
+         , flagDescription = "デフォルトですべてのパッケージを distrusted に設定"
          , flagType = DynamicSettableFlag
          }
   , flag { flagName = "-package-env ⟨file⟩|⟨name⟩"
-         , flagDescription = "Use the specified package environment."
+         , flagDescription = "指定したパッケージ環境を使用"
          , flagType = DynamicFlag
          }
   ]
