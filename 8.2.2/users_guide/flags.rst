@@ -27,7 +27,7 @@
 饒舌性に関するオプション
 ------------------------
 
-より詳しくは :ref:`options-help` にあります．
+より詳しくは :ref:`options-help` 
 
 .. include:: flags-verbosity.gen.rst
 
@@ -42,7 +42,7 @@
 通常以外の実行モード
 --------------------
 
-より詳しくは :ref:`modes` にあります．
+より詳しくは :ref:`modes` 
 
 .. include:: flags-modes.gen.rst
 
@@ -57,7 +57,7 @@
 どの段階を実行するか
 --------------------
 
-より詳しくは :ref:`options-order` にあります．
+より詳しくは :ref:`options-order` 
 
 .. include:: flags-phases.gen.rst
 
@@ -72,7 +72,7 @@
 出力先の変更
 ------------
 
-より詳しくは :ref:`options-output` にあります．
+より詳しくは :ref:`options-output` 
 
 .. include:: flags-redirecting-output.gen.rst
 
@@ -87,7 +87,7 @@
 中間ファイルの保持
 ------------------
 
-より詳しくは :ref:`keeping-intermediates` にあります．
+より詳しくは :ref:`keeping-intermediates` 
 
 .. include:: flags-keeping-intermediates.gen.rst
 
@@ -102,7 +102,7 @@
 一時ファイル
 ------------
 
-より詳しくは :ref:`temp-files` にあります．
+より詳しくは :ref:`temp-files` 
 
 .. include:: flags-temporary-files.gen.rst
 
@@ -117,14 +117,22 @@
 Finding imports
 ---------------
 
-詳しくは :ref:`search-path` にあります．
+詳しくは :ref:`search-path` 
 
 .. include:: flags-finding-imports.gen.rst
 
-Interface file options
-----------------------
+..
+   Interface file options
+   ----------------------
 
-More details in :ref:`hi-options`
+   More details in :ref:`hi-options`
+
+   .. include:: flags-interface-files.gen.rst
+
+インターフェイスファイル関連オプション
+--------------------------------------
+
+詳しくは :ref:`hi-options`
 
 .. include:: flags-interface-files.gen.rst
 

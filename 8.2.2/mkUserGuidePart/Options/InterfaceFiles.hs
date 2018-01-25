@@ -5,19 +5,19 @@ import Types
 interfaceFilesOptions :: [Flag]
 interfaceFilesOptions =
   [ flag { flagName = "-ddump-hi"
-         , flagDescription = "Dump the new interface to stdout"
+         , flagDescription = "新しいインターフェイスファイルを標準出力に出力"
          , flagType = DynamicFlag
          }
   , flag { flagName = "-ddump-hi-diffs"
-         , flagDescription = "Show the differences vs. the old interface"
+         , flagDescription = "古いインターフェイスファイルと比較しての差分を表示"
          , flagType = DynamicFlag
          }
   , flag { flagName = "-ddump-minimal-imports"
-         , flagDescription = "Dump a minimal set of imports"
+         , flagDescription = "最小のインポートを出力"
          , flagType = DynamicFlag
          }
   , flag { flagName = "--show-iface ⟨file⟩"
-         , flagDescription = "See :ref:`modes`."
+         , flagDescription = ":ref:`modes` 参照"
          , flagType = ModeFlag
          }
   ]
