@@ -5,65 +5,65 @@ import Types
 modeOptions :: [Flag]
 modeOptions =
   [ flag { flagName = "--help,-?"
-         , flagDescription = "Display help"
+         , flagDescription = "ヘルプを表示"
          , flagType = ModeFlag
          }
   , flag { flagName = "--interactive"
          , flagDescription =
-           "Interactive mode - normally used by just running ``ghci``; "++
-           "see :ref:`ghci` for details."
+           "対話モード - 通常は単に ``ghci`` を走らせるたときに使用． "++
+           "詳細については :ref:`ghci` 参照"
          , flagType = ModeFlag
          }
   , flag { flagName = "--make"
          , flagDescription =
-           "Build a multi-module Haskell program, automatically figuring out "++
-           "dependencies. Likely to be much easier, and faster, than using "++
-           "``make``; see :ref:`make-mode` for details."
+           "複数のモジュールを含む Haskell のプログラムをビルド． " ++
+           "依存性は自動的に検出する． " ++ "`make` を使うよりはるかに簡単で速い． " ++
+           "詳細については :ref:`make-mode` を参照"
          , flagType = ModeFlag
          }
   , flag { flagName = "-e ⟨expr⟩"
          , flagDescription =
-           "Evaluate ``expr``; see :ref:`eval-mode` for details."
+           "``expr`` を評価する． 詳細については :ref:`eval-mode` を参照"
          , flagType = ModeFlag
          }
   , flag { flagName = "--show-iface ⟨file⟩"
-         , flagDescription = "display the contents of an interface file."
+         , flagDescription = "インターフェイスファイルの中身を表示"
          , flagType = ModeFlag
          }
   , flag { flagName = "-M"
          , flagDescription =
-           "generate dependency information suitable for use in a "++
-           "``Makefile``; see :ref:`makefile-dependencies` for details."
+           "``Makefile`` 用の依存情報生成する． " ++
+           "詳細については :ref:`makefile-dependencies` を参照"
          , flagType = ModeFlag
          }
   , flag { flagName = "--frontend ⟨module⟩"
          , flagDescription =
-           "run GHC with the given frontend plugin; see "++
-           ":ref:`frontend_plugins` for details."
+           "指定したフロントエンドプラグインを使って GHC を走らせる． " ++
+           "詳細については :ref:`frontend_plugins` を参照"
          , flagType = ModeFlag
          }
   , flag { flagName = "--supported-extensions, --supported-languages"
-         , flagDescription = "display the supported language extensions"
+         , flagDescription = "サポートされている言語拡張を表示"
          , flagType = ModeFlag
          }
   , flag { flagName = "--show-options"
-         , flagDescription = "display the supported command line options"
+         , flagDescription = "サポートされているコマンドラインオプションを表示"
          , flagType = ModeFlag
          }
   , flag { flagName = "--info"
-         , flagDescription = "display information about the compiler"
+         , flagDescription = "当該コンパイラに関する情報を表示"
          , flagType = ModeFlag
          }
   , flag { flagName = "--version, -V"
-         , flagDescription = "display GHC version"
+         , flagDescription = "GHC のバージョンを表示"
          , flagType = ModeFlag
          }
   , flag { flagName = "--numeric-version"
-         , flagDescription = "display GHC version (numeric only)"
+         , flagDescription = "GHC のバージョンを表示(数値のみ)"
          , flagType = ModeFlag
          }
   , flag { flagName = "--print-libdir"
-         , flagDescription = "display GHC library directory"
+         , flagDescription = "GHC ライブラリのディレクトリを表示"
          , flagType = ModeFlag
          }
   ]
