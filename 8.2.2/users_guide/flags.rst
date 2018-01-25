@@ -27,7 +27,7 @@
 饒舌性に関するオプション
 ------------------------
 
-より詳しくは :ref:`options-help` 
+より詳しくは :ref:`options-help` にあります．
 
 .. include:: flags-verbosity.gen.rst
 
@@ -42,7 +42,7 @@
 通常以外の実行モード
 --------------------
 
-より詳しくは :ref:`modes` 
+より詳しくは :ref:`modes` にあります．
 
 .. include:: flags-modes.gen.rst
 
@@ -57,7 +57,7 @@
 どの段階を実行するか
 --------------------
 
-より詳しくは :ref:`options-order` 
+より詳しくは :ref:`options-order` にあります．
 
 .. include:: flags-phases.gen.rst
 
@@ -72,7 +72,7 @@
 出力先の変更
 ------------
 
-より詳しくは :ref:`options-output` 
+より詳しくは :ref:`options-output` にあります．
 
 .. include:: flags-redirecting-output.gen.rst
 
@@ -87,7 +87,7 @@
 中間ファイルの保持
 ------------------
 
-より詳しくは :ref:`keeping-intermediates` 
+より詳しくは :ref:`keeping-intermediates` にあります．
 
 .. include:: flags-keeping-intermediates.gen.rst
 
@@ -102,7 +102,7 @@
 一時ファイル
 ------------
 
-より詳しくは :ref:`temp-files` 
+より詳しくは :ref:`temp-files` にあります．
 
 .. include:: flags-temporary-files.gen.rst
 
@@ -117,7 +117,7 @@
 Finding imports
 ---------------
 
-詳しくは :ref:`search-path` 
+詳しくは :ref:`search-path` にあります．
 
 .. include:: flags-finding-imports.gen.rst
 
@@ -132,7 +132,7 @@ Finding imports
 インターフェイスファイル関連オプション
 --------------------------------------
 
-詳しくは :ref:`hi-options`
+詳しくは :ref:`hi-options` にあります．
 
 .. include:: flags-interface-files.gen.rst
 
@@ -149,16 +149,24 @@ Finding imports
 再コンパイル検査
 ----------------
 
-詳しくは :ref:`recomp`
+詳しくは :ref:`recomp` にあります．
 
 .. include:: flags-recompilation-checking.gen.rst
 
 .. _interactive-mode-options:
 
-Interactive-mode options
-------------------------
+..
+   Interactive-mode options
+   ------------------------
 
-More details in :ref:`ghci-dot-files`
+   More details in :ref:`ghci-dot-files`
+
+   .. include:: flags-interactive.gen.rst
+
+対話モードのオプション
+----------------------
+
+詳しくは :ref:`ghci-dot-files` にあります．
 
 .. include:: flags-interactive.gen.rst
 
