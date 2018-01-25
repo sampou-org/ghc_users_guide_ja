@@ -5,16 +5,16 @@ import Types
 verbosityOptions :: [Flag]
 verbosityOptions =
   [ flag { flagName = "-v"
-         , flagDescription = "饒舌モード (``-v3`` と同じ)"
+         , flagDescription = "饒舌モード (``-v 3`` と同じ)"
          , flagType = DynamicFlag
          }
   , flag { flagName = "-v ⟨n⟩"
-         , flagDescription = "set verbosity level"
+         , flagDescription = "饒舌性の設定"
          , flagType = DynamicFlag
          , flagReverse = ""
          }
   , flag { flagName = "-fhide-source-paths"
-         , flagDescription = "hide module source and object paths"
+         , flagDescription = "モジュールのソースパスおよびオブジェクトパスの非表示"
          , flagType = DynamicFlag
          , flagReverse = ""
          }
