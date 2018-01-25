@@ -64,7 +64,7 @@
 <li><a class="reference internal" href="#">7.6. フラグの一覧表</a><ul>
 <li><a class="reference internal" href="#id2">7.6.1. 饒舌性に関するオプション</a></li>
 <li><a class="reference internal" href="#id3">7.6.2. 通常以外の実行モード</a></li>
-<li><a class="reference internal" href="#which-phases-to-run">7.6.3. Which phases to run</a></li>
+<li><a class="reference internal" href="#id4">7.6.3. どの段階を実行するか</a></li>
 <li><a class="reference internal" href="#redirecting-output">7.6.4. Redirecting output</a></li>
 <li><a class="reference internal" href="#keeping-intermediate-files">7.6.5. Keeping intermediate files</a></li>
 <li><a class="reference internal" href="#temporary-files">7.6.6. Temporary files</a></li>
@@ -317,9 +317,9 @@
 </tbody>
 </table>
 </div>
-<div class="section" id="which-phases-to-run">
-<h2>7.6.3. Which phases to run<a class="headerlink" href="#which-phases-to-run" title="このヘッドラインへのパーマリンク">¶</a></h2>
-<p>More details in <a class="reference internal" href="using.html#options-order"><span class="std std-ref">一括コンパイラモード</span></a></p>
+<div class="section" id="id4">
+<h2>7.6.3. どの段階を実行するか<a class="headerlink" href="#id4" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>より詳しくは <a class="reference internal" href="using.html#options-order"><span class="std std-ref">一括コンパイラモード</span></a> にあります．</p>
 <table border="1" class="docutils">
 <colgroup>
 <col width="25%" />
@@ -336,32 +336,32 @@
 </thead>
 <tbody valign="top">
 <tr class="row-even"><td><a class="reference internal" href="phases.html#ghc-flag--F"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-F</span></code></a></td>
-<td>Enable the use of a <a class="reference internal" href="phases.html#pre-processor"><span class="std std-ref">pre-processor</span></a> (set with <a class="reference internal" href="phases.html#ghc-flag--pgmF ⟨cmd⟩"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-pgmF</span> <span class="pre">⟨cmd⟩</span></code></a>)</td>
+<td><a class="reference internal" href="phases.html#pre-processor"><span class="std std-ref">pre-processor</span></a> を使えるようにする． (<a class="reference internal" href="phases.html#ghc-flag--pgmF ⟨cmd⟩"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-pgmF</span> <span class="pre">⟨cmd⟩</span></code></a> で設定する)</td>
 <td>dynamic</td>
 <td>&#160;</td>
 </tr>
 <tr class="row-odd"><td><a class="reference internal" href="using.html#ghc-flag--E"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-E</span></code></a></td>
-<td>Stop after preprocessing (<code class="docutils literal"><span class="pre">.hspp</span></code> file)</td>
+<td>プリプロセッサ実行まで (<code class="docutils literal"><span class="pre">.hspp</span></code> ファイル)</td>
 <td>mode</td>
 <td>&#160;</td>
 </tr>
 <tr class="row-even"><td><a class="reference internal" href="using.html#ghc-flag--C"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-C</span></code></a></td>
-<td>Stop after generating C (<code class="docutils literal"><span class="pre">.hc</span></code> file)</td>
+<td>C 生成まで (<code class="docutils literal"><span class="pre">.hc</span></code> ファイル)</td>
 <td>mode</td>
 <td>&#160;</td>
 </tr>
 <tr class="row-odd"><td><a class="reference internal" href="using.html#ghc-flag--S"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-S</span></code></a></td>
-<td>Stop after generating assembly (<code class="docutils literal"><span class="pre">.s</span></code> file)</td>
+<td>アセンブリ生成まで (<code class="docutils literal"><span class="pre">.s</span></code> ファイル)</td>
 <td>mode</td>
 <td>&#160;</td>
 </tr>
 <tr class="row-even"><td><a class="reference internal" href="using.html#ghc-flag--c"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-c</span></code></a></td>
-<td>Stop after generating object (<code class="docutils literal"><span class="pre">.o</span></code>) file</td>
+<td>オブジェクトファイル生成まで (<code class="docutils literal"><span class="pre">.o</span></code> ファイル)</td>
 <td>mode</td>
 <td>&#160;</td>
 </tr>
 <tr class="row-odd"><td><a class="reference internal" href="using.html#ghc-flag--x ⟨suffix⟩"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-x</span> <span class="pre">⟨suffix⟩</span></code></a></td>
-<td>Override default behaviour for source files</td>
+<td>ソースファイルの種類に対してデフォルトではない動作</td>
 <td>dynamic</td>
 <td>&#160;</td>
 </tr>
@@ -632,7 +632,7 @@ single file (i.e. when using <a class="reference internal" href="using.html#ghc-
 </table>
 </div>
 <div class="section" id="interactive-mode-options">
-<span id="id4"></span><h2>7.6.10. Interactive-mode options<a class="headerlink" href="#interactive-mode-options" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<span id="id5"></span><h2>7.6.10. Interactive-mode options<a class="headerlink" href="#interactive-mode-options" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <p>More details in <a class="reference internal" href="ghci.html#ghci-dot-files"><span class="std std-ref">.ghci ファイルと .haskeline ファイル</span></a></p>
 <table border="1" class="docutils">
 <colgroup>
