@@ -20,73 +20,73 @@ verbosityOptions =
          }
   , flag { flagName = "-fprint-potential-instances"
          , flagDescription =
-           "display all available instances in type error messages"
+           "型エラーメッセージに判明しているすべてのインスタンスを表示"
          , flagType = DynamicFlag
          , flagReverse = "-fno-print-potential-instances"
          }
   , flag { flagName = "-fprint-explicit-foralls"
          , flagDescription =
-           "Print explicit ``forall`` quantification in types. " ++
-           "See also :ghc-flag:`-XExplicitForAll`"
+           "型に ``forall`` 限量子を明示． " ++
+           ":ghc-flag:`-XExplicitForAll` も参照"
          , flagType = DynamicFlag
          , flagReverse = "-fno-print-explicit-foralls"
          }
   , flag { flagName = "-fprint-explicit-kinds"
          , flagDescription =
-           "Print explicit kind foralls and kind arguments in types. " ++
-           "See also :ghc-flag:`-XKindSignatures`"
+           "型にカインド forall とカインド引数も明示． " ++
+           ":ghc-flag:`-XKindSignatures` も参照"
          , flagType = DynamicFlag
          , flagReverse = "-fno-print-explicit-kinds"
          }
   , flag { flagName = "-fprint-explicit-runtime-reps"
          , flagDescription =
-           "Print ``RuntimeRep`` variables in types which are "++
-           "runtime-representation polymorphic."
+           "実行時表現多相型に含まれる " ++
+           "``RuntimeRep`` 変数を明示"
          , flagType = DynamicFlag
          , flagReverse = "-fno-print-explicit-runtime-reps"
          }
   , flag { flagName = "-fprint-unicode-syntax"
          , flagDescription =
-           "Use unicode syntax when printing expressions, types and kinds. " ++
-           "See also :ghc-flag:`-XUnicodeSyntax`"
+           "式，型，カインドを表示するときユニコード構文を使用． " ++
+           ":ghc-flag:`-XUnicodeSyntax` も参照"
          , flagType = DynamicFlag
          , flagReverse = "-fno-print-unicode-syntax"
          }
   , flag { flagName = "-fprint-expanded-synonyms"
          , flagDescription =
-           "In type errors, also print type-synonym-expanded types."
+           "型エラーに型シノニムを展開した型も表示"
          , flagType = DynamicFlag
          , flagReverse = "-fno-print-expanded-synonyms"
          }
   , flag { flagName = "-fprint-typechecker-elaboration"
          , flagDescription =
-           "Print extra information from typechecker."
+           "タイプ検査器が出す追加情報を表示"
          , flagType = DynamicFlag
          , flagReverse = "-fno-print-typechecker-elaboration"
          }
   , flag { flagName = "-fdiagnostics-color=(always|auto|never)"
-         , flagDescription = "Use colors in error messages"
+         , flagDescription = "エラーメッセージで色を使用"
          , flagType = DynamicFlag
          }
   , flag { flagName = "-f[no-]diagnostics-show-caret"
-         , flagDescription = "Whether to show snippets of original source code"
+         , flagDescription = "元のソースコード位置を示すカレットを表示するか"
          , flagType = DynamicFlag
          }
   , flag { flagName = "-ferror-spans"
-         , flagDescription = "Output full span in error messages"
+         , flagDescription = "完全なエラーメッセージを出力"
          , flagType = DynamicFlag
          }
   , flag { flagName = "-Rghc-timing"
          , flagDescription =
-           "Summarise timing stats for GHC (same as ``+RTS -tstderr``)."
+           "GHC の実行時間統計をとる(``+RTS -tstderr`` と同じ)"
          , flagType = DynamicFlag
          }
   , flag { flagName = "-fshow-hole-constraints"
-         , flagDescription = "Show constraints when reporting typed holes"
+         , flagDescription = "型付きホールの報告時に制約を表示"
          , flagType = DynamicFlag
          }
   , flag { flagName = "-fshow-loaded-modules"
-         , flagDescription = "Show the names of modules that GHCi loaded after a :ghci-cmd:`:load` command."
+         , flagDescription = "GHCiが :ghci-cmd:`:load` コマンドでロード後モジュール名を表示"
          , flagType = DynamicFlag
          }
   ]
