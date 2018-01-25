@@ -38,10 +38,10 @@
 
 .. include:: flags-modes.gen.rst
 
-Which phases to run
--------------------
+どの段階を実行するか
+--------------------
 
-More details in :ref:`options-order`
+より詳しくは :ref:`options-order` にあります．
 
 .. include:: flags-phases.gen.rst
 

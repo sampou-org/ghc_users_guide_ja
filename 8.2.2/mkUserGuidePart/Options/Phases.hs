@@ -6,28 +6,28 @@ phaseOptions :: [Flag]
 phaseOptions =
   [ flag { flagName = "-F"
          , flagDescription =
-           "Enable the use of a :ref:`pre-processor <pre-processor>` "++
-           "(set with :ghc-flag:`-pgmF ⟨cmd⟩`)"
+           ":ref:`pre-processor <pre-processor>` を使えるようにする． " ++
+           "(:ghc-flag:`-pgmF ⟨cmd⟩` で設定する)"
          , flagType = DynamicFlag
          }
   , flag { flagName = "-E"
-         , flagDescription = "Stop after preprocessing (``.hspp`` file)"
+         , flagDescription = "プリプロセッサ実行まで (``.hspp`` ファイル)"
          , flagType = ModeFlag
          }
   , flag { flagName = "-C"
-         , flagDescription = "Stop after generating C (``.hc`` file)"
+         , flagDescription = "C 生成まで (``.hc`` ファイル)"
          , flagType = ModeFlag
          }
   , flag { flagName = "-S"
-         , flagDescription = "Stop after generating assembly (``.s`` file)"
+         , flagDescription = "アセンブリ生成まで (``.s`` ファイル)"
          , flagType = ModeFlag
          }
   , flag { flagName = "-c"
-         , flagDescription = "Stop after generating object (``.o``) file"
+         , flagDescription = "オブジェクトファイル生成まで (``.o`` ファイル)"
          , flagType = ModeFlag
          }
   , flag { flagName = "-x ⟨suffix⟩"
-         , flagDescription = "Override default behaviour for source files"
+         , flagDescription = "ソースファイルの種類に対してデフォルトではない動作"
          , flagType = DynamicFlag
          }
   ]
