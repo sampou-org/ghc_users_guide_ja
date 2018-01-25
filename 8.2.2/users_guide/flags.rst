@@ -31,12 +31,28 @@
 
 .. include:: flags-verbosity.gen.rst
 
+..
+   Alternative modes of operation
+   ------------------------------
+
+   More details in :ref:`modes`
+
+   .. include:: flags-modes.gen.rst
+
 通常以外の実行モード
 --------------------
 
 より詳しくは :ref:`modes` にあります．
 
 .. include:: flags-modes.gen.rst
+
+..
+   Which phases to run
+   -------------------
+
+   More details in :ref:`options-order`
+
+   .. include:: flags-phases.gen.rst
 
 どの段階を実行するか
 --------------------
@@ -45,6 +61,14 @@
 
 .. include:: flags-phases.gen.rst
 
+..
+   Redirecting output
+   ------------------
+
+   More details in :ref:`options-output`
+
+   .. include:: flags-redirecting-output.gen.rst
+
 出力先の変更
 ------------
 
@@ -52,10 +76,18 @@
 
 .. include:: flags-redirecting-output.gen.rst
 
-Keeping intermediate files
---------------------------
+..
+   Keeping intermediate files
+   --------------------------
 
-More details in :ref:`keeping-intermediates`
+   More details in :ref:`keeping-intermediates`
+
+   .. include:: flags-keeping-intermediates.gen.rst
+
+中間ファイルの保持
+------------------
+
+より詳しくは :ref:`keeping-intermediates` にあります．
 
 .. include:: flags-keeping-intermediates.gen.rst
 
