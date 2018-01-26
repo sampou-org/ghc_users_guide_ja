@@ -237,8 +237,8 @@ languageOptions =
          }
   , flag { flagName = "-XExplicitNamespaces"
          , flagDescription =
-           "キーワード ``type`` を使って インポートリストとエクスポートリストにある "
-           "実体の名前空間を指定する (:ref:`explicit-namespaces`) ことを有効にする． "++
+           "キーワード ``type`` を使って インポートリストとエクスポートリストにある " ++
+           "実体の名前空間を指定する (:ref:`explicit-namespaces`) ことを有効にする． " ++
            ":ghc-flag:`-XTypeOperators` および :ghc-flag:`-XTypeFamilies` で有効になる"
          , flagType = DynamicFlag
          , flagReverse = "-XNoExplicitNamespaces"
