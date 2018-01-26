@@ -705,70 +705,70 @@ languageOptions =
          }
   , flag { flagName = "-XTypeInType"
          , flagDescription =
-           "Allow :ref:`kinds to be used as types <type-in-type>`, " ++
-           "including explicit kind variable quantification, higher-rank "++
-           "kinds, kind synonyms, and kind families. "++
-           "Implies :ghc-flag:`-XDataKinds`, :ghc-flag:`-XKindSignatures`, " ++
-           "and :ghc-flag:`-XPolyKinds`."
+           ":ref:`カインドを型のように使える <type-in-type>` ようにする． " ++
+           "これには明示的カインド量化，高階ランクカインド， " ++
+           "カインドシノニム，カインド族を含む． "++
+           "これを有効にすると :ghc-flag:`-XDataKinds`, :ghc-flag:`-XKindSignatures`, " ++
+           ":ghc-flag:`-XPolyKinds` が有効になる"
          , flagType = DynamicFlag
          , flagReverse = "-XNoTypeInType"
          , flagSince = "8.0.1"
          }
   , flag { flagName = "-XTypeOperators"
          , flagDescription =
-           "Enable :ref:`type operators <type-operators>`. "++
-           "Implies :ghc-flag:`-XExplicitNamespaces`."
+           ":ref:`型演算子 <type-operators>` を有効にする． " ++
+           "これを有効にすると :ghc-flag:`-XExplicitNamespaces` が有効になる"
          , flagType = DynamicFlag
          , flagReverse = "-XNoTypeOperators"
          , flagSince = "6.8.1"
          }
   , flag { flagName = "-XTypeSynonymInstances"
          , flagDescription =
-           "Enable :ref:`type synonyms in instance heads "++
-           "<flexible-instance-head>`. Implied by :ghc-flag:`-XFlexibleInstances`."
+           ":ref:`インスタンス頭部で型シノニム <flexible-instance-head>` を有効にする． " ++
+           "これは :ghc-flag:`-XFlexibleInstances` を設定すると有効になる"
          , flagType = DynamicFlag
          , flagReverse = "-XNoTypeSynonymInstances"
          , flagSince = "6.8.1"
          }
   , flag { flagName = "-XUnboxedTuples"
-         , flagDescription = "Enable :ref:`unboxed tuples <unboxed-tuples>`."
+         , flagDescription = ":ref:`非ボックス化タプル <unboxed-tuples>` を有効にする"
          , flagType = DynamicFlag
          , flagReverse = "-XNoUnboxedTuples"
          , flagSince = "6.8.1"
          }
   , flag { flagName ="-XUnboxedSums"
-         , flagDescription = "Enable :ref: `unboxed sums <unboxed-sums>`."
+         , flagDescription = ":ref: `非ボックス化 Sum <unboxed-sums>` を有効にする"
          , flagType = DynamicFlag
          , flagReverse = "-XNoUnboxedSums"
          , flagSince = "8.2.1"
          }
   , flag { flagName = "-XUndecidableInstances"
          , flagDescription =
-           "Enable :ref:`undecidable instances <undecidable-instances>`."
+           ":ref:`非決定性インスタンス <undecidable-instances>` を有効にする"
          , flagType = DynamicFlag
          , flagReverse = "-XNoUndecidableInstances"
          , flagSince = "6.8.1"
          }
   , flag { flagName = "-XUnicodeSyntax"
-         , flagDescription = "Enable :ref:`unicode syntax <unicode-syntax>`."
+         , flagDescription = ":ref:`Unicode構文 <unicode-syntax>` を有効にする"
          , flagType = DynamicFlag
          , flagReverse = "-XNoUnicodeSyntax"
          , flagSince = "6.8.1"
          }
   , flag { flagName = "-XUnliftedFFITypes"
-         , flagDescription = "Enable unlifted FFI types."
+         , flagDescription = "unlifted FFI 型を有効にする"
          , flagType = DynamicFlag
          , flagReverse = "-XNoUnliftedFFITypes"
          , flagSince = "6.8.1"
          }
   , flag { flagName = "-XUnsafe"
          , flagDescription =
-           "Enable :ref:`Safe Haskell <safe-haskell>` Unsafe mode."
+           ":ref:`Safe Haskell <safe-haskell>` で Unsafe モードにする"
          , flagType = DynamicFlag
          , flagSince = "7.4.1"
          }
   , flag { flagName = "-XViewPatterns"
-         , flagDescription = "Enable :ref:`view patterns <view-patterns>`."
+         , flagDescription = ":ref:`view patterns <view-patterns>` を有効にする"
          , flagType = DynamicFlag
          , flagReverse = "-XNoViewPatterns"
          , flagSince = "6.10.1"
