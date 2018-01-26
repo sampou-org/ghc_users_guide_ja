@@ -462,7 +462,7 @@ The OPTIONS sections lists the status of each flag.</p>
 <dt><code class="docutils literal"><span class="pre">-firrefutable-tuples</span></code></dt>
 <dd>タプルパターン照合を反駁不可にする</dd>
 <dt><code class="docutils literal"><span class="pre">-fpackage-trust</span></code></dt>
-<dd><a class="reference internal" href="safe_haskell.html#safe-haskell"><span class="std std-ref">Safe Haskell</span></a> の trusted パッケージが 信頼できるモジュールを要求するようにする</dd>
+<dd><a class="reference internal" href="safe_haskell.html#safe-haskell"><span class="std std-ref">Safe Haskell</span></a> の trusted パッケージが Trustworthly モジュールを要求するようにする</dd>
 <dt><code class="docutils literal"><span class="pre">-ftype-function-depth=⟨n⟩</span></code></dt>
 <dd>非推奨． 代りに <code class="docutils literal"><span class="pre">-freduction-depth=⟨n⟩</span></code> を使う</dd>
 <dt><code class="docutils literal"><span class="pre">-XAllowAmbiguousTypes</span></code></dt>
@@ -602,47 +602,47 @@ The OPTIONS sections lists the status of each flag.</p>
 <dt><code class="docutils literal"><span class="pre">-XPolyKinds</span></code></dt>
 <dd><a class="reference internal" href="glasgow_exts.html#kind-polymorphism"><span class="std std-ref">カインド多相</span></a> を有効にする． これを有効にすると <a class="reference internal" href="glasgow_exts.html#ghc-flag--XKindSignatures"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-XKindSignatures</span></code></a> が設定される</dd>
 <dt><code class="docutils literal"><span class="pre">-XPolymorphicComponents</span></code></dt>
-<dd>Enable <a class="reference internal" href="glasgow_exts.html#universal-quantification"><span class="std std-ref">polymorphic components for data constructors</span></a>. Synonym for <a class="reference internal" href="glasgow_exts.html#ghc-flag--XRankNTypes"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-XRankNTypes</span></code></a>.</dd>
+<dd><a class="reference internal" href="glasgow_exts.html#universal-quantification"><span class="std std-ref">データ構成子が多相的構成要素</span></a> を持てるようにする． <a class="reference internal" href="glasgow_exts.html#ghc-flag--XRankNTypes"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-XRankNTypes</span></code></a> と同義</dd>
 <dt><code class="docutils literal"><span class="pre">-XPostfixOperators</span></code></dt>
-<dd>Enable <a class="reference internal" href="glasgow_exts.html#postfix-operators"><span class="std std-ref">postfix operators</span></a>.</dd>
+<dd><a class="reference internal" href="glasgow_exts.html#postfix-operators"><span class="std std-ref">後置演算子</span></a> を有効にする</dd>
 <dt><code class="docutils literal"><span class="pre">-XQuasiQuotes</span></code></dt>
-<dd>Enable <a class="reference internal" href="glasgow_exts.html#th-quasiquotation"><span class="std std-ref">quasiquotation</span></a>.</dd>
+<dd><a class="reference internal" href="glasgow_exts.html#th-quasiquotation"><span class="std std-ref">準クォート</span></a> を有効にする</dd>
 <dt><code class="docutils literal"><span class="pre">-XRank2Types</span></code></dt>
-<dd>Enable <a class="reference internal" href="glasgow_exts.html#universal-quantification"><span class="std std-ref">rank-2 types</span></a>. Synonym for <a class="reference internal" href="glasgow_exts.html#ghc-flag--XRankNTypes"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-XRankNTypes</span></code></a>.</dd>
+<dd><a class="reference internal" href="glasgow_exts.html#universal-quantification"><span class="std std-ref">ランク-2 型</span></a> を有効にする． <a class="reference internal" href="glasgow_exts.html#ghc-flag--XRankNTypes"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-XRankNTypes</span></code></a> と同義</dd>
 <dt><code class="docutils literal"><span class="pre">-XRankNTypes</span></code></dt>
-<dd>Enable <a class="reference internal" href="glasgow_exts.html#universal-quantification"><span class="std std-ref">rank-N types</span></a>. Implied by <a class="reference internal" href="glasgow_exts.html#ghc-flag--XImpredicativeTypes"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-XImpredicativeTypes</span></code></a>.</dd>
+<dd><a class="reference internal" href="glasgow_exts.html#universal-quantification"><span class="std std-ref">ランク-N 型</span></a> を有効にする． これは <a class="reference internal" href="glasgow_exts.html#ghc-flag--XImpredicativeTypes"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-XImpredicativeTypes</span></code></a> を設定すると有効になる．</dd>
 <dt><code class="docutils literal"><span class="pre">-XRebindableSyntax</span></code></dt>
-<dd>Employ <a class="reference internal" href="glasgow_exts.html#rebindable-syntax"><span class="std std-ref">rebindable syntax</span></a>. Implies <a class="reference internal" href="glasgow_exts.html#ghc-flag--XNoImplicitPrelude"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-XNoImplicitPrelude</span></code></a>.</dd>
+<dd><a class="reference internal" href="glasgow_exts.html#rebindable-syntax"><span class="std std-ref">再束縛可能な構文</span></a> を有効にする これを有効にすると <a class="reference internal" href="glasgow_exts.html#ghc-flag--XNoImplicitPrelude"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-XNoImplicitPrelude</span></code></a> が有効になる</dd>
 <dt><code class="docutils literal"><span class="pre">-XRecordWildCards</span></code></dt>
-<dd>Enable <a class="reference internal" href="glasgow_exts.html#record-wildcards"><span class="std std-ref">record wildcards</span></a>. Implies <a class="reference internal" href="glasgow_exts.html#ghc-flag--XDisambiguateRecordFields"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-XDisambiguateRecordFields</span></code></a>.</dd>
+<dd><a class="reference internal" href="glasgow_exts.html#record-wildcards"><span class="std std-ref">レコードワイルドカード</span></a> を有効にする． これを有効にすると <a class="reference internal" href="glasgow_exts.html#ghc-flag--XDisambiguateRecordFields"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-XDisambiguateRecordFields</span></code></a> が有効になる</dd>
 <dt><code class="docutils literal"><span class="pre">-XRecursiveDo</span></code></dt>
-<dd>Enable <a class="reference internal" href="glasgow_exts.html#recursive-do-notation"><span class="std std-ref">recursive do (mdo) notation</span></a>.</dd>
+<dd><a class="reference internal" href="glasgow_exts.html#recursive-do-notation"><span class="std std-ref">再帰 do (mdo) 記法</span></a> を有効にする</dd>
 <dt><code class="docutils literal"><span class="pre">-XRoleAnnotations</span></code></dt>
-<dd>Enable <a class="reference internal" href="glasgow_exts.html#role-annotations"><span class="std std-ref">role annotations</span></a>.</dd>
+<dd><a class="reference internal" href="glasgow_exts.html#role-annotations"><span class="std std-ref">ロール注釈</span></a> を有効にする</dd>
 <dt><code class="docutils literal"><span class="pre">-XSafe</span></code></dt>
-<dd>Enable the <a class="reference internal" href="safe_haskell.html#safe-haskell"><span class="std std-ref">Safe Haskell</span></a> Safe mode.</dd>
+<dd><a class="reference internal" href="safe_haskell.html#safe-haskell"><span class="std std-ref">Safe Haskell</span></a> の Safe モードを有効にする</dd>
 <dt><code class="docutils literal"><span class="pre">-XScopedTypeVariables</span></code></dt>
-<dd>Enable <a class="reference internal" href="glasgow_exts.html#scoped-type-variables"><span class="std std-ref">lexically-scoped type variables</span></a>.</dd>
+<dd><a class="reference internal" href="glasgow_exts.html#scoped-type-variables"><span class="std std-ref">レキシカルスコープを持つ型変数</span></a> を有効にする</dd>
 <dt><code class="docutils literal"><span class="pre">-XStandaloneDeriving</span></code></dt>
-<dd>Enable <a class="reference internal" href="glasgow_exts.html#stand-alone-deriving"><span class="std std-ref">standalone deriving</span></a>.</dd>
+<dd><a class="reference internal" href="glasgow_exts.html#stand-alone-deriving"><span class="std std-ref">スタンドアロン deriving</span></a> を有効にする</dd>
 <dt><code class="docutils literal"><span class="pre">-XStaticPointers</span></code></dt>
-<dd>Enable <a class="reference internal" href="glasgow_exts.html#static-pointers"><span class="std std-ref">static pointers</span></a>.</dd>
+<dd><a class="reference internal" href="glasgow_exts.html#static-pointers"><span class="std std-ref">静的ポインタ</span></a> を有効にする</dd>
 <dt><code class="docutils literal"><span class="pre">-XStrictData</span></code></dt>
-<dd>Enable <a class="reference internal" href="glasgow_exts.html#strict-data"><span class="std std-ref">default strict datatype fields</span></a>.</dd>
+<dd><a class="reference internal" href="glasgow_exts.html#strict-data"><span class="std std-ref">データ型のフィールドをデフォルトで正格にする</span></a></dd>
 <dt><code class="docutils literal"><span class="pre">-XTemplateHaskell</span></code></dt>
-<dd>Enable <a class="reference internal" href="glasgow_exts.html#template-haskell"><span class="std std-ref">Template Haskell</span></a>.</dd>
+<dd><a class="reference internal" href="glasgow_exts.html#template-haskell"><span class="std std-ref">Template Haskell</span></a> を有効にする</dd>
 <dt><code class="docutils literal"><span class="pre">-XTemplateHaskellQuotes</span></code></dt>
-<dd>Enable quotation subset of <a class="reference internal" href="glasgow_exts.html#template-haskell"><span class="std std-ref">Template Haskell</span></a>.</dd>
+<dd><a class="reference internal" href="glasgow_exts.html#template-haskell"><span class="std std-ref">Template Haskell</span></a> のクォート部分だけ有効にする</dd>
 <dt><code class="docutils literal"><span class="pre">-XNoTraditionalRecordSyntax</span></code></dt>
-<dd>Disable support for traditional record syntax (as supported by Haskell 98) <code class="docutils literal"><span class="pre">C</span> <span class="pre">{f</span> <span class="pre">=</span> <span class="pre">x}</span></code></dd>
+<dd>伝統的なレコード構文(Haskell 98 でサポートしていた) <code class="docutils literal"><span class="pre">C</span> <span class="pre">{f</span> <span class="pre">=</span> <span class="pre">x}</span></code> への対応を無効にする</dd>
 <dt><code class="docutils literal"><span class="pre">-XTransformListComp</span></code></dt>
-<dd>Enable <a class="reference internal" href="glasgow_exts.html#generalised-list-comprehensions"><span class="std std-ref">generalised list comprehensions</span></a>.</dd>
+<dd><a class="reference internal" href="glasgow_exts.html#generalised-list-comprehensions"><span class="std std-ref">一般化リスト内包表記</span></a> を有効にする</dd>
 <dt><code class="docutils literal"><span class="pre">-XTrustworthy</span></code></dt>
-<dd>Enable the <a class="reference internal" href="safe_haskell.html#safe-haskell"><span class="std std-ref">Safe Haskell</span></a> Trustworthy mode.</dd>
+<dd><a class="reference internal" href="safe_haskell.html#safe-haskell"><span class="std std-ref">Safe Haskell</span></a> の Trustworthy モードを有効にする</dd>
 <dt><code class="docutils literal"><span class="pre">-XTupleSections</span></code></dt>
-<dd>Enable <a class="reference internal" href="glasgow_exts.html#tuple-sections"><span class="std std-ref">tuple sections</span></a>.</dd>
+<dd><a class="reference internal" href="glasgow_exts.html#tuple-sections"><span class="std std-ref">タプルセクション</span></a> を有効にする</dd>
 <dt><code class="docutils literal"><span class="pre">-XTypeFamilies</span></code></dt>
-<dd>Enable <a class="reference internal" href="glasgow_exts.html#type-families"><span class="std std-ref">type families</span></a>. Implies <a class="reference internal" href="glasgow_exts.html#ghc-flag--XExplicitNamespaces"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-XExplicitNamespaces</span></code></a>, <a class="reference internal" href="glasgow_exts.html#ghc-flag--XKindSignatures"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-XKindSignatures</span></code></a>, and <a class="reference internal" href="glasgow_exts.html#ghc-flag--XMonoLocalBinds"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-XMonoLocalBinds</span></code></a>.</dd>
+<dd><a class="reference internal" href="glasgow_exts.html#type-families"><span class="std std-ref">型族</span></a> を有効にする． これを有効にすると <a class="reference internal" href="glasgow_exts.html#ghc-flag--XExplicitNamespaces"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-XExplicitNamespaces</span></code></a>, <a class="reference internal" href="glasgow_exts.html#ghc-flag--XKindSignatures"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-XKindSignatures</span></code></a>, <a class="reference internal" href="glasgow_exts.html#ghc-flag--XMonoLocalBinds"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-XMonoLocalBinds</span></code></a> が有効になる</dd>
 <dt><code class="docutils literal"><span class="pre">-XTypeInType</span></code></dt>
 <dd>Allow <a class="reference internal" href="glasgow_exts.html#type-in-type"><span class="std std-ref">kinds to be used as types</span></a>, including explicit kind variable quantification, higher-rank kinds, kind synonyms, and kind families. Implies <a class="reference internal" href="glasgow_exts.html#ghc-flag--XDataKinds"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-XDataKinds</span></code></a>, <a class="reference internal" href="glasgow_exts.html#ghc-flag--XKindSignatures"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-XKindSignatures</span></code></a>, and <a class="reference internal" href="glasgow_exts.html#ghc-flag--XPolyKinds"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-XPolyKinds</span></code></a>.</dd>
 <dt><code class="docutils literal"><span class="pre">-XTypeOperators</span></code></dt>
