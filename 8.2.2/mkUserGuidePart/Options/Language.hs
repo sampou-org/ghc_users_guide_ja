@@ -38,7 +38,7 @@ languageOptions =
   , flag { flagName = "-fpackage-trust"
          , flagDescription =
            ":ref:`Safe Haskell <safe-haskell>` の trusted パッケージが "++
-           "信頼できるモジュールを要求するようにする"
+           "Trustworthly モジュールを要求するようにする"
          , flagType = DynamicFlag
          }
   , flag { flagName = "-ftype-function-depth=⟨n⟩"
@@ -556,152 +556,149 @@ languageOptions =
          }
   , flag { flagName = "-XPolymorphicComponents"
          , flagDescription =
-           "Enable :ref:`polymorphic components for data constructors "++
-           "<universal-quantification>`. Synonym for :ghc-flag:`-XRankNTypes`."
+           ":ref:`データ構成子が多相的構成要素 <universal-quantification>` を持てるようにする． "
+           ":ghc-flag:`-XRankNTypes` と同義"
          , flagType = DynamicFlag
          , flagReverse = "-XNoPolymorphicComponents"
          , flagSince = "6.8.1"
          }
   , flag { flagName = "-XPostfixOperators"
          , flagDescription =
-           "Enable :ref:`postfix operators <postfix-operators>`."
+           ":ref:`後置演算子 <postfix-operators>` を有効にする"
          , flagType = DynamicFlag
          , flagReverse = "-XNoPostfixOperators"
          , flagSince = "7.10.1"
          }
   , flag { flagName = "-XQuasiQuotes"
-         , flagDescription = "Enable :ref:`quasiquotation <th-quasiquotation>`."
+         , flagDescription = ":ref:`準クォート <th-quasiquotation>` を有効にする"
          , flagType = DynamicFlag
          , flagReverse = "-XNoQuasiQuotes"
          , flagSince = "6.10.1"
          }
   , flag { flagName = "-XRank2Types"
          , flagDescription =
-           "Enable :ref:`rank-2 types <universal-quantification>`. "++
-           "Synonym for :ghc-flag:`-XRankNTypes`."
+           ":ref:`ランク-2 型 <universal-quantification>` を有効にする． " ++
+           ":ghc-flag:`-XRankNTypes` と同義"
          , flagType = DynamicFlag
          , flagReverse = "-XNoRank2Types"
          , flagSince = "6.8.1"
          }
   , flag { flagName = "-XRankNTypes"
          , flagDescription =
-           "Enable :ref:`rank-N types <universal-quantification>`. "++
-           "Implied by :ghc-flag:`-XImpredicativeTypes`."
+           ":ref:`ランク-N 型 <universal-quantification>` を有効にする． "++
+           "これは :ghc-flag:`-XImpredicativeTypes` を設定すると有効になる．"
          , flagType = DynamicFlag
          , flagReverse = "-XNoRankNTypes"
          , flagSince = "6.8.1"
          }
   , flag { flagName = "-XRebindableSyntax"
          , flagDescription =
-           "Employ :ref:`rebindable syntax <rebindable-syntax>`. "++
-           "Implies :ghc-flag:`-XNoImplicitPrelude`."
+           ":ref:`再束縛可能な構文 <rebindable-syntax>` を有効にする "++
+           "これを有効にすると :ghc-flag:`-XNoImplicitPrelude` が有効になる"
          , flagType = DynamicFlag
          , flagReverse = "-XNoRebindableSyntax"
          , flagSince = "7.0.1"
          }
   , flag { flagName = "-XRecordWildCards"
          , flagDescription =
-           "Enable :ref:`record wildcards <record-wildcards>`. "++
-           "Implies :ghc-flag:`-XDisambiguateRecordFields`."
+           ":ref:`レコードワイルドカード <record-wildcards>` を有効にする． " ++
+           "これを有効にすると :ghc-flag:`-XDisambiguateRecordFields` が有効になる"
          , flagType = DynamicFlag
          , flagReverse = "-XNoRecordWildCards"
          , flagSince = "6.8.1"
          }
   , flag { flagName = "-XRecursiveDo"
          , flagDescription =
-           "Enable :ref:`recursive do (mdo) notation <recursive-do-notation>`."
+           ":ref:`再帰 do (mdo) 記法 <recursive-do-notation>` を有効にする"
          , flagType = DynamicFlag
          , flagReverse = "-XNoRecursiveDo"
          , flagSince = "6.8.1"
          }
   , flag { flagName = "-XRoleAnnotations"
          , flagDescription =
-           "Enable :ref:`role annotations <role-annotations>`."
+           ":ref:`ロール注釈 <role-annotations>` を有効にする"
          , flagType = DynamicFlag
          , flagReverse = "-XNoRoleAnnotations"
          , flagSince = "7.10.1"
          }
   , flag { flagName = "-XSafe"
          , flagDescription =
-           "Enable the :ref:`Safe Haskell <safe-haskell>` Safe mode."
+           ":ref:`Safe Haskell <safe-haskell>` の Safe モードを有効にする"
          , flagType = DynamicFlag
          , flagSince = "7.2.1"
          }
   , flag { flagName = "-XScopedTypeVariables"
          , flagDescription =
-           "Enable :ref:`lexically-scoped type variables "++
-           "<scoped-type-variables>`."
+           ":ref:`レキシカルスコープを持つ型変数 <scoped-type-variables>` を有効にする"
          , flagType = DynamicFlag
          , flagReverse = "-XNoScopedTypeVariables"
          , flagSince = "6.8.1"
          }
   , flag { flagName = "-XStandaloneDeriving"
          , flagDescription =
-           "Enable :ref:`standalone deriving <stand-alone-deriving>`."
+           ":ref:`スタンドアロン deriving <stand-alone-deriving>` を有効にする"
          , flagType = DynamicFlag
          , flagReverse = "-XNoStandaloneDeriving"
          , flagSince = "6.8.1"
          }
   , flag { flagName = "-XStaticPointers"
          , flagDescription =
-           "Enable :ref:`static pointers <static-pointers>`."
+           ":ref:`静的ポインタ <static-pointers>` を有効にする"
          , flagType = DynamicFlag
          , flagReverse = "-XNoStaticPointers"
          , flagSince = "7.10.1"
          }
   , flag { flagName = "-XStrictData"
          , flagDescription =
-           "Enable :ref:`default strict datatype fields <strict-data>`."
+           ":ref:`データ型のフィールドをデフォルトで正格にする <strict-data>`"
          , flagType = DynamicFlag
          , flagReverse = "-XNoStrictData"
          }
   , flag { flagName = "-XTemplateHaskell"
          , flagDescription =
-           "Enable :ref:`Template Haskell <template-haskell>`."
+           ":ref:`Template Haskell <template-haskell>` を有効にする"
          , flagType = DynamicFlag
          , flagReverse = "-XNoTemplateHaskell"
          , flagSince = "6.8.1"
          }
   , flag { flagName = "-XTemplateHaskellQuotes"
-         , flagDescription = "Enable quotation subset of "++
-                             ":ref:`Template Haskell <template-haskell>`."
+         , flagDescription = ":ref:`Template Haskell <template-haskell>` のクォート部分だけ有効にする"
+                             
          , flagType = DynamicFlag
          , flagReverse = "-XNoTemplateHaskellQuotes"
          , flagSince = "8.0.1"
          }
   , flag { flagName = "-XNoTraditionalRecordSyntax"
          , flagDescription =
-           "Disable support for traditional record syntax "++
-           "(as supported by Haskell 98) ``C {f = x}``"
+           "伝統的なレコード構文(Haskell 98 でサポートしていた) ``C {f = x}`` への対応を無効にする"
          , flagType = DynamicFlag
          , flagReverse = "-XTraditionalRecordSyntax"
          , flagSince = "7.4.1"
          }
   , flag { flagName = "-XTransformListComp"
          , flagDescription =
-           "Enable :ref:`generalised list comprehensions "++
-           "<generalised-list-comprehensions>`."
+           ":ref:`一般化リスト内包表記 <generalised-list-comprehensions>` を有効にする "
          , flagType = DynamicFlag
          , flagReverse = "-XNoTransformListComp"
          , flagSince = "6.10.1"
          }
   , flag { flagName = "-XTrustworthy"
          , flagDescription =
-           "Enable the :ref:`Safe Haskell <safe-haskell>` Trustworthy mode."
+           ":ref:`Safe Haskell <safe-haskell>` の Trustworthy モードを有効にする"
          , flagType = DynamicFlag
          , flagSince = "7.2.1"
          }
   , flag { flagName = "-XTupleSections"
-         , flagDescription = "Enable :ref:`tuple sections <tuple-sections>`."
+         , flagDescription = ":ref:`タプルセクション <tuple-sections>` を有効にする"
          , flagType = DynamicFlag
          , flagReverse = "-XNoTupleSections"
          , flagSince = "7.10.1"
          }
   , flag { flagName = "-XTypeFamilies"
          , flagDescription =
-           "Enable :ref:`type families <type-families>`. "++
-           "Implies :ghc-flag:`-XExplicitNamespaces`, :ghc-flag:`-XKindSignatures`, "++
-           "and :ghc-flag:`-XMonoLocalBinds`."
+           ":ref:`型族 <type-families>` を有効にする． " ++
+           "これを有効にすると :ghc-flag:`-XExplicitNamespaces`, :ghc-flag:`-XKindSignatures`, "++
+           ":ghc-flag:`-XMonoLocalBinds` が有効になる"
          , flagType = DynamicFlag
          , flagReverse = "-XNoTypeFamilies"
          , flagSince = "6.8.1"
