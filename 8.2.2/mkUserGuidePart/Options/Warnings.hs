@@ -70,7 +70,7 @@ warningsOptions =
   , flag { flagName = "-fdefer-typed-holes"
          , flagDescription =
            ":ref:`型付ホール <typed-holes>` のエラーを警告にし " ++
-           ":ref:`そのエラーを実行時まで遅延 <defer-type-errors>` する． "+ +
+           ":ref:`そのエラーを実行時まで遅延 <defer-type-errors>` する． " ++
            "これは :ghc-flag:`-fdefer-type-errors` を設定すると有効になる． " ++
            ":ghc-flag:`-Wtyped-holes` も参照のこと"
          , flagType = DynamicFlag
