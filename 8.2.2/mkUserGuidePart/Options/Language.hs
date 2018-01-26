@@ -556,7 +556,7 @@ languageOptions =
          }
   , flag { flagName = "-XPolymorphicComponents"
          , flagDescription =
-           ":ref:`データ構成子が多相的構成要素 <universal-quantification>` を持てるようにする． "
+           ":ref:`データ構成子が多相的構成要素 <universal-quantification>` を持てるようにする． " ++
            ":ghc-flag:`-XRankNTypes` と同義"
          , flagType = DynamicFlag
          , flagReverse = "-XNoPolymorphicComponents"
