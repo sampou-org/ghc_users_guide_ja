@@ -14,7 +14,7 @@ languageOptions =
          }
   , flag { flagName = "-freduction-depth=⟨n⟩"
          , flagDescription =
-           "*デフォルト 200．* :ref:`型単純化の上限値を設定 "++
+           "*デフォルト 200．* :ref:`型単純化の上限値を設定． "++
            "<undecidable-instances>`  0 で限界値解除"
          , flagType = DynamicFlag
          }
@@ -38,7 +38,7 @@ languageOptions =
   , flag { flagName = "-fpackage-trust"
          , flagDescription =
            ":ref:`Safe Haskell <safe-haskell>` の trusted パッケージが "++
-           "信頼できるモジュールを要求するように設定"
+           "信頼できるモジュールを要求するようにする"
          , flagType = DynamicFlag
          }
   , flag { flagName = "-ftype-function-depth=⟨n⟩"
@@ -62,263 +62,262 @@ languageOptions =
          }
   , flag { flagName = "-XApplicativeDo"
          , flagDescription =
-           ":ref:`Applicative `do` -記法のデシュガー <applicative-do>` を有効にする"
+           ":ref:`Applicative do-記法のデシュガー <applicative-do>` を有効にする"
          , flagType = DynamicFlag
          , flagReverse = "-XNoApplicativeDo"
          , flagSince = "8.0.1"
          }
   , flag { flagName = "-XAutoDeriveTypeable"
          , flagDescription =
-           "As of GHC 7.10, this option is not needed, and should not be "++
-           "used. Previously this would automatically :ref:`derive Typeable "++
-           "instances for every datatype and type class declaration "++
-           "<deriving-typeable>`. Implies :ghc-flag:`-XDeriveDataTypeable`."
+           "GHC 7.10 以降このオプションは不要なので使うべきではない． " ++
+           "以前はこれによりすべてのデータ型宣言，型クラス宣言に対して " ++
+           ":ref:`Typeable のインスタンスが自動的に設定された． <deriving-typeable>` " ++
+           "このオプションは :ghc-flag:`-XDeriveDataTypeable` を有効にする"
          , flagType = DynamicFlag
          , flagReverse = "-XNoAutoDeriveTypeable"
          , flagSince = "7.8.1"
          }
   , flag { flagName = "-XBangPatterns"
-         , flagDescription = "Enable :ref:`bang patterns <bang-patterns>`."
+         , flagDescription = ":ref:`バンパターン <bang-patterns>` を有効にする"
          , flagType = DynamicFlag
          , flagReverse = "-XNoBangPatterns"
          , flagSince = "6.8.1"
          }
   , flag { flagName = "-XBinaryLiterals"
          , flagDescription =
-           "Enable support for :ref:`binary literals <binary-literals>`."
+           ":ref:`バイナリリテラル <binary-literals>` のサポートを有効にする"
          , flagType = DynamicFlag
          , flagReverse = "-XNoBinaryLiterals"
          , flagSince = "7.10.1"
          }
   , flag { flagName = "-XCApiFFI"
          , flagDescription =
-           "Enable :ref:`the CAPI calling convention <ffi-capi>`."
+           ":ref:`CAPI の呼び出し規則 <ffi-capi>` を有効にする"
          , flagType = DynamicFlag
          , flagReverse = "-XNoCAPIFFI"
          , flagSince = "7.10.1"
          }
   , flag { flagName = "-XConstrainedClassMethods"
          , flagDescription =
-           "Enable :ref:`constrained class methods <class-method-types>`."
+           ":ref:`制約付きクラスメソッド <class-method-types>` を有効にする"
          , flagType = DynamicFlag
          , flagReverse = "-XNoConstrainedClassMethods"
          , flagSince = "6.8.1"
          }
   , flag { flagName = "-XConstraintKinds"
          , flagDescription =
-           "Enable a :ref:`kind of constraints <constraint-kind>`."
+           ":ref:`制約のカインド <constraint-kind>` を有効にする"
          , flagType = DynamicFlag
          , flagReverse = "-XNoConstraintKinds"
          , flagSince = "7.4.1"
          }
   , flag { flagName = "-XCPP"
          , flagDescription =
-           "Enable the :ref:`C preprocessor <c-pre-processor>`."
+           ":ref:`C のプリプロセッサ <c-pre-processor>` を有効にする"
          , flagType = DynamicFlag
          , flagReverse = "-XNoCPP"
          , flagSince = "6.8.1"
          }
   , flag { flagName = "-XDataKinds"
-         , flagDescription = "Enable :ref:`datatype promotion <promotion>`."
+         , flagDescription = ":ref:`データ型の昇格 <promotion>` を有効にする"
          , flagType = DynamicFlag
          , flagReverse = "-XNoDataKinds"
          , flagSince = "7.4.1"
          }
   , flag { flagName = "-XDefaultSignatures"
          , flagDescription =
-           "Enable :ref:`default signatures <class-default-signatures>`."
+           ":ref:`デフォルトシグネチャ <class-default-signatures>` を有効にする"
          , flagType = DynamicFlag
          , flagReverse = "-XNoDefaultSignatures"
          , flagSince = "7.2.1"
          }
   , flag { flagName = "-XDeriveAnyClass"
          , flagDescription =
-           "Enable :ref:`deriving for any class <derive-any-class>`."
+           ":ref:`任意のクラスの導出 <derive-any-class>` を有効にする"
          , flagType = DynamicFlag
          , flagReverse = "-XNoDeriveAnyClass"
          , flagSince = "7.10.1"
          }
   , flag { flagName = "-XDeriveDataTypeable"
          , flagDescription =
-           "Enable ``deriving`` for the :ref:`Data class "++
-           "<deriving-typeable>`. Implied by :ghc-flag:`-XAutoDeriveTypeable`."
+           ":ref:`Data クラスの導出 <deriving-typeable>` を有効にする． " ++
+           ":ghc-flag:`-XAutoDeriveTypeable` を指定すると有効になる"
          , flagType = DynamicFlag
          , flagReverse = "-XNoDeriveDataTypeable"
          , flagSince = "6.8.1"
          }
   , flag { flagName = "-XDeriveFunctor"
          , flagDescription =
-           "Enable :ref:`deriving for the Functor class <deriving-extra>`. "++
-           "Implied by :ghc-flag:`-XDeriveTraversable`."
+           ":ref:`Functor クラスの導出 <deriving-extra>` を有効にする． " ++
+           ":ghc-flag:`-XDeriveTraversable` を指定すると有効になる"
          , flagType = DynamicFlag
          , flagReverse = "-XNoDeriveFunctor"
          , flagSince = "7.10.1"
          }
   , flag { flagName = "-XDeriveFoldable"
          , flagDescription =
-           "Enable :ref:`deriving for the Foldable class <deriving-extra>`. "++
-           "Implied by :ghc-flag:`-XDeriveTraversable`."
+           ":ref:`Foldable クラスの導出 <deriving-extra>` を有効にする． " ++
+           ":ghc-flag:`-XDeriveTraversable` を指定すると有効になる"
          , flagType = DynamicFlag
          , flagReverse = "-XNoDeriveFoldable"
          , flagSince = "7.10.1"
          }
   , flag { flagName = "-XDeriveGeneric"
          , flagDescription =
-           "Enable :ref:`deriving for the Generic class <deriving-typeable>`."
+           ":ref:`Generic クラスの導出 <deriving-typeable>` を有効にする"
          , flagType = DynamicFlag
          , flagReverse = "-XNoDeriveGeneric"
          , flagSince = "7.2.1"
          }
-  , flag { flagName = "-XDeriveGeneric"
-         , flagDescription =
-           "Enable :ref:`deriving for the Generic class <deriving-typeable>`."
-         , flagType = DynamicFlag
-         , flagReverse = "-XNoDeriveGeneric"
-         , flagSince = "7.2.1"
-         }
+  -- , flag { flagName = "-XDeriveGeneric"
+  --        , flagDescription =
+  --          ":ref:`deriving for the Generic class <deriving-typeable>`."
+  --        , flagType = DynamicFlag
+  --        , flagReverse = "-XNoDeriveGeneric"
+  --        , flagSince = "7.2.1"
+  --        }
   , flag { flagName = "-XDeriveLift"
          , flagDescription =
-           "Enable :ref:`deriving for the Lift class <deriving-lift>`"
+           ":ref:`Lift クラスの導出 <deriving-lift>` を有効にする"
          , flagType = DynamicFlag
          , flagReverse = "-XNoDeriveLift"
          , flagSince = "7.2.1"
          }
   , flag { flagName = "-XDeriveTraversable"
          , flagDescription =
-           "Enable :ref:`deriving for the Traversable class <deriving-extra>`. "++
-           "Implies :ghc-flag:`-XDeriveFunctor` and :ghc-flag:`-XDeriveFoldable`."
+           ":ref:`Traversable クラスの導出 <deriving-extra>` を有効にする． "++
+           "これを有効にすると :ghc-flag:`-XDeriveFunctor` および :ghc-flag:`-XDeriveFoldable` も有効になる"
          , flagType = DynamicFlag
          , flagReverse = "-XNoDeriveTraversable"
          , flagSince = "7.10.1"
          }
   , flag { flagName = "-XDerivingStrategies"
          , flagDescription =
-           "Enables :ref:`deriving strategies <deriving-strategies>`."
+           ":ref:`導出戦略 <deriving-strategies>` を有効にする"
          , flagType = DynamicFlag
          , flagReverse = "-XNoDerivingStrategies"
          , flagSince = "8.2.1"
          }
   , flag { flagName = "-XDisambiguateRecordFields"
          , flagDescription =
-           "Enable :ref:`record field disambiguation <disambiguate-fields>`. "++
-           "Implied by :ghc-flag:`-XRecordWildCards`."
+           ":ref:`レコードフィールドの曖昧性除去 <disambiguate-fields>` を有効にする． "++
+           ":ghc-flag:`-XRecordWildCards` を指定すると有効になる．"
          , flagType = DynamicFlag
          , flagReverse = "-XNoDisambiguateRecordFields"
          , flagSince = "6.8.1"
          }
   , flag { flagName = "-XEmptyCase"
          , flagDescription =
-           "Allow :ref:`empty case alternatives <empty-case>`."
+           ":ref:`選択肢のない case <empty-case>` を許可する"
          , flagType = DynamicFlag
          , flagReverse = "-XNoEmptyCase"
          , flagSince = "7.8.1"
          }
   , flag { flagName = "-XEmptyDataDecls"
-         , flagDescription = "Enable empty data declarations."
+         , flagDescription = "空のデータ型宣言を有効にする"
          , flagType = DynamicFlag
          , flagReverse = "-XNoEmptyDataDecls"
          , flagSince = "6.8.1"
          }
   , flag { flagName = "-XExistentialQuantification"
          , flagDescription =
-           "Enable :ref:`existential quantification <existential-quantification>`."
+           ":ref:`存在量化 <existential-quantification>` を有効にする"
          , flagType = DynamicFlag
          , flagReverse = "-XNoExistentialQuantification"
          , flagSince = "6.8.1"
          }
   , flag { flagName = "-XExplicitForAll"
          , flagDescription =
-           "Enable :ref:`explicit universal quantification <explicit-foralls>`."++
-           " Implied by :ghc-flag:`-XScopedTypeVariables`, :ghc-flag:`-XLiberalTypeSynonyms`,"++
-           " :ghc-flag:`-XRankNTypes` and :ghc-flag:`-XExistentialQuantification`."
+           ":ref:`全称量化の明示 <explicit-foralls>` を有効にする． " ++
+           " :ghc-flag:`-XScopedTypeVariables`, :ghc-flag:`-XLiberalTypeSynonyms`,"++
+           " :ghc-flag:`-XRankNTypes`, :ghc-flag:`-XExistentialQuantification` で有効になる"
          , flagType = DynamicFlag
          , flagReverse = "-XNoExplicitForAll"
          , flagSince = "6.12.1"
          }
   , flag { flagName = "-XExplicitNamespaces"
          , flagDescription =
-           "Enable using the keyword ``type`` to specify the namespace of "++
-           "entries in imports and exports (:ref:`explicit-namespaces`). "++
-           "Implied by :ghc-flag:`-XTypeOperators` and :ghc-flag:`-XTypeFamilies`."
+           "キーワード ``type`` を使って インポートリストとエクスポートリストにある "
+           "実体の名前空間を指定する (:ref:`explicit-namespaces`) ことを有効にする． "++
+           ":ghc-flag:`-XTypeOperators` および :ghc-flag:`-XTypeFamilies` で有効になる"
          , flagType = DynamicFlag
          , flagReverse = "-XNoExplicitNamespaces"
          , flagSince = "7.6.1"
          }
   , flag { flagName = "-XExtendedDefaultRules"
          , flagDescription =
-           "Use GHCi's :ref:`extended default rules <extended-default-rules>` "++
-           "in a normal module."
+           "GHCi の :ref:`拡張デフォルト規則 <extended-default-rules>` を "++
+           "通常のモジュールで使う"
          , flagType = DynamicFlag
          , flagReverse = "-XNoExtendedDefaultRules"
          , flagSince = "6.8.1"
          }
   , flag { flagName = "-XFlexibleContexts"
          , flagDescription =
-           "Enable :ref:`flexible contexts <flexible-contexts>`. Implied by "++
-           ":ghc-flag:`-XImplicitParams`."
+           ":ref:`柔軟なコンテキスト <flexible-contexts>` を有効にする． " ++
+           ":ghc-flag:`-XImplicitParams` を指定すると有効になる"
          , flagType = DynamicFlag
          , flagReverse = "-XNoFlexibleContexts"
          , flagSince = "6.8.1"
          }
   , flag { flagName = "-XFlexibleInstances"
          , flagDescription =
-           "Enable :ref:`flexible instances <instance-rules>`. "++
-           "Implies :ghc-flag:`-XTypeSynonymInstances`. "++
-           "Implied by :ghc-flag:`-XImplicitParams`."
+           ":ref:`柔軟なインスタンス <instance-rules>` を有効にする． " ++
+           "これを有効にすると :ghc-flag:`-XTypeSynonymInstances` が有効になる． "++
+           "これは :ghc-flag:`-XImplicitParams` を指定すると有効になる"
          , flagType = DynamicFlag
          , flagReverse = "-XNoFlexibleInstances"
          , flagSince = "6.8.1"
          }
   , flag { flagName = "-XForeignFunctionInterface"
          , flagDescription =
-           "Enable :ref:`foreign function interface <ffi>`."
+           ":ref:`外部関数インターフェイス <ffi>` を有効にする"
          , flagType = DynamicFlag
          , flagReverse = "-XNoForeignFunctionInterface"
          , flagSince = "6.8.1"
          }
   , flag { flagName = "-XFunctionalDependencies"
          , flagDescription =
-           "Enable :ref:`functional dependencies <functional-dependencies>`. "++
-           "Implies :ghc-flag:`-XMultiParamTypeClasses`."
+           ":ref:`関数従属 <functional-dependencies>` を有効にする． " ++
+           "これを有効にすると :ghc-flag:`-XMultiParamTypeClasses` が有効になる"
          , flagType = DynamicFlag
          , flagReverse = "-XNoFunctionalDependencies"
          , flagSince = "6.8.1"
          }
   , flag { flagName = "-XGADTs"
          , flagDescription =
-           "Enable :ref:`generalised algebraic data types <gadt>`. "++
-           "Implies :ghc-flag:`-XGADTSyntax` and :ghc-flag:`-XMonoLocalBinds`."
+           ":ref:`一般化代数データ型 <gadt>` を有効にする． " ++
+           "これを有効にすると :ghc-flag:`-XGADTSyntax` および :ghc-flag:`-XMonoLocalBinds` が有効になる"
          , flagType = DynamicFlag
          , flagReverse = "-XNoGADTs"
          , flagSince = "6.8.1"
          }
   , flag { flagName = "-XGADTSyntax"
          , flagDescription =
-           "Enable :ref:`generalised algebraic data type syntax <gadt-style>`."
+           ":ref:`一般化代数データ型構文 <gadt-style>` を有効にする． "
          , flagType = DynamicFlag
          , flagReverse = "-XNoGADTSyntax"
          , flagSince = "7.2.1"
          }
   , flag { flagName = "-XGeneralizedNewtypeDeriving"
          , flagDescription =
-           "Enable :ref:`newtype deriving <newtype-deriving>`."
+           ":ref:`newtype deriving <newtype-deriving>` を有効にする"
          , flagType = DynamicFlag
          , flagReverse = "-XNoGeneralizedNewtypeDeriving"
          , flagSince = "6.8.1"
          }
   , flag { flagName = "-XGenerics"
          , flagDescription =
-           "Deprecated, does nothing. No longer enables "++
-           ":ref:`generic classes <generic-classes>`. See also GHC's support "++
-           "for :ref:`generic programming <generic-programming>`."
+           "非推奨．何の効果もなく :ref:`総称クラス <generic-classes>` を有効にすることもない．" ++
+           "GHC の :ref:`総称プログラミング <generic-programming>` のサポートも参照のこと"
          , flagType = DynamicFlag
          , flagReverse = "-XNoGenerics"
          , flagSince = "6.8.1"
          }
   , flag { flagName = "-XImplicitParams"
          , flagDescription =
-           "Enable :ref:`Implicit Parameters <implicit-parameters>`. "++
-           "Implies :ghc-flag:`-XFlexibleContexts` and :ghc-flag:`-XFlexibleInstances`."
+           ":ref:`暗黙パラメータ <implicit-parameters>` を有効にする " ++
+           "これを有効にすると :ghc-flag:`-XFlexibleContexts` および :ghc-flag:`-XFlexibleInstances` が有効になる"
          , flagType = DynamicFlag
          , flagReverse = "-XNoImplicitParams"
          , flagSince = "6.8.1"
