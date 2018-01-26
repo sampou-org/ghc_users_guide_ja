@@ -68,12 +68,12 @@
 <li><a class="reference internal" href="#id5">7.6.4. 出力先の変更</a></li>
 <li><a class="reference internal" href="#id6">7.6.5. 中間ファイルの保持</a></li>
 <li><a class="reference internal" href="#id7">7.6.6. 一時ファイル</a></li>
-<li><a class="reference internal" href="#finding-imports">7.6.7. Finding imports</a></li>
-<li><a class="reference internal" href="#id8">7.6.8. インターフェイスファイル関連オプション</a></li>
-<li><a class="reference internal" href="#id9">7.6.9. 再コンパイル検査</a></li>
-<li><a class="reference internal" href="#id10">7.6.10. 対話モードのオプション</a></li>
-<li><a class="reference internal" href="#id11">7.6.11. パッケージ</a></li>
-<li><a class="reference internal" href="#language-options">7.6.12. Language options</a></li>
+<li><a class="reference internal" href="#id8">7.6.7. インポートの検索</a></li>
+<li><a class="reference internal" href="#id9">7.6.8. インターフェイスファイル関連オプション</a></li>
+<li><a class="reference internal" href="#id10">7.6.9. 再コンパイル検査</a></li>
+<li><a class="reference internal" href="#id11">7.6.10. 対話モードのオプション</a></li>
+<li><a class="reference internal" href="#id12">7.6.11. パッケージ</a></li>
+<li><a class="reference internal" href="#id13">7.6.12. 言語オプション</a></li>
 <li><a class="reference internal" href="#warnings">7.6.13. Warnings</a></li>
 <li><a class="reference internal" href="#optimisation-levels">7.6.14. Optimisation levels</a></li>
 <li><a class="reference internal" href="#individual-optimisations">7.6.15. Individual optimisations</a></li>
@@ -532,8 +532,8 @@
 </tbody>
 </table>
 </div>
-<div class="section" id="finding-imports">
-<h2>7.6.7. Finding imports<a class="headerlink" href="#finding-imports" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<div class="section" id="id8">
+<h2>7.6.7. インポートの検索<a class="headerlink" href="#id8" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <p>詳しくは <a class="reference internal" href="separate_compilation.html#search-path"><span class="std std-ref">The search path</span></a> にあります．</p>
 <table border="1" class="docutils">
 <colgroup>
@@ -563,8 +563,8 @@
 </tbody>
 </table>
 </div>
-<div class="section" id="id8">
-<h2>7.6.8. インターフェイスファイル関連オプション<a class="headerlink" href="#id8" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<div class="section" id="id9">
+<h2>7.6.8. インターフェイスファイル関連オプション<a class="headerlink" href="#id9" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <p>詳しくは <a class="reference internal" href="separate_compilation.html#hi-options"><span class="std std-ref">Other options related to interface files</span></a> にあります．</p>
 <table border="1" class="docutils">
 <colgroup>
@@ -604,8 +604,8 @@
 </tbody>
 </table>
 </div>
-<div class="section" id="id9">
-<h2>7.6.9. 再コンパイル検査<a class="headerlink" href="#id9" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<div class="section" id="id10">
+<h2>7.6.9. 再コンパイル検査<a class="headerlink" href="#id10" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <p>詳しくは <a class="reference internal" href="separate_compilation.html#recomp"><span class="std std-ref">The recompilation checker</span></a> にあります．</p>
 <table border="1" class="docutils">
 <colgroup>
@@ -631,8 +631,8 @@
 </tbody>
 </table>
 <span class="target" id="interactive-mode-options"></span></div>
-<div class="section" id="id10">
-<h2>7.6.10. 対話モードのオプション<a class="headerlink" href="#id10" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<div class="section" id="id11">
+<h2>7.6.10. 対話モードのオプション<a class="headerlink" href="#id11" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <p>詳しくは <a class="reference internal" href="ghci.html#ghci-dot-files"><span class="std std-ref">.ghci ファイルと .haskeline ファイル</span></a> にあります．</p>
 <table border="1" class="docutils">
 <colgroup>
@@ -702,8 +702,8 @@
 </tbody>
 </table>
 </div>
-<div class="section" id="id11">
-<h2>7.6.11. パッケージ<a class="headerlink" href="#id11" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<div class="section" id="id12">
+<h2>7.6.11. パッケージ<a class="headerlink" href="#id12" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <p>詳しくは <a class="reference internal" href="packages.html#packages"><span class="std std-ref">Packages</span></a> にあります．</p>
 <table border="1" class="docutils">
 <colgroup>
@@ -803,12 +803,11 @@
 </tbody>
 </table>
 </div>
-<div class="section" id="language-options">
-<h2>7.6.12. Language options<a class="headerlink" href="#language-options" title="このヘッドラインへのパーマリンク">¶</a></h2>
-<p>Language options can be enabled either by a command-line option
-<code class="docutils literal"><span class="pre">-Xblah</span></code>, or by a <code class="docutils literal"><span class="pre">{-#</span> <span class="pre">LANGUAGE</span> <span class="pre">blah</span> <span class="pre">#-}</span></code> pragma in the file itself.
-See <a class="reference internal" href="glasgow_exts.html#options-language"><span class="std std-ref">Language options</span></a>. Some options are enabled using <code class="docutils literal"><span class="pre">-f*</span></code>
-flags.</p>
+<div class="section" id="id13">
+<h2>7.6.12. 言語オプション<a class="headerlink" href="#id13" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>言語オプションを有効にするには <code class="docutils literal"><span class="pre">-Xなんたら</span></code> というコマンドラインオプションを使うか，
+プログラムファイルで <code class="docutils literal"><span class="pre">{-#</span> <span class="pre">LANGUAGE</span> <span class="pre">blah</span> <span class="pre">#-}</span></code> プラグマを使います．
+<a class="reference internal" href="glasgow_exts.html#options-language"><span class="std std-ref">Language options</span></a> 参照． いくつかのオプションについては <code class="docutils literal"><span class="pre">-f*</span></code> を使うと有効になります．</p>
 <table border="1" class="docutils">
 <colgroup>
 <col width="25%" />
@@ -825,57 +824,56 @@ flags.</p>
 </thead>
 <tbody valign="top">
 <tr class="row-even"><td><code class="xref std std-ghc-flag docutils literal"><span class="pre">-fconstraint-solver-iterations=⟨n⟩</span></code></td>
-<td><em>default: 4.</em> Set the iteration limit for the type-constraint solver. Typically one iteration
-suffices; so please yell if you find you need to set it higher than the default. Zero means
-infinity.</td>
+<td><em>デフォルト: 4．</em> 型制約ソルバーの反復限界を設定． 通常は1回で十分なので，
+デフォルト値よりも大きい必要があるときは 大声で報せてください． 0 で限界値解除</td>
 <td>dynamic</td>
 <td>&#160;</td>
 </tr>
 <tr class="row-odd"><td><code class="xref std std-ghc-flag docutils literal"><span class="pre">-freduction-depth=⟨n⟩</span></code></td>
-<td><em>default: 200.</em> Set the <a class="reference internal" href="glasgow_exts.html#undecidable-instances"><span class="std std-ref">limit for type simplification</span></a>. Zero
-means infinity.</td>
+<td><em>デフォルト 200．</em> <a class="reference internal" href="glasgow_exts.html#undecidable-instances"><span class="std std-ref">型単純化の上限値を設定</span></a>  0 で限界値解除</td>
 <td>dynamic</td>
 <td>&#160;</td>
 </tr>
 <tr class="row-even"><td><code class="xref std std-ghc-flag docutils literal"><span class="pre">-fcontext-stack=⟨n⟩</span></code></td>
-<td>Deprecated. Use <code class="docutils literal"><span class="pre">-freduction-depth=⟨n⟩</span></code> instead.</td>
+<td>非推奨． 代りに <code class="docutils literal"><span class="pre">-freduction-depth=⟨n⟩</span></code> を使用すること</td>
 <td>dynamic</td>
 <td>&#160;</td>
 </tr>
 <tr class="row-odd"><td><a class="reference internal" href="glasgow_exts.html#ghc-flag--fglasgow-exts"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-fglasgow-exts</span></code></a></td>
-<td>Deprecated. Enable most language extensions; see <a class="reference internal" href="glasgow_exts.html#options-language"><span class="std std-ref">Language options</span></a> for exactly which
-ones.</td>
+<td>非推奨． ほとんどの言語拡張を有効にする． どの言語拡張が有効になるかは <a class="reference internal" href="glasgow_exts.html#options-language"><span class="std std-ref">Language options</span></a>
+を参照のこと</td>
 <td>dynamic</td>
 <td><code class="xref std std-ghc-flag docutils literal"><span class="pre">-fno-glasgow-exts</span></code></td>
 </tr>
 <tr class="row-even"><td><code class="xref std std-ghc-flag docutils literal"><span class="pre">-firrefutable-tuples</span></code></td>
-<td>Make tuple pattern matching irrefutable</td>
+<td>タプルパターン照合を反駁不可にする</td>
 <td>dynamic</td>
 <td><code class="xref std std-ghc-flag docutils literal"><span class="pre">-fno-irrefutable-tuples</span></code></td>
 </tr>
 <tr class="row-odd"><td><a class="reference internal" href="safe_haskell.html#ghc-flag--fpackage-trust"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-fpackage-trust</span></code></a></td>
-<td>Enable <a class="reference internal" href="safe_haskell.html#safe-haskell"><span class="std std-ref">Safe Haskell</span></a> trusted package requirement for trustworthy modules.</td>
+<td><a class="reference internal" href="safe_haskell.html#safe-haskell"><span class="std std-ref">Safe Haskell</span></a> の trusted パッケージが
+信頼できるモジュールを要求するように設定</td>
 <td>dynamic</td>
 <td>&#160;</td>
 </tr>
 <tr class="row-even"><td><code class="xref std std-ghc-flag docutils literal"><span class="pre">-ftype-function-depth=⟨n⟩</span></code></td>
-<td>Deprecated. Use <code class="docutils literal"><span class="pre">-freduction-depth=⟨n⟩</span></code> instead.</td>
+<td>非推奨． 代りに <code class="docutils literal"><span class="pre">-freduction-depth=⟨n⟩</span></code> を使う</td>
 <td>dynamic</td>
 <td>&#160;</td>
 </tr>
 <tr class="row-odd"><td><a class="reference internal" href="glasgow_exts.html#ghc-flag--XAllowAmbiguousTypes"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-XAllowAmbiguousTypes</span></code></a></td>
-<td>Allow the user to write <a class="reference internal" href="glasgow_exts.html#ambiguity"><span class="std std-ref">ambiguous types</span></a>, and the type inference engine to
-infer them.</td>
+<td>ユーザーが <a class="reference internal" href="glasgow_exts.html#ambiguity"><span class="std std-ref">曖昧な型</span></a> を書けるようにし，
+型推論エンジンはそれを推論するようにする</td>
 <td>dynamic</td>
 <td><code class="xref std std-ghc-flag docutils literal"><span class="pre">-XNoAllowAmbiguousTypes</span></code></td>
 </tr>
 <tr class="row-even"><td><a class="reference internal" href="glasgow_exts.html#ghc-flag--XArrows"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-XArrows</span></code></a></td>
-<td>Enable <a class="reference internal" href="glasgow_exts.html#arrow-notation"><span class="std std-ref">arrow notation</span></a> extension</td>
+<td><a class="reference internal" href="glasgow_exts.html#arrow-notation"><span class="std std-ref">アロー記法</span></a> 拡張を有効にする</td>
 <td>dynamic</td>
 <td><code class="xref std std-ghc-flag docutils literal"><span class="pre">-XNoArrows</span></code></td>
 </tr>
 <tr class="row-odd"><td><a class="reference internal" href="glasgow_exts.html#ghc-flag--XApplicativeDo"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-XApplicativeDo</span></code></a></td>
-<td>Enable <a class="reference internal" href="glasgow_exts.html#applicative-do"><span class="std std-ref">Applicative do-notation desugaring</span></a></td>
+<td><span class="xref std std-ref">Applicative `do</span> -記法のデシュガー &lt;applicative-do&gt;` を有効にする</td>
 <td>dynamic</td>
 <td><code class="xref std std-ghc-flag docutils literal"><span class="pre">-XNoApplicativeDo</span></code></td>
 </tr>
