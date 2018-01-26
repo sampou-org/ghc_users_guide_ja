@@ -6,63 +6,63 @@ languageOptions :: [Flag]
 languageOptions =
   [ flag { flagName = "-fconstraint-solver-iterations=⟨n⟩"
          , flagDescription =
-           "*default: 4.* Set the iteration limit for the type-constraint "++
-           "solver. Typically one iteration suffices; so please "++
-           "yell if you find you need to set it higher than the default. "++
-           "Zero means infinity."
+           "*デフォルト: 4．* 型制約ソルバーの反復限界を設定． " ++
+           "通常は1回で十分なので， デフォルト値よりも大きい必要があるときは " ++
+           "大声で報せてください． " ++
+           "0 で限界値解除"
          , flagType = DynamicFlag
          }
   , flag { flagName = "-freduction-depth=⟨n⟩"
          , flagDescription =
-           "*default: 200.* Set the :ref:`limit for type simplification "++
-           "<undecidable-instances>`. Zero means infinity."
+           "*デフォルト 200．* :ref:`型単純化の上限値を設定 "++
+           "<undecidable-instances>`  0 で限界値解除"
          , flagType = DynamicFlag
          }
   , flag { flagName = "-fcontext-stack=⟨n⟩"
          , flagDescription =
-           "Deprecated. Use ``-freduction-depth=⟨n⟩`` instead."
+           "非推奨． 代りに ``-freduction-depth=⟨n⟩`` を使用すること"
          , flagType = DynamicFlag
          }
   , flag { flagName = "-fglasgow-exts"
          , flagDescription =
-           "Deprecated. Enable most language extensions; "++
-           "see :ref:`options-language` for exactly which ones."
+           "非推奨． ほとんどの言語拡張を有効にする． " ++
+           "どの言語拡張が有効になるかは :ref:`options-language` を参照のこと"
          , flagType = DynamicFlag
          , flagReverse = "-fno-glasgow-exts"
          }
   , flag { flagName = "-firrefutable-tuples"
-         , flagDescription = "Make tuple pattern matching irrefutable"
+         , flagDescription = "タプルパターン照合を反駁不可にする"
          , flagType = DynamicFlag
          , flagReverse = "-fno-irrefutable-tuples"
          }
   , flag { flagName = "-fpackage-trust"
          , flagDescription =
-           "Enable :ref:`Safe Haskell <safe-haskell>` trusted package "++
-           "requirement for trustworthy modules."
+           ":ref:`Safe Haskell <safe-haskell>` の trusted パッケージが "++
+           "信頼できるモジュールを要求するように設定"
          , flagType = DynamicFlag
          }
   , flag { flagName = "-ftype-function-depth=⟨n⟩"
-         , flagDescription = "Deprecated. Use ``-freduction-depth=⟨n⟩`` instead."
+         , flagDescription = "非推奨． 代りに ``-freduction-depth=⟨n⟩`` を使う"
          , flagType = DynamicFlag
          }
   , flag { flagName = "-XAllowAmbiguousTypes"
          , flagDescription =
-           "Allow the user to write :ref:`ambiguous types <ambiguity>`, and "++
-           "the type inference engine to infer them."
+           "ユーザーが :ref:`曖昧な型 <ambiguity>` を書けるようにし， " ++
+           "型推論エンジンはそれを推論するようにする"
          , flagType = DynamicFlag
          , flagReverse = "-XNoAllowAmbiguousTypes"
          , flagSince = "7.8.1"
          }
   , flag { flagName = "-XArrows"
          , flagDescription =
-           "Enable :ref:`arrow notation <arrow-notation>` extension"
+           ":ref:`アロー記法 <arrow-notation>` 拡張を有効にする"
          , flagType = DynamicFlag
          , flagReverse = "-XNoArrows"
          , flagSince = "6.8.1"
          }
   , flag { flagName = "-XApplicativeDo"
          , flagDescription =
-           "Enable :ref:`Applicative do-notation desugaring <applicative-do>`"
+           ":ref:`Applicative `do` -記法のデシュガー <applicative-do>` を有効にする"
          , flagType = DynamicFlag
          , flagReverse = "-XNoApplicativeDo"
          , flagSince = "8.0.1"

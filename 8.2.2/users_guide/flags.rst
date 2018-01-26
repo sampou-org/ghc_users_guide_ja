@@ -114,8 +114,8 @@
 
    .. include:: flags-finding-imports.gen.rst
 
-Finding imports
----------------
+インポートの検索
+----------------
 
 詳しくは :ref:`search-path` にあります．
 
@@ -185,13 +185,23 @@ Finding imports
 
 .. include:: flags-packages.gen.rst
 
-Language options
-----------------
+..
+   Language options
+   ----------------
 
-Language options can be enabled either by a command-line option
-``-Xblah``, or by a ``{-# LANGUAGE blah #-}`` pragma in the file itself.
-See :ref:`options-language`. Some options are enabled using ``-f*``
-flags.
+   Language options can be enabled either by a command-line option
+   ``-Xblah``, or by a ``{-# LANGUAGE blah #-}`` pragma in the file itself.
+   See :ref:`options-language`. Some options are enabled using ``-f*``
+   flags.
+
+   .. include:: flags-language.gen.rst
+
+言語オプション
+--------------
+
+言語オプションを有効にするには ``-Xなんたら`` というコマンドラインオプションを使うか，
+プログラムファイルで ``{-# LANGUAGE blah #-}`` プラグマを使います．
+:ref:`options-language` 参照． いくつかのオプションについては ``-f*`` を使うと有効になります．
 
 .. include:: flags-language.gen.rst
 
