@@ -324,31 +324,31 @@ languageOptions =
          }
   , flag { flagName = "-XNoImplicitPrelude"
          , flagDescription =
-           "Don't implicitly ``import Prelude``. "++
-           "Implied by :ghc-flag:`-XRebindableSyntax`."
+           "暗黙に ``import Prelude`` しない． " ++
+           "これは :ghc-flag:`-XRebindableSyntax` を指定すると有効になる"
          , flagType = DynamicFlag
          , flagReverse = "-XImplicitPrelude"
          , flagSince = "6.8.1"
          }
   , flag { flagName = "-XImpredicativeTypes"
          , flagDescription =
-           "Enable :ref:`impredicative types <impredicative-polymorphism>`. "++
-           "Implies :ghc-flag:`-XRankNTypes`."
+           ":ref:`非可述型 <impredicative-polymorphism>` を有効にする． "++
+           "これを有効すると :ghc-flag:`-XRankNTypes` が有効になる"
          , flagType = DynamicFlag
          , flagReverse = "-XNoImpredicativeTypes"
          , flagSince = "6.10.1"
          }
   , flag { flagName = "-XIncoherentInstances"
          , flagDescription =
-           "Enable :ref:`incoherent instances <instance-overlap>`. "++
-           "Implies :ghc-flag:`-XOverlappingInstances`."
+           ":ref:`非整合インスタンス <instance-overlap>` を有効にする． "++
+           "これを有効にすると :ghc-flag:`-XOverlappingInstances` が有効になる"
          , flagType = DynamicFlag
          , flagReverse = "-XNoIncoherentInstances"
          , flagSince = "6.8.1"
          }
   , flag { flagName = "-XTypeFamilyDependencies"
          , flagDescription =
-           "Enable :ref:`injective type families <injective-ty-fams>`. "++
+           ":ref:`単射的型族 <injective-ty-fams>` を有効にする "++
            "Implies :ghc-flag:`-XTypeFamilies`."
          , flagType = DynamicFlag
          , flagReverse = "-XNoTypeFamilyDependencies"
@@ -356,202 +356,200 @@ languageOptions =
          }
   , flag { flagName = "-XInstanceSigs"
          , flagDescription =
-           "Enable :ref:`instance signatures <instance-sigs>`."
+           ":ref:`インスタンスシグネチャ <instance-sigs>` を有効にする"
          , flagType = DynamicFlag
          , flagReverse = "-XNoInstanceSigs"
          , flagSince = "7.10.1"
          }
   , flag { flagName = "-XInterruptibleFFI"
-         , flagDescription = "Enable interruptible FFI."
+         , flagDescription = "割り込み可能な FFI を有効にする"
          , flagType = DynamicFlag
          , flagReverse = "-XNoInterruptibleFFI"
          , flagSince = "7.2.1"
          }
   , flag { flagName = "-XKindSignatures"
          , flagDescription =
-           "Enable :ref:`kind signatures <kinding>`. "++
-           "Implied by :ghc-flag:`-XTypeFamilies` and :ghc-flag:`-XPolyKinds`."
+           ":ref:`カインドシグネチャ <kinding>` を有効にする． " ++
+           "これは :ghc-flag:`-XTypeFamilies` および :ghc-flag:`-XPolyKinds` を指定すれば有効になる"
          , flagType = DynamicFlag
          , flagReverse = "-XNoKindSignatures"
          , flagSince = "6.8.1"
          }
   , flag { flagName = "-XLambdaCase"
          , flagDescription =
-           "Enable :ref:`lambda-case expressions <lambda-case>`."
+           ":ref:`lambda-case 式 <lambda-case>` を有効にする"
          , flagType = DynamicFlag
          , flagReverse = "-XNoLambdaCase"
          , flagSince = "7.6.1"
          }
   , flag { flagName = "-XLiberalTypeSynonyms"
          , flagDescription =
-           "Enable :ref:`liberalised type synonyms <type-synonyms>`."
+           "Enable :ref:`自由化型シノニム <type-synonyms>` を有効にする"
          , flagType = DynamicFlag
          , flagReverse = "-XNoLiberalTypeSynonyms"
          , flagSince = "6.8.1"
          }
   , flag { flagName = "-XMagicHash"
          , flagDescription =
-           "Allow ``#`` as a :ref:`postfix modifier on identifiers <magic-hash>`."
+           "``#`` を :ref:`識別子の接頭辞として付ける <magic-hash>` ことを有効にする"
          , flagType = DynamicFlag
          , flagReverse = "-XNoMagicHash"
          , flagSince = "6.8.1"
          }
   , flag { flagName = "-XMonadComprehensions"
          , flagDescription =
-           "Enable :ref:`monad comprehensions <monad-comprehensions>`."
+           ":ref:`モナド内包表記 `<monad-comprehensions>` を有効にする"
          , flagType = DynamicFlag
          , flagReverse = "-XNoMonadComprehensions"
          , flagSince = "7.2.1"
          }
   , flag { flagName = "-XMonoLocalBinds"
          , flagDescription =
-           "Enable :ref:`do not generalise local bindings <mono-local-binds>`. "++
-           "Implied by :ghc-flag:`-XTypeFamilies` and :ghc-flag:`-XGADTs`."
+           ":ref:`局所的な束縛の一般化 <mono-local-binds>` をしない設定を有効にする． " ++
+           "これは :ghc-flag:`-XTypeFamilies` および :ghc-flag:`-XGADTs` を有効にすると有効になる"
          , flagType = DynamicFlag
          , flagReverse = "-XNoMonoLocalBinds"
          , flagSince = "6.12.1"
          }
   , flag { flagName = "-XNoMonomorphismRestriction"
          , flagDescription =
-           "Disable the :ref:`monomorphism restriction <monomorphism>`."
+           ":ref:`単相性制限 <monomorphism>` を無効にする"
          , flagType = DynamicFlag
          , flagReverse = "-XMonomorphismRestriction"
          , flagSince = "6.8.1"
          }
   , flag { flagName = "-XMultiParamTypeClasses"
          , flagDescription =
-           "Enable :ref:`multi parameter type classes "++
-           "<multi-param-type-classes>`. Implied by "++
-           ":ghc-flag:`-XFunctionalDependencies`."
+           ":ref:`多パラメータ型クラス <multi-param-type-classes>` を有効にする． " ++
+           "これは :ghc-flag:`-XFunctionalDependencies` を指定すれば有効になる"
          , flagType = DynamicFlag
          , flagReverse = "-XNoMultiParamTypeClasses"
          , flagSince = "6.8.1"
          }
   , flag { flagName = "-XMultiWayIf"
          , flagDescription =
-           "Enable :ref:`multi-way if-expressions <multi-way-if>`."
+           ":ref:`多分岐 if-式 <multi-way-if>` を有効にする"
          , flagType = DynamicFlag
          , flagReverse = "-XNoMultiWayIf"
          , flagSince = "7.6.1"
          }
   , flag { flagName = "-XNamedFieldPuns"
-         , flagDescription = "Enable :ref:`record puns <record-puns>`."
+         , flagDescription = ":ref:`レコード同名利用 <record-puns>` を有効にする"
          , flagType = DynamicFlag
          , flagReverse = "-XNoNamedFieldPuns"
          , flagSince = "6.10.1"
          }
   , flag { flagName = "-XNamedWildCards"
-         , flagDescription = "Enable :ref:`named wildcards <named-wildcards>`."
+         , flagDescription = ":ref:`名前付きワイルドカード <named-wildcards>` を有効にする"
          , flagType = DynamicFlag
          , flagReverse = "-XNoNamedWildCards"
          , flagSince = "7.10.1"
          }
   , flag { flagName = "-XNegativeLiterals"
          , flagDescription =
-           "Enable support for :ref:`negative literals <negative-literals>`."
+           ":ref:`負数リテラル <negative-literals>` のサポートを有効にする"
          , flagType = DynamicFlag
          , flagReverse = "-XNoNegativeLiterals"
          , flagSince = "7.8.1"
          }
   , flag { flagName = "-XNPlusKPatterns"
-         , flagDescription = "Enable support for ``n+k`` patterns. "++
-           "Implied by :ghc-flag:`-XHaskell98`."
+         , flagDescription = "``n+k`` パターンのサポートを有効にする． "++
+           "これは :ghc-flag:`-XHaskell98` を指定すると有効になる"
          , flagType = DynamicFlag
          , flagReverse = "-XNoNPlusKPatterns"
          , flagSince = "6.12.1"
          }
   , flag { flagName = "-XNullaryTypeClasses"
          , flagDescription =
-           "Deprecated, does nothing. :ref:`nullary (no parameter) type "++
-           "classes <nullary-type-classes>` are now enabled using "++
-           ":ghc-flag:`-XMultiParamTypeClasses`."
+           "非推奨． 何の効果もない． " ++
+           ":ref:`無引数型クラス <nullary-type-classes>` は " ++
+           ":ghc-flag:`-XMultiParamTypeClasses` で有効になる"
          , flagType = DynamicFlag
          , flagReverse = "-XNoNullaryTypeClasses"
          , flagSince = "7.8.1"
          }
   , flag { flagName = "-XNumDecimals"
          , flagDescription =
-           "Enable support for 'fractional' integer literals."
+           "「小数表記」の整数リテラルのサポートを有効にする"
          , flagType = DynamicFlag
          , flagReverse = "-XNoNumDecimals"
          , flagSince = "7.8.1"
          }
   , flag { flagName = "-XOverlappingInstances"
          , flagDescription =
-           "Enable :ref:`overlapping instances <instance-overlap>`."
+           ":ref:`インスタンスのオーバーラップ <instance-overlap>` を有効にする"
          , flagType = DynamicFlag
          , flagReverse = "-XNoOverlappingInstances"
          , flagSince = "6.8.1"
          }
   , flag { flagName = "-XOverloadedLabels"
          , flagDescription =
-           "Enable :ref:`overloaded labels <overloaded-labels>`."
+           ":ref:`ラベルの多重定義 <overloaded-labels>` を有効にする"
          , flagType = DynamicFlag
          , flagReverse = "-XNoOverloadedLabels"
          , flagSince = "8.0.1"
          }
   , flag { flagName = "-XOverloadedLists"
          , flagDescription =
-           "Enable :ref:`overloaded lists <overloaded-lists>`."
+           ":ref:`リストの多重定義 <overloaded-lists>` を有効にする"
          , flagType = DynamicFlag
          , flagReverse = "-XNoOverloadedLists"
          , flagSince = "7.8.1"
          }
   , flag { flagName = "-XOverloadedStrings"
          , flagDescription =
-           "Enable :ref:`overloaded string literals <overloaded-strings>`."
+           ":ref:`文字列リテラルの多重定義 <overloaded-strings>` を有効にする"
          , flagType = DynamicFlag
          , flagReverse = "-XNoOverloadedStrings"
          , flagSince = "6.8.1"
          }
   , flag { flagName = "-XPackageImports"
          , flagDescription =
-           "Enable :ref:`package-qualified imports <package-imports>`."
+           ":ref:`パッケージ修飾されたインポート <package-imports>` を有効にする"
          , flagType = DynamicFlag
          , flagReverse = "-XNoPackageImports"
          , flagSince = "6.10.1"
          }
   , flag { flagName = "-XParallelArrays"
          , flagDescription =
-           "Enable parallel arrays. Implies :ghc-flag:`-XParallelListComp`."
+           "並列配列を有効にする． これを有効にすると :ghc-flag:`-XParallelListComp` が有効になる"
          , flagType = DynamicFlag
          , flagReverse = "-XNoParallelArrays"
          , flagSince = "7.4.1"
          }
   , flag { flagName = "-XParallelListComp"
          , flagDescription =
-           "Enable :ref:`parallel list comprehensions "++
-           "<parallel-list-comprehensions>`. "++
-           "Implied by :ghc-flag:`-XParallelArrays`."
+           ":ref:`並列リスト内包表記 <parallel-list-comprehensions>` を有効にする " ++
+           "これは :ghc-flag:`-XParallelArrays` を設定すると有効になる"
          , flagType = DynamicFlag
          , flagReverse = "-XNoParallelListComp"
          , flagSince = "6.8.1"
          }
   , flag { flagName = "-XPartialTypeSignatures"
          , flagDescription =
-           "Enable :ref:`partial type signatures <partial-type-signatures>`."
+           ":ref:`部分型シグネチャ <partial-type-signatures>` を有効にする"
          , flagType = DynamicFlag
          , flagReverse = "-XNoPartialTypeSignatures"
          , flagSince = "7.10.1"
          }
   , flag { flagName = "-XNoPatternGuards"
-         , flagDescription = "Disable :ref:`pattern guards <pattern-guards>`. "++
-           "Implied by :ghc-flag:`-XHaskell98`."
+         , flagDescription = ":ref:`パターンガード <pattern-guards>` を無効にする． " ++
+           "これは :ghc-flag:`-XHaskell98` を有効にすると設定される"
          , flagType = DynamicFlag
          , flagReverse = "-XPatternGuards"
          , flagSince = "6.8.1"
          }
   , flag { flagName = "-XPatternSynonyms"
          , flagDescription =
-           "Enable :ref:`pattern synonyms <pattern-synonyms>`."
+           ":ref:`パターンシノニム <pattern-synonyms>` を有効にする"
          , flagType = DynamicFlag
          , flagReverse = "-XNoPatternSynonyms"
          , flagSince = "7.10.1"
          }
   , flag { flagName = "-XPolyKinds"
          , flagDescription =
-           "Enable :ref:`kind polymorphism <kind-polymorphism>`. "++
-           "Implies :ghc-flag:`-XKindSignatures`."
+           ":ref:`カインド多相 <kind-polymorphism>` を有効にする． " ++
+           "これを有効にすると :ghc-flag:`-XKindSignatures` が設定される"
          , flagType = DynamicFlag
          , flagReverse = "-XNoPolyKinds"
          , flagSince = "7.4.1"
