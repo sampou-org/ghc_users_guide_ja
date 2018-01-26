@@ -5,141 +5,140 @@ import Types
 warningsOptions :: [Flag]
 warningsOptions =
   [ flag { flagName = "-W"
-         , flagDescription = "enable normal warnings"
+         , flagDescription = "通常の警告を有効にする"
          , flagType = DynamicFlag
          , flagReverse = "-w"
          }
   , flag { flagName = "-w"
-         , flagDescription = "disable all warnings"
+         , flagDescription = "すべての警告を無効にする"
          , flagType = DynamicFlag
          }
   , flag { flagName = "-Wall"
          , flagDescription =
-           "enable almost all warnings (details in :ref:`options-sanity`)"
+           "ほぼすべての警告を有効にする (詳細は :ref:`options-sanity` にある)"
          , flagType = DynamicFlag
          , flagReverse = "-w"
          }
   , flag { flagName = "-Wcompat"
          , flagDescription =
-           "enable future compatibility warnings " ++
-           "(details in :ref:`options-sanity`)"
+           "将来の互換性のための警告を有効にする " ++
+           "(詳細は :ref:`options-sanity` にある)"
          , flagType = DynamicFlag
          , flagReverse = "-Wno-compat"
          }
   , flag { flagName = "-Werror"
-         , flagDescription = "make warnings fatal"
+         , flagDescription = "警告を致命的エラーにする"
          , flagType = DynamicFlag
          , flagReverse = "-Wwarn"
          }
   , flag { flagName = "-Werror=⟨wflag⟩"
-         , flagDescription = "make a specific warning fatal"
+         , flagDescription = "指定した警告を致命的エラーにする"
          , flagType = DynamicFlag
          , flagReverse = "-Wwarn=⟨wflag⟩"
          }
   , flag { flagName = "-Wwarn"
-         , flagDescription = "make warnings non-fatal"
+         , flagDescription = "警告を致命的エラーにしない"
          , flagType = DynamicFlag
          , flagReverse = "-Werror"
          }
   , flag { flagName = "-Wwarn=⟨wflag⟩"
-         , flagDescription = "make a specific warning non-fatal"
+         , flagDescription = "指定した警告を致命的エラーにしない"
          , flagType = DynamicFlag
          , flagReverse = "-Werror=⟨wflag⟩"
          }
   , flag { flagName = "-Wunrecognised-warning-flags"
          , flagDescription =
-           "throw a warning when an unreconised ``-W...`` flag is "++
-           "encountered on the command line."
+           "認識できない ``-W...`` フラグがコマンドラインで指定されたとき " ++
+           "警告を出す"
          , flagType = DynamicFlag
          , flagReverse = "-Wno-unrecognised-warning-flags"
          }
   , flag { flagName = "-fshow-warning-groups"
-         , flagDescription = "show which group an emitted warning belongs to."
+         , flagDescription = "どのグループ所属の警告が出たかを表示する"
          , flagType = DynamicFlag
          , flagReverse = "-fno-show-warning-groups"
          }
   , flag { flagName = "-fdefer-type-errors"
          , flagDescription =
-           "Turn type errors into warnings, :ref:`deferring the error until "++
-           "runtime <defer-type-errors>`. Implies "++
-           ":ghc-flag:`-fdefer-typed-holes` and "++
-           ":ghc-flag:`-fdefer-out-of-scope-variables`. "++
-           "See also :ghc-flag:`-Wdeferred-type-errors`"
+           "型エラーを警告にし :ref:`そのエラーの発動を実行時まで遅延する． <defer-type-errors>` " ++
+           "これを有効にすると :ghc-flag:`-fdefer-typed-holes` および " ++
+           ":ghc-flag:`-fdefer-out-of-scope-variables` が有効になる． " ++
+           ":ghc-flag:`-Wdeferred-type-errors` も参照のこと"
          , flagType = DynamicFlag
          , flagReverse = "-fno-defer-type-errors"
          }
   , flag { flagName = "-fdefer-typed-holes"
          , flagDescription =
-           "Convert :ref:`typed hole <typed-holes>` errors into warnings, "++
-           ":ref:`deferring the error until runtime <defer-type-errors>`. "++
-           "Implied by :ghc-flag:`-fdefer-type-errors`. "++
-           "See also :ghc-flag:`-Wtyped-holes`."
+           ":ref:`型付ホール <typed-holes>` のエラーを警告にし " ++
+           ":ref:`そのエラーを実行時まで遅延 <defer-type-errors>` する． "+ +
+           "これは :ghc-flag:`-fdefer-type-errors` を設定すると有効になる． " ++
+           ":ghc-flag:`-Wtyped-holes` も参照のこと"
          , flagType = DynamicFlag
          , flagReverse = "-fno-defer-typed-holes"
          }
   , flag { flagName = "-fdefer-out-of-scope-variables"
          , flagDescription =
-           "Convert variable out of scope variables errors into warnings. "++
-           "Implied by :ghc-flag:`-fdefer-type-errors`. "++
-           "See also :ghc-flag:`-Wdeferred-out-of-scope-variables`."
+           "変数の有効範囲外エラーを警告に変更する． "++
+           "これは :ghc-flag:`-fdefer-type-errors` を設定すると有効になる． "++
+           ":ghc-flag:`-Wdeferred-out-of-scope-variables` も参照のこと"
          , flagType = DynamicFlag
          , flagReverse = "-fno-defer-out-of-scope-variables"
          }
   , flag { flagName = "-fhelpful-errors"
-         , flagDescription = "Make suggestions for mis-spelled names."
+         , flagDescription = "綴り間違いの名前について推測した名前を提案する"
          , flagType = DynamicFlag
          , flagReverse = "-fno-helpful-errors"
          }
   , flag { flagName = "-freverse-errors"
          , flagDescription =
-           "Display errors in GHC/GHCi sorted by reverse order of "++
-           "source code line numbers."
+           "GHC/GHCi でエラーをソースコード位置の逆順で表示する"
+           
          , flagType = DynamicFlag
          , flagReverse = "-fno-reverse-errors"
          }
   , flag { flagName = "-fmax-errors"
          , flagDescription =
-           "Limit the number of errors displayed in GHC/GHCi."
+           "GHC/GHCi で表示するエラーの上限を設定する"
          , flagType = DynamicFlag
          , flagReverse = "-fno-max-errors"
          }
   , flag { flagName = "-Wdeprecated-flags"
          , flagDescription =
-           "warn about uses of commandline flags that are deprecated"
+           "コマンドラインで非推奨のフラグを用いたときに警告する"
          , flagType = DynamicFlag
          , flagReverse = "-Wno-deprecated-flags"
          }
   , flag { flagName = "-Wduplicate-constraints"
          , flagDescription =
-           "warn when a constraint appears duplicated in a type signature"
+           "型シグネチャで制約が重複して現れたときに警告する"
          , flagType = DynamicFlag
          , flagReverse = "-Wno-duplicate-constraints"
          }
   , flag { flagName = "-Wduplicate-exports"
-         , flagDescription = "warn when an entity is exported multiple times"
+         , flagDescription = "エクスポートリストに重複したエントリーがあるときに警告する"
          , flagType = DynamicFlag
          , flagReverse = "-Wno-duplicate-exports"
          }
   , flag { flagName = "-Whi-shadowing"
          , flagDescription =
-           "warn when a ``.hi`` file in the current directory shadows a library"
+           "現在のディレクトリにある ``.hi`` ファイルがライブラリをシャドウしたときに警告する"
          , flagType = DynamicFlag
          , flagReverse = "-Wno-hi-shadowing"
          }
   , flag { flagName = "-Widentities"
          , flagDescription =
-           "warn about uses of Prelude numeric conversions that are probably "++
-           "the identity (and hence could be omitted)"
+           "Prelude の数値変換が恒等変換と推測される場合 "++
+           "(省略可能) に警告する"
          , flagType = DynamicFlag
          , flagReverse = "-Wno-identities"
          }
   , flag { flagName = "-Wimplicit-prelude"
-         , flagDescription = "warn when the Prelude is implicitly imported"
+         , flagDescription = "Prelude が暗黙にインポートされた場合に警告する"
          , flagType = DynamicFlag
          , flagReverse = "-Wno-implicit-prelude"
          }
   , flag { flagName = "-Wincomplete-patterns"
-         , flagDescription = "warn when a pattern match could fail"
+         , flagDescription = "パターン照合が失敗する可能性があるとき警告する"
          , flagType = DynamicFlag
          , flagReverse = "-Wno-incomplete-patterns"
          }

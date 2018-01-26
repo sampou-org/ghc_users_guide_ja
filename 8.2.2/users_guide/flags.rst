@@ -205,10 +205,18 @@
 
 .. include:: flags-language.gen.rst
 
-Warnings
---------
+..
+   Warnings
+   --------
 
-More details in :ref:`options-sanity`
+   More details in :ref:`options-sanity`
+
+   .. include:: flags-warnings.gen.rst
+
+警告
+----
+
+詳しくは :ref:`options-sanity` にあります．
 
 .. include:: flags-warnings.gen.rst
 
