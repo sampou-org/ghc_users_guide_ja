@@ -1210,77 +1210,77 @@ The OPTIONS sections lists the status of each flag.</p>
 <dt><code class="docutils literal"><span class="pre">-Wincomplete-patterns</span></code></dt>
 <dd>パターン照合が失敗する可能性があるとき警告する</dd>
 <dt><code class="docutils literal"><span class="pre">-Wincomplete-uni-patterns</span></code></dt>
-<dd>warn when a pattern match in a lambda expression or pattern binding could fail</dd>
+<dd>λ 抽象式あるいはパターン束縛でのパターン照合が失敗する可能性があるとき警告する</dd>
 <dt><code class="docutils literal"><span class="pre">-fmax-pmcheck-iterations=⟨n⟩</span></code></dt>
-<dd>the iteration limit for the pattern match checker</dd>
+<dd>パターン照合検査の反復上限を設定する</dd>
 <dt><code class="docutils literal"><span class="pre">-Wincomplete-record-updates</span></code></dt>
-<dd>warn when a record update could fail</dd>
+<dd>レコードの更新が失敗する可能性があるとき警告する</dd>
 <dt><code class="docutils literal"><span class="pre">-Wmissing-fields</span></code></dt>
-<dd>warn when fields of a record are uninitialised</dd>
+<dd>レコードフィールドの初期化が不完全のとき警告する</dd>
 <dt><code class="docutils literal"><span class="pre">-Wmissing-import-lists</span></code></dt>
-<dd>warn when an import declaration does not explicitly list all thenames brought into scope</dd>
+<dd>インポート宣言がインポートリストで有効範囲に 持ち込む名前を列挙しないとき警告する</dd>
 <dt><code class="docutils literal"><span class="pre">-Wmissing-methods</span></code></dt>
-<dd>warn when class methods are undefined</dd>
+<dd>クラスメソッドが未定義のとき警告する</dd>
 <dt><code class="docutils literal"><span class="pre">-Wmissing-signatures</span></code></dt>
-<dd>warn about top-level functions without signatures</dd>
+<dd>トップレベルの関数が型シグネチャを持たないとき警告する</dd>
 <dt><code class="docutils literal"><span class="pre">-Wmissing-exported-sigs</span></code></dt>
-<dd><em>(deprecated)</em> warn about top-level functions without signatures, only if they are exported. takes precedence over -Wmissing-signatures</dd>
+<dd><em>(非推奨)</em> 型シグネチャを持たないトップレベルの関数がエクスポートされているときにのみ警告する． これは -Wmissing-signatures より優先される</dd>
 <dt><code class="docutils literal"><span class="pre">-Wmissing-exported-signatures</span></code></dt>
-<dd>warn about top-level functions without signatures, only if they are exported. takes precedence over -Wmissing-signatures</dd>
+<dd>型シグネチャを持たないトップレベルの関数がエクスポートされているときにのみ警告する． これは -Wmissing-signatures より優先される</dd>
 <dt><code class="docutils literal"><span class="pre">-Wmissing-local-sigs</span></code></dt>
-<dd><em>(deprecated)</em> warn about polymorphic local bindings without signatures</dd>
+<dd><em>(非推奨)</em> 型シグネチャのない多相の局所的束縛について警告する</dd>
 <dt><code class="docutils literal"><span class="pre">-Wmissing-local-signatures</span></code></dt>
-<dd>warn about polymorphic local bindings without signatures</dd>
+<dd>型シグネチャのない多相の局所的束縛について警告する</dd>
 <dt><code class="docutils literal"><span class="pre">-Wmissing-monadfail-instances</span></code></dt>
-<dd>warn when a failable pattern is used in a do-block that does not have a <code class="docutils literal"><span class="pre">MonadFail</span></code> instance.</dd>
+<dd>do-ブロックで失敗する可能性のあるパターンが使われ <code class="docutils literal"><span class="pre">MonadFail</span></code> のインスタンスでないときに警告する</dd>
 <dt><code class="docutils literal"><span class="pre">-Wsemigroup</span></code></dt>
-<dd>warn when a <code class="docutils literal"><span class="pre">Monoid</span></code> is not <code class="docutils literal"><span class="pre">Semigroup</span></code>, and on non-<code class="docutils literal"><span class="pre">Semigroup</span></code> definitions of <code class="docutils literal"><span class="pre">(&lt;&gt;)</span></code>?</dd>
+<dd><code class="docutils literal"><span class="pre">Monoid</span></code> であって <code class="docutils literal"><span class="pre">Semigroup</span></code> のインスタンスではなく <code class="docutils literal"><span class="pre">Semigroup</span></code> で定義された <code class="docutils literal"><span class="pre">(&lt;&gt;)</span></code> を使っているとき警告する</dd>
 <dt><code class="docutils literal"><span class="pre">-Wmissed-specialisations</span></code></dt>
-<dd>warn when specialisation of an imported, overloaded function fails.</dd>
+<dd>インポートされた多重定義の関数の特定に失敗したとき警告する</dd>
 <dt><code class="docutils literal"><span class="pre">-Wall-missed-specialisations</span></code></dt>
-<dd>warn when specialisation of any overloaded function fails.</dd>
+<dd>多重定義された関数の特定に失敗したとき警告する</dd>
 <dt><code class="docutils literal"><span class="pre">-Wmonomorphism-restriction</span></code></dt>
-<dd>warn when the Monomorphism Restriction is applied</dd>
+<dd>モノモルフィズム制限が適用されたとき警告する</dd>
 <dt><code class="docutils literal"><span class="pre">-Wname-shadowing</span></code></dt>
-<dd>warn when names are shadowed</dd>
+<dd>名前がシャドウイングされたとき警告する</dd>
 <dt><code class="docutils literal"><span class="pre">-Wnoncanonical-monad-instances</span></code></dt>
-<dd>warn when <code class="docutils literal"><span class="pre">Applicative</span></code> or <code class="docutils literal"><span class="pre">Monad</span></code> instances have noncanonical definitions of <code class="docutils literal"><span class="pre">return</span></code>, <code class="docutils literal"><span class="pre">pure</span></code>, <code class="docutils literal"><span class="pre">(&gt;&gt;)</span></code>, or <code class="docutils literal"><span class="pre">(*&gt;)</span></code>. See flag description in <a class="reference internal" href="using-warnings.html#options-sanity"><span class="std std-ref">警告と整合性検査</span></a> for more details.</dd>
+<dd><code class="docutils literal"><span class="pre">Applicative</span></code> あるいは <code class="docutils literal"><span class="pre">Monad</span></code> のインスタンスが 非標準の <code class="docutils literal"><span class="pre">return</span></code>, <code class="docutils literal"><span class="pre">pure</span></code>, <code class="docutils literal"><span class="pre">(&gt;&gt;)</span></code>, あるいは <code class="docutils literal"><span class="pre">(*&gt;)</span></code> の定義を持つとき警告する． 詳細はフラグ解説 <a class="reference internal" href="using-warnings.html#options-sanity"><span class="std std-ref">警告と整合性検査</span></a> 参照</dd>
 <dt><code class="docutils literal"><span class="pre">-Wnoncanonical-monadfail-instances</span></code></dt>
-<dd>warn when <code class="docutils literal"><span class="pre">Monad</span></code> or <code class="docutils literal"><span class="pre">MonadFail</span></code> instances have noncanonical definitions of <code class="docutils literal"><span class="pre">fail</span></code>.See flag description in <a class="reference internal" href="using-warnings.html#options-sanity"><span class="std std-ref">警告と整合性検査</span></a> for more details.</dd>
+<dd><code class="docutils literal"><span class="pre">Monad</span></code> あるいは <code class="docutils literal"><span class="pre">MonadFail</span></code> のインスタンスが 非標準の <code class="docutils literal"><span class="pre">fail</span></code> の定義を持つとき警告する． 詳細はフラグ解説 <a class="reference internal" href="using-warnings.html#options-sanity"><span class="std std-ref">警告と整合性検査</span></a> 参照</dd>
 <dt><code class="docutils literal"><span class="pre">-Wnoncanonical-monoid-instances</span></code></dt>
-<dd>warn when <code class="docutils literal"><span class="pre">Semigroup</span></code> or <code class="docutils literal"><span class="pre">Monoid</span></code> instances have noncanonical definitions of <code class="docutils literal"><span class="pre">(&lt;&gt;)</span></code> or <code class="docutils literal"><span class="pre">mappend</span></code>. See flag description in <a class="reference internal" href="using-warnings.html#options-sanity"><span class="std std-ref">警告と整合性検査</span></a> for more details.</dd>
+<dd><code class="docutils literal"><span class="pre">Semigroup</span></code> あるいは <code class="docutils literal"><span class="pre">Monoid</span></code> のインスタンスが 非標準の <code class="docutils literal"><span class="pre">(&lt;&gt;)</span></code> あるいは <code class="docutils literal"><span class="pre">mappend</span></code> の定義を持つとき警告する． 詳細はフラグ解説 <a class="reference internal" href="using-warnings.html#options-sanity"><span class="std std-ref">警告と整合性検査</span></a> 参照</dd>
 <dt><code class="docutils literal"><span class="pre">-Worphans</span></code></dt>
-<dd>warn when the module contains <a class="reference internal" href="separate_compilation.html#orphan-modules"><span class="std std-ref">orphan instance declarations or rewrite rules</span></a></dd>
+<dd>モジュールが <a class="reference internal" href="separate_compilation.html#orphan-modules"><span class="std std-ref">孤立した instance 宣言あるいは書き換え規則</span></a> を持つとき警告する</dd>
 <dt><code class="docutils literal"><span class="pre">-Woverlapping-patterns</span></code></dt>
-<dd>warn about overlapping patterns</dd>
+<dd>オーバーラップしたパターンに関して警告する</dd>
 <dt><code class="docutils literal"><span class="pre">-Wtabs</span></code></dt>
-<dd>warn if there are tabs in the source file</dd>
+<dd>ソースファイルにタブ文字があると警告する</dd>
 <dt><code class="docutils literal"><span class="pre">-Wtype-defaults</span></code></dt>
-<dd>warn when defaulting happens</dd>
+<dd>デフォルト化が起ったとき警告する</dd>
 <dt><code class="docutils literal"><span class="pre">-Wunrecognised-pragmas</span></code></dt>
-<dd>warn about uses of pragmas that GHC doesn&#8217;t recognise</dd>
+<dd>GHC が認識できないプラグマが使われていることを警告する</dd>
 <dt><code class="docutils literal"><span class="pre">-Wunticked-promoted-constructors</span></code></dt>
-<dd>warn if promoted constructors are not ticked</dd>
+<dd>昇格した構成子にアポストロフィが前置されていないことを警告する</dd>
 <dt><code class="docutils literal"><span class="pre">-Wunused-binds</span></code></dt>
-<dd>warn about bindings that are unused. Alias for <a class="reference internal" href="using-warnings.html#ghc-flag--Wunused-top-binds"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-Wunused-top-binds</span></code></a>, <a class="reference internal" href="using-warnings.html#ghc-flag--Wunused-local-binds"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-Wunused-local-binds</span></code></a> and <a class="reference internal" href="using-warnings.html#ghc-flag--Wunused-pattern-binds"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-Wunused-pattern-binds</span></code></a></dd>
+<dd>未使用の束縛に警告する． 以下をすべて指定するのと同義． <a class="reference internal" href="using-warnings.html#ghc-flag--Wunused-top-binds"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-Wunused-top-binds</span></code></a>, <a class="reference internal" href="using-warnings.html#ghc-flag--Wunused-local-binds"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-Wunused-local-binds</span></code></a> および <a class="reference internal" href="using-warnings.html#ghc-flag--Wunused-pattern-binds"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-Wunused-pattern-binds</span></code></a></dd>
 <dt><code class="docutils literal"><span class="pre">-Wunused-top-binds</span></code></dt>
-<dd>warn about top-level bindings that are unused</dd>
+<dd>未使用のトップレベルの束縛に警告する</dd>
 <dt><code class="docutils literal"><span class="pre">-Wunused-local-binds</span></code></dt>
-<dd>warn about local bindings that are unused</dd>
+<dd>未使用の局所定義に警告する</dd>
 <dt><code class="docutils literal"><span class="pre">-Wunused-pattern-binds</span></code></dt>
-<dd>warn about pattern match bindings that are unused</dd>
+<dd>未使用のパターン照合束縛に警告する</dd>
 <dt><code class="docutils literal"><span class="pre">-Wunused-imports</span></code></dt>
-<dd>warn about unnecessary imports</dd>
+<dd>不必要なインポートに警告する</dd>
 <dt><code class="docutils literal"><span class="pre">-Wunused-matches</span></code></dt>
-<dd>warn about variables in patterns that aren&#8217;t used</dd>
+<dd>未使用のパターン中の変数に警告する</dd>
 <dt><code class="docutils literal"><span class="pre">-Wunused-foralls</span></code></dt>
-<dd>warn about type variables in user-written <code class="docutils literal"><span class="pre">forall</span></code>s that are unused</dd>
+<dd>ユーザーの書いた <code class="docutils literal"><span class="pre">forall</span></code> にある未使用型変数に警告する</dd>
 <dt><code class="docutils literal"><span class="pre">-Wunused-type-variables</span></code></dt>
-<dd>warn about variables in type family or data family instances that are unused</dd>
+<dd>型族あるいはデータ族のインスタンス中の 未使用変数に警告する</dd>
 <dt><code class="docutils literal"><span class="pre">-Wunused-do-bind</span></code></dt>
-<dd>warn about do bindings that appear to throw away values of types other than <code class="docutils literal"><span class="pre">()</span></code></dd>
+<dd>do-束縛で <code class="docutils literal"><span class="pre">()</span></code> 型以外の値を捨てているように見えるとき警告する</dd>
 <dt><code class="docutils literal"><span class="pre">-Wwrong-do-bind</span></code></dt>
-<dd>warn about do bindings that appear to throw away monadic values that you should have bound instead</dd>
+<dd>do-束縛で束縛すべきモナド値が捨てているように見えるとき警告する</dd>
 <dt><code class="docutils literal"><span class="pre">-Wunsafe</span></code></dt>
 <dd>warn if the module being compiled is regarded to be unsafe. Should be used to check the safety status of modules when using safe inference. Works on all module types, even those using explicit <a class="reference internal" href="safe_haskell.html#safe-haskell"><span class="std std-ref">Safe Haskell</span></a> modes (such as <a class="reference internal" href="safe_haskell.html#ghc-flag--XTrustworthy"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-XTrustworthy</span></code></a>) and so can be used to have the compiler check any assumptions made.</dd>
 <dt><code class="docutils literal"><span class="pre">-Wsafe</span></code></dt>

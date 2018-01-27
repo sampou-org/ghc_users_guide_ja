@@ -556,7 +556,7 @@ multiprocessor</a></p>
 </table>
 <p>liberate-case変換を有効にします．
 これは再帰関数をその右辺で1回展開して，自由変数がくりかえしcaseで検査されるのを回避します．
-これは，呼び出しパターンの特殊化(<a class="reference internal" href="#ghc-flag--fspec-constr"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-fspec-constr</span></code></a>)に似ていますが
+これは，呼び出しパターンの特定(<a class="reference internal" href="#ghc-flag--fspec-constr"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-fspec-constr</span></code></a>)に似ていますが
 <a class="reference internal" href="#ghc-flag--fliberate-case"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-fliberate-case</span></code></a> は引数ではなく自由変数を対象にしています．</p>
 </dd></dl>
 
@@ -873,11 +873,11 @@ GHCの最適化器は発散してしまいます(<a class="reference internal" h
 </tr>
 </tbody>
 </table>
-<p>呼び出しパターン特殊化
+<p>呼び出しパターン特定
 (<a class="reference external" href="https://www.microsoft.com/en-us/research/publication/system-f-with-type-equality-coercions-2/">Call-pattern specialisation for
 Haskell programs</a>
 を参照してください)を有効にします．</p>
-<p>この最適化は，引数の「シェイプ」にしたがって再帰関数を特殊化します．
+<p>この最適化は，引数の「シェイプ」にしたがって再帰関数を特定します．
 このことは例で説明するのがよいでしょう．以下のような場合を考えましょう．</p>
 <div class="highlight-haskell"><div class="highlight"><pre><span></span><span class="nf">last</span> <span class="ow">::</span> <span class="p">[</span><span class="n">a</span><span class="p">]</span> <span class="ow">-&gt;</span> <span class="n">a</span>
 <span class="nf">last</span> <span class="kt">[]</span> <span class="ow">=</span> <span class="ne">error</span> <span class="s">&quot;last&quot;</span>
@@ -898,8 +898,8 @@ Haskell programs</a>
 <p>不必要なパターン照合を避けるだけでなく，不要な割り当てを回避するのにも役立ちます．
 これは，引数が自分自身への再帰呼び出しについて正格であっても，最初のエントリについては正格でない場合に適用します．
 上記の例のように，関数の正格な再帰的分岐が作成されるのです．</p>
-<p>またライブラリの作者が GHC に呼び出しパターンの特殊化を相当積極的に指示することもできます．
-高度に最適化するライブラリでは，特殊化の数やコードサイズにかかわらず必要になります．
+<p>またライブラリの作者が GHC に呼び出しパターンの特定を相当積極的に指示することもできます．
+高度に最適化するライブラリでは，特定の数やコードサイズにかかわらず必要になります．
 一例として <code class="docutils literal"><span class="pre">vector</span></code> ライブラリから単純化した場合を考えてみましょう．</p>
 <div class="highlight-haskell"><div class="highlight"><pre><span></span><span class="kr">import</span> <span class="nn">GHC.Types</span> <span class="p">(</span><span class="kt">SPEC</span><span class="p">(</span><span class="o">..</span><span class="p">))</span>
 
@@ -914,11 +914,11 @@ Haskell programs</a>
 </pre></div>
 </div>
 <p>ここで，ループ本体の引数に <code class="docutils literal"><span class="pre">SPEC</span></code> が使われていますので， GHC は <code class="docutils literal"><span class="pre">foldl</span></code> 本体を呼び出し側でインライン展開し，
-<code class="docutils literal"><span class="pre">foldl_loop</span></code> で呼び出しパターンの特殊化を相当積極的に行います．
+<code class="docutils literal"><span class="pre">foldl_loop</span></code> で呼び出しパターンの特定を相当積極的に行います．
 <code class="docutils literal"><span class="pre">GHC.Types</span></code> 由来の <code class="docutils literal"><span class="pre">SPEC</span></code> はコンパイラが特別に認識します．</p>
 <p>(注意: <code class="docutils literal"><span class="pre">SPEC</span></code> 引数に対して <code class="docutils literal"><span class="pre">seq</span></code> またはバンパターンを使うことが非常に重要です．)</p>
 <p>インライン展開した後では，ループ本体から <code class="docutils literal"><span class="pre">f</span></code> が直接見えるようになるので，
-帰納部に対して激しい特殊化が可能になります．</p>
+帰納部に対して激しい特定が可能になります．</p>
 </dd></dl>
 
 <dl class="ghc-flag">
@@ -932,9 +932,9 @@ Haskell programs</a>
 </tr>
 </tbody>
 </table>
-<p>このフラグが有効であれば，呼び出しパターン特殊化が，明示的な構成子の引数をもつ，
+<p>このフラグが有効であれば，呼び出しパターン特定が，明示的な構成子の引数をもつ，
 たとえば <code class="docutils literal"><span class="pre">(f</span> <span class="pre">(Just</span> <span class="pre">x)</span></code> に対して行われます．これは関数本体が精査されてなくても行われます．
-これは時として有益で，たとえば，引数はそれ自体が特殊化できる他の関数に渡せることもあります．</p>
+これは時として有益で，たとえば，引数はそれ自体が特定できる他の関数に渡せることもあります．</p>
 </dd></dl>
 
 <dl class="ghc-flag">
@@ -948,7 +948,7 @@ Haskell programs</a>
 </tr>
 </tbody>
 </table>
-<p>SpecConstr 変換による1つの関数に対する特殊化の最大数を設定します．</p>
+<p>SpecConstr 変換による1つの関数に対する特定の最大数を設定します．</p>
 </dd></dl>
 
 <dl class="ghc-flag">
@@ -976,10 +976,10 @@ Haskell programs</a>
 </tr>
 </tbody>
 </table>
-<p>このモジュールで定義された，型クラスによる多重定義関数それぞれをこのモジュールで使われている型について特殊化します．
+<p>このモジュールで定義された，型クラスによる多重定義関数それぞれをこのモジュールで使われている型について特定します．
 また，<a class="reference internal" href="#ghc-flag--fcross-module-specialise"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-fcross-module-specialise</span></code></a> が有効である場合，
 INLINABLE プラグマ (<a class="reference internal" href="glasgow_exts.html#inlinable-pragma"><span class="std std-ref">INLINABLE pragma</span></a>) をもつインポートされた関数について，
-このモジュールで呼ばれている型で特殊化します．</p>
+このモジュールで呼ばれている型で特定します．</p>
 </dd></dl>
 
 <dl class="ghc-flag">
@@ -993,10 +993,10 @@ INLINABLE プラグマ (<a class="reference internal" href="glasgow_exts.html#in
 </tr>
 </tbody>
 </table>
-<p>デフォルトでは，型クラスメソッドおよび <code class="docutils literal"><span class="pre">INLINABLE</span></code> あるいは <code class="docutils literal"><span class="pre">INLINE</span></code> のマークが付いている関数だけ特殊化します．
-このフラグを指定すると，展開可能であればそのサイズにかかわらず多重定義された関数を特殊化します．
+<p>デフォルトでは，型クラスメソッドおよび <code class="docutils literal"><span class="pre">INLINABLE</span></code> あるいは <code class="docutils literal"><span class="pre">INLINE</span></code> のマークが付いている関数だけ特定します．
+このフラグを指定すると，展開可能であればそのサイズにかかわらず多重定義された関数を特定します．
 コードサイズが著しく大きくなるので，このフラグはどの最適化レベルにも含まれていません．
-すべての呼び出しを確実に特殊化したければ <a class="reference internal" href="#ghc-flag--fexpose-all-unfoldings"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-fexpose-all-unfoldings</span></code></a> と同時に有効にすることもできます．</p>
+すべての呼び出しを確実に特定したければ <a class="reference internal" href="#ghc-flag--fexpose-all-unfoldings"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-fexpose-all-unfoldings</span></code></a> と同時に有効にすることもできます．</p>
 </dd></dl>
 
 <dl class="ghc-flag">
@@ -1011,8 +1011,8 @@ INLINABLE プラグマ (<a class="reference internal" href="glasgow_exts.html#in
 </tbody>
 </table>
 <p>他のモジュール由来の``INLINABLE`` (<a class="reference internal" href="glasgow_exts.html#inlinable-pragma"><span class="std std-ref">INLINABLE pragma</span></a>)の付いた型クラスにより多重定義された関数を
-このモジュールで呼ばれる型について特殊化します．
-これが効果を発揮するためには，特殊化が(<code class="docutils literal"><span class="pre">-fspecialise</span></code> によって)有効になっていなければなりません．</p>
+このモジュールで呼ばれる型について特定します．
+これが効果を発揮するためには，特定が(<code class="docutils literal"><span class="pre">-fspecialise</span></code> によって)有効になっていなければなりません．</p>
 </dd></dl>
 
 <dl class="ghc-flag">
