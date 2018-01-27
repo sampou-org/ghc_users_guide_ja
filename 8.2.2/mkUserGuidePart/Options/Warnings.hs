@@ -144,221 +144,215 @@ warningsOptions =
          }
   , flag { flagName = "-Wincomplete-uni-patterns"
          , flagDescription =
-           "warn when a pattern match in a lambda expression or "++
-           "pattern binding could fail"
+           "λ 抽象式あるいはパターン束縛でのパターン照合が" ++
+           "失敗する可能性があるとき警告する"
          , flagType = DynamicFlag
          , flagReverse = "-Wno-incomplete-uni-patterns"
          }
   , flag { flagName = "-fmax-pmcheck-iterations=⟨n⟩"
          , flagDescription =
-           "the iteration limit for the pattern match checker"
+           "パターン照合検査の反復上限を設定する"
          , flagType = DynamicFlag
          }
   , flag { flagName = "-Wincomplete-record-updates"
-         , flagDescription = "warn when a record update could fail"
+         , flagDescription = "レコードの更新が失敗する可能性があるとき警告する"
          , flagType = DynamicFlag
          , flagReverse = "-Wno-incomplete-record-updates"
          }
   , flag { flagName = "-Wmissing-fields"
-         , flagDescription = "warn when fields of a record are uninitialised"
+         , flagDescription = "レコードフィールドの初期化が不完全のとき警告する"
          , flagType = DynamicFlag
          , flagReverse = "-Wno-missing-fields"
          }
   , flag { flagName = "-Wmissing-import-lists"
          , flagDescription =
-           "warn when an import declaration does not explicitly list all the"++
-           "names brought into scope"
+           "インポート宣言がインポートリストで有効範囲に 持ち込む名前を列挙しないとき警告する"
          , flagType = DynamicFlag
          , flagReverse = "-fnowarn-missing-import-lists"
          }
   , flag { flagName = "-Wmissing-methods"
-         , flagDescription = "warn when class methods are undefined"
+         , flagDescription = "クラスメソッドが未定義のとき警告する"
          , flagType = DynamicFlag
          , flagReverse = "-Wno-missing-methods"
          }
   , flag { flagName = "-Wmissing-signatures"
-         , flagDescription = "warn about top-level functions without signatures"
+         , flagDescription = "トップレベルの関数が型シグネチャを持たないとき警告する"
          , flagType = DynamicFlag
          , flagReverse = "-Wno-missing-signatures"
          }
   , flag { flagName = "-Wmissing-exported-sigs"
          , flagDescription =
-           "*(deprecated)* "++
-           "warn about top-level functions without signatures, only if they "++
-           "are exported. takes precedence over -Wmissing-signatures"
+           "*(非推奨)* " ++
+           "型シグネチャを持たないトップレベルの関数がエクスポートされているときにのみ警告する． " ++
+           "これは -Wmissing-signatures より優先される"
          , flagType = DynamicFlag
          , flagReverse = "-Wno-missing-exported-sigs"
          }
   , flag { flagName = "-Wmissing-exported-signatures"
          , flagDescription =
-           "warn about top-level functions without signatures, only if they "++
-           "are exported. takes precedence over -Wmissing-signatures"
+           "型シグネチャを持たないトップレベルの関数がエクスポートされているときにのみ警告する． " ++
+           "これは -Wmissing-signatures より優先される"
          , flagType = DynamicFlag
          , flagReverse = "-Wno-missing-exported-signatures"
          }
   , flag { flagName = "-Wmissing-local-sigs"
          , flagDescription =
-           "*(deprecated)* "++
-           "warn about polymorphic local bindings without signatures"
+           "*(非推奨)* " ++
+           "型シグネチャのない多相の局所的束縛について警告する"
          , flagType = DynamicFlag
          , flagReverse = "-Wno-missing-local-sigs"
          }
   , flag { flagName = "-Wmissing-local-signatures"
          , flagDescription =
-           "warn about polymorphic local bindings without signatures"
+           "型シグネチャのない多相の局所的束縛について警告する"
          , flagType = DynamicFlag
          , flagReverse = "-Wno-missing-local-signatures"
          }
   , flag { flagName = "-Wmissing-monadfail-instances"
          , flagDescription =
-           "warn when a failable pattern is used in a do-block that does " ++
-           "not have a ``MonadFail`` instance."
+           "do-ブロックで失敗する可能性のあるパターンが使われ " ++
+           "``MonadFail`` のインスタンスでないときに警告する"
          , flagType = DynamicFlag
          , flagReverse = "-Wno-missing-monadfail-instances"
          }
   , flag { flagName = "-Wsemigroup"
          , flagDescription =
-           "warn when a ``Monoid`` is not ``Semigroup``, and on non-" ++
-           "``Semigroup`` definitions of ``(<>)``?"
+           "``Monoid`` であって ``Semigroup`` のインスタンスではなく " ++
+           "``Semigroup`` で定義された ``(<>)`` を使っているとき警告する"
          , flagType = DynamicFlag
          , flagReverse = "-Wno-semigroup"
          }
   , flag { flagName = "-Wmissed-specialisations"
          , flagDescription =
-           "warn when specialisation of an imported, overloaded function fails."
+           "インポートされた多重定義の関数の特定に失敗したとき警告する"
          , flagType = DynamicFlag
          , flagReverse = "-Wno-missed-specialisations"
          }
   , flag { flagName = "-Wall-missed-specialisations"
          , flagDescription =
-           "warn when specialisation of any overloaded function fails."
+           "多重定義された関数の特定に失敗したとき警告する"
          , flagType = DynamicFlag
          , flagReverse = "-Wno-all-missed-specialisations"
          }
   , flag { flagName = "-Wmonomorphism-restriction"
-         , flagDescription = "warn when the Monomorphism Restriction is applied"
+         , flagDescription = "モノモルフィズム制限が適用されたとき警告する"
          , flagType = DynamicFlag
          , flagReverse = "-Wno-monomorphism-restriction"
          }
   , flag { flagName = "-Wname-shadowing"
-         , flagDescription = "warn when names are shadowed"
+         , flagDescription = "名前がシャドウイングされたとき警告する"
          , flagType = DynamicFlag
          , flagReverse = "-Wno-name-shadowing"
          }
   , flag { flagName = "-Wnoncanonical-monad-instances"
          , flagDescription =
-           "warn when ``Applicative`` or ``Monad`` instances have "++
-           "noncanonical definitions of ``return``, ``pure``, ``(>>)``, "++
-           "or ``(*>)``. "++
-           "See flag description in :ref:`options-sanity` for more details."
+           "``Applicative`` あるいは ``Monad`` のインスタンスが " ++
+           "非標準の ``return``, ``pure``, ``(>>)``, あるいは ``(*>)`` の定義を持つとき警告する． " ++
+           "詳細はフラグ解説 :ref:`options-sanity` 参照"
          , flagType = DynamicFlag
          , flagReverse = "-Wno-noncanonical-monad-instances"
          }
   , flag { flagName = "-Wnoncanonical-monadfail-instances"
          , flagDescription =
-           "warn when ``Monad`` or ``MonadFail`` instances have "++
-           "noncanonical definitions of ``fail``."++
-           "See flag description in :ref:`options-sanity` for more details."
+           "``Monad`` あるいは ``MonadFail`` のインスタンスが " ++
+           "非標準の ``fail`` の定義を持つとき警告する． " ++
+           "詳細はフラグ解説 :ref:`options-sanity` 参照"
          , flagType = DynamicFlag
          , flagReverse = "-Wno-noncanonical-monadfail-instances"
          }
   , flag { flagName = "-Wnoncanonical-monoid-instances"
          , flagDescription =
-           "warn when ``Semigroup`` or ``Monoid`` instances have "++
-           "noncanonical definitions of ``(<>)`` or ``mappend``. "++
-           "See flag description in :ref:`options-sanity` for more details."
+           "``Semigroup`` あるいは ``Monoid`` のインスタンスが "++
+           "非標準の ``(<>)`` あるいは ``mappend`` の定義を持つとき警告する． " ++
+           "詳細はフラグ解説 :ref:`options-sanity` 参照"
          , flagType = DynamicFlag
          , flagReverse = "-Wno-noncanonical-monoid-instances"
          }
   , flag { flagName = "-Worphans"
          , flagDescription =
-           "warn when the module contains :ref:`orphan instance declarations "++
-           "or rewrite rules <orphan-modules>`"
+           "モジュールが :ref:`孤立した instance 宣言あるいは書き換え規則 <orphan-modules>` " ++
+           "を持つとき警告する"           
          , flagType = DynamicFlag
          , flagReverse = "-Wno-orphans"
          }
   , flag { flagName = "-Woverlapping-patterns"
-         , flagDescription = "warn about overlapping patterns"
+         , flagDescription = "オーバーラップしたパターンに関して警告する"
          , flagType = DynamicFlag
          , flagReverse = "-Wno-overlapping-patterns"
          }
   , flag { flagName = "-Wtabs"
-         , flagDescription = "warn if there are tabs in the source file"
+         , flagDescription = "ソースファイルにタブ文字があると警告する"
          , flagType = DynamicFlag
          , flagReverse = "-Wno-tabs"
          }
   , flag { flagName = "-Wtype-defaults"
-         , flagDescription = "warn when defaulting happens"
+         , flagDescription = "デフォルト化が起ったとき警告する"
          , flagType = DynamicFlag
          , flagReverse = "-Wno-type-defaults"
          }
   , flag { flagName = "-Wunrecognised-pragmas"
          , flagDescription =
-           "warn about uses of pragmas that GHC doesn't recognise"
+           "GHC が認識できないプラグマが使われていることを警告する"
          , flagType = DynamicFlag
          , flagReverse = "-Wno-unrecognised-pragmas"
          }
   , flag { flagName = "-Wunticked-promoted-constructors"
-         , flagDescription = "warn if promoted constructors are not ticked"
+         , flagDescription = "昇格した構成子にアポストロフィが前置されていないことを警告する"
          , flagType = DynamicFlag
          , flagReverse = "-Wno-unticked-promoted-constructors"
          }
   , flag { flagName = "-Wunused-binds"
          , flagDescription =
-           "warn about bindings that are unused. Alias for "++
-           ":ghc-flag:`-Wunused-top-binds`, :ghc-flag:`-Wunused-local-binds` and "++
+           "未使用の束縛に警告する． 以下をすべて指定するのと同義． " ++
+           ":ghc-flag:`-Wunused-top-binds`, :ghc-flag:`-Wunused-local-binds` および "++
            ":ghc-flag:`-Wunused-pattern-binds`"
          , flagType = DynamicFlag
          , flagReverse = "-Wno-unused-binds"
          }
   , flag { flagName = "-Wunused-top-binds"
-         , flagDescription = "warn about top-level bindings that are unused"
+         , flagDescription = "未使用のトップレベルの束縛に警告する"
          , flagType = DynamicFlag
          , flagReverse = "-Wno-unused-top-binds"
          }
   , flag { flagName = "-Wunused-local-binds"
-         , flagDescription = "warn about local bindings that are unused"
+         , flagDescription = "未使用の局所定義に警告する"
          , flagType = DynamicFlag
          , flagReverse = "-Wno-unused-local-binds"
          }
   , flag { flagName = "-Wunused-pattern-binds"
-         , flagDescription = "warn about pattern match bindings that are unused"
+         , flagDescription = "未使用のパターン照合束縛に警告する"
          , flagType = DynamicFlag
          , flagReverse = "-Wno-unused-pattern-binds"
          }
   , flag { flagName = "-Wunused-imports"
-         , flagDescription = "warn about unnecessary imports"
+         , flagDescription = "不必要なインポートに警告する"
          , flagType = DynamicFlag
          , flagReverse = "-Wno-unused-imports"
          }
   , flag { flagName = "-Wunused-matches"
-         , flagDescription = "warn about variables in patterns that aren't used"
+         , flagDescription = "未使用のパターン中の変数に警告する"
          , flagType = DynamicFlag
          , flagReverse = "-Wno-unused-matches"
          }
   , flag { flagName = "-Wunused-foralls"
-         , flagDescription = "warn about type variables in user-written "++
-           "``forall``\\s that are unused"
+         , flagDescription = "ユーザーの書いた ``forall`` にある未使用型変数に警告する"
          , flagType = DynamicFlag
          , flagReverse = "-Wno-unused-foralls"
          }
   , flag { flagName = "-Wunused-type-variables"
-         , flagDescription = "warn about variables in type family or data "++
-           "family instances that are unused"
+         , flagDescription = "型族あるいはデータ族のインスタンス中の 未使用変数に警告する"
          , flagType = DynamicFlag
          , flagReverse = "-Wno-unused-type-variables"
          }
   , flag { flagName = "-Wunused-do-bind"
          , flagDescription =
-           "warn about do bindings that appear to throw away values of types "++
-           "other than ``()``"
+           "do-束縛で ``()`` 型以外の値を捨てているように見えるとき警告する"
          , flagType = DynamicFlag
          , flagReverse = "-Wno-unused-do-bind"
          }
   , flag { flagName = "-Wwrong-do-bind"
          , flagDescription =
-           "warn about do bindings that appear to throw away monadic values "++
-           "that you should have bound instead"
+           "do-束縛で束縛すべきモナド値が捨てているように見えるとき警告する"
          , flagType = DynamicFlag
          , flagReverse = "-Wno-wrong-do-bind"
          }
