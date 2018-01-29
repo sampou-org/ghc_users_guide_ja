@@ -2092,7 +2092,7 @@ GHC では，いくつものオプションを使って，コンパイル中の�
 
     現在コンパイルされているパッケージ（すなわち「ホーム」パッケージ）によって提供されるモジュールがインポートされるていても，
     コマンドラインでターゲットとしてに明示的にリストされていないときに警告します．
-    Cabalg で GHCが ``exposed-modules`` にも ``other-modules`` にもリストされていないモジュールを取り上げないようにするのに役立ちます．
+    Cabal で GHCが ``exposed-modules`` にも ``other-modules`` にもリストされていないモジュールを取り上げないようにするのに役立ちます．
 
 ..
    If you're feeling really paranoid, the :ghc-flag:`-dcore-lint` option is a good choice.
