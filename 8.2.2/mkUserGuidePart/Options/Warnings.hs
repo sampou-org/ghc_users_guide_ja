@@ -358,112 +358,108 @@ warningsOptions =
          }
   , flag { flagName = "-Wunsafe"
          , flagDescription =
-           "warn if the module being compiled is regarded to be unsafe. "++
-           "Should be used to check the safety status of modules when using "++
-           "safe inference. Works on all module types, even those using "++
-           "explicit :ref:`Safe Haskell <safe-haskell>` modes (such as "++
-           ":ghc-flag:`-XTrustworthy`) and so can be used to have the compiler check "++
-           "any assumptions made."
+           "コンパイルしようとするモジュールが unsafe と見なされる場合に警告する． " ++
+           "安全性推論を使うときは, モジュールが安全かどうかを確認するために " ++
+           "このフラグを使うべきである． " ++
+           "すべてのモジュールタイプで機能するので, " ++
+           "明示的に :ref:`Safe Haskell <safe-haskell>` モードを使用 " ++
+           "(:ghc-flag:`-XTrustworthy`) している場合でも " ++
+           "あらゆる仮定をコンパイラに確認するようこのフラグを使うべきである．"
          , flagType = DynamicFlag
          , flagReverse = "-Wno-unsafe"
          }
   , flag { flagName = "-Wsafe"
          , flagDescription =
-           "warn if the module being compiled is regarded to be safe. Should "++
-           "be used to check the safety status of modules when using safe "++
-           "inference. Works on all module types, even those using explicit "++
-           ":ref:`Safe Haskell <safe-haskell>` modes (such as "++
-           ":ghc-flag:`-XTrustworthy`) and so can be used to have the compiler check "++
-           "any assumptions made."
+           "コンパイルしようとするモジュールが safe と見なされる場合に警告する． " ++
+           "安全性推論を使うときは, モジュールが安全かどうかを確認するために " ++
+           "このフラグを使うべきである． " ++
+           "すべてのモジュールタイプで機能するので, " ++
+           "明示的に :ref:`Safe Haskell <safe-haskell>` モードを使用 " ++
+           "(:ghc-flag:`-XTrustworthy`) している場合でも " ++
+           "あらゆる仮定をコンパイラに確認するようこのフラグを使うべきである．"
          , flagType = DynamicFlag
          , flagReverse = "-Wno-safe"
          }
   , flag { flagName = "-Wtrustworthy-safe"
          , flagDescription =
-           "warn if the module being compiled is marked as "++
-           ":ghc-flag:`-XTrustworthy` but it could instead be marked as "++
-           ":ghc-flag:`-XSafe`, a more informative bound. Can be used to detect"++
-           "once a Safe Haskell bound can be improved as dependencies are updated."
+           "コンパイルしようとするモジュールが " ++
+           ":ghc-flag:`-XTrustworthy` マーク付きであるが, " ++
+           ":ghc-flag:`-XSafe` マーク付きにするほうがより有益な境界になる場合に警告する" ++
+           "このフラグを利用すると 依存関係が更新されたとき " ++
+           "Safe Haskell 境界が改善できるようになったことを検出できる"
          , flagType = DynamicFlag
          , flagReverse = "-Wno-safe"
          }
   , flag { flagName = "-Wwarnings-deprecations"
          , flagDescription =
-           "warn about uses of functions & types that have warnings or "++
-           "deprecated pragmas"
+           "``WARNING`` あるい ``DEPRECATED`` プラグマの付いた関数および型を使うと警告する"
          , flagType = DynamicFlag
          , flagReverse = "-Wno-warnings-deprecations"
          }
   , flag { flagName = "-Wdeprecations"
          , flagDescription =
-           "warn about uses of functions & types that have warnings or "++
-           "deprecated pragmas. Alias for :ghc-flag:`-Wwarnings-deprecations`"
+           "``WARNING`` あるい ``DEPRECATED`` プラグマの付いた関数および型を使うと警告する" ++
+           ":ghc-flag:`-Wwarnings-deprecations` の別名"
          , flagType = DynamicFlag
          , flagReverse = "-Wno-deprecations"
          }
   , flag { flagName = "-Wamp"
          , flagDescription =
-           "*(deprecated)* warn on definitions conflicting with the "++
-           "Applicative-Monad Proposal (AMP)"
+           "*(非推奨)* Applicative-Monad Proposal (AMP) と衝突する定義について警告する"
          , flagType = DynamicFlag
          , flagReverse = "-Wno-amp"
          }
   , flag { flagName = "-Wredundant-constraints"
          , flagDescription =
-           "Have the compiler warn about redundant constraints in type"++
-           "signatures."
+           "型シグネチャに冗長な制約があると警告する"
          , flagType = DynamicFlag
          , flagReverse = "-Wno-redundant-constraints"
          }
   , flag { flagName = "-Wdeferred-type-errors"
          , flagDescription =
-           "Report warnings when :ref:`deferred type errors "++
-           "<defer-type-errors>` are enabled. This option is enabled by "++
-           "default. See :ghc-flag:`-fdefer-type-errors`."
+           ":ref:`deferred type errors <defer-type-errors>` が有効になっていると警告する． "
+           "このオプションはデフォルトで有効． :ghc-flag:`-fdefer-type-errors` 参照"
          , flagType = DynamicFlag
          , flagReverse = "-Wno-deferred-type-errors"
          }
   , flag { flagName = "-Wtyped-holes"
          , flagDescription =
-           "Report warnings when :ref:`typed hole <typed-holes>` errors are "++
-           ":ref:`deferred until runtime <defer-type-errors>`. See "++
-           ":ghc-flag:`-fdefer-typed-holes`."
+           ":ref:`型ホール <typed-holes>` エラーが :ref:`実行時まで遅延 <defer-type-errors>` " ++
+           "されているとき警告する． :ghc-flag:`-fdefer-typed-holes` 参照"
          , flagType = DynamicFlag
          , flagReverse = "-Wno-typed-holes"
          }
   , flag { flagName = "-Wdeferred-out-of-scope-variables"
          , flagDescription =
-           "Report warnings when variable out-of-scope errors are "++
-           ":ref:`deferred until runtime. "++
-           "See :ghc-flag:`-fdefer-out-of-scope-variables`."
+           "変数のスコープ外エラーが実行時まで遅延されているとき警告する． " ++
+           ":ghc-flag:`-fdefer-out-of-scope-variables` 参照"
          , flagType = DynamicFlag
          , flagReverse = "-Wno-deferred-out-of-scope-variables"
          }
   , flag { flagName = "-Wpartial-type-signatures"
          , flagDescription =
-           "warn about holes in partial type signatures when "++
-           ":ghc-flag:`-XPartialTypeSignatures` is enabled. Not applicable when "++
-           ":ghc-flag:`-XPartialTypesignatures` is not enabled, in which case "++
-           "errors are generated for such holes. See "++
-           ":ref:`partial-type-signatures`."
+           ":ghc-flag:`-XPartialTypeSignatures` が有効になっているとき "++
+           "部分型シグネチャ中にホールがあれば警告する． "++
+           ":ghc-flag:`-XPartialTypesignatures` が無効であれば "++
+           "このようなホールがあるとエラーになります． "++
+           ":ref:`partial-type-signatures` 参照"
          , flagType = DynamicFlag
          , flagReverse = "-Wno-partial-type-signatures"
          }
   , flag { flagName = "-Wderiving-typeable"
          , flagDescription =
-           "warn when encountering a request to derive an instance of class "++
-           "``Typeable``. As of GHC 7.10, such declarations are unnecessary "++
-           "and are ignored by the compiler because GHC has a custom solver "++
-           "for discharging this type of constraint."
+           "``Typeable`` クラスのインスタンスを導出する宣言がある場合 警告する． " ++
+           "GHC 7.10 以降このような宣言は不要で" ++
+           "GHC はこのタイプの制約を無にする独自ソルバがあるので " ++
+           "このフラグは単に無視される"
          , flagType = DynamicFlag
          , flagReverse = "-Wno-deriving-typeable"
          }
   , flag { flagName = "-Wmissing-home-modules"
          , flagDescription =
-           "warn when encountering a home module imported, but not listed "++
-           "on the command line. Useful for cabal to ensure GHC won't pick "++
-           "up modules, not listed neither in ``exposed-modules``, nor in "++
-           "``other-modules``."
+           "コマンドラインで指定されていないホームモジュールがあるとき警告する． " ++ 
+           "Cabal で ``exposed-modules`` にも ``other-modules`` にもリストされていない " ++
+           "モジュールを GHC が取り上げないようにするのに役立つ"
          , flagType = DynamicFlag
          , flagReverse = "-Wno-missing-home-modules"
          }
