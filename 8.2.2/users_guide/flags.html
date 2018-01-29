@@ -1734,84 +1734,88 @@
 <td><code class="xref std std-ghc-flag docutils literal"><span class="pre">-Wno-wrong-do-bind</span></code></td>
 </tr>
 <tr class="row-odd"><td><a class="reference internal" href="safe_haskell.html#ghc-flag--Wunsafe"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-Wunsafe</span></code></a></td>
-<td>warn if the module being compiled is regarded to be unsafe. Should be used to check the safety
-status of modules when using safe inference. Works on all module types, even those using
-explicit <a class="reference internal" href="safe_haskell.html#safe-haskell"><span class="std std-ref">Safe Haskell</span></a> modes (such as <a class="reference internal" href="safe_haskell.html#ghc-flag--XTrustworthy"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-XTrustworthy</span></code></a>) and so
-can be used to have the compiler check any assumptions made.</td>
+<td>コンパイルしようとするモジュールが unsafe と見なされる場合に警告する． 安全性推論を使うときは,
+モジュールが安全かどうかを確認するために このフラグを使うべきである．
+すべてのモジュールタイプで機能するので, 明示的に <a class="reference internal" href="safe_haskell.html#safe-haskell"><span class="std std-ref">Safe Haskell</span></a>
+モードを使用 (<a class="reference internal" href="safe_haskell.html#ghc-flag--XTrustworthy"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-XTrustworthy</span></code></a>) している場合でも
+あらゆる仮定をコンパイラに確認するようこのフラグを使うべきである．</td>
 <td>dynamic</td>
 <td><code class="xref std std-ghc-flag docutils literal"><span class="pre">-Wno-unsafe</span></code></td>
 </tr>
 <tr class="row-even"><td><a class="reference internal" href="safe_haskell.html#ghc-flag--Wsafe"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-Wsafe</span></code></a></td>
-<td>warn if the module being compiled is regarded to be safe. Should be used to check the safety
-status of modules when using safe inference. Works on all module types, even those using
-explicit <a class="reference internal" href="safe_haskell.html#safe-haskell"><span class="std std-ref">Safe Haskell</span></a> modes (such as <a class="reference internal" href="safe_haskell.html#ghc-flag--XTrustworthy"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-XTrustworthy</span></code></a>) and so
-can be used to have the compiler check any assumptions made.</td>
+<td>コンパイルしようとするモジュールが safe と見なされる場合に警告する． 安全性推論を使うときは,
+モジュールが安全かどうかを確認するために このフラグを使うべきである．
+すべてのモジュールタイプで機能するので, 明示的に <a class="reference internal" href="safe_haskell.html#safe-haskell"><span class="std std-ref">Safe Haskell</span></a>
+モードを使用 (<a class="reference internal" href="safe_haskell.html#ghc-flag--XTrustworthy"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-XTrustworthy</span></code></a>) している場合でも
+あらゆる仮定をコンパイラに確認するようこのフラグを使うべきである．</td>
 <td>dynamic</td>
 <td><code class="xref std std-ghc-flag docutils literal"><span class="pre">-Wno-safe</span></code></td>
 </tr>
 <tr class="row-odd"><td><a class="reference internal" href="safe_haskell.html#ghc-flag--Wtrustworthy-safe"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-Wtrustworthy-safe</span></code></a></td>
-<td>warn if the module being compiled is marked as <a class="reference internal" href="safe_haskell.html#ghc-flag--XTrustworthy"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-XTrustworthy</span></code></a> but it could instead
-be marked as <a class="reference internal" href="safe_haskell.html#ghc-flag--XSafe"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-XSafe</span></code></a>, a more informative bound. Can be used to detectonce a Safe
-Haskell bound can be improved as dependencies are updated.</td>
+<td>コンパイルしようとするモジュールが <a class="reference internal" href="safe_haskell.html#ghc-flag--XTrustworthy"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-XTrustworthy</span></code></a> マーク付きであるが,
+<a class="reference internal" href="safe_haskell.html#ghc-flag--XSafe"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-XSafe</span></code></a>
+マーク付きにするほうがより有益な境界になる場合に警告するこのフラグを利用すると
+依存関係が更新されたとき Safe Haskell 境界が改善できるようになったことを検出できる</td>
 <td>dynamic</td>
 <td><code class="xref std std-ghc-flag docutils literal"><span class="pre">-Wno-safe</span></code></td>
 </tr>
 <tr class="row-even"><td><a class="reference internal" href="using-warnings.html#ghc-flag--Wwarnings-deprecations"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-Wwarnings-deprecations</span></code></a></td>
-<td>warn about uses of functions &amp; types that have warnings or deprecated pragmas</td>
+<td><code class="docutils literal"><span class="pre">WARNING</span></code> あるい <code class="docutils literal"><span class="pre">DEPRECATED</span></code> プラグマの付いた関数および型を使うと警告する</td>
 <td>dynamic</td>
 <td><code class="xref std std-ghc-flag docutils literal"><span class="pre">-Wno-warnings-deprecations</span></code></td>
 </tr>
 <tr class="row-odd"><td><a class="reference internal" href="using-warnings.html#ghc-flag--Wdeprecations"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-Wdeprecations</span></code></a></td>
-<td>warn about uses of functions &amp; types that have warnings or deprecated pragmas. Alias for
-<a class="reference internal" href="using-warnings.html#ghc-flag--Wwarnings-deprecations"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-Wwarnings-deprecations</span></code></a></td>
+<td><code class="docutils literal"><span class="pre">WARNING</span></code> あるい <code class="docutils literal"><span class="pre">DEPRECATED</span></code>
+プラグマの付いた関数および型を使うと警告する:ghc-flag:<cite>-Wwarnings-deprecations</cite> の別名</td>
 <td>dynamic</td>
 <td><code class="xref std std-ghc-flag docutils literal"><span class="pre">-Wno-deprecations</span></code></td>
 </tr>
 <tr class="row-even"><td><a class="reference internal" href="using-warnings.html#ghc-flag--Wamp"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-Wamp</span></code></a></td>
-<td><em>(deprecated)</em> warn on definitions conflicting with the Applicative-Monad Proposal (AMP)</td>
+<td><em>(非推奨)</em> Applicative-Monad Proposal (AMP) と衝突する定義について警告する</td>
 <td>dynamic</td>
 <td><code class="xref std std-ghc-flag docutils literal"><span class="pre">-Wno-amp</span></code></td>
 </tr>
 <tr class="row-odd"><td><a class="reference internal" href="using-warnings.html#ghc-flag--Wredundant-constraints"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-Wredundant-constraints</span></code></a></td>
-<td>Have the compiler warn about redundant constraints in typesignatures.</td>
+<td>型シグネチャに冗長な制約があると警告する</td>
 <td>dynamic</td>
 <td><code class="xref std std-ghc-flag docutils literal"><span class="pre">-Wno-redundant-constraints</span></code></td>
 </tr>
 <tr class="row-even"><td><code class="xref std std-ghc-flag docutils literal"><span class="pre">-Wdeferred-type-errors</span></code></td>
-<td>Report warnings when <a class="reference internal" href="glasgow_exts.html#defer-type-errors"><span class="std std-ref">deferred type errors</span></a> are enabled. This option
-is enabled by default. See <a class="reference internal" href="using-warnings.html#ghc-flag--fdefer-type-errors"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-fdefer-type-errors</span></code></a>.</td>
+<td><a class="reference internal" href="glasgow_exts.html#defer-type-errors"><span class="std std-ref">deferred type errors</span></a> が有効になっていると警告する．
+このオプションはデフォルトで有効． <a class="reference internal" href="using-warnings.html#ghc-flag--fdefer-type-errors"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-fdefer-type-errors</span></code></a> 参照</td>
 <td>dynamic</td>
 <td><code class="xref std std-ghc-flag docutils literal"><span class="pre">-Wno-deferred-type-errors</span></code></td>
 </tr>
 <tr class="row-odd"><td><a class="reference internal" href="using-warnings.html#ghc-flag--Wtyped-holes"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-Wtyped-holes</span></code></a></td>
-<td>Report warnings when <a class="reference internal" href="glasgow_exts.html#typed-holes"><span class="std std-ref">typed hole</span></a> errors are <a class="reference internal" href="glasgow_exts.html#defer-type-errors"><span class="std std-ref">deferred until runtime</span></a>. See <a class="reference internal" href="using-warnings.html#ghc-flag--fdefer-typed-holes"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-fdefer-typed-holes</span></code></a>.</td>
+<td><a class="reference internal" href="glasgow_exts.html#typed-holes"><span class="std std-ref">型ホール</span></a> エラーが <a class="reference internal" href="glasgow_exts.html#defer-type-errors"><span class="std std-ref">実行時まで遅延</span></a>
+されているとき警告する． <a class="reference internal" href="using-warnings.html#ghc-flag--fdefer-typed-holes"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-fdefer-typed-holes</span></code></a> 参照</td>
 <td>dynamic</td>
 <td><code class="xref std std-ghc-flag docutils literal"><span class="pre">-Wno-typed-holes</span></code></td>
 </tr>
 <tr class="row-even"><td><a class="reference internal" href="using-warnings.html#ghc-flag--Wdeferred-out-of-scope-variables"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-Wdeferred-out-of-scope-variables</span></code></a></td>
-<td>Report warnings when variable out-of-scope errors are <span class="xref std std-ref">deferred until runtime. See
-:ghc-flag:</span>-fdefer-out-of-scope-variables`.</td>
+<td>変数のスコープ外エラーが実行時まで遅延されているとき警告する．
+<a class="reference internal" href="using-warnings.html#ghc-flag--fdefer-out-of-scope-variables"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-fdefer-out-of-scope-variables</span></code></a> 参照</td>
 <td>dynamic</td>
 <td><code class="xref std std-ghc-flag docutils literal"><span class="pre">-Wno-deferred-out-of-scope-variables</span></code></td>
 </tr>
 <tr class="row-odd"><td><a class="reference internal" href="using-warnings.html#ghc-flag--Wpartial-type-signatures"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-Wpartial-type-signatures</span></code></a></td>
-<td>warn about holes in partial type signatures when <a class="reference internal" href="glasgow_exts.html#ghc-flag--XPartialTypeSignatures"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-XPartialTypeSignatures</span></code></a> is
-enabled. Not applicable when <code class="xref std std-ghc-flag docutils literal"><span class="pre">-XPartialTypesignatures</span></code> is not enabled, in which case
-errors are generated for such holes. See <a class="reference internal" href="glasgow_exts.html#partial-type-signatures"><span class="std std-ref">Partial Type Signatures</span></a>.</td>
+<td><a class="reference internal" href="glasgow_exts.html#ghc-flag--XPartialTypeSignatures"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-XPartialTypeSignatures</span></code></a> が有効になっているとき
+部分型シグネチャ中にホールがあれば警告する． <code class="xref std std-ghc-flag docutils literal"><span class="pre">-XPartialTypesignatures</span></code> が無効であれば
+このようなホールがあるとエラーになります． <a class="reference internal" href="glasgow_exts.html#partial-type-signatures"><span class="std std-ref">Partial Type Signatures</span></a> 参照</td>
 <td>dynamic</td>
 <td><code class="xref std std-ghc-flag docutils literal"><span class="pre">-Wno-partial-type-signatures</span></code></td>
 </tr>
 <tr class="row-even"><td><code class="xref std std-ghc-flag docutils literal"><span class="pre">-Wderiving-typeable</span></code></td>
-<td>warn when encountering a request to derive an instance of class <code class="docutils literal"><span class="pre">Typeable</span></code>. As of GHC 7.10,
-such declarations are unnecessary and are ignored by the compiler because GHC has a custom
-solver for discharging this type of constraint.</td>
+<td><code class="docutils literal"><span class="pre">Typeable</span></code> クラスのインスタンスを導出する宣言がある場合 警告する． GHC 7.10
+以降このような宣言は不要でGHC はこのタイプの制約を無にする独自ソルバがあるので
+このフラグは単に無視される</td>
 <td>dynamic</td>
 <td><code class="xref std std-ghc-flag docutils literal"><span class="pre">-Wno-deriving-typeable</span></code></td>
 </tr>
 <tr class="row-odd"><td><a class="reference internal" href="using-warnings.html#ghc-flag--Wmissing-home-modules"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-Wmissing-home-modules</span></code></a></td>
-<td>warn when encountering a home module imported, but not listed on the command line. Useful for
-cabal to ensure GHC won&#8217;t pick up modules, not listed neither in <code class="docutils literal"><span class="pre">exposed-modules</span></code>, nor in
-<code class="docutils literal"><span class="pre">other-modules</span></code>.</td>
+<td>コマンドラインで指定されていないホームモジュールがあるとき警告する． Cabal で
+<code class="docutils literal"><span class="pre">exposed-modules</span></code> にも <code class="docutils literal"><span class="pre">other-modules</span></code> にもリストされていない モジュールを GHC
+が取り上げないようにするのに役立つ</td>
 <td>dynamic</td>
 <td><code class="xref std std-ghc-flag docutils literal"><span class="pre">-Wno-missing-home-modules</span></code></td>
 </tr>
