@@ -417,7 +417,7 @@ warningsOptions =
          }
   , flag { flagName = "-Wdeferred-type-errors"
          , flagDescription =
-           ":ref:`deferred type errors <defer-type-errors>` が有効になっていると警告する． "
+           ":ref:`deferred type errors <defer-type-errors>` が有効になっていると警告する． " ++
            "このオプションはデフォルトで有効． :ghc-flag:`-fdefer-type-errors` 参照"
          , flagType = DynamicFlag
          , flagReverse = "-Wno-deferred-type-errors"
