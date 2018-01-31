@@ -220,15 +220,38 @@
 
 .. include:: flags-warnings.gen.rst
 
-Optimisation levels
--------------------
+..
+   Optimisation levels
+   -------------------
 
-These options are described in more detail in :ref:`options-optimise`.
+   These options are described in more detail in :ref:`options-optimise`.
 
-See :ref:`options-f-compact` for a list of optimisations enabled on
-level 1 and level 2.
+   See :ref:`options-f-compact` for a list of optimisations enabled on
+   level 1 and level 2.
+
+   .. include:: flags-optimization-levels.gen.rst
+
+最適化レベルの設定
+------------------
+
+これらのオプションについて詳しくは :ref:`options-optimise` にあります．
+
+レベル 1 およびレベル 2 で有効になる最適化一覧については :ref:`options-f-compact` を参照してください．
 
 .. include:: flags-optimization-levels.gen.rst
+
+..
+   .. _options-f-compact:
+
+   Individual optimisations
+   ------------------------
+
+   These options are described in more detail in :ref:`options-f`. If a
+   flag is implied by ``-O`` then it is also implied by ``-O2`` (unless
+   flag description explicitly says otherwise). If a flag is implied by
+   ``-O0`` only then the flag is not implied by ``-O`` and ``-O2``.
+
+   .. include:: flags-optimization.gen.rst
 
 .. _options-f-compact:
 
