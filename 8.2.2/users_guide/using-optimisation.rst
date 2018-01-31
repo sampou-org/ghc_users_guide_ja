@@ -342,11 +342,11 @@ GHCが生成するコードの質に影響を与えるオプションは *大量
     このパスではリテラルやレジスタなどの単純な式を埋め込みます．
 
 ..
-   .. ghc-flag:: -fcpr-off
+   .. ghc-flag:: -fcpr-off        <-- このフラグは8.2.2ではない -fno-cpr-anal が対応する?
 
        Switch off CPR analysis in the demand analyser.
 
-.. ghc-flag:: -fcpr-off
+.. ghc-flag:: -fno-cpr-anal
 
     デマンド解析器における CPR 解析を無効にする．
 
