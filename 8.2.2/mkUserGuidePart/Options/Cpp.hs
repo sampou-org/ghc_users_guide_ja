@@ -5,21 +5,21 @@ import Types
 cppOptions :: [Flag]
 cppOptions =
   [ flag { flagName = "-cpp"
-         , flagDescription = "Run the C pre-processor on Haskell source files"
+         , flagDescription = "Haskell のソースファイルに対し C プリプロセッサを走らせる"
          , flagType = DynamicFlag
          }
   , flag { flagName = "-D⟨symbol⟩[=⟨value⟩]"
-         , flagDescription = "Define a symbol in the C pre-processor"
+         , flagDescription = "C プリプロセッサのシンボルを定義する"
          , flagType = DynamicFlag
          , flagReverse = "-U⟨symbol⟩"
          }
   , flag { flagName = "-U⟨symbol⟩"
-         , flagDescription = "Undefine a symbol in the C pre-processor"
+         , flagDescription = "C プリプロセッサのシンボルを未定義にする"
          , flagType = DynamicFlag
          }
   , flag { flagName = "-I⟨dir⟩"
          , flagDescription =
-           "Add ⟨dir⟩ to the directory search list for ``#include`` files"
+           "``#include`` ファイルの探索ディレクトリリストに⟨dir⟩を追加する"
          , flagType = DynamicFlag
          }
   ]

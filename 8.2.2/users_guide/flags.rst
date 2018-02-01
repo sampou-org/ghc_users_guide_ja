@@ -294,10 +294,18 @@
 
 .. include:: flags-program-coverage.gen.rst
 
-C pre-processor options
------------------------
+..
+   C pre-processor options
+   -----------------------
 
-More details in :ref:`c-pre-processor`
+   More details in :ref:`c-pre-processor`
+
+   .. include:: flags-cpp.gen.rst
+
+C プリプロセッサオプション
+--------------------------
+
+より詳しくは :ref:`c-pre-processor` にあります．
 
 .. include:: flags-cpp.gen.rst
 
