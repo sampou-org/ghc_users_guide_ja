@@ -1,44 +1,88 @@
+..
+   .. _runtime-control:
+
+   Running a compiled program
+   ==========================
+
+   .. index::
+      single: runtime control of Haskell programs
+      single: running, compiled program
+      single: RTS options
+
 .. _runtime-control:
 
-Running a compiled program
-==========================
+コンパイル済みプログラムの実行
+==============================
 
 .. index::
-   single: runtime control of Haskell programs
-   single: running, compiled program
-   single: RTS options
+   single: Haskell プログラムの実行時制御
+   single: 実行, コンパイル済みプログラムの〜
+   single: RTS オプション
 
-To make an executable program, the GHC system compiles your code and
-then links it with a non-trivial runtime system (RTS), which handles
-storage management, thread scheduling, profiling, and so on.
+..
+   To make an executable program, the GHC system compiles your code and
+   then links it with a non-trivial runtime system (RTS), which handles
+   storage management, thread scheduling, profiling, and so on.
 
-The RTS has a lot of options to control its behaviour. For example, you
-can change the context-switch interval, the default size of the heap,
-and enable heap profiling. These options can be passed to the runtime
-system in a variety of different ways; the next section
-(:ref:`setting-rts-options`) describes the various methods, and the
-following sections describe the RTS options themselves.
+実行可能なプログラムを作るために GHC システムはコードをコンパイルし，
+それを自明ではない実行時システム(RTS)とリンクします．
+RTS は記憶領域の管理，スレッドのスケジューリング，プロファイリングなどを行います．
+
+..
+   The RTS has a lot of options to control its behaviour. For example, you
+   can change the context-switch interval, the default size of the heap,
+   and enable heap profiling. These options can be passed to the runtime
+   system in a variety of different ways; the next section
+   (:ref:`setting-rts-options`) describes the various methods, and the
+   following sections describe the RTS options themselves.
+
+RTS には振舞を制御するためのオプションをたくさんあります．
+たとえば，コンテキストスイッチの間隔や，デフォルトのヒープサイズを変更したり，
+ヒーププロファイリングを有効にしたりできます．
+これらのオプションはさまざまな方法で RTS に渡せます．
+次節(:ref:`setting-rts-options`)ではこのさまざまな方法を解説し，
+それに続く節では RTS オプションそのものの説明をします．
+
+..
+   .. _setting-rts-options:
+
+   Setting RTS options
+   -------------------
+
+   .. index::
+      single: RTS options, setting
 
 .. _setting-rts-options:
 
-Setting RTS options
--------------------
+RTS オプションの設定方法
+------------------------
 
 .. index::
-   single: RTS options, setting
+   single: RTS オプション, 〜の設定
 
-There are four ways to set RTS options:
+..
+   There are four ways to set RTS options:
 
--  on the command line between ``+RTS ... -RTS``, when running the
-   program (:ref:`rts-opts-cmdline`)
+   -  on the command line between ``+RTS ... -RTS``, when running the
+      program (:ref:`rts-opts-cmdline`)
 
--  at compile-time, using :ghc-flag:`-with-rtsopts=⟨opts⟩`
-   (:ref:`rts-opts-compile-time`)
+   -  at compile-time, using :ghc-flag:`-with-rtsopts=⟨opts⟩`
+      (:ref:`rts-opts-compile-time`)
 
--  with the environment variable :envvar:`GHCRTS`
-   (:ref:`rts-options-environment`)
+   -  with the environment variable :envvar:`GHCRTS`
+      (:ref:`rts-options-environment`)
 
--  by overriding "hooks" in the runtime system (:ref:`rts-hooks`)
+   -  by overriding "hooks" in the runtime system (:ref:`rts-hooks`)
+
+RTS オプションを設定する方法は以下の4つです．
+
+-  プログラム実行時にコマンドラインで ``+RTS ... -RTS`` の間に指定する(:ref:`rts-opts-cmdline`)．
+
+-  コンパイル時に :ghc-flag:`-with-rtsopts=⟨opts⟩` を使って設定する(:ref:`rts-opts-compile-time`)．
+
+-  環境変数 :envvar:`GHCRTS` を使って設定する(:ref:`rts-options-environment`)．
+
+-  RTS の「フック」を上書きすることで設定する(:ref:`rts-hooks`)．
 
 .. _rts-opts-cmdline:
 
