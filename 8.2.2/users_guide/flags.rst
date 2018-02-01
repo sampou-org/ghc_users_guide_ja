@@ -264,10 +264,18 @@
 
 .. include:: flags-optimization.gen.rst
 
-Profiling options
------------------
+..
+   Profiling options
+   -----------------
 
-More details in :ref:`profiling`
+   More details in :ref:`profiling`
+
+   .. include:: flags-profiling.gen.rst
+
+プロファイリングオプション
+--------------------------
+
+詳しくは :ref:`profiling` にあります．
 
 .. include:: flags-profiling.gen.rst
 
