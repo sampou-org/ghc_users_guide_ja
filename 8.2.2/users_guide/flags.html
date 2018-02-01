@@ -76,7 +76,7 @@
 <li><a class="reference internal" href="#id13">7.6.12. 言語オプション</a></li>
 <li><a class="reference internal" href="#id14">7.6.13. 警告</a></li>
 <li><a class="reference internal" href="#id15">7.6.14. 最適化レベルの設定</a></li>
-<li><a class="reference internal" href="#individual-optimisations">7.6.15. Individual optimisations</a></li>
+<li><a class="reference internal" href="#options-f-compact">7.6.15. 個々の最適化</a></li>
 <li><a class="reference internal" href="#profiling-options">7.6.16. Profiling options</a></li>
 <li><a class="reference internal" href="#program-coverage-options">7.6.17. Program coverage options</a></li>
 <li><a class="reference internal" href="#c-pre-processor-options">7.6.18. C pre-processor options</a></li>
@@ -1825,7 +1825,7 @@
 <div class="section" id="id15">
 <h2>7.6.14. 最適化レベルの設定<a class="headerlink" href="#id15" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <p>これらのオプションについて詳しくは <span class="xref std std-ref">options-optimise</span> にあります．</p>
-<p>レベル 1 およびレベル 2 で有効になる最適化一覧については <a class="reference internal" href="#options-f-compact"><span class="std std-ref">Individual optimisations</span></a> を参照してください．</p>
+<p>レベル 1 およびレベル 2 で有効になる最適化一覧については <a class="reference internal" href="#options-f-compact"><span class="std std-ref">個々の最適化</span></a> を参照してください．</p>
 <table border="1" class="docutils">
 <colgroup>
 <col width="25%" />
@@ -1865,12 +1865,11 @@
 </tbody>
 </table>
 </div>
-<div class="section" id="individual-optimisations">
-<span id="options-f-compact"></span><h2>7.6.15. Individual optimisations<a class="headerlink" href="#individual-optimisations" title="このヘッドラインへのパーマリンク">¶</a></h2>
-<p>These options are described in more detail in <span class="xref std std-ref">options-f</span>. If a
-flag is implied by <code class="docutils literal"><span class="pre">-O</span></code> then it is also implied by <code class="docutils literal"><span class="pre">-O2</span></code> (unless
-flag description explicitly says otherwise). If a flag is implied by
-<code class="docutils literal"><span class="pre">-O0</span></code> only then the flag is not implied by <code class="docutils literal"><span class="pre">-O</span></code> and <code class="docutils literal"><span class="pre">-O2</span></code>.</p>
+<div class="section" id="options-f-compact">
+<span id="id16"></span><h2>7.6.15. 個々の最適化<a class="headerlink" href="#options-f-compact" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>これらのオプションについてより詳しくは <span class="xref std std-ref">options-f</span> にあります．
+<code class="docutils literal"><span class="pre">-O</span></code> で有効になるフラグは(別指定をしないかぎり) <code class="docutils literal"><span class="pre">-O2</span></code> ででも有効になります．
+<code class="docutils literal"><span class="pre">-O0</span></code> で有効になるフラグについては，<code class="docutils literal"><span class="pre">-O</span></code> や <code class="docutils literal"><span class="pre">-O2</span></code> を指定しても有効にはなりません．</p>
 <table border="1" class="docutils">
 <colgroup>
 <col width="25%" />
@@ -1887,324 +1886,321 @@ flag description explicitly says otherwise). If a flag is implied by
 </thead>
 <tbody valign="top">
 <tr class="row-even"><td><a class="reference internal" href="using-optimisation.html#ghc-flag--fcall-arity"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-fcall-arity</span></code></a></td>
-<td>Enable call-arity optimisation. Implied by <a class="reference internal" href="using-optimisation.html#ghc-flag--O"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-O</span></code></a>.</td>
+<td>コール・アリティ最適化を有効にする． <a class="reference internal" href="using-optimisation.html#ghc-flag--O"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-O</span></code></a> で有効になる</td>
 <td>dynamic</td>
 <td><code class="xref std std-ghc-flag docutils literal"><span class="pre">-fno-call-arity</span></code></td>
 </tr>
 <tr class="row-odd"><td><a class="reference internal" href="using-optimisation.html#ghc-flag--fcase-merge"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-fcase-merge</span></code></a></td>
-<td>Enable case-merging. Implied by <a class="reference internal" href="using-optimisation.html#ghc-flag--O"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-O</span></code></a>.</td>
+<td>case式併合を有効にする． <a class="reference internal" href="using-optimisation.html#ghc-flag--O"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-O</span></code></a> で有効になる</td>
 <td>dynamic</td>
 <td><code class="xref std std-ghc-flag docutils literal"><span class="pre">-fno-case-merge</span></code></td>
 </tr>
 <tr class="row-even"><td><a class="reference internal" href="using-optimisation.html#ghc-flag--fcase-folding"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-fcase-folding</span></code></a></td>
-<td>Enable constant folding in case expressions. Implied by <a class="reference internal" href="using-optimisation.html#ghc-flag--O"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-O</span></code></a>.</td>
+<td>case 式での定数畳み込みを有効にする． <a class="reference internal" href="using-optimisation.html#ghc-flag--O"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-O</span></code></a> で有効になる</td>
 <td>dynamic</td>
 <td><code class="xref std std-ghc-flag docutils literal"><span class="pre">-fno-case-folding</span></code></td>
 </tr>
 <tr class="row-odd"><td><a class="reference internal" href="using-optimisation.html#ghc-flag--fcmm-elim-common-blocks"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-fcmm-elim-common-blocks</span></code></a></td>
-<td>Enable Cmm common block elimination. Implied by <a class="reference internal" href="using-optimisation.html#ghc-flag--O"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-O</span></code></a>.</td>
+<td>Cmm の共通ブロック除去を有効にする． <a class="reference internal" href="using-optimisation.html#ghc-flag--O"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-O</span></code></a> で有効になる</td>
 <td>dynamic</td>
 <td><code class="xref std std-ghc-flag docutils literal"><span class="pre">-fno-cmm-elim-common-blocks</span></code></td>
 </tr>
 <tr class="row-even"><td><a class="reference internal" href="using-optimisation.html#ghc-flag--fcmm-sink"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-fcmm-sink</span></code></a></td>
-<td>Enable Cmm sinking. Implied by <a class="reference internal" href="using-optimisation.html#ghc-flag--O"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-O</span></code></a>.</td>
+<td>Cmm シンキングを有効にする． <a class="reference internal" href="using-optimisation.html#ghc-flag--O"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-O</span></code></a> で有効になる</td>
 <td>dynamic</td>
 <td><code class="xref std std-ghc-flag docutils literal"><span class="pre">-fno-cmm-sink</span></code></td>
 </tr>
 <tr class="row-odd"><td><code class="xref std std-ghc-flag docutils literal"><span class="pre">-fcpr-anal</span></code></td>
-<td>Turn on CPR analysis in the demand analyser. Implied by <a class="reference internal" href="using-optimisation.html#ghc-flag--O"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-O</span></code></a>.</td>
+<td>デマンド解析器での CPR 解析を有効にする． <a class="reference internal" href="using-optimisation.html#ghc-flag--O"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-O</span></code></a> で有効になる</td>
 <td>dynamic</td>
-<td><code class="xref std std-ghc-flag docutils literal"><span class="pre">-fno-cpr-anal</span></code></td>
+<td><a class="reference internal" href="using-optimisation.html#ghc-flag--fno-cpr-anal"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-fno-cpr-anal</span></code></a></td>
 </tr>
 <tr class="row-even"><td><a class="reference internal" href="using-optimisation.html#ghc-flag--fcse"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-fcse</span></code></a></td>
-<td>Enable common sub-expression elimination. Implied by <a class="reference internal" href="using-optimisation.html#ghc-flag--O"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-O</span></code></a>.</td>
+<td>共通部分式除去を有効にする． <a class="reference internal" href="using-optimisation.html#ghc-flag--O"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-O</span></code></a> で有効になる</td>
 <td>dynamic</td>
 <td><code class="xref std std-ghc-flag docutils literal"><span class="pre">-fno-cse</span></code></td>
 </tr>
 <tr class="row-odd"><td><a class="reference internal" href="using-optimisation.html#ghc-flag--fdicts-cheap"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-fdicts-cheap</span></code></a></td>
-<td>Make dictionary-valued expressions seem cheap to the optimiser.</td>
+<td>辞書の値になる式のコストを最適化器が安く見積るようにする</td>
 <td>dynamic</td>
 <td><code class="xref std std-ghc-flag docutils literal"><span class="pre">-fno-dicts-cheap</span></code></td>
 </tr>
 <tr class="row-even"><td><a class="reference internal" href="using-optimisation.html#ghc-flag--fdicts-strict"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-fdicts-strict</span></code></a></td>
-<td>Make dictionaries strict</td>
+<td>辞書を正格にする</td>
 <td>dynamic</td>
 <td><code class="xref std std-ghc-flag docutils literal"><span class="pre">-fno-dicts-strict</span></code></td>
 </tr>
 <tr class="row-odd"><td><a class="reference internal" href="using-optimisation.html#ghc-flag--fdmd-tx-dict-sel"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-fdmd-tx-dict-sel</span></code></a></td>
-<td>Use a special demand transformer for dictionary selectors. Always enabled by default.</td>
+<td>辞書選択子専用の要求変換子を使う． つねにデフォルトで有効</td>
 <td>dynamic</td>
 <td><code class="xref std std-ghc-flag docutils literal"><span class="pre">-fno-dmd-tx-dict-sel</span></code></td>
 </tr>
 <tr class="row-even"><td><a class="reference internal" href="using-optimisation.html#ghc-flag--fdo-eta-reduction"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-fdo-eta-reduction</span></code></a></td>
-<td>Enable eta-reduction. Implied by <a class="reference internal" href="using-optimisation.html#ghc-flag--O"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-O</span></code></a>.</td>
+<td>η-簡約を有効にする． <a class="reference internal" href="using-optimisation.html#ghc-flag--O"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-O</span></code></a> で有効になる</td>
 <td>dynamic</td>
 <td><code class="xref std std-ghc-flag docutils literal"><span class="pre">-fno-do-eta-reduction</span></code></td>
 </tr>
 <tr class="row-odd"><td><a class="reference internal" href="using-optimisation.html#ghc-flag--fdo-lambda-eta-expansion"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-fdo-lambda-eta-expansion</span></code></a></td>
-<td>Enable lambda eta-expansion. Always enabled by default.</td>
+<td>λ-η 展開を有効にする． つねにデフォルトで有効</td>
 <td>dynamic</td>
 <td><code class="xref std std-ghc-flag docutils literal"><span class="pre">-fno-do-lambda-eta-expansion</span></code></td>
 </tr>
 <tr class="row-even"><td><a class="reference internal" href="using-optimisation.html#ghc-flag--feager-blackholing"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-feager-blackholing</span></code></a></td>
-<td>Turn on <a class="reference internal" href="using-concurrent.html#parallel-compile-options"><span class="std std-ref">eager blackholing</span></a></td>
+<td><a class="reference internal" href="using-concurrent.html#parallel-compile-options"><span class="std std-ref">先行ブラックホール化</span></a> を有効にする</td>
 <td>dynamic</td>
 <td>&#160;</td>
 </tr>
 <tr class="row-odd"><td><a class="reference internal" href="glasgow_exts.html#ghc-flag--fenable-rewrite-rules"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-fenable-rewrite-rules</span></code></a></td>
-<td>Switch on all rewrite rules (including rules generated by automatic specialisation of
-overloaded functions). Implied by <a class="reference internal" href="using-optimisation.html#ghc-flag--O"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-O</span></code></a>.</td>
+<td>(多重定義された関数の自動特定により生成された規則を含む) すべての書き換え規則を有効にする．
+<a class="reference internal" href="using-optimisation.html#ghc-flag--O"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-O</span></code></a> で有効になる</td>
 <td>dynamic</td>
 <td><code class="xref std std-ghc-flag docutils literal"><span class="pre">-fno-enable-rewrite-rules</span></code></td>
 </tr>
 <tr class="row-even"><td><a class="reference internal" href="using-optimisation.html#ghc-flag--fexcess-precision"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-fexcess-precision</span></code></a></td>
-<td>Enable excess intermediate precision</td>
+<td>中間精度超過を有効にする</td>
 <td>dynamic</td>
 <td><code class="xref std std-ghc-flag docutils literal"><span class="pre">-fno-excess-precision</span></code></td>
 </tr>
 <tr class="row-odd"><td><a class="reference internal" href="using-optimisation.html#ghc-flag--fexpose-all-unfoldings"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-fexpose-all-unfoldings</span></code></a></td>
-<td>Expose all unfoldings, even for very large or recursive functions.</td>
+<td>非常に大きい関数，再帰関数を含めすべての展開を露出する</td>
 <td>dynamic</td>
 <td><code class="xref std std-ghc-flag docutils literal"><span class="pre">-fno-expose-all-unfoldings</span></code></td>
 </tr>
 <tr class="row-even"><td><a class="reference internal" href="using-optimisation.html#ghc-flag--ffloat-in"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-ffloat-in</span></code></a></td>
-<td>Turn on the float-in transformation. Implied by <a class="reference internal" href="using-optimisation.html#ghc-flag--O"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-O</span></code></a>.</td>
+<td>float-in 変換を有効にする． <a class="reference internal" href="using-optimisation.html#ghc-flag--O"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-O</span></code></a> で有効になる</td>
 <td>dynamic</td>
 <td><code class="xref std std-ghc-flag docutils literal"><span class="pre">-fno-float-in</span></code></td>
 </tr>
 <tr class="row-odd"><td><a class="reference internal" href="using-optimisation.html#ghc-flag--ffull-laziness"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-ffull-laziness</span></code></a></td>
-<td>Turn on full laziness (floating bindings outwards). Implied by <a class="reference internal" href="using-optimisation.html#ghc-flag--O"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-O</span></code></a>.</td>
+<td>完全遅延性最適化変換(束縛の外側への移動)を有効にする． <a class="reference internal" href="using-optimisation.html#ghc-flag--O"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-O</span></code></a> で有効になる</td>
 <td>dynamic</td>
 <td><code class="xref std std-ghc-flag docutils literal"><span class="pre">-fno-full-laziness</span></code></td>
 </tr>
 <tr class="row-even"><td><a class="reference internal" href="using-optimisation.html#ghc-flag--ffun-to-thunk"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-ffun-to-thunk</span></code></a></td>
-<td>Allow worker-wrapper to convert a function closure into a thunk if the function does not use
-any of its arguments. Off by default.</td>
+<td>関数が引数を全く使っていない場合， 関数クロージャをサンクに変換できるようにする．
+デフォルトでは無効</td>
 <td>dynamic</td>
 <td><code class="xref std std-ghc-flag docutils literal"><span class="pre">-fno-fun-to-thunk</span></code></td>
 </tr>
 <tr class="row-odd"><td><a class="reference internal" href="using-optimisation.html#ghc-flag--fignore-asserts"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-fignore-asserts</span></code></a></td>
-<td>Ignore assertions in the source. Implied by <a class="reference internal" href="using-optimisation.html#ghc-flag--O"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-O</span></code></a>.</td>
+<td>ソースプログラム中のアサーションを無視する． <a class="reference internal" href="using-optimisation.html#ghc-flag--O"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-O</span></code></a> で有効になる</td>
 <td>dynamic</td>
 <td><code class="xref std std-ghc-flag docutils literal"><span class="pre">-fno-ignore-asserts</span></code></td>
 </tr>
 <tr class="row-even"><td><a class="reference internal" href="using-optimisation.html#ghc-flag--fignore-interface-pragmas"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-fignore-interface-pragmas</span></code></a></td>
-<td>Ignore pragmas in interface files. Implied by <a class="reference internal" href="using-optimisation.html#ghc-flag--O0"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-O0</span></code></a> only.</td>
+<td>インターフェイスファイル中のプラグマを無視する． <a class="reference internal" href="using-optimisation.html#ghc-flag--O0"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-O0</span></code></a> でのみ有効になる</td>
 <td>dynamic</td>
 <td><code class="xref std std-ghc-flag docutils literal"><span class="pre">-fno-ignore-interface-pragmas</span></code></td>
 </tr>
 <tr class="row-odd"><td><a class="reference internal" href="using-optimisation.html#ghc-flag--flate-dmd-anal"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-flate-dmd-anal</span></code></a></td>
-<td>Run demand analysis again, at the end of the simplification pipeline</td>
+<td>単純化パイプラインの最後に要求解析を再度走らせる</td>
 <td>dynamic</td>
 <td><code class="xref std std-ghc-flag docutils literal"><span class="pre">-fno-late-dmd-anal</span></code></td>
 </tr>
 <tr class="row-even"><td><a class="reference internal" href="using-optimisation.html#ghc-flag--fliberate-case"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-fliberate-case</span></code></a></td>
-<td>Turn on the liberate-case transformation. Implied by <a class="reference internal" href="using-optimisation.html#ghc-flag--O2"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-O2</span></code></a>.</td>
+<td>liberate-case 変換を有効にする． <a class="reference internal" href="using-optimisation.html#ghc-flag--O2"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-O2</span></code></a> で有効になる</td>
 <td>dynamic</td>
 <td><code class="xref std std-ghc-flag docutils literal"><span class="pre">-fno-liberate-case</span></code></td>
 </tr>
 <tr class="row-odd"><td><a class="reference internal" href="using-optimisation.html#ghc-flag--fliberate-case-threshold=⟨n⟩"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-fliberate-case-threshold=⟨n⟩</span></code></a></td>
-<td><em>default: 2000.</em> Set the size threshold for the liberate-case transformation to ⟨n⟩</td>
+<td><em>デフォルト: 2000</em> liberate-case 変換の回数を ⟨n⟩ に設定する</td>
 <td>dynamic</td>
 <td><code class="xref std std-ghc-flag docutils literal"><span class="pre">-fno-liberate-case-threshold</span></code></td>
 </tr>
 <tr class="row-even"><td><a class="reference internal" href="using-optimisation.html#ghc-flag--floopification"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-floopification</span></code></a></td>
-<td>Turn saturated self-recursive tail-calls into local jumps in the generated assembly. Implied by
-<a class="reference internal" href="using-optimisation.html#ghc-flag--O"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-O</span></code></a>.</td>
+<td>自己再帰的飽和末尾呼び出しを アセンブリ生成時にローカルジャンプに変換する． <a class="reference internal" href="using-optimisation.html#ghc-flag--O"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-O</span></code></a>
+で有効になる</td>
 <td>dynamic</td>
 <td><code class="xref std std-ghc-flag docutils literal"><span class="pre">-fno-loopification</span></code></td>
 </tr>
 <tr class="row-odd"><td><a class="reference internal" href="using-optimisation.html#ghc-flag--fmax-inline-alloc-size=⟨n⟩"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-fmax-inline-alloc-size=⟨n⟩</span></code></a></td>
-<td><em>default: 128.</em> Set the maximum size of inline array allocations to ⟨n⟩ bytes (default: 128).
-GHC will allocate non-pinned arrays of statically known size in the current nursery block if
-they&#8217;re no bigger than ⟨n⟩ bytes, ignoring GC overheap. This value should be quite a bit
-smaller than the block size (typically: 4096).</td>
+<td><em>デフォルト: 128</em> インライン配列の割り当ての最大サイズを⟨n⟩バイトに設定する． GHC
+は苗床ブロックに，静的に判明しているサイズの非固定配列を⟨n⟩バイトで割り当てる． GC
+の過熱を無視しての割り当てになる．
+この値はブロックサイズ（通常は4096）よりもかなり小さくする必要がある</td>
 <td>dynamic</td>
 <td>&#160;</td>
 </tr>
 <tr class="row-even"><td><a class="reference internal" href="using-optimisation.html#ghc-flag--fmax-inline-memcpy-insns=⟨n⟩"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-fmax-inline-memcpy-insns=⟨n⟩</span></code></a></td>
-<td><em>default: 32.</em> Inline <code class="docutils literal"><span class="pre">memcpy</span></code> calls if they would generate no more than ⟨n⟩ pseudo
-instructions.</td>
+<td><em>デフォルト: 32</em>  展開後の疑似命令が⟨n⟩バイトを超えない場合 <cite>memcpy</cite>
+の呼び出しをインライン展開する．</td>
 <td>dynamic</td>
 <td>&#160;</td>
 </tr>
 <tr class="row-odd"><td><a class="reference internal" href="using-optimisation.html#ghc-flag--fmax-inline-memset-insns=⟨n⟩"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-fmax-inline-memset-insns=⟨n⟩</span></code></a></td>
-<td><em>default: 32.</em> Inline <code class="docutils literal"><span class="pre">memset</span></code> calls if they would generate no more than ⟨n⟩ pseudo
-instructions</td>
+<td><em>デフォルト: 32</em>  展開後の疑似命令が⟨n⟩バイトを超えない場合 <cite>memset</cite>
+の呼び出しをインライン展開する．</td>
 <td>dynamic</td>
 <td>&#160;</td>
 </tr>
 <tr class="row-even"><td><a class="reference internal" href="using-optimisation.html#ghc-flag--fmax-relevant-binds=⟨n⟩"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-fmax-relevant-binds=⟨n⟩</span></code></a></td>
-<td><em>default: 6.</em> Set the maximum number of bindings to display in type error messages.</td>
+<td><em>デフォルト: 6</em> エラーメッセージに表示する束縛の最大数を設定する</td>
 <td>dynamic</td>
 <td><a class="reference internal" href="using-optimisation.html#ghc-flag--fno-max-relevant-bindings"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-fno-max-relevant-bindings</span></code></a></td>
 </tr>
 <tr class="row-odd"><td><a class="reference internal" href="using-optimisation.html#ghc-flag--fmax-uncovered-patterns=⟨n⟩"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-fmax-uncovered-patterns=⟨n⟩</span></code></a></td>
-<td><em>default: 4.</em> Set the maximum number of patterns to display in warnings about non-exhaustive
-ones.</td>
+<td><em>デフォルト: 4</em> パターンが網羅的でない警告において表示するパターンの最大数を設定する</td>
 <td>dynamic</td>
 <td>&#160;</td>
 </tr>
 <tr class="row-even"><td><a class="reference internal" href="using-optimisation.html#ghc-flag--fmax-simplifier-iterations=⟨n⟩"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-fmax-simplifier-iterations=⟨n⟩</span></code></a></td>
-<td><em>default: 4.</em> Set the max iterations for the simplifier.</td>
+<td><em>デフォルト: 4</em> 単純化器の反復最大数を設定する</td>
 <td>dynamic</td>
 <td>&#160;</td>
 </tr>
 <tr class="row-odd"><td><a class="reference internal" href="using-optimisation.html#ghc-flag--fmax-worker-args=⟨n⟩"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-fmax-worker-args=⟨n⟩</span></code></a></td>
-<td><em>default: 10.</em> If a worker has that many arguments, none will be unpacked anymore.</td>
+<td><em>デフォルト: 10</em> この数までのワーカー引数はアンパックされない</td>
 <td>dynamic</td>
 <td>&#160;</td>
 </tr>
 <tr class="row-even"><td><a class="reference internal" href="using-optimisation.html#ghc-flag--fno-opt-coercion"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-fno-opt-coercion</span></code></a></td>
-<td>Turn off the coercion optimiser</td>
+<td>強制変換最適化を無効にする</td>
 <td>dynamic</td>
 <td>&#160;</td>
 </tr>
 <tr class="row-odd"><td><a class="reference internal" href="using-optimisation.html#ghc-flag--fno-pre-inlining"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-fno-pre-inlining</span></code></a></td>
-<td>Turn off pre-inlining</td>
+<td>事前インライン展開を無効にする</td>
 <td>dynamic</td>
 <td>&#160;</td>
 </tr>
 <tr class="row-even"><td><a class="reference internal" href="using-optimisation.html#ghc-flag--fno-state-hack"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-fno-state-hack</span></code></a></td>
-<td>Turn off the &#8220;state hack&#8221; whereby any lambda with a real-world state token as argument is
-considered to be single-entry. Hence OK to inline things inside it.</td>
+<td>実世界トークンを引数とするλ抽象式をシングルエントリーであるとみなす “state hack” を無効にする．
+これにより，その内部のものをインライン化してもよいことになる</td>
 <td>dynamic</td>
 <td>&#160;</td>
 </tr>
 <tr class="row-odd"><td><a class="reference internal" href="using-optimisation.html#ghc-flag--fomit-interface-pragmas"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-fomit-interface-pragmas</span></code></a></td>
-<td>Don&#8217;t generate interface pragmas. Implied by <a class="reference internal" href="using-optimisation.html#ghc-flag--O0"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-O0</span></code></a> only.</td>
+<td>インターフェイスプラグマを生成しない． <a class="reference internal" href="using-optimisation.html#ghc-flag--O0"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-O0</span></code></a> でのみ有効になる</td>
 <td>dynamic</td>
 <td><code class="xref std std-ghc-flag docutils literal"><span class="pre">-fno-omit-interface-pragmas</span></code></td>
 </tr>
 <tr class="row-even"><td><a class="reference internal" href="using-optimisation.html#ghc-flag--fomit-yields"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-fomit-yields</span></code></a></td>
-<td>Omit heap checks when no allocation is being performed.</td>
+<td>メモリ確保がない場合，GHC がヒープ検査を省略するようする</td>
 <td>dynamic</td>
 <td><code class="xref std std-ghc-flag docutils literal"><span class="pre">-fno-omit-yields</span></code></td>
 </tr>
 <tr class="row-odd"><td><a class="reference internal" href="glasgow_exts.html#ghc-flag--foptimal-applicative-do"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-foptimal-applicative-do</span></code></a></td>
-<td>Use a slower but better algorithm for ApplicativeDo</td>
+<td>遅いがよりよい ApplicativeDo のアルゴリズムを使う</td>
 <td>dynamic</td>
 <td><code class="xref std std-ghc-flag docutils literal"><span class="pre">-fno-optimal-applicative-do</span></code></td>
 </tr>
 <tr class="row-even"><td><a class="reference internal" href="using-optimisation.html#ghc-flag--fpedantic-bottoms"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-fpedantic-bottoms</span></code></a></td>
-<td>Make GHC be more precise about its treatment of bottom (but see also
-<a class="reference internal" href="using-optimisation.html#ghc-flag--fno-state-hack"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-fno-state-hack</span></code></a>). In particular, GHC will not eta-expand through a case expression.</td>
+<td>GHC が底値(ボトム，⊥)をより精密に扱うようにする (ただし <a class="reference internal" href="using-optimisation.html#ghc-flag--fno-state-hack"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-fno-state-hack</span></code></a>
+も参照のこと)． 具体的には，case 式を通しての η 展開が行われなくなる</td>
 <td>dynamic</td>
 <td><code class="xref std std-ghc-flag docutils literal"><span class="pre">-fno-pedantic-bottoms</span></code></td>
 </tr>
 <tr class="row-odd"><td><a class="reference internal" href="using-optimisation.html#ghc-flag--fregs-graph"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-fregs-graph</span></code></a></td>
-<td>Use the graph colouring register allocator for register allocation in the native code
-generator. Implied by <a class="reference internal" href="using-optimisation.html#ghc-flag--O2"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-O2</span></code></a>.</td>
+<td>ネイティブコード生成器において，グラフ彩色レジスタ割り付けを使う:ghc-flag:<cite>-O2</cite> で有効になる</td>
 <td>dynamic</td>
 <td><code class="xref std std-ghc-flag docutils literal"><span class="pre">-fno-regs-graph</span></code></td>
 </tr>
 <tr class="row-even"><td><a class="reference internal" href="using-optimisation.html#ghc-flag--fregs-iterative"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-fregs-iterative</span></code></a></td>
-<td>Use the iterative coalescing graph colouring register allocator in the native code generator.</td>
+<td>ネイティブコード生成器において，反復合併グラフ彩色レジスタ割り付けを使う</td>
 <td>dynamic</td>
 <td><code class="xref std std-ghc-flag docutils literal"><span class="pre">-fno-regs-iterative</span></code></td>
 </tr>
 <tr class="row-odd"><td><a class="reference internal" href="using-optimisation.html#ghc-flag--fsimplifier-phases=⟨n⟩"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-fsimplifier-phases=⟨n⟩</span></code></a></td>
-<td><em>default: 2.</em> Set the number of phases for the simplifier. Ignored with <a class="reference internal" href="using-optimisation.html#ghc-flag--O0"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-O0</span></code></a>.</td>
+<td><em>デフォルト: 2</em> 単純化器のフェーズ数を⟨n⟩に設定する． <a class="reference internal" href="using-optimisation.html#ghc-flag--O0"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-O0</span></code></a>
+を指定するとこの値は無視する</td>
 <td>dynamic</td>
 <td>&#160;</td>
 </tr>
 <tr class="row-even"><td><a class="reference internal" href="using-optimisation.html#ghc-flag--fsimpl-tick-factor=⟨n⟩"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-fsimpl-tick-factor=⟨n⟩</span></code></a></td>
-<td><em>default: 100.</em> Set the percentage factor for simplifier ticks.</td>
+<td><em>デフォルト: 100</em> 単純化器の tick に対するパーセンテージ係数を設定する</td>
 <td>dynamic</td>
 <td>&#160;</td>
 </tr>
 <tr class="row-odd"><td><a class="reference internal" href="using-optimisation.html#ghc-flag--fspec-constr"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-fspec-constr</span></code></a></td>
-<td>Turn on the SpecConstr transformation. Implied by <a class="reference internal" href="using-optimisation.html#ghc-flag--O2"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-O2</span></code></a>.</td>
+<td>SpecConstr 変換を有効にする． <a class="reference internal" href="using-optimisation.html#ghc-flag--O2"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-O2</span></code></a> で有効になる</td>
 <td>dynamic</td>
 <td><code class="xref std std-ghc-flag docutils literal"><span class="pre">-fno-spec-constr</span></code></td>
 </tr>
 <tr class="row-even"><td><a class="reference internal" href="using-optimisation.html#ghc-flag--fspec-constr-count=⟨n⟩"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-fspec-constr-count=⟨n⟩</span></code></a></td>
-<td>default: 3.* Set to ⟨n⟩ the maximum number of specialisations that will be created for any one
-function by the SpecConstr transformation.</td>
+<td>デフォルト: 3* SpecConstr 変換による1つの関数に対する特定の最大数を⟨n⟩に設定する</td>
 <td>dynamic</td>
 <td><code class="xref std std-ghc-flag docutils literal"><span class="pre">-fno-spec-constr-count</span></code></td>
 </tr>
 <tr class="row-odd"><td><a class="reference internal" href="using-optimisation.html#ghc-flag--fspec-constr-threshold=⟨n⟩"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-fspec-constr-threshold=⟨n⟩</span></code></a></td>
-<td><em>default: 2000.</em> Set the size threshold for the SpecConstr transformation to ⟨n⟩.</td>
+<td><em>デフォルト: 2000.</em> SpecConstr 変換用のサイズ閾値を⟨n⟩に設定する</td>
 <td>dynamic</td>
 <td><code class="xref std std-ghc-flag docutils literal"><span class="pre">-fno-spec-constr-threshold</span></code></td>
 </tr>
 <tr class="row-even"><td><a class="reference internal" href="using-optimisation.html#ghc-flag--fspecialise"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-fspecialise</span></code></a></td>
-<td>Turn on specialisation of overloaded functions. Implied by <a class="reference internal" href="using-optimisation.html#ghc-flag--O"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-O</span></code></a>.</td>
+<td>多重定義関数の特定を有効にする． <a class="reference internal" href="using-optimisation.html#ghc-flag--O"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-O</span></code></a> で有効になる</td>
 <td>dynamic</td>
 <td><code class="xref std std-ghc-flag docutils literal"><span class="pre">-fno-specialise</span></code></td>
 </tr>
 <tr class="row-odd"><td><a class="reference internal" href="using-optimisation.html#ghc-flag--fcross-module-specialise"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-fcross-module-specialise</span></code></a></td>
-<td>Turn on specialisation of overloaded functions imported from other modules.</td>
+<td>他のモジュール由来の多重定義関数の特定を有効にする</td>
 <td>dynamic</td>
 <td><code class="xref std std-ghc-flag docutils literal"><span class="pre">-fno-cross-module-specialise</span></code></td>
 </tr>
 <tr class="row-even"><td><a class="reference internal" href="using-optimisation.html#ghc-flag--fstatic-argument-transformation"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-fstatic-argument-transformation</span></code></a></td>
-<td>Turn on the static argument transformation.</td>
+<td>静的引数変換を有効にする</td>
 <td>dynamic</td>
 <td><code class="xref std std-ghc-flag docutils literal"><span class="pre">-fno-static-argument-transformation</span></code></td>
 </tr>
 <tr class="row-odd"><td><a class="reference internal" href="using-optimisation.html#ghc-flag--fstrictness"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-fstrictness</span></code></a></td>
-<td>Turn on strictness analysis. Implied by <a class="reference internal" href="using-optimisation.html#ghc-flag--O"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-O</span></code></a>. Implies <code class="xref std std-ghc-flag docutils literal"><span class="pre">-fworker-wrapper</span></code></td>
+<td>正格性解析を有効にする． <a class="reference internal" href="using-optimisation.html#ghc-flag--O"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-O</span></code></a> で有効になり <code class="xref std std-ghc-flag docutils literal"><span class="pre">-fworker-wrapper</span></code> を有効にする</td>
 <td>dynamic</td>
 <td><code class="xref std std-ghc-flag docutils literal"><span class="pre">-fno-strictness</span></code></td>
 </tr>
 <tr class="row-even"><td><a class="reference internal" href="using-optimisation.html#ghc-flag--fstrictness-before=⟨n⟩"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-fstrictness-before=⟨n⟩</span></code></a></td>
-<td>Run an additional strictness analysis before simplifier phase ⟨n⟩</td>
+<td>単純化器フェーズ⟨n⟩の前に正格性解析を追加で走らせる</td>
 <td>dynamic</td>
 <td>&#160;</td>
 </tr>
 <tr class="row-odd"><td><a class="reference internal" href="using-optimisation.html#ghc-flag--funbox-small-strict-fields"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-funbox-small-strict-fields</span></code></a></td>
-<td>Flatten strict constructor fields with a pointer-sized representation. Implied by
-<a class="reference internal" href="using-optimisation.html#ghc-flag--O"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-O</span></code></a>.</td>
+<td>ポインタサイズ以下の表現をもつ正格性構成子を平坦化する． <a class="reference internal" href="using-optimisation.html#ghc-flag--O"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-O</span></code></a> で有効になる</td>
 <td>dynamic</td>
 <td><code class="xref std std-ghc-flag docutils literal"><span class="pre">-fno-unbox-small-strict-fields</span></code></td>
 </tr>
 <tr class="row-even"><td><a class="reference internal" href="using-optimisation.html#ghc-flag--funbox-strict-fields"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-funbox-strict-fields</span></code></a></td>
-<td>Flatten strict constructor fields</td>
+<td>正格性構成子を平坦化する</td>
 <td>dynamic</td>
 <td><code class="xref std std-ghc-flag docutils literal"><span class="pre">-fno-unbox-strict-fields</span></code></td>
 </tr>
 <tr class="row-odd"><td><a class="reference internal" href="using-optimisation.html#ghc-flag--funfolding-creation-threshold=⟨n⟩"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-funfolding-creation-threshold=⟨n⟩</span></code></a></td>
-<td><em>default: 750.</em> Tweak unfolding settings.</td>
+<td><em>デフォルト: 750</em> 展開設定の微調整</td>
 <td>dynamic</td>
 <td>&#160;</td>
 </tr>
 <tr class="row-even"><td><a class="reference internal" href="using-optimisation.html#ghc-flag--funfolding-dict-discount=⟨n⟩"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-funfolding-dict-discount=⟨n⟩</span></code></a></td>
-<td><em>default: 30.</em> Tweak unfolding settings.</td>
+<td><em>デフォルト: 30</em> 展開設定の微調整</td>
 <td>dynamic</td>
 <td>&#160;</td>
 </tr>
 <tr class="row-odd"><td><a class="reference internal" href="using-optimisation.html#ghc-flag--funfolding-fun-discount=⟨n⟩"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-funfolding-fun-discount=⟨n⟩</span></code></a></td>
-<td><em>default: 60.</em> Tweak unfolding settings.</td>
+<td><em>デフォルト: 60</em> 展開設定の微調整</td>
 <td>dynamic</td>
 <td>&#160;</td>
 </tr>
 <tr class="row-even"><td><a class="reference internal" href="using-optimisation.html#ghc-flag--funfolding-keeness-factor=⟨n⟩"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-funfolding-keeness-factor=⟨n⟩</span></code></a></td>
-<td><em>default: 1.5.</em> Tweak unfolding settings.</td>
+<td><em>デフォルト: 1.5</em> 展開設定の微調整</td>
 <td>dynamic</td>
 <td>&#160;</td>
 </tr>
 <tr class="row-odd"><td><a class="reference internal" href="using-optimisation.html#ghc-flag--funfolding-use-threshold=⟨n⟩"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-funfolding-use-threshold=⟨n⟩</span></code></a></td>
-<td><em>default: 60.</em> Tweak unfolding settings.</td>
+<td><em>デフォルト: 60</em> 展開設定の微調整</td>
 <td>dynamic</td>
 <td>&#160;</td>
 </tr>
 <tr class="row-even"><td><a class="reference internal" href="using-optimisation.html#ghc-flag--fvectorisation-avoidance"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-fvectorisation-avoidance</span></code></a></td>
-<td>Enable vectorisation avoidance. Always enabled by default.</td>
+<td>ベクトル化回避を有効にする． つねにデフォルトで有効</td>
 <td>dynamic</td>
 <td><code class="xref std std-ghc-flag docutils literal"><span class="pre">-fno-vectorisation-avoidance</span></code></td>
 </tr>
 <tr class="row-odd"><td><a class="reference internal" href="using-optimisation.html#ghc-flag--fvectorise"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-fvectorise</span></code></a></td>
-<td>Enable vectorisation of nested data parallelism</td>
+<td>入れ子になったデータ並列のベクトル化を有効にする</td>
 <td>dynamic</td>
 <td><code class="xref std std-ghc-flag docutils literal"><span class="pre">-fno-vectorise</span></code></td>
 </tr>
 <tr class="row-even"><td><code class="xref std std-ghc-flag docutils literal"><span class="pre">-fworker-wrapper</span></code></td>
-<td>Enable the worker-wrapper transformation after a strictness analysis pass. Implied by
-<a class="reference internal" href="using-optimisation.html#ghc-flag--O"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-O</span></code></a>, and by <a class="reference internal" href="using-optimisation.html#ghc-flag--fstrictness"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-fstrictness</span></code></a>. Disabled by <code class="xref std std-ghc-flag docutils literal"><span class="pre">-fno-strictness</span></code>.
-Enabling <code class="xref std std-ghc-flag docutils literal"><span class="pre">-fworker-wrapper</span></code> while strictness analysis is disabled (by
-<code class="xref std std-ghc-flag docutils literal"><span class="pre">-fno-strictness</span></code>) has no effect.</td>
+<td>正格性解析パスの後の worker-wrapper 変換を有効にする． <a class="reference internal" href="using-optimisation.html#ghc-flag--O"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-O</span></code></a> および
+<a class="reference internal" href="using-optimisation.html#ghc-flag--fstrictness"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-fstrictness</span></code></a> で有効になる． <code class="xref std std-ghc-flag docutils literal"><span class="pre">-fno-strictness</span></code> で無効になる．
+正格性解析が無効(<code class="xref std std-ghc-flag docutils literal"><span class="pre">-fno-strictness</span></code>)のときに <code class="xref std std-ghc-flag docutils literal"><span class="pre">-fworker-wrapper</span></code>
+を有効にしても何の効果もない</td>
 <td>dynamic</td>
 <td><code class="xref std std-ghc-flag docutils literal"><span class="pre">-fno-worker-wrapper</span></code></td>
 </tr>
