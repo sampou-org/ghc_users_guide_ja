@@ -309,10 +309,18 @@ C プリプロセッサオプション
 
 .. include:: flags-cpp.gen.rst
 
-Code generation options
------------------------
+..
+   Code generation options
+   -----------------------
 
-More details in :ref:`options-codegen`
+   More details in :ref:`options-codegen`
+
+   .. include:: flags-codegen.gen.rst
+
+コード生成に関するオプション
+----------------------------
+
+より詳しくは :ref:`options-codegen` にあります．
 
 .. include:: flags-codegen.gen.rst
 

@@ -6,47 +6,46 @@ codegenOptions :: [Flag]
 codegenOptions =
   [ flag { flagName = "-fasm"
          , flagDescription =
-           "Use the :ref:`native code generator <native-code-gen>`"
+           ":ref:`ネイティブコード生成器 <native-code-gen>` を使う"
          , flagType = DynamicFlag
          , flagReverse = "-fllvm"
          }
   , flag { flagName = "-fllvm"
          , flagDescription =
-           "Compile using the :ref:`LLVM code generator <llvm-code-gen>`"
+           ":ref:`LLVM コード生成器 <llvm-code-gen>` を使ってコンパイルする"
          , flagType = DynamicFlag
          , flagReverse = "-fasm"
          }
   , flag { flagName = "-fno-code"
-         , flagDescription = "Omit code generation"
+         , flagDescription = "コード生成を省略する"
          , flagType = DynamicFlag
          }
   , flag { flagName = "-fwrite-interface"
-         , flagDescription = "Always write interface files"
+         , flagDescription = "つねにインターフェイスファイルを書くようにする"
          , flagType = DynamicFlag
          }
   , flag { flagName = "-fbyte-code"
-         , flagDescription = "Generate byte-code"
+         , flagDescription = "バイトコードを生成する"
          , flagType = DynamicFlag
          }
   , flag { flagName = "-fobject-code"
-         , flagDescription = "Generate object code"
+         , flagDescription = "オブジェクトコードを生成する"
          , flagType = DynamicFlag
          }
   , flag { flagName = "-g⟨n⟩"
          , flagDescription =
-           "Produce DWARF debug information in compiled object files." ++
-           "⟨n⟩ can be 0, 1, or 2, with higher numbers producing richer " ++
-           "output. If ⟨n⟩ is omitted level 2 is assumed."
+           "オブジェクトファイルに DWARF デバッグ情報を含める． " ++
+           "⟨n⟩ は 0, 1, または 2 で大きいほど出力に含まれる情報が多くなる． " ++
+           "⟨n⟩ を省略するとレベル 2 が指定されたものとする"
          , flagType = DynamicFlag
          }
   , flag { flagName = "-dynamic"
-         , flagDescription = "Build dynamically-linked object files and executables"
+         , flagDescription = "動的リンクされるオブジェクトファイルと 実行可能ファイルをビルドする"
          , flagType = DynamicFlag
          }
   , flag { flagName = "-dynamic-too"
          , flagDescription =
-           "Build dynamic object files *as well as* static object files " ++
-           "during compilation"
+           "コンパイル中に 静的オブジェクトファイルに *加えて* 動的オブジェクトファイルも生成する"
          , flagType = DynamicFlag
          }
   ]
