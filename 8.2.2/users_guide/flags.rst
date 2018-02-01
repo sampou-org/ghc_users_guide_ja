@@ -373,8 +373,8 @@ C プリプロセッサオプション
       single: -pgmdll
       single: -pgmF
 
-Replacing phases
-----------------
+フェーズの置き換え
+------------------
 
 より詳しくは :ref:`replacing-phases` にあります．
 
