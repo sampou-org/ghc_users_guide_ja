@@ -80,7 +80,7 @@
 <li><a class="reference internal" href="#id17">7.6.16. プロファイリングオプション</a></li>
 <li><a class="reference internal" href="#id18">7.6.17. プログラム網羅オプション</a></li>
 <li><a class="reference internal" href="#c">7.6.18. C プリプロセッサオプション</a></li>
-<li><a class="reference internal" href="#code-generation-options">7.6.19. Code generation options</a></li>
+<li><a class="reference internal" href="#id19">7.6.19. コード生成に関するオプション</a></li>
 <li><a class="reference internal" href="#linking-options">7.6.20. Linking options</a></li>
 <li><a class="reference internal" href="#plugin-options">7.6.21. Plugin options</a></li>
 <li><a class="reference internal" href="#replacing-phases">7.6.22. Replacing phases</a></li>
@@ -2335,9 +2335,9 @@
 </tbody>
 </table>
 </div>
-<div class="section" id="code-generation-options">
-<h2>7.6.19. Code generation options<a class="headerlink" href="#code-generation-options" title="このヘッドラインへのパーマリンク">¶</a></h2>
-<p>More details in <a class="reference internal" href="phases.html#options-codegen"><span class="std std-ref">Options affecting code generation</span></a></p>
+<div class="section" id="id19">
+<h2>7.6.19. コード生成に関するオプション<a class="headerlink" href="#id19" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>より詳しくは <a class="reference internal" href="phases.html#options-codegen"><span class="std std-ref">Options affecting code generation</span></a> にあります．</p>
 <table border="1" class="docutils">
 <colgroup>
 <col width="25%" />
@@ -2354,48 +2354,48 @@
 </thead>
 <tbody valign="top">
 <tr class="row-even"><td><a class="reference internal" href="phases.html#ghc-flag--fasm"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-fasm</span></code></a></td>
-<td>Use the <a class="reference internal" href="codegens.html#native-code-gen"><span class="std std-ref">native code generator</span></a></td>
+<td><a class="reference internal" href="codegens.html#native-code-gen"><span class="std std-ref">ネイティブコード生成器</span></a> を使う</td>
 <td>dynamic</td>
 <td><a class="reference internal" href="phases.html#ghc-flag--fllvm"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-fllvm</span></code></a></td>
 </tr>
 <tr class="row-odd"><td><a class="reference internal" href="phases.html#ghc-flag--fllvm"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-fllvm</span></code></a></td>
-<td>Compile using the <a class="reference internal" href="codegens.html#llvm-code-gen"><span class="std std-ref">LLVM code generator</span></a></td>
+<td><a class="reference internal" href="codegens.html#llvm-code-gen"><span class="std std-ref">LLVM コード生成器</span></a> を使ってコンパイルする</td>
 <td>dynamic</td>
 <td><a class="reference internal" href="phases.html#ghc-flag--fasm"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-fasm</span></code></a></td>
 </tr>
 <tr class="row-even"><td><a class="reference internal" href="phases.html#ghc-flag--fno-code"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-fno-code</span></code></a></td>
-<td>Omit code generation</td>
+<td>コード生成を省略する</td>
 <td>dynamic</td>
 <td>&#160;</td>
 </tr>
 <tr class="row-odd"><td><a class="reference internal" href="phases.html#ghc-flag--fwrite-interface"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-fwrite-interface</span></code></a></td>
-<td>Always write interface files</td>
+<td>つねにインターフェイスファイルを書くようにする</td>
 <td>dynamic</td>
 <td>&#160;</td>
 </tr>
 <tr class="row-even"><td><a class="reference internal" href="phases.html#ghc-flag--fbyte-code"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-fbyte-code</span></code></a></td>
-<td>Generate byte-code</td>
+<td>バイトコードを生成する</td>
 <td>dynamic</td>
 <td>&#160;</td>
 </tr>
 <tr class="row-odd"><td><a class="reference internal" href="phases.html#ghc-flag--fobject-code"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-fobject-code</span></code></a></td>
-<td>Generate object code</td>
+<td>オブジェクトコードを生成する</td>
 <td>dynamic</td>
 <td>&#160;</td>
 </tr>
 <tr class="row-even"><td><a class="reference internal" href="debug-info.html#ghc-flag--g⟨n⟩"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-g⟨n⟩</span></code></a></td>
-<td>Produce DWARF debug information in compiled object files.⟨n⟩ can be 0, 1, or 2, with higher
-numbers producing richer output. If ⟨n⟩ is omitted level 2 is assumed.</td>
+<td>オブジェクトファイルに DWARF デバッグ情報を含める． ⟨n⟩ は 0, 1, または 2
+で大きいほど出力に含まれる情報が多くなる． ⟨n⟩ を省略するとレベル 2 が指定されたものとする</td>
 <td>dynamic</td>
 <td>&#160;</td>
 </tr>
 <tr class="row-odd"><td><a class="reference internal" href="phases.html#ghc-flag--dynamic"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-dynamic</span></code></a></td>
-<td>Build dynamically-linked object files and executables</td>
+<td>動的リンクされるオブジェクトファイルと 実行可能ファイルをビルドする</td>
 <td>dynamic</td>
 <td>&#160;</td>
 </tr>
 <tr class="row-even"><td><a class="reference internal" href="phases.html#ghc-flag--dynamic-too"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-dynamic-too</span></code></a></td>
-<td>Build dynamic object files <em>as well as</em> static object files during compilation</td>
+<td>コンパイル中に 静的オブジェクトファイルに <em>加えて</em> 動的オブジェクトファイルも生成する</td>
 <td>dynamic</td>
 <td>&#160;</td>
 </tr>
