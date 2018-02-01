@@ -135,7 +135,7 @@ linkingOptions =
            "このオプションはリンカに使用しているシンボルだけではなく " ++
            "すべてのシンボルを動的シンボルテーブルに追加するよう指示する． " ++
            "現在のところ Linux および Windows/MinGW32 のみ． " ++
-           "このオプションは Linux 上では ``-optl -rdynamic`` を指定するのと同等． "
+           "このオプションは Linux 上では ``-optl -rdynamic`` を指定するのと同等． " ++
            "また Windows 上では ``-optl -export-all-symbols`` を指定するのと同等"
          , flagType = DynamicFlag
          }
