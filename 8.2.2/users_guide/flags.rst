@@ -279,10 +279,18 @@
 
 .. include:: flags-profiling.gen.rst
 
-Program coverage options
+..
+   Program coverage options
+   ------------------------
+
+   More details in :ref:`hpc`
+
+   .. include:: flags-program-coverage.gen.rst
+
+プログラム網羅オプション
 ------------------------
 
-More details in :ref:`hpc`
+より詳しくは :ref:`hpc` にあります．
 
 .. include:: flags-program-coverage.gen.rst
 

@@ -6,13 +6,12 @@ programCoverageOptions :: [Flag]
 programCoverageOptions =
   [ flag { flagName = "-fhpc"
          , flagDescription =
-           "Turn on Haskell program coverage instrumentation"
+           "Haskell プログラム網羅率の計測器付与を有効にする"
          , flagType = DynamicFlag
          }
   , flag { flagName = "-hpcdir ⟨dir⟩"
          , flagDescription =
-           "Directory to deposit ``.mix`` files during compilation "++
-           "(default is ``.hpc``)"
+           "コンパイル中に ``.mix`` ファイルを保管するディレクトリ(デフォルトは ``.hpc``)を設定する"
          , flagType = DynamicFlag
          }
   ]
