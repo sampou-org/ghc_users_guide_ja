@@ -6,153 +6,137 @@ linkingOptions :: [Flag]
 linkingOptions =
   [ flag { flagName = "-shared"
          , flagDescription =
-           "Generate a shared library (as opposed to an executable)"
-         , flagType = DynamicFlag
-         }
-  , flag { flagName = "-staticlib"
-         , flagDescription =
-           "On Darwin/OS X/iOS only, generate a standalone static library " ++
-           "(as opposed to an executable). This is the usual way to " ++
-           "compile for iOS."
-         , flagType = DynamicFlag
-         }
-  , flag { flagName = "-fPIC"
-         , flagDescription =
-           "Generate position-independent code (where available)"
+           "実行ファイルではなく共有ライブラリを生成する"
          , flagType = DynamicFlag
          }
   , flag { flagName = "-fPIE"
          , flagDescription =
-           "Generate code for a position-independent executable (where available)"
+           "可能であれば位置独立実行コードを生成する"
          , flagType = DynamicFlag
          }
   , flag { flagName = "-pie"
          , flagDescription =
-           "Instruct the linker to produce a position-independent executable."
+           "リンカに位置独立実行コードを生成するよう指示する"
          , flagType = DynamicFlag
          }
   , flag { flagName = "-dynload"
          , flagDescription =
-           "Selects one of a number of modes for finding shared libraries at runtime."
+           "実行時に共有ライブラリを探索する方法を1つ選択する"
          , flagType = DynamicFlag
          }
   , flag { flagName = "-framework ⟨name⟩"
          , flagDescription =
-           "On Darwin/OS X/iOS only, link in the framework ⟨name⟩. This " ++
-           "option corresponds to the ``-framework`` option for Apple's Linker."
+           "Darwin/OS X/iOS のみ． フレームワーク ⟨name⟩ をリンクする． " ++
+           "このオプションは Apple のリンカ用の ``-framework`` オプションに対応する"
          , flagType = DynamicFlag
          }
   , flag { flagName = "-framework-path ⟨dir⟩"
          , flagDescription =
-           "On Darwin/OS X/iOS only, add ⟨dir⟩ to the list of directories " ++
-           "searched for frameworks. This option corresponds to the ``-F`` "++
-           "option for Apple's Linker."
+           "Darwin/OS X/iOS のみ． ⟨dir⟩ をフレームワーク検索ディレクトリリストに追加する " ++
+           "このオプションは Apple のリンカ用の ``-F`` オプションに対応する"
          , flagType = DynamicFlag
          }
   , flag { flagName = "-l ⟨lib⟩"
-         , flagDescription = "Link in library ⟨lib⟩"
+         , flagDescription = "ライブラリ ⟨lib⟩ にリンクする"
          , flagType = DynamicFlag
          }
   , flag { flagName = "-L ⟨dir⟩"
          , flagDescription =
-           "Add ⟨dir⟩ to the list of directories searched for libraries"
+           "⟨dir⟩ をライブラリ検索ディレクトリリストに追加する"
          , flagType = DynamicFlag
          }
   , flag { flagName = "-main-is ⟨thing⟩"
-         , flagDescription = "Set main module and function"
+         , flagDescription = "main モジュールと関数を設定する"
          , flagType = DynamicFlag
          }
   , flag { flagName = "--mk-dll"
-         , flagDescription = "DLL-creation mode (Windows only)"
+         , flagDescription = "DLL-生成モード (Windows のみ)"
          , flagType = DynamicFlag
          }
   , flag { flagName = "-no-hs-main"
-         , flagDescription = "Don't assume this program contains ``main``"
+         , flagDescription = "このプログラムには ``main`` が含まれないものとする"
          , flagType = DynamicFlag
          }
   , flag { flagName = "-rtsopts[=⟨none|some|all⟩]"
          , flagDescription =
-           "Control whether the RTS behaviour can be tweaked via command-line"++
-           "flags and the ``GHCRTS`` environment variable. Using ``none`` " ++
-           "means no RTS flags can be given; ``some`` means only a minimum " ++
-           "of safe options can be given (the default), and ``all`` (or no " ++
-           "argument at all) means that all RTS flags are permitted."
+           "RTS の動作をコマンドラインフラグと ``GHCRTS`` 環境変数で調整できるかどうかを制御する． " ++
+           "``none`` を使用すると RTS フラグは指定できない． " ++
+           "``some`` なら最低限の安全なオプションのみ与えられる（デフォルト）． " ++
+           "``all`` なら（または何も引数なし）すべての RTS フラグが許可される"
          , flagType = DynamicFlag
          }
   , flag { flagName = "-with-rtsopts=⟨opts⟩"
-         , flagDescription = "Set the default RTS options to ⟨opts⟩."
+         , flagDescription = "デフォルトの RTS オプションを ⟨opts⟩ に設定する"
          , flagType = DynamicFlag
          }
   , flag { flagName = "-no-rtsopts-suggestions"
          , flagDescription =
-           "Don't print RTS suggestions about linking with "++
-           ":ghc-flag:`-rtsopts[=⟨none|some|all⟩]`."
+           ":ghc-flag:`-rtsopts[=⟨none|some|all⟩]` を使ってリンクする提案を表示しない"
          , flagType = DynamicFlag
          }
   , flag { flagName = "-no-link"
-         , flagDescription = "Omit linking"
+         , flagDescription = "リンクを省略する"
          , flagType = DynamicFlag
          }
   , flag { flagName = "-split-objs"
-         , flagDescription = "Split objects (for libraries)"
+         , flagDescription = "オブジェクトを分割する(ライブラリ用)"
          , flagType = DynamicFlag
          }
   , flag { flagName = "-split-sections"
-         , flagDescription = "Split sections for link-time dead-code stripping"
+         , flagDescription = "リンク時デッドコード除去用にセクションを分割する"
          , flagType = DynamicFlag
          }
   , flag { flagName = "-static"
-         , flagDescription = "Use static Haskell libraries"
+         , flagDescription = "静的 Haskell ライブラリを使う"
          , flagType = DynamicFlag
          }
   , flag { flagName = "-threaded"
-         , flagDescription = "Use the threaded runtime"
+         , flagDescription = "スレッド化されたランタイムを使う"
          , flagType = DynamicFlag
          }
   , flag { flagName = "-debug"
-         , flagDescription = "Use the debugging runtime"
+         , flagDescription = "デバッグ用ランタイムを使う"
          , flagType = DynamicFlag
          }
   , flag { flagName = "-ticky"
          , flagDescription =
-           "For linking, this simply implies :ghc-flag:`-debug`; "++
-           "see :ref:`ticky-ticky`."
+           "リンク用． 単に :ghc-flag:`-debug` を有効にする． " ++
+           ":ref:`ticky-ticky` を参照"
          , flagType = DynamicFlag
          }
   , flag { flagName = "-eventlog"
-         , flagDescription = "Enable runtime event tracing"
+         , flagDescription = "ランタイムのイベントトレースを有効にする"
          , flagType = DynamicFlag
          }
   , flag { flagName = "-fno-gen-manifest"
-         , flagDescription = "Do not generate a manifest file (Windows only)"
+         , flagDescription = "マニフェストファイルを生成しない(Windows のみ)"
          , flagType = DynamicFlag
          }
   , flag { flagName = "-fno-embed-manifest"
          , flagDescription =
-           "Do not embed the manifest in the executable (Windows only)"
+           "実行ファイルにマニフェストファイルを埋め込まない(Windows のみ)"
          , flagType = DynamicFlag
          }
   , flag { flagName = "-fno-shared-implib"
          , flagDescription =
-           "Don't generate an import library for a DLL (Windows only)"
+           "DLL 用のインポートライブラリを生成しない(Windows のみ)"
          , flagType = DynamicFlag
          }
   , flag { flagName = "-dylib-install-name ⟨path⟩"
          , flagDescription =
-           "Set the install name (via ``-install_name`` passed to Apple's " ++
-           "linker), specifying the full install path of the library file. " ++
-           "Any libraries or executables that link with it later will pick " ++
-           "up that path as their runtime search location for it. " ++
-           "(Darwin/OS X only)"
+           "ライブラリファイルのインストール先のフルパスを示す install name を設定する " ++
+           "(これはAppleのリンカに ``-install_name`` を渡すことで行なう)． " ++
+           "後にこのライブラリをリンクするライブラリや実行ファイルは " ++
+           "このライブラリを実行時に探索する場所としてこのパスを選ぶ"
          , flagType = DynamicFlag
          }
   , flag { flagName = "-rdynamic"
          , flagDescription =
-           "This instructs the linker to add all symbols, not only used " ++
-           "ones, to the dynamic symbol table. Currently Linux and " ++
-           "Windows/MinGW32 only. This is equivalent to using " ++
-           "``-optl -rdynamic`` on Linux, and ``-optl -export-all-symbols`` " ++
-           "on Windows."
+           "このオプションはリンカに使用しているシンボルだけではなく " ++
+           "すべてのシンボルを動的シンボルテーブルに追加するよう指示する． " ++
+           "現在のところ Linux および Windows/MinGW32 のみ． " ++
+           "このオプションは Linux 上では ``-optl -rdynamic`` を指定するのと同等． "
+           "また Windows 上では ``-optl -export-all-symbols`` を指定するのと同等"
          , flagType = DynamicFlag
          }
   ]

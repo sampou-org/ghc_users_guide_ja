@@ -317,17 +317,25 @@ C プリプロセッサオプション
 
    .. include:: flags-codegen.gen.rst
 
-コード生成に関するオプション
+コード生成オプション
 ----------------------------
 
 より詳しくは :ref:`options-codegen` にあります．
 
 .. include:: flags-codegen.gen.rst
 
-Linking options
----------------
+..
+   Linking options
+   ---------------
 
-More details in :ref:`options-linker`
+   More details in :ref:`options-linker`
+
+   .. include:: flags-linking.gen.rst
+
+リンクオプション
+----------------
+
+より詳しくは :ref:`options-linker` にあります．
 
 .. include:: flags-linking.gen.rst
 
