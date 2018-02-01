@@ -5,43 +5,43 @@ import Types
 phaseSpecificOptions :: [Flag]
 phaseSpecificOptions =
   [ flag { flagName = "-optL ⟨option⟩"
-         , flagDescription = "pass ⟨option⟩ to the literate pre-processor"
+         , flagDescription = "⟨option⟩ を文芸的コードのプリプロセッサに渡す"
          , flagType = DynamicFlag
          }
   , flag { flagName = "-optP ⟨option⟩"
-         , flagDescription = "pass ⟨option⟩ to cpp (with ``-cpp`` only)"
+         , flagDescription = "⟨option⟩ を cpp に渡す(``-cpp`` を指定したときのみ)"
          , flagType = DynamicFlag
          }
   , flag { flagName = "-optF ⟨option⟩"
-         , flagDescription = "pass ⟨option⟩ to the custom pre-processor"
+         , flagDescription = "⟨option⟩ をカスタムプリプロセッサに渡す"
          , flagType = DynamicFlag
          }
   , flag { flagName = "-optc ⟨option⟩"
-         , flagDescription = "pass ⟨option⟩ to the C compiler"
+         , flagDescription = "⟨option⟩ を C コンパイラに渡す"
          , flagType = DynamicFlag
          }
   , flag { flagName = "-optlo ⟨option⟩"
-         , flagDescription = "pass ⟨option⟩ to the LLVM optimiser"
+         , flagDescription = "⟨option⟩ を LLVM 最適化器に渡す"
          , flagType = DynamicFlag
          }
   , flag { flagName = "-optlc ⟨option⟩"
-         , flagDescription = "pass ⟨option⟩ to the LLVM compiler"
+         , flagDescription = "⟨option⟩ を LLVM コンパイラに渡す"
          , flagType = DynamicFlag
          }
   , flag { flagName = "-opta ⟨option⟩"
-         , flagDescription = "pass ⟨option⟩ to the assembler"
+         , flagDescription = "⟨option⟩ をアセンブラに渡す"
          , flagType = DynamicFlag
          }
   , flag { flagName = "-optl ⟨option⟩"
-         , flagDescription = "pass ⟨option⟩ to the linker"
+         , flagDescription = "⟨option⟩ をリンカに渡す"
          , flagType = DynamicFlag
          }
   , flag { flagName = "-optdll ⟨option⟩"
-         , flagDescription = "pass ⟨option⟩ to the DLL generator"
+         , flagDescription = "⟨option⟩ を DLL 生成器に渡す"
          , flagType = DynamicFlag
          }
   , flag { flagName = "-optwindres ⟨option⟩"
-         , flagDescription = "pass ⟨option⟩ to ``windres``."
+         , flagDescription = "⟨option⟩ を ``windres`` に渡す"
          , flagType = DynamicFlag
          }
   ]

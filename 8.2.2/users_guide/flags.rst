@@ -391,10 +391,18 @@ C プリプロセッサオプション
    single: -pgmdll
    single: -pgmF
 
-Forcing options to particular phases
-------------------------------------
+..
+   Forcing options to particular phases
+   ------------------------------------
 
-More details in :ref:`forcing-options-through`
+   More details in :ref:`forcing-options-through`
+
+   .. include:: flags-phase-specific.gen.rst
+
+特定のフェーズにオプションを渡す
+--------------------------------
+
+より詳しくは :ref:`forcing-options-through` にあります．
 
 .. include:: flags-phase-specific.gen.rst
 
