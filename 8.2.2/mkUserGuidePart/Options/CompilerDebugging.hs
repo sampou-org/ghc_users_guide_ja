@@ -5,277 +5,271 @@ import Types
 compilerDebuggingOptions :: [Flag]
 compilerDebuggingOptions =
   [ flag { flagName = "-dcore-lint"
-         , flagDescription = "Turn on internal sanity checking"
+         , flagDescription = "内部の正当性検査を有効にする"
          , flagType = DynamicFlag
          }
   , flag { flagName = "-ddump-to-file"
-         , flagDescription = "Dump to files instead of stdout"
+         , flagDescription = "標準出力ではなくファイルにダンプする"
          , flagType = DynamicFlag
          }
   , flag { flagName = "-ddump-asm"
-         , flagDescription = "Dump assembly"
+         , flagDescription = "アセンブリをダンプする"
          , flagType = DynamicFlag
          }
   , flag { flagName = "-ddump-bcos"
-         , flagDescription = "Dump interpreter byte code"
+         , flagDescription = "インタプリタバイトコードをダンプする"
          , flagType = DynamicFlag
          }
   , flag { flagName = "-ddump-cmm-from-stg"
-         , flagDescription = "Dump STG-to-C-- output"
+         , flagDescription = "STG-to-C-- の出力をダンプする"
          , flagType = DynamicFlag
          }
   , flag { flagName = "-ddump-cmm-verbose"
-         , flagDescription = "Show output from each C-- pipeline pass"
+         , flagDescription = "C-- のパイプラインパスごとの出力を表示する"
          , flagType = DynamicFlag
          }
   , flag { flagName = "-ddump-cmm"
-         , flagDescription = "Dump the final C-- output"
+         , flagDescription = "C-- の最終的な出力をダンプする"
          , flagType = DynamicFlag
          }
   , flag { flagName = "-ddump-core-stats"
          , flagDescription =
-           "Print a one-line summary of the size of the Core program at the "++
-           "end of the optimisation pipeline"
+           "最適化パイプラインの最後に Core プログラムの大きさの一行要約を表示する"
          , flagType = DynamicFlag
          }
   , flag { flagName = "-ddump-cse"
-         , flagDescription = "Dump CSE output"
+         , flagDescription = "CSE の出力をダンプする"
          , flagType = DynamicFlag
          }
   , flag { flagName = "-ddump-deriv"
-         , flagDescription = "Dump deriving output"
+         , flagDescription = "自動導出(deriving)の出力をダンプする"
          , flagType = DynamicFlag
          }
   , flag { flagName = "-ddump-ds"
-         , flagDescription = "Dump desugarer output"
+         , flagDescription = "デシュガー器の出力をダンプする"
          , flagType = DynamicFlag
          }
   , flag { flagName = "-ddump-foreign"
-         , flagDescription = "Dump ``foreign export`` stubs"
+         , flagDescription = "``foreign export`` スタブをダンプする"
          , flagType = DynamicFlag
          }
   , flag { flagName = "-ddump-hpc"
-         , flagDescription = "Dump after instrumentation for program coverage"
+         , flagDescription = "プログラム網羅率計器付与の後でダンプする"
          , flagType = DynamicFlag
          }
   , flag { flagName = "-ddump-inlinings"
-         , flagDescription = "Dump inlining info"
+         , flagDescription = "インライン化情報をダンプする"
          , flagType = DynamicFlag
          }
   , flag { flagName = "-ddump-llvm"
-         , flagDescription = "Dump LLVM intermediate code. "++
-           "Implies :ghc-flag:`-fllvm`."
+         , flagDescription = "LLVM 中間コードをダンプする．  "++
+           ":ghc-flag:`-fllvm` が有効になる"
          , flagType = DynamicFlag
          }
   , flag { flagName = "-ddump-occur-anal"
-         , flagDescription = "Dump occurrence analysis output"
+         , flagDescription = "出現解析器の出力をダンプする"
          , flagType = DynamicFlag
          }
   , flag { flagName = "-ddump-opt-cmm"
-         , flagDescription = "Dump the results of C-- to C-- optimising passes"
+         , flagDescription = "C-- to C-- 最適化パスの結果をダンプする"
          , flagType = DynamicFlag
          }
   , flag { flagName = "-ddump-parsed"
-         , flagDescription = "Dump parse tree"
+         , flagDescription = "構文解析木をダンプする"
          , flagType = DynamicFlag
          }
   , flag { flagName = "-ddump-prep"
-         , flagDescription = "Dump prepared core"
+         , flagDescription = "prepare core をダンプする"
          , flagType = DynamicFlag
          }
   , flag { flagName = "-ddump-rn"
-         , flagDescription = "Dump renamer output"
+         , flagDescription = "名前変更器の出力をダンプする"
          , flagType = DynamicFlag
          }
   , flag { flagName = "-ddump-rule-firings"
-         , flagDescription = "Dump rule firing info"
+         , flagDescription = "規則の発動情報をダンプする"
          , flagType = DynamicFlag
          }
   , flag { flagName = "-ddump-rule-rewrites"
-         , flagDescription = "Dump detailed rule firing info"
+         , flagDescription = "規則の詳細な発動情報をダンプする"
          , flagType = DynamicFlag
          }
   , flag { flagName = "-ddump-rules"
-         , flagDescription = "Dump rules"
+         , flagDescription = "規則をダンプする"
          , flagType = DynamicFlag
          }
   , flag { flagName = "-ddump-vect"
-         , flagDescription = "Dump vectoriser input and output"
+         , flagDescription = "ベクトル化器の入力と出力をダンプする"
          , flagType = DynamicFlag
          }
   , flag { flagName = "-ddump-simpl"
-         , flagDescription = "Dump final simplifier output"
+         , flagDescription = "単純化器の最終出力をダンプする"
          , flagType = DynamicFlag
          }
   , flag { flagName = "-ddump-simpl-iterations"
-         , flagDescription = "Dump output from each simplifier iteration"
+         , flagDescription = "単純化器の各反復段階ごとの出力をダンプする"
          , flagType = DynamicFlag
          }
   , flag { flagName = "-ddump-spec"
-         , flagDescription = "Dump specialiser output"
+         , flagDescription = "特定器の出力をダンプする"
          , flagType = DynamicFlag
          }
   , flag { flagName = "-ddump-splices"
          , flagDescription =
-           "Dump TH spliced expressions, and what they evaluate to"
+           "TH でスプライスした式および評価結果をダンプする"
          , flagType = DynamicFlag
          }
   , flag { flagName = "-ddump-stg"
-         , flagDescription = "Dump final STG"
+         , flagDescription = "最終段階の STG をダンプする"
          , flagType = DynamicFlag
          }
   , flag { flagName = "-ddump-stranal"
-         , flagDescription = "Dump strictness analyser output"
+         , flagDescription = "正格性解析器の出力をダンプする"
          , flagType = DynamicFlag
          }
   , flag { flagName = "-ddump-str-signatures"
-         , flagDescription = "Dump strictness signatures"
+         , flagDescription = "正格性シグネチャをダンプする"
          , flagType = DynamicFlag
          }
   , flag { flagName = "-ddump-tc"
-         , flagDescription = "Dump typechecker output"
+         , flagDescription = "型検査器の出力をダンプする"
          , flagType = DynamicFlag
          }
   , flag { flagName = "-dth-dec-file=⟨file⟩"
          , flagDescription =
-           "Show evaluated TH declarations in a .th.hs file"
+           ".th.hs ファイルにある評価済み TH 宣言を表示する"
          , flagType = DynamicFlag
          }
   , flag { flagName = "-ddump-types"
-         , flagDescription = "Dump type signatures"
+         , flagDescription = "型シグネチャをダンプする"
          , flagType = DynamicFlag
          }
   , flag { flagName = "-ddump-worker-wrapper"
-         , flagDescription = "Dump worker-wrapper output"
+         , flagDescription = "worker-wrapper の出力をダンプする"
          , flagType = DynamicFlag
          }
   , flag { flagName = "-ddump-if-trace"
-         , flagDescription = "Trace interface files"
+         , flagDescription = "インターフェイスファイルをトレースする"
          , flagType = DynamicFlag
          }
   , flag { flagName = "-ddump-tc-trace"
-         , flagDescription = "Trace typechecker"
+         , flagDescription = "型検査器をトレースする"
          , flagType = DynamicFlag
          }
   , flag { flagName = "-ddump-vt-trace"
-         , flagDescription = "Trace vectoriser"
+         , flagDescription = "ベクトル化器をトレースする"
          , flagType = DynamicFlag
          }
   , flag { flagName = "-ddump-rn-trace"
-         , flagDescription = "Trace renamer"
+         , flagDescription = "名前変更器をトレースする"
          , flagType = DynamicFlag
          }
   , flag { flagName = "-ddump-rn-stats"
-         , flagDescription = "Renamer stats"
+         , flagDescription = "名前変更器の統計情報をダンプする"
          , flagType = DynamicFlag
          }
   , flag { flagName = "-ddump-simpl-stats"
-         , flagDescription = "Dump simplifier stats"
+         , flagDescription = "単純化器の統計情報をダンプする"
          , flagType = DynamicFlag
          }
   , flag { flagName = "-dno-debug-output"
-         , flagDescription = "Suppress unsolicited debugging output"
+         , flagDescription = "要求外のデバッグ出力を抑制する"
          , flagType = DynamicFlag
          }
   , flag { flagName = "-dppr-debug"
-         , flagDescription = "Turn on debug printing (more verbose)"
+         , flagDescription = "デバッグ表示を有効にする(かなり饒舌)"
          , flagType = DynamicFlag
          }
   , flag { flagName = "-dppr-user-length"
          , flagDescription =
-           "Set the depth for printing expressions in error msgs"
+           "エラーメッセージで表示する式の深さを設定する"
          , flagType = DynamicFlag
          }
   , flag { flagName = "-dppr-cols=⟨n⟩"
          , flagDescription =
-           "Set the width of debugging output. For example ``-dppr-cols200``"
+           "デバッグ出力の幅を設定する． たとえば ``-dppr-cols200`` などとする"
          , flagType = DynamicFlag
          }
   , flag { flagName = "-dppr-case-as-let"
          , flagDescription =
-           "Print single alternative case expressions as strict lets."
+           "選択肢が1つの case 式を正格な let 束縛として表示する"
          , flagType = DynamicFlag
          }
   , flag { flagName = "-dsuppress-all"
          , flagDescription =
-           "In core dumps, suppress everything (except for uniques) that is "++
-           "suppressible."
+           "コアダンプで抑制可能なもの (1つしか無いものをのぞいて)すべて抑制する"
          , flagType = DynamicFlag
          }
   , flag { flagName = "-dsuppress-uniques"
          , flagDescription =
-           "Suppress the printing of uniques in debug output (easier to use "++
-           "``diff``)"
+           "デバッグ出力で1つしかないものの表示を抑制する(``diff`` を使いやすくするため)"
          , flagType = DynamicFlag
          }
   , flag { flagName = "-dsuppress-idinfo"
          , flagDescription =
-           "Suppress extended information about identifiers where they "++
-           "are bound"
+           "識別子の束縛位置について拡張情報を抑制する"
          , flagType = DynamicFlag
          }
   , flag { flagName = "-dsuppress-unfoldings"
          , flagDescription =
-           "Suppress the printing of the stable unfolding of a variable at "++
-           "its binding site"
+           "変数の束縛位置での安定展開を表示するのを抑制する"
          , flagType = DynamicFlag
          }
   , flag { flagName = "-dsuppress-module-prefixes"
          , flagDescription =
-           "Suppress the printing of module qualification prefixes"
+           "モジュール修飾接頭辞の表示を抑制する"
          , flagType = DynamicFlag
          }
   , flag { flagName = "-dsuppress-type-signatures"
-         , flagDescription = "Suppress type signatures"
+         , flagDescription = "型シグネチャを抑制する"
          , flagType = DynamicFlag
          }
   , flag { flagName = "-dsuppress-type-applications"
-         , flagDescription = "Suppress type applications"
+         , flagDescription = "型適用を抑制する"
          , flagType = DynamicFlag
          }
   , flag { flagName = "-dsuppress-coercions"
          , flagDescription =
-           "Suppress the printing of coercions in Core dumps to make them "++
-           "shorter"
+           "コアダンプの中で型変換を表示するのを抑制し " ++
+           "コアダンプを短くする"
          , flagType = DynamicFlag
          }
   , flag { flagName = "-dsource-stats"
-         , flagDescription = "Dump haskell source stats"
+         , flagDescription = "Haskell ソースの統計情報をダンプする"
          , flagType = DynamicFlag
          }
   , flag { flagName = "-dcmm-lint"
-         , flagDescription = "C-- pass sanity checking"
+         , flagDescription = "C-- パスの正当性検査"
          , flagType = DynamicFlag
          }
   , flag { flagName = "-dstg-lint"
-         , flagDescription = "STG pass sanity checking"
+         , flagDescription = "STG パスの正当性検査"
          , flagType = DynamicFlag
          }
   , flag { flagName = "-dstg-stats"
-         , flagDescription = "Dump STG stats"
+         , flagDescription = "STG の統計情報をダンプする"
          , flagType = DynamicFlag
          }
   , flag { flagName = "-dverbose-core2core"
-         , flagDescription = "Show output from each core-to-core pass"
+         , flagDescription = "core-to-core パスの各段階ごとに出力を表示する"
          , flagType = DynamicFlag
          }
   , flag { flagName = "-dverbose-stg2stg"
-         , flagDescription = "Show output from each STG-to-STG pass"
+         , flagDescription = "STG-to-STG パスの各段階ごとに出力を表示する"
          , flagType = DynamicFlag
          }
   , flag { flagName = "-dshow-passes"
-         , flagDescription = "Print out each pass name as it happens"
+         , flagDescription = "各段階の名前を出現ごとに表示する"
          , flagType = DynamicFlag
          }
   , flag { flagName = "-dfaststring-stats"
          , flagDescription =
-           "Show statistics for fast string usage when finished"
+           "fast string の利用終了時にその統計情報を表示する"
          , flagType = DynamicFlag
          }
   , flag { flagName = "-frule-check"
          , flagDescription =
-           "Report sites with rules that could have fired but didn't. "++
-           "Takes a string argument."
+           "発動する可能性があったのに発動しなかったルールの場所を報告する． 文字列引数を1つとる"
          , flagType = DynamicFlag
          }
   ]

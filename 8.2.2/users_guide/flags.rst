@@ -421,14 +421,29 @@ C プリプロセッサオプション
 
 .. include:: flags-platform-specific.gen.rst
 
-Compiler debugging options
---------------------------
+..
+   Compiler debugging options
+   --------------------------
 
-More details in :ref:`options-debugging`
+   More details in :ref:`options-debugging`
+
+   .. include:: flags-compiler-debugging.gen.rst
+
+コンパイラをデバッグするためのオプション
+----------------------------------------
+
+より詳しくは :ref:`options-debugging` にあります．
 
 .. include:: flags-compiler-debugging.gen.rst
 
-Miscellaneous compiler options
-------------------------------
+..
+   Miscellaneous compiler options
+   ------------------------------
+
+   .. include:: flags-misc.gen.rst
+
+その他のコンパイルオプション
+----------------------------
 
 .. include:: flags-misc.gen.rst
+
