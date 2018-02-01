@@ -255,13 +255,12 @@
 
 .. _options-f-compact:
 
-Individual optimisations
-------------------------
+個々の最適化
+------------
 
-These options are described in more detail in :ref:`options-f`. If a
-flag is implied by ``-O`` then it is also implied by ``-O2`` (unless
-flag description explicitly says otherwise). If a flag is implied by
-``-O0`` only then the flag is not implied by ``-O`` and ``-O2``.
+これらのオプションについてより詳しくは :ref:`options-f` にあります．
+``-O`` で有効になるフラグは(別指定をしないかぎり) ``-O2`` ででも有効になります．
+``-O0`` で有効になるフラグについては，``-O`` や ``-O2`` を指定しても有効にはなりません．
 
 .. include:: flags-optimization.gen.rst
 
