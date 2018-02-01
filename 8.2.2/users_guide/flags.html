@@ -80,8 +80,8 @@
 <li><a class="reference internal" href="#id17">7.6.16. プロファイリングオプション</a></li>
 <li><a class="reference internal" href="#id18">7.6.17. プログラム網羅オプション</a></li>
 <li><a class="reference internal" href="#c">7.6.18. C プリプロセッサオプション</a></li>
-<li><a class="reference internal" href="#id19">7.6.19. コード生成に関するオプション</a></li>
-<li><a class="reference internal" href="#linking-options">7.6.20. Linking options</a></li>
+<li><a class="reference internal" href="#id19">7.6.19. コード生成オプション</a></li>
+<li><a class="reference internal" href="#id20">7.6.20. リンクオプション</a></li>
 <li><a class="reference internal" href="#plugin-options">7.6.21. Plugin options</a></li>
 <li><a class="reference internal" href="#replacing-phases">7.6.22. Replacing phases</a></li>
 <li><a class="reference internal" href="#forcing-options-to-particular-phases">7.6.23. Forcing options to particular phases</a></li>
@@ -2336,7 +2336,7 @@
 </table>
 </div>
 <div class="section" id="id19">
-<h2>7.6.19. コード生成に関するオプション<a class="headerlink" href="#id19" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<h2>7.6.19. コード生成オプション<a class="headerlink" href="#id19" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <p>より詳しくは <a class="reference internal" href="phases.html#options-codegen"><span class="std std-ref">Options affecting code generation</span></a> にあります．</p>
 <table border="1" class="docutils">
 <colgroup>
@@ -2402,9 +2402,9 @@
 </tbody>
 </table>
 </div>
-<div class="section" id="linking-options">
-<h2>7.6.20. Linking options<a class="headerlink" href="#linking-options" title="このヘッドラインへのパーマリンク">¶</a></h2>
-<p>More details in <a class="reference internal" href="phases.html#options-linker"><span class="std std-ref">Options affecting linking</span></a></p>
+<div class="section" id="id20">
+<h2>7.6.20. リンクオプション<a class="headerlink" href="#id20" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>より詳しくは <a class="reference internal" href="phases.html#options-linker"><span class="std std-ref">Options affecting linking</span></a> にあります．</p>
 <table border="1" class="docutils">
 <colgroup>
 <col width="25%" />
@@ -2421,157 +2421,148 @@
 </thead>
 <tbody valign="top">
 <tr class="row-even"><td><a class="reference internal" href="phases.html#ghc-flag--shared"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-shared</span></code></a></td>
-<td>Generate a shared library (as opposed to an executable)</td>
-<td>dynamic</td>
-<td>&#160;</td>
-</tr>
-<tr class="row-odd"><td><a class="reference internal" href="phases.html#ghc-flag--staticlib"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-staticlib</span></code></a></td>
-<td>On Darwin/OS X/iOS only, generate a standalone static library (as opposed to an executable).
-This is the usual way to compile for iOS.</td>
-<td>dynamic</td>
-<td>&#160;</td>
-</tr>
-<tr class="row-even"><td><a class="reference internal" href="phases.html#ghc-flag--fPIC"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-fPIC</span></code></a></td>
-<td>Generate position-independent code (where available)</td>
+<td>実行ファイルではなく共有ライブラリを生成する</td>
 <td>dynamic</td>
 <td>&#160;</td>
 </tr>
 <tr class="row-odd"><td><code class="xref std std-ghc-flag docutils literal"><span class="pre">-fPIE</span></code></td>
-<td>Generate code for a position-independent executable (where available)</td>
+<td>可能であれば位置独立実行コードを生成する</td>
 <td>dynamic</td>
 <td>&#160;</td>
 </tr>
 <tr class="row-even"><td><code class="xref std std-ghc-flag docutils literal"><span class="pre">-pie</span></code></td>
-<td>Instruct the linker to produce a position-independent executable.</td>
+<td>リンカに位置独立実行コードを生成するよう指示する</td>
 <td>dynamic</td>
 <td>&#160;</td>
 </tr>
 <tr class="row-odd"><td><a class="reference internal" href="phases.html#ghc-flag--dynload"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-dynload</span></code></a></td>
-<td>Selects one of a number of modes for finding shared libraries at runtime.</td>
+<td>実行時に共有ライブラリを探索する方法を1つ選択する</td>
 <td>dynamic</td>
 <td>&#160;</td>
 </tr>
 <tr class="row-even"><td><a class="reference internal" href="phases.html#ghc-flag--framework ⟨name⟩"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-framework</span> <span class="pre">⟨name⟩</span></code></a></td>
-<td>On Darwin/OS X/iOS only, link in the framework ⟨name⟩. This option corresponds to the
-<code class="docutils literal"><span class="pre">-framework</span></code> option for Apple&#8217;s Linker.</td>
+<td>Darwin/OS X/iOS のみ． フレームワーク ⟨name⟩ をリンクする． このオプションは Apple のリンカ用の
+<code class="docutils literal"><span class="pre">-framework</span></code> オプションに対応する</td>
 <td>dynamic</td>
 <td>&#160;</td>
 </tr>
 <tr class="row-odd"><td><a class="reference internal" href="phases.html#ghc-flag--framework-path ⟨dir⟩"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-framework-path</span> <span class="pre">⟨dir⟩</span></code></a></td>
-<td>On Darwin/OS X/iOS only, add ⟨dir⟩ to the list of directories searched for frameworks. This
-option corresponds to the <code class="docutils literal"><span class="pre">-F</span></code> option for Apple&#8217;s Linker.</td>
+<td>Darwin/OS X/iOS のみ． ⟨dir⟩ をフレームワーク検索ディレクトリリストに追加する このオプションは
+Apple のリンカ用の <code class="docutils literal"><span class="pre">-F</span></code> オプションに対応する</td>
 <td>dynamic</td>
 <td>&#160;</td>
 </tr>
 <tr class="row-even"><td><a class="reference internal" href="phases.html#ghc-flag--l ⟨lib⟩"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-l</span> <span class="pre">⟨lib⟩</span></code></a></td>
-<td>Link in library ⟨lib⟩</td>
+<td>ライブラリ ⟨lib⟩ にリンクする</td>
 <td>dynamic</td>
 <td>&#160;</td>
 </tr>
 <tr class="row-odd"><td><a class="reference internal" href="phases.html#ghc-flag--L ⟨dir⟩"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-L</span> <span class="pre">⟨dir⟩</span></code></a></td>
-<td>Add ⟨dir⟩ to the list of directories searched for libraries</td>
+<td>⟨dir⟩ をライブラリ検索ディレクトリリストに追加する</td>
 <td>dynamic</td>
 <td>&#160;</td>
 </tr>
 <tr class="row-even"><td><a class="reference internal" href="phases.html#ghc-flag--main-is ⟨thing⟩"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-main-is</span> <span class="pre">⟨thing⟩</span></code></a></td>
-<td>Set main module and function</td>
+<td>main モジュールと関数を設定する</td>
 <td>dynamic</td>
 <td>&#160;</td>
 </tr>
 <tr class="row-odd"><td><a class="reference internal" href="using.html#ghc-flag---mk-dll"><code class="xref std std-ghc-flag docutils literal"><span class="pre">--mk-dll</span></code></a></td>
-<td>DLL-creation mode (Windows only)</td>
+<td>DLL-生成モード (Windows のみ)</td>
 <td>dynamic</td>
 <td>&#160;</td>
 </tr>
 <tr class="row-even"><td><a class="reference internal" href="phases.html#ghc-flag--no-hs-main"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-no-hs-main</span></code></a></td>
-<td>Don&#8217;t assume this program contains <code class="docutils literal"><span class="pre">main</span></code></td>
+<td>このプログラムには <code class="docutils literal"><span class="pre">main</span></code> が含まれないものとする</td>
 <td>dynamic</td>
 <td>&#160;</td>
 </tr>
 <tr class="row-odd"><td><a class="reference internal" href="phases.html#ghc-flag--rtsopts[=⟨none|some|all⟩]"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-rtsopts[=⟨none|some|all⟩]</span></code></a></td>
-<td>Control whether the RTS behaviour can be tweaked via command-lineflags and the <code class="docutils literal"><span class="pre">GHCRTS</span></code>
-environment variable. Using <code class="docutils literal"><span class="pre">none</span></code> means no RTS flags can be given; <code class="docutils literal"><span class="pre">some</span></code> means only a
-minimum of safe options can be given (the default), and <code class="docutils literal"><span class="pre">all</span></code> (or no argument at all) means
-that all RTS flags are permitted.</td>
+<td>RTS の動作をコマンドラインフラグと <code class="docutils literal"><span class="pre">GHCRTS</span></code> 環境変数で調整できるかどうかを制御する． <code class="docutils literal"><span class="pre">none</span></code>
+を使用すると RTS フラグは指定できない． <code class="docutils literal"><span class="pre">some</span></code>
+なら最低限の安全なオプションのみ与えられる（デフォルト）． <code class="docutils literal"><span class="pre">all</span></code>
+なら（または何も引数なし）すべての RTS フラグが許可される</td>
 <td>dynamic</td>
 <td>&#160;</td>
 </tr>
 <tr class="row-even"><td><a class="reference internal" href="phases.html#ghc-flag--with-rtsopts=⟨opts⟩"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-with-rtsopts=⟨opts⟩</span></code></a></td>
-<td>Set the default RTS options to ⟨opts⟩.</td>
+<td>デフォルトの RTS オプションを ⟨opts⟩ に設定する</td>
 <td>dynamic</td>
 <td>&#160;</td>
 </tr>
 <tr class="row-odd"><td><a class="reference internal" href="phases.html#ghc-flag--no-rtsopts-suggestions"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-no-rtsopts-suggestions</span></code></a></td>
-<td>Don&#8217;t print RTS suggestions about linking with <a class="reference internal" href="phases.html#ghc-flag--rtsopts[=⟨none|some|all⟩]"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-rtsopts[=⟨none|some|all⟩]</span></code></a>.</td>
+<td><a class="reference internal" href="phases.html#ghc-flag--rtsopts[=⟨none|some|all⟩]"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-rtsopts[=⟨none|some|all⟩]</span></code></a> を使ってリンクする提案を表示しない</td>
 <td>dynamic</td>
 <td>&#160;</td>
 </tr>
 <tr class="row-even"><td><code class="xref std std-ghc-flag docutils literal"><span class="pre">-no-link</span></code></td>
-<td>Omit linking</td>
+<td>リンクを省略する</td>
 <td>dynamic</td>
 <td>&#160;</td>
 </tr>
 <tr class="row-odd"><td><a class="reference internal" href="phases.html#ghc-flag--split-objs"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-split-objs</span></code></a></td>
-<td>Split objects (for libraries)</td>
+<td>オブジェクトを分割する(ライブラリ用)</td>
 <td>dynamic</td>
 <td>&#160;</td>
 </tr>
 <tr class="row-even"><td><a class="reference internal" href="phases.html#ghc-flag--split-sections"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-split-sections</span></code></a></td>
-<td>Split sections for link-time dead-code stripping</td>
+<td>リンク時デッドコード除去用にセクションを分割する</td>
 <td>dynamic</td>
 <td>&#160;</td>
 </tr>
 <tr class="row-odd"><td><a class="reference internal" href="phases.html#ghc-flag--static"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-static</span></code></a></td>
-<td>Use static Haskell libraries</td>
+<td>静的 Haskell ライブラリを使う</td>
 <td>dynamic</td>
 <td>&#160;</td>
 </tr>
 <tr class="row-even"><td><a class="reference internal" href="phases.html#ghc-flag--threaded"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-threaded</span></code></a></td>
-<td>Use the threaded runtime</td>
+<td>スレッド化されたランタイムを使う</td>
 <td>dynamic</td>
 <td>&#160;</td>
 </tr>
 <tr class="row-odd"><td><a class="reference internal" href="phases.html#ghc-flag--debug"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-debug</span></code></a></td>
-<td>Use the debugging runtime</td>
+<td>デバッグ用ランタイムを使う</td>
 <td>dynamic</td>
 <td>&#160;</td>
 </tr>
 <tr class="row-even"><td><a class="reference internal" href="profiling.html#ghc-flag--ticky"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-ticky</span></code></a></td>
-<td>For linking, this simply implies <a class="reference internal" href="phases.html#ghc-flag--debug"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-debug</span></code></a>; see <a class="reference internal" href="profiling.html#ticky-ticky"><span class="std std-ref">Using “ticky-ticky” profiling (for implementors)</span></a>.</td>
+<td>リンク用． 単に <a class="reference internal" href="phases.html#ghc-flag--debug"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-debug</span></code></a> を有効にする． <a class="reference internal" href="profiling.html#ticky-ticky"><span class="std std-ref">Using “ticky-ticky” profiling (for implementors)</span></a> を参照</td>
 <td>dynamic</td>
 <td>&#160;</td>
 </tr>
 <tr class="row-odd"><td><a class="reference internal" href="phases.html#ghc-flag--eventlog"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-eventlog</span></code></a></td>
-<td>Enable runtime event tracing</td>
+<td>ランタイムのイベントトレースを有効にする</td>
 <td>dynamic</td>
 <td>&#160;</td>
 </tr>
 <tr class="row-even"><td><a class="reference internal" href="phases.html#ghc-flag--fno-gen-manifest"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-fno-gen-manifest</span></code></a></td>
-<td>Do not generate a manifest file (Windows only)</td>
+<td>マニフェストファイルを生成しない(Windows のみ)</td>
 <td>dynamic</td>
 <td>&#160;</td>
 </tr>
 <tr class="row-odd"><td><a class="reference internal" href="phases.html#ghc-flag--fno-embed-manifest"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-fno-embed-manifest</span></code></a></td>
-<td>Do not embed the manifest in the executable (Windows only)</td>
+<td>実行ファイルにマニフェストファイルを埋め込まない(Windows のみ)</td>
 <td>dynamic</td>
 <td>&#160;</td>
 </tr>
 <tr class="row-even"><td><a class="reference internal" href="phases.html#ghc-flag--fno-shared-implib"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-fno-shared-implib</span></code></a></td>
-<td>Don&#8217;t generate an import library for a DLL (Windows only)</td>
+<td>DLL 用のインポートライブラリを生成しない(Windows のみ)</td>
 <td>dynamic</td>
 <td>&#160;</td>
 </tr>
 <tr class="row-odd"><td><a class="reference internal" href="phases.html#ghc-flag--dylib-install-name ⟨path⟩"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-dylib-install-name</span> <span class="pre">⟨path⟩</span></code></a></td>
-<td>Set the install name (via <code class="docutils literal"><span class="pre">-install_name</span></code> passed to Apple&#8217;s linker), specifying the full
-install path of the library file. Any libraries or executables that link with it later will
-pick up that path as their runtime search location for it. (Darwin/OS X only)</td>
+<td>ライブラリファイルのインストール先のフルパスを示す install name を設定する
+(これはAppleのリンカに <code class="docutils literal"><span class="pre">-install_name</span></code> を渡すことで行なう)．
+後にこのライブラリをリンクするライブラリや実行ファイルは
+このライブラリを実行時に探索する場所としてこのパスを選ぶ</td>
 <td>dynamic</td>
 <td>&#160;</td>
 </tr>
 <tr class="row-even"><td><a class="reference internal" href="phases.html#ghc-flag--rdynamic"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-rdynamic</span></code></a></td>
-<td>This instructs the linker to add all symbols, not only used ones, to the dynamic symbol table.
-Currently Linux and Windows/MinGW32 only. This is equivalent to using <code class="docutils literal"><span class="pre">-optl</span> <span class="pre">-rdynamic</span></code> on
-Linux, and <code class="docutils literal"><span class="pre">-optl</span> <span class="pre">-export-all-symbols</span></code> on Windows.</td>
+<td>このオプションはリンカに使用しているシンボルだけではなく
+すべてのシンボルを動的シンボルテーブルに追加するよう指示する． 現在のところ Linux および
+Windows/MinGW32 のみ． このオプションは Linux 上では <code class="docutils literal"><span class="pre">-optl</span> <span class="pre">-rdynamic</span></code> を指定するのと同等．
+また Windows 上では <code class="docutils literal"><span class="pre">-optl</span> <span class="pre">-export-all-symbols</span></code> を指定するのと同等</td>
 <td>dynamic</td>
 <td>&#160;</td>
 </tr>
