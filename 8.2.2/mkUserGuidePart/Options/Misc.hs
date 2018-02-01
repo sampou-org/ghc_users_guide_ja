@@ -6,34 +6,31 @@ miscOptions :: [Flag]
 miscOptions =
   [ flag { flagName = "-j[⟨n⟩]"
          , flagDescription =
-           "When compiling with :ghc-flag:`--make`, compile ⟨n⟩ modules" ++
-           " in parallel."
+           ":ghc-flag:`--make` でコンパイルする時, ⟨n⟩ 個のモジュールを並列にコンパイルする"
          , flagType = DynamicFlag
          }
   , flag { flagName = "-fno-hi-version-check"
-         , flagDescription = "Don't complain about ``.hi`` file mismatches"
+         , flagDescription = "``.hi`` ファイルが合致しなくても文句は言わない"
          , flagType = DynamicFlag
          }
   , flag { flagName = "-fhistory-size"
-         , flagDescription = "Set simplification history size"
+         , flagDescription = "単純化の履歴をサイズを設定する"
          , flagType = DynamicFlag
          }
   , flag { flagName = "-fno-ghci-history"
          , flagDescription =
-           "Do not use the load/store the GHCi command history from/to "++
-           "``ghci_history``."
+           "GHCi のコマンド履歴を ``ghci_history`` に記録したり読み出したりしない"
          , flagType = DynamicFlag
          }
   , flag { flagName = "-fno-ghci-sandbox"
          , flagDescription =
-           "Turn off the GHCi sandbox. Means computations are run in "++
-           "the main thread, rather than a forked thread."
+           "GHCi のサンドボックスを無効にする． " ++
+           "計算はフォークしたスレッドではなく主スレッドで動作する．"
          , flagType = DynamicFlag
          }
   , flag { flagName = "-flocal-ghci-history"
          , flagDescription =
-           "Use current directory for the GHCi command history "++
-           "file ``.ghci-history``."
+           "GHCi のコマンド履歴ファイル ``.ghci-history`` の置き場を現在のディレクトリにする"
          , flagType = DynamicFlag
          , flagReverse = "-fno-local-ghci-history"
          }
