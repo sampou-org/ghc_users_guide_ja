@@ -5,54 +5,54 @@ import Types
 phaseProgramsOptions :: [Flag]
 phaseProgramsOptions =
   [ flag { flagName = "-pgmL ⟨cmd⟩"
-         , flagDescription = "Use ⟨cmd⟩ as the literate pre-processor"
+         , flagDescription = "⟨cmd⟩ を文芸的コードのプリプロセッサとして使う"
          , flagType = DynamicFlag
          }
   , flag { flagName = "-pgmP ⟨cmd⟩"
          , flagDescription =
-           "Use ⟨cmd⟩ as the C pre-processor (with ``-cpp`` only)"
+           "⟨cmd⟩ を C プリプロセッサとして使う(``-cpp`` を指定したときのみ)"
          , flagType = DynamicFlag
          }
   , flag { flagName = "-pgmc ⟨cmd⟩"
-         , flagDescription = "Use ⟨cmd⟩ as the C compiler"
+         , flagDescription = "⟨cmd⟩ を C のコンパイラとして使う"
          , flagType = DynamicFlag
          }
   , flag { flagName = "-pgmlo ⟨cmd⟩"
-         , flagDescription = "Use ⟨cmd⟩ as the LLVM optimiser"
+         , flagDescription = "⟨cmd⟩ を LLVM 最適化器として使う"
          , flagType = DynamicFlag
          }
   , flag { flagName = "-pgmlc ⟨cmd⟩"
-         , flagDescription = "Use ⟨cmd⟩ as the LLVM compiler"
+         , flagDescription = "⟨cmd⟩ を LLVM コンパイラとして使う"
          , flagType = DynamicFlag
          }
   , flag { flagName = "-pgms ⟨cmd⟩"
-         , flagDescription = "Use ⟨cmd⟩ as the splitter"
+         , flagDescription = "⟨cmd⟩ をスプリッタとして使う"
          , flagType = DynamicFlag
          }
   , flag { flagName = "-pgma ⟨cmd⟩"
-         , flagDescription = "Use ⟨cmd⟩ as the assembler"
+         , flagDescription = "⟨cmd⟩ をアセンブラとして使う"
          , flagType = DynamicFlag
          }
   , flag { flagName = "-pgml ⟨cmd⟩"
-         , flagDescription = "Use ⟨cmd⟩ as the linker"
+         , flagDescription = "⟨cmd⟩ をリンカとして使う"
          , flagType = DynamicFlag
          }
   , flag { flagName = "-pgmdll ⟨cmd⟩"
-         , flagDescription = "Use ⟨cmd⟩ as the DLL generator"
+         , flagDescription = "⟨cmd⟩ を DLL 生成器として使う"
          , flagType = DynamicFlag
          }
   , flag { flagName = "-pgmF ⟨cmd⟩"
-         , flagDescription = "Use ⟨cmd⟩ as the pre-processor (with ``-F`` only)"
+         , flagDescription = "⟨cmd⟩ を プリプロセッサとして使う(``-F`` を指定したときのみ)"
          , flagType = DynamicFlag
          }
   , flag { flagName = "-pgmwindres ⟨cmd⟩"
          , flagDescription =
-           "Use ⟨cmd⟩ as the program for embedding manifests on Windows."
+           "⟨cmd⟩ を Windows でマニフェストを埋め込むためのプログラムとして使う"
          , flagType = DynamicFlag
          }
   , flag { flagName = "-pgmlibtool ⟨cmd⟩"
          , flagDescription =
-           "Use ⟨cmd⟩ as the command for libtool (with ``-staticlib`` only)."
+           "⟨cmd⟩ を libtool用のコマンドとして使う(``-staticlib`` を指定したときのみ)"
          , flagType = DynamicFlag
          }
   ]

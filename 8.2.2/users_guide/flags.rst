@@ -354,10 +354,29 @@ C プリプロセッサオプション
 
 .. include:: flags-plugin.gen.rst
 
+..
+   Replacing phases
+   ----------------
+
+   More details in :ref:`replacing-phases`
+
+   .. include:: flags-phase-programs.gen.rst
+
+   .. index::
+      single: -pgmL
+      single: -pgmP
+      single: -pgmc
+      single: -pgmlo
+      single: -pgmlc
+      single: -pgma
+      single: -pgml
+      single: -pgmdll
+      single: -pgmF
+
 Replacing phases
 ----------------
 
-More details in :ref:`replacing-phases`
+より詳しくは :ref:`replacing-phases` にあります．
 
 .. include:: flags-phase-programs.gen.rst
 
