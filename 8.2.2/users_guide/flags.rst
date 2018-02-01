@@ -339,10 +339,18 @@ C プリプロセッサオプション
 
 .. include:: flags-linking.gen.rst
 
-Plugin options
---------------
+..
+   Plugin options
+   --------------
 
-More details in :ref:`compiler-plugins`
+   More details in :ref:`compiler-plugins`
+
+   .. include:: flags-plugin.gen.rst
+
+プラグインオプション
+--------------------
+
+より詳しくは :ref:`compiler-plugins` にあります．
 
 .. include:: flags-plugin.gen.rst
 
