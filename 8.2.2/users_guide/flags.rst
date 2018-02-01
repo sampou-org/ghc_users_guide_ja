@@ -406,10 +406,18 @@ C プリプロセッサオプション
 
 .. include:: flags-phase-specific.gen.rst
 
-Platform-specific options
--------------------------
+..
+   Platform-specific options
+   -------------------------
 
-More details in :ref:`options-platform`
+   More details in :ref:`options-platform`
+
+   .. include:: flags-platform-specific.gen.rst
+
+プラットフォーム固有のオプション
+--------------------------------
+
+詳しくは :ref:`options-platform` にあります．
 
 .. include:: flags-platform-specific.gen.rst
 
