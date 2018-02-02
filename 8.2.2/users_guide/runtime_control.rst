@@ -84,22 +84,48 @@ RTS オプションを設定する方法は以下の4つです．
 
 -  RTS の「フック」を上書きすることで設定する(:ref:`rts-hooks`)．
 
+..
+   .. _rts-opts-cmdline:
+
+   Setting RTS options on the command line
+   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+   .. index::
+      single: +RTS
+      single: -RTS
+      single: --RTS
+
 .. _rts-opts-cmdline:
 
-Setting RTS options on the command line
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+コマンドラインで RTS オプションを設定する
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 .. index::
    single: +RTS
    single: -RTS
    single: --RTS
 
-If you set the :ghc-flag:`-rtsopts[=⟨none|some|all⟩]` flag appropriately when
-linking (see :ref:`options-linker`), you can give RTS options on the command
-line when running your program.
+..
+   If you set the :ghc-flag:`-rtsopts[=⟨none|some|all⟩]` flag appropriately when
+   linking (see :ref:`options-linker`), you can give RTS options on the command
+   line when running your program.
 
-When your Haskell program starts up, the RTS extracts command-line
-arguments bracketed between ``+RTS`` and ``-RTS`` as its own. For example:
+リンク時に :ghc-flag:`-rtsopts[=⟨none|some|all⟩]` フラグを適切に設定していれば
+(:ref:`options-linker` 参照)，プログラム実行時にコマンドラインで RTS オプションを設定できます．
+
+..
+   When your Haskell program starts up, the RTS extracts command-line
+   arguments bracketed between ``+RTS`` and ``-RTS`` as its own. For example:
+
+   .. code-block:: none
+
+       $ ghc prog.hs -rtsopts
+       [1 of 1] Compiling Main             ( prog.hs, prog.o )
+       Linking prog ...
+       $ ./prog -f +RTS -H32m -S -RTS -h foo bar
+
+Haskellプログラムの実行開始時に，RTS はコマンドラインで ``+RTS`` と ``-RTS`` で囲まれた部分を自分用として抽出します．
+たとえば，
 
 .. code-block:: none
 
@@ -108,35 +134,66 @@ arguments bracketed between ``+RTS`` and ``-RTS`` as its own. For example:
     Linking prog ...
     $ ./prog -f +RTS -H32m -S -RTS -h foo bar
 
-The RTS will snaffle ``-H32m -S`` for itself, and the remaining
-arguments ``-f -h foo bar`` will be available to your program if/when it
-calls ``System.Environment.getArgs``.
+..
+   The RTS will snaffle ``-H32m -S`` for itself, and the remaining
+   arguments ``-f -h foo bar`` will be available to your program if/when it
+   calls ``System.Environment.getArgs``.
 
-No ``-RTS`` option is required if the runtime-system options extend to
-the end of the command line, as in this example:
+ここで RTS は ``-H32m -S`` は自分用として横取りし，残りの引数
+``-f -h foo bar`` はプログラムが ``System.Environment.getArgs`` を呼んだときに渡されます．
+
+..
+   No ``-RTS`` option is required if the runtime-system options extend to
+   the end of the command line, as in this example:
+
+   .. code-block:: none
+
+       % hls -ltr /usr/etc +RTS -A5m
+
+次の例のように，RTS へのオプションがコマンドラインの最後まで続くときは ``-RTS`` オプションは必要ありません．
 
 .. code-block:: none
 
     % hls -ltr /usr/etc +RTS -A5m
 
-If you absolutely positively want all the rest of the options in a
-command line to go to the program (and not the RTS), use a
-``--RTS``.
+..
+   If you absolutely positively want all the rest of the options in a
+   command line to go to the program (and not the RTS), use a
+   ``--RTS``.
 
-As always, for RTS options that take ⟨size⟩s: If the last character of
-⟨size⟩ is a K or k, multiply by 1000; if an M or m, by 1,000,000; if a G
-or G, by 1,000,000,000. (And any wraparound in the counters is *your*
-fault!)
+残りのオプションを問答無用でプログラム(RTS ではない)に渡したければ，
+``--RTS`` を使うといいでしょう．
 
-Giving a ``+RTS -?`` RTS option option will print out the RTS
-options actually available in your program (which vary, depending on how
-you compiled).
+..
+   As always, for RTS options that take ⟨size⟩s: If the last character of
+   ⟨size⟩ is a K or k, multiply by 1000; if an M or m, by 1,000,000; if a G
+   or G, by 1,000,000,000. (And any wraparound in the counters is *your*
+   fault!)
+
+れいによって，⟨size⟩ を引数にとる RTS オプションについては，以下のような記法が適用される．
+⟨size⟩ の最後の文字が K または k であれば 1000 倍し，M または m であれば 1,000,000 倍し，
+
+..
+   Giving a ``+RTS -?`` RTS option option will print out the RTS
+   options actually available in your program (which vary, depending on how
+   you compiled).
+
+``+RTS -?`` という RTS オプションをプログラムに与えれば，
+実際にそのプログラムで利用可能な RTS オプション(これは，そのプログラムをコンパイルした方法による)
+を表示できます．
+
+..
+   .. note::
+       Since GHC is itself compiled by GHC, you can change RTS options in
+       the compiler using the normal ``+RTS ... -RTS`` combination. For instance, to set
+       the maximum heap size for a compilation to 128M, you would add
+       ``+RTS -M128m -RTS`` to the command line.
 
 .. note::
-    Since GHC is itself compiled by GHC, you can change RTS options in
-    the compiler using the normal ``+RTS ... -RTS`` combination. For instance, to set
-    the maximum heap size for a compilation to 128M, you would add
-    ``+RTS -M128m -RTS`` to the command line.
+    GHC 自身は GHC でコンパイルされているので，通常の
+    ``+RTS ... -RTS`` を組み合わせて RTS オプションを変更できます．
+    たとえば，コンパイル時の最大ヒープサイズを 128M にしたければ
+    ``+RTS -M128m -RTS`` をコマンドラインから与えればいいのです．
 
 .. _rts-opts-compile-time:
 
