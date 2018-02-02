@@ -63,7 +63,7 @@
   <ul>
 <li><a class="reference internal" href="#">7.7. コンパイル済みプログラムの実行</a><ul>
 <li><a class="reference internal" href="#rts">7.7.1. RTS オプションの設定方法</a><ul>
-<li><a class="reference internal" href="#setting-rts-options-on-the-command-line">7.7.1.1. Setting RTS options on the command line</a></li>
+<li><a class="reference internal" href="#rts-opts-cmdline">7.7.1.1. コマンドラインで RTS オプションを設定する</a></li>
 <li><a class="reference internal" href="#setting-rts-options-at-compile-time">7.7.1.2. Setting RTS options at compile time</a></li>
 <li><a class="reference internal" href="#setting-rts-options-with-the-ghcrts-environment-variable">7.7.1.3. Setting RTS options with the <code class="docutils literal"><span class="pre">GHCRTS</span></code> environment variable</a></li>
 <li><a class="reference internal" href="#hooks-to-change-rts-behaviour">7.7.1.4. &#8220;Hooks&#8221; to change RTS behaviour</a><ul>
@@ -131,48 +131,42 @@ RTS は記憶領域の管理，スレッドのスケジューリング，プロ�
 <span id="setting-rts-options"></span><h2>7.7.1. RTS オプションの設定方法<a class="headerlink" href="#rts" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <span class="target" id="index-1"></span><p>RTS オプションを設定する方法は以下の4つです．</p>
 <ul class="simple">
-<li>プログラム実行時にコマンドラインで <code class="docutils literal"><span class="pre">+RTS</span> <span class="pre">...</span> <span class="pre">-RTS</span></code> の間に指定する(<a class="reference internal" href="#rts-opts-cmdline"><span class="std std-ref">Setting RTS options on the command line</span></a>)．</li>
+<li>プログラム実行時にコマンドラインで <code class="docutils literal"><span class="pre">+RTS</span> <span class="pre">...</span> <span class="pre">-RTS</span></code> の間に指定する(<a class="reference internal" href="#rts-opts-cmdline"><span class="std std-ref">コマンドラインで RTS オプションを設定する</span></a>)．</li>
 <li>コンパイル時に <a class="reference internal" href="phases.html#ghc-flag--with-rtsopts=⟨opts⟩"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-with-rtsopts=⟨opts⟩</span></code></a> を使って設定する(<a class="reference internal" href="#rts-opts-compile-time"><span class="std std-ref">Setting RTS options at compile time</span></a>)．</li>
 <li>環境変数 <span class="target" id="index-2"></span><a class="reference internal" href="#envvar-GHCRTS"><code class="xref std std-envvar docutils literal"><span class="pre">GHCRTS</span></code></a> を使って設定する(<a class="reference internal" href="#rts-options-environment"><span class="std std-ref">Setting RTS options with the GHCRTS environment variable</span></a>)．</li>
 <li>RTS の「フック」を上書きすることで設定する(<a class="reference internal" href="#rts-hooks"><span class="std std-ref">&#8220;Hooks&#8221; to change RTS behaviour</span></a>)．</li>
 </ul>
-<div class="section" id="setting-rts-options-on-the-command-line">
-<span id="rts-opts-cmdline"></span><h3>7.7.1.1. Setting RTS options on the command line<a class="headerlink" href="#setting-rts-options-on-the-command-line" title="このヘッドラインへのパーマリンク">¶</a></h3>
-<p id="index-3">If you set the <a class="reference internal" href="phases.html#ghc-flag--rtsopts[=⟨none|some|all⟩]"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-rtsopts[=⟨none|some|all⟩]</span></code></a> flag appropriately when
-linking (see <a class="reference internal" href="phases.html#options-linker"><span class="std std-ref">Options affecting linking</span></a>), you can give RTS options on the command
-line when running your program.</p>
-<p>When your Haskell program starts up, the RTS extracts command-line
-arguments bracketed between <code class="docutils literal"><span class="pre">+RTS</span></code> and <code class="docutils literal"><span class="pre">-RTS</span></code> as its own. For example:</p>
+<div class="section" id="rts-opts-cmdline">
+<span id="id2"></span><h3>7.7.1.1. コマンドラインで RTS オプションを設定する<a class="headerlink" href="#rts-opts-cmdline" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<span class="target" id="index-3"></span><p>リンク時に <a class="reference internal" href="phases.html#ghc-flag--rtsopts[=⟨none|some|all⟩]"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-rtsopts[=⟨none|some|all⟩]</span></code></a> フラグを適切に設定していれば
+(<a class="reference internal" href="phases.html#options-linker"><span class="std std-ref">Options affecting linking</span></a> 参照)，プログラム実行時にコマンドラインで RTS オプションを設定できます．</p>
+<p>Haskellプログラムの実行開始時に，RTS はコマンドラインで <code class="docutils literal"><span class="pre">+RTS</span></code> と <code class="docutils literal"><span class="pre">-RTS</span></code> で囲まれた部分を自分用として抽出します．
+たとえば，</p>
 <div class="highlight-none"><div class="highlight"><pre><span></span>$ ghc prog.hs -rtsopts
 [1 of 1] Compiling Main             ( prog.hs, prog.o )
 Linking prog ...
 $ ./prog -f +RTS -H32m -S -RTS -h foo bar
 </pre></div>
 </div>
-<p>The RTS will snaffle <code class="docutils literal"><span class="pre">-H32m</span> <span class="pre">-S</span></code> for itself, and the remaining
-arguments <code class="docutils literal"><span class="pre">-f</span> <span class="pre">-h</span> <span class="pre">foo</span> <span class="pre">bar</span></code> will be available to your program if/when it
-calls <code class="docutils literal"><span class="pre">System.Environment.getArgs</span></code>.</p>
-<p>No <code class="docutils literal"><span class="pre">-RTS</span></code> option is required if the runtime-system options extend to
-the end of the command line, as in this example:</p>
+<p>ここで RTS は <code class="docutils literal"><span class="pre">-H32m</span> <span class="pre">-S</span></code> は自分用として横取りし，残りの引数
+<code class="docutils literal"><span class="pre">-f</span> <span class="pre">-h</span> <span class="pre">foo</span> <span class="pre">bar</span></code> はプログラムが <code class="docutils literal"><span class="pre">System.Environment.getArgs</span></code> を呼んだときに渡されます．</p>
+<p>次の例のように，RTS へのオプションがコマンドラインの最後まで続くときは <code class="docutils literal"><span class="pre">-RTS</span></code> オプションは必要ありません．</p>
 <div class="highlight-none"><div class="highlight"><pre><span></span>% hls -ltr /usr/etc +RTS -A5m
 </pre></div>
 </div>
-<p>If you absolutely positively want all the rest of the options in a
-command line to go to the program (and not the RTS), use a
-<code class="docutils literal"><span class="pre">--RTS</span></code>.</p>
-<p>As always, for RTS options that take ⟨size⟩s: If the last character of
-⟨size⟩ is a K or k, multiply by 1000; if an M or m, by 1,000,000; if a G
-or G, by 1,000,000,000. (And any wraparound in the counters is <em>your</em>
-fault!)</p>
-<p>Giving a <code class="docutils literal"><span class="pre">+RTS</span> <span class="pre">-?</span></code> RTS option option will print out the RTS
-options actually available in your program (which vary, depending on how
-you compiled).</p>
+<p>残りのオプションを問答無用でプログラム(RTS ではない)に渡したければ，
+<code class="docutils literal"><span class="pre">--RTS</span></code> を使うといいでしょう．</p>
+<p>れいによって，⟨size⟩ を引数にとる RTS オプションについては，以下のような記法が適用される．
+⟨size⟩ の最後の文字が K または k であれば 1000 倍し，M または m であれば 1,000,000 倍し，</p>
+<p><code class="docutils literal"><span class="pre">+RTS</span> <span class="pre">-?</span></code> という RTS オプションをプログラムに与えれば，
+実際にそのプログラムで利用可能な RTS オプション(これは，そのプログラムをコンパイルした方法による)
+を表示できます．</p>
 <div class="admonition note">
 <p class="first admonition-title">注釈</p>
-<p class="last">Since GHC is itself compiled by GHC, you can change RTS options in
-the compiler using the normal <code class="docutils literal"><span class="pre">+RTS</span> <span class="pre">...</span> <span class="pre">-RTS</span></code> combination. For instance, to set
-the maximum heap size for a compilation to 128M, you would add
-<code class="docutils literal"><span class="pre">+RTS</span> <span class="pre">-M128m</span> <span class="pre">-RTS</span></code> to the command line.</p>
+<p class="last">GHC 自身は GHC でコンパイルされているので，通常の
+<code class="docutils literal"><span class="pre">+RTS</span> <span class="pre">...</span> <span class="pre">-RTS</span></code> を組み合わせて RTS オプションを変更できます．
+たとえば，コンパイル時の最大ヒープサイズを 128M にしたければ
+<code class="docutils literal"><span class="pre">+RTS</span> <span class="pre">-M128m</span> <span class="pre">-RTS</span></code> をコマンドラインから与えればいいのです．</p>
 </div>
 </div>
 <div class="section" id="setting-rts-options-at-compile-time">
