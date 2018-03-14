@@ -1,0 +1,97 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><link rel="stylesheet" type="text/css" href="style.css" /><script type="text/javascript" src="highlight.js"></script></head><body><pre><span class="hs-pragma">{-# LANGUAGE CPP #-}</span><span>
+</span><a name="line-2"></a><span class="hs-comment">{- |
+   Module      :  System.Win32.HardLink
+   Copyright   :  2013 shelarcy
+   License     :  BSD-style
+
+   Maintainer  :  shelarcy@gmail.com
+   Stability   :  Provisional
+   Portability :  Non-portable (Win32 API)
+
+   Handling hard link using Win32 API. [NTFS only]
+
+   Note: You should worry about file system type when use this module's function in your application:
+
+     * NTFS only supprts this functionality.
+
+     * ReFS doesn't support hard link currently.
+-}</span><span>
+</span><a name="line-19"></a><span class="hs-keyword">module</span><span> </span><span class="hs-identifier">System.Win32.HardLink</span><span>
+</span><a name="line-20"></a><span>  </span><span class="hs-special">(</span><span> </span><span class="hs-keyword">module</span><span> </span><a href="System.Win32.HardLink.html"><span class="hs-identifier">System.Win32.HardLink</span></a><span>
+</span><a name="line-21"></a><span>  </span><span class="hs-special">)</span><span> </span><span class="hs-keyword">where</span><span>
+</span><a name="line-22"></a><span class="hs-keyword">import</span><span> </span><a href="System.Win32.File.html"><span class="hs-identifier">System.Win32.File</span></a><span>   </span><span class="hs-special">(</span><span> </span><a href="System.Win32.File.html#LPSECURITY_ATTRIBUTES"><span class="hs-identifier hs-type">LPSECURITY_ATTRIBUTES</span></a><span class="hs-special">,</span><span> </span><a href="System.Win32.File.html#failIfFalseWithRetry_"><span class="hs-identifier hs-var">failIfFalseWithRetry_</span></a><span> </span><span class="hs-special">)</span><span>
+</span><a name="line-23"></a><span class="hs-keyword">import</span><span> </span><a href="System.Win32.String.html"><span class="hs-identifier">System.Win32.String</span></a><span> </span><span class="hs-special">(</span><span> </span><a href="System.Win32.Types.html#LPCTSTR"><span class="hs-identifier hs-type">LPCTSTR</span></a><span class="hs-special">,</span><span> </span><a href="System.Win32.Types.html#withTString"><span class="hs-identifier hs-var">withTString</span></a><span> </span><span class="hs-special">)</span><span>
+</span><a name="line-24"></a><span class="hs-keyword">import</span><span> </span><a href="System.Win32.Types.html"><span class="hs-identifier">System.Win32.Types</span></a><span>  </span><span class="hs-special">(</span><span> </span><a href="System.Win32.Types.html#BOOL"><span class="hs-identifier hs-type">BOOL</span></a><span class="hs-special">,</span><span> </span><a href="../base-4.11.0.0/src/%{MODULE/./-}.html#%{NAME}/GHC.Ptr.html#nullPtr"><span class="hs-identifier hs-var">nullPtr</span></a><span> </span><span class="hs-special">)</span><span>
+</span><a name="line-25"></a><span>
+</span><a name="line-26"></a><span class="hs-cpp">#include &quot;windows_cconv.h&quot;
+</span><span>
+</span><a name="line-28"></a><span class="hs-comment">-- | NOTE: createHardLink is /flipped arguments/ to provide compatiblity for Unix.</span><span>
+</span><a name="line-29"></a><span class="hs-comment">-- </span><span>
+</span><a name="line-30"></a><span class="hs-comment">-- If you want to create hard link by Windows way, use 'createHardLink'' instead.</span><span>
+</span><a name="line-31"></a><span class="hs-identifier">createHardLink</span><span> </span><span class="hs-glyph">::</span><span> </span><a href="../base-4.11.0.0/src/%{MODULE/./-}.html#%{NAME}/GHC.IO.html#FilePath"><span class="hs-identifier hs-type">FilePath</span></a><span> </span><span class="hs-comment">-- ^ Target file path</span><span>
+</span><a name="line-32"></a><span>               </span><span class="hs-glyph">-&gt;</span><span> </span><a href="../base-4.11.0.0/src/%{MODULE/./-}.html#%{NAME}/GHC.IO.html#FilePath"><span class="hs-identifier hs-type">FilePath</span></a><span> </span><span class="hs-comment">-- ^ Hard link name</span><span>
+</span><a name="line-33"></a><span>               </span><span class="hs-glyph">-&gt;</span><span> </span><span class="hs-identifier hs-type">IO</span><span> </span><span class="hs-special">(</span><span class="hs-special">)</span><span>
+</span><a name="line-34"></a><a name="createHardLink"><a href="System.Win32.HardLink.html#createHardLink"><span class="hs-identifier">createHardLink</span></a></a><span> </span><span class="hs-glyph">=</span><span> </span><a href="../base-4.11.0.0/src/%{MODULE/./-}.html#%{NAME}/GHC.Base.html#flip"><span class="hs-identifier hs-var">flip</span></a><span> </span><a href="System.Win32.HardLink.html#createHardLink%27"><span class="hs-identifier hs-var">createHardLink'</span></a><span>
+</span><a name="line-35"></a><span>
+</span><a name="line-36"></a><span class="hs-identifier">createHardLink'</span><span> </span><span class="hs-glyph">::</span><span> </span><a href="../base-4.11.0.0/src/%{MODULE/./-}.html#%{NAME}/GHC.IO.html#FilePath"><span class="hs-identifier hs-type">FilePath</span></a><span> </span><span class="hs-comment">-- ^ Hard link name</span><span>
+</span><a name="line-37"></a><span>                </span><span class="hs-glyph">-&gt;</span><span> </span><a href="../base-4.11.0.0/src/%{MODULE/./-}.html#%{NAME}/GHC.IO.html#FilePath"><span class="hs-identifier hs-type">FilePath</span></a><span> </span><span class="hs-comment">-- ^ Target file path</span><span>
+</span><a name="line-38"></a><span>                </span><span class="hs-glyph">-&gt;</span><span> </span><span class="hs-identifier hs-type">IO</span><span> </span><span class="hs-special">(</span><span class="hs-special">)</span><span>
+</span><a name="line-39"></a><a name="createHardLink%27"><a href="System.Win32.HardLink.html#createHardLink%27"><span class="hs-identifier">createHardLink'</span></a></a><span> </span><a name="local-6989586621679059004"><a href="#local-6989586621679059004"><span class="hs-identifier">link</span></a></a><span> </span><a name="local-6989586621679059005"><a href="#local-6989586621679059005"><span class="hs-identifier">target</span></a></a><span> </span><span class="hs-glyph">=</span><span>
+</span><a name="line-40"></a><span>   </span><a href="System.Win32.Types.html#withTString"><span class="hs-identifier hs-var">withTString</span></a><span> </span><a href="#local-6989586621679059005"><span class="hs-identifier hs-var">target</span></a><span> </span><a href="../base-4.11.0.0/src/%{MODULE/./-}.html#%{NAME}/GHC.Base.html#%24"><span class="hs-operator hs-var">$</span></a><span> </span><span class="hs-glyph">\</span><a name="local-6989586621679059006"><a href="#local-6989586621679059006"><span class="hs-identifier">c_target</span></a></a><span> </span><span class="hs-glyph">-&gt;</span><span>
+</span><a name="line-41"></a><span>   </span><a href="System.Win32.Types.html#withTString"><span class="hs-identifier hs-var">withTString</span></a><span> </span><a href="#local-6989586621679059004"><span class="hs-identifier hs-var">link</span></a><span>   </span><a href="../base-4.11.0.0/src/%{MODULE/./-}.html#%{NAME}/GHC.Base.html#%24"><span class="hs-operator hs-var">$</span></a><span> </span><span class="hs-glyph">\</span><a name="local-6989586621679059007"><a href="#local-6989586621679059007"><span class="hs-identifier">c_link</span></a></a><span> </span><span class="hs-glyph">-&gt;</span><span>
+</span><a name="line-42"></a><span>        </span><a href="System.Win32.File.html#failIfFalseWithRetry_"><span class="hs-identifier hs-var">failIfFalseWithRetry_</span></a><span> </span><span class="hs-special">(</span><a href="../base-4.11.0.0/src/%{MODULE/./-}.html#%{NAME}/Data.OldList.html#unwords"><span class="hs-identifier hs-var">unwords</span></a><span> </span><span class="hs-special">[</span><span class="hs-string">&quot;CreateHardLinkW&quot;</span><span class="hs-special">,</span><a href="../base-4.11.0.0/src/%{MODULE/./-}.html#%{NAME}/GHC.Show.html#show"><span class="hs-identifier hs-var">show</span></a><span> </span><a href="#local-6989586621679059004"><span class="hs-identifier hs-var">link</span></a><span class="hs-special">,</span><a href="../base-4.11.0.0/src/%{MODULE/./-}.html#%{NAME}/GHC.Show.html#show"><span class="hs-identifier hs-var">show</span></a><span> </span><a href="#local-6989586621679059005"><span class="hs-identifier hs-var">target</span></a><span class="hs-special">]</span><span class="hs-special">)</span><span> </span><a href="../base-4.11.0.0/src/%{MODULE/./-}.html#%{NAME}/GHC.Base.html#%24"><span class="hs-operator hs-var">$</span></a><span>
+</span><a name="line-43"></a><span>          </span><a href="System.Win32.HardLink.html#c_CreateHardLink"><span class="hs-identifier hs-var">c_CreateHardLink</span></a><span> </span><a href="#local-6989586621679059007"><span class="hs-identifier hs-var">c_link</span></a><span> </span><a href="#local-6989586621679059006"><span class="hs-identifier hs-var">c_target</span></a><span> </span><a href="../base-4.11.0.0/src/%{MODULE/./-}.html#%{NAME}/GHC.Ptr.html#nullPtr"><span class="hs-identifier hs-var">nullPtr</span></a><span>
+</span><a name="line-44"></a><span>
+</span><a name="line-45"></a><span class="hs-keyword">foreign</span><span> </span><span class="hs-keyword">import</span><span> </span><span class="hs-identifier">WINDOWS_CCONV</span><span> </span><span class="hs-keyword">unsafe</span><span> </span><span class="hs-string">&quot;windows.h CreateHardLinkW&quot;</span><span>
+</span><a name="line-46"></a><span>  </span><span class="hs-identifier">c_CreateHardLink</span><span> </span><span class="hs-glyph">::</span><span> </span><a href="System.Win32.Types.html#LPCTSTR"><span class="hs-identifier hs-type">LPCTSTR</span></a><span> </span><span class="hs-comment">-- ^ Hard link name</span><span>
+</span><a name="line-47"></a><span>                   </span><span class="hs-glyph">-&gt;</span><span> </span><a href="System.Win32.Types.html#LPCTSTR"><span class="hs-identifier hs-type">LPCTSTR</span></a><span> </span><span class="hs-comment">-- ^ Target file path</span><span>
+</span><a name="line-48"></a><span>                   </span><span class="hs-glyph">-&gt;</span><span> </span><a href="System.Win32.File.html#LPSECURITY_ATTRIBUTES"><span class="hs-identifier hs-type">LPSECURITY_ATTRIBUTES</span></a><span> </span><span class="hs-comment">-- ^ This parameter is reserved. You should pass just /nullPtr/.</span><span>
+</span><a name="line-49"></a><span>                   </span><span class="hs-glyph">-&gt;</span><span> </span><span class="hs-identifier hs-type">IO</span><span> </span><a href="System.Win32.Types.html#BOOL"><span class="hs-identifier hs-type">BOOL</span></a><span>
+</span><a name="line-50"></a><span>
+</span><a name="line-51"></a><span class="hs-comment">{-
+-- We plan to check file system type internally.
+
+-- We are thinking about API design, currently...
+data VolumeInformation = VolumeInformation
+      { volumeName         :: String
+      , volumeSerialNumber :: DWORD
+      , maximumComponentLength :: DWORD
+      , fileSystemFlags    :: DWORD
+      , fileSystemName     :: String
+      } deriving Show
+
+getVolumeInformation :: Maybe String -&gt; IO VolumeInformation
+getVolumeInformation drive =
+   maybeWith withTString drive $ \c_drive -&gt;
+   withTStringBufferLen 256    $ \(vnBuf, vnLen) -&gt;
+   alloca $ \serialNum -&gt;
+   alloca $ \maxLen -&gt;
+   alloca $ \fsFlags -&gt;
+   withTStringBufferLen 256 $ \(fsBuf, fsLen) -&gt; do
+       failIfFalse_ (unwords [&quot;GetVolumeInformationW&quot;, drive]) $
+         c_GetVolumeInformation c_drive vnBuf (fromIntegral vnLen)
+                                serialNum maxLen fsFlags
+                                fsBuf (fromIntegral fsLen)
+       return VolumeInformation
+         &lt;*&gt; peekTString vnBuf
+         &lt;*&gt; peek serialNum
+         &lt;*&gt; peek maxLen
+         &lt;*&gt; peek fsFlags
+         &lt;*&gt; peekTString fsBuf
+
+-- Which is better?
+getVolumeFileType :: String -&gt; IO String
+getVolumeFileType drive = fileSystemName &lt;$&gt; getVolumeInformation drive
+
+getVolumeFileType :: String -&gt; IO String
+getVolumeFileType drive =
+   withTString drive        $ \c_drive -&gt;
+   withTStringBufferLen 256 $ \(buf, len) -&gt; do
+       failIfFalse_ (unwords [&quot;GetVolumeInformationW&quot;, drive]) $
+         c_GetVolumeInformation c_drive nullPtr 0 nullPtr nullPtr nullPtr buf (fromIntegral len)
+       peekTString buf
+
+foreign import WINDOWS_CCONV unsafe &quot;windows.h GetVolumeInformationW&quot;
+  c_GetVolumeInformation :: LPCTSTR -&gt; LPTSTR -&gt; DWORD -&gt; LPDWORD -&gt; LPDWORD -&gt; LPDWORD -&gt; LPTSTR -&gt; DWORD -&gt; IO BOOL
+-}</span><span>
+</span><a name="line-97"></a></pre></body></html>

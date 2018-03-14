@@ -1,0 +1,582 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><link rel="stylesheet" type="text/css" href="style.css" /><script type="text/javascript" src="highlight.js"></script></head><body><pre><span class="hs-comment">{-
+(c) The University of Glasgow 2006
+(c) The GRASP/AQUA Project, Glasgow University, 1992-1998
+
+
+The Desugarer: turning HsSyn into Core.
+-}</span><span>
+</span><a name="line-8"></a><span>
+</span><a name="line-9"></a><span class="hs-pragma">{-# LANGUAGE CPP #-}</span><span>
+</span><a name="line-10"></a><span class="hs-pragma">{-# LANGUAGE TypeFamilies #-}</span><span>
+</span><a name="line-11"></a><span>
+</span><a name="line-12"></a><span class="hs-keyword">module</span><span> </span><span class="hs-identifier">Desugar</span><span> </span><span class="hs-special">(</span><span>
+</span><a name="line-13"></a><span>    </span><span class="hs-comment">-- * Desugaring operations</span><span>
+</span><a name="line-14"></a><span>    </span><a href="Desugar.html#deSugar"><span class="hs-identifier hs-var">deSugar</span></a><span class="hs-special">,</span><span> </span><a href="Desugar.html#deSugarExpr"><span class="hs-identifier hs-var">deSugarExpr</span></a><span>
+</span><a name="line-15"></a><span>    </span><span class="hs-special">)</span><span> </span><span class="hs-keyword">where</span><span>
+</span><a name="line-16"></a><span>
+</span><a name="line-17"></a><span class="hs-cpp">#include &quot;HsVersions.h&quot;
+</span><span>
+</span><a name="line-19"></a><span class="hs-keyword">import</span><span> </span><a href="GhcPrelude.html"><span class="hs-identifier">GhcPrelude</span></a><span>
+</span><a name="line-20"></a><span>
+</span><a name="line-21"></a><span class="hs-keyword">import</span><span> </span><a href="DsUsage.html"><span class="hs-identifier">DsUsage</span></a><span>
+</span><a name="line-22"></a><span class="hs-keyword">import</span><span> </span><a href="DynFlags.html"><span class="hs-identifier">DynFlags</span></a><span>
+</span><a name="line-23"></a><span class="hs-keyword">import</span><span> </span><a href="HscTypes.html"><span class="hs-identifier">HscTypes</span></a><span>
+</span><a name="line-24"></a><span class="hs-keyword">import</span><span> </span><a href="HsSyn.html"><span class="hs-identifier">HsSyn</span></a><span>
+</span><a name="line-25"></a><span class="hs-keyword">import</span><span> </span><a href="TcRnTypes.html"><span class="hs-identifier">TcRnTypes</span></a><span>
+</span><a name="line-26"></a><span class="hs-keyword">import</span><span> </span><a href="TcRnMonad.html"><span class="hs-identifier">TcRnMonad</span></a><span>  </span><span class="hs-special">(</span><span> </span><a href="TcRnMonad.html#finalSafeMode"><span class="hs-identifier hs-var">finalSafeMode</span></a><span class="hs-special">,</span><span> </span><a href="TcRnMonad.html#fixSafeInstances"><span class="hs-identifier hs-var">fixSafeInstances</span></a><span> </span><span class="hs-special">)</span><span>
+</span><a name="line-27"></a><span class="hs-keyword">import</span><span> </span><a href="TcRnDriver.html"><span class="hs-identifier">TcRnDriver</span></a><span> </span><span class="hs-special">(</span><span> </span><a href="TcRnDriver.html#runTcInteractive"><span class="hs-identifier hs-var">runTcInteractive</span></a><span> </span><span class="hs-special">)</span><span>
+</span><a name="line-28"></a><span class="hs-keyword">import</span><span> </span><a href="Id.html"><span class="hs-identifier">Id</span></a><span>
+</span><a name="line-29"></a><span class="hs-keyword">import</span><span> </span><a href="Name.html"><span class="hs-identifier">Name</span></a><span>
+</span><a name="line-30"></a><span class="hs-keyword">import</span><span> </span><a href="Type.html"><span class="hs-identifier">Type</span></a><span>
+</span><a name="line-31"></a><span class="hs-keyword">import</span><span> </span><a href="InstEnv.html"><span class="hs-identifier">InstEnv</span></a><span>
+</span><a name="line-32"></a><span class="hs-keyword">import</span><span> </span><a href="Class.html"><span class="hs-identifier">Class</span></a><span>
+</span><a name="line-33"></a><span class="hs-keyword">import</span><span> </span><a href="Avail.html"><span class="hs-identifier">Avail</span></a><span>
+</span><a name="line-34"></a><span class="hs-keyword">import</span><span> </span><a href="CoreSyn.html"><span class="hs-identifier">CoreSyn</span></a><span>
+</span><a name="line-35"></a><span class="hs-keyword">import</span><span> </span><a href="CoreFVs.html"><span class="hs-identifier">CoreFVs</span></a><span>     </span><span class="hs-special">(</span><span> </span><a href="CoreFVs.html#exprsSomeFreeVarsList"><span class="hs-identifier hs-var">exprsSomeFreeVarsList</span></a><span> </span><span class="hs-special">)</span><span>
+</span><a name="line-36"></a><span class="hs-keyword">import</span><span> </span><a href="CoreOpt.html"><span class="hs-identifier">CoreOpt</span></a><span>     </span><span class="hs-special">(</span><span> </span><a href="CoreOpt.html#simpleOptPgm"><span class="hs-identifier hs-var">simpleOptPgm</span></a><span class="hs-special">,</span><span> </span><a href="CoreOpt.html#simpleOptExpr"><span class="hs-identifier hs-var">simpleOptExpr</span></a><span> </span><span class="hs-special">)</span><span>
+</span><a name="line-37"></a><span class="hs-keyword">import</span><span> </span><a href="PprCore.html"><span class="hs-identifier">PprCore</span></a><span>
+</span><a name="line-38"></a><span class="hs-keyword">import</span><span> </span><a href="DsMonad.html"><span class="hs-identifier">DsMonad</span></a><span>
+</span><a name="line-39"></a><span class="hs-keyword">import</span><span> </span><a href="DsExpr.html"><span class="hs-identifier">DsExpr</span></a><span>
+</span><a name="line-40"></a><span class="hs-keyword">import</span><span> </span><a href="DsBinds.html"><span class="hs-identifier">DsBinds</span></a><span>
+</span><a name="line-41"></a><span class="hs-keyword">import</span><span> </span><a href="DsForeign.html"><span class="hs-identifier">DsForeign</span></a><span>
+</span><a name="line-42"></a><span class="hs-keyword">import</span><span> </span><a href="PrelNames.html"><span class="hs-identifier">PrelNames</span></a><span>   </span><span class="hs-special">(</span><span> </span><a href="PrelNames.html#coercibleTyConKey"><span class="hs-identifier hs-var">coercibleTyConKey</span></a><span> </span><span class="hs-special">)</span><span>
+</span><a name="line-43"></a><span class="hs-keyword">import</span><span> </span><a href="TysPrim.html"><span class="hs-identifier">TysPrim</span></a><span>     </span><span class="hs-special">(</span><span> </span><a href="TysPrim.html#eqReprPrimTyCon"><span class="hs-identifier hs-var">eqReprPrimTyCon</span></a><span> </span><span class="hs-special">)</span><span>
+</span><a name="line-44"></a><span class="hs-keyword">import</span><span> </span><a href="Unique.html"><span class="hs-identifier">Unique</span></a><span>      </span><span class="hs-special">(</span><span> </span><a href="Unique.html#hasKey"><span class="hs-identifier hs-var">hasKey</span></a><span> </span><span class="hs-special">)</span><span>
+</span><a name="line-45"></a><span class="hs-keyword">import</span><span> </span><a href="Coercion.html"><span class="hs-identifier">Coercion</span></a><span>    </span><span class="hs-special">(</span><span> </span><a href="Coercion.html#mkCoVarCo"><span class="hs-identifier hs-var">mkCoVarCo</span></a><span> </span><span class="hs-special">)</span><span>
+</span><a name="line-46"></a><span class="hs-keyword">import</span><span> </span><a href="TysWiredIn.html"><span class="hs-identifier">TysWiredIn</span></a><span>  </span><span class="hs-special">(</span><span> </span><a href="TysWiredIn.html#coercibleDataCon"><span class="hs-identifier hs-var">coercibleDataCon</span></a><span> </span><span class="hs-special">)</span><span>
+</span><a name="line-47"></a><span class="hs-keyword">import</span><span> </span><a href="DataCon.html"><span class="hs-identifier">DataCon</span></a><span>     </span><span class="hs-special">(</span><span> </span><a href="DataCon.html#dataConWrapId"><span class="hs-identifier hs-var">dataConWrapId</span></a><span> </span><span class="hs-special">)</span><span>
+</span><a name="line-48"></a><span class="hs-keyword">import</span><span> </span><a href="MkCore.html"><span class="hs-identifier">MkCore</span></a><span>      </span><span class="hs-special">(</span><span> </span><a href="MkCore.html#mkCoreLet"><span class="hs-identifier hs-var">mkCoreLet</span></a><span> </span><span class="hs-special">)</span><span>
+</span><a name="line-49"></a><span class="hs-keyword">import</span><span> </span><a href="Module.html"><span class="hs-identifier">Module</span></a><span>
+</span><a name="line-50"></a><span class="hs-keyword">import</span><span> </span><a href="NameSet.html"><span class="hs-identifier">NameSet</span></a><span>
+</span><a name="line-51"></a><span class="hs-keyword">import</span><span> </span><a href="NameEnv.html"><span class="hs-identifier">NameEnv</span></a><span>
+</span><a name="line-52"></a><span class="hs-keyword">import</span><span> </span><a href="Rules.html"><span class="hs-identifier">Rules</span></a><span>
+</span><a name="line-53"></a><span class="hs-keyword">import</span><span> </span><a href="BasicTypes.html"><span class="hs-identifier">BasicTypes</span></a><span>       </span><span class="hs-special">(</span><span> </span><a href="BasicTypes.html#Activation"><span class="hs-identifier hs-type">Activation</span></a><span class="hs-special">(</span><span class="hs-glyph">..</span><span> </span><span class="hs-special">)</span><span class="hs-special">,</span><span> </span><a href="BasicTypes.html#competesWith"><span class="hs-identifier hs-var">competesWith</span></a><span class="hs-special">,</span><span> </span><a href="BasicTypes.html#pprRuleName"><span class="hs-identifier hs-var">pprRuleName</span></a><span> </span><span class="hs-special">)</span><span>
+</span><a name="line-54"></a><span class="hs-keyword">import</span><span> </span><a href="CoreMonad.html"><span class="hs-identifier">CoreMonad</span></a><span>        </span><span class="hs-special">(</span><span> </span><a href="CoreMonad.html#CoreToDo"><span class="hs-identifier hs-type">CoreToDo</span></a><span class="hs-special">(</span><span class="hs-glyph">..</span><span class="hs-special">)</span><span> </span><span class="hs-special">)</span><span>
+</span><a name="line-55"></a><span class="hs-keyword">import</span><span> </span><a href="CoreLint.html"><span class="hs-identifier">CoreLint</span></a><span>         </span><span class="hs-special">(</span><span> </span><a href="CoreLint.html#endPassIO"><span class="hs-identifier hs-var">endPassIO</span></a><span> </span><span class="hs-special">)</span><span>
+</span><a name="line-56"></a><span class="hs-keyword">import</span><span> </span><a href="VarSet.html"><span class="hs-identifier">VarSet</span></a><span>
+</span><a name="line-57"></a><span class="hs-keyword">import</span><span> </span><a href="FastString.html"><span class="hs-identifier">FastString</span></a><span>
+</span><a name="line-58"></a><span class="hs-keyword">import</span><span> </span><a href="ErrUtils.html"><span class="hs-identifier">ErrUtils</span></a><span>
+</span><a name="line-59"></a><span class="hs-keyword">import</span><span> </span><a href="Outputable.html"><span class="hs-identifier">Outputable</span></a><span>
+</span><a name="line-60"></a><span class="hs-keyword">import</span><span> </span><a href="SrcLoc.html"><span class="hs-identifier">SrcLoc</span></a><span>
+</span><a name="line-61"></a><span class="hs-keyword">import</span><span> </span><a href="Coverage.html"><span class="hs-identifier">Coverage</span></a><span>
+</span><a name="line-62"></a><span class="hs-keyword">import</span><span> </span><a href="Util.html"><span class="hs-identifier">Util</span></a><span>
+</span><a name="line-63"></a><span class="hs-keyword">import</span><span> </span><a href="MonadUtils.html"><span class="hs-identifier">MonadUtils</span></a><span>
+</span><a name="line-64"></a><span class="hs-keyword">import</span><span> </span><a href="OrdList.html"><span class="hs-identifier">OrdList</span></a><span>
+</span><a name="line-65"></a><span>
+</span><a name="line-66"></a><span class="hs-keyword">import</span><span> </span><a href="../base-4.11.0.0/src/%{MODULE/./-}.html#%{NAME}/Data.List.html"><span class="hs-identifier">Data.List</span></a><span>
+</span><a name="line-67"></a><span class="hs-keyword">import</span><span> </span><a href="../base-4.11.0.0/src/%{MODULE/./-}.html#%{NAME}/Data.IORef.html"><span class="hs-identifier">Data.IORef</span></a><span>
+</span><a name="line-68"></a><span class="hs-keyword">import</span><span> </span><a href="../base-4.11.0.0/src/%{MODULE/./-}.html#%{NAME}/Control.Monad.html"><span class="hs-identifier">Control.Monad</span></a><span class="hs-special">(</span><span> </span><a href="../base-4.11.0.0/src/%{MODULE/./-}.html#%{NAME}/GHC.Base.html#when"><span class="hs-identifier hs-var">when</span></a><span> </span><span class="hs-special">)</span><span>
+</span><a name="line-69"></a><span>
+</span><a name="line-70"></a><span class="hs-comment">{-
+************************************************************************
+*                                                                      *
+*              The main function: deSugar
+*                                                                      *
+************************************************************************
+-}</span><span>
+</span><a name="line-77"></a><span>
+</span><a name="line-78"></a><span class="hs-comment">-- | Main entry point to the desugarer.</span><span>
+</span><a name="line-79"></a><span class="hs-identifier">deSugar</span><span> </span><span class="hs-glyph">::</span><span> </span><a href="HscTypes.html#HscEnv"><span class="hs-identifier hs-type">HscEnv</span></a><span> </span><span class="hs-glyph">-&gt;</span><span> </span><a href="Module.html#ModLocation"><span class="hs-identifier hs-type">ModLocation</span></a><span> </span><span class="hs-glyph">-&gt;</span><span> </span><a href="TcRnTypes.html#TcGblEnv"><span class="hs-identifier hs-type">TcGblEnv</span></a><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="hs-identifier hs-type">IO</span><span> </span><span class="hs-special">(</span><a href="ErrUtils.html#Messages"><span class="hs-identifier hs-type">Messages</span></a><span class="hs-special">,</span><span> </span><a href="../base-4.11.0.0/src/%{MODULE/./-}.html#%{NAME}/GHC.Base.html#Maybe"><span class="hs-identifier hs-type">Maybe</span></a><span> </span><a href="HscTypes.html#ModGuts"><span class="hs-identifier hs-type">ModGuts</span></a><span class="hs-special">)</span><span>
+</span><a name="line-80"></a><span class="hs-comment">-- Can modify PCS by faulting in more declarations</span><span>
+</span><a name="line-81"></a><span>
+</span><a name="line-82"></a><a name="deSugar"><a href="Desugar.html#deSugar"><span class="hs-identifier">deSugar</span></a></a><span> </span><a name="local-6989586621680319500"><a href="#local-6989586621680319500"><span class="hs-identifier">hsc_env</span></a></a><span>
+</span><a name="line-83"></a><span>        </span><a name="local-6989586621680319501"><a href="#local-6989586621680319501"><span class="hs-identifier">mod_loc</span></a></a><span>
+</span><a name="line-84"></a><span>        </span><a name="local-6989586621680319502"><a href="#local-6989586621680319502"><span class="hs-identifier">tcg_env</span></a></a><span class="hs-glyph">@</span><span class="hs-special">(</span><a href="TcRnTypes.html#TcGblEnv"><span class="hs-identifier hs-var">TcGblEnv</span></a><span> </span><span class="hs-special">{</span><span> </span><span class="hs-identifier">tcg_mod</span><span>          </span><span class="hs-glyph">=</span><span> </span><a name="local-6989586621680319503"><a href="#local-6989586621680319503"><span class="hs-identifier">id_mod</span></a></a><span class="hs-special">,</span><span>
+</span><a name="line-85"></a><span>                            </span><span class="hs-identifier">tcg_semantic_mod</span><span> </span><span class="hs-glyph">=</span><span> </span><a name="local-6989586621680319504"><a href="#local-6989586621680319504"><span class="hs-identifier">mod</span></a></a><span class="hs-special">,</span><span>
+</span><a name="line-86"></a><span>                            </span><span class="hs-identifier">tcg_src</span><span>          </span><span class="hs-glyph">=</span><span> </span><a name="local-6989586621680319505"><a href="#local-6989586621680319505"><span class="hs-identifier">hsc_src</span></a></a><span class="hs-special">,</span><span>
+</span><a name="line-87"></a><span>                            </span><span class="hs-identifier">tcg_type_env</span><span>     </span><span class="hs-glyph">=</span><span> </span><a name="local-6989586621680319506"><a href="#local-6989586621680319506"><span class="hs-identifier">type_env</span></a></a><span class="hs-special">,</span><span>
+</span><a name="line-88"></a><span>                            </span><span class="hs-identifier">tcg_imports</span><span>      </span><span class="hs-glyph">=</span><span> </span><a name="local-6989586621680319507"><a href="#local-6989586621680319507"><span class="hs-identifier">imports</span></a></a><span class="hs-special">,</span><span>
+</span><a name="line-89"></a><span>                            </span><span class="hs-identifier">tcg_exports</span><span>      </span><span class="hs-glyph">=</span><span> </span><a name="local-6989586621680319508"><a href="#local-6989586621680319508"><span class="hs-identifier">exports</span></a></a><span class="hs-special">,</span><span>
+</span><a name="line-90"></a><span>                            </span><span class="hs-identifier">tcg_keep</span><span>         </span><span class="hs-glyph">=</span><span> </span><a name="local-6989586621680319509"><a href="#local-6989586621680319509"><span class="hs-identifier">keep_var</span></a></a><span class="hs-special">,</span><span>
+</span><a name="line-91"></a><span>                            </span><span class="hs-identifier">tcg_th_splice_used</span><span> </span><span class="hs-glyph">=</span><span> </span><a name="local-6989586621680319510"><a href="#local-6989586621680319510"><span class="hs-identifier">tc_splice_used</span></a></a><span class="hs-special">,</span><span>
+</span><a name="line-92"></a><span>                            </span><span class="hs-identifier">tcg_rdr_env</span><span>      </span><span class="hs-glyph">=</span><span> </span><a name="local-6989586621680319511"><a href="#local-6989586621680319511"><span class="hs-identifier">rdr_env</span></a></a><span class="hs-special">,</span><span>
+</span><a name="line-93"></a><span>                            </span><span class="hs-identifier">tcg_fix_env</span><span>      </span><span class="hs-glyph">=</span><span> </span><a name="local-6989586621680319512"><a href="#local-6989586621680319512"><span class="hs-identifier">fix_env</span></a></a><span class="hs-special">,</span><span>
+</span><a name="line-94"></a><span>                            </span><span class="hs-identifier">tcg_inst_env</span><span>     </span><span class="hs-glyph">=</span><span> </span><a name="local-6989586621680319513"><a href="#local-6989586621680319513"><span class="hs-identifier">inst_env</span></a></a><span class="hs-special">,</span><span>
+</span><a name="line-95"></a><span>                            </span><span class="hs-identifier">tcg_fam_inst_env</span><span> </span><span class="hs-glyph">=</span><span> </span><a name="local-6989586621680319514"><a href="#local-6989586621680319514"><span class="hs-identifier">fam_inst_env</span></a></a><span class="hs-special">,</span><span>
+</span><a name="line-96"></a><span>                            </span><span class="hs-identifier">tcg_merged</span><span>       </span><span class="hs-glyph">=</span><span> </span><a name="local-6989586621680319515"><a href="#local-6989586621680319515"><span class="hs-identifier">merged</span></a></a><span class="hs-special">,</span><span>
+</span><a name="line-97"></a><span>                            </span><span class="hs-identifier">tcg_warns</span><span>        </span><span class="hs-glyph">=</span><span> </span><a name="local-6989586621680319516"><a href="#local-6989586621680319516"><span class="hs-identifier">warns</span></a></a><span class="hs-special">,</span><span>
+</span><a name="line-98"></a><span>                            </span><span class="hs-identifier">tcg_anns</span><span>         </span><span class="hs-glyph">=</span><span> </span><a name="local-6989586621680319517"><a href="#local-6989586621680319517"><span class="hs-identifier">anns</span></a></a><span class="hs-special">,</span><span>
+</span><a name="line-99"></a><span>                            </span><span class="hs-identifier">tcg_binds</span><span>        </span><span class="hs-glyph">=</span><span> </span><a name="local-6989586621680319518"><a href="#local-6989586621680319518"><span class="hs-identifier">binds</span></a></a><span class="hs-special">,</span><span>
+</span><a name="line-100"></a><span>                            </span><span class="hs-identifier">tcg_imp_specs</span><span>    </span><span class="hs-glyph">=</span><span> </span><a name="local-6989586621680319519"><a href="#local-6989586621680319519"><span class="hs-identifier">imp_specs</span></a></a><span class="hs-special">,</span><span>
+</span><a name="line-101"></a><span>                            </span><span class="hs-identifier">tcg_dependent_files</span><span> </span><span class="hs-glyph">=</span><span> </span><a name="local-6989586621680319520"><a href="#local-6989586621680319520"><span class="hs-identifier">dependent_files</span></a></a><span class="hs-special">,</span><span>
+</span><a name="line-102"></a><span>                            </span><span class="hs-identifier">tcg_ev_binds</span><span>     </span><span class="hs-glyph">=</span><span> </span><a name="local-6989586621680319521"><a href="#local-6989586621680319521"><span class="hs-identifier">ev_binds</span></a></a><span class="hs-special">,</span><span>
+</span><a name="line-103"></a><span>                            </span><span class="hs-identifier">tcg_th_foreign_files</span><span> </span><span class="hs-glyph">=</span><span> </span><a name="local-6989586621680319522"><a href="#local-6989586621680319522"><span class="hs-identifier">th_foreign_files_var</span></a></a><span class="hs-special">,</span><span>
+</span><a name="line-104"></a><span>                            </span><span class="hs-identifier">tcg_fords</span><span>        </span><span class="hs-glyph">=</span><span> </span><a name="local-6989586621680319523"><a href="#local-6989586621680319523"><span class="hs-identifier">fords</span></a></a><span class="hs-special">,</span><span>
+</span><a name="line-105"></a><span>                            </span><span class="hs-identifier">tcg_rules</span><span>        </span><span class="hs-glyph">=</span><span> </span><a name="local-6989586621680319524"><a href="#local-6989586621680319524"><span class="hs-identifier">rules</span></a></a><span class="hs-special">,</span><span>
+</span><a name="line-106"></a><span>                            </span><span class="hs-identifier">tcg_vects</span><span>        </span><span class="hs-glyph">=</span><span> </span><a name="local-6989586621680319525"><a href="#local-6989586621680319525"><span class="hs-identifier">vects</span></a></a><span class="hs-special">,</span><span>
+</span><a name="line-107"></a><span>                            </span><span class="hs-identifier">tcg_patsyns</span><span>      </span><span class="hs-glyph">=</span><span> </span><a name="local-6989586621680319526"><a href="#local-6989586621680319526"><span class="hs-identifier">patsyns</span></a></a><span class="hs-special">,</span><span>
+</span><a name="line-108"></a><span>                            </span><span class="hs-identifier">tcg_tcs</span><span>          </span><span class="hs-glyph">=</span><span> </span><a name="local-6989586621680319527"><a href="#local-6989586621680319527"><span class="hs-identifier">tcs</span></a></a><span class="hs-special">,</span><span>
+</span><a name="line-109"></a><span>                            </span><span class="hs-identifier">tcg_insts</span><span>        </span><span class="hs-glyph">=</span><span> </span><a name="local-6989586621680319528"><a href="#local-6989586621680319528"><span class="hs-identifier">insts</span></a></a><span class="hs-special">,</span><span>
+</span><a name="line-110"></a><span>                            </span><span class="hs-identifier">tcg_fam_insts</span><span>    </span><span class="hs-glyph">=</span><span> </span><a name="local-6989586621680319529"><a href="#local-6989586621680319529"><span class="hs-identifier">fam_insts</span></a></a><span class="hs-special">,</span><span>
+</span><a name="line-111"></a><span>                            </span><span class="hs-identifier">tcg_hpc</span><span>          </span><span class="hs-glyph">=</span><span> </span><a name="local-6989586621680319530"><a href="#local-6989586621680319530"><span class="hs-identifier">other_hpc_info</span></a></a><span class="hs-special">,</span><span>
+</span><a name="line-112"></a><span>                            </span><span class="hs-identifier">tcg_complete_matches</span><span> </span><span class="hs-glyph">=</span><span> </span><a name="local-6989586621680319531"><a href="#local-6989586621680319531"><span class="hs-identifier">complete_matches</span></a></a><span>
+</span><a name="line-113"></a><span>                            </span><span class="hs-special">}</span><span class="hs-special">)</span><span>
+</span><a name="line-114"></a><span>
+</span><a name="line-115"></a><span>  </span><span class="hs-glyph">=</span><span> </span><span class="hs-keyword">do</span><span> </span><span class="hs-special">{</span><span> </span><span class="hs-keyword">let</span><span> </span><a name="local-6989586621680319532"><a href="#local-6989586621680319532"><span class="hs-identifier">dflags</span></a></a><span> </span><span class="hs-glyph">=</span><span> </span><span class="hs-identifier">hsc_dflags</span><span> </span><a href="#local-6989586621680319500"><span class="hs-identifier hs-var">hsc_env</span></a><span>
+</span><a name="line-116"></a><span>             </span><a name="local-6989586621680319533"><a href="#local-6989586621680319533"><span class="hs-identifier">print_unqual</span></a></a><span> </span><span class="hs-glyph">=</span><span> </span><a href="HscTypes.html#mkPrintUnqualified"><span class="hs-identifier hs-var">mkPrintUnqualified</span></a><span> </span><a href="#local-6989586621680319532"><span class="hs-identifier hs-var">dflags</span></a><span> </span><a href="#local-6989586621680319511"><span class="hs-identifier hs-var">rdr_env</span></a><span>
+</span><a name="line-117"></a><span>        </span><span class="hs-special">;</span><span> </span><a href="ErrUtils.html#withTiming"><span class="hs-identifier hs-var">withTiming</span></a><span> </span><span class="hs-special">(</span><a href="../base-4.11.0.0/src/%{MODULE/./-}.html#%{NAME}/GHC.Base.html#pure"><span class="hs-identifier hs-var">pure</span></a><span> </span><a href="#local-6989586621680319532"><span class="hs-identifier hs-var">dflags</span></a><span class="hs-special">)</span><span>
+</span><a name="line-118"></a><span>                     </span><span class="hs-special">(</span><a href="Outputable.html#text"><span class="hs-identifier hs-var">text</span></a><span> </span><span class="hs-string">&quot;Desugar&quot;</span><a href="Outputable.html#%3C%2B%3E"><span class="hs-operator hs-var">&lt;+&gt;</span></a><a href="Outputable.html#brackets"><span class="hs-identifier hs-var">brackets</span></a><span> </span><span class="hs-special">(</span><a href="Outputable.html#ppr"><span class="hs-identifier hs-var">ppr</span></a><span> </span><a href="#local-6989586621680319504"><span class="hs-identifier hs-var">mod</span></a><span class="hs-special">)</span><span class="hs-special">)</span><span>
+</span><a name="line-119"></a><span>                     </span><span class="hs-special">(</span><a href="../base-4.11.0.0/src/%{MODULE/./-}.html#%{NAME}/GHC.Base.html#const"><span class="hs-identifier hs-var">const</span></a><span> </span><span class="hs-special">(</span><span class="hs-special">)</span><span class="hs-special">)</span><span> </span><a href="../base-4.11.0.0/src/%{MODULE/./-}.html#%{NAME}/GHC.Base.html#%24"><span class="hs-operator hs-var">$</span></a><span>
+</span><a name="line-120"></a><span>     </span><span class="hs-keyword">do</span><span> </span><span class="hs-special">{</span><span> </span><span class="hs-comment">-- Desugar the program</span><span>
+</span><a name="line-121"></a><span>        </span><span class="hs-special">;</span><span> </span><span class="hs-keyword">let</span><span> </span><a name="local-6989586621680319534"><a href="#local-6989586621680319534"><span class="hs-identifier">export_set</span></a></a><span> </span><span class="hs-glyph">=</span><span> </span><a href="Avail.html#availsToNameSet"><span class="hs-identifier hs-var">availsToNameSet</span></a><span> </span><a href="#local-6989586621680319508"><span class="hs-identifier hs-var">exports</span></a><span>
+</span><a name="line-122"></a><span>              </span><a name="local-6989586621680319535"><a href="#local-6989586621680319535"><span class="hs-identifier">target</span></a></a><span>     </span><span class="hs-glyph">=</span><span> </span><span class="hs-identifier">hscTarget</span><span> </span><a href="#local-6989586621680319532"><span class="hs-identifier hs-var">dflags</span></a><span>
+</span><a name="line-123"></a><span>              </span><a name="local-6989586621680319536"><a href="#local-6989586621680319536"><span class="hs-identifier">hpcInfo</span></a></a><span>    </span><span class="hs-glyph">=</span><span> </span><a href="HscTypes.html#emptyHpcInfo"><span class="hs-identifier hs-var">emptyHpcInfo</span></a><span> </span><a href="#local-6989586621680319530"><span class="hs-identifier hs-var">other_hpc_info</span></a><span>
+</span><a name="line-124"></a><span>
+</span><a name="line-125"></a><span>        </span><span class="hs-special">;</span><span> </span><span class="hs-special">(</span><a name="local-6989586621680319537"><a href="#local-6989586621680319537"><span class="hs-identifier">binds_cvr</span></a></a><span class="hs-special">,</span><span> </span><a name="local-6989586621680319538"><a href="#local-6989586621680319538"><span class="hs-identifier">ds_hpc_info</span></a></a><span class="hs-special">,</span><span> </span><a name="local-6989586621680319539"><a href="#local-6989586621680319539"><span class="hs-identifier">modBreaks</span></a></a><span class="hs-special">)</span><span>
+</span><a name="line-126"></a><span>                         </span><span class="hs-glyph">&lt;-</span><span> </span><span class="hs-keyword">if</span><span> </span><span class="hs-identifier hs-var">not</span><span> </span><span class="hs-special">(</span><a href="DriverPhases.html#isHsBootOrSig"><span class="hs-identifier hs-var">isHsBootOrSig</span></a><span> </span><a href="#local-6989586621680319505"><span class="hs-identifier hs-var">hsc_src</span></a><span class="hs-special">)</span><span>
+</span><a name="line-127"></a><span>                              </span><span class="hs-keyword">then</span><span> </span><a href="Coverage.html#addTicksToBinds"><span class="hs-identifier hs-var">addTicksToBinds</span></a><span> </span><a href="#local-6989586621680319500"><span class="hs-identifier hs-var">hsc_env</span></a><span> </span><a href="#local-6989586621680319504"><span class="hs-identifier hs-var">mod</span></a><span> </span><a href="#local-6989586621680319501"><span class="hs-identifier hs-var">mod_loc</span></a><span>
+</span><a name="line-128"></a><span>                                       </span><a href="#local-6989586621680319534"><span class="hs-identifier hs-var">export_set</span></a><span> </span><span class="hs-special">(</span><a href="HscTypes.html#typeEnvTyCons"><span class="hs-identifier hs-var">typeEnvTyCons</span></a><span> </span><a href="#local-6989586621680319506"><span class="hs-identifier hs-var">type_env</span></a><span class="hs-special">)</span><span> </span><a href="#local-6989586621680319518"><span class="hs-identifier hs-var">binds</span></a><span>
+</span><a name="line-129"></a><span>                              </span><span class="hs-keyword">else</span><span> </span><a href="../base-4.11.0.0/src/%{MODULE/./-}.html#%{NAME}/GHC.Base.html#return"><span class="hs-identifier hs-var">return</span></a><span> </span><span class="hs-special">(</span><a href="#local-6989586621680319518"><span class="hs-identifier hs-var">binds</span></a><span class="hs-special">,</span><span> </span><a href="#local-6989586621680319536"><span class="hs-identifier hs-var">hpcInfo</span></a><span class="hs-special">,</span><span> </span><a href="../base-4.11.0.0/src/%{MODULE/./-}.html#%{NAME}/GHC.Base.html#Nothing"><span class="hs-identifier hs-var">Nothing</span></a><span class="hs-special">)</span><span>
+</span><a name="line-130"></a><span>        </span><span class="hs-special">;</span><span> </span><span class="hs-special">(</span><a name="local-6989586621680319549"><a href="#local-6989586621680319549"><span class="hs-identifier">msgs</span></a></a><span class="hs-special">,</span><span> </span><a name="local-6989586621680319550"><a href="#local-6989586621680319550"><span class="hs-identifier">mb_res</span></a></a><span class="hs-special">)</span><span> </span><span class="hs-glyph">&lt;-</span><span> </span><a href="DsMonad.html#initDs"><span class="hs-identifier hs-var">initDs</span></a><span> </span><a href="#local-6989586621680319500"><span class="hs-identifier hs-var">hsc_env</span></a><span> </span><a href="#local-6989586621680319502"><span class="hs-identifier hs-var">tcg_env</span></a><span> </span><a href="../base-4.11.0.0/src/%{MODULE/./-}.html#%{NAME}/GHC.Base.html#%24"><span class="hs-operator hs-var">$</span></a><span>
+</span><a name="line-131"></a><span>                       </span><span class="hs-keyword">do</span><span> </span><span class="hs-special">{</span><span> </span><a name="local-6989586621680319540"><a href="#local-6989586621680319540"><span class="hs-identifier">ds_ev_binds</span></a></a><span> </span><span class="hs-glyph">&lt;-</span><span> </span><a href="DsBinds.html#dsEvBinds"><span class="hs-identifier hs-var">dsEvBinds</span></a><span> </span><a href="#local-6989586621680319521"><span class="hs-identifier hs-var">ev_binds</span></a><span>
+</span><a name="line-132"></a><span>                          </span><span class="hs-special">;</span><span> </span><a name="local-6989586621680319541"><a href="#local-6989586621680319541"><span class="hs-identifier">core_prs</span></a></a><span> </span><span class="hs-glyph">&lt;-</span><span> </span><a href="DsBinds.html#dsTopLHsBinds"><span class="hs-identifier hs-var">dsTopLHsBinds</span></a><span> </span><a href="#local-6989586621680319537"><span class="hs-identifier hs-var">binds_cvr</span></a><span>
+</span><a name="line-133"></a><span>                          </span><span class="hs-special">;</span><span> </span><span class="hs-special">(</span><a name="local-6989586621680319542"><a href="#local-6989586621680319542"><span class="hs-identifier">spec_prs</span></a></a><span class="hs-special">,</span><span> </span><a name="local-6989586621680319543"><a href="#local-6989586621680319543"><span class="hs-identifier">spec_rules</span></a></a><span class="hs-special">)</span><span> </span><span class="hs-glyph">&lt;-</span><span> </span><a href="Desugar.html#dsImpSpecs"><span class="hs-identifier hs-var">dsImpSpecs</span></a><span> </span><a href="#local-6989586621680319519"><span class="hs-identifier hs-var">imp_specs</span></a><span>
+</span><a name="line-134"></a><span>                          </span><span class="hs-special">;</span><span> </span><span class="hs-special">(</span><a name="local-6989586621680319544"><a href="#local-6989586621680319544"><span class="hs-identifier">ds_fords</span></a></a><span class="hs-special">,</span><span> </span><a name="local-6989586621680319545"><a href="#local-6989586621680319545"><span class="hs-identifier">foreign_prs</span></a></a><span class="hs-special">)</span><span> </span><span class="hs-glyph">&lt;-</span><span> </span><a href="DsForeign.html#dsForeigns"><span class="hs-identifier hs-var">dsForeigns</span></a><span> </span><a href="#local-6989586621680319523"><span class="hs-identifier hs-var">fords</span></a><span>
+</span><a name="line-135"></a><span>                          </span><span class="hs-special">;</span><span> </span><a name="local-6989586621680319546"><a href="#local-6989586621680319546"><span class="hs-identifier">ds_rules</span></a></a><span> </span><span class="hs-glyph">&lt;-</span><span> </span><a href="MonadUtils.html#mapMaybeM"><span class="hs-identifier hs-var">mapMaybeM</span></a><span> </span><a href="Desugar.html#dsRule"><span class="hs-identifier hs-var">dsRule</span></a><span> </span><a href="#local-6989586621680319524"><span class="hs-identifier hs-var">rules</span></a><span>
+</span><a name="line-136"></a><span>                          </span><span class="hs-special">;</span><span> </span><a name="local-6989586621680319547"><a href="#local-6989586621680319547"><span class="hs-identifier">ds_vects</span></a></a><span> </span><span class="hs-glyph">&lt;-</span><span> </span><a href="../base-4.11.0.0/src/%{MODULE/./-}.html#%{NAME}/Data.Traversable.html#mapM"><span class="hs-identifier hs-var">mapM</span></a><span> </span><a href="Desugar.html#dsVect"><span class="hs-identifier hs-var">dsVect</span></a><span> </span><a href="#local-6989586621680319525"><span class="hs-identifier hs-var">vects</span></a><span>
+</span><a name="line-137"></a><span>                          </span><span class="hs-special">;</span><span> </span><span class="hs-keyword">let</span><span> </span><a name="local-6989586621680319548"><a href="#local-6989586621680319548"><span class="hs-identifier">hpc_init</span></a></a><span>
+</span><a name="line-138"></a><span>                                  </span><span class="hs-glyph">|</span><span> </span><a href="DynFlags.html#gopt"><span class="hs-identifier hs-var">gopt</span></a><span> </span><a href="DynFlags.html#Opt_Hpc"><span class="hs-identifier hs-var">Opt_Hpc</span></a><span> </span><a href="#local-6989586621680319532"><span class="hs-identifier hs-var">dflags</span></a><span> </span><span class="hs-glyph">=</span><span> </span><a href="Coverage.html#hpcInitCode"><span class="hs-identifier hs-var">hpcInitCode</span></a><span> </span><a href="#local-6989586621680319504"><span class="hs-identifier hs-var">mod</span></a><span> </span><a href="#local-6989586621680319538"><span class="hs-identifier hs-var">ds_hpc_info</span></a><span>
+</span><a name="line-139"></a><span>                                  </span><span class="hs-glyph">|</span><span> </span><a href="../base-4.11.0.0/src/%{MODULE/./-}.html#%{NAME}/GHC.Base.html#otherwise"><span class="hs-identifier hs-var">otherwise</span></a><span> </span><span class="hs-glyph">=</span><span> </span><a href="Outputable.html#empty"><span class="hs-identifier hs-var">empty</span></a><span>
+</span><a name="line-140"></a><span>                          </span><span class="hs-special">;</span><span> </span><a href="../base-4.11.0.0/src/%{MODULE/./-}.html#%{NAME}/GHC.Base.html#return"><span class="hs-identifier hs-var">return</span></a><span> </span><span class="hs-special">(</span><span> </span><a href="#local-6989586621680319540"><span class="hs-identifier hs-var">ds_ev_binds</span></a><span>
+</span><a name="line-141"></a><span>                                   </span><span class="hs-special">,</span><span> </span><a href="#local-6989586621680319545"><span class="hs-identifier hs-var">foreign_prs</span></a><span> </span><span class="hs-special">`</span><a href="OrdList.html#appOL"><span class="hs-identifier hs-var">appOL</span></a><span class="hs-special">`</span><span> </span><a href="#local-6989586621680319541"><span class="hs-identifier hs-var">core_prs</span></a><span> </span><span class="hs-special">`</span><a href="OrdList.html#appOL"><span class="hs-identifier hs-var">appOL</span></a><span class="hs-special">`</span><span> </span><a href="#local-6989586621680319542"><span class="hs-identifier hs-var">spec_prs</span></a><span>
+</span><a name="line-142"></a><span>                                   </span><span class="hs-special">,</span><span> </span><a href="#local-6989586621680319543"><span class="hs-identifier hs-var">spec_rules</span></a><span> </span><a href="../base-4.11.0.0/src/%{MODULE/./-}.html#%{NAME}/GHC.Base.html#%2B%2B"><span class="hs-operator hs-var">++</span></a><span> </span><a href="#local-6989586621680319546"><span class="hs-identifier hs-var">ds_rules</span></a><span class="hs-special">,</span><span> </span><a href="#local-6989586621680319547"><span class="hs-identifier hs-var">ds_vects</span></a><span>
+</span><a name="line-143"></a><span>                                   </span><span class="hs-special">,</span><span> </span><a href="#local-6989586621680319544"><span class="hs-identifier hs-var">ds_fords</span></a><span> </span><span class="hs-special">`</span><a href="HscTypes.html#appendStubC"><span class="hs-identifier hs-var">appendStubC</span></a><span class="hs-special">`</span><span> </span><a href="#local-6989586621680319548"><span class="hs-identifier hs-var">hpc_init</span></a><span class="hs-special">)</span><span> </span><span class="hs-special">}</span><span>
+</span><a name="line-144"></a><span>
+</span><a name="line-145"></a><span>        </span><span class="hs-special">;</span><span> </span><span class="hs-keyword">case</span><span> </span><a href="#local-6989586621680319550"><span class="hs-identifier hs-var">mb_res</span></a><span> </span><span class="hs-keyword">of</span><span> </span><span class="hs-special">{</span><span>
+</span><a name="line-146"></a><span>           </span><a href="../base-4.11.0.0/src/%{MODULE/./-}.html#%{NAME}/GHC.Base.html#Nothing"><span class="hs-identifier hs-var">Nothing</span></a><span> </span><span class="hs-glyph">-&gt;</span><span> </span><a href="../base-4.11.0.0/src/%{MODULE/./-}.html#%{NAME}/GHC.Base.html#return"><span class="hs-identifier hs-var">return</span></a><span> </span><span class="hs-special">(</span><a href="#local-6989586621680319549"><span class="hs-identifier hs-var">msgs</span></a><span class="hs-special">,</span><span> </span><a href="../base-4.11.0.0/src/%{MODULE/./-}.html#%{NAME}/GHC.Base.html#Nothing"><span class="hs-identifier hs-var">Nothing</span></a><span class="hs-special">)</span><span> </span><span class="hs-special">;</span><span>
+</span><a name="line-147"></a><span>           </span><a href="../base-4.11.0.0/src/%{MODULE/./-}.html#%{NAME}/GHC.Base.html#Just"><span class="hs-identifier hs-var">Just</span></a><span> </span><span class="hs-special">(</span><a name="local-6989586621680319551"><a href="#local-6989586621680319551"><span class="hs-identifier">ds_ev_binds</span></a></a><span class="hs-special">,</span><span> </span><a name="local-6989586621680319552"><a href="#local-6989586621680319552"><span class="hs-identifier">all_prs</span></a></a><span class="hs-special">,</span><span> </span><a name="local-6989586621680319553"><a href="#local-6989586621680319553"><span class="hs-identifier">all_rules</span></a></a><span class="hs-special">,</span><span> </span><a name="local-6989586621680319554"><a href="#local-6989586621680319554"><span class="hs-identifier">vects0</span></a></a><span class="hs-special">,</span><span> </span><a name="local-6989586621680319555"><a href="#local-6989586621680319555"><span class="hs-identifier">ds_fords</span></a></a><span class="hs-special">)</span><span> </span><span class="hs-glyph">-&gt;</span><span>
+</span><a name="line-148"></a><span>
+</span><a name="line-149"></a><span>     </span><span class="hs-keyword">do</span><span> </span><span class="hs-special">{</span><span>       </span><span class="hs-comment">-- Add export flags to bindings</span><span>
+</span><a name="line-150"></a><span>          </span><a name="local-6989586621680319556"><a href="#local-6989586621680319556"><span class="hs-identifier">keep_alive</span></a></a><span> </span><span class="hs-glyph">&lt;-</span><span> </span><a href="../base-4.11.0.0/src/%{MODULE/./-}.html#%{NAME}/GHC.IORef.html#readIORef"><span class="hs-identifier hs-var">readIORef</span></a><span> </span><a href="#local-6989586621680319509"><span class="hs-identifier hs-var">keep_var</span></a><span>
+</span><a name="line-151"></a><span>        </span><span class="hs-special">;</span><span> </span><span class="hs-keyword">let</span><span> </span><span class="hs-special">(</span><a name="local-6989586621680319557"><a href="#local-6989586621680319557"><span class="hs-identifier">rules_for_locals</span></a></a><span class="hs-special">,</span><span> </span><a name="local-6989586621680319558"><a href="#local-6989586621680319558"><span class="hs-identifier">rules_for_imps</span></a></a><span class="hs-special">)</span><span> </span><span class="hs-glyph">=</span><span> </span><a href="../base-4.11.0.0/src/%{MODULE/./-}.html#%{NAME}/Data.OldList.html#partition"><span class="hs-identifier hs-var">partition</span></a><span> </span><a href="CoreSyn.html#isLocalRule"><span class="hs-identifier hs-var">isLocalRule</span></a><span> </span><a href="#local-6989586621680319553"><span class="hs-identifier hs-var">all_rules</span></a><span>
+</span><a name="line-152"></a><span>              </span><a name="local-6989586621680319559"><a href="#local-6989586621680319559"><span class="hs-identifier">final_prs</span></a></a><span> </span><span class="hs-glyph">=</span><span> </span><a href="Desugar.html#addExportFlagsAndRules"><span class="hs-identifier hs-var">addExportFlagsAndRules</span></a><span> </span><a href="#local-6989586621680319535"><span class="hs-identifier hs-var">target</span></a><span> </span><a href="#local-6989586621680319534"><span class="hs-identifier hs-var">export_set</span></a><span> </span><a href="#local-6989586621680319556"><span class="hs-identifier hs-var">keep_alive</span></a><span>
+</span><a name="line-153"></a><span>                                                 </span><a href="#local-6989586621680319504"><span class="hs-identifier hs-var">mod</span></a><span> </span><a href="#local-6989586621680319557"><span class="hs-identifier hs-var">rules_for_locals</span></a><span>
+</span><a name="line-154"></a><span>                                                 </span><span class="hs-special">(</span><a href="OrdList.html#fromOL"><span class="hs-identifier hs-var">fromOL</span></a><span> </span><a href="#local-6989586621680319552"><span class="hs-identifier hs-var">all_prs</span></a><span class="hs-special">)</span><span>
+</span><a name="line-155"></a><span>
+</span><a name="line-156"></a><span>              </span><a name="local-6989586621680319560"><a href="#local-6989586621680319560"><span class="hs-identifier">final_pgm</span></a></a><span> </span><span class="hs-glyph">=</span><span> </span><a href="Desugar.html#combineEvBinds"><span class="hs-identifier hs-var">combineEvBinds</span></a><span> </span><a href="#local-6989586621680319551"><span class="hs-identifier hs-var">ds_ev_binds</span></a><span> </span><a href="#local-6989586621680319559"><span class="hs-identifier hs-var">final_prs</span></a><span>
+</span><a name="line-157"></a><span>        </span><span class="hs-comment">-- Notice that we put the whole lot in a big Rec, even the foreign binds</span><span>
+</span><a name="line-158"></a><span>        </span><span class="hs-comment">-- When compiling PrelFloat, which defines data Float = F# Float#</span><span>
+</span><a name="line-159"></a><span>        </span><span class="hs-comment">-- we want F# to be in scope in the foreign marshalling code!</span><span>
+</span><a name="line-160"></a><span>        </span><span class="hs-comment">-- You might think it doesn't matter, but the simplifier brings all top-level</span><span>
+</span><a name="line-161"></a><span>        </span><span class="hs-comment">-- things into the in-scope set before simplifying; so we get no unfolding for F#!</span><span>
+</span><a name="line-162"></a><span>
+</span><a name="line-163"></a><span class="hs-cpp">#if defined(DEBUG)
+</span><span>          </span><span class="hs-comment">-- Debug only as pre-simple-optimisation program may be really big</span><span>
+</span><a name="line-165"></a><span>        </span><span class="hs-special">;</span><span> </span><span class="hs-identifier">endPassIO</span><span> </span><span class="hs-identifier">hsc_env</span><span> </span><span class="hs-identifier">print_unqual</span><span> </span><span class="hs-identifier">CoreDesugar</span><span> </span><span class="hs-identifier">final_pgm</span><span> </span><span class="hs-identifier">rules_for_imps</span><span>
+</span><a name="line-166"></a><span class="hs-cpp">#endif
+</span><span class="">        ; (ds_binds, ds_rules_for_imps, ds_vects)
+            &lt;- simpleOptPgm dflags mod final_pgm rules_for_imps vects0
+                         -- The simpleOptPgm gets rid of type
+                         -- bindings plus any stupid dead code
+
+        ; endPassIO hsc_env print_unqual CoreDesugarOpt ds_binds ds_rules_for_imps
+
+        ; let used_names = mkUsedNames tcg_env
+        ; deps &lt;- mkDependencies tcg_env
+
+        ; used_th &lt;- readIORef tc_splice_used
+        ; dep_files &lt;- readIORef dependent_files
+        ; safe_mode &lt;- finalSafeMode dflags tcg_env
+        ; usages &lt;- mkUsageInfo hsc_env mod (imp_mods imports) used_names dep_files merged
+        -- id_mod /= mod when we are processing an hsig, but hsigs
+        -- never desugared and compiled (there's no code!)
+        -- Consequently, this should hold for any ModGuts that make
+        -- past desugaring. See Note [Identity versus semantic module].
+        ; MASSERT( id_mod == mod )
+
+        ; foreign_files &lt;- readIORef th_foreign_files_var
+
+        ; let mod_guts = ModGuts {
+                mg_module       = mod,
+                mg_hsc_src      = hsc_src,
+                mg_loc          = mkFileSrcSpan mod_loc,
+                mg_exports      = exports,
+                mg_usages       = usages,
+                mg_deps         = deps,
+                mg_used_th      = used_th,
+                mg_rdr_env      = rdr_env,
+                mg_fix_env      = fix_env,
+                mg_warns        = warns,
+                mg_anns         = anns,
+                mg_tcs          = tcs,
+                mg_insts        = fixSafeInstances safe_mode insts,
+                mg_fam_insts    = fam_insts,
+                mg_inst_env     = inst_env,
+                mg_fam_inst_env = fam_inst_env,
+                mg_patsyns      = patsyns,
+                mg_rules        = ds_rules_for_imps,
+                mg_binds        = ds_binds,
+                mg_foreign      = ds_fords,
+                mg_foreign_files = foreign_files,
+                mg_hpc_info     = ds_hpc_info,
+                mg_modBreaks    = modBreaks,
+                mg_vect_decls   = ds_vects,
+                mg_vect_info    = noVectInfo,
+                mg_safe_haskell = safe_mode,
+                mg_trust_pkg    = imp_trust_own_pkg imports,
+                mg_complete_sigs = complete_matches
+              }
+        ; return (msgs, Just mod_guts)
+        }}}}
+
+mkFileSrcSpan :: ModLocation -&gt; SrcSpan
+mkFileSrcSpan mod_loc
+  = case ml_hs_file mod_loc of
+      Just file_path -&gt; mkGeneralSrcSpan (mkFastString file_path)
+      Nothing        -&gt; interactiveSrcSpan   -- Presumably
+
+dsImpSpecs :: [LTcSpecPrag] -&gt; DsM (OrdList (Id,CoreExpr), [CoreRule])
+dsImpSpecs imp_specs
+ = do { spec_prs &lt;- mapMaybeM (dsSpec Nothing) imp_specs
+      ; let (spec_binds, spec_rules) = unzip spec_prs
+      ; return (concatOL spec_binds, spec_rules) }
+
+combineEvBinds :: [CoreBind] -&gt; [(Id,CoreExpr)] -&gt; [CoreBind]
+-- Top-level bindings can include coercion bindings, but not via superclasses
+-- See Note [Top-level evidence]
+combineEvBinds [] val_prs
+  = [Rec val_prs]
+combineEvBinds (NonRec b r : bs) val_prs
+  | isId b    = combineEvBinds bs ((b,r):val_prs)
+  | otherwise = NonRec b r : combineEvBinds bs val_prs
+combineEvBinds (Rec prs : bs) val_prs
+  = combineEvBinds bs (prs ++ val_prs)
+
+{-
+Note [Top-level evidence]
+~~~~~~~~~~~~~~~~~~~~~~~~~
+Top-level evidence bindings may be mutually recursive with the top-level value
+bindings, so we must put those in a Rec.  But we can't put them *all* in a Rec
+because the occurrence analyser doesn't teke account of type/coercion variables
+when computing dependencies.
+
+So we pull out the type/coercion variables (which are in dependency order),
+and Rec the rest.
+-}
+
+deSugarExpr :: HscEnv -&gt; LHsExpr GhcTc -&gt; IO (Messages, Maybe CoreExpr)
+
+deSugarExpr hsc_env tc_expr = do {
+         let dflags = hsc_dflags hsc_env
+
+       ; showPass dflags &quot;Desugar&quot;
+
+         -- Do desugaring
+       ; (msgs, mb_core_expr) &lt;- runTcInteractive hsc_env $ initDsTc $
+                                 dsLExpr tc_expr
+
+       ; case mb_core_expr of
+            Nothing   -&gt; return ()
+            Just expr -&gt; dumpIfSet_dyn dflags Opt_D_dump_ds &quot;Desugared&quot;
+                         (pprCoreExpr expr)
+
+       ; return (msgs, mb_core_expr) }
+
+{-
+************************************************************************
+*                                                                      *
+*              Add rules and export flags to binders
+*                                                                      *
+************************************************************************
+-}
+
+addExportFlagsAndRules
+    :: HscTarget -&gt; NameSet -&gt; NameSet -&gt; Module -&gt; [CoreRule]
+    -&gt; [(Id, t)] -&gt; [(Id, t)]
+addExportFlagsAndRules target exports keep_alive mod rules prs
+  = mapFst add_one prs
+  where
+    add_one bndr = add_rules name (add_export name bndr)
+       where
+         name = idName bndr
+
+    ---------- Rules --------
+        -- See Note [Attach rules to local ids]
+        -- NB: the binder might have some existing rules,
+        -- arising from specialisation pragmas
+    add_rules name bndr
+        | Just rules &lt;- lookupNameEnv rule_base name
+        = bndr `addIdSpecialisations` rules
+        | otherwise
+        = bndr
+    rule_base = extendRuleBaseList emptyRuleBase rules
+
+    ---------- Export flag --------
+    -- See Note [Adding export flags]
+    add_export name bndr
+        | dont_discard name = setIdExported bndr
+        | otherwise         = bndr
+
+    dont_discard :: Name -&gt; Bool
+    dont_discard name = is_exported name
+                     || name `elemNameSet` keep_alive
+
+        -- In interactive mode, we don't want to discard any top-level
+        -- entities at all (eg. do not inline them away during
+        -- simplification), and retain them all in the TypeEnv so they are
+        -- available from the command line.
+        --
+        -- Most of the time, this can be accomplished by use of
+        -- targetRetainsAllBindings, which returns True if the target is
+        -- HscInteractive. However, there are cases when one can use GHCi with
+        -- a target other than HscInteractive (e.g., with the -fobject-code
+        -- flag enabled, as in #12091). In such scenarios,
+        -- targetRetainsAllBindings can return False, so we must fall back on
+        -- isInteractiveModule to be doubly sure we export entities defined in
+        -- a GHCi session.
+        --
+        -- isExternalName separates the user-defined top-level names from those
+        -- introduced by the type checker.
+    is_exported :: Name -&gt; Bool
+    is_exported | targetRetainsAllBindings target
+                  || isInteractiveModule mod      = isExternalName
+                | otherwise                       = (`elemNameSet` exports)
+
+{-
+Note [Adding export flags]
+~~~~~~~~~~~~~~~~~~~~~~~~~~
+Set the no-discard flag if either
+        a) the Id is exported
+        b) it's mentioned in the RHS of an orphan rule
+        c) it's in the keep-alive set
+
+It means that the binding won't be discarded EVEN if the binding
+ends up being trivial (v = w) -- the simplifier would usually just
+substitute w for v throughout, but we don't apply the substitution to
+the rules (maybe we should?), so this substitution would make the rule
+bogus.
+
+You might wonder why exported Ids aren't already marked as such;
+it's just because the type checker is rather busy already and
+I didn't want to pass in yet another mapping.
+
+Note [Attach rules to local ids]
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Find the rules for locally-defined Ids; then we can attach them
+to the binders in the top-level bindings
+
+Reason
+  - It makes the rules easier to look up
+  - It means that transformation rules and specialisations for
+    locally defined Ids are handled uniformly
+  - It keeps alive things that are referred to only from a rule
+    (the occurrence analyser knows about rules attached to Ids)
+  - It makes sure that, when we apply a rule, the free vars
+    of the RHS are more likely to be in scope
+  - The imported rules are carried in the in-scope set
+    which is extended on each iteration by the new wave of
+    local binders; any rules which aren't on the binding will
+    thereby get dropped
+
+
+************************************************************************
+*                                                                      *
+*              Desugaring transformation rules
+*                                                                      *
+************************************************************************
+-}
+
+dsRule :: LRuleDecl GhcTc -&gt; DsM (Maybe CoreRule)
+dsRule (L loc (HsRule name rule_act vars lhs _tv_lhs rhs _fv_rhs))
+  = putSrcSpanDs loc $
+    do  { let bndrs' = [var | L _ (RuleBndr (L _ var)) &lt;- vars]
+
+        ; lhs' &lt;- unsetGOptM Opt_EnableRewriteRules $
+                  unsetWOptM Opt_WarnIdentities $
+                  dsLExpr lhs   -- Note [Desugaring RULE left hand sides]
+
+        ; rhs' &lt;- dsLExpr rhs
+        ; this_mod &lt;- getModule
+
+        ; (bndrs'', lhs'', rhs'') &lt;- unfold_coerce bndrs' lhs' rhs'
+
+        -- Substitute the dict bindings eagerly,
+        -- and take the body apart into a (f args) form
+        ; case decomposeRuleLhs bndrs'' lhs'' of {
+                Left msg -&gt; do { warnDs NoReason msg; return Nothing } ;
+                Right (final_bndrs, fn_id, args) -&gt; do
+
+        { let is_local = isLocalId fn_id
+                -- NB: isLocalId is False of implicit Ids.  This is good because
+                -- we don't want to attach rules to the bindings of implicit Ids,
+                -- because they don't show up in the bindings until just before code gen
+              fn_name   = idName fn_id
+              final_rhs = simpleOptExpr rhs''    -- De-crap it
+              rule_name = snd (unLoc name)
+              final_bndrs_set = mkVarSet final_bndrs
+              arg_ids = filterOut (`elemVarSet` final_bndrs_set) $
+                        exprsSomeFreeVarsList isId args
+
+        ; dflags &lt;- getDynFlags
+        ; rule &lt;- dsMkUserRule this_mod is_local
+                         rule_name rule_act fn_name final_bndrs args
+                         final_rhs
+        ; when (wopt Opt_WarnInlineRuleShadowing dflags) $
+          warnRuleShadowing rule_name rule_act fn_id arg_ids
+
+        ; return (Just rule)
+        } } }
+
+
+warnRuleShadowing :: RuleName -&gt; Activation -&gt; Id -&gt; [Id] -&gt; DsM ()
+-- See Note [Rules and inlining/other rules]
+warnRuleShadowing rule_name rule_act fn_id arg_ids
+  = do { check False fn_id    -- We often have multiple rules for the same Id in a
+                              -- module. Maybe we should check that they don't overlap
+                              -- but currently we don't
+       ; mapM_ (check True) arg_ids }
+  where
+    check check_rules_too lhs_id
+      | isLocalId lhs_id || canUnfold (idUnfolding lhs_id)
+                       -- If imported with no unfolding, no worries
+      , idInlineActivation lhs_id `competesWith` rule_act
+      = warnDs (Reason Opt_WarnInlineRuleShadowing)
+               (vcat [ hang (text &quot;Rule&quot; &lt;+&gt; pprRuleName rule_name
+                               &lt;+&gt; text &quot;may never fire&quot;)
+                            2 (text &quot;because&quot; &lt;+&gt; quotes (ppr lhs_id)
+                               &lt;+&gt; text &quot;might inline first&quot;)
+                     , text &quot;Probable fix: add an INLINE[n] or NOINLINE[n] pragma for&quot;
+                       &lt;+&gt; quotes (ppr lhs_id)
+                     , whenPprDebug (ppr (idInlineActivation lhs_id) $$ ppr rule_act) ])
+
+      | check_rules_too
+      , bad_rule : _ &lt;- get_bad_rules lhs_id
+      = warnDs (Reason Opt_WarnInlineRuleShadowing)
+               (vcat [ hang (text &quot;Rule&quot; &lt;+&gt; pprRuleName rule_name
+                               &lt;+&gt; text &quot;may never fire&quot;)
+                            2 (text &quot;because rule&quot; &lt;+&gt; pprRuleName (ruleName bad_rule)
+                               &lt;+&gt; text &quot;for&quot;&lt;+&gt; quotes (ppr lhs_id)
+                               &lt;+&gt; text &quot;might fire first&quot;)
+                      , text &quot;Probable fix: add phase [n] or [~n] to the competing rule&quot;
+                      , whenPprDebug (ppr bad_rule) ])
+
+      | otherwise
+      = return ()
+
+    get_bad_rules lhs_id
+      = [ rule | rule &lt;- idCoreRules lhs_id
+               , ruleActivation rule `competesWith` rule_act ]
+
+-- See Note [Desugaring coerce as cast]
+unfold_coerce :: [Id] -&gt; CoreExpr -&gt; CoreExpr -&gt; DsM ([Var], CoreExpr, CoreExpr)
+unfold_coerce bndrs lhs rhs = do
+    (bndrs', wrap) &lt;- go bndrs
+    return (bndrs', wrap lhs, wrap rhs)
+  where
+    go :: [Id] -&gt; DsM ([Id], CoreExpr -&gt; CoreExpr)
+    go []     = return ([], id)
+    go (v:vs)
+        | Just (tc, [k, t1, t2]) &lt;- splitTyConApp_maybe (idType v)
+        , tc `hasKey` coercibleTyConKey = do
+            u &lt;- newUnique
+
+            let ty' = mkTyConApp eqReprPrimTyCon [k, k, t1, t2]
+                v'  = mkLocalCoVar
+                        (mkDerivedInternalName mkRepEqOcc u (getName v)) ty'
+                box = Var (dataConWrapId coercibleDataCon) `mkTyApps`
+                      [k, t1, t2] `App`
+                      Coercion (mkCoVarCo v')
+
+            (bndrs, wrap) &lt;- go vs
+            return (v':bndrs, mkCoreLet (NonRec v box) . wrap)
+        | otherwise = do
+            (bndrs,wrap) &lt;- go vs
+            return (v:bndrs, wrap)
+
+{- Note [Desugaring RULE left hand sides]
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+For the LHS of a RULE we do *not* want to desugar
+    [x]   to    build (\cn. x `c` n)
+We want to leave explicit lists simply as chains
+of cons's. We can achieve that slightly indirectly by
+switching off EnableRewriteRules.  See DsExpr.dsExplicitList.
+
+That keeps the desugaring of list comprehensions simple too.
+
+Nor do we want to warn of conversion identities on the LHS;
+the rule is precisly to optimise them:
+  {-# RULES &quot;fromRational/id&quot; fromRational = id :: Rational -&gt; Rational #-}
+
+Note [Desugaring coerce as cast]
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+We want the user to express a rule saying roughly &#8220;mapping a coercion over a
+list can be replaced by a coercion&#8221;. But the cast operator of Core (&#9655;) cannot
+be written in Haskell. So we use `coerce` for that (#2110). The user writes
+    map coerce = coerce
+as a RULE, and this optimizes any kind of mapped' casts away, including `map
+MkNewtype`.
+
+For that we replace any forall'ed `c :: Coercible a b` value in a RULE by
+corresponding `co :: a ~#R b` and wrap the LHS and the RHS in
+`let c = MkCoercible co in ...`. This is later simplified to the desired form
+by simpleOptExpr (for the LHS) resp. the simplifiers (for the RHS).
+See also Note [Getting the map/coerce RULE to work] in CoreSubst.
+
+Note [Rules and inlining/other rules]
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+If you have
+  f x = ...
+  g x = ...
+  {-# RULES &quot;rule-for-f&quot; forall x. f (g x) = ... #-}
+then there's a good chance that in a potential rule redex
+    ...f (g e)...
+then 'f' or 'g' will inline befor the rule can fire.  Solution: add an
+INLINE [n] or NOINLINE [n] pragma to 'f' and 'g'.
+
+Note that this applies to all the free variables on the LHS, both the
+main function and things in its arguments.
+
+We also check if there are Ids on the LHS that have competing RULES.
+In the above example, suppose we had
+  {-# RULES &quot;rule-for-g&quot; forally. g [y] = ... #-}
+Then &quot;rule-for-f&quot; and &quot;rule-for-g&quot; would compete.  Better to add phase
+control, so &quot;rule-for-f&quot; has a chance to fire before &quot;rule-for-g&quot; becomes
+active; or perhpas after &quot;rule-for-g&quot; has become inactive. This is checked
+by 'competesWith'
+
+Class methods have a built-in RULE to select the method from the dictionary,
+so you can't change the phase on this.  That makes id very dubious to
+match on class methods in RULE lhs's.   See Trac #10595.   I'm not happy
+about this. For example in Control.Arrow we have
+
+{-# RULES &quot;compose/arr&quot;   forall f g .
+                          (arr f) . (arr g) = arr (f . g) #-}
+
+and similar, which will elicit exactly these warnings, and risk never
+firing.  But it's not clear what to do instead.  We could make the
+class methocd rules inactive in phase 2, but that would delay when
+subsequent transformations could fire.
+
+
+************************************************************************
+*                                                                      *
+*              Desugaring vectorisation declarations
+*                                                                      *
+************************************************************************
+-}
+
+dsVect :: LVectDecl GhcTc -&gt; DsM CoreVect
+dsVect (L loc (HsVect _ (L _ v) rhs))
+  = putSrcSpanDs loc $
+    do { rhs' &lt;- dsLExpr rhs
+       ; return $ Vect v rhs'
+       }
+dsVect (L _loc (HsNoVect _ (L _ v)))
+  = return $ NoVect v
+dsVect (L _loc (HsVectTypeOut isScalar tycon rhs_tycon))
+  = return $ VectType isScalar tycon' rhs_tycon
+  where
+    tycon' | Just ty &lt;- coreView $ mkTyConTy tycon
+           , (tycon', []) &lt;- splitTyConApp ty      = tycon'
+           | otherwise                             = tycon
+dsVect vd@(L _ (HsVectTypeIn _ _ _ _))
+  = pprPanic &quot;Desugar.dsVect: unexpected 'HsVectTypeIn'&quot; (ppr vd)
+dsVect (L _loc (HsVectClassOut cls))
+  = return $ VectClass (classTyCon cls)
+dsVect vc@(L _ (HsVectClassIn _ _))
+  = pprPanic &quot;Desugar.dsVect: unexpected 'HsVectClassIn'&quot; (ppr vc)
+dsVect (L _loc (HsVectInstOut inst))
+  = return $ VectInst (instanceDFunId inst)
+dsVect vi@(L _ (HsVectInstIn _))
+  = pprPanic &quot;Desugar.dsVect: unexpected 'HsVectInstIn'&quot; (ppr vi)
+</span></pre></body></html>

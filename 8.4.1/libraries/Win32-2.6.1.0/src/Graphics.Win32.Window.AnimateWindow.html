@@ -1,0 +1,51 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><link rel="stylesheet" type="text/css" href="style.css" /><script type="text/javascript" src="highlight.js"></script></head><body><pre><span class="hs-pragma">{-# LINE</span><span> </span><span class="hs-pragma">1</span><span> </span><span class="hs-pragma">&quot;libraries\\Win32\\Graphics\\Win32\\Window\\AnimateWindow.hsc&quot;</span><span> </span><span class="hs-pragma">#-}</span><span>
+</span><a name="line-2"></a><span class="hs-pragma">{-# LANGUAGE CPP #-}</span><span>
+</span><a name="line-3"></a><span class="hs-comment">{- |
+   Module      :  Graphics.Win32.Window.AnimateWindow
+   Copyright   :  2013 shelarcy
+   License     :  BSD-style
+
+   Maintainer  :  shelarcy@gmail.com
+   Stability   :  Provisional
+   Portability :  Non-portable (Win32 API)
+
+   Provide AnimatedWindow function and flags.
+-}</span><span>
+</span><a name="line-14"></a><span class="hs-keyword">module</span><span> </span><span class="hs-identifier">Graphics.Win32.Window.AnimateWindow</span><span> </span><span class="hs-keyword">where</span><span>
+</span><a name="line-15"></a><span class="hs-keyword">import</span><span> </span><span class="hs-identifier">Graphics.Win32.GDI.Types</span><span> </span><span class="hs-special">(</span><span> </span><span class="hs-identifier">HWND</span><span> </span><span class="hs-special">)</span><span>
+</span><a name="line-16"></a><span class="hs-keyword">import</span><span> </span><span class="hs-identifier">System.Win32.Types</span><span>       </span><span class="hs-special">(</span><span> </span><span class="hs-identifier">DWORD</span><span class="hs-special">,</span><span> </span><span class="hs-identifier">BOOL</span><span class="hs-special">,</span><span> </span><span class="hs-identifier">failIfFalse_</span><span> </span><span class="hs-special">)</span><span>
+</span><a name="line-17"></a><span>
+</span><a name="line-18"></a><span>
+</span><a name="line-19"></a><span class="hs-cpp">#include &quot;windows_cconv.h&quot;
+</span><span>
+</span><a name="line-21"></a><span>
+</span><a name="line-22"></a><span class="hs-keyword">type</span><span> </span><a name="AnimateWindowType"><a href="Graphics.Win32.Window.AnimateWindow.html#AnimateWindowType"><span class="hs-identifier">AnimateWindowType</span></a></a><span> </span><span class="hs-glyph">=</span><span> </span><a href="System.Win32.Types.html#DWORD"><span class="hs-identifier hs-type">DWORD</span></a><span>
+</span><a name="line-23"></a><span>
+</span><a name="line-24"></a><span class="hs-identifier">aW_SLIDE</span><span>         </span><span class="hs-glyph">::</span><span> </span><a href="Graphics.Win32.Window.AnimateWindow.html#AnimateWindowType"><span class="hs-identifier hs-type">AnimateWindowType</span></a><span>
+</span><a name="line-25"></a><a name="aW_SLIDE"><a href="Graphics.Win32.Window.AnimateWindow.html#aW_SLIDE"><span class="hs-identifier">aW_SLIDE</span></a></a><span>         </span><span class="hs-glyph">=</span><span>  </span><span class="hs-number">262144</span><span>
+</span><a name="line-26"></a><span class="hs-identifier">aW_ACTIVATE</span><span>      </span><span class="hs-glyph">::</span><span> </span><a href="Graphics.Win32.Window.AnimateWindow.html#AnimateWindowType"><span class="hs-identifier hs-type">AnimateWindowType</span></a><span>
+</span><a name="line-27"></a><a name="aW_ACTIVATE"><a href="Graphics.Win32.Window.AnimateWindow.html#aW_ACTIVATE"><span class="hs-identifier">aW_ACTIVATE</span></a></a><span>      </span><span class="hs-glyph">=</span><span>  </span><span class="hs-number">131072</span><span>
+</span><a name="line-28"></a><span class="hs-identifier">aW_BLEND</span><span>         </span><span class="hs-glyph">::</span><span> </span><a href="Graphics.Win32.Window.AnimateWindow.html#AnimateWindowType"><span class="hs-identifier hs-type">AnimateWindowType</span></a><span>
+</span><a name="line-29"></a><a name="aW_BLEND"><a href="Graphics.Win32.Window.AnimateWindow.html#aW_BLEND"><span class="hs-identifier">aW_BLEND</span></a></a><span>         </span><span class="hs-glyph">=</span><span>  </span><span class="hs-number">524288</span><span>
+</span><a name="line-30"></a><span class="hs-identifier">aW_HIDE</span><span>          </span><span class="hs-glyph">::</span><span> </span><a href="Graphics.Win32.Window.AnimateWindow.html#AnimateWindowType"><span class="hs-identifier hs-type">AnimateWindowType</span></a><span>
+</span><a name="line-31"></a><a name="aW_HIDE"><a href="Graphics.Win32.Window.AnimateWindow.html#aW_HIDE"><span class="hs-identifier">aW_HIDE</span></a></a><span>          </span><span class="hs-glyph">=</span><span>  </span><span class="hs-number">65536</span><span>
+</span><a name="line-32"></a><span class="hs-identifier">aW_CENTER</span><span>        </span><span class="hs-glyph">::</span><span> </span><a href="Graphics.Win32.Window.AnimateWindow.html#AnimateWindowType"><span class="hs-identifier hs-type">AnimateWindowType</span></a><span>
+</span><a name="line-33"></a><a name="aW_CENTER"><a href="Graphics.Win32.Window.AnimateWindow.html#aW_CENTER"><span class="hs-identifier">aW_CENTER</span></a></a><span>        </span><span class="hs-glyph">=</span><span>  </span><span class="hs-number">16</span><span>
+</span><a name="line-34"></a><span class="hs-identifier">aW_HOR_POSITIVE</span><span>  </span><span class="hs-glyph">::</span><span> </span><a href="Graphics.Win32.Window.AnimateWindow.html#AnimateWindowType"><span class="hs-identifier hs-type">AnimateWindowType</span></a><span>
+</span><a name="line-35"></a><a name="aW_HOR_POSITIVE"><a href="Graphics.Win32.Window.AnimateWindow.html#aW_HOR_POSITIVE"><span class="hs-identifier">aW_HOR_POSITIVE</span></a></a><span>  </span><span class="hs-glyph">=</span><span>  </span><span class="hs-number">1</span><span>
+</span><a name="line-36"></a><span class="hs-identifier">aW_HOR_NEGATIVE</span><span>  </span><span class="hs-glyph">::</span><span> </span><a href="Graphics.Win32.Window.AnimateWindow.html#AnimateWindowType"><span class="hs-identifier hs-type">AnimateWindowType</span></a><span>
+</span><a name="line-37"></a><a name="aW_HOR_NEGATIVE"><a href="Graphics.Win32.Window.AnimateWindow.html#aW_HOR_NEGATIVE"><span class="hs-identifier">aW_HOR_NEGATIVE</span></a></a><span>  </span><span class="hs-glyph">=</span><span>  </span><span class="hs-number">2</span><span>
+</span><a name="line-38"></a><span class="hs-identifier">aW_VER_POSITIVE</span><span>  </span><span class="hs-glyph">::</span><span> </span><a href="Graphics.Win32.Window.AnimateWindow.html#AnimateWindowType"><span class="hs-identifier hs-type">AnimateWindowType</span></a><span>
+</span><a name="line-39"></a><a name="aW_VER_POSITIVE"><a href="Graphics.Win32.Window.AnimateWindow.html#aW_VER_POSITIVE"><span class="hs-identifier">aW_VER_POSITIVE</span></a></a><span>  </span><span class="hs-glyph">=</span><span>  </span><span class="hs-number">4</span><span>
+</span><a name="line-40"></a><span class="hs-identifier">aW_VER_NEGATIVE</span><span>  </span><span class="hs-glyph">::</span><span> </span><a href="Graphics.Win32.Window.AnimateWindow.html#AnimateWindowType"><span class="hs-identifier hs-type">AnimateWindowType</span></a><span>
+</span><a name="line-41"></a><a name="aW_VER_NEGATIVE"><a href="Graphics.Win32.Window.AnimateWindow.html#aW_VER_NEGATIVE"><span class="hs-identifier">aW_VER_NEGATIVE</span></a></a><span>  </span><span class="hs-glyph">=</span><span>  </span><span class="hs-number">8</span><span>
+</span><a name="line-42"></a><span>
+</span><a name="line-43"></a><span class="hs-pragma">{-# LINE</span><span> </span><span class="hs-pragma">34</span><span> </span><span class="hs-pragma">&quot;libraries\\Win32\\Graphics\\Win32\\Window\\AnimateWindow.hsc&quot;</span><span> </span><span class="hs-pragma">#-}</span><span>
+</span><a name="line-44"></a><span>
+</span><a name="line-45"></a><span class="hs-identifier">animateWindow</span><span> </span><span class="hs-glyph">::</span><span> </span><span class="hs-identifier">HWND</span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="hs-identifier">DWORD</span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="hs-identifier">AnimateWindowType</span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="hs-identifier">IO</span><span> </span><span class="hs-special">(</span><span class="hs-special">)</span><span>
+</span><a name="line-46"></a><span class="hs-identifier">animateWindow</span><span> </span><span class="hs-identifier">hwnd</span><span> </span><span class="hs-identifier">dwTime</span><span> </span><span class="hs-identifier">dwFlags</span><span>
+</span><a name="line-47"></a><span>  </span><span class="hs-glyph">=</span><span> </span><span class="hs-identifier">failIfFalse_</span><span> </span><span class="hs-string">&quot;AnimateWindow&quot;</span><span> </span><span class="hs-operator">$</span><span> </span><span class="hs-identifier">c_AnimateWindow</span><span> </span><span class="hs-identifier">hwnd</span><span> </span><span class="hs-identifier">dwTime</span><span> </span><span class="hs-identifier">dwFlags</span><span>
+</span><a name="line-48"></a><span>
+</span><a name="line-49"></a><span class="hs-keyword">foreign</span><span> </span><span class="hs-keyword">import</span><span> </span><span class="hs-identifier">WINDOWS_CCONV</span><span> </span><span class="hs-string">&quot;windows.h AnimateWindow&quot;</span><span>
+</span><a name="line-50"></a><span>    </span><span class="hs-identifier">c_AnimateWindow</span><span> </span><span class="hs-glyph">::</span><span> </span><span class="hs-identifier">HWND</span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="hs-identifier">DWORD</span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="hs-identifier">AnimateWindowType</span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="hs-identifier">IO</span><span> </span><span class="hs-identifier">BOOL</span><span>
+</span><a name="line-51"></a></pre></body></html>

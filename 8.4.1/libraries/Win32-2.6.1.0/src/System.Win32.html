@@ -1,0 +1,69 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><link rel="stylesheet" type="text/css" href="style.css" /><script type="text/javascript" src="highlight.js"></script></head><body><pre><span class="hs-cpp">#if __GLASGOW_HASKELL__ &gt;= 709
+</span><span class="hs-pragma">{-# LANGUAGE Safe #-}</span><span>
+</span><a name="line-3"></a><span class="hs-cpp">#elif __GLASGOW_HASKELL__ &gt;= 701
+</span><span class="hs-pragma">{-# LANGUAGE Trustworthy #-}</span><span>
+</span><a name="line-5"></a><span class="hs-cpp">#endif
+</span><span class="hs-comment">-----------------------------------------------------------------------------</span><span>
+</span><a name="line-7"></a><span class="hs-comment">-- |</span><span>
+</span><a name="line-8"></a><span class="hs-comment">-- Module      :  System.Win32</span><span>
+</span><a name="line-9"></a><span class="hs-comment">-- Copyright   :  (c) Alastair Reid, 1999-2003</span><span>
+</span><a name="line-10"></a><span class="hs-comment">-- License     :  BSD-style (see the file libraries/base/LICENSE)</span><span>
+</span><a name="line-11"></a><span class="hs-comment">--</span><span>
+</span><a name="line-12"></a><span class="hs-comment">-- Maintainer  :  Esa Ilari Vuokko &lt;ei@vuokko.info&gt;</span><span>
+</span><a name="line-13"></a><span class="hs-comment">-- Stability   :  provisional</span><span>
+</span><a name="line-14"></a><span class="hs-comment">-- Portability :  portable</span><span>
+</span><a name="line-15"></a><span class="hs-comment">--</span><span>
+</span><a name="line-16"></a><span class="hs-comment">-- An FFI binding to the system part of the Win32 API.</span><span>
+</span><a name="line-17"></a><span class="hs-comment">--</span><span>
+</span><a name="line-18"></a><span class="hs-comment">-----------------------------------------------------------------------------</span><span>
+</span><a name="line-19"></a><span>
+</span><a name="line-20"></a><span class="hs-keyword">module</span><span> </span><span class="hs-identifier">System.Win32</span><span>
+</span><a name="line-21"></a><span>        </span><span class="hs-special">(</span><span> </span><span class="hs-keyword">module</span><span> </span><a href="System.Win32.DLL.html"><span class="hs-identifier">System.Win32.DLL</span></a><span>
+</span><a name="line-22"></a><span>        </span><span class="hs-special">,</span><span> </span><span class="hs-keyword">module</span><span> </span><a href="System.Win32.File.html"><span class="hs-identifier">System.Win32.File</span></a><span>
+</span><a name="line-23"></a><span>        </span><span class="hs-special">,</span><span> </span><span class="hs-keyword">module</span><span> </span><a href="System.Win32.FileMapping.html"><span class="hs-identifier">System.Win32.FileMapping</span></a><span>
+</span><a name="line-24"></a><span>        </span><span class="hs-special">,</span><span> </span><span class="hs-keyword">module</span><span> </span><a href="System.Win32.Info.html"><span class="hs-identifier">System.Win32.Info</span></a><span>
+</span><a name="line-25"></a><span>        </span><span class="hs-special">,</span><span> </span><span class="hs-keyword">module</span><span> </span><a href="System.Win32.Mem.html"><span class="hs-identifier">System.Win32.Mem</span></a><span>
+</span><a name="line-26"></a><span>        </span><span class="hs-special">,</span><span> </span><span class="hs-keyword">module</span><span> </span><a href="System.Win32.MinTTY.html"><span class="hs-identifier">System.Win32.MinTTY</span></a><span>
+</span><a name="line-27"></a><span>        </span><span class="hs-special">,</span><span> </span><span class="hs-keyword">module</span><span> </span><a href="System.Win32.NLS.html"><span class="hs-identifier">System.Win32.NLS</span></a><span>
+</span><a name="line-28"></a><span>        </span><span class="hs-special">,</span><span> </span><span class="hs-keyword">module</span><span> </span><a href="System.Win32.Process.html"><span class="hs-identifier">System.Win32.Process</span></a><span>
+</span><a name="line-29"></a><span>        </span><span class="hs-special">,</span><span> </span><span class="hs-keyword">module</span><span> </span><a href="System.Win32.Registry.html"><span class="hs-identifier">System.Win32.Registry</span></a><span>
+</span><a name="line-30"></a><span>        </span><span class="hs-special">,</span><span> </span><span class="hs-keyword">module</span><span> </span><a href="System.Win32.Time.html"><span class="hs-identifier">System.Win32.Time</span></a><span>
+</span><a name="line-31"></a><span>        </span><span class="hs-special">,</span><span> </span><span class="hs-keyword">module</span><span> </span><a href="System.Win32.Console.html"><span class="hs-identifier">System.Win32.Console</span></a><span>
+</span><a name="line-32"></a><span>        </span><span class="hs-special">,</span><span> </span><span class="hs-keyword">module</span><span> </span><a href="System.Win32.Security.html"><span class="hs-identifier">System.Win32.Security</span></a><span>
+</span><a name="line-33"></a><span>        </span><span class="hs-special">,</span><span> </span><span class="hs-keyword">module</span><span> </span><a href="System.Win32.Types.html"><span class="hs-identifier">System.Win32.Types</span></a><span>
+</span><a name="line-34"></a><span>        </span><span class="hs-special">,</span><span> </span><span class="hs-keyword">module</span><span> </span><a href="System.Win32.Shell.html"><span class="hs-identifier">System.Win32.Shell</span></a><span>
+</span><a name="line-35"></a><span>        </span><span class="hs-special">,</span><span> </span><span class="hs-keyword">module</span><span> </span><a href="System.Win32.Automation.html"><span class="hs-identifier">System.Win32.Automation</span></a><span>
+</span><a name="line-36"></a><span>        </span><span class="hs-special">,</span><span> </span><span class="hs-keyword">module</span><span> </span><a href="System.Win32.HardLink.html"><span class="hs-identifier">System.Win32.HardLink</span></a><span>
+</span><a name="line-37"></a><span>        </span><span class="hs-special">,</span><span> </span><span class="hs-keyword">module</span><span> </span><a href="System.Win32.SymbolicLink.html"><span class="hs-identifier">System.Win32.SymbolicLink</span></a><span>
+</span><a name="line-38"></a><span>        </span><span class="hs-special">,</span><span> </span><span class="hs-keyword">module</span><span> </span><a href="System.Win32.Thread.html"><span class="hs-identifier">System.Win32.Thread</span></a><span>
+</span><a name="line-39"></a><span>        </span><span class="hs-special">,</span><span> </span><span class="hs-keyword">module</span><span> </span><a href="System.Win32.Utils.html"><span class="hs-identifier">System.Win32.Utils</span></a><span>
+</span><a name="line-40"></a><span>        </span><span class="hs-special">)</span><span> </span><span class="hs-keyword">where</span><span>
+</span><a name="line-41"></a><span>
+</span><a name="line-42"></a><span class="hs-keyword">import</span><span> </span><a href="System.Win32.DLL.html"><span class="hs-identifier">System.Win32.DLL</span></a><span>
+</span><a name="line-43"></a><span class="hs-keyword">import</span><span> </span><a href="System.Win32.File.html"><span class="hs-identifier">System.Win32.File</span></a><span>
+</span><a name="line-44"></a><span class="hs-keyword">import</span><span> </span><a href="System.Win32.FileMapping.html"><span class="hs-identifier">System.Win32.FileMapping</span></a><span>
+</span><a name="line-45"></a><span class="hs-keyword">import</span><span> </span><a href="System.Win32.Info.html"><span class="hs-identifier">System.Win32.Info</span></a><span>
+</span><a name="line-46"></a><span class="hs-keyword">import</span><span> </span><a href="System.Win32.Mem.html"><span class="hs-identifier">System.Win32.Mem</span></a><span>
+</span><a name="line-47"></a><span class="hs-keyword">import</span><span> </span><a href="System.Win32.MinTTY.html"><span class="hs-identifier">System.Win32.MinTTY</span></a><span>
+</span><a name="line-48"></a><span class="hs-keyword">import</span><span> </span><a href="System.Win32.NLS.html"><span class="hs-identifier">System.Win32.NLS</span></a><span> </span><span class="hs-keyword">hiding</span><span>  </span><span class="hs-special">(</span><span> </span><a href="System.Win32.Types.html#LCID"><span class="hs-identifier hs-type">LCID</span></a><span class="hs-special">,</span><span> </span><a href="System.Win32.Types.html#LANGID"><span class="hs-identifier hs-type">LANGID</span></a><span class="hs-special">,</span><span> </span><a href="System.Win32.Types.html#SortID"><span class="hs-identifier hs-type">SortID</span></a><span class="hs-special">,</span><span> </span><a href="System.Win32.Types.html#SubLANGID"><span class="hs-identifier hs-type">SubLANGID</span></a><span>
+</span><a name="line-49"></a><span>                                </span><span class="hs-special">,</span><span> </span><a href="System.Win32.Types.html#PrimaryLANGID"><span class="hs-identifier hs-type">PrimaryLANGID</span></a><span class="hs-special">,</span><span> </span><a href="System.Win32.Types.html#mAKELCID"><span class="hs-identifier hs-var">mAKELCID</span></a><span class="hs-special">,</span><span> </span><a href="System.Win32.Types.html#lANGIDFROMLCID"><span class="hs-identifier hs-var">lANGIDFROMLCID</span></a><span>
+</span><a name="line-50"></a><span>                                </span><span class="hs-special">,</span><span> </span><a href="System.Win32.Types.html#sORTIDFROMLCID"><span class="hs-identifier hs-var">sORTIDFROMLCID</span></a><span class="hs-special">,</span><span> </span><a href="System.Win32.Types.html#mAKELANGID"><span class="hs-identifier hs-var">mAKELANGID</span></a><span class="hs-special">,</span><span> </span><a href="System.Win32.Types.html#pRIMARYLANGID"><span class="hs-identifier hs-var">pRIMARYLANGID</span></a><span>
+</span><a name="line-51"></a><span>                                </span><span class="hs-special">,</span><span> </span><a href="System.Win32.Types.html#sUBLANGID"><span class="hs-identifier hs-var">sUBLANGID</span></a><span> </span><span class="hs-special">)</span><span>
+</span><a name="line-52"></a><span class="hs-keyword">import</span><span> </span><a href="System.Win32.Process.html"><span class="hs-identifier">System.Win32.Process</span></a><span>
+</span><a name="line-53"></a><span class="hs-keyword">import</span><span> </span><a href="System.Win32.Registry.html"><span class="hs-identifier">System.Win32.Registry</span></a><span>
+</span><a name="line-54"></a><span class="hs-keyword">import</span><span> </span><a href="System.Win32.Time.html"><span class="hs-identifier">System.Win32.Time</span></a><span>
+</span><a name="line-55"></a><span class="hs-keyword">import</span><span> </span><a href="System.Win32.Console.html"><span class="hs-identifier">System.Win32.Console</span></a><span>
+</span><a name="line-56"></a><span class="hs-keyword">import</span><span> </span><a href="System.Win32.Types.html"><span class="hs-identifier">System.Win32.Types</span></a><span>
+</span><a name="line-57"></a><span class="hs-keyword">import</span><span> </span><a href="System.Win32.Security.html"><span class="hs-identifier">System.Win32.Security</span></a><span>
+</span><a name="line-58"></a><span class="hs-keyword">import</span><span> </span><a href="System.Win32.Shell.html"><span class="hs-identifier">System.Win32.Shell</span></a><span>
+</span><a name="line-59"></a><span>
+</span><a name="line-60"></a><span class="hs-keyword">import</span><span> </span><a href="System.Win32.Automation.html"><span class="hs-identifier">System.Win32.Automation</span></a><span>
+</span><a name="line-61"></a><span class="hs-keyword">import</span><span> </span><a href="System.Win32.HardLink.html"><span class="hs-identifier">System.Win32.HardLink</span></a><span>
+</span><a name="line-62"></a><span class="hs-keyword">import</span><span> </span><a href="System.Win32.SymbolicLink.html"><span class="hs-identifier">System.Win32.SymbolicLink</span></a><span>
+</span><a name="line-63"></a><span class="hs-keyword">import</span><span> </span><a href="System.Win32.Thread.html"><span class="hs-identifier">System.Win32.Thread</span></a><span>
+</span><a name="line-64"></a><span class="hs-keyword">import</span><span> </span><a href="System.Win32.Utils.html"><span class="hs-identifier">System.Win32.Utils</span></a><span> </span><span class="hs-keyword">hiding</span><span> </span><span class="hs-special">(</span><span> </span><a href="System.Win32.Utils.html#try"><span class="hs-identifier hs-var">try</span></a><span> </span><span class="hs-special">)</span><span>
+</span><a name="line-65"></a><span>
+</span><a name="line-66"></a><span class="hs-comment">----------------------------------------------------------------</span><span>
+</span><a name="line-67"></a><span class="hs-comment">-- End</span><span>
+</span><a name="line-68"></a><span class="hs-comment">----------------------------------------------------------------</span><span>
+</span><a name="line-69"></a></pre></body></html>

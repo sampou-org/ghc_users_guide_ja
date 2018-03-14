@@ -1,0 +1,365 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><link rel="stylesheet" type="text/css" href="style.css" /><script type="text/javascript" src="highlight.js"></script></head><body><pre><span class="hs-pragma">{-# LANGUAGE DeriveDataTypeable #-}</span><span>
+</span><a name="line-2"></a><span>
+</span><a name="line-3"></a><span class="hs-keyword">module</span><span> </span><span class="hs-identifier">ApiAnnotation</span><span> </span><span class="hs-special">(</span><span>
+</span><a name="line-4"></a><span>  </span><a href="ApiAnnotation.html#getAnnotation"><span class="hs-identifier hs-var">getAnnotation</span></a><span class="hs-special">,</span><span> </span><a href="ApiAnnotation.html#getAndRemoveAnnotation"><span class="hs-identifier hs-var">getAndRemoveAnnotation</span></a><span class="hs-special">,</span><span>
+</span><a name="line-5"></a><span>  </span><a href="ApiAnnotation.html#getAnnotationComments"><span class="hs-identifier hs-var">getAnnotationComments</span></a><span class="hs-special">,</span><a href="ApiAnnotation.html#getAndRemoveAnnotationComments"><span class="hs-identifier hs-var">getAndRemoveAnnotationComments</span></a><span class="hs-special">,</span><span>
+</span><a name="line-6"></a><span>  </span><a href="ApiAnnotation.html#ApiAnns"><span class="hs-identifier hs-type">ApiAnns</span></a><span class="hs-special">,</span><span>
+</span><a name="line-7"></a><span>  </span><a href="ApiAnnotation.html#ApiAnnKey"><span class="hs-identifier hs-type">ApiAnnKey</span></a><span class="hs-special">,</span><span>
+</span><a name="line-8"></a><span>  </span><a href="ApiAnnotation.html#AnnKeywordId"><span class="hs-identifier hs-type">AnnKeywordId</span></a><span class="hs-special">(</span><span class="hs-glyph">..</span><span class="hs-special">)</span><span class="hs-special">,</span><span>
+</span><a name="line-9"></a><span>  </span><a href="ApiAnnotation.html#AnnotationComment"><span class="hs-identifier hs-type">AnnotationComment</span></a><span class="hs-special">(</span><span class="hs-glyph">..</span><span class="hs-special">)</span><span class="hs-special">,</span><span>
+</span><a name="line-10"></a><span>  </span><a href="ApiAnnotation.html#IsUnicodeSyntax"><span class="hs-identifier hs-type">IsUnicodeSyntax</span></a><span class="hs-special">(</span><span class="hs-glyph">..</span><span class="hs-special">)</span><span class="hs-special">,</span><span>
+</span><a name="line-11"></a><span>  </span><a href="ApiAnnotation.html#unicodeAnn"><span class="hs-identifier hs-var">unicodeAnn</span></a><span class="hs-special">,</span><span>
+</span><a name="line-12"></a><span>  </span><a href="ApiAnnotation.html#HasE"><span class="hs-identifier hs-type">HasE</span></a><span class="hs-special">(</span><span class="hs-glyph">..</span><span class="hs-special">)</span><span class="hs-special">,</span><span>
+</span><a name="line-13"></a><span>  </span><a href="ApiAnnotation.html#LRdrName"><span class="hs-identifier hs-type">LRdrName</span></a><span> </span><span class="hs-comment">-- Exists for haddocks only</span><span>
+</span><a name="line-14"></a><span>  </span><span class="hs-special">)</span><span> </span><span class="hs-keyword">where</span><span>
+</span><a name="line-15"></a><span>
+</span><a name="line-16"></a><span class="hs-keyword">import</span><span> </span><a href="GhcPrelude.html"><span class="hs-identifier">GhcPrelude</span></a><span>
+</span><a name="line-17"></a><span>
+</span><a name="line-18"></a><span class="hs-keyword">import</span><span> </span><a href="RdrName.html"><span class="hs-identifier">RdrName</span></a><span>
+</span><a name="line-19"></a><span class="hs-keyword">import</span><span> </span><a href="Outputable.html"><span class="hs-identifier">Outputable</span></a><span>
+</span><a name="line-20"></a><span class="hs-keyword">import</span><span> </span><a href="SrcLoc.html"><span class="hs-identifier">SrcLoc</span></a><span>
+</span><a name="line-21"></a><span class="hs-keyword">import</span><span> </span><span class="hs-keyword">qualified</span><span> </span><a href="../containers-0.5.11.0/src/%{MODULE/./-}.html#%{NAME}/Data.Map.html"><span class="hs-identifier">Data.Map</span></a><span> </span><span class="hs-keyword">as</span><span> </span><span class="hs-identifier">Map</span><span>
+</span><a name="line-22"></a><span class="hs-keyword">import</span><span> </span><a href="../base-4.11.0.0/src/%{MODULE/./-}.html#%{NAME}/Data.Data.html"><span class="hs-identifier">Data.Data</span></a><span>
+</span><a name="line-23"></a><span>
+</span><a name="line-24"></a><span>
+</span><a name="line-25"></a><span class="hs-comment">{-
+Note [Api annotations]
+~~~~~~~~~~~~~~~~~~~~~~
+Given a parse tree of a Haskell module, how can we reconstruct
+the original Haskell source code, retaining all whitespace and
+source code comments?  We need to track the locations of all
+elements from the original source: this includes keywords such as
+'let' / 'in' / 'do' etc as well as punctuation such as commas and
+braces, and also comments.  We collectively refer to this
+metadata as the &quot;API annotations&quot;.
+
+Rather than annotate the resulting parse tree with these locations
+directly (this would be a major change to some fairly core data
+structures in GHC), we instead capture locations for these elements in a
+structure separate from the parse tree, and returned in the
+pm_annotations field of the ParsedModule type.
+
+The full ApiAnns type is
+
+&gt; type ApiAnns = ( Map.Map ApiAnnKey [SrcSpan]                  -- non-comments
+&gt;                , Map.Map SrcSpan [Located AnnotationComment]) -- comments
+
+NON-COMMENT ELEMENTS
+
+Intuitively, every AST element directly contains a bag of keywords
+(keywords can show up more than once in a node: a semicolon i.e. newline
+can show up multiple times before the next AST element), each of which
+needs to be associated with its location in the original source code.
+
+Consequently, the structure that records non-comment elements is logically
+a two level map, from the SrcSpan of the AST element containing it, to
+a map from keywords ('AnnKeyWord') to all locations of the keyword directly
+in the AST element:
+
+&gt; type ApiAnnKey = (SrcSpan,AnnKeywordId)
+&gt;
+&gt; Map.Map ApiAnnKey [SrcSpan]
+
+So
+
+&gt; let x = 1 in 2 *x
+
+would result in the AST element
+
+  L span (HsLet (binds for x = 1) (2 * x))
+
+and the annotations
+
+  (span,AnnLet) having the location of the 'let' keyword
+  (span,AnnEqual) having the location of the '=' sign
+  (span,AnnIn)  having the location of the 'in' keyword
+
+For any given element in the AST, there is only a set number of
+keywords that are applicable for it (e.g., you'll never see an
+'import' keyword associated with a let-binding.)  The set of allowed
+keywords is documented in a comment associated with the constructor
+of a given AST element, although the ground truth is in Parser
+and RdrHsSyn (which actually add the annotations; see #13012).
+
+COMMENT ELEMENTS
+
+Every comment is associated with a *located* AnnotationComment.
+We associate comments with the lowest (most specific) AST element
+enclosing them:
+
+&gt; Map.Map SrcSpan [Located AnnotationComment]
+
+PARSER STATE
+
+There are three fields in PState (the parser state) which play a role
+with annotations.
+
+&gt;  annotations :: [(ApiAnnKey,[SrcSpan])],
+&gt;  comment_q :: [Located AnnotationComment],
+&gt;  annotations_comments :: [(SrcSpan,[Located AnnotationComment])]
+
+The 'annotations' and 'annotations_comments' fields are simple: they simply
+accumulate annotations that will end up in 'ApiAnns' at the end
+(after they are passed to Map.fromList).
+
+The 'comment_q' field captures comments as they are seen in the token stream,
+so that when they are ready to be allocated via the parser they are
+available (at the time we lex a comment, we don't know what the enclosing
+AST node of it is, so we can't associate it with a SrcSpan in
+annotations_comments).
+
+PARSER EMISSION OF ANNOTATIONS
+
+The parser interacts with the lexer using the function
+
+&gt; addAnnotation :: SrcSpan -&gt; AnnKeywordId -&gt; SrcSpan -&gt; P ()
+
+which takes the AST element SrcSpan, the annotation keyword and the
+target SrcSpan.
+
+This adds the annotation to the `annotations` field of `PState` and
+transfers any comments in `comment_q` WHICH ARE ENCLOSED by
+the SrcSpan of this element to the `annotations_comments`
+field.  (Comments which are outside of this annotation are deferred
+until later. 'allocateComments' in 'Lexer' is responsible for
+making sure we only attach comments that actually fit in the 'SrcSpan'.)
+
+The wiki page describing this feature is
+https://ghc.haskell.org/trac/ghc/wiki/ApiAnnotations
+
+-}</span><span>
+</span><a name="line-131"></a><span class="hs-comment">-- ---------------------------------------------------------------------</span><span>
+</span><a name="line-132"></a><span>
+</span><a name="line-133"></a><span class="hs-comment">-- If you update this, update the Note [Api annotations] above</span><span>
+</span><a name="line-134"></a><span class="hs-keyword">type</span><span> </span><a name="ApiAnns"><a href="ApiAnnotation.html#ApiAnns"><span class="hs-identifier">ApiAnns</span></a></a><span> </span><span class="hs-glyph">=</span><span> </span><span class="hs-special">(</span><span> </span><a href="../containers-0.5.11.0/src/%{MODULE/./-}.html#%{NAME}/Data.Map.Internal.html#Map"><span class="hs-identifier hs-type">Map.Map</span></a><span> </span><a href="ApiAnnotation.html#ApiAnnKey"><span class="hs-identifier hs-type">ApiAnnKey</span></a><span> </span><span class="hs-special">[</span><a href="SrcLoc.html#SrcSpan"><span class="hs-identifier hs-type">SrcSpan</span></a><span class="hs-special">]</span><span>
+</span><a name="line-135"></a><span>               </span><span class="hs-special">,</span><span> </span><a href="../containers-0.5.11.0/src/%{MODULE/./-}.html#%{NAME}/Data.Map.Internal.html#Map"><span class="hs-identifier hs-type">Map.Map</span></a><span> </span><a href="SrcLoc.html#SrcSpan"><span class="hs-identifier hs-type">SrcSpan</span></a><span> </span><span class="hs-special">[</span><a href="SrcLoc.html#Located"><span class="hs-identifier hs-type">Located</span></a><span> </span><a href="ApiAnnotation.html#AnnotationComment"><span class="hs-identifier hs-type">AnnotationComment</span></a><span class="hs-special">]</span><span class="hs-special">)</span><span>
+</span><a name="line-136"></a><span>
+</span><a name="line-137"></a><span class="hs-comment">-- If you update this, update the Note [Api annotations] above</span><span>
+</span><a name="line-138"></a><span class="hs-keyword">type</span><span> </span><a name="ApiAnnKey"><a href="ApiAnnotation.html#ApiAnnKey"><span class="hs-identifier">ApiAnnKey</span></a></a><span> </span><span class="hs-glyph">=</span><span> </span><span class="hs-special">(</span><a href="SrcLoc.html#SrcSpan"><span class="hs-identifier hs-type">SrcSpan</span></a><span class="hs-special">,</span><a href="ApiAnnotation.html#AnnKeywordId"><span class="hs-identifier hs-type">AnnKeywordId</span></a><span class="hs-special">)</span><span>
+</span><a name="line-139"></a><span>
+</span><a name="line-140"></a><span>
+</span><a name="line-141"></a><span class="hs-comment">-- | Retrieve a list of annotation 'SrcSpan's based on the 'SrcSpan'</span><span>
+</span><a name="line-142"></a><span class="hs-comment">-- of the annotated AST element, and the known type of the annotation.</span><span>
+</span><a name="line-143"></a><span class="hs-identifier">getAnnotation</span><span> </span><span class="hs-glyph">::</span><span> </span><a href="ApiAnnotation.html#ApiAnns"><span class="hs-identifier hs-type">ApiAnns</span></a><span> </span><span class="hs-glyph">-&gt;</span><span> </span><a href="SrcLoc.html#SrcSpan"><span class="hs-identifier hs-type">SrcSpan</span></a><span> </span><span class="hs-glyph">-&gt;</span><span> </span><a href="ApiAnnotation.html#AnnKeywordId"><span class="hs-identifier hs-type">AnnKeywordId</span></a><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="hs-special">[</span><a href="SrcLoc.html#SrcSpan"><span class="hs-identifier hs-type">SrcSpan</span></a><span class="hs-special">]</span><span>
+</span><a name="line-144"></a><a name="getAnnotation"><a href="ApiAnnotation.html#getAnnotation"><span class="hs-identifier">getAnnotation</span></a></a><span> </span><span class="hs-special">(</span><a name="local-6989586621679336937"><a href="#local-6989586621679336937"><span class="hs-identifier">anns</span></a></a><span class="hs-special">,</span><span class="hs-identifier">_</span><span class="hs-special">)</span><span> </span><a name="local-6989586621679336938"><a href="#local-6989586621679336938"><span class="hs-identifier">span</span></a></a><span> </span><a name="local-6989586621679336939"><a href="#local-6989586621679336939"><span class="hs-identifier">ann</span></a></a><span>
+</span><a name="line-145"></a><span>   </span><span class="hs-glyph">=</span><span> </span><span class="hs-keyword">case</span><span> </span><a href="../containers-0.5.11.0/src/%{MODULE/./-}.html#%{NAME}/Data.Map.Internal.html#lookup"><span class="hs-identifier hs-var">Map.lookup</span></a><span> </span><span class="hs-special">(</span><a href="#local-6989586621679336938"><span class="hs-identifier hs-var">span</span></a><span class="hs-special">,</span><a href="#local-6989586621679336939"><span class="hs-identifier hs-var">ann</span></a><span class="hs-special">)</span><span> </span><a href="#local-6989586621679336937"><span class="hs-identifier hs-var">anns</span></a><span> </span><span class="hs-keyword">of</span><span>
+</span><a name="line-146"></a><span>       </span><a href="../base-4.11.0.0/src/%{MODULE/./-}.html#%{NAME}/GHC.Base.html#Nothing"><span class="hs-identifier hs-var">Nothing</span></a><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="hs-special">[</span><span class="hs-special">]</span><span>
+</span><a name="line-147"></a><span>       </span><a href="../base-4.11.0.0/src/%{MODULE/./-}.html#%{NAME}/GHC.Base.html#Just"><span class="hs-identifier hs-var">Just</span></a><span> </span><a name="local-6989586621679336940"><a href="#local-6989586621679336940"><span class="hs-identifier">ss</span></a></a><span> </span><span class="hs-glyph">-&gt;</span><span> </span><a href="#local-6989586621679336940"><span class="hs-identifier hs-var">ss</span></a><span>
+</span><a name="line-148"></a><span>
+</span><a name="line-149"></a><span class="hs-comment">-- | Retrieve a list of annotation 'SrcSpan's based on the 'SrcSpan'</span><span>
+</span><a name="line-150"></a><span class="hs-comment">-- of the annotated AST element, and the known type of the annotation.</span><span>
+</span><a name="line-151"></a><span class="hs-comment">-- The list is removed from the annotations.</span><span>
+</span><a name="line-152"></a><span class="hs-identifier">getAndRemoveAnnotation</span><span> </span><span class="hs-glyph">::</span><span> </span><a href="ApiAnnotation.html#ApiAnns"><span class="hs-identifier hs-type">ApiAnns</span></a><span> </span><span class="hs-glyph">-&gt;</span><span> </span><a href="SrcLoc.html#SrcSpan"><span class="hs-identifier hs-type">SrcSpan</span></a><span> </span><span class="hs-glyph">-&gt;</span><span> </span><a href="ApiAnnotation.html#AnnKeywordId"><span class="hs-identifier hs-type">AnnKeywordId</span></a><span>
+</span><a name="line-153"></a><span>                       </span><span class="hs-glyph">-&gt;</span><span> </span><span class="hs-special">(</span><span class="hs-special">[</span><a href="SrcLoc.html#SrcSpan"><span class="hs-identifier hs-type">SrcSpan</span></a><span class="hs-special">]</span><span class="hs-special">,</span><a href="ApiAnnotation.html#ApiAnns"><span class="hs-identifier hs-type">ApiAnns</span></a><span class="hs-special">)</span><span>
+</span><a name="line-154"></a><a name="getAndRemoveAnnotation"><a href="ApiAnnotation.html#getAndRemoveAnnotation"><span class="hs-identifier">getAndRemoveAnnotation</span></a></a><span> </span><span class="hs-special">(</span><a name="local-6989586621679336941"><a href="#local-6989586621679336941"><span class="hs-identifier">anns</span></a></a><span class="hs-special">,</span><a name="local-6989586621679336942"><a href="#local-6989586621679336942"><span class="hs-identifier">cs</span></a></a><span class="hs-special">)</span><span> </span><a name="local-6989586621679336943"><a href="#local-6989586621679336943"><span class="hs-identifier">span</span></a></a><span> </span><a name="local-6989586621679336944"><a href="#local-6989586621679336944"><span class="hs-identifier">ann</span></a></a><span>
+</span><a name="line-155"></a><span>   </span><span class="hs-glyph">=</span><span> </span><span class="hs-keyword">case</span><span> </span><a href="../containers-0.5.11.0/src/%{MODULE/./-}.html#%{NAME}/Data.Map.Internal.html#lookup"><span class="hs-identifier hs-var">Map.lookup</span></a><span> </span><span class="hs-special">(</span><a href="#local-6989586621679336943"><span class="hs-identifier hs-var">span</span></a><span class="hs-special">,</span><a href="#local-6989586621679336944"><span class="hs-identifier hs-var">ann</span></a><span class="hs-special">)</span><span> </span><a href="#local-6989586621679336941"><span class="hs-identifier hs-var">anns</span></a><span> </span><span class="hs-keyword">of</span><span>
+</span><a name="line-156"></a><span>       </span><a href="../base-4.11.0.0/src/%{MODULE/./-}.html#%{NAME}/GHC.Base.html#Nothing"><span class="hs-identifier hs-var">Nothing</span></a><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="hs-special">(</span><span class="hs-special">[</span><span class="hs-special">]</span><span class="hs-special">,</span><span class="hs-special">(</span><a href="#local-6989586621679336941"><span class="hs-identifier hs-var">anns</span></a><span class="hs-special">,</span><a href="#local-6989586621679336942"><span class="hs-identifier hs-var">cs</span></a><span class="hs-special">)</span><span class="hs-special">)</span><span>
+</span><a name="line-157"></a><span>       </span><a href="../base-4.11.0.0/src/%{MODULE/./-}.html#%{NAME}/GHC.Base.html#Just"><span class="hs-identifier hs-var">Just</span></a><span> </span><a name="local-6989586621679336945"><a href="#local-6989586621679336945"><span class="hs-identifier">ss</span></a></a><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="hs-special">(</span><a href="#local-6989586621679336945"><span class="hs-identifier hs-var">ss</span></a><span class="hs-special">,</span><span class="hs-special">(</span><a href="../containers-0.5.11.0/src/%{MODULE/./-}.html#%{NAME}/Data.Map.Internal.html#delete"><span class="hs-identifier hs-var">Map.delete</span></a><span> </span><span class="hs-special">(</span><a href="#local-6989586621679336943"><span class="hs-identifier hs-var">span</span></a><span class="hs-special">,</span><a href="#local-6989586621679336944"><span class="hs-identifier hs-var">ann</span></a><span class="hs-special">)</span><span> </span><a href="#local-6989586621679336941"><span class="hs-identifier hs-var">anns</span></a><span class="hs-special">,</span><a href="#local-6989586621679336942"><span class="hs-identifier hs-var">cs</span></a><span class="hs-special">)</span><span class="hs-special">)</span><span>
+</span><a name="line-158"></a><span>
+</span><a name="line-159"></a><span class="hs-comment">-- |Retrieve the comments allocated to the current 'SrcSpan'</span><span>
+</span><a name="line-160"></a><span class="hs-comment">--</span><span>
+</span><a name="line-161"></a><span class="hs-comment">--  Note: A given 'SrcSpan' may appear in multiple AST elements,</span><span>
+</span><a name="line-162"></a><span class="hs-comment">--  beware of duplicates</span><span>
+</span><a name="line-163"></a><span class="hs-identifier">getAnnotationComments</span><span> </span><span class="hs-glyph">::</span><span> </span><a href="ApiAnnotation.html#ApiAnns"><span class="hs-identifier hs-type">ApiAnns</span></a><span> </span><span class="hs-glyph">-&gt;</span><span> </span><a href="SrcLoc.html#SrcSpan"><span class="hs-identifier hs-type">SrcSpan</span></a><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="hs-special">[</span><a href="SrcLoc.html#Located"><span class="hs-identifier hs-type">Located</span></a><span> </span><a href="ApiAnnotation.html#AnnotationComment"><span class="hs-identifier hs-type">AnnotationComment</span></a><span class="hs-special">]</span><span>
+</span><a name="line-164"></a><a name="getAnnotationComments"><a href="ApiAnnotation.html#getAnnotationComments"><span class="hs-identifier">getAnnotationComments</span></a></a><span> </span><span class="hs-special">(</span><span class="hs-identifier">_</span><span class="hs-special">,</span><a name="local-6989586621679336946"><a href="#local-6989586621679336946"><span class="hs-identifier">anns</span></a></a><span class="hs-special">)</span><span> </span><a name="local-6989586621679336947"><a href="#local-6989586621679336947"><span class="hs-identifier">span</span></a></a><span> </span><span class="hs-glyph">=</span><span>
+</span><a name="line-165"></a><span>  </span><span class="hs-keyword">case</span><span> </span><a href="../containers-0.5.11.0/src/%{MODULE/./-}.html#%{NAME}/Data.Map.Internal.html#lookup"><span class="hs-identifier hs-var">Map.lookup</span></a><span> </span><a href="#local-6989586621679336947"><span class="hs-identifier hs-var">span</span></a><span> </span><a href="#local-6989586621679336946"><span class="hs-identifier hs-var">anns</span></a><span> </span><span class="hs-keyword">of</span><span>
+</span><a name="line-166"></a><span>    </span><a href="../base-4.11.0.0/src/%{MODULE/./-}.html#%{NAME}/GHC.Base.html#Just"><span class="hs-identifier hs-var">Just</span></a><span> </span><a name="local-6989586621679336948"><a href="#local-6989586621679336948"><span class="hs-identifier">cs</span></a></a><span> </span><span class="hs-glyph">-&gt;</span><span> </span><a href="#local-6989586621679336948"><span class="hs-identifier hs-var">cs</span></a><span>
+</span><a name="line-167"></a><span>    </span><a href="../base-4.11.0.0/src/%{MODULE/./-}.html#%{NAME}/GHC.Base.html#Nothing"><span class="hs-identifier hs-var">Nothing</span></a><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="hs-special">[</span><span class="hs-special">]</span><span>
+</span><a name="line-168"></a><span>
+</span><a name="line-169"></a><span class="hs-comment">-- |Retrieve the comments allocated to the current 'SrcSpan', and</span><span>
+</span><a name="line-170"></a><span class="hs-comment">-- remove them from the annotations</span><span>
+</span><a name="line-171"></a><span class="hs-identifier">getAndRemoveAnnotationComments</span><span> </span><span class="hs-glyph">::</span><span> </span><a href="ApiAnnotation.html#ApiAnns"><span class="hs-identifier hs-type">ApiAnns</span></a><span> </span><span class="hs-glyph">-&gt;</span><span> </span><a href="SrcLoc.html#SrcSpan"><span class="hs-identifier hs-type">SrcSpan</span></a><span>
+</span><a name="line-172"></a><span>                               </span><span class="hs-glyph">-&gt;</span><span> </span><span class="hs-special">(</span><span class="hs-special">[</span><a href="SrcLoc.html#Located"><span class="hs-identifier hs-type">Located</span></a><span> </span><a href="ApiAnnotation.html#AnnotationComment"><span class="hs-identifier hs-type">AnnotationComment</span></a><span class="hs-special">]</span><span class="hs-special">,</span><a href="ApiAnnotation.html#ApiAnns"><span class="hs-identifier hs-type">ApiAnns</span></a><span class="hs-special">)</span><span>
+</span><a name="line-173"></a><a name="getAndRemoveAnnotationComments"><a href="ApiAnnotation.html#getAndRemoveAnnotationComments"><span class="hs-identifier">getAndRemoveAnnotationComments</span></a></a><span> </span><span class="hs-special">(</span><a name="local-6989586621679336949"><a href="#local-6989586621679336949"><span class="hs-identifier">anns</span></a></a><span class="hs-special">,</span><a name="local-6989586621679336950"><a href="#local-6989586621679336950"><span class="hs-identifier">canns</span></a></a><span class="hs-special">)</span><span> </span><a name="local-6989586621679336951"><a href="#local-6989586621679336951"><span class="hs-identifier">span</span></a></a><span> </span><span class="hs-glyph">=</span><span>
+</span><a name="line-174"></a><span>  </span><span class="hs-keyword">case</span><span> </span><a href="../containers-0.5.11.0/src/%{MODULE/./-}.html#%{NAME}/Data.Map.Internal.html#lookup"><span class="hs-identifier hs-var">Map.lookup</span></a><span> </span><a href="#local-6989586621679336951"><span class="hs-identifier hs-var">span</span></a><span> </span><a href="#local-6989586621679336950"><span class="hs-identifier hs-var">canns</span></a><span> </span><span class="hs-keyword">of</span><span>
+</span><a name="line-175"></a><span>    </span><a href="../base-4.11.0.0/src/%{MODULE/./-}.html#%{NAME}/GHC.Base.html#Just"><span class="hs-identifier hs-var">Just</span></a><span> </span><a name="local-6989586621679336952"><a href="#local-6989586621679336952"><span class="hs-identifier">cs</span></a></a><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="hs-special">(</span><a href="#local-6989586621679336952"><span class="hs-identifier hs-var">cs</span></a><span class="hs-special">,</span><span class="hs-special">(</span><a href="#local-6989586621679336949"><span class="hs-identifier hs-var">anns</span></a><span class="hs-special">,</span><a href="../containers-0.5.11.0/src/%{MODULE/./-}.html#%{NAME}/Data.Map.Internal.html#delete"><span class="hs-identifier hs-var">Map.delete</span></a><span> </span><a href="#local-6989586621679336951"><span class="hs-identifier hs-var">span</span></a><span> </span><a href="#local-6989586621679336950"><span class="hs-identifier hs-var">canns</span></a><span class="hs-special">)</span><span class="hs-special">)</span><span>
+</span><a name="line-176"></a><span>    </span><a href="../base-4.11.0.0/src/%{MODULE/./-}.html#%{NAME}/GHC.Base.html#Nothing"><span class="hs-identifier hs-var">Nothing</span></a><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="hs-special">(</span><span class="hs-special">[</span><span class="hs-special">]</span><span class="hs-special">,</span><span class="hs-special">(</span><a href="#local-6989586621679336949"><span class="hs-identifier hs-var">anns</span></a><span class="hs-special">,</span><a href="#local-6989586621679336950"><span class="hs-identifier hs-var">canns</span></a><span class="hs-special">)</span><span class="hs-special">)</span><span>
+</span><a name="line-177"></a><span>
+</span><a name="line-178"></a><span class="hs-comment">-- --------------------------------------------------------------------</span><span>
+</span><a name="line-179"></a><span>
+</span><a name="line-180"></a><span class="hs-comment">-- | API Annotations exist so that tools can perform source to source</span><span>
+</span><a name="line-181"></a><span class="hs-comment">-- conversions of Haskell code. They are used to keep track of the</span><span>
+</span><a name="line-182"></a><span class="hs-comment">-- various syntactic keywords that are not captured in the existing</span><span>
+</span><a name="line-183"></a><span class="hs-comment">-- AST.</span><span>
+</span><a name="line-184"></a><span class="hs-comment">--</span><span>
+</span><a name="line-185"></a><span class="hs-comment">-- The annotations, together with original source comments are made</span><span>
+</span><a name="line-186"></a><span class="hs-comment">-- available in the @'pm_annotations'@ field of @'GHC.ParsedModule'@.</span><span>
+</span><a name="line-187"></a><span class="hs-comment">-- Comments are only retained if @'Opt_KeepRawTokenStream'@ is set in</span><span>
+</span><a name="line-188"></a><span class="hs-comment">-- @'DynFlags.DynFlags'@ before parsing.</span><span>
+</span><a name="line-189"></a><span class="hs-comment">--</span><span>
+</span><a name="line-190"></a><span class="hs-comment">-- The wiki page describing this feature is</span><span>
+</span><a name="line-191"></a><span class="hs-comment">-- https://ghc.haskell.org/trac/ghc/wiki/ApiAnnotations</span><span>
+</span><a name="line-192"></a><span class="hs-comment">--</span><span>
+</span><a name="line-193"></a><span class="hs-comment">-- Note: in general the names of these are taken from the</span><span>
+</span><a name="line-194"></a><span class="hs-comment">-- corresponding token, unless otherwise noted</span><span>
+</span><a name="line-195"></a><span class="hs-comment">-- See note [Api annotations] above for details of the usage</span><span>
+</span><a name="line-196"></a><span class="hs-keyword">data</span><span> </span><a name="AnnKeywordId"><a href="ApiAnnotation.html#AnnKeywordId"><span class="hs-identifier">AnnKeywordId</span></a></a><span>
+</span><a name="line-197"></a><span>    </span><span class="hs-glyph">=</span><span> </span><a name="AnnAnyclass"><a href="ApiAnnotation.html#AnnAnyclass"><span class="hs-identifier">AnnAnyclass</span></a></a><span>
+</span><a name="line-198"></a><span>    </span><span class="hs-glyph">|</span><span> </span><a name="AnnAs"><a href="ApiAnnotation.html#AnnAs"><span class="hs-identifier">AnnAs</span></a></a><span>
+</span><a name="line-199"></a><span>    </span><span class="hs-glyph">|</span><span> </span><a name="AnnAt"><a href="ApiAnnotation.html#AnnAt"><span class="hs-identifier">AnnAt</span></a></a><span>
+</span><a name="line-200"></a><span>    </span><span class="hs-glyph">|</span><span> </span><a name="AnnBang"><a href="ApiAnnotation.html#AnnBang"><span class="hs-identifier">AnnBang</span></a></a><span>  </span><span class="hs-comment">-- ^ '!'</span><span>
+</span><a name="line-201"></a><span>    </span><span class="hs-glyph">|</span><span> </span><a name="AnnBackquote"><a href="ApiAnnotation.html#AnnBackquote"><span class="hs-identifier">AnnBackquote</span></a></a><span> </span><span class="hs-comment">-- ^ '`'</span><span>
+</span><a name="line-202"></a><span>    </span><span class="hs-glyph">|</span><span> </span><a name="AnnBy"><a href="ApiAnnotation.html#AnnBy"><span class="hs-identifier">AnnBy</span></a></a><span>
+</span><a name="line-203"></a><span>    </span><span class="hs-glyph">|</span><span> </span><a name="AnnCase"><a href="ApiAnnotation.html#AnnCase"><span class="hs-identifier">AnnCase</span></a></a><span> </span><span class="hs-comment">-- ^ case or lambda case</span><span>
+</span><a name="line-204"></a><span>    </span><span class="hs-glyph">|</span><span> </span><a name="AnnClass"><a href="ApiAnnotation.html#AnnClass"><span class="hs-identifier">AnnClass</span></a></a><span>
+</span><a name="line-205"></a><span>    </span><span class="hs-glyph">|</span><span> </span><a name="AnnClose"><a href="ApiAnnotation.html#AnnClose"><span class="hs-identifier">AnnClose</span></a></a><span> </span><span class="hs-comment">-- ^  '\#)' or '\#-}'  etc</span><span>
+</span><a name="line-206"></a><span>    </span><span class="hs-glyph">|</span><span> </span><a name="AnnCloseB"><a href="ApiAnnotation.html#AnnCloseB"><span class="hs-identifier">AnnCloseB</span></a></a><span> </span><span class="hs-comment">-- ^ '|)'</span><span>
+</span><a name="line-207"></a><span>    </span><span class="hs-glyph">|</span><span> </span><a name="AnnCloseBU"><a href="ApiAnnotation.html#AnnCloseBU"><span class="hs-identifier">AnnCloseBU</span></a></a><span> </span><span class="hs-comment">-- ^ '|)', unicode variant</span><span>
+</span><a name="line-208"></a><span>    </span><span class="hs-glyph">|</span><span> </span><a name="AnnCloseC"><a href="ApiAnnotation.html#AnnCloseC"><span class="hs-identifier">AnnCloseC</span></a></a><span> </span><span class="hs-comment">-- ^ '}'</span><span>
+</span><a name="line-209"></a><span>    </span><span class="hs-glyph">|</span><span> </span><a name="AnnCloseQ"><a href="ApiAnnotation.html#AnnCloseQ"><span class="hs-identifier">AnnCloseQ</span></a></a><span>  </span><span class="hs-comment">-- ^ '|]'</span><span>
+</span><a name="line-210"></a><span>    </span><span class="hs-glyph">|</span><span> </span><a name="AnnCloseQU"><a href="ApiAnnotation.html#AnnCloseQU"><span class="hs-identifier">AnnCloseQU</span></a></a><span> </span><span class="hs-comment">-- ^ '|]', unicode variant</span><span>
+</span><a name="line-211"></a><span>    </span><span class="hs-glyph">|</span><span> </span><a name="AnnCloseP"><a href="ApiAnnotation.html#AnnCloseP"><span class="hs-identifier">AnnCloseP</span></a></a><span> </span><span class="hs-comment">-- ^ ')'</span><span>
+</span><a name="line-212"></a><span>    </span><span class="hs-glyph">|</span><span> </span><a name="AnnCloseS"><a href="ApiAnnotation.html#AnnCloseS"><span class="hs-identifier">AnnCloseS</span></a></a><span> </span><span class="hs-comment">-- ^ ']'</span><span>
+</span><a name="line-213"></a><span>    </span><span class="hs-glyph">|</span><span> </span><a name="AnnColon"><a href="ApiAnnotation.html#AnnColon"><span class="hs-identifier">AnnColon</span></a></a><span>
+</span><a name="line-214"></a><span>    </span><span class="hs-glyph">|</span><span> </span><a name="AnnComma"><a href="ApiAnnotation.html#AnnComma"><span class="hs-identifier">AnnComma</span></a></a><span> </span><span class="hs-comment">-- ^ as a list separator</span><span>
+</span><a name="line-215"></a><span>    </span><span class="hs-glyph">|</span><span> </span><a name="AnnCommaTuple"><a href="ApiAnnotation.html#AnnCommaTuple"><span class="hs-identifier">AnnCommaTuple</span></a></a><span> </span><span class="hs-comment">-- ^ in a RdrName for a tuple</span><span>
+</span><a name="line-216"></a><span>    </span><span class="hs-glyph">|</span><span> </span><a name="AnnDarrow"><a href="ApiAnnotation.html#AnnDarrow"><span class="hs-identifier">AnnDarrow</span></a></a><span> </span><span class="hs-comment">-- ^ '=&gt;'</span><span>
+</span><a name="line-217"></a><span>    </span><span class="hs-glyph">|</span><span> </span><a name="AnnDarrowU"><a href="ApiAnnotation.html#AnnDarrowU"><span class="hs-identifier">AnnDarrowU</span></a></a><span> </span><span class="hs-comment">-- ^ '=&gt;', unicode variant</span><span>
+</span><a name="line-218"></a><span>    </span><span class="hs-glyph">|</span><span> </span><a name="AnnData"><a href="ApiAnnotation.html#AnnData"><span class="hs-identifier">AnnData</span></a></a><span>
+</span><a name="line-219"></a><span>    </span><span class="hs-glyph">|</span><span> </span><a name="AnnDcolon"><a href="ApiAnnotation.html#AnnDcolon"><span class="hs-identifier">AnnDcolon</span></a></a><span> </span><span class="hs-comment">-- ^ '::'</span><span>
+</span><a name="line-220"></a><span>    </span><span class="hs-glyph">|</span><span> </span><a name="AnnDcolonU"><a href="ApiAnnotation.html#AnnDcolonU"><span class="hs-identifier">AnnDcolonU</span></a></a><span> </span><span class="hs-comment">-- ^ '::', unicode variant</span><span>
+</span><a name="line-221"></a><span>    </span><span class="hs-glyph">|</span><span> </span><a name="AnnDefault"><a href="ApiAnnotation.html#AnnDefault"><span class="hs-identifier">AnnDefault</span></a></a><span>
+</span><a name="line-222"></a><span>    </span><span class="hs-glyph">|</span><span> </span><a name="AnnDeriving"><a href="ApiAnnotation.html#AnnDeriving"><span class="hs-identifier">AnnDeriving</span></a></a><span>
+</span><a name="line-223"></a><span>    </span><span class="hs-glyph">|</span><span> </span><a name="AnnDo"><a href="ApiAnnotation.html#AnnDo"><span class="hs-identifier">AnnDo</span></a></a><span>
+</span><a name="line-224"></a><span>    </span><span class="hs-glyph">|</span><span> </span><a name="AnnDot"><a href="ApiAnnotation.html#AnnDot"><span class="hs-identifier">AnnDot</span></a></a><span>    </span><span class="hs-comment">-- ^ '.'</span><span>
+</span><a name="line-225"></a><span>    </span><span class="hs-glyph">|</span><span> </span><a name="AnnDotdot"><a href="ApiAnnotation.html#AnnDotdot"><span class="hs-identifier">AnnDotdot</span></a></a><span> </span><span class="hs-comment">-- ^ '..'</span><span>
+</span><a name="line-226"></a><span>    </span><span class="hs-glyph">|</span><span> </span><a name="AnnElse"><a href="ApiAnnotation.html#AnnElse"><span class="hs-identifier">AnnElse</span></a></a><span>
+</span><a name="line-227"></a><span>    </span><span class="hs-glyph">|</span><span> </span><a name="AnnEqual"><a href="ApiAnnotation.html#AnnEqual"><span class="hs-identifier">AnnEqual</span></a></a><span>
+</span><a name="line-228"></a><span>    </span><span class="hs-glyph">|</span><span> </span><a name="AnnExport"><a href="ApiAnnotation.html#AnnExport"><span class="hs-identifier">AnnExport</span></a></a><span>
+</span><a name="line-229"></a><span>    </span><span class="hs-glyph">|</span><span> </span><a name="AnnFamily"><a href="ApiAnnotation.html#AnnFamily"><span class="hs-identifier">AnnFamily</span></a></a><span>
+</span><a name="line-230"></a><span>    </span><span class="hs-glyph">|</span><span> </span><a name="AnnForall"><a href="ApiAnnotation.html#AnnForall"><span class="hs-identifier">AnnForall</span></a></a><span>
+</span><a name="line-231"></a><span>    </span><span class="hs-glyph">|</span><span> </span><a name="AnnForallU"><a href="ApiAnnotation.html#AnnForallU"><span class="hs-identifier">AnnForallU</span></a></a><span> </span><span class="hs-comment">-- ^ Unicode variant</span><span>
+</span><a name="line-232"></a><span>    </span><span class="hs-glyph">|</span><span> </span><a name="AnnForeign"><a href="ApiAnnotation.html#AnnForeign"><span class="hs-identifier">AnnForeign</span></a></a><span>
+</span><a name="line-233"></a><span>    </span><span class="hs-glyph">|</span><span> </span><a name="AnnFunId"><a href="ApiAnnotation.html#AnnFunId"><span class="hs-identifier">AnnFunId</span></a></a><span> </span><span class="hs-comment">-- ^ for function name in matches where there are</span><span>
+</span><a name="line-234"></a><span>               </span><span class="hs-comment">-- multiple equations for the function.</span><span>
+</span><a name="line-235"></a><span>    </span><span class="hs-glyph">|</span><span> </span><a name="AnnGroup"><a href="ApiAnnotation.html#AnnGroup"><span class="hs-identifier">AnnGroup</span></a></a><span>
+</span><a name="line-236"></a><span>    </span><span class="hs-glyph">|</span><span> </span><a name="AnnHeader"><a href="ApiAnnotation.html#AnnHeader"><span class="hs-identifier">AnnHeader</span></a></a><span> </span><span class="hs-comment">-- ^ for CType</span><span>
+</span><a name="line-237"></a><span>    </span><span class="hs-glyph">|</span><span> </span><a name="AnnHiding"><a href="ApiAnnotation.html#AnnHiding"><span class="hs-identifier">AnnHiding</span></a></a><span>
+</span><a name="line-238"></a><span>    </span><span class="hs-glyph">|</span><span> </span><a name="AnnIf"><a href="ApiAnnotation.html#AnnIf"><span class="hs-identifier">AnnIf</span></a></a><span>
+</span><a name="line-239"></a><span>    </span><span class="hs-glyph">|</span><span> </span><a name="AnnImport"><a href="ApiAnnotation.html#AnnImport"><span class="hs-identifier">AnnImport</span></a></a><span>
+</span><a name="line-240"></a><span>    </span><span class="hs-glyph">|</span><span> </span><a name="AnnIn"><a href="ApiAnnotation.html#AnnIn"><span class="hs-identifier">AnnIn</span></a></a><span>
+</span><a name="line-241"></a><span>    </span><span class="hs-glyph">|</span><span> </span><a name="AnnInfix"><a href="ApiAnnotation.html#AnnInfix"><span class="hs-identifier">AnnInfix</span></a></a><span> </span><span class="hs-comment">-- ^ 'infix' or 'infixl' or 'infixr'</span><span>
+</span><a name="line-242"></a><span>    </span><span class="hs-glyph">|</span><span> </span><a name="AnnInstance"><a href="ApiAnnotation.html#AnnInstance"><span class="hs-identifier">AnnInstance</span></a></a><span>
+</span><a name="line-243"></a><span>    </span><span class="hs-glyph">|</span><span> </span><a name="AnnLam"><a href="ApiAnnotation.html#AnnLam"><span class="hs-identifier">AnnLam</span></a></a><span>
+</span><a name="line-244"></a><span>    </span><span class="hs-glyph">|</span><span> </span><a name="AnnLarrow"><a href="ApiAnnotation.html#AnnLarrow"><span class="hs-identifier">AnnLarrow</span></a></a><span>     </span><span class="hs-comment">-- ^ '&lt;-'</span><span>
+</span><a name="line-245"></a><span>    </span><span class="hs-glyph">|</span><span> </span><a name="AnnLarrowU"><a href="ApiAnnotation.html#AnnLarrowU"><span class="hs-identifier">AnnLarrowU</span></a></a><span>    </span><span class="hs-comment">-- ^ '&lt;-', unicode variant</span><span>
+</span><a name="line-246"></a><span>    </span><span class="hs-glyph">|</span><span> </span><a name="AnnLet"><a href="ApiAnnotation.html#AnnLet"><span class="hs-identifier">AnnLet</span></a></a><span>
+</span><a name="line-247"></a><span>    </span><span class="hs-glyph">|</span><span> </span><a name="AnnMdo"><a href="ApiAnnotation.html#AnnMdo"><span class="hs-identifier">AnnMdo</span></a></a><span>
+</span><a name="line-248"></a><span>    </span><span class="hs-glyph">|</span><span> </span><a name="AnnMinus"><a href="ApiAnnotation.html#AnnMinus"><span class="hs-identifier">AnnMinus</span></a></a><span> </span><span class="hs-comment">-- ^ '-'</span><span>
+</span><a name="line-249"></a><span>    </span><span class="hs-glyph">|</span><span> </span><a name="AnnModule"><a href="ApiAnnotation.html#AnnModule"><span class="hs-identifier">AnnModule</span></a></a><span>
+</span><a name="line-250"></a><span>    </span><span class="hs-glyph">|</span><span> </span><a name="AnnNewtype"><a href="ApiAnnotation.html#AnnNewtype"><span class="hs-identifier">AnnNewtype</span></a></a><span>
+</span><a name="line-251"></a><span>    </span><span class="hs-glyph">|</span><span> </span><a name="AnnName"><a href="ApiAnnotation.html#AnnName"><span class="hs-identifier">AnnName</span></a></a><span> </span><span class="hs-comment">-- ^ where a name loses its location in the AST, this carries it</span><span>
+</span><a name="line-252"></a><span>    </span><span class="hs-glyph">|</span><span> </span><a name="AnnOf"><a href="ApiAnnotation.html#AnnOf"><span class="hs-identifier">AnnOf</span></a></a><span>
+</span><a name="line-253"></a><span>    </span><span class="hs-glyph">|</span><span> </span><a name="AnnOpen"><a href="ApiAnnotation.html#AnnOpen"><span class="hs-identifier">AnnOpen</span></a></a><span>    </span><span class="hs-comment">-- ^ '(\#' or '{-\# LANGUAGE' etc</span><span>
+</span><a name="line-254"></a><span>    </span><span class="hs-glyph">|</span><span> </span><a name="AnnOpenB"><a href="ApiAnnotation.html#AnnOpenB"><span class="hs-identifier">AnnOpenB</span></a></a><span>   </span><span class="hs-comment">-- ^ '(|'</span><span>
+</span><a name="line-255"></a><span>    </span><span class="hs-glyph">|</span><span> </span><a name="AnnOpenBU"><a href="ApiAnnotation.html#AnnOpenBU"><span class="hs-identifier">AnnOpenBU</span></a></a><span>  </span><span class="hs-comment">-- ^ '(|', unicode variant</span><span>
+</span><a name="line-256"></a><span>    </span><span class="hs-glyph">|</span><span> </span><a name="AnnOpenC"><a href="ApiAnnotation.html#AnnOpenC"><span class="hs-identifier">AnnOpenC</span></a></a><span>   </span><span class="hs-comment">-- ^ '{'</span><span>
+</span><a name="line-257"></a><span>    </span><span class="hs-glyph">|</span><span> </span><a name="AnnOpenE"><a href="ApiAnnotation.html#AnnOpenE"><span class="hs-identifier">AnnOpenE</span></a></a><span>   </span><span class="hs-comment">-- ^ '[e|' or '[e||'</span><span>
+</span><a name="line-258"></a><span>    </span><span class="hs-glyph">|</span><span> </span><a name="AnnOpenEQ"><a href="ApiAnnotation.html#AnnOpenEQ"><span class="hs-identifier">AnnOpenEQ</span></a></a><span>  </span><span class="hs-comment">-- ^ '[|'</span><span>
+</span><a name="line-259"></a><span>    </span><span class="hs-glyph">|</span><span> </span><a name="AnnOpenEQU"><a href="ApiAnnotation.html#AnnOpenEQU"><span class="hs-identifier">AnnOpenEQU</span></a></a><span> </span><span class="hs-comment">-- ^ '[|', unicode variant</span><span>
+</span><a name="line-260"></a><span>    </span><span class="hs-glyph">|</span><span> </span><a name="AnnOpenP"><a href="ApiAnnotation.html#AnnOpenP"><span class="hs-identifier">AnnOpenP</span></a></a><span>   </span><span class="hs-comment">-- ^ '('</span><span>
+</span><a name="line-261"></a><span>    </span><span class="hs-glyph">|</span><span> </span><a name="AnnOpenPE"><a href="ApiAnnotation.html#AnnOpenPE"><span class="hs-identifier">AnnOpenPE</span></a></a><span>  </span><span class="hs-comment">-- ^ '$('</span><span>
+</span><a name="line-262"></a><span>    </span><span class="hs-glyph">|</span><span> </span><a name="AnnOpenPTE"><a href="ApiAnnotation.html#AnnOpenPTE"><span class="hs-identifier">AnnOpenPTE</span></a></a><span> </span><span class="hs-comment">-- ^ '$$('</span><span>
+</span><a name="line-263"></a><span>    </span><span class="hs-glyph">|</span><span> </span><a name="AnnOpenS"><a href="ApiAnnotation.html#AnnOpenS"><span class="hs-identifier">AnnOpenS</span></a></a><span>   </span><span class="hs-comment">-- ^ '['</span><span>
+</span><a name="line-264"></a><span>    </span><span class="hs-glyph">|</span><span> </span><a name="AnnPackageName"><a href="ApiAnnotation.html#AnnPackageName"><span class="hs-identifier">AnnPackageName</span></a></a><span>
+</span><a name="line-265"></a><span>    </span><span class="hs-glyph">|</span><span> </span><a name="AnnPattern"><a href="ApiAnnotation.html#AnnPattern"><span class="hs-identifier">AnnPattern</span></a></a><span>
+</span><a name="line-266"></a><span>    </span><span class="hs-glyph">|</span><span> </span><a name="AnnProc"><a href="ApiAnnotation.html#AnnProc"><span class="hs-identifier">AnnProc</span></a></a><span>
+</span><a name="line-267"></a><span>    </span><span class="hs-glyph">|</span><span> </span><a name="AnnQualified"><a href="ApiAnnotation.html#AnnQualified"><span class="hs-identifier">AnnQualified</span></a></a><span>
+</span><a name="line-268"></a><span>    </span><span class="hs-glyph">|</span><span> </span><a name="AnnRarrow"><a href="ApiAnnotation.html#AnnRarrow"><span class="hs-identifier">AnnRarrow</span></a></a><span> </span><span class="hs-comment">-- ^ '-&gt;'</span><span>
+</span><a name="line-269"></a><span>    </span><span class="hs-glyph">|</span><span> </span><a name="AnnRarrowU"><a href="ApiAnnotation.html#AnnRarrowU"><span class="hs-identifier">AnnRarrowU</span></a></a><span> </span><span class="hs-comment">-- ^ '-&gt;', unicode variant</span><span>
+</span><a name="line-270"></a><span>    </span><span class="hs-glyph">|</span><span> </span><a name="AnnRec"><a href="ApiAnnotation.html#AnnRec"><span class="hs-identifier">AnnRec</span></a></a><span>
+</span><a name="line-271"></a><span>    </span><span class="hs-glyph">|</span><span> </span><a name="AnnRole"><a href="ApiAnnotation.html#AnnRole"><span class="hs-identifier">AnnRole</span></a></a><span>
+</span><a name="line-272"></a><span>    </span><span class="hs-glyph">|</span><span> </span><a name="AnnSafe"><a href="ApiAnnotation.html#AnnSafe"><span class="hs-identifier">AnnSafe</span></a></a><span>
+</span><a name="line-273"></a><span>    </span><span class="hs-glyph">|</span><span> </span><a name="AnnSemi"><a href="ApiAnnotation.html#AnnSemi"><span class="hs-identifier">AnnSemi</span></a></a><span> </span><span class="hs-comment">-- ^ ';'</span><span>
+</span><a name="line-274"></a><span>    </span><span class="hs-glyph">|</span><span> </span><a name="AnnSimpleQuote"><a href="ApiAnnotation.html#AnnSimpleQuote"><span class="hs-identifier">AnnSimpleQuote</span></a></a><span> </span><span class="hs-comment">-- ^ '''</span><span>
+</span><a name="line-275"></a><span>    </span><span class="hs-glyph">|</span><span> </span><a name="AnnSignature"><a href="ApiAnnotation.html#AnnSignature"><span class="hs-identifier">AnnSignature</span></a></a><span>
+</span><a name="line-276"></a><span>    </span><span class="hs-glyph">|</span><span> </span><a name="AnnStatic"><a href="ApiAnnotation.html#AnnStatic"><span class="hs-identifier">AnnStatic</span></a></a><span> </span><span class="hs-comment">-- ^ 'static'</span><span>
+</span><a name="line-277"></a><span>    </span><span class="hs-glyph">|</span><span> </span><a name="AnnStock"><a href="ApiAnnotation.html#AnnStock"><span class="hs-identifier">AnnStock</span></a></a><span>
+</span><a name="line-278"></a><span>    </span><span class="hs-glyph">|</span><span> </span><a name="AnnThen"><a href="ApiAnnotation.html#AnnThen"><span class="hs-identifier">AnnThen</span></a></a><span>
+</span><a name="line-279"></a><span>    </span><span class="hs-glyph">|</span><span> </span><a name="AnnThIdSplice"><a href="ApiAnnotation.html#AnnThIdSplice"><span class="hs-identifier">AnnThIdSplice</span></a></a><span> </span><span class="hs-comment">-- ^ '$'</span><span>
+</span><a name="line-280"></a><span>    </span><span class="hs-glyph">|</span><span> </span><a name="AnnThIdTySplice"><a href="ApiAnnotation.html#AnnThIdTySplice"><span class="hs-identifier">AnnThIdTySplice</span></a></a><span> </span><span class="hs-comment">-- ^ '$$'</span><span>
+</span><a name="line-281"></a><span>    </span><span class="hs-glyph">|</span><span> </span><a name="AnnThTyQuote"><a href="ApiAnnotation.html#AnnThTyQuote"><span class="hs-identifier">AnnThTyQuote</span></a></a><span> </span><span class="hs-comment">-- ^ double '''</span><span>
+</span><a name="line-282"></a><span>    </span><span class="hs-glyph">|</span><span> </span><a name="AnnTilde"><a href="ApiAnnotation.html#AnnTilde"><span class="hs-identifier">AnnTilde</span></a></a><span> </span><span class="hs-comment">-- ^ '~'</span><span>
+</span><a name="line-283"></a><span>    </span><span class="hs-glyph">|</span><span> </span><a name="AnnTildehsh"><a href="ApiAnnotation.html#AnnTildehsh"><span class="hs-identifier">AnnTildehsh</span></a></a><span> </span><span class="hs-comment">-- ^ '~#'</span><span>
+</span><a name="line-284"></a><span>    </span><span class="hs-glyph">|</span><span> </span><a name="AnnType"><a href="ApiAnnotation.html#AnnType"><span class="hs-identifier">AnnType</span></a></a><span>
+</span><a name="line-285"></a><span>    </span><span class="hs-glyph">|</span><span> </span><a name="AnnUnit"><a href="ApiAnnotation.html#AnnUnit"><span class="hs-identifier">AnnUnit</span></a></a><span> </span><span class="hs-comment">-- ^ '()' for types</span><span>
+</span><a name="line-286"></a><span>    </span><span class="hs-glyph">|</span><span> </span><a name="AnnUsing"><a href="ApiAnnotation.html#AnnUsing"><span class="hs-identifier">AnnUsing</span></a></a><span>
+</span><a name="line-287"></a><span>    </span><span class="hs-glyph">|</span><span> </span><a name="AnnVal"><a href="ApiAnnotation.html#AnnVal"><span class="hs-identifier">AnnVal</span></a></a><span>  </span><span class="hs-comment">-- ^ e.g. INTEGER</span><span>
+</span><a name="line-288"></a><span>    </span><span class="hs-glyph">|</span><span> </span><a name="AnnValStr"><a href="ApiAnnotation.html#AnnValStr"><span class="hs-identifier">AnnValStr</span></a></a><span>  </span><span class="hs-comment">-- ^ String value, will need quotes when output</span><span>
+</span><a name="line-289"></a><span>    </span><span class="hs-glyph">|</span><span> </span><a name="AnnVbar"><a href="ApiAnnotation.html#AnnVbar"><span class="hs-identifier">AnnVbar</span></a></a><span> </span><span class="hs-comment">-- ^ '|'</span><span>
+</span><a name="line-290"></a><span>    </span><span class="hs-glyph">|</span><span> </span><a name="AnnWhere"><a href="ApiAnnotation.html#AnnWhere"><span class="hs-identifier">AnnWhere</span></a></a><span>
+</span><a name="line-291"></a><span>    </span><span class="hs-glyph">|</span><span> </span><a name="Annlarrowtail"><a href="ApiAnnotation.html#Annlarrowtail"><span class="hs-identifier">Annlarrowtail</span></a></a><span> </span><span class="hs-comment">-- ^ '-&lt;'</span><span>
+</span><a name="line-292"></a><span>    </span><span class="hs-glyph">|</span><span> </span><a name="AnnlarrowtailU"><a href="ApiAnnotation.html#AnnlarrowtailU"><span class="hs-identifier">AnnlarrowtailU</span></a></a><span> </span><span class="hs-comment">-- ^ '-&lt;', unicode variant</span><span>
+</span><a name="line-293"></a><span>    </span><span class="hs-glyph">|</span><span> </span><a name="Annrarrowtail"><a href="ApiAnnotation.html#Annrarrowtail"><span class="hs-identifier">Annrarrowtail</span></a></a><span> </span><span class="hs-comment">-- ^ '-&gt;'</span><span>
+</span><a name="line-294"></a><span>    </span><span class="hs-glyph">|</span><span> </span><a name="AnnrarrowtailU"><a href="ApiAnnotation.html#AnnrarrowtailU"><span class="hs-identifier">AnnrarrowtailU</span></a></a><span> </span><span class="hs-comment">-- ^ '-&gt;', unicode variant</span><span>
+</span><a name="line-295"></a><span>    </span><span class="hs-glyph">|</span><span> </span><a name="AnnLarrowtail"><a href="ApiAnnotation.html#AnnLarrowtail"><span class="hs-identifier">AnnLarrowtail</span></a></a><span> </span><span class="hs-comment">-- ^ '-&lt;&lt;'</span><span>
+</span><a name="line-296"></a><span>    </span><span class="hs-glyph">|</span><span> </span><a name="AnnLarrowtailU"><a href="ApiAnnotation.html#AnnLarrowtailU"><span class="hs-identifier">AnnLarrowtailU</span></a></a><span> </span><span class="hs-comment">-- ^ '-&lt;&lt;', unicode variant</span><span>
+</span><a name="line-297"></a><span>    </span><span class="hs-glyph">|</span><span> </span><a name="AnnRarrowtail"><a href="ApiAnnotation.html#AnnRarrowtail"><span class="hs-identifier">AnnRarrowtail</span></a></a><span> </span><span class="hs-comment">-- ^ '&gt;&gt;-'</span><span>
+</span><a name="line-298"></a><span>    </span><span class="hs-glyph">|</span><span> </span><a name="AnnRarrowtailU"><a href="ApiAnnotation.html#AnnRarrowtailU"><span class="hs-identifier">AnnRarrowtailU</span></a></a><span> </span><span class="hs-comment">-- ^ '&gt;&gt;-', unicode variant</span><span>
+</span><a name="line-299"></a><span>    </span><span class="hs-glyph">|</span><span> </span><a name="AnnEofPos"><a href="ApiAnnotation.html#AnnEofPos"><span class="hs-identifier">AnnEofPos</span></a></a><span>
+</span><a name="line-300"></a><span>    </span><span class="hs-keyword">deriving</span><span> </span><span class="hs-special">(</span><span class="hs-identifier hs-type">Eq</span><span class="hs-special">,</span><span> </span><span class="hs-identifier hs-type">Ord</span><span class="hs-special">,</span><span> </span><a href="../base-4.11.0.0/src/%{MODULE/./-}.html#%{NAME}/Data.Data.html#Data"><span class="hs-identifier hs-type">Data</span></a><span class="hs-special">,</span><span> </span><a href="../base-4.11.0.0/src/%{MODULE/./-}.html#%{NAME}/GHC.Show.html#Show"><span class="hs-identifier hs-type">Show</span></a><span class="hs-special">)</span><span>
+</span><a name="line-301"></a><span>
+</span><a name="line-302"></a><span class="hs-keyword">instance</span><span> </span><a href="Outputable.html#Outputable"><span class="hs-identifier hs-type">Outputable</span></a><span> </span><a href="ApiAnnotation.html#AnnKeywordId"><span class="hs-identifier hs-type">AnnKeywordId</span></a><span> </span><span class="hs-keyword">where</span><span>
+</span><a name="line-303"></a><span>  </span><a name="local-8214565720323906373"><a href="Outputable.html#ppr"><span class="hs-identifier">ppr</span></a></a><span> </span><a name="local-6989586621679336936"><a href="#local-6989586621679336936"><span class="hs-identifier">x</span></a></a><span> </span><span class="hs-glyph">=</span><span> </span><a href="Outputable.html#text"><span class="hs-identifier hs-var">text</span></a><span> </span><span class="hs-special">(</span><a href="../base-4.11.0.0/src/%{MODULE/./-}.html#%{NAME}/GHC.Show.html#show"><span class="hs-identifier hs-var">show</span></a><span> </span><a href="#local-6989586621679336936"><span class="hs-identifier hs-var">x</span></a><span class="hs-special">)</span><span>
+</span><a name="line-304"></a><span>
+</span><a name="line-305"></a><span class="hs-comment">-- ---------------------------------------------------------------------</span><span>
+</span><a name="line-306"></a><span>
+</span><a name="line-307"></a><span class="hs-keyword">data</span><span> </span><a name="AnnotationComment"><a href="ApiAnnotation.html#AnnotationComment"><span class="hs-identifier">AnnotationComment</span></a></a><span> </span><span class="hs-glyph">=</span><span>
+</span><a name="line-308"></a><span>  </span><span class="hs-comment">-- Documentation annotations</span><span>
+</span><a name="line-309"></a><span>    </span><a name="AnnDocCommentNext"><a href="ApiAnnotation.html#AnnDocCommentNext"><span class="hs-identifier">AnnDocCommentNext</span></a></a><span>  </span><a href="../base-4.11.0.0/src/%{MODULE/./-}.html#%{NAME}/GHC.Base.html#String"><span class="hs-identifier hs-type">String</span></a><span>     </span><span class="hs-comment">-- ^ something beginning '-- |'</span><span>
+</span><a name="line-310"></a><span>  </span><span class="hs-glyph">|</span><span> </span><a name="AnnDocCommentPrev"><a href="ApiAnnotation.html#AnnDocCommentPrev"><span class="hs-identifier">AnnDocCommentPrev</span></a></a><span>  </span><a href="../base-4.11.0.0/src/%{MODULE/./-}.html#%{NAME}/GHC.Base.html#String"><span class="hs-identifier hs-type">String</span></a><span>     </span><span class="hs-comment">-- ^ something beginning '-- ^'</span><span>
+</span><a name="line-311"></a><span>  </span><span class="hs-glyph">|</span><span> </span><a name="AnnDocCommentNamed"><a href="ApiAnnotation.html#AnnDocCommentNamed"><span class="hs-identifier">AnnDocCommentNamed</span></a></a><span> </span><a href="../base-4.11.0.0/src/%{MODULE/./-}.html#%{NAME}/GHC.Base.html#String"><span class="hs-identifier hs-type">String</span></a><span>     </span><span class="hs-comment">-- ^ something beginning '-- $'</span><span>
+</span><a name="line-312"></a><span>  </span><span class="hs-glyph">|</span><span> </span><a name="AnnDocSection"><a href="ApiAnnotation.html#AnnDocSection"><span class="hs-identifier">AnnDocSection</span></a></a><span>      </span><span class="hs-identifier hs-type">Int</span><span> </span><a href="../base-4.11.0.0/src/%{MODULE/./-}.html#%{NAME}/GHC.Base.html#String"><span class="hs-identifier hs-type">String</span></a><span> </span><span class="hs-comment">-- ^ a section heading</span><span>
+</span><a name="line-313"></a><span>  </span><span class="hs-glyph">|</span><span> </span><a name="AnnDocOptions"><a href="ApiAnnotation.html#AnnDocOptions"><span class="hs-identifier">AnnDocOptions</span></a></a><span>      </span><a href="../base-4.11.0.0/src/%{MODULE/./-}.html#%{NAME}/GHC.Base.html#String"><span class="hs-identifier hs-type">String</span></a><span>     </span><span class="hs-comment">-- ^ doc options (prune, ignore-exports, etc)</span><span>
+</span><a name="line-314"></a><span>  </span><span class="hs-glyph">|</span><span> </span><a name="AnnLineComment"><a href="ApiAnnotation.html#AnnLineComment"><span class="hs-identifier">AnnLineComment</span></a></a><span>     </span><a href="../base-4.11.0.0/src/%{MODULE/./-}.html#%{NAME}/GHC.Base.html#String"><span class="hs-identifier hs-type">String</span></a><span>     </span><span class="hs-comment">-- ^ comment starting by &quot;--&quot;</span><span>
+</span><a name="line-315"></a><span>  </span><span class="hs-glyph">|</span><span> </span><a name="AnnBlockComment"><a href="ApiAnnotation.html#AnnBlockComment"><span class="hs-identifier">AnnBlockComment</span></a></a><span>    </span><a href="../base-4.11.0.0/src/%{MODULE/./-}.html#%{NAME}/GHC.Base.html#String"><span class="hs-identifier hs-type">String</span></a><span>     </span><span class="hs-comment">-- ^ comment in {- -}</span><span>
+</span><a name="line-316"></a><span>    </span><span class="hs-keyword">deriving</span><span> </span><span class="hs-special">(</span><span class="hs-identifier hs-type">Eq</span><span class="hs-special">,</span><span> </span><span class="hs-identifier hs-type">Ord</span><span class="hs-special">,</span><span> </span><a href="../base-4.11.0.0/src/%{MODULE/./-}.html#%{NAME}/Data.Data.html#Data"><span class="hs-identifier hs-type">Data</span></a><span class="hs-special">,</span><span> </span><a href="../base-4.11.0.0/src/%{MODULE/./-}.html#%{NAME}/GHC.Show.html#Show"><span class="hs-identifier hs-type">Show</span></a><span class="hs-special">)</span><span>
+</span><a name="line-317"></a><span class="hs-comment">-- Note: these are based on the Token versions, but the Token type is</span><span>
+</span><a name="line-318"></a><span class="hs-comment">-- defined in Lexer.x and bringing it in here would create a loop</span><span>
+</span><a name="line-319"></a><span>
+</span><a name="line-320"></a><span class="hs-keyword">instance</span><span> </span><a href="Outputable.html#Outputable"><span class="hs-identifier hs-type">Outputable</span></a><span> </span><a href="ApiAnnotation.html#AnnotationComment"><span class="hs-identifier hs-type">AnnotationComment</span></a><span> </span><span class="hs-keyword">where</span><span>
+</span><a name="line-321"></a><span>  </span><a name="local-8214565720323906373"><a href="Outputable.html#ppr"><span class="hs-identifier">ppr</span></a></a><span> </span><a name="local-6989586621679336935"><a href="#local-6989586621679336935"><span class="hs-identifier">x</span></a></a><span> </span><span class="hs-glyph">=</span><span> </span><a href="Outputable.html#text"><span class="hs-identifier hs-var">text</span></a><span> </span><span class="hs-special">(</span><a href="../base-4.11.0.0/src/%{MODULE/./-}.html#%{NAME}/GHC.Show.html#show"><span class="hs-identifier hs-var">show</span></a><span> </span><a href="#local-6989586621679336935"><span class="hs-identifier hs-var">x</span></a><span class="hs-special">)</span><span>
+</span><a name="line-322"></a><span>
+</span><a name="line-323"></a><span class="hs-comment">-- | - 'ApiAnnotation.AnnKeywordId' : 'ApiAnnotation.AnnOpen',</span><span>
+</span><a name="line-324"></a><span class="hs-comment">--             'ApiAnnotation.AnnClose','ApiAnnotation.AnnComma',</span><span>
+</span><a name="line-325"></a><span class="hs-comment">--             'ApiAnnotation.AnnRarrow','ApiAnnotation.AnnTildehsh',</span><span>
+</span><a name="line-326"></a><span class="hs-comment">--             'ApiAnnotation.AnnTilde'</span><span>
+</span><a name="line-327"></a><span class="hs-comment">--   - May have 'ApiAnnotation.AnnComma' when in a list</span><span>
+</span><a name="line-328"></a><span class="hs-keyword">type</span><span> </span><a name="LRdrName"><a href="ApiAnnotation.html#LRdrName"><span class="hs-identifier">LRdrName</span></a></a><span> </span><span class="hs-glyph">=</span><span> </span><a href="SrcLoc.html#Located"><span class="hs-identifier hs-type">Located</span></a><span> </span><a href="RdrName.html#RdrName"><span class="hs-identifier hs-type">RdrName</span></a><span>
+</span><a name="line-329"></a><span>
+</span><a name="line-330"></a><span>
+</span><a name="line-331"></a><span class="hs-comment">-- | Certain tokens can have alternate representations when unicode syntax is</span><span>
+</span><a name="line-332"></a><span class="hs-comment">-- enabled. This flag is attached to those tokens in the lexer so that the</span><span>
+</span><a name="line-333"></a><span class="hs-comment">-- original source representation can be reproduced in the corresponding</span><span>
+</span><a name="line-334"></a><span class="hs-comment">-- 'ApiAnnotation'</span><span>
+</span><a name="line-335"></a><span class="hs-keyword">data</span><span> </span><a name="IsUnicodeSyntax"><a href="ApiAnnotation.html#IsUnicodeSyntax"><span class="hs-identifier">IsUnicodeSyntax</span></a></a><span> </span><span class="hs-glyph">=</span><span> </span><a name="UnicodeSyntax"><a href="ApiAnnotation.html#UnicodeSyntax"><span class="hs-identifier">UnicodeSyntax</span></a></a><span> </span><span class="hs-glyph">|</span><span> </span><a name="NormalSyntax"><a href="ApiAnnotation.html#NormalSyntax"><span class="hs-identifier">NormalSyntax</span></a></a><span>
+</span><a name="line-336"></a><span>    </span><span class="hs-keyword">deriving</span><span> </span><span class="hs-special">(</span><span class="hs-identifier hs-type">Eq</span><span class="hs-special">,</span><span> </span><span class="hs-identifier hs-type">Ord</span><span class="hs-special">,</span><span> </span><a href="../base-4.11.0.0/src/%{MODULE/./-}.html#%{NAME}/Data.Data.html#Data"><span class="hs-identifier hs-type">Data</span></a><span class="hs-special">,</span><span> </span><a href="../base-4.11.0.0/src/%{MODULE/./-}.html#%{NAME}/GHC.Show.html#Show"><span class="hs-identifier hs-type">Show</span></a><span class="hs-special">)</span><span>
+</span><a name="line-337"></a><span>
+</span><a name="line-338"></a><span class="hs-comment">-- | Convert a normal annotation into its unicode equivalent one</span><span>
+</span><a name="line-339"></a><span class="hs-identifier">unicodeAnn</span><span> </span><span class="hs-glyph">::</span><span> </span><a href="ApiAnnotation.html#AnnKeywordId"><span class="hs-identifier hs-type">AnnKeywordId</span></a><span> </span><span class="hs-glyph">-&gt;</span><span> </span><a href="ApiAnnotation.html#AnnKeywordId"><span class="hs-identifier hs-type">AnnKeywordId</span></a><span>
+</span><a name="line-340"></a><a name="unicodeAnn"><a href="ApiAnnotation.html#unicodeAnn"><span class="hs-identifier">unicodeAnn</span></a></a><span> </span><a href="ApiAnnotation.html#AnnForall"><span class="hs-identifier hs-var">AnnForall</span></a><span>     </span><span class="hs-glyph">=</span><span> </span><a href="ApiAnnotation.html#AnnForallU"><span class="hs-identifier hs-var">AnnForallU</span></a><span>
+</span><a name="line-341"></a><span class="hs-identifier">unicodeAnn</span><span> </span><a href="ApiAnnotation.html#AnnDcolon"><span class="hs-identifier hs-var">AnnDcolon</span></a><span>     </span><span class="hs-glyph">=</span><span> </span><a href="ApiAnnotation.html#AnnDcolonU"><span class="hs-identifier hs-var">AnnDcolonU</span></a><span>
+</span><a name="line-342"></a><span class="hs-identifier">unicodeAnn</span><span> </span><a href="ApiAnnotation.html#AnnLarrow"><span class="hs-identifier hs-var">AnnLarrow</span></a><span>     </span><span class="hs-glyph">=</span><span> </span><a href="ApiAnnotation.html#AnnLarrowU"><span class="hs-identifier hs-var">AnnLarrowU</span></a><span>
+</span><a name="line-343"></a><span class="hs-identifier">unicodeAnn</span><span> </span><a href="ApiAnnotation.html#AnnRarrow"><span class="hs-identifier hs-var">AnnRarrow</span></a><span>     </span><span class="hs-glyph">=</span><span> </span><a href="ApiAnnotation.html#AnnRarrowU"><span class="hs-identifier hs-var">AnnRarrowU</span></a><span>
+</span><a name="line-344"></a><span class="hs-identifier">unicodeAnn</span><span> </span><a href="ApiAnnotation.html#AnnDarrow"><span class="hs-identifier hs-var">AnnDarrow</span></a><span>     </span><span class="hs-glyph">=</span><span> </span><a href="ApiAnnotation.html#AnnDarrowU"><span class="hs-identifier hs-var">AnnDarrowU</span></a><span>
+</span><a name="line-345"></a><span class="hs-identifier">unicodeAnn</span><span> </span><a href="ApiAnnotation.html#Annlarrowtail"><span class="hs-identifier hs-var">Annlarrowtail</span></a><span> </span><span class="hs-glyph">=</span><span> </span><a href="ApiAnnotation.html#AnnlarrowtailU"><span class="hs-identifier hs-var">AnnlarrowtailU</span></a><span>
+</span><a name="line-346"></a><span class="hs-identifier">unicodeAnn</span><span> </span><a href="ApiAnnotation.html#Annrarrowtail"><span class="hs-identifier hs-var">Annrarrowtail</span></a><span> </span><span class="hs-glyph">=</span><span> </span><a href="ApiAnnotation.html#AnnrarrowtailU"><span class="hs-identifier hs-var">AnnrarrowtailU</span></a><span>
+</span><a name="line-347"></a><span class="hs-identifier">unicodeAnn</span><span> </span><a href="ApiAnnotation.html#AnnLarrowtail"><span class="hs-identifier hs-var">AnnLarrowtail</span></a><span> </span><span class="hs-glyph">=</span><span> </span><a href="ApiAnnotation.html#AnnLarrowtailU"><span class="hs-identifier hs-var">AnnLarrowtailU</span></a><span>
+</span><a name="line-348"></a><span class="hs-identifier">unicodeAnn</span><span> </span><a href="ApiAnnotation.html#AnnRarrowtail"><span class="hs-identifier hs-var">AnnRarrowtail</span></a><span> </span><span class="hs-glyph">=</span><span> </span><a href="ApiAnnotation.html#AnnRarrowtailU"><span class="hs-identifier hs-var">AnnRarrowtailU</span></a><span>
+</span><a name="line-349"></a><span class="hs-identifier">unicodeAnn</span><span> </span><a href="ApiAnnotation.html#AnnOpenB"><span class="hs-identifier hs-var">AnnOpenB</span></a><span>      </span><span class="hs-glyph">=</span><span> </span><a href="ApiAnnotation.html#AnnOpenBU"><span class="hs-identifier hs-var">AnnOpenBU</span></a><span>
+</span><a name="line-350"></a><span class="hs-identifier">unicodeAnn</span><span> </span><a href="ApiAnnotation.html#AnnCloseB"><span class="hs-identifier hs-var">AnnCloseB</span></a><span>     </span><span class="hs-glyph">=</span><span> </span><a href="ApiAnnotation.html#AnnCloseBU"><span class="hs-identifier hs-var">AnnCloseBU</span></a><span>
+</span><a name="line-351"></a><span class="hs-identifier">unicodeAnn</span><span> </span><a href="ApiAnnotation.html#AnnOpenEQ"><span class="hs-identifier hs-var">AnnOpenEQ</span></a><span>     </span><span class="hs-glyph">=</span><span> </span><a href="ApiAnnotation.html#AnnOpenEQU"><span class="hs-identifier hs-var">AnnOpenEQU</span></a><span>
+</span><a name="line-352"></a><span class="hs-identifier">unicodeAnn</span><span> </span><a href="ApiAnnotation.html#AnnCloseQ"><span class="hs-identifier hs-var">AnnCloseQ</span></a><span>     </span><span class="hs-glyph">=</span><span> </span><a href="ApiAnnotation.html#AnnCloseQU"><span class="hs-identifier hs-var">AnnCloseQU</span></a><span>
+</span><a name="line-353"></a><span class="hs-identifier">unicodeAnn</span><span> </span><a name="local-6989586621679336953"><a href="#local-6989586621679336953"><span class="hs-identifier">ann</span></a></a><span>           </span><span class="hs-glyph">=</span><span> </span><a href="#local-6989586621679336953"><span class="hs-identifier hs-var">ann</span></a><span>
+</span><a name="line-354"></a><span>
+</span><a name="line-355"></a><span>
+</span><a name="line-356"></a><span class="hs-comment">-- | Some template haskell tokens have two variants, one with an `e` the other</span><span>
+</span><a name="line-357"></a><span class="hs-comment">-- not:</span><span>
+</span><a name="line-358"></a><span class="hs-comment">--</span><span>
+</span><a name="line-359"></a><span class="hs-comment">-- &gt;  [| or [e|</span><span>
+</span><a name="line-360"></a><span class="hs-comment">-- &gt;  [|| or [e||</span><span>
+</span><a name="line-361"></a><span class="hs-comment">--</span><span>
+</span><a name="line-362"></a><span class="hs-comment">-- This type indicates whether the 'e' is present or not.</span><span>
+</span><a name="line-363"></a><span class="hs-keyword">data</span><span> </span><a name="HasE"><a href="ApiAnnotation.html#HasE"><span class="hs-identifier">HasE</span></a></a><span> </span><span class="hs-glyph">=</span><span> </span><a name="HasE"><a href="ApiAnnotation.html#HasE"><span class="hs-identifier">HasE</span></a></a><span> </span><span class="hs-glyph">|</span><span> </span><a name="NoE"><a href="ApiAnnotation.html#NoE"><span class="hs-identifier">NoE</span></a></a><span>
+</span><a name="line-364"></a><span>     </span><span class="hs-keyword">deriving</span><span> </span><span class="hs-special">(</span><span class="hs-identifier hs-type">Eq</span><span class="hs-special">,</span><span> </span><span class="hs-identifier hs-type">Ord</span><span class="hs-special">,</span><span> </span><a href="../base-4.11.0.0/src/%{MODULE/./-}.html#%{NAME}/Data.Data.html#Data"><span class="hs-identifier hs-type">Data</span></a><span class="hs-special">,</span><span> </span><a href="../base-4.11.0.0/src/%{MODULE/./-}.html#%{NAME}/GHC.Show.html#Show"><span class="hs-identifier hs-type">Show</span></a><span class="hs-special">)</span><span>
+</span><a name="line-365"></a></pre></body></html>

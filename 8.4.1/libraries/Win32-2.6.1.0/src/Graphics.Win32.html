@@ -1,0 +1,58 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><link rel="stylesheet" type="text/css" href="style.css" /><script type="text/javascript" src="highlight.js"></script></head><body><pre><span class="hs-cpp">#if __GLASGOW_HASKELL__ &gt;= 709
+</span><span class="hs-pragma">{-# LANGUAGE Safe #-}</span><span>
+</span><a name="line-3"></a><span class="hs-cpp">#elif __GLASGOW_HASKELL__ &gt;= 701
+</span><span class="hs-pragma">{-# LANGUAGE Trustworthy #-}</span><span>
+</span><a name="line-5"></a><span class="hs-cpp">#endif
+</span><span class="hs-comment">-----------------------------------------------------------------------------</span><span>
+</span><a name="line-7"></a><span class="hs-comment">-- |</span><span>
+</span><a name="line-8"></a><span class="hs-comment">-- Module      :  Graphics.Win32</span><span>
+</span><a name="line-9"></a><span class="hs-comment">-- Copyright   :  (c) Alastair Reid, 1997-2003</span><span>
+</span><a name="line-10"></a><span class="hs-comment">-- License     :  BSD-style (see the file libraries/base/LICENSE)</span><span>
+</span><a name="line-11"></a><span class="hs-comment">--</span><span>
+</span><a name="line-12"></a><span class="hs-comment">-- Maintainer  :  Esa Ilari Vuokko &lt;ei@vuokko.info&gt;</span><span>
+</span><a name="line-13"></a><span class="hs-comment">-- Stability   :  provisional</span><span>
+</span><a name="line-14"></a><span class="hs-comment">-- Portability :  portable</span><span>
+</span><a name="line-15"></a><span class="hs-comment">--</span><span>
+</span><a name="line-16"></a><span class="hs-comment">-- An interface to the Microsoft Windows user interface.</span><span>
+</span><a name="line-17"></a><span class="hs-comment">-- See &lt;http://msdn.microsoft.com/library/&gt; under /User Interface Design</span><span>
+</span><a name="line-18"></a><span class="hs-comment">-- and Development/ and then /Windows User Interface/ for more details</span><span>
+</span><a name="line-19"></a><span class="hs-comment">-- of the underlying library.</span><span>
+</span><a name="line-20"></a><span class="hs-comment">--</span><span>
+</span><a name="line-21"></a><span class="hs-comment">-----------------------------------------------------------------------------</span><span>
+</span><a name="line-22"></a><span>
+</span><a name="line-23"></a><span class="hs-keyword">module</span><span> </span><span class="hs-identifier">Graphics.Win32</span><span> </span><span class="hs-special">(</span><span>
+</span><a name="line-24"></a><span>        </span><span class="hs-keyword">module</span><span> </span><a href="System.Win32.Types.html"><span class="hs-identifier">System.Win32.Types</span></a><span class="hs-special">,</span><span>
+</span><a name="line-25"></a><span>        </span><span class="hs-keyword">module</span><span> </span><a href="Graphics.Win32.Control.html"><span class="hs-identifier">Graphics.Win32.Control</span></a><span class="hs-special">,</span><span>
+</span><a name="line-26"></a><span>        </span><span class="hs-keyword">module</span><span> </span><a href="Graphics.Win32.Dialogue.html"><span class="hs-identifier">Graphics.Win32.Dialogue</span></a><span class="hs-special">,</span><span>
+</span><a name="line-27"></a><span>        </span><span class="hs-keyword">module</span><span> </span><a href="Graphics.Win32.GDI.html"><span class="hs-identifier">Graphics.Win32.GDI</span></a><span class="hs-special">,</span><span>
+</span><a name="line-28"></a><span>        </span><span class="hs-keyword">module</span><span> </span><a href="Graphics.Win32.Icon.html"><span class="hs-identifier">Graphics.Win32.Icon</span></a><span class="hs-special">,</span><span>
+</span><a name="line-29"></a><span>        </span><span class="hs-keyword">module</span><span> </span><a href="Graphics.Win32.Key.html"><span class="hs-identifier">Graphics.Win32.Key</span></a><span class="hs-special">,</span><span>
+</span><a name="line-30"></a><span>        </span><span class="hs-keyword">module</span><span> </span><a href="Graphics.Win32.Menu.html"><span class="hs-identifier">Graphics.Win32.Menu</span></a><span class="hs-special">,</span><span>
+</span><a name="line-31"></a><span>        </span><span class="hs-keyword">module</span><span> </span><a href="Graphics.Win32.Message.html"><span class="hs-identifier">Graphics.Win32.Message</span></a><span class="hs-special">,</span><span>
+</span><a name="line-32"></a><span>        </span><span class="hs-keyword">module</span><span> </span><a href="Graphics.Win32.Misc.html"><span class="hs-identifier">Graphics.Win32.Misc</span></a><span class="hs-special">,</span><span>
+</span><a name="line-33"></a><span>        </span><span class="hs-keyword">module</span><span> </span><a href="Graphics.Win32.Resource.html"><span class="hs-identifier">Graphics.Win32.Resource</span></a><span class="hs-special">,</span><span>
+</span><a name="line-34"></a><span>        </span><span class="hs-keyword">module</span><span> </span><a href="Graphics.Win32.Window.html"><span class="hs-identifier">Graphics.Win32.Window</span></a><span class="hs-special">,</span><span>
+</span><a name="line-35"></a><span>        </span><span class="hs-keyword">module</span><span> </span><a href="Graphics.Win32.LayeredWindow.html"><span class="hs-identifier">Graphics.Win32.LayeredWindow</span></a><span class="hs-special">,</span><span>
+</span><a name="line-36"></a><span>        </span><span class="hs-keyword">module</span><span> </span><a href="Graphics.Win32.Window.AnimateWindow.html"><span class="hs-identifier">Graphics.Win32.Window.AnimateWindow</span></a><span class="hs-special">,</span><span>
+</span><a name="line-37"></a><span>        </span><span class="hs-keyword">module</span><span> </span><a href="Graphics.Win32.Window.ForegroundWindow.html"><span class="hs-identifier">Graphics.Win32.Window.ForegroundWindow</span></a><span class="hs-special">,</span><span>
+</span><a name="line-38"></a><span>        </span><span class="hs-keyword">module</span><span> </span><a href="Graphics.Win32.Window.IMM.html"><span class="hs-identifier">Graphics.Win32.Window.IMM</span></a><span class="hs-special">,</span><span>
+</span><a name="line-39"></a><span>        </span><span class="hs-keyword">module</span><span> </span><a href="Graphics.Win32.Window.PostMessage.html"><span class="hs-identifier">Graphics.Win32.Window.PostMessage</span></a><span>
+</span><a name="line-40"></a><span>        </span><span class="hs-special">)</span><span> </span><span class="hs-keyword">where</span><span>
+</span><a name="line-41"></a><span>
+</span><a name="line-42"></a><span class="hs-keyword">import</span><span> </span><a href="System.Win32.Types.html"><span class="hs-identifier">System.Win32.Types</span></a><span>
+</span><a name="line-43"></a><span class="hs-keyword">import</span><span> </span><a href="Graphics.Win32.Control.html"><span class="hs-identifier">Graphics.Win32.Control</span></a><span>
+</span><a name="line-44"></a><span class="hs-keyword">import</span><span> </span><a href="Graphics.Win32.Dialogue.html"><span class="hs-identifier">Graphics.Win32.Dialogue</span></a><span>
+</span><a name="line-45"></a><span class="hs-keyword">import</span><span> </span><a href="Graphics.Win32.GDI.html"><span class="hs-identifier">Graphics.Win32.GDI</span></a><span>
+</span><a name="line-46"></a><span class="hs-keyword">import</span><span> </span><a href="Graphics.Win32.Icon.html"><span class="hs-identifier">Graphics.Win32.Icon</span></a><span>
+</span><a name="line-47"></a><span class="hs-keyword">import</span><span> </span><a href="Graphics.Win32.Key.html"><span class="hs-identifier">Graphics.Win32.Key</span></a><span>
+</span><a name="line-48"></a><span class="hs-keyword">import</span><span> </span><a href="Graphics.Win32.Menu.html"><span class="hs-identifier">Graphics.Win32.Menu</span></a><span>
+</span><a name="line-49"></a><span class="hs-keyword">import</span><span> </span><a href="Graphics.Win32.Message.html"><span class="hs-identifier">Graphics.Win32.Message</span></a><span>
+</span><a name="line-50"></a><span class="hs-keyword">import</span><span> </span><a href="Graphics.Win32.Misc.html"><span class="hs-identifier">Graphics.Win32.Misc</span></a><span>
+</span><a name="line-51"></a><span class="hs-keyword">import</span><span> </span><a href="Graphics.Win32.Resource.html"><span class="hs-identifier">Graphics.Win32.Resource</span></a><span>
+</span><a name="line-52"></a><span class="hs-keyword">import</span><span> </span><a href="Graphics.Win32.Window.html"><span class="hs-identifier">Graphics.Win32.Window</span></a><span>
+</span><a name="line-53"></a><span class="hs-keyword">import</span><span> </span><a href="Graphics.Win32.LayeredWindow.html"><span class="hs-identifier">Graphics.Win32.LayeredWindow</span></a><span>
+</span><a name="line-54"></a><span class="hs-keyword">import</span><span> </span><a href="Graphics.Win32.Window.AnimateWindow.html"><span class="hs-identifier">Graphics.Win32.Window.AnimateWindow</span></a><span>
+</span><a name="line-55"></a><span class="hs-keyword">import</span><span> </span><a href="Graphics.Win32.Window.ForegroundWindow.html"><span class="hs-identifier">Graphics.Win32.Window.ForegroundWindow</span></a><span>
+</span><a name="line-56"></a><span class="hs-keyword">import</span><span> </span><a href="Graphics.Win32.Window.IMM.html"><span class="hs-identifier">Graphics.Win32.Window.IMM</span></a><span>
+</span><a name="line-57"></a><span class="hs-keyword">import</span><span> </span><a href="Graphics.Win32.Window.PostMessage.html"><span class="hs-identifier">Graphics.Win32.Window.PostMessage</span></a><span>
+</span><a name="line-58"></a></pre></body></html>

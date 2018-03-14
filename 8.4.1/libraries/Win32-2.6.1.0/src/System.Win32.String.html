@@ -1,0 +1,52 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><link rel="stylesheet" type="text/css" href="style.css" /><script type="text/javascript" src="highlight.js"></script></head><body><pre><span class="hs-comment">{- |
+   Module      :  System.Win32.String
+   Copyright   :  2013 shelarcy
+   License     :  BSD-style
+
+   Maintainer  :  shelarcy@gmail.com
+   Stability   :  Provisional
+   Portability :  Non-portable (Win32 API)
+
+   Utilities for primitive marshalling of Windows' C strings.
+-}</span><span>
+</span><a name="line-12"></a><span class="hs-keyword">module</span><span> </span><span class="hs-identifier">System.Win32.String</span><span>
+</span><a name="line-13"></a><span>  </span><span class="hs-special">(</span><span> </span><a href="System.Win32.Types.html#LPSTR"><span class="hs-identifier hs-type">LPSTR</span></a><span class="hs-special">,</span><span> </span><a href="System.Win32.Types.html#LPCSTR"><span class="hs-identifier hs-type">LPCSTR</span></a><span class="hs-special">,</span><span> </span><a href="System.Win32.Types.html#LPWSTR"><span class="hs-identifier hs-type">LPWSTR</span></a><span class="hs-special">,</span><span> </span><a href="System.Win32.Types.html#LPCWSTR"><span class="hs-identifier hs-type">LPCWSTR</span></a><span>
+</span><a name="line-14"></a><span>  </span><span class="hs-special">,</span><span> </span><a href="System.Win32.Types.html#TCHAR"><span class="hs-identifier hs-type">TCHAR</span></a><span class="hs-special">,</span><span> </span><a href="System.Win32.Types.html#LPTSTR"><span class="hs-identifier hs-type">LPTSTR</span></a><span class="hs-special">,</span><span> </span><a href="System.Win32.Types.html#LPCTSTR"><span class="hs-identifier hs-type">LPCTSTR</span></a><span class="hs-special">,</span><span> </span><a href="System.Win32.Types.html#LPCTSTR_"><span class="hs-identifier hs-type">LPCTSTR_</span></a><span>
+</span><a name="line-15"></a><span>  </span><span class="hs-special">,</span><span> </span><a href="System.Win32.Types.html#withTString"><span class="hs-identifier hs-var">withTString</span></a><span class="hs-special">,</span><span> </span><a href="System.Win32.Types.html#withTStringLen"><span class="hs-identifier hs-var">withTStringLen</span></a><span class="hs-special">,</span><span> </span><a href="System.Win32.Types.html#peekTString"><span class="hs-identifier hs-var">peekTString</span></a><span class="hs-special">,</span><span> </span><a href="System.Win32.Types.html#peekTStringLen"><span class="hs-identifier hs-var">peekTStringLen</span></a><span>
+</span><a name="line-16"></a><span>  </span><span class="hs-special">,</span><span> </span><a href="System.Win32.Types.html#newTString"><span class="hs-identifier hs-var">newTString</span></a><span>
+</span><a name="line-17"></a><span>  </span><span class="hs-special">,</span><span> </span><a href="System.Win32.String.html#withTStringBuffer"><span class="hs-identifier hs-var">withTStringBuffer</span></a><span class="hs-special">,</span><span> </span><a href="System.Win32.String.html#withTStringBufferLen"><span class="hs-identifier hs-var">withTStringBufferLen</span></a><span>
+</span><a name="line-18"></a><span>  </span><span class="hs-special">)</span><span> </span><span class="hs-keyword">where</span><span>
+</span><a name="line-19"></a><span class="hs-keyword">import</span><span> </span><a href="System.Win32.Types.html"><span class="hs-identifier">System.Win32.Types</span></a><span>
+</span><a name="line-20"></a><span>
+</span><a name="line-21"></a><span class="hs-comment">-- | Marshal a dummy Haskell string into a NUL terminated C wide string</span><span>
+</span><a name="line-22"></a><span class="hs-comment">-- using temporary storage.</span><span>
+</span><a name="line-23"></a><span class="hs-comment">--</span><span>
+</span><a name="line-24"></a><span class="hs-comment">-- * the Haskell string is created by length parameter. And the Haskell</span><span>
+</span><a name="line-25"></a><span class="hs-comment">--   string contains /only/ NUL characters.</span><span>
+</span><a name="line-26"></a><span class="hs-comment">--</span><span>
+</span><a name="line-27"></a><span class="hs-comment">-- * the memory is freed when the subcomputation terminates (either</span><span>
+</span><a name="line-28"></a><span class="hs-comment">--   normally or via an exception), so the pointer to the temporary</span><span>
+</span><a name="line-29"></a><span class="hs-comment">--   storage must /not/ be used after this.</span><span>
+</span><a name="line-30"></a><span class="hs-comment">--</span><span>
+</span><a name="line-31"></a><span class="hs-identifier">withTStringBuffer</span><span> </span><span class="hs-glyph">::</span><span> </span><span class="hs-identifier hs-type">Int</span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="hs-special">(</span><a href="System.Win32.Types.html#LPTSTR"><span class="hs-identifier hs-type">LPTSTR</span></a><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="hs-identifier hs-type">IO</span><span> </span><a href="#local-6989586621679042284"><span class="hs-identifier hs-type">a</span></a><span class="hs-special">)</span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="hs-identifier hs-type">IO</span><span> </span><a href="#local-6989586621679042284"><span class="hs-identifier hs-type">a</span></a><span>
+</span><a name="line-32"></a><a name="withTStringBuffer"><a href="System.Win32.String.html#withTStringBuffer"><span class="hs-identifier">withTStringBuffer</span></a></a><span> </span><a name="local-6989586621679042285"><a href="#local-6989586621679042285"><span class="hs-identifier">maxLength</span></a></a><span>
+</span><a name="line-33"></a><span>  </span><span class="hs-glyph">=</span><span> </span><span class="hs-keyword">let</span><span> </span><a name="local-6989586621679042286"><a href="#local-6989586621679042286"><span class="hs-identifier">dummyBuffer</span></a></a><span> </span><span class="hs-glyph">=</span><span> </span><a href="../base-4.11.0.0/src/%{MODULE/./-}.html#%{NAME}/GHC.List.html#replicate"><span class="hs-identifier hs-var">replicate</span></a><span> </span><a href="#local-6989586621679042285"><span class="hs-identifier hs-var">maxLength</span></a><span> </span><span class="hs-char">'\0'</span><span>
+</span><a name="line-34"></a><span>    </span><span class="hs-keyword">in</span><span>  </span><a href="System.Win32.Types.html#withTString"><span class="hs-identifier hs-var">withTString</span></a><span> </span><a href="#local-6989586621679042286"><span class="hs-identifier hs-var">dummyBuffer</span></a><span>
+</span><a name="line-35"></a><span>
+</span><a name="line-36"></a><span class="hs-comment">-- | Marshal a dummy Haskell string into a C wide string (i.e. wide</span><span>
+</span><a name="line-37"></a><span class="hs-comment">-- character array) in temporary storage, with explicit length</span><span>
+</span><a name="line-38"></a><span class="hs-comment">-- information.</span><span>
+</span><a name="line-39"></a><span class="hs-comment">--</span><span>
+</span><a name="line-40"></a><span class="hs-comment">-- * the Haskell string is created by length parameter. And the Haskell</span><span>
+</span><a name="line-41"></a><span class="hs-comment">--   string contains /only/ NUL characters.</span><span>
+</span><a name="line-42"></a><span class="hs-comment">--</span><span>
+</span><a name="line-43"></a><span class="hs-comment">-- * the memory is freed when the subcomputation terminates (either</span><span>
+</span><a name="line-44"></a><span class="hs-comment">--   normally or via an exception), so the pointer to the temporary</span><span>
+</span><a name="line-45"></a><span class="hs-comment">--   storage must /not/ be used after this.</span><span>
+</span><a name="line-46"></a><span class="hs-comment">--</span><span>
+</span><a name="line-47"></a><span class="hs-identifier">withTStringBufferLen</span><span> </span><span class="hs-glyph">::</span><span> </span><span class="hs-identifier hs-type">Int</span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="hs-special">(</span><span class="hs-special">(</span><a href="System.Win32.Types.html#LPTSTR"><span class="hs-identifier hs-type">LPTSTR</span></a><span class="hs-special">,</span><span> </span><span class="hs-identifier hs-type">Int</span><span class="hs-special">)</span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="hs-identifier hs-type">IO</span><span> </span><a href="#local-6989586621679042283"><span class="hs-identifier hs-type">a</span></a><span class="hs-special">)</span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="hs-identifier hs-type">IO</span><span> </span><a href="#local-6989586621679042283"><span class="hs-identifier hs-type">a</span></a><span>
+</span><a name="line-48"></a><a name="withTStringBufferLen"><a href="System.Win32.String.html#withTStringBufferLen"><span class="hs-identifier">withTStringBufferLen</span></a></a><span> </span><a name="local-6989586621679042287"><a href="#local-6989586621679042287"><span class="hs-identifier">maxLength</span></a></a><span>
+</span><a name="line-49"></a><span>  </span><span class="hs-glyph">=</span><span> </span><span class="hs-keyword">let</span><span> </span><a name="local-6989586621679042288"><a href="#local-6989586621679042288"><span class="hs-identifier">dummyBuffer</span></a></a><span> </span><span class="hs-glyph">=</span><span> </span><a href="../base-4.11.0.0/src/%{MODULE/./-}.html#%{NAME}/GHC.List.html#replicate"><span class="hs-identifier hs-var">replicate</span></a><span> </span><a href="#local-6989586621679042287"><span class="hs-identifier hs-var">maxLength</span></a><span> </span><span class="hs-char">'\0'</span><span>
+</span><a name="line-50"></a><span>    </span><span class="hs-keyword">in</span><span>  </span><a href="System.Win32.Types.html#withTStringLen"><span class="hs-identifier hs-var">withTStringLen</span></a><span> </span><a href="#local-6989586621679042288"><span class="hs-identifier hs-var">dummyBuffer</span></a><span>
+</span><a name="line-51"></a><span>
+</span><a name="line-52"></a></pre></body></html>

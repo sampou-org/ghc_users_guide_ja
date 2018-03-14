@@ -1,0 +1,470 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><link rel="stylesheet" type="text/css" href="style.css" /><script type="text/javascript" src="highlight.js"></script></head><body><pre><span class="hs-comment">{-
+(c) The University of Glasgow 2006
+(c) The GRASP/AQUA Project, Glasgow University, 1998
+
+\section[PatSyn]{@PatSyn@: Pattern synonyms}
+-}</span><span>
+</span><a name="line-7"></a><span>
+</span><a name="line-8"></a><span class="hs-pragma">{-# LANGUAGE CPP #-}</span><span>
+</span><a name="line-9"></a><span>
+</span><a name="line-10"></a><span class="hs-keyword">module</span><span> </span><span class="hs-identifier">PatSyn</span><span> </span><span class="hs-special">(</span><span>
+</span><a name="line-11"></a><span>        </span><span class="hs-comment">-- * Main data types</span><span>
+</span><a name="line-12"></a><span>        </span><a href="PatSyn.html#PatSyn"><span class="hs-identifier hs-type">PatSyn</span></a><span class="hs-special">,</span><span> </span><a href="PatSyn.html#mkPatSyn"><span class="hs-identifier hs-var">mkPatSyn</span></a><span class="hs-special">,</span><span>
+</span><a name="line-13"></a><span>
+</span><a name="line-14"></a><span>        </span><span class="hs-comment">-- ** Type deconstruction</span><span>
+</span><a name="line-15"></a><span>        </span><a href="PatSyn.html#patSynName"><span class="hs-identifier hs-var">patSynName</span></a><span class="hs-special">,</span><span> </span><a href="PatSyn.html#patSynArity"><span class="hs-identifier hs-var">patSynArity</span></a><span class="hs-special">,</span><span> </span><a href="PatSyn.html#patSynIsInfix"><span class="hs-identifier hs-var">patSynIsInfix</span></a><span class="hs-special">,</span><span>
+</span><a name="line-16"></a><span>        </span><a href="PatSyn.html#patSynArgs"><span class="hs-identifier hs-var">patSynArgs</span></a><span class="hs-special">,</span><span>
+</span><a name="line-17"></a><span>        </span><a href="PatSyn.html#patSynMatcher"><span class="hs-identifier hs-var">patSynMatcher</span></a><span class="hs-special">,</span><span> </span><a href="PatSyn.html#patSynBuilder"><span class="hs-identifier hs-var">patSynBuilder</span></a><span class="hs-special">,</span><span>
+</span><a name="line-18"></a><span>        </span><a href="PatSyn.html#patSynUnivTyVarBinders"><span class="hs-identifier hs-var">patSynUnivTyVarBinders</span></a><span class="hs-special">,</span><span> </span><a href="PatSyn.html#patSynExTyVars"><span class="hs-identifier hs-var">patSynExTyVars</span></a><span class="hs-special">,</span><span> </span><a href="PatSyn.html#patSynExTyVarBinders"><span class="hs-identifier hs-var">patSynExTyVarBinders</span></a><span class="hs-special">,</span><span> </span><a href="PatSyn.html#patSynSig"><span class="hs-identifier hs-var">patSynSig</span></a><span class="hs-special">,</span><span>
+</span><a name="line-19"></a><span>        </span><a href="PatSyn.html#patSynInstArgTys"><span class="hs-identifier hs-var">patSynInstArgTys</span></a><span class="hs-special">,</span><span> </span><a href="PatSyn.html#patSynInstResTy"><span class="hs-identifier hs-var">patSynInstResTy</span></a><span class="hs-special">,</span><span> </span><a href="PatSyn.html#patSynFieldLabels"><span class="hs-identifier hs-var">patSynFieldLabels</span></a><span class="hs-special">,</span><span>
+</span><a name="line-20"></a><span>        </span><a href="PatSyn.html#patSynFieldType"><span class="hs-identifier hs-var">patSynFieldType</span></a><span class="hs-special">,</span><span>
+</span><a name="line-21"></a><span>
+</span><a name="line-22"></a><span>        </span><a href="PatSyn.html#tidyPatSynIds"><span class="hs-identifier hs-var">tidyPatSynIds</span></a><span class="hs-special">,</span><span> </span><a href="PatSyn.html#pprPatSynType"><span class="hs-identifier hs-var">pprPatSynType</span></a><span>
+</span><a name="line-23"></a><span>    </span><span class="hs-special">)</span><span> </span><span class="hs-keyword">where</span><span>
+</span><a name="line-24"></a><span>
+</span><a name="line-25"></a><span class="hs-cpp">#include &quot;HsVersions.h&quot;
+</span><span>
+</span><a name="line-27"></a><span class="hs-keyword">import</span><span> </span><a href="GhcPrelude.html"><span class="hs-identifier">GhcPrelude</span></a><span>
+</span><a name="line-28"></a><span>
+</span><a name="line-29"></a><span class="hs-keyword">import</span><span> </span><a href="Type.html"><span class="hs-identifier">Type</span></a><span>
+</span><a name="line-30"></a><span class="hs-keyword">import</span><span> </span><a href="Name.html"><span class="hs-identifier">Name</span></a><span>
+</span><a name="line-31"></a><span class="hs-keyword">import</span><span> </span><a href="Outputable.html"><span class="hs-identifier">Outputable</span></a><span>
+</span><a name="line-32"></a><span class="hs-keyword">import</span><span> </span><a href="Unique.html"><span class="hs-identifier">Unique</span></a><span>
+</span><a name="line-33"></a><span class="hs-keyword">import</span><span> </span><a href="Util.html"><span class="hs-identifier">Util</span></a><span>
+</span><a name="line-34"></a><span class="hs-keyword">import</span><span> </span><a href="BasicTypes.html"><span class="hs-identifier">BasicTypes</span></a><span>
+</span><a name="line-35"></a><span class="hs-keyword">import</span><span> </span><a href="Var.html"><span class="hs-identifier">Var</span></a><span>
+</span><a name="line-36"></a><span class="hs-keyword">import</span><span> </span><a href="FieldLabel.html"><span class="hs-identifier">FieldLabel</span></a><span>
+</span><a name="line-37"></a><span>
+</span><a name="line-38"></a><span class="hs-keyword">import</span><span> </span><span class="hs-keyword">qualified</span><span> </span><a href="../base-4.11.0.0/src/%{MODULE/./-}.html#%{NAME}/Data.Data.html"><span class="hs-identifier">Data.Data</span></a><span> </span><span class="hs-keyword">as</span><span> </span><span class="hs-identifier">Data</span><span>
+</span><a name="line-39"></a><span class="hs-keyword">import</span><span> </span><a href="../base-4.11.0.0/src/%{MODULE/./-}.html#%{NAME}/Data.Function.html"><span class="hs-identifier">Data.Function</span></a><span>
+</span><a name="line-40"></a><span class="hs-keyword">import</span><span> </span><a href="../base-4.11.0.0/src/%{MODULE/./-}.html#%{NAME}/Data.List.html"><span class="hs-identifier">Data.List</span></a><span>
+</span><a name="line-41"></a><span>
+</span><a name="line-42"></a><span class="hs-comment">{-
+************************************************************************
+*                                                                      *
+\subsection{Pattern synonyms}
+*                                                                      *
+************************************************************************
+-}</span><span>
+</span><a name="line-49"></a><span>
+</span><a name="line-50"></a><span class="hs-comment">-- | Pattern Synonym</span><span>
+</span><a name="line-51"></a><span class="hs-comment">--</span><span>
+</span><a name="line-52"></a><span class="hs-comment">-- See Note [Pattern synonym representation]</span><span>
+</span><a name="line-53"></a><span class="hs-comment">-- See Note [Pattern synonym signature contexts]</span><span>
+</span><a name="line-54"></a><span class="hs-keyword">data</span><span> </span><a name="PatSyn"><a href="PatSyn.html#PatSyn"><span class="hs-identifier">PatSyn</span></a></a><span>
+</span><a name="line-55"></a><span>  </span><span class="hs-glyph">=</span><span> </span><a name="MkPatSyn"><a href="PatSyn.html#MkPatSyn"><span class="hs-identifier">MkPatSyn</span></a></a><span> </span><span class="hs-special">{</span><span>
+</span><a name="line-56"></a><span>        </span><a name="psName"><a href="PatSyn.html#psName"><span class="hs-identifier">psName</span></a></a><span>        </span><span class="hs-glyph">::</span><span> </span><a href="Name.html#Name"><span class="hs-identifier hs-type">Name</span></a><span class="hs-special">,</span><span>
+</span><a name="line-57"></a><span>        </span><a name="psUnique"><a href="PatSyn.html#psUnique"><span class="hs-identifier">psUnique</span></a></a><span>      </span><span class="hs-glyph">::</span><span> </span><a href="Unique.html#Unique"><span class="hs-identifier hs-type">Unique</span></a><span class="hs-special">,</span><span>       </span><span class="hs-comment">-- Cached from Name</span><span>
+</span><a name="line-58"></a><span>
+</span><a name="line-59"></a><span>        </span><a name="psArgs"><a href="PatSyn.html#psArgs"><span class="hs-identifier">psArgs</span></a></a><span>        </span><span class="hs-glyph">::</span><span> </span><span class="hs-special">[</span><a href="TyCoRep.html#Type"><span class="hs-identifier hs-type">Type</span></a><span class="hs-special">]</span><span class="hs-special">,</span><span>
+</span><a name="line-60"></a><span>        </span><a name="psArity"><a href="PatSyn.html#psArity"><span class="hs-identifier">psArity</span></a></a><span>       </span><span class="hs-glyph">::</span><span> </span><a href="BasicTypes.html#Arity"><span class="hs-identifier hs-type">Arity</span></a><span class="hs-special">,</span><span>        </span><span class="hs-comment">-- == length psArgs</span><span>
+</span><a name="line-61"></a><span>        </span><a name="psInfix"><a href="PatSyn.html#psInfix"><span class="hs-identifier">psInfix</span></a></a><span>       </span><span class="hs-glyph">::</span><span> </span><span class="hs-identifier hs-type">Bool</span><span class="hs-special">,</span><span>         </span><span class="hs-comment">-- True &lt;=&gt; declared infix</span><span>
+</span><a name="line-62"></a><span>        </span><a name="psFieldLabels"><a href="PatSyn.html#psFieldLabels"><span class="hs-identifier">psFieldLabels</span></a></a><span> </span><span class="hs-glyph">::</span><span> </span><span class="hs-special">[</span><a href="FieldLabel.html#FieldLabel"><span class="hs-identifier hs-type">FieldLabel</span></a><span class="hs-special">]</span><span class="hs-special">,</span><span> </span><span class="hs-comment">-- List of fields for a</span><span>
+</span><a name="line-63"></a><span>                                       </span><span class="hs-comment">-- record pattern synonym</span><span>
+</span><a name="line-64"></a><span>                                       </span><span class="hs-comment">-- INVARIANT: either empty if no</span><span>
+</span><a name="line-65"></a><span>                                       </span><span class="hs-comment">-- record pat syn or same length as</span><span>
+</span><a name="line-66"></a><span>                                       </span><span class="hs-comment">-- psArgs</span><span>
+</span><a name="line-67"></a><span>
+</span><a name="line-68"></a><span>        </span><span class="hs-comment">-- Universally-quantified type variables</span><span>
+</span><a name="line-69"></a><span>        </span><a name="psUnivTyVars"><a href="PatSyn.html#psUnivTyVars"><span class="hs-identifier">psUnivTyVars</span></a></a><span>  </span><span class="hs-glyph">::</span><span> </span><span class="hs-special">[</span><a href="Var.html#TyVarBinder"><span class="hs-identifier hs-type">TyVarBinder</span></a><span class="hs-special">]</span><span class="hs-special">,</span><span>
+</span><a name="line-70"></a><span>
+</span><a name="line-71"></a><span>        </span><span class="hs-comment">-- Required dictionaries (may mention psUnivTyVars)</span><span>
+</span><a name="line-72"></a><span>        </span><a name="psReqTheta"><a href="PatSyn.html#psReqTheta"><span class="hs-identifier">psReqTheta</span></a></a><span>    </span><span class="hs-glyph">::</span><span> </span><a href="TyCoRep.html#ThetaType"><span class="hs-identifier hs-type">ThetaType</span></a><span class="hs-special">,</span><span>
+</span><a name="line-73"></a><span>
+</span><a name="line-74"></a><span>        </span><span class="hs-comment">-- Existentially-quantified type vars</span><span>
+</span><a name="line-75"></a><span>        </span><a name="psExTyVars"><a href="PatSyn.html#psExTyVars"><span class="hs-identifier">psExTyVars</span></a></a><span>    </span><span class="hs-glyph">::</span><span> </span><span class="hs-special">[</span><a href="Var.html#TyVarBinder"><span class="hs-identifier hs-type">TyVarBinder</span></a><span class="hs-special">]</span><span class="hs-special">,</span><span>
+</span><a name="line-76"></a><span>
+</span><a name="line-77"></a><span>        </span><span class="hs-comment">-- Provided dictionaries (may mention psUnivTyVars or psExTyVars)</span><span>
+</span><a name="line-78"></a><span>        </span><a name="psProvTheta"><a href="PatSyn.html#psProvTheta"><span class="hs-identifier">psProvTheta</span></a></a><span>   </span><span class="hs-glyph">::</span><span> </span><a href="TyCoRep.html#ThetaType"><span class="hs-identifier hs-type">ThetaType</span></a><span class="hs-special">,</span><span>
+</span><a name="line-79"></a><span>
+</span><a name="line-80"></a><span>        </span><span class="hs-comment">-- Result type</span><span>
+</span><a name="line-81"></a><span>        </span><a name="psResultTy"><a href="PatSyn.html#psResultTy"><span class="hs-identifier">psResultTy</span></a></a><span>   </span><span class="hs-glyph">::</span><span> </span><a href="TyCoRep.html#Type"><span class="hs-identifier hs-type">Type</span></a><span class="hs-special">,</span><span>  </span><span class="hs-comment">-- Mentions only psUnivTyVars</span><span>
+</span><a name="line-82"></a><span>                                </span><span class="hs-comment">-- See Note [Pattern synonym result type]</span><span>
+</span><a name="line-83"></a><span>
+</span><a name="line-84"></a><span>        </span><span class="hs-comment">-- See Note [Matchers and builders for pattern synonyms]</span><span>
+</span><a name="line-85"></a><span>        </span><a name="psMatcher"><a href="PatSyn.html#psMatcher"><span class="hs-identifier">psMatcher</span></a></a><span>     </span><span class="hs-glyph">::</span><span> </span><span class="hs-special">(</span><a href="Var.html#Id"><span class="hs-identifier hs-type">Id</span></a><span class="hs-special">,</span><span> </span><span class="hs-identifier hs-type">Bool</span><span class="hs-special">)</span><span class="hs-special">,</span><span>
+</span><a name="line-86"></a><span>             </span><span class="hs-comment">-- Matcher function.</span><span>
+</span><a name="line-87"></a><span>             </span><span class="hs-comment">-- If Bool is True then prov_theta and arg_tys are empty</span><span>
+</span><a name="line-88"></a><span>             </span><span class="hs-comment">-- and type is</span><span>
+</span><a name="line-89"></a><span>             </span><span class="hs-comment">--   forall (p :: RuntimeRep) (r :: TYPE p) univ_tvs.</span><span>
+</span><a name="line-90"></a><span>             </span><span class="hs-comment">--                          req_theta</span><span>
+</span><a name="line-91"></a><span>             </span><span class="hs-comment">--                       =&gt; res_ty</span><span>
+</span><a name="line-92"></a><span>             </span><span class="hs-comment">--                       -&gt; (forall ex_tvs. Void# -&gt; r)</span><span>
+</span><a name="line-93"></a><span>             </span><span class="hs-comment">--                       -&gt; (Void# -&gt; r)</span><span>
+</span><a name="line-94"></a><span>             </span><span class="hs-comment">--                       -&gt; r</span><span>
+</span><a name="line-95"></a><span>             </span><span class="hs-comment">--</span><span>
+</span><a name="line-96"></a><span>             </span><span class="hs-comment">-- Otherwise type is</span><span>
+</span><a name="line-97"></a><span>             </span><span class="hs-comment">--   forall (p :: RuntimeRep) (r :: TYPE r) univ_tvs.</span><span>
+</span><a name="line-98"></a><span>             </span><span class="hs-comment">--                          req_theta</span><span>
+</span><a name="line-99"></a><span>             </span><span class="hs-comment">--                       =&gt; res_ty</span><span>
+</span><a name="line-100"></a><span>             </span><span class="hs-comment">--                       -&gt; (forall ex_tvs. prov_theta =&gt; arg_tys -&gt; r)</span><span>
+</span><a name="line-101"></a><span>             </span><span class="hs-comment">--                       -&gt; (Void# -&gt; r)</span><span>
+</span><a name="line-102"></a><span>             </span><span class="hs-comment">--                       -&gt; r</span><span>
+</span><a name="line-103"></a><span>
+</span><a name="line-104"></a><span>        </span><a name="psBuilder"><a href="PatSyn.html#psBuilder"><span class="hs-identifier">psBuilder</span></a></a><span>     </span><span class="hs-glyph">::</span><span> </span><a href="../base-4.11.0.0/src/%{MODULE/./-}.html#%{NAME}/GHC.Base.html#Maybe"><span class="hs-identifier hs-type">Maybe</span></a><span> </span><span class="hs-special">(</span><a href="Var.html#Id"><span class="hs-identifier hs-type">Id</span></a><span class="hs-special">,</span><span> </span><span class="hs-identifier hs-type">Bool</span><span class="hs-special">)</span><span>
+</span><a name="line-105"></a><span>             </span><span class="hs-comment">-- Nothing  =&gt; uni-directional pattern synonym</span><span>
+</span><a name="line-106"></a><span>             </span><span class="hs-comment">-- Just (builder, is_unlifted) =&gt; bi-directional</span><span>
+</span><a name="line-107"></a><span>             </span><span class="hs-comment">-- Builder function, of type</span><span>
+</span><a name="line-108"></a><span>             </span><span class="hs-comment">--  forall univ_tvs, ex_tvs. (req_theta, prov_theta)</span><span>
+</span><a name="line-109"></a><span>             </span><span class="hs-comment">--                       =&gt;  arg_tys -&gt; res_ty</span><span>
+</span><a name="line-110"></a><span>             </span><span class="hs-comment">-- See Note [Builder for pattern synonyms with unboxed type]</span><span>
+</span><a name="line-111"></a><span>  </span><span class="hs-special">}</span><span>
+</span><a name="line-112"></a><span>
+</span><a name="line-113"></a><span class="hs-comment">{- Note [Pattern synonym signature contexts]
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+In a pattern synonym signature we write
+   pattern P :: req =&gt; prov =&gt; t1 -&gt; ... tn -&gt; res_ty
+
+Note that the &quot;required&quot; context comes first, then the &quot;provided&quot;
+context.  Moreover, the &quot;required&quot; context must not mention
+existentially-bound type variables; that is, ones not mentioned in
+res_ty.  See lots of discussion in Trac #10928.
+
+If there is no &quot;provided&quot; context, you can omit it; but you
+can't omit the &quot;required&quot; part (unless you omit both).
+
+Example 1:
+      pattern P1 :: (Num a, Eq a) =&gt; b -&gt; Maybe (a,b)
+      pattern P1 x = Just (3,x)
+
+  We require (Num a, Eq a) to match the 3; there is no provided
+  context.
+
+Example 2:
+      data T2 where
+        MkT2 :: (Num a, Eq a) =&gt; a -&gt; a -&gt; T2
+
+      pattern P2 :: () =&gt; (Num a, Eq a) =&gt; a -&gt; T2
+      pattern P2 x = MkT2 3 x
+
+  When we match against P2 we get a Num dictionary provided.
+  We can use that to check the match against 3.
+
+Example 3:
+      pattern P3 :: Eq a =&gt; a -&gt; b -&gt; T3 b
+
+   This signature is illegal because the (Eq a) is a required
+   constraint, but it mentions the existentially-bound variable 'a'.
+   You can see it's existential because it doesn't appear in the
+   result type (T3 b).
+
+Note [Pattern synonym result type]
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Consider
+   data T a b = MkT b a
+
+   pattern P :: a -&gt; T [a] Bool
+   pattern P x = MkT True [x]
+
+P's psResultTy is (T a Bool), and it really only matches values of
+type (T [a] Bool).  For example, this is ill-typed
+
+   f :: T p q -&gt; String
+   f (P x) = &quot;urk&quot;
+
+This is differnet to the situation with GADTs:
+
+   data S a where
+     MkS :: Int -&gt; S Bool
+
+Now MkS (and pattern synonyms coming from MkS) can match a
+value of type (S a), not just (S Bool); we get type refinement.
+
+That in turn means that if you have a pattern
+
+   P x :: T [ty] Bool
+
+it's not entirely straightforward to work out the instantiation of
+P's universal tyvars. You have to /match/
+  the type of the pattern, (T [ty] Bool)
+against
+  the psResultTy for the pattern synonym, T [a] Bool
+to get the instantiation a := ty.
+
+This is very unlike DataCons, where univ tyvars match 1-1 the
+arguments of the TyCon.
+
+
+Note [Pattern synonym representation]
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Consider the following pattern synonym declaration
+
+        pattern P x = MkT [x] (Just 42)
+
+where
+        data T a where
+              MkT :: (Show a, Ord b) =&gt; [b] -&gt; a -&gt; T a
+
+so pattern P has type
+
+        b -&gt; T (Maybe t)
+
+with the following typeclass constraints:
+
+        requires: (Eq t, Num t)
+        provides: (Show (Maybe t), Ord b)
+
+In this case, the fields of MkPatSyn will be set as follows:
+
+  psArgs       = [b]
+  psArity      = 1
+  psInfix      = False
+
+  psUnivTyVars = [t]
+  psExTyVars   = [b]
+  psProvTheta  = (Show (Maybe t), Ord b)
+  psReqTheta   = (Eq t, Num t)
+  psResultTy  = T (Maybe t)
+
+Note [Matchers and builders for pattern synonyms]
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+For each pattern synonym P, we generate
+
+  * a &quot;matcher&quot; function, used to desugar uses of P in patterns,
+    which implements pattern matching
+
+  * A &quot;builder&quot; function (for bidirectional pattern synonyms only),
+    used to desugar uses of P in expressions, which constructs P-values.
+
+For the above example, the matcher function has type:
+
+        $mP :: forall (r :: ?) t. (Eq t, Num t)
+            =&gt; T (Maybe t)
+            -&gt; (forall b. (Show (Maybe t), Ord b) =&gt; b -&gt; r)
+            -&gt; (Void# -&gt; r)
+            -&gt; r
+
+with the following implementation:
+
+        $mP @r @t $dEq $dNum scrut cont fail
+          = case scrut of
+              MkT @b $dShow $dOrd [x] (Just 42) -&gt; cont @b $dShow $dOrd x
+              _                                 -&gt; fail Void#
+
+Notice that the return type 'r' has an open kind, so that it can
+be instantiated by an unboxed type; for example where we see
+     f (P x) = 3#
+
+The extra Void# argument for the failure continuation is needed so that
+it is lazy even when the result type is unboxed.
+
+For the same reason, if the pattern has no arguments, an extra Void#
+argument is added to the success continuation as well.
+
+For *bidirectional* pattern synonyms, we also generate a &quot;builder&quot;
+function which implements the pattern synonym in an expression
+context. For our running example, it will be:
+
+        $bP :: forall t b. (Eq t, Num t, Show (Maybe t), Ord b)
+            =&gt; b -&gt; T (Maybe t)
+        $bP x = MkT [x] (Just 42)
+
+NB: the existential/universal and required/provided split does not
+apply to the builder since you are only putting stuff in, not getting
+stuff out.
+
+Injectivity of bidirectional pattern synonyms is checked in
+tcPatToExpr which walks the pattern and returns its corresponding
+expression when available.
+
+Note [Builder for pattern synonyms with unboxed type]
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+For bidirectional pattern synonyms that have no arguments and have an
+unboxed type, we add an extra Void# argument to the builder, else it
+would be a top-level declaration with an unboxed type.
+
+        pattern P = 0#
+
+        $bP :: Void# -&gt; Int#
+        $bP _ = 0#
+
+This means that when typechecking an occurrence of P in an expression,
+we must remember that the builder has this void argument. This is
+done by TcPatSyn.patSynBuilderOcc.
+
+Note [Pattern synonyms and the data type Type]
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+The type of a pattern synonym is of the form (See Note
+[Pattern synonym signatures]):
+
+    forall univ_tvs. req =&gt; forall ex_tvs. prov =&gt; ...
+
+We cannot in general represent this by a value of type Type:
+
+ - if ex_tvs is empty, then req and prov cannot be distinguished from
+   each other
+ - if req is empty, then univ_tvs and ex_tvs cannot be distinguished
+   from each other, and moreover, prov is seen as the &quot;required&quot; context
+   (as it is the only context)
+
+
+************************************************************************
+*                                                                      *
+\subsection{Instances}
+*                                                                      *
+************************************************************************
+-}</span><span>
+</span><a name="line-307"></a><span>
+</span><a name="line-308"></a><span class="hs-keyword">instance</span><span> </span><span class="hs-identifier hs-type">Eq</span><span> </span><a href="PatSyn.html#PatSyn"><span class="hs-identifier hs-type">PatSyn</span></a><span> </span><span class="hs-keyword">where</span><span>
+</span><a name="line-309"></a><span>    </span><span class="hs-special">(</span><a name="local-3458764513820541095"><span class="hs-operator">==</span></a><span class="hs-special">)</span><span> </span><span class="hs-glyph">=</span><span> </span><span class="hs-special">(</span><span class="hs-operator hs-var">==</span><span class="hs-special">)</span><span> </span><span class="hs-special">`</span><a href="../base-4.11.0.0/src/%{MODULE/./-}.html#%{NAME}/Data.Function.html#on"><span class="hs-identifier hs-var">on</span></a><span class="hs-special">`</span><span> </span><a href="Unique.html#getUnique"><span class="hs-identifier hs-var">getUnique</span></a><span>
+</span><a name="line-310"></a><span>    </span><span class="hs-special">(</span><a name="local-8214565720323790044"><span class="hs-operator">/=</span></a><span class="hs-special">)</span><span> </span><span class="hs-glyph">=</span><span> </span><span class="hs-special">(</span><span class="hs-operator hs-var">/=</span><span class="hs-special">)</span><span> </span><span class="hs-special">`</span><a href="../base-4.11.0.0/src/%{MODULE/./-}.html#%{NAME}/Data.Function.html#on"><span class="hs-identifier hs-var">on</span></a><span class="hs-special">`</span><span> </span><a href="Unique.html#getUnique"><span class="hs-identifier hs-var">getUnique</span></a><span>
+</span><a name="line-311"></a><span>
+</span><a name="line-312"></a><span class="hs-keyword">instance</span><span> </span><a href="Unique.html#Uniquable"><span class="hs-identifier hs-type">Uniquable</span></a><span> </span><a href="PatSyn.html#PatSyn"><span class="hs-identifier hs-type">PatSyn</span></a><span> </span><span class="hs-keyword">where</span><span>
+</span><a name="line-313"></a><span>    </span><a name="local-8214565720323931598"><a href="Unique.html#getUnique"><span class="hs-identifier">getUnique</span></a></a><span> </span><span class="hs-glyph">=</span><span> </span><span class="hs-identifier">psUnique</span><span>
+</span><a name="line-314"></a><span>
+</span><a name="line-315"></a><span class="hs-keyword">instance</span><span> </span><a href="Name.html#NamedThing"><span class="hs-identifier hs-type">NamedThing</span></a><span> </span><a href="PatSyn.html#PatSyn"><span class="hs-identifier hs-type">PatSyn</span></a><span> </span><span class="hs-keyword">where</span><span>
+</span><a name="line-316"></a><span>    </span><a name="local-8214565720324063848"><a href="Name.html#getName"><span class="hs-identifier">getName</span></a></a><span> </span><span class="hs-glyph">=</span><span> </span><a href="PatSyn.html#patSynName"><span class="hs-identifier hs-var">patSynName</span></a><span>
+</span><a name="line-317"></a><span>
+</span><a name="line-318"></a><span class="hs-keyword">instance</span><span> </span><a href="Outputable.html#Outputable"><span class="hs-identifier hs-type">Outputable</span></a><span> </span><a href="PatSyn.html#PatSyn"><span class="hs-identifier hs-type">PatSyn</span></a><span> </span><span class="hs-keyword">where</span><span>
+</span><a name="line-319"></a><span>    </span><a name="local-8214565720323906373"><a href="Outputable.html#ppr"><span class="hs-identifier">ppr</span></a></a><span> </span><span class="hs-glyph">=</span><span> </span><a href="Outputable.html#ppr"><span class="hs-identifier hs-var">ppr</span></a><span> </span><a href="../base-4.11.0.0/src/%{MODULE/./-}.html#%{NAME}/GHC.Base.html#."><span class="hs-operator hs-var">.</span></a><span> </span><a href="Name.html#getName"><span class="hs-identifier hs-var">getName</span></a><span>
+</span><a name="line-320"></a><span>
+</span><a name="line-321"></a><span class="hs-keyword">instance</span><span> </span><a href="Outputable.html#OutputableBndr"><span class="hs-identifier hs-type">OutputableBndr</span></a><span> </span><a href="PatSyn.html#PatSyn"><span class="hs-identifier hs-type">PatSyn</span></a><span> </span><span class="hs-keyword">where</span><span>
+</span><a name="line-322"></a><span>    </span><a name="local-8214565720323906365"><a href="Outputable.html#pprInfixOcc"><span class="hs-identifier">pprInfixOcc</span></a></a><span> </span><span class="hs-glyph">=</span><span> </span><a href="Name.html#pprInfixName"><span class="hs-identifier hs-var">pprInfixName</span></a><span> </span><a href="../base-4.11.0.0/src/%{MODULE/./-}.html#%{NAME}/GHC.Base.html#."><span class="hs-operator hs-var">.</span></a><span> </span><a href="Name.html#getName"><span class="hs-identifier hs-var">getName</span></a><span>
+</span><a name="line-323"></a><span>    </span><a name="local-8214565720323906364"><a href="Outputable.html#pprPrefixOcc"><span class="hs-identifier">pprPrefixOcc</span></a></a><span> </span><span class="hs-glyph">=</span><span> </span><a href="Name.html#pprPrefixName"><span class="hs-identifier hs-var">pprPrefixName</span></a><span> </span><a href="../base-4.11.0.0/src/%{MODULE/./-}.html#%{NAME}/GHC.Base.html#."><span class="hs-operator hs-var">.</span></a><span> </span><a href="Name.html#getName"><span class="hs-identifier hs-var">getName</span></a><span>
+</span><a name="line-324"></a><span>
+</span><a name="line-325"></a><span class="hs-keyword">instance</span><span> </span><a href="../base-4.11.0.0/src/%{MODULE/./-}.html#%{NAME}/Data.Data.html#Data"><span class="hs-identifier hs-type">Data.Data</span></a><span> </span><a href="PatSyn.html#PatSyn"><span class="hs-identifier hs-type">PatSyn</span></a><span> </span><span class="hs-keyword">where</span><span>
+</span><a name="line-326"></a><span>    </span><span class="hs-comment">-- don't traverse?</span><span>
+</span><a name="line-327"></a><span>    </span><a name="local-8214565720323786400"><a href="../base-4.11.0.0/src/%{MODULE/./-}.html#%{NAME}/Data.Data.html#toConstr"><span class="hs-identifier">toConstr</span></a></a><span> </span><span class="hs-identifier">_</span><span>   </span><span class="hs-glyph">=</span><span> </span><a href="Util.html#abstractConstr"><span class="hs-identifier hs-var">abstractConstr</span></a><span> </span><span class="hs-string">&quot;PatSyn&quot;</span><span>
+</span><a name="line-328"></a><span>    </span><a name="local-8214565720323786401"><a href="../base-4.11.0.0/src/%{MODULE/./-}.html#%{NAME}/Data.Data.html#gunfold"><span class="hs-identifier">gunfold</span></a></a><span> </span><span class="hs-identifier">_</span><span> </span><span class="hs-identifier">_</span><span>  </span><span class="hs-glyph">=</span><span> </span><a href="../base-4.11.0.0/src/%{MODULE/./-}.html#%{NAME}/GHC.Err.html#error"><span class="hs-identifier hs-var">error</span></a><span> </span><span class="hs-string">&quot;gunfold&quot;</span><span>
+</span><a name="line-329"></a><span>    </span><a name="local-8214565720323786399"><a href="../base-4.11.0.0/src/%{MODULE/./-}.html#%{NAME}/Data.Data.html#dataTypeOf"><span class="hs-identifier">dataTypeOf</span></a></a><span> </span><span class="hs-identifier">_</span><span> </span><span class="hs-glyph">=</span><span> </span><a href="../base-4.11.0.0/src/%{MODULE/./-}.html#%{NAME}/Data.Data.html#mkNoRepType"><span class="hs-identifier hs-var">mkNoRepType</span></a><span> </span><span class="hs-string">&quot;PatSyn&quot;</span><span>
+</span><a name="line-330"></a><span>
+</span><a name="line-331"></a><span class="hs-comment">{-
+************************************************************************
+*                                                                      *
+\subsection{Construction}
+*                                                                      *
+************************************************************************
+-}</span><span>
+</span><a name="line-338"></a><span>
+</span><a name="line-339"></a><span class="hs-comment">-- | Build a new pattern synonym</span><span>
+</span><a name="line-340"></a><span class="hs-identifier">mkPatSyn</span><span> </span><span class="hs-glyph">::</span><span> </span><a href="Name.html#Name"><span class="hs-identifier hs-type">Name</span></a><span>
+</span><a name="line-341"></a><span>         </span><span class="hs-glyph">-&gt;</span><span> </span><span class="hs-identifier hs-type">Bool</span><span>                 </span><span class="hs-comment">-- ^ Is the pattern synonym declared infix?</span><span>
+</span><a name="line-342"></a><span>         </span><span class="hs-glyph">-&gt;</span><span> </span><span class="hs-special">(</span><span class="hs-special">[</span><a href="Var.html#TyVarBinder"><span class="hs-identifier hs-type">TyVarBinder</span></a><span class="hs-special">]</span><span class="hs-special">,</span><span> </span><a href="TyCoRep.html#ThetaType"><span class="hs-identifier hs-type">ThetaType</span></a><span class="hs-special">)</span><span> </span><span class="hs-comment">-- ^ Universially-quantified type variables</span><span>
+</span><a name="line-343"></a><span>                                 </span><span class="hs-comment">--   and required dicts</span><span>
+</span><a name="line-344"></a><span>         </span><span class="hs-glyph">-&gt;</span><span> </span><span class="hs-special">(</span><span class="hs-special">[</span><a href="Var.html#TyVarBinder"><span class="hs-identifier hs-type">TyVarBinder</span></a><span class="hs-special">]</span><span class="hs-special">,</span><span> </span><a href="TyCoRep.html#ThetaType"><span class="hs-identifier hs-type">ThetaType</span></a><span class="hs-special">)</span><span> </span><span class="hs-comment">-- ^ Existentially-quantified type variables</span><span>
+</span><a name="line-345"></a><span>                                 </span><span class="hs-comment">--   and provided dicts</span><span>
+</span><a name="line-346"></a><span>         </span><span class="hs-glyph">-&gt;</span><span> </span><span class="hs-special">[</span><a href="TyCoRep.html#Type"><span class="hs-identifier hs-type">Type</span></a><span class="hs-special">]</span><span>               </span><span class="hs-comment">-- ^ Original arguments</span><span>
+</span><a name="line-347"></a><span>         </span><span class="hs-glyph">-&gt;</span><span> </span><a href="TyCoRep.html#Type"><span class="hs-identifier hs-type">Type</span></a><span>                 </span><span class="hs-comment">-- ^ Original result type</span><span>
+</span><a name="line-348"></a><span>         </span><span class="hs-glyph">-&gt;</span><span> </span><span class="hs-special">(</span><a href="Var.html#Id"><span class="hs-identifier hs-type">Id</span></a><span class="hs-special">,</span><span> </span><span class="hs-identifier hs-type">Bool</span><span class="hs-special">)</span><span>           </span><span class="hs-comment">-- ^ Name of matcher</span><span>
+</span><a name="line-349"></a><span>         </span><span class="hs-glyph">-&gt;</span><span> </span><a href="../base-4.11.0.0/src/%{MODULE/./-}.html#%{NAME}/GHC.Base.html#Maybe"><span class="hs-identifier hs-type">Maybe</span></a><span> </span><span class="hs-special">(</span><a href="Var.html#Id"><span class="hs-identifier hs-type">Id</span></a><span class="hs-special">,</span><span> </span><span class="hs-identifier hs-type">Bool</span><span class="hs-special">)</span><span>     </span><span class="hs-comment">-- ^ Name of builder</span><span>
+</span><a name="line-350"></a><span>         </span><span class="hs-glyph">-&gt;</span><span> </span><span class="hs-special">[</span><a href="FieldLabel.html#FieldLabel"><span class="hs-identifier hs-type">FieldLabel</span></a><span class="hs-special">]</span><span>         </span><span class="hs-comment">-- ^ Names of fields for</span><span>
+</span><a name="line-351"></a><span>                                 </span><span class="hs-comment">--   a record pattern synonym</span><span>
+</span><a name="line-352"></a><span>         </span><span class="hs-glyph">-&gt;</span><span> </span><a href="PatSyn.html#PatSyn"><span class="hs-identifier hs-type">PatSyn</span></a><span>
+</span><a name="line-353"></a><span> </span><span class="hs-comment">-- NB: The univ and ex vars are both in TyBinder form and TyVar form for</span><span>
+</span><a name="line-354"></a><span> </span><span class="hs-comment">-- convenience. All the TyBinders should be Named!</span><span>
+</span><a name="line-355"></a><a name="mkPatSyn"><a href="PatSyn.html#mkPatSyn"><span class="hs-identifier">mkPatSyn</span></a></a><span> </span><a name="local-6989586621679403507"><a href="#local-6989586621679403507"><span class="hs-identifier">name</span></a></a><span> </span><a name="local-6989586621679403508"><a href="#local-6989586621679403508"><span class="hs-identifier">declared_infix</span></a></a><span>
+</span><a name="line-356"></a><span>         </span><span class="hs-special">(</span><a name="local-6989586621679403509"><a href="#local-6989586621679403509"><span class="hs-identifier">univ_tvs</span></a></a><span class="hs-special">,</span><span> </span><a name="local-6989586621679403510"><a href="#local-6989586621679403510"><span class="hs-identifier">req_theta</span></a></a><span class="hs-special">)</span><span>
+</span><a name="line-357"></a><span>         </span><span class="hs-special">(</span><a name="local-6989586621679403511"><a href="#local-6989586621679403511"><span class="hs-identifier">ex_tvs</span></a></a><span class="hs-special">,</span><span> </span><a name="local-6989586621679403512"><a href="#local-6989586621679403512"><span class="hs-identifier">prov_theta</span></a></a><span class="hs-special">)</span><span>
+</span><a name="line-358"></a><span>         </span><a name="local-6989586621679403513"><a href="#local-6989586621679403513"><span class="hs-identifier">orig_args</span></a></a><span>
+</span><a name="line-359"></a><span>         </span><a name="local-6989586621679403514"><a href="#local-6989586621679403514"><span class="hs-identifier">orig_res_ty</span></a></a><span>
+</span><a name="line-360"></a><span>         </span><a name="local-6989586621679403515"><a href="#local-6989586621679403515"><span class="hs-identifier">matcher</span></a></a><span> </span><a name="local-6989586621679403516"><a href="#local-6989586621679403516"><span class="hs-identifier">builder</span></a></a><span> </span><a name="local-6989586621679403517"><a href="#local-6989586621679403517"><span class="hs-identifier">field_labels</span></a></a><span>
+</span><a name="line-361"></a><span>    </span><span class="hs-glyph">=</span><span> </span><a href="PatSyn.html#MkPatSyn"><span class="hs-identifier hs-var">MkPatSyn</span></a><span> </span><span class="hs-special">{</span><span class="hs-identifier">psName</span><span> </span><span class="hs-glyph">=</span><span> </span><a href="#local-6989586621679403507"><span class="hs-identifier hs-var">name</span></a><span class="hs-special">,</span><span> </span><span class="hs-identifier">psUnique</span><span> </span><span class="hs-glyph">=</span><span> </span><a href="Unique.html#getUnique"><span class="hs-identifier hs-var">getUnique</span></a><span> </span><a href="#local-6989586621679403507"><span class="hs-identifier hs-var">name</span></a><span class="hs-special">,</span><span>
+</span><a name="line-362"></a><span>                </span><span class="hs-identifier">psUnivTyVars</span><span> </span><span class="hs-glyph">=</span><span> </span><a href="#local-6989586621679403509"><span class="hs-identifier hs-var">univ_tvs</span></a><span class="hs-special">,</span><span>
+</span><a name="line-363"></a><span>                </span><span class="hs-identifier">psExTyVars</span><span> </span><span class="hs-glyph">=</span><span> </span><a href="#local-6989586621679403511"><span class="hs-identifier hs-var">ex_tvs</span></a><span class="hs-special">,</span><span>
+</span><a name="line-364"></a><span>                </span><span class="hs-identifier">psProvTheta</span><span> </span><span class="hs-glyph">=</span><span> </span><a href="#local-6989586621679403512"><span class="hs-identifier hs-var">prov_theta</span></a><span class="hs-special">,</span><span> </span><span class="hs-identifier">psReqTheta</span><span> </span><span class="hs-glyph">=</span><span> </span><a href="#local-6989586621679403510"><span class="hs-identifier hs-var">req_theta</span></a><span class="hs-special">,</span><span>
+</span><a name="line-365"></a><span>                </span><span class="hs-identifier">psInfix</span><span> </span><span class="hs-glyph">=</span><span> </span><a href="#local-6989586621679403508"><span class="hs-identifier hs-var">declared_infix</span></a><span class="hs-special">,</span><span>
+</span><a name="line-366"></a><span>                </span><span class="hs-identifier">psArgs</span><span> </span><span class="hs-glyph">=</span><span> </span><a href="#local-6989586621679403513"><span class="hs-identifier hs-var">orig_args</span></a><span class="hs-special">,</span><span>
+</span><a name="line-367"></a><span>                </span><span class="hs-identifier">psArity</span><span> </span><span class="hs-glyph">=</span><span> </span><a href="../base-4.11.0.0/src/%{MODULE/./-}.html#%{NAME}/Data.Foldable.html#length"><span class="hs-identifier hs-var">length</span></a><span> </span><a href="#local-6989586621679403513"><span class="hs-identifier hs-var">orig_args</span></a><span class="hs-special">,</span><span>
+</span><a name="line-368"></a><span>                </span><span class="hs-identifier">psResultTy</span><span> </span><span class="hs-glyph">=</span><span> </span><a href="#local-6989586621679403514"><span class="hs-identifier hs-var">orig_res_ty</span></a><span class="hs-special">,</span><span>
+</span><a name="line-369"></a><span>                </span><span class="hs-identifier">psMatcher</span><span> </span><span class="hs-glyph">=</span><span> </span><a href="#local-6989586621679403515"><span class="hs-identifier hs-var">matcher</span></a><span class="hs-special">,</span><span>
+</span><a name="line-370"></a><span>                </span><span class="hs-identifier">psBuilder</span><span> </span><span class="hs-glyph">=</span><span> </span><a href="#local-6989586621679403516"><span class="hs-identifier hs-var">builder</span></a><span class="hs-special">,</span><span>
+</span><a name="line-371"></a><span>                </span><span class="hs-identifier">psFieldLabels</span><span> </span><span class="hs-glyph">=</span><span> </span><a href="#local-6989586621679403517"><span class="hs-identifier hs-var">field_labels</span></a><span>
+</span><a name="line-372"></a><span>                </span><span class="hs-special">}</span><span>
+</span><a name="line-373"></a><span>
+</span><a name="line-374"></a><span class="hs-comment">-- | The 'Name' of the 'PatSyn', giving it a unique, rooted identification</span><span>
+</span><a name="line-375"></a><span class="hs-identifier">patSynName</span><span> </span><span class="hs-glyph">::</span><span> </span><a href="PatSyn.html#PatSyn"><span class="hs-identifier hs-type">PatSyn</span></a><span> </span><span class="hs-glyph">-&gt;</span><span> </span><a href="Name.html#Name"><span class="hs-identifier hs-type">Name</span></a><span>
+</span><a name="line-376"></a><a name="patSynName"><a href="PatSyn.html#patSynName"><span class="hs-identifier">patSynName</span></a></a><span> </span><span class="hs-glyph">=</span><span> </span><span class="hs-identifier">psName</span><span>
+</span><a name="line-377"></a><span>
+</span><a name="line-378"></a><span class="hs-comment">-- | Should the 'PatSyn' be presented infix?</span><span>
+</span><a name="line-379"></a><span class="hs-identifier">patSynIsInfix</span><span> </span><span class="hs-glyph">::</span><span> </span><a href="PatSyn.html#PatSyn"><span class="hs-identifier hs-type">PatSyn</span></a><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="hs-identifier hs-type">Bool</span><span>
+</span><a name="line-380"></a><a name="patSynIsInfix"><a href="PatSyn.html#patSynIsInfix"><span class="hs-identifier">patSynIsInfix</span></a></a><span> </span><span class="hs-glyph">=</span><span> </span><span class="hs-identifier">psInfix</span><span>
+</span><a name="line-381"></a><span>
+</span><a name="line-382"></a><span class="hs-comment">-- | Arity of the pattern synonym</span><span>
+</span><a name="line-383"></a><span class="hs-identifier">patSynArity</span><span> </span><span class="hs-glyph">::</span><span> </span><a href="PatSyn.html#PatSyn"><span class="hs-identifier hs-type">PatSyn</span></a><span> </span><span class="hs-glyph">-&gt;</span><span> </span><a href="BasicTypes.html#Arity"><span class="hs-identifier hs-type">Arity</span></a><span>
+</span><a name="line-384"></a><a name="patSynArity"><a href="PatSyn.html#patSynArity"><span class="hs-identifier">patSynArity</span></a></a><span> </span><span class="hs-glyph">=</span><span> </span><span class="hs-identifier">psArity</span><span>
+</span><a name="line-385"></a><span>
+</span><a name="line-386"></a><span class="hs-identifier">patSynArgs</span><span> </span><span class="hs-glyph">::</span><span> </span><a href="PatSyn.html#PatSyn"><span class="hs-identifier hs-type">PatSyn</span></a><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="hs-special">[</span><a href="TyCoRep.html#Type"><span class="hs-identifier hs-type">Type</span></a><span class="hs-special">]</span><span>
+</span><a name="line-387"></a><a name="patSynArgs"><a href="PatSyn.html#patSynArgs"><span class="hs-identifier">patSynArgs</span></a></a><span> </span><span class="hs-glyph">=</span><span> </span><span class="hs-identifier">psArgs</span><span>
+</span><a name="line-388"></a><span>
+</span><a name="line-389"></a><span class="hs-identifier">patSynFieldLabels</span><span> </span><span class="hs-glyph">::</span><span> </span><a href="PatSyn.html#PatSyn"><span class="hs-identifier hs-type">PatSyn</span></a><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="hs-special">[</span><a href="FieldLabel.html#FieldLabel"><span class="hs-identifier hs-type">FieldLabel</span></a><span class="hs-special">]</span><span>
+</span><a name="line-390"></a><a name="patSynFieldLabels"><a href="PatSyn.html#patSynFieldLabels"><span class="hs-identifier">patSynFieldLabels</span></a></a><span> </span><span class="hs-glyph">=</span><span> </span><span class="hs-identifier">psFieldLabels</span><span>
+</span><a name="line-391"></a><span>
+</span><a name="line-392"></a><span class="hs-comment">-- | Extract the type for any given labelled field of the 'DataCon'</span><span>
+</span><a name="line-393"></a><span class="hs-identifier">patSynFieldType</span><span> </span><span class="hs-glyph">::</span><span> </span><a href="PatSyn.html#PatSyn"><span class="hs-identifier hs-type">PatSyn</span></a><span> </span><span class="hs-glyph">-&gt;</span><span> </span><a href="FieldLabel.html#FieldLabelString"><span class="hs-identifier hs-type">FieldLabelString</span></a><span> </span><span class="hs-glyph">-&gt;</span><span> </span><a href="TyCoRep.html#Type"><span class="hs-identifier hs-type">Type</span></a><span>
+</span><a name="line-394"></a><a name="patSynFieldType"><a href="PatSyn.html#patSynFieldType"><span class="hs-identifier">patSynFieldType</span></a></a><span> </span><a name="local-6989586621679403518"><a href="#local-6989586621679403518"><span class="hs-identifier">ps</span></a></a><span> </span><span class="hs-keyword">label</span><span>
+</span><a name="line-395"></a><span>  </span><span class="hs-glyph">=</span><span> </span><span class="hs-keyword">case</span><span> </span><a href="../base-4.11.0.0/src/%{MODULE/./-}.html#%{NAME}/Data.Foldable.html#find"><span class="hs-identifier hs-var">find</span></a><span> </span><span class="hs-special">(</span><span class="hs-special">(</span><span class="hs-operator hs-var">==</span><span> </span><span class="hs-keyword">label</span><span class="hs-special">)</span><span> </span><a href="../base-4.11.0.0/src/%{MODULE/./-}.html#%{NAME}/GHC.Base.html#."><span class="hs-operator hs-var">.</span></a><span> </span><span class="hs-identifier">flLabel</span><span> </span><a href="../base-4.11.0.0/src/%{MODULE/./-}.html#%{NAME}/GHC.Base.html#."><span class="hs-operator hs-var">.</span></a><span> </span><a href="../base-4.11.0.0/src/%{MODULE/./-}.html#%{NAME}/Data.Tuple.html#fst"><span class="hs-identifier hs-var">fst</span></a><span class="hs-special">)</span><span> </span><span class="hs-special">(</span><span class="hs-identifier">psFieldLabels</span><span> </span><a href="#local-6989586621679403518"><span class="hs-identifier hs-var">ps</span></a><span> </span><span class="hs-special">`</span><a href="../base-4.11.0.0/src/%{MODULE/./-}.html#%{NAME}/GHC.List.html#zip"><span class="hs-identifier hs-var">zip</span></a><span class="hs-special">`</span><span> </span><span class="hs-identifier">psArgs</span><span> </span><a href="#local-6989586621679403518"><span class="hs-identifier hs-var">ps</span></a><span class="hs-special">)</span><span> </span><span class="hs-keyword">of</span><span>
+</span><a name="line-396"></a><span>      </span><a href="../base-4.11.0.0/src/%{MODULE/./-}.html#%{NAME}/GHC.Base.html#Just"><span class="hs-identifier hs-var">Just</span></a><span> </span><span class="hs-special">(</span><span class="hs-identifier">_</span><span class="hs-special">,</span><span> </span><a name="local-6989586621679403520"><a href="#local-6989586621679403520"><span class="hs-identifier">ty</span></a></a><span class="hs-special">)</span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><a href="#local-6989586621679403520"><span class="hs-identifier hs-var">ty</span></a><span>
+</span><a name="line-397"></a><span>      </span><a href="../base-4.11.0.0/src/%{MODULE/./-}.html#%{NAME}/GHC.Base.html#Nothing"><span class="hs-identifier hs-var">Nothing</span></a><span> </span><span class="hs-glyph">-&gt;</span><span> </span><a href="Outputable.html#pprPanic"><span class="hs-identifier hs-var">pprPanic</span></a><span> </span><span class="hs-string">&quot;dataConFieldType&quot;</span><span> </span><span class="hs-special">(</span><a href="Outputable.html#ppr"><span class="hs-identifier hs-var">ppr</span></a><span> </span><a href="#local-6989586621679403518"><span class="hs-identifier hs-var">ps</span></a><span> </span><a href="Outputable.html#%3C%2B%3E"><span class="hs-operator hs-var">&lt;+&gt;</span></a><span> </span><a href="Outputable.html#ppr"><span class="hs-identifier hs-var">ppr</span></a><span> </span><span class="hs-keyword">label</span><span class="hs-special">)</span><span>
+</span><a name="line-398"></a><span>
+</span><a name="line-399"></a><span class="hs-identifier">patSynUnivTyVarBinders</span><span> </span><span class="hs-glyph">::</span><span> </span><a href="PatSyn.html#PatSyn"><span class="hs-identifier hs-type">PatSyn</span></a><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="hs-special">[</span><a href="Var.html#TyVarBinder"><span class="hs-identifier hs-type">TyVarBinder</span></a><span class="hs-special">]</span><span>
+</span><a name="line-400"></a><a name="patSynUnivTyVarBinders"><a href="PatSyn.html#patSynUnivTyVarBinders"><span class="hs-identifier">patSynUnivTyVarBinders</span></a></a><span> </span><span class="hs-glyph">=</span><span> </span><span class="hs-identifier">psUnivTyVars</span><span>
+</span><a name="line-401"></a><span>
+</span><a name="line-402"></a><span class="hs-identifier">patSynExTyVars</span><span> </span><span class="hs-glyph">::</span><span> </span><a href="PatSyn.html#PatSyn"><span class="hs-identifier hs-type">PatSyn</span></a><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="hs-special">[</span><a href="Var.html#TyVar"><span class="hs-identifier hs-type">TyVar</span></a><span class="hs-special">]</span><span>
+</span><a name="line-403"></a><a name="patSynExTyVars"><a href="PatSyn.html#patSynExTyVars"><span class="hs-identifier">patSynExTyVars</span></a></a><span> </span><a name="local-6989586621679403521"><a href="#local-6989586621679403521"><span class="hs-identifier">ps</span></a></a><span> </span><span class="hs-glyph">=</span><span> </span><a href="Var.html#binderVars"><span class="hs-identifier hs-var">binderVars</span></a><span> </span><span class="hs-special">(</span><span class="hs-identifier">psExTyVars</span><span> </span><a href="#local-6989586621679403521"><span class="hs-identifier hs-var">ps</span></a><span class="hs-special">)</span><span>
+</span><a name="line-404"></a><span>
+</span><a name="line-405"></a><span class="hs-identifier">patSynExTyVarBinders</span><span> </span><span class="hs-glyph">::</span><span> </span><a href="PatSyn.html#PatSyn"><span class="hs-identifier hs-type">PatSyn</span></a><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="hs-special">[</span><a href="Var.html#TyVarBinder"><span class="hs-identifier hs-type">TyVarBinder</span></a><span class="hs-special">]</span><span>
+</span><a name="line-406"></a><a name="patSynExTyVarBinders"><a href="PatSyn.html#patSynExTyVarBinders"><span class="hs-identifier">patSynExTyVarBinders</span></a></a><span> </span><span class="hs-glyph">=</span><span> </span><span class="hs-identifier">psExTyVars</span><span>
+</span><a name="line-407"></a><span>
+</span><a name="line-408"></a><span class="hs-identifier">patSynSig</span><span> </span><span class="hs-glyph">::</span><span> </span><a href="PatSyn.html#PatSyn"><span class="hs-identifier hs-type">PatSyn</span></a><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="hs-special">(</span><span class="hs-special">[</span><a href="Var.html#TyVar"><span class="hs-identifier hs-type">TyVar</span></a><span class="hs-special">]</span><span class="hs-special">,</span><span> </span><a href="TyCoRep.html#ThetaType"><span class="hs-identifier hs-type">ThetaType</span></a><span class="hs-special">,</span><span> </span><span class="hs-special">[</span><a href="Var.html#TyVar"><span class="hs-identifier hs-type">TyVar</span></a><span class="hs-special">]</span><span class="hs-special">,</span><span> </span><a href="TyCoRep.html#ThetaType"><span class="hs-identifier hs-type">ThetaType</span></a><span class="hs-special">,</span><span> </span><span class="hs-special">[</span><a href="TyCoRep.html#Type"><span class="hs-identifier hs-type">Type</span></a><span class="hs-special">]</span><span class="hs-special">,</span><span> </span><a href="TyCoRep.html#Type"><span class="hs-identifier hs-type">Type</span></a><span class="hs-special">)</span><span>
+</span><a name="line-409"></a><a name="patSynSig"><a href="PatSyn.html#patSynSig"><span class="hs-identifier">patSynSig</span></a></a><span> </span><span class="hs-special">(</span><a href="PatSyn.html#MkPatSyn"><span class="hs-identifier hs-var">MkPatSyn</span></a><span> </span><span class="hs-special">{</span><span> </span><span class="hs-identifier">psUnivTyVars</span><span> </span><span class="hs-glyph">=</span><span> </span><a name="local-6989586621679403522"><a href="#local-6989586621679403522"><span class="hs-identifier">univ_tvs</span></a></a><span class="hs-special">,</span><span> </span><span class="hs-identifier">psExTyVars</span><span> </span><span class="hs-glyph">=</span><span> </span><a name="local-6989586621679403523"><a href="#local-6989586621679403523"><span class="hs-identifier">ex_tvs</span></a></a><span>
+</span><a name="line-410"></a><span>                    </span><span class="hs-special">,</span><span> </span><span class="hs-identifier">psProvTheta</span><span> </span><span class="hs-glyph">=</span><span> </span><a name="local-6989586621679403524"><a href="#local-6989586621679403524"><span class="hs-identifier">prov</span></a></a><span class="hs-special">,</span><span> </span><span class="hs-identifier">psReqTheta</span><span> </span><span class="hs-glyph">=</span><span> </span><a name="local-6989586621679403525"><a href="#local-6989586621679403525"><span class="hs-identifier">req</span></a></a><span>
+</span><a name="line-411"></a><span>                    </span><span class="hs-special">,</span><span> </span><span class="hs-identifier">psArgs</span><span> </span><span class="hs-glyph">=</span><span> </span><a name="local-6989586621679403526"><a href="#local-6989586621679403526"><span class="hs-identifier">arg_tys</span></a></a><span class="hs-special">,</span><span> </span><span class="hs-identifier">psResultTy</span><span> </span><span class="hs-glyph">=</span><span> </span><a name="local-6989586621679403527"><a href="#local-6989586621679403527"><span class="hs-identifier">res_ty</span></a></a><span> </span><span class="hs-special">}</span><span class="hs-special">)</span><span>
+</span><a name="line-412"></a><span>  </span><span class="hs-glyph">=</span><span> </span><span class="hs-special">(</span><a href="Var.html#binderVars"><span class="hs-identifier hs-var">binderVars</span></a><span> </span><a href="#local-6989586621679403522"><span class="hs-identifier hs-var">univ_tvs</span></a><span class="hs-special">,</span><span> </span><a href="#local-6989586621679403525"><span class="hs-identifier hs-var">req</span></a><span class="hs-special">,</span><span> </span><a href="Var.html#binderVars"><span class="hs-identifier hs-var">binderVars</span></a><span> </span><a href="#local-6989586621679403523"><span class="hs-identifier hs-var">ex_tvs</span></a><span class="hs-special">,</span><span> </span><a href="#local-6989586621679403524"><span class="hs-identifier hs-var">prov</span></a><span class="hs-special">,</span><span> </span><a href="#local-6989586621679403526"><span class="hs-identifier hs-var">arg_tys</span></a><span class="hs-special">,</span><span> </span><a href="#local-6989586621679403527"><span class="hs-identifier hs-var">res_ty</span></a><span class="hs-special">)</span><span>
+</span><a name="line-413"></a><span>
+</span><a name="line-414"></a><span class="hs-identifier">patSynMatcher</span><span> </span><span class="hs-glyph">::</span><span> </span><a href="PatSyn.html#PatSyn"><span class="hs-identifier hs-type">PatSyn</span></a><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="hs-special">(</span><a href="Var.html#Id"><span class="hs-identifier hs-type">Id</span></a><span class="hs-special">,</span><span class="hs-identifier hs-type">Bool</span><span class="hs-special">)</span><span>
+</span><a name="line-415"></a><a name="patSynMatcher"><a href="PatSyn.html#patSynMatcher"><span class="hs-identifier">patSynMatcher</span></a></a><span> </span><span class="hs-glyph">=</span><span> </span><span class="hs-identifier">psMatcher</span><span>
+</span><a name="line-416"></a><span>
+</span><a name="line-417"></a><span class="hs-identifier">patSynBuilder</span><span> </span><span class="hs-glyph">::</span><span> </span><a href="PatSyn.html#PatSyn"><span class="hs-identifier hs-type">PatSyn</span></a><span> </span><span class="hs-glyph">-&gt;</span><span> </span><a href="../base-4.11.0.0/src/%{MODULE/./-}.html#%{NAME}/GHC.Base.html#Maybe"><span class="hs-identifier hs-type">Maybe</span></a><span> </span><span class="hs-special">(</span><a href="Var.html#Id"><span class="hs-identifier hs-type">Id</span></a><span class="hs-special">,</span><span> </span><span class="hs-identifier hs-type">Bool</span><span class="hs-special">)</span><span>
+</span><a name="line-418"></a><a name="patSynBuilder"><a href="PatSyn.html#patSynBuilder"><span class="hs-identifier">patSynBuilder</span></a></a><span> </span><span class="hs-glyph">=</span><span> </span><span class="hs-identifier">psBuilder</span><span>
+</span><a name="line-419"></a><span>
+</span><a name="line-420"></a><span class="hs-identifier">tidyPatSynIds</span><span> </span><span class="hs-glyph">::</span><span> </span><span class="hs-special">(</span><a href="Var.html#Id"><span class="hs-identifier hs-type">Id</span></a><span> </span><span class="hs-glyph">-&gt;</span><span> </span><a href="Var.html#Id"><span class="hs-identifier hs-type">Id</span></a><span class="hs-special">)</span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><a href="PatSyn.html#PatSyn"><span class="hs-identifier hs-type">PatSyn</span></a><span> </span><span class="hs-glyph">-&gt;</span><span> </span><a href="PatSyn.html#PatSyn"><span class="hs-identifier hs-type">PatSyn</span></a><span>
+</span><a name="line-421"></a><a name="tidyPatSynIds"><a href="PatSyn.html#tidyPatSynIds"><span class="hs-identifier">tidyPatSynIds</span></a></a><span> </span><a name="local-6989586621679403528"><a href="#local-6989586621679403528"><span class="hs-identifier">tidy_fn</span></a></a><span> </span><a name="local-6989586621679403529"><a href="#local-6989586621679403529"><span class="hs-identifier">ps</span></a></a><span class="hs-glyph">@</span><span class="hs-special">(</span><a href="PatSyn.html#MkPatSyn"><span class="hs-identifier hs-var">MkPatSyn</span></a><span> </span><span class="hs-special">{</span><span> </span><span class="hs-identifier">psMatcher</span><span> </span><span class="hs-glyph">=</span><span> </span><a name="local-6989586621679403530"><a href="#local-6989586621679403530"><span class="hs-identifier">matcher</span></a></a><span class="hs-special">,</span><span> </span><span class="hs-identifier">psBuilder</span><span> </span><span class="hs-glyph">=</span><span> </span><a name="local-6989586621679403531"><a href="#local-6989586621679403531"><span class="hs-identifier">builder</span></a></a><span> </span><span class="hs-special">}</span><span class="hs-special">)</span><span>
+</span><a name="line-422"></a><span>  </span><span class="hs-glyph">=</span><span> </span><a href="#local-6989586621679403529"><span class="hs-identifier hs-var">ps</span></a><span> </span><span class="hs-special">{</span><span> </span><span class="hs-identifier">psMatcher</span><span> </span><span class="hs-glyph">=</span><span> </span><a href="#local-6989586621679403532"><span class="hs-identifier hs-var">tidy_pr</span></a><span> </span><a href="#local-6989586621679403530"><span class="hs-identifier hs-var">matcher</span></a><span class="hs-special">,</span><span> </span><span class="hs-identifier">psBuilder</span><span> </span><span class="hs-glyph">=</span><span> </span><a href="../base-4.11.0.0/src/%{MODULE/./-}.html#%{NAME}/GHC.Base.html#fmap"><span class="hs-identifier hs-var">fmap</span></a><span> </span><a href="#local-6989586621679403532"><span class="hs-identifier hs-var">tidy_pr</span></a><span> </span><a href="#local-6989586621679403531"><span class="hs-identifier hs-var">builder</span></a><span> </span><span class="hs-special">}</span><span>
+</span><a name="line-423"></a><span>  </span><span class="hs-keyword">where</span><span>
+</span><a name="line-424"></a><span>    </span><a name="local-6989586621679403532"><a href="#local-6989586621679403532"><span class="hs-identifier">tidy_pr</span></a></a><span> </span><span class="hs-special">(</span><a name="local-6989586621679403533"><a href="#local-6989586621679403533"><span class="hs-identifier">id</span></a></a><span class="hs-special">,</span><span> </span><a name="local-6989586621679403534"><a href="#local-6989586621679403534"><span class="hs-identifier">dummy</span></a></a><span class="hs-special">)</span><span> </span><span class="hs-glyph">=</span><span> </span><span class="hs-special">(</span><a href="#local-6989586621679403528"><span class="hs-identifier hs-var">tidy_fn</span></a><span> </span><a href="#local-6989586621679403533"><span class="hs-identifier hs-var">id</span></a><span class="hs-special">,</span><span> </span><a href="#local-6989586621679403534"><span class="hs-identifier hs-var">dummy</span></a><span class="hs-special">)</span><span>
+</span><a name="line-425"></a><span>
+</span><a name="line-426"></a><span class="hs-identifier">patSynInstArgTys</span><span> </span><span class="hs-glyph">::</span><span> </span><a href="PatSyn.html#PatSyn"><span class="hs-identifier hs-type">PatSyn</span></a><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="hs-special">[</span><a href="TyCoRep.html#Type"><span class="hs-identifier hs-type">Type</span></a><span class="hs-special">]</span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="hs-special">[</span><a href="TyCoRep.html#Type"><span class="hs-identifier hs-type">Type</span></a><span class="hs-special">]</span><span>
+</span><a name="line-427"></a><span class="hs-comment">-- Return the types of the argument patterns</span><span>
+</span><a name="line-428"></a><span class="hs-comment">-- e.g.  data D a = forall b. MkD a b (b-&gt;a)</span><span>
+</span><a name="line-429"></a><span class="hs-comment">--       pattern P f x y = MkD (x,True) y f</span><span>
+</span><a name="line-430"></a><span class="hs-comment">--          D :: forall a. forall b. a -&gt; b -&gt; (b-&gt;a) -&gt; D a</span><span>
+</span><a name="line-431"></a><span class="hs-comment">--          P :: forall c. forall b. (b-&gt;(c,Bool)) -&gt; c -&gt; b -&gt; P c</span><span>
+</span><a name="line-432"></a><span class="hs-comment">--   patSynInstArgTys P [Int,bb] = [bb-&gt;(Int,Bool), Int, bb]</span><span>
+</span><a name="line-433"></a><span class="hs-comment">-- NB: the inst_tys should be both universal and existential</span><span>
+</span><a name="line-434"></a><a name="patSynInstArgTys"><a href="PatSyn.html#patSynInstArgTys"><span class="hs-identifier">patSynInstArgTys</span></a></a><span> </span><span class="hs-special">(</span><a href="PatSyn.html#MkPatSyn"><span class="hs-identifier hs-var">MkPatSyn</span></a><span> </span><span class="hs-special">{</span><span> </span><span class="hs-identifier">psName</span><span> </span><span class="hs-glyph">=</span><span> </span><a name="local-6989586621679403535"><a href="#local-6989586621679403535"><span class="hs-identifier">name</span></a></a><span class="hs-special">,</span><span> </span><span class="hs-identifier">psUnivTyVars</span><span> </span><span class="hs-glyph">=</span><span> </span><a name="local-6989586621679403536"><a href="#local-6989586621679403536"><span class="hs-identifier">univ_tvs</span></a></a><span>
+</span><a name="line-435"></a><span>                           </span><span class="hs-special">,</span><span> </span><span class="hs-identifier">psExTyVars</span><span> </span><span class="hs-glyph">=</span><span> </span><a name="local-6989586621679403537"><a href="#local-6989586621679403537"><span class="hs-identifier">ex_tvs</span></a></a><span class="hs-special">,</span><span> </span><span class="hs-identifier">psArgs</span><span> </span><span class="hs-glyph">=</span><span> </span><a name="local-6989586621679403538"><a href="#local-6989586621679403538"><span class="hs-identifier">arg_tys</span></a></a><span> </span><span class="hs-special">}</span><span class="hs-special">)</span><span>
+</span><a name="line-436"></a><span>                 </span><a name="local-6989586621679403539"><a href="#local-6989586621679403539"><span class="hs-identifier">inst_tys</span></a></a><span>
+</span><a name="line-437"></a><span>  </span><span class="hs-glyph">=</span><span> </span><span class="hs-identifier">ASSERT2</span><span class="hs-special">(</span><span> </span><span class="hs-identifier">tyvars</span><span> </span><span class="hs-special">`</span><span class="hs-identifier">equalLength</span><span class="hs-special">`</span><span> </span><a href="Util.html#equalLength"><span class="hs-identifier hs-var">inst_tys</span></a><span>
+</span><a name="line-438"></a><span>          </span><span class="hs-special">,</span><span> </span><span class="hs-identifier">text</span><span> </span><span class="hs-string">&quot;patSynInstArgTys&quot;</span><span> </span><span class="hs-operator">&lt;+&gt;</span><span> </span><span class="hs-identifier">ppr</span><span> </span><span class="hs-identifier">name</span><span> </span><span class="hs-operator">$$</span><span> </span><span class="hs-identifier">ppr</span><span> </span><span class="hs-identifier">tyvars</span><span> </span><span class="hs-operator">$$</span><span> </span><span class="hs-identifier">ppr</span><span> </span><span class="hs-identifier">inst_tys</span><span> </span><span class="hs-special">)</span><span>
+</span><a name="line-439"></a><span>    </span><a href="../base-4.11.0.0/src/%{MODULE/./-}.html#%{NAME}/GHC.Base.html#map"><span class="hs-identifier hs-var">map</span></a><span> </span><span class="hs-special">(</span><a href="TyCoRep.html#substTyWith"><span class="hs-identifier hs-var">substTyWith</span></a><span> </span><a href="#local-6989586621679403540"><span class="hs-identifier hs-var">tyvars</span></a><span> </span><a href="#local-6989586621679403539"><span class="hs-identifier hs-var">inst_tys</span></a><span class="hs-special">)</span><span> </span><a href="#local-6989586621679403538"><span class="hs-identifier hs-var">arg_tys</span></a><span>
+</span><a name="line-440"></a><span>  </span><span class="hs-keyword">where</span><span>
+</span><a name="line-441"></a><span>    </span><a name="local-6989586621679403540"><a href="#local-6989586621679403540"><span class="hs-identifier">tyvars</span></a></a><span> </span><span class="hs-glyph">=</span><span> </span><a href="Var.html#binderVars"><span class="hs-identifier hs-var">binderVars</span></a><span> </span><span class="hs-special">(</span><a href="#local-6989586621679403536"><span class="hs-identifier hs-var">univ_tvs</span></a><span> </span><a href="../base-4.11.0.0/src/%{MODULE/./-}.html#%{NAME}/GHC.Base.html#%2B%2B"><span class="hs-operator hs-var">++</span></a><span> </span><a href="#local-6989586621679403537"><span class="hs-identifier hs-var">ex_tvs</span></a><span class="hs-special">)</span><span>
+</span><a name="line-442"></a><span>
+</span><a name="line-443"></a><span class="hs-identifier">patSynInstResTy</span><span> </span><span class="hs-glyph">::</span><span> </span><a href="PatSyn.html#PatSyn"><span class="hs-identifier hs-type">PatSyn</span></a><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="hs-special">[</span><a href="TyCoRep.html#Type"><span class="hs-identifier hs-type">Type</span></a><span class="hs-special">]</span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><a href="TyCoRep.html#Type"><span class="hs-identifier hs-type">Type</span></a><span>
+</span><a name="line-444"></a><span class="hs-comment">-- Return the type of whole pattern</span><span>
+</span><a name="line-445"></a><span class="hs-comment">-- E.g.  pattern P x y = Just (x,x,y)</span><span>
+</span><a name="line-446"></a><span class="hs-comment">--         P :: a -&gt; b -&gt; Just (a,a,b)</span><span>
+</span><a name="line-447"></a><span class="hs-comment">--         (patSynInstResTy P [Int,Bool] = Maybe (Int,Int,Bool)</span><span>
+</span><a name="line-448"></a><span class="hs-comment">-- NB: unlike patSynInstArgTys, the inst_tys should be just the *universal* tyvars</span><span>
+</span><a name="line-449"></a><a name="patSynInstResTy"><a href="PatSyn.html#patSynInstResTy"><span class="hs-identifier">patSynInstResTy</span></a></a><span> </span><span class="hs-special">(</span><a href="PatSyn.html#MkPatSyn"><span class="hs-identifier hs-var">MkPatSyn</span></a><span> </span><span class="hs-special">{</span><span> </span><span class="hs-identifier">psName</span><span> </span><span class="hs-glyph">=</span><span> </span><a name="local-6989586621679403541"><a href="#local-6989586621679403541"><span class="hs-identifier">name</span></a></a><span class="hs-special">,</span><span> </span><span class="hs-identifier">psUnivTyVars</span><span> </span><span class="hs-glyph">=</span><span> </span><a name="local-6989586621679403542"><a href="#local-6989586621679403542"><span class="hs-identifier">univ_tvs</span></a></a><span>
+</span><a name="line-450"></a><span>                          </span><span class="hs-special">,</span><span> </span><span class="hs-identifier">psResultTy</span><span> </span><span class="hs-glyph">=</span><span> </span><a name="local-6989586621679403543"><a href="#local-6989586621679403543"><span class="hs-identifier">res_ty</span></a></a><span> </span><span class="hs-special">}</span><span class="hs-special">)</span><span>
+</span><a name="line-451"></a><span>                </span><a name="local-6989586621679403544"><a href="#local-6989586621679403544"><span class="hs-identifier">inst_tys</span></a></a><span>
+</span><a name="line-452"></a><span>  </span><span class="hs-glyph">=</span><span> </span><span class="hs-identifier">ASSERT2</span><span class="hs-special">(</span><span> </span><span class="hs-identifier">univ_tvs</span><span> </span><span class="hs-special">`</span><span class="hs-identifier">equalLength</span><span class="hs-special">`</span><span> </span><a href="Util.html#equalLength"><span class="hs-identifier hs-var">inst_tys</span></a><span>
+</span><a name="line-453"></a><span>           </span><span class="hs-special">,</span><span> </span><span class="hs-identifier">text</span><span> </span><span class="hs-string">&quot;patSynInstResTy&quot;</span><span> </span><span class="hs-operator">&lt;+&gt;</span><span> </span><span class="hs-identifier">ppr</span><span> </span><span class="hs-identifier">name</span><span> </span><span class="hs-operator">$$</span><span> </span><span class="hs-identifier">ppr</span><span> </span><span class="hs-identifier">univ_tvs</span><span> </span><span class="hs-operator">$$</span><span> </span><span class="hs-identifier">ppr</span><span> </span><span class="hs-identifier">inst_tys</span><span> </span><span class="hs-special">)</span><span>
+</span><a name="line-454"></a><span>    </span><a href="TyCoRep.html#substTyWith"><span class="hs-identifier hs-var">substTyWith</span></a><span> </span><span class="hs-special">(</span><a href="Var.html#binderVars"><span class="hs-identifier hs-var">binderVars</span></a><span> </span><a href="#local-6989586621679403542"><span class="hs-identifier hs-var">univ_tvs</span></a><span class="hs-special">)</span><span> </span><a href="#local-6989586621679403544"><span class="hs-identifier hs-var">inst_tys</span></a><span> </span><a href="#local-6989586621679403543"><span class="hs-identifier hs-var">res_ty</span></a><span>
+</span><a name="line-455"></a><span>
+</span><a name="line-456"></a><span class="hs-comment">-- | Print the type of a pattern synonym. The foralls are printed explicitly</span><span>
+</span><a name="line-457"></a><span class="hs-identifier">pprPatSynType</span><span> </span><span class="hs-glyph">::</span><span> </span><a href="PatSyn.html#PatSyn"><span class="hs-identifier hs-type">PatSyn</span></a><span> </span><span class="hs-glyph">-&gt;</span><span> </span><a href="Outputable.html#SDoc"><span class="hs-identifier hs-type">SDoc</span></a><span>
+</span><a name="line-458"></a><a name="pprPatSynType"><a href="PatSyn.html#pprPatSynType"><span class="hs-identifier">pprPatSynType</span></a></a><span> </span><span class="hs-special">(</span><a href="PatSyn.html#MkPatSyn"><span class="hs-identifier hs-var">MkPatSyn</span></a><span> </span><span class="hs-special">{</span><span> </span><span class="hs-identifier">psUnivTyVars</span><span> </span><span class="hs-glyph">=</span><span> </span><a name="local-6989586621679403545"><a href="#local-6989586621679403545"><span class="hs-identifier">univ_tvs</span></a></a><span class="hs-special">,</span><span>  </span><span class="hs-identifier">psReqTheta</span><span>  </span><span class="hs-glyph">=</span><span> </span><a name="local-6989586621679403546"><a href="#local-6989586621679403546"><span class="hs-identifier">req_theta</span></a></a><span>
+</span><a name="line-459"></a><span>                        </span><span class="hs-special">,</span><span> </span><span class="hs-identifier">psExTyVars</span><span>   </span><span class="hs-glyph">=</span><span> </span><a name="local-6989586621679403547"><a href="#local-6989586621679403547"><span class="hs-identifier">ex_tvs</span></a></a><span class="hs-special">,</span><span>    </span><span class="hs-identifier">psProvTheta</span><span> </span><span class="hs-glyph">=</span><span> </span><a name="local-6989586621679403548"><a href="#local-6989586621679403548"><span class="hs-identifier">prov_theta</span></a></a><span>
+</span><a name="line-460"></a><span>                        </span><span class="hs-special">,</span><span> </span><span class="hs-identifier">psArgs</span><span>       </span><span class="hs-glyph">=</span><span> </span><a name="local-6989586621679403549"><a href="#local-6989586621679403549"><span class="hs-identifier">orig_args</span></a></a><span class="hs-special">,</span><span> </span><span class="hs-identifier">psResultTy</span><span> </span><span class="hs-glyph">=</span><span> </span><a name="local-6989586621679403550"><a href="#local-6989586621679403550"><span class="hs-identifier">orig_res_ty</span></a></a><span> </span><span class="hs-special">}</span><span class="hs-special">)</span><span>
+</span><a name="line-461"></a><span>  </span><span class="hs-glyph">=</span><span> </span><a href="Outputable.html#sep"><span class="hs-identifier hs-var">sep</span></a><span> </span><span class="hs-special">[</span><span> </span><a href="TyCoRep.html#pprForAll"><span class="hs-identifier hs-var">pprForAll</span></a><span> </span><a href="#local-6989586621679403545"><span class="hs-identifier hs-var">univ_tvs</span></a><span>
+</span><a name="line-462"></a><span>        </span><span class="hs-special">,</span><span> </span><a href="TyCoRep.html#pprThetaArrowTy"><span class="hs-identifier hs-var">pprThetaArrowTy</span></a><span> </span><a href="#local-6989586621679403546"><span class="hs-identifier hs-var">req_theta</span></a><span>
+</span><a name="line-463"></a><span>        </span><span class="hs-special">,</span><span> </span><a href="Outputable.html#ppWhen"><span class="hs-identifier hs-var">ppWhen</span></a><span> </span><a href="#local-6989586621679403552"><span class="hs-identifier hs-var">insert_empty_ctxt</span></a><span> </span><a href="../base-4.11.0.0/src/%{MODULE/./-}.html#%{NAME}/GHC.Base.html#%24"><span class="hs-operator hs-var">$</span></a><span> </span><a href="Outputable.html#parens"><span class="hs-identifier hs-var">parens</span></a><span> </span><a href="Outputable.html#empty"><span class="hs-identifier hs-var">empty</span></a><span> </span><a href="Outputable.html#%3C%2B%3E"><span class="hs-operator hs-var">&lt;+&gt;</span></a><span> </span><a href="Outputable.html#darrow"><span class="hs-identifier hs-var">darrow</span></a><span>
+</span><a name="line-464"></a><span>        </span><span class="hs-special">,</span><span> </span><a href="TyCoRep.html#pprType"><span class="hs-identifier hs-var">pprType</span></a><span> </span><a href="#local-6989586621679403551"><span class="hs-identifier hs-var">sigma_ty</span></a><span> </span><span class="hs-special">]</span><span>
+</span><a name="line-465"></a><span>  </span><span class="hs-keyword">where</span><span>
+</span><a name="line-466"></a><span>    </span><a name="local-6989586621679403551"><a href="#local-6989586621679403551"><span class="hs-identifier">sigma_ty</span></a></a><span> </span><span class="hs-glyph">=</span><span> </span><a href="TyCoRep.html#mkForAllTys"><span class="hs-identifier hs-var">mkForAllTys</span></a><span> </span><a href="#local-6989586621679403547"><span class="hs-identifier hs-var">ex_tvs</span></a><span>  </span><a href="../base-4.11.0.0/src/%{MODULE/./-}.html#%{NAME}/GHC.Base.html#%24"><span class="hs-operator hs-var">$</span></a><span>
+</span><a name="line-467"></a><span>               </span><a href="TyCoRep.html#mkFunTys"><span class="hs-identifier hs-var">mkFunTys</span></a><span> </span><a href="#local-6989586621679403548"><span class="hs-identifier hs-var">prov_theta</span></a><span> </span><a href="../base-4.11.0.0/src/%{MODULE/./-}.html#%{NAME}/GHC.Base.html#%24"><span class="hs-operator hs-var">$</span></a><span>
+</span><a name="line-468"></a><span>               </span><a href="TyCoRep.html#mkFunTys"><span class="hs-identifier hs-var">mkFunTys</span></a><span> </span><a href="#local-6989586621679403549"><span class="hs-identifier hs-var">orig_args</span></a><span> </span><a href="#local-6989586621679403550"><span class="hs-identifier hs-var">orig_res_ty</span></a><span>
+</span><a name="line-469"></a><span>    </span><a name="local-6989586621679403552"><a href="#local-6989586621679403552"><span class="hs-identifier">insert_empty_ctxt</span></a></a><span> </span><span class="hs-glyph">=</span><span> </span><a href="../base-4.11.0.0/src/%{MODULE/./-}.html#%{NAME}/Data.Foldable.html#null"><span class="hs-identifier hs-var">null</span></a><span> </span><a href="#local-6989586621679403546"><span class="hs-identifier hs-var">req_theta</span></a><span> </span><span class="hs-operator hs-var">&amp;&amp;</span><span> </span><span class="hs-identifier hs-var">not</span><span> </span><span class="hs-special">(</span><a href="../base-4.11.0.0/src/%{MODULE/./-}.html#%{NAME}/Data.Foldable.html#null"><span class="hs-identifier hs-var">null</span></a><span> </span><a href="#local-6989586621679403548"><span class="hs-identifier hs-var">prov_theta</span></a><span> </span><span class="hs-operator hs-var">&amp;&amp;</span><span> </span><a href="../base-4.11.0.0/src/%{MODULE/./-}.html#%{NAME}/Data.Foldable.html#null"><span class="hs-identifier hs-var">null</span></a><span> </span><a href="#local-6989586621679403547"><span class="hs-identifier hs-var">ex_tvs</span></a><span class="hs-special">)</span><span>
+</span><a name="line-470"></a></pre></body></html>
