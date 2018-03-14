@@ -195,13 +195,25 @@ Haskellプログラムの実行開始時に，RTS はコマンドラインで ``
     たとえば，コンパイル時の最大ヒープサイズを 128M にしたければ
     ``+RTS -M128m -RTS`` をコマンドラインから与えればいいのです．
 
+..
+   .. _rts-opts-compile-time:
+
+   Setting RTS options at compile time
+   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+   GHC lets you change the default RTS options for a program at compile
+   time, using the ``-with-rtsopts`` flag (:ref:`options-linker`). A common
+   use for this is to give your program a default heap and/or stack size
+   that is greater than the default. For example, to set ``-H128m -K64m``,
+   link with ``-with-rtsopts="-H128m -K64m"``.
+
 .. _rts-opts-compile-time:
 
-Setting RTS options at compile time
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+コンパイル時に RTS オプションを設定する
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-GHC lets you change the default RTS options for a program at compile
-time, using the ``-with-rtsopts`` flag (:ref:`options-linker`). A common
+``-with-rtsopts`` フラグを使えば，デフォルトの RTS オプションをコンパイル時に変更できるようになっています(:ref:`options-linker`)．
+よくあるのは，プログラムにデフォルトのヒープサイズやスタックサイズをも指定することです
 use for this is to give your program a default heap and/or stack size
 that is greater than the default. For example, to set ``-H128m -K64m``,
 link with ``-with-rtsopts="-H128m -K64m"``.
