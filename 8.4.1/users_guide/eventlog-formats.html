@@ -1,0 +1,258 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="ja">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>17. Eventlog encodings &#8212; Glasgow Haskell Compiler 8.4.1 User&#39;s Guide</title>
+    
+    <link rel="stylesheet" href="_static/ghc-theme.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '8.4.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/translations.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="search" type="application/opensearchdescription+xml"
+          title="Glasgow Haskell Compiler 8.4.1 User&#39;s Guide 内を検索"
+          href="_static/opensearch.xml"/>
+    <link rel="index" title="索引" href="genindex.html" />
+    <link rel="search" title="検索" href="search.html" />
+    <link rel="next" title="18. Care and feeding of your GHC User’s Guide" href="editing-guide.html" />
+    <link rel="prev" title="16. Known bugs and infelicities" href="bugs.html" /> 
+  </head>
+  <body role="document">
+<div class="logo">
+    <h1><a href="index.html">Glasgow Haskell Compiler User's Guide</a></h1>
+</div>
+
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>ナビゲーション</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="総合索引"
+             accesskey="I">索引</a></li>
+        <li class="right" >
+          <a href="editing-guide.html" title="18. Care and feeding of your GHC User’s Guide"
+             accesskey="N">次へ</a> |</li>
+        <li class="right" >
+          <a href="bugs.html" title="16. Known bugs and infelicities"
+             accesskey="P">前へ</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">GHC 8.4.1 User&#39;s Guide</a> &#187;</li> 
+      </ul>
+    </div>
+
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">目次</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">17. Eventlog encodings</a><ul>
+<li><a class="reference internal" href="#heap-profiler-event-log-output">17.1. Heap profiler event log output</a><ul>
+<li><a class="reference internal" href="#metadata-event-types">17.1.1. Metadata event types</a><ul>
+<li><a class="reference internal" href="#beginning-of-sample-stream">17.1.1.1. Beginning of sample stream</a></li>
+<li><a class="reference internal" href="#cost-centre-definitions">17.1.1.2. Cost centre definitions</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#sample-event-types">17.1.2. Sample event types</a><ul>
+<li><a class="reference internal" href="#cost-centre-break-down">17.1.2.1. Cost-centre break-down</a></li>
+<li><a class="reference internal" href="#string-break-down">17.1.2.2. String break-down</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  <h4>前のトピックへ</h4>
+  <p class="topless"><a href="bugs.html"
+                        title="前の章へ">16. Known bugs and infelicities</a></p>
+  <h4>次のトピックへ</h4>
+  <p class="topless"><a href="editing-guide.html"
+                        title="次の章へ">18. Care and feeding of your GHC User&#8217;s Guide</a></p>
+  <div role="note" aria-label="source link">
+    <h3>このページ</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/eventlog-formats.rst.txt"
+            rel="nofollow">ソースコードを表示</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>クイック検索</h3>
+    <form class="search" action="search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="検索" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="eventlog-encodings">
+<h1>17. Eventlog encodings<a class="headerlink" href="#eventlog-encodings" title="このヘッドラインへのパーマリンク">¶</a></h1>
+<p>This section documents the encodings of the events emitted to GHC&#8217;s
+<a class="reference internal" href="runtime_control.html#rts-eventlog"><span class="std std-ref">event log</span></a>. These events can include information about the
+thread scheduling events, garbage collection statistics, profiling information,
+user-defined tracing events.</p>
+<p>This section is intended for implementors of tooling which consume these events.</p>
+<div class="section" id="heap-profiler-event-log-output">
+<span id="heap-profiler-events"></span><h2>17.1. Heap profiler event log output<a class="headerlink" href="#heap-profiler-event-log-output" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>The heap profiler can produce output to GHC&#8217;s event log, allowing samples to
+be correlated with other event log events over the program&#8217;s lifecycle.</p>
+<p>This section defines the layout of these events. The <code class="docutils literal"><span class="pre">String</span></code> type below is
+defined to be a UTF-8 encoded NUL-terminated string.</p>
+<div class="section" id="metadata-event-types">
+<h3>17.1.1. Metadata event types<a class="headerlink" href="#metadata-event-types" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<div class="section" id="beginning-of-sample-stream">
+<h4>17.1.1.1. Beginning of sample stream<a class="headerlink" href="#beginning-of-sample-stream" title="このヘッドラインへのパーマリンク">¶</a></h4>
+<p>A single fixed-width event emitted during program start-up describing the samples that follow.</p>
+<blockquote>
+<div><ul>
+<li><p class="first"><code class="docutils literal"><span class="pre">EVENT_HEAP_PROF_BEGIN</span></code>
+* <code class="docutils literal"><span class="pre">Word8</span></code>: Profile ID
+* <code class="docutils literal"><span class="pre">Word64</span></code>: Sampling period in nanoseconds
+* <code class="docutils literal"><span class="pre">Word32</span></code>: Sample break-down type. One of,</p>
+<blockquote>
+<div><ul class="simple">
+<li><code class="docutils literal"><span class="pre">HEAP_PROF_BREAKDOWN_COST_CENTER</span></code> (output from <a class="reference internal" href="profiling.html#rts-flag--hc"><code class="xref std std-rts-flag docutils literal"><span class="pre">-hc</span></code></a>)</li>
+<li><code class="docutils literal"><span class="pre">HEAP_PROF_BREAKDOWN_CLOSURE_DESCR</span></code> (output from <a class="reference internal" href="profiling.html#rts-flag--hd"><code class="xref std std-rts-flag docutils literal"><span class="pre">-hd</span></code></a>)</li>
+<li><code class="docutils literal"><span class="pre">HEAP_PROF_BREAKDOWN_RETAINER</span></code> (output from <a class="reference internal" href="profiling.html#rts-flag--hr"><code class="xref std std-rts-flag docutils literal"><span class="pre">-hr</span></code></a>)</li>
+<li><code class="docutils literal"><span class="pre">HEAP_PROF_BREAKDOWN_MODULE</span></code> (output from <a class="reference internal" href="profiling.html#rts-flag--hm"><code class="xref std std-rts-flag docutils literal"><span class="pre">-hm</span></code></a>)</li>
+<li><code class="docutils literal"><span class="pre">HEAP_PROF_BREAKDOWN_TYPE_DESCR</span></code> (output from <a class="reference internal" href="profiling.html#rts-flag--hy"><code class="xref std std-rts-flag docutils literal"><span class="pre">-hy</span></code></a>)</li>
+<li><code class="docutils literal"><span class="pre">HEAP_PROF_BREAKDOWN_BIOGRAPHY</span></code> (output from <a class="reference internal" href="profiling.html#rts-flag--hb"><code class="xref std std-rts-flag docutils literal"><span class="pre">-hb</span></code></a>)</li>
+<li><code class="docutils literal"><span class="pre">HEAP_PROF_BREAKDOWN_CLOSURE_TYPE</span></code> (output from <a class="reference internal" href="runtime_control.html#rts-flag--hT"><code class="xref std std-rts-flag docutils literal"><span class="pre">-hT</span></code></a>)</li>
+</ul>
+</div></blockquote>
+<ul class="simple">
+<li><code class="docutils literal"><span class="pre">String</span></code>: Module filter</li>
+<li><code class="docutils literal"><span class="pre">String</span></code>: Closure description filter</li>
+<li><code class="docutils literal"><span class="pre">String</span></code>: Type description filter</li>
+<li><code class="docutils literal"><span class="pre">String</span></code>: Cost centre filter</li>
+<li><code class="docutils literal"><span class="pre">String</span></code>: Cost centre stack filter</li>
+<li><code class="docutils literal"><span class="pre">String</span></code>: Retainer filter</li>
+<li><code class="docutils literal"><span class="pre">String</span></code>: Biography filter</li>
+</ul>
+</li>
+</ul>
+</div></blockquote>
+</div>
+<div class="section" id="cost-centre-definitions">
+<h4>17.1.1.2. Cost centre definitions<a class="headerlink" href="#cost-centre-definitions" title="このヘッドラインへのパーマリンク">¶</a></h4>
+<p>A variable-length packet produced once for each cost centre,</p>
+<blockquote>
+<div><ul>
+<li><p class="first"><code class="docutils literal"><span class="pre">EVENT_HEAP_PROF_COST_CENTRE</span></code>
+* <code class="docutils literal"><span class="pre">Word32</span></code>: cost centre number
+* <code class="docutils literal"><span class="pre">String</span></code>: label
+* <code class="docutils literal"><span class="pre">String</span></code>: module
+* <code class="docutils literal"><span class="pre">String</span></code>: source location
+* <code class="docutils literal"><span class="pre">Word8</span></code>: flags</p>
+<blockquote>
+<div><ul class="simple">
+<li>bit 0: is the cost-centre a CAF?</li>
+</ul>
+</div></blockquote>
+</li>
+</ul>
+</div></blockquote>
+</div>
+</div>
+<div class="section" id="sample-event-types">
+<h3>17.1.2. Sample event types<a class="headerlink" href="#sample-event-types" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<p>A sample (consisting of a list of break-down classes, e.g. cost centres, and
+heap residency sizes), is to be encoded in the body of one or more events.</p>
+<p>We mark the beginning of a new sample with an <code class="docutils literal"><span class="pre">EVENT_HEAP_PROF_SAMPLE_BEGIN</span></code>
+event,</p>
+<blockquote>
+<div><ul class="simple">
+<li><code class="docutils literal"><span class="pre">EVENT_HEAP_PROF_SAMPLE_BEGIN</span></code>
+* <code class="docutils literal"><span class="pre">Word64</span></code>: sample number</li>
+</ul>
+</div></blockquote>
+<p>A heap residency census will follow. Since events may only be up to 2^16^ bytes
+in length a single sample may need to be split among multiple
+<code class="docutils literal"><span class="pre">EVENT_HEAP_PROF_SAMPLE</span></code> events. The precise format of the census entries is
+determined by the break-down type.</p>
+<div class="section" id="cost-centre-break-down">
+<h4>17.1.2.1. Cost-centre break-down<a class="headerlink" href="#cost-centre-break-down" title="このヘッドラインへのパーマリンク">¶</a></h4>
+<dl class="docutils">
+<dt>A variable-length packet encoding a heap profile sample broken down by,</dt>
+<dd><ul class="first last simple">
+<li>cost-centre (<code class="docutils literal"><span class="pre">-hc</span></code>)</li>
+<li><code class="docutils literal"><span class="pre">EVENT_HEAP_PROF_SAMPLE_COST_CENTRE</span></code>
+* <code class="docutils literal"><span class="pre">Word8</span></code>: Profile ID
+* <code class="docutils literal"><span class="pre">Word64</span></code>: heap residency in bytes
+* <code class="docutils literal"><span class="pre">Word8</span></code>: stack depth
+* <code class="docutils literal"><span class="pre">Word32[]</span></code>: cost centre stack starting with inner-most (cost centre numbers)</li>
+</ul>
+</dd>
+</dl>
+</div>
+<div class="section" id="string-break-down">
+<h4>17.1.2.2. String break-down<a class="headerlink" href="#string-break-down" title="このヘッドラインへのパーマリンク">¶</a></h4>
+<dl class="docutils">
+<dt>A variable-length event encoding a heap sample broken down by,</dt>
+<dd><ul class="first last simple">
+<li>type description (<code class="docutils literal"><span class="pre">-hy</span></code>)</li>
+<li>closure description (<code class="docutils literal"><span class="pre">-hd</span></code>)</li>
+<li>module (<code class="docutils literal"><span class="pre">-hm</span></code>)</li>
+<li><code class="docutils literal"><span class="pre">EVENT_HEAP_PROF_SAMPLE_STRING</span></code>
+* <code class="docutils literal"><span class="pre">Word8</span></code>: Profile ID
+* <code class="docutils literal"><span class="pre">Word64</span></code>: heap residency in bytes
+* <code class="docutils literal"><span class="pre">String</span></code>: type or closure description, or module name</li>
+</ul>
+</dd>
+</dl>
+</div>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>ナビゲーション</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="総合索引"
+             >索引</a></li>
+        <li class="right" >
+          <a href="editing-guide.html" title="18. Care and feeding of your GHC User’s Guide"
+             >次へ</a> |</li>
+        <li class="right" >
+          <a href="bugs.html" title="16. Known bugs and infelicities"
+             >前へ</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">GHC 8.4.1 User&#39;s Guide</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2015, GHC Team.
+      このドキュメントは <a href="http://sphinx-doc.org/">Sphinx</a> 1.5.6 で生成しました。
+    </div>
+  </body>
+</html>

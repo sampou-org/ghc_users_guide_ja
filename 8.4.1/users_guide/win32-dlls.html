@@ -1,0 +1,477 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="ja">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>15. Running GHC on Win32 systems &#8212; Glasgow Haskell Compiler 8.4.1 User&#39;s Guide</title>
+    
+    <link rel="stylesheet" href="_static/ghc-theme.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '8.4.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/translations.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="search" type="application/opensearchdescription+xml"
+          title="Glasgow Haskell Compiler 8.4.1 User&#39;s Guide 内を検索"
+          href="_static/opensearch.xml"/>
+    <link rel="index" title="索引" href="genindex.html" />
+    <link rel="search" title="検索" href="search.html" />
+    <link rel="next" title="16. Known bugs and infelicities" href="bugs.html" />
+    <link rel="prev" title="14. Other Haskell utility programs" href="utils.html" /> 
+  </head>
+  <body role="document">
+<div class="logo">
+    <h1><a href="index.html">Glasgow Haskell Compiler User's Guide</a></h1>
+</div>
+
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>ナビゲーション</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="総合索引"
+             accesskey="I">索引</a></li>
+        <li class="right" >
+          <a href="bugs.html" title="16. Known bugs and infelicities"
+             accesskey="N">次へ</a> |</li>
+        <li class="right" >
+          <a href="utils.html" title="14. Other Haskell utility programs"
+             accesskey="P">前へ</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">GHC 8.4.1 User&#39;s Guide</a> &#187;</li> 
+      </ul>
+    </div>
+
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">目次</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">15. Running GHC on Win32 systems</a><ul>
+<li><a class="reference internal" href="#starting-ghc-on-windows-platforms">15.1. Starting GHC on Windows platforms</a></li>
+<li><a class="reference internal" href="#running-ghci-on-windows">15.2. Running GHCi on Windows</a></li>
+<li><a class="reference internal" href="#interacting-with-the-terminal">15.3. Interacting with the terminal</a></li>
+<li><a class="reference internal" href="#differences-in-library-behaviour">15.4. Differences in library behaviour</a></li>
+<li><a class="reference internal" href="#using-ghc-and-other-ghc-compiled-executables-with-cygwin">15.5. Using GHC (and other GHC-compiled executables) with Cygwin</a><ul>
+<li><a class="reference internal" href="#background">15.5.1. Background</a></li>
+<li><a class="reference internal" href="#the-problem">15.5.2. The problem</a></li>
+<li><a class="reference internal" href="#things-to-do">15.5.3. Things to do</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#building-and-using-win32-dlls">15.6. Building and using Win32 DLLs</a><ul>
+<li><a class="reference internal" href="#creating-a-dll">15.6.1. Creating a DLL</a></li>
+<li><a class="reference internal" href="#making-dlls-to-be-called-from-other-languages">15.6.2. Making DLLs to be called from other languages</a><ul>
+<li><a class="reference internal" href="#using-from-vba">15.6.2.1. Using from VBA</a></li>
+<li><a class="reference internal" href="#using-from-c">15.6.2.2. Using from C++</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  <h4>前のトピックへ</h4>
+  <p class="topless"><a href="utils.html"
+                        title="前の章へ">14. Other Haskell utility programs</a></p>
+  <h4>次のトピックへ</h4>
+  <p class="topless"><a href="bugs.html"
+                        title="次の章へ">16. Known bugs and infelicities</a></p>
+  <div role="note" aria-label="source link">
+    <h3>このページ</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/win32-dlls.rst.txt"
+            rel="nofollow">ソースコードを表示</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>クイック検索</h3>
+    <form class="search" action="search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="検索" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="running-ghc-on-win32-systems">
+<span id="win32"></span><h1>15. Running GHC on Win32 systems<a class="headerlink" href="#running-ghc-on-win32-systems" title="このヘッドラインへのパーマリンク">¶</a></h1>
+<div class="section" id="starting-ghc-on-windows-platforms">
+<span id="ghc-windows"></span><h2>15.1. Starting GHC on Windows platforms<a class="headerlink" href="#starting-ghc-on-windows-platforms" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>The installer that installs GHC on Win32 also sets up the file-suffix
+associations for &#8221;.hs&#8221; and &#8221;.lhs&#8221; files so that double-clicking them
+starts <code class="docutils literal"><span class="pre">ghci</span></code>.</p>
+<p>Be aware of that <code class="docutils literal"><span class="pre">ghc</span></code> and <code class="docutils literal"><span class="pre">ghci</span></code> do require filenames containing
+spaces to be escaped using quotes:</p>
+<div class="highlight-none"><div class="highlight"><pre><span></span>c:\ghc\bin\ghci &quot;c:\\Program Files\\Haskell\\Project.hs&quot;
+</pre></div>
+</div>
+<p>If the quotes are left off in the above command, <code class="docutils literal"><span class="pre">ghci</span></code> will interpret
+the filename as two, <code class="docutils literal"><span class="pre">c:\\\\Program</span></code> and
+<code class="docutils literal"><span class="pre">Files\\\\Haskell\\\\Project.hs</span></code>.</p>
+</div>
+<div class="section" id="running-ghci-on-windows">
+<span id="ghci-windows"></span><h2>15.2. Running GHCi on Windows<a class="headerlink" href="#running-ghci-on-windows" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>We recommend running GHCi in a standard Windows console: select the
+<code class="docutils literal"><span class="pre">GHCi</span></code> option from the start menu item added by the GHC installer, or
+use <code class="docutils literal"><span class="pre">Start-&gt;Run-&gt;cmd</span></code> to get a Windows console and invoke <code class="docutils literal"><span class="pre">ghci</span></code>
+from there (as long as it&#8217;s in your <code class="docutils literal"><span class="pre">PATH</span></code>).</p>
+<p>If you run GHCi in a Cygwin or MSYS shell, then the Control-C behaviour
+is adversely affected. In one of these environments you should use the
+<code class="docutils literal"><span class="pre">ghcii.sh</span></code> script to start GHCi, otherwise when you hit Control-C
+you&#8217;ll be returned to the shell prompt but the GHCi process will still
+be running. However, even using the <code class="docutils literal"><span class="pre">ghcii.sh</span></code> script, if you hit
+Control-C then the GHCi process will be killed immediately, rather than
+letting you interrupt a running program inside GHCi as it should. This
+problem is caused by the fact that the Cygwin and MSYS shell
+environments don&#8217;t pass Control-C events to non-Cygwin child processes,
+because in order to do that there needs to be a Windows console.</p>
+<p>There&#8217;s an exception: you can use a Cygwin shell if the <code class="docutils literal"><span class="pre">CYGWIN</span></code>
+environment variable does <em>not</em> contain <code class="docutils literal"><span class="pre">tty</span></code>. In this mode, the
+Cygwin shell behaves like a Windows console shell and console events are
+propagated to child processes. Note that the <code class="docutils literal"><span class="pre">CYGWIN</span></code> environment
+variable must be set <em>before</em> starting the Cygwin shell; changing it
+afterwards has no effect on the shell.</p>
+<p>This problem doesn&#8217;t just affect GHCi, it affects any GHC-compiled
+program that wants to catch console events. See the
+<a class="reference external" href="../libraries/base-4.11.0.0/GHC-ConsoleHandler.html">GHC.ConsoleHandler</a> module.</p>
+</div>
+<div class="section" id="interacting-with-the-terminal">
+<span id="terminal-interaction"></span><h2>15.3. Interacting with the terminal<a class="headerlink" href="#interacting-with-the-terminal" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>By default GHC builds applications that open a console window when they
+start. If you want to build a GUI-only application, with no console
+window, use the flag <code class="docutils literal"><span class="pre">-optl-mwindows</span></code> in the link step.</p>
+<div class="admonition warning">
+<p class="first admonition-title">警告</p>
+<p>Windows GUI-only programs have no stdin, stdout or stderr so
+using the ordinary Haskell input/output functions will cause your
+program to fail with an IO exception, such as:</p>
+<div class="highlight-none"><div class="highlight"><pre><span></span>Fail: &lt;stdout&gt;: hPutChar: failed (Bad file descriptor)
+</pre></div>
+</div>
+<p class="last">However using Debug.Trace.trace is alright because it uses Windows
+debugging output support rather than <code class="docutils literal"><span class="pre">stderr</span></code>.</p>
+</div>
+<p>For some reason, Mingw ships with the <code class="docutils literal"><span class="pre">readline</span></code> library, but not with
+the <code class="docutils literal"><span class="pre">readline</span></code> headers. As a result, GHC (like Hugs) does not use
+<code class="docutils literal"><span class="pre">readline</span></code> for interactive input on Windows. You can get a close
+simulation by using an emacs shell buffer!</p>
+</div>
+<div class="section" id="differences-in-library-behaviour">
+<span id="library-differences"></span><h2>15.4. Differences in library behaviour<a class="headerlink" href="#differences-in-library-behaviour" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>Some of the standard Haskell libraries behave slightly differently on
+Windows.</p>
+<ul class="simple">
+<li>On Windows, the <code class="docutils literal"><span class="pre">^Z</span></code> character is interpreted as an end-of-file
+character, so if you read a file containing this character the file
+will appear to end just before it. To avoid this, use
+<code class="docutils literal"><span class="pre">IOExts.openFileEx</span></code> to open a file in binary (untranslated) mode or
+change an already opened file handle into binary mode using
+<code class="docutils literal"><span class="pre">IOExts.hSetBinaryMode</span></code>. The <code class="docutils literal"><span class="pre">IOExts</span></code> module is part of the
+<code class="docutils literal"><span class="pre">lang</span></code> package.</li>
+</ul>
+</div>
+<div class="section" id="using-ghc-and-other-ghc-compiled-executables-with-cygwin">
+<span id="ghci-cygwin"></span><h2>15.5. Using GHC (and other GHC-compiled executables) with Cygwin<a class="headerlink" href="#using-ghc-and-other-ghc-compiled-executables-with-cygwin" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<div class="section" id="background">
+<h3>15.5.1. Background<a class="headerlink" href="#background" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<p>The Cygwin tools aim to provide a Unix-style API on top of the windows
+libraries, to facilitate ports of Unix software to windows. To this end,
+they introduce a Unix-style directory hierarchy under some root
+directory (typically <code class="docutils literal"><span class="pre">/</span></code> is <code class="docutils literal"><span class="pre">C:\cygwin\</span></code>). Moreover, everything
+built against the Cygwin API (including the Cygwin tools and programs
+compiled with Cygwin&#8217;s GHC) will see <code class="docutils literal"><span class="pre">/</span></code> as the root of their file system,
+happily pretending to work in a typical unix environment, and finding
+things like <code class="docutils literal"><span class="pre">/bin</span></code> and <code class="docutils literal"><span class="pre">/usr/include</span></code> without ever explicitly
+bothering with their actual location on the windows system (probably
+<code class="docutils literal"><span class="pre">C:\cygwin\bin</span></code> and <code class="docutils literal"><span class="pre">C:\cygwin\usr\include</span></code>).</p>
+</div>
+<div class="section" id="the-problem">
+<h3>15.5.2. The problem<a class="headerlink" href="#the-problem" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<p>GHC, by default, no longer depends on cygwin, but is a native Windows
+program. It is built using mingw, and it uses mingw&#8217;s GHC while
+compiling your Haskell sources (even if you call it from cygwin&#8217;s bash),
+but what matters here is that - just like any other normal windows
+program - neither GHC nor the executables it produces are aware of
+Cygwin&#8217;s pretended unix hierarchy. GHC will happily accept either <code class="docutils literal"><span class="pre">/</span></code> or
+<code class="docutils literal"><span class="pre">\\</span></code> as path separators, but it won&#8217;t know where to find <code class="docutils literal"><span class="pre">/home/joe/Main.hs</span></code>
+or <code class="docutils literal"><span class="pre">/bin/bash</span></code> or the like. This causes all kinds of fun when GHC is used from
+within Cygwin&#8217;s bash, or in make-sessions running under Cygwin.</p>
+</div>
+<div class="section" id="things-to-do">
+<h3>15.5.3. Things to do<a class="headerlink" href="#things-to-do" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<ul>
+<li><p class="first">Don&#8217;t use absolute paths in <code class="docutils literal"><span class="pre">make</span></code>, <code class="docutils literal"><span class="pre">configure</span></code> &amp; co if there is any
+chance that those might be passed to GHC (or to GHC-compiled
+programs). Relative paths are fine because cygwin tools are happy
+with them and GHC accepts <code class="docutils literal"><span class="pre">/</span></code> as path-separator. And relative paths
+don&#8217;t depend on where Cygwin&#8217;s root directory is located, or on which
+partition or network drive your source tree happens to reside, as
+long as you <code class="docutils literal"><span class="pre">cd</span></code> there first.</p>
+</li>
+<li><p class="first">If you have to use absolute paths (beware of the innocent-looking
+<code class="docutils literal"><span class="pre">ROOT=$(pwd)</span></code> in makefile hierarchies or configure scripts), Cygwin
+provides a tool called <code class="docutils literal"><span class="pre">cygpath</span></code> that can convert Cygwin&#8217;s
+Unix-style paths to their actual Windows-style counterparts. Many
+Cygwin tools actually accept absolute Windows-style paths (remember,
+though, that you either need to escape <code class="docutils literal"><span class="pre">\\</span></code> or convert <code class="docutils literal"><span class="pre">\\</span></code> to <code class="docutils literal"><span class="pre">/</span></code>),
+so you should be fine just using those everywhere. If you need to use
+tools that do some kind of path-mangling that depends on unix-style
+paths (one fun example is trying to interpret <code class="docutils literal"><span class="pre">:</span></code> as a separator in
+path lists), you can still try to convert paths using <code class="docutils literal"><span class="pre">cygpath</span></code>
+just before they are passed to GHC and friends.</p>
+</li>
+<li><p class="first">If you don&#8217;t have <code class="docutils literal"><span class="pre">cygpath</span></code>, you probably don&#8217;t have cygwin and
+hence no problems with it... unless you want to write one build
+process for several platforms. Again, relative paths are your friend,
+but if you have to use absolute paths, and don&#8217;t want to use
+different tools on different platforms, you can simply write a short
+Haskell program to print the current directory (thanks to George
+Russell for this idea): compiled with GHC, this will give you the
+view of the file system that GHC depends on (which will differ
+depending on whether GHC is compiled with cygwin&#8217;s gcc or mingw&#8217;s gcc
+or on a real Unix system..) - that little program can also deal with
+escaping <code class="docutils literal"><span class="pre">\\</span></code> in paths. Apart from the banner and the startup time,
+something like this would also do:</p>
+<div class="highlight-none"><div class="highlight"><pre><span></span>$ echo &quot;Directory.getCurrentDirectory &gt;&gt;= putStrLn . init . tail . show &quot; | ghci
+</pre></div>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div class="section" id="building-and-using-win32-dlls">
+<span id="win32-dlls"></span><h2>15.6. Building and using Win32 DLLs<a class="headerlink" href="#building-and-using-win32-dlls" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>Dynamic link libraries, Win32 DLLs, Win32 On Win32 platforms, the
+compiler is capable of both producing and using dynamic link libraries
+(DLLs) containing ghc-compiled code. This section shows you how to make
+use of this facility.</p>
+<p>There are two distinct ways in which DLLs can be used:</p>
+<ul>
+<li><p class="first">You can turn each Haskell package into a DLL, so that multiple
+Haskell executables using the same packages can share the DLL files.
+(As opposed to linking the libraries statically, which in effect
+creates a new copy of the RTS and all libraries for each executable
+produced.)</p>
+<p>That is the same as the dynamic linking on other platforms, and it is
+described in <a class="reference internal" href="shared_libs.html#using-shared-libs"><span class="std std-ref">Using shared libraries</span></a>.</p>
+</li>
+<li><p class="first">You can package up a complete Haskell program as a DLL, to be called
+by some external (usually non-Haskell) program. This is usually used
+to implement plugins and the like, and is described below.</p>
+</li>
+</ul>
+<div class="section" id="creating-a-dll">
+<span id="win32-dlls-create"></span><h3>15.6.1. Creating a DLL<a class="headerlink" href="#creating-a-dll" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<p>Creating a Win32 DLL -shared Sealing up your Haskell library inside a
+DLL is straightforward; compile up the object files that make up the
+library, and then build the DLL by issuing a command of the form:</p>
+<div class="highlight-none"><div class="highlight"><pre><span></span>ghc -shared -o foo.dll bar.o baz.o wibble.a -lfooble
+</pre></div>
+</div>
+<p>By feeding the ghc compiler driver the option <code class="docutils literal"><span class="pre">-shared</span></code>, it will build
+a DLL rather than produce an executable. The DLL will consist of all the
+object files and archives given on the command line.</p>
+<p>A couple of things to notice:</p>
+<ul>
+<li><p class="first">By default, the entry points of all the object files will be exported
+from the DLL when using <code class="docutils literal"><span class="pre">-shared</span></code>. Should you want to constrain
+this, you can specify the <em>module definition file</em> to use on the
+command line as follows:</p>
+<div class="highlight-none"><div class="highlight"><pre><span></span>ghc -shared -o .... MyDef.def
+</pre></div>
+</div>
+<p>See Microsoft documentation for details, but a module definition file
+simply lists what entry points you want to export. Here&#8217;s one that&#8217;s
+suitable when building a Haskell COM server DLL:</p>
+<div class="highlight-none"><div class="highlight"><pre><span></span>EXPORTS
+ DllCanUnloadNow     = DllCanUnloadNow@0
+ DllGetClassObject   = DllGetClassObject@12
+ DllRegisterServer   = DllRegisterServer@0
+ DllUnregisterServer = DllUnregisterServer@0
+</pre></div>
+</div>
+</li>
+<li><p class="first">In addition to creating a DLL, the <code class="docutils literal"><span class="pre">-shared</span></code> option also creates an
+import library. The import library name is derived from the name of
+the DLL, as follows:</p>
+<div class="highlight-none"><div class="highlight"><pre><span></span>DLL: HScool.dll  ==&gt; import lib: libHScool.dll.a
+</pre></div>
+</div>
+<p>The naming scheme may look a bit weird, but it has the purpose of
+allowing the co-existence of import libraries with ordinary static
+libraries (e.g., <code class="docutils literal"><span class="pre">libHSfoo.a</span></code> and <code class="docutils literal"><span class="pre">libHSfoo.dll.a</span></code>. Additionally,
+when the compiler driver is linking in non-static mode, it will
+rewrite occurrence of <code class="docutils literal"><span class="pre">-lHSfoo</span></code> on the command line to
+<code class="docutils literal"><span class="pre">-lHSfoo.dll</span></code>. By doing this for you, switching from non-static to
+static linking is simply a question of adding <code class="docutils literal"><span class="pre">-static</span></code> to your
+command line.</p>
+</li>
+</ul>
+</div>
+<div class="section" id="making-dlls-to-be-called-from-other-languages">
+<span id="win32-dlls-foreign"></span><h3>15.6.2. Making DLLs to be called from other languages<a class="headerlink" href="#making-dlls-to-be-called-from-other-languages" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<p>This section describes how to create DLLs to be called from other
+languages, such as Visual Basic or C++. This is a special case of
+<a class="reference internal" href="ffi-chap.html#ffi-library"><span class="std std-ref">Making a Haskell library that can be called from foreign code</span></a>; we&#8217;ll deal with the DLL-specific issues that arise
+below. Here&#8217;s an example:</p>
+<p>Use foreign export declarations to export the Haskell functions you want
+to call from the outside. For example:</p>
+<div class="highlight-haskell"><div class="highlight"><pre><span></span><span class="c1">-- Adder.hs</span>
+<span class="cm">{-# LANGUAGE ForeignFunctionInterface #-}</span>
+<span class="kr">module</span> <span class="nn">Adder</span> <span class="kr">where</span>
+
+<span class="nf">adder</span> <span class="ow">::</span> <span class="kt">Int</span> <span class="ow">-&gt;</span> <span class="kt">Int</span> <span class="ow">-&gt;</span> <span class="kt">IO</span> <span class="kt">Int</span>  <span class="c1">-- gratuitous use of IO</span>
+<span class="nf">adder</span> <span class="n">x</span> <span class="n">y</span> <span class="ow">=</span> <span class="n">return</span> <span class="p">(</span><span class="n">x</span><span class="o">+</span><span class="n">y</span><span class="p">)</span>
+
+<span class="nf">foreign</span> <span class="n">export</span> <span class="n">stdcall</span> <span class="n">adder</span> <span class="ow">::</span> <span class="kt">Int</span> <span class="ow">-&gt;</span> <span class="kt">Int</span> <span class="ow">-&gt;</span> <span class="kt">IO</span> <span class="kt">Int</span>
+</pre></div>
+</div>
+<p>Add some helper code that starts up and shuts down the Haskell RTS:</p>
+<div class="highlight-c"><div class="highlight"><pre><span></span><span class="c1">// StartEnd.c</span>
+<span class="cp">#include</span> <span class="cpf">&lt;Rts.h&gt;</span><span class="cp"></span>
+
+<span class="kt">void</span> <span class="nf">HsStart</span><span class="p">()</span>
+<span class="p">{</span>
+   <span class="kt">int</span> <span class="n">argc</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+   <span class="kt">char</span><span class="o">*</span> <span class="n">argv</span><span class="p">[]</span> <span class="o">=</span> <span class="p">{</span><span class="s">&quot;ghcDll&quot;</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">};</span> <span class="c1">// argv must end with NULL</span>
+
+   <span class="c1">// Initialize Haskell runtime</span>
+   <span class="kt">char</span><span class="o">**</span> <span class="n">args</span> <span class="o">=</span> <span class="n">argv</span><span class="p">;</span>
+   <span class="n">hs_init</span><span class="p">(</span><span class="o">&amp;</span><span class="n">argc</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">args</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="kt">void</span> <span class="nf">HsEnd</span><span class="p">()</span>
+<span class="p">{</span>
+   <span class="n">hs_exit</span><span class="p">();</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>Here, <code class="docutils literal"><span class="pre">Adder</span></code> is the name of the root module in the module tree (as
+mentioned above, there must be a single root module, and hence a single
+module tree in the DLL). Compile everything up:</p>
+<div class="highlight-none"><div class="highlight"><pre><span></span>ghc -c Adder.hs
+ghc -c StartEnd.c
+ghc -shared -o Adder.dll Adder.o Adder_stub.o StartEnd.o
+</pre></div>
+</div>
+<p>Now the file <code class="docutils literal"><span class="pre">Adder.dll</span></code> can be used from other programming languages.
+Before calling any functions in Adder it is necessary to call
+<code class="docutils literal"><span class="pre">HsStart</span></code>, and at the very end call <code class="docutils literal"><span class="pre">HsEnd</span></code>.</p>
+<div class="admonition warning">
+<p class="first admonition-title">警告</p>
+<p class="last">It may appear tempting to use <code class="docutils literal"><span class="pre">DllMain</span></code> to call
+<code class="docutils literal"><span class="pre">hs_init</span></code>/<code class="docutils literal"><span class="pre">hs_exit</span></code>, but this won&#8217;t work (particularly if you
+compile with <code class="docutils literal"><span class="pre">-threaded</span></code>). There are severe restrictions on which
+actions can be performed during <code class="docutils literal"><span class="pre">DllMain</span></code>, and <code class="docutils literal"><span class="pre">hs_init</span></code> violates
+these restrictions, which can lead to your DLL freezing during startup
+(see <a class="reference external" href="https://ghc.haskell.org/trac/ghc/ticket/3605">Trac #3605</a>).</p>
+</div>
+<div class="section" id="using-from-vba">
+<span id="win32-dlls-vba"></span><h4>15.6.2.1. Using from VBA<a class="headerlink" href="#using-from-vba" title="このヘッドラインへのパーマリンク">¶</a></h4>
+<p>An example of using <code class="docutils literal"><span class="pre">Adder.dll</span></code> from VBA is:</p>
+<div class="highlight-none"><div class="highlight"><pre><span></span>Private Declare Function Adder Lib &quot;Adder.dll&quot; Alias &quot;adder@8&quot; _
+      (ByVal x As Long, ByVal y As Long) As Long
+
+Private Declare Sub HsStart Lib &quot;Adder.dll&quot; ()
+Private Declare Sub HsEnd Lib &quot;Adder.dll&quot; ()
+
+Private Sub Document_Close()
+HsEnd
+End Sub
+
+Private Sub Document_Open()
+HsStart
+End Sub
+
+Public Sub Test()
+MsgBox &quot;12 + 5 = &quot; &amp; Adder(12, 5)
+End Sub
+</pre></div>
+</div>
+<p>This example uses the <code class="docutils literal"><span class="pre">Document_Open</span></code>/<code class="docutils literal"><span class="pre">Close</span></code> functions of Microsoft
+Word, but provided <code class="docutils literal"><span class="pre">HsStart</span></code> is called before the first function, and
+<code class="docutils literal"><span class="pre">HsEnd</span></code> after the last, then it will work fine.</p>
+</div>
+<div class="section" id="using-from-c">
+<span id="win32-dlls-c"></span><h4>15.6.2.2. Using from C++<a class="headerlink" href="#using-from-c" title="このヘッドラインへのパーマリンク">¶</a></h4>
+<p>An example of using <code class="docutils literal"><span class="pre">Adder.dll</span></code> from C++ is:</p>
+<div class="highlight-c"><div class="highlight"><pre><span></span><span class="c1">// Tester.cpp</span>
+<span class="cp">#include</span> <span class="cpf">&quot;HsFFI.h&quot;</span><span class="cp"></span>
+<span class="cp">#include</span> <span class="cpf">&quot;Adder_stub.h&quot;</span><span class="cp"></span>
+<span class="cp">#include</span> <span class="cpf">&lt;stdio.h&gt;</span><span class="cp"></span>
+
+<span class="k">extern</span> <span class="s">&quot;C&quot;</span> <span class="p">{</span>
+    <span class="kt">void</span> <span class="n">HsStart</span><span class="p">();</span>
+    <span class="kt">void</span> <span class="nf">HsEnd</span><span class="p">();</span>
+<span class="p">}</span>
+
+<span class="kt">int</span> <span class="n">main</span><span class="p">()</span>
+<span class="p">{</span>
+    <span class="n">HsStart</span><span class="p">();</span>
+    <span class="c1">// can now safely call functions from the DLL</span>
+    <span class="n">printf</span><span class="p">(</span><span class="s">&quot;12 + 5 = %i</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span> <span class="n">adder</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span><span class="mi">5</span><span class="p">))</span>    <span class="p">;</span>
+    <span class="n">HsEnd</span><span class="p">();</span>
+    <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>This can be compiled and run with:</p>
+<div class="highlight-none"><div class="highlight"><pre><span></span>$ ghc -o tester Tester.cpp Adder.dll.a
+$ tester
+12 + 5 = 17
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>ナビゲーション</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="総合索引"
+             >索引</a></li>
+        <li class="right" >
+          <a href="bugs.html" title="16. Known bugs and infelicities"
+             >次へ</a> |</li>
+        <li class="right" >
+          <a href="utils.html" title="14. Other Haskell utility programs"
+             >前へ</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">GHC 8.4.1 User&#39;s Guide</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2015, GHC Team.
+      このドキュメントは <a href="http://sphinx-doc.org/">Sphinx</a> 1.5.6 で生成しました。
+    </div>
+  </body>
+</html>

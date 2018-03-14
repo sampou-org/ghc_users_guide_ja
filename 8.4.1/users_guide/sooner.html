@@ -1,0 +1,411 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="ja">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>8. Advice on: sooner, faster, smaller, thriftier &#8212; Glasgow Haskell Compiler 8.4.1 User&#39;s Guide</title>
+    
+    <link rel="stylesheet" href="_static/ghc-theme.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '8.4.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/translations.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="search" type="application/opensearchdescription+xml"
+          title="Glasgow Haskell Compiler 8.4.1 User&#39;s Guide 内を検索"
+          href="_static/opensearch.xml"/>
+    <link rel="index" title="索引" href="genindex.html" />
+    <link rel="search" title="検索" href="search.html" />
+    <link rel="next" title="9. GHC Language Features" href="lang.html" />
+    <link rel="prev" title="7. Profiling" href="profiling.html" /> 
+  </head>
+  <body role="document">
+<div class="logo">
+    <h1><a href="index.html">Glasgow Haskell Compiler User's Guide</a></h1>
+</div>
+
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>ナビゲーション</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="総合索引"
+             accesskey="I">索引</a></li>
+        <li class="right" >
+          <a href="lang.html" title="9. GHC Language Features"
+             accesskey="N">次へ</a> |</li>
+        <li class="right" >
+          <a href="profiling.html" title="7. Profiling"
+             accesskey="P">前へ</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">GHC 8.4.1 User&#39;s Guide</a> &#187;</li> 
+      </ul>
+    </div>
+
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">目次</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">8. Advice on: sooner, faster, smaller, thriftier</a><ul>
+<li><a class="reference internal" href="#sooner-producing-a-program-more-quickly">8.1. Sooner: producing a program more quickly</a></li>
+<li><a class="reference internal" href="#faster-producing-a-program-that-runs-quicker">8.2. Faster: producing a program that runs quicker</a></li>
+<li><a class="reference internal" href="#smaller-producing-a-program-that-is-smaller">8.3. Smaller: producing a program that is smaller</a></li>
+<li><a class="reference internal" href="#thriftier-producing-a-program-that-gobbles-less-heap-space">8.4. Thriftier: producing a program that gobbles less heap space</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>前のトピックへ</h4>
+  <p class="topless"><a href="profiling.html"
+                        title="前の章へ">7. Profiling</a></p>
+  <h4>次のトピックへ</h4>
+  <p class="topless"><a href="lang.html"
+                        title="次の章へ">9. GHC Language Features</a></p>
+  <div role="note" aria-label="source link">
+    <h3>このページ</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/sooner.rst.txt"
+            rel="nofollow">ソースコードを表示</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>クイック検索</h3>
+    <form class="search" action="search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="検索" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="advice-on-sooner-faster-smaller-thriftier">
+<span id="sooner-faster-quicker"></span><h1>8. Advice on: sooner, faster, smaller, thriftier<a class="headerlink" href="#advice-on-sooner-faster-smaller-thriftier" title="このヘッドラインへのパーマリンク">¶</a></h1>
+<p>Please advise us of other &#8220;helpful hints&#8221; that should go here!</p>
+<div class="section" id="sooner-producing-a-program-more-quickly">
+<span id="sooner"></span><h2>8.1. Sooner: producing a program more quickly<a class="headerlink" href="#sooner-producing-a-program-more-quickly" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<dl class="docutils" id="index-0">
+<dt>Don&#8217;t use <a class="reference internal" href="using-optimisation.html#ghc-flag--O"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-O</span></code></a> or (especially) <a class="reference internal" href="using-optimisation.html#ghc-flag--O2"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-O2</span></code></a>:</dt>
+<dd><p class="first">By using them, you are telling GHC that you are willing to suffer
+longer compilation times for better-quality code.</p>
+<p class="last">GHC is surprisingly zippy for normal compilations without <a class="reference internal" href="using-optimisation.html#ghc-flag--O"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-O</span></code></a>!</p>
+</dd>
+<dt>Use more memory:</dt>
+<dd><p class="first">Within reason, more memory for heap space means less garbage
+collection for GHC, which means less compilation time. If you use
+the <code class="docutils literal"><span class="pre">-Rghc-timing</span></code> option, you&#8217;ll get a garbage-collector report.
+(Again, you can use the cheap-and-nasty <code class="docutils literal"><span class="pre">+RTS</span> <span class="pre">-S</span> <span class="pre">-RTS</span></code> option to
+send the GC stats straight to standard error.)</p>
+<p id="index-1">If it says you&#8217;re using more than 20% of total time in garbage collecting,
+then more memory might help: use the <code class="docutils literal"><span class="pre">-H⟨size⟩</span></code> (see <a class="reference internal" href="runtime_control.html#rts-flag--H [⟨size⟩]"><code class="xref std std-rts-flag docutils literal"><span class="pre">-H</span>
+<span class="pre">[⟨size⟩]</span></code></a>) option. Increasing the default allocation area size used by the
+compiler&#8217;s RTS might also help: use the <code class="docutils literal"><span class="pre">+RTS</span> <span class="pre">-A⟨size⟩</span> <span class="pre">-RTS</span></code> option (see
+<a class="reference internal" href="runtime_control.html#rts-flag--A ⟨size⟩"><code class="xref std std-rts-flag docutils literal"><span class="pre">-A</span> <span class="pre">⟨size⟩</span></code></a>).</p>
+<p class="last" id="index-2">If GHC persists in being a bad memory citizen, please report it as a
+bug.</p>
+</dd>
+<dt>Don&#8217;t use too much memory!</dt>
+<dd><p class="first">As soon as GHC plus its “fellow citizens” (other processes on your
+machine) start using more than the <em>real memory</em> on your machine,
+and the machine starts “thrashing,” <em>the party is over</em>. Compile
+times will be worse than terrible! Use something like the csh
+builtin <strong class="command">time</strong> command to get a report on how many page faults
+you&#8217;re getting.</p>
+<p class="last">If you don&#8217;t know what virtual memory, thrashing, and page faults
+are, or you don&#8217;t know the memory configuration of your machine,
+<em>don&#8217;t</em> try to be clever about memory use: you&#8217;ll just make your
+life a misery (and for other people, too, probably).</p>
+</dd>
+<dt>Try to use local disks when linking:</dt>
+<dd><p class="first">Because Haskell objects and libraries tend to be large, it can take
+many real seconds to slurp the bits to/from a remote filesystem.</p>
+<p class="last">It would be quite sensible to <em>compile</em> on a fast machine using
+remotely-mounted disks; then <em>link</em> on a slow machine that had your
+disks directly mounted.</p>
+</dd>
+<dt>Don&#8217;t derive/use <code class="docutils literal"><span class="pre">Read</span></code> unnecessarily:</dt>
+<dd>It&#8217;s ugly and slow.</dd>
+<dt>GHC compiles some program constructs slowly:</dt>
+<dd><p class="first">We&#8217;d rather you reported such behaviour as a bug, so that we can try
+to correct it.</p>
+<p class="last" id="index-3">To figure out which part of the compiler is badly behaved, the
+<code class="docutils literal"><span class="pre">-v2</span></code> option is your friend.</p>
+</dd>
+</dl>
+</div>
+<div class="section" id="faster-producing-a-program-that-runs-quicker">
+<span id="faster"></span><h2>8.2. Faster: producing a program that runs quicker<a class="headerlink" href="#faster-producing-a-program-that-runs-quicker" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p id="index-4">The key tool to use in making your Haskell program run faster are GHC&#8217;s
+profiling facilities, described separately in <a class="reference internal" href="profiling.html#profiling"><span class="std std-ref">Profiling</span></a>. There is
+<em>no substitute</em> for finding where your program&#8217;s time/space is <em>really</em>
+going, as opposed to where you imagine it is going.</p>
+<p>Another point to bear in mind: By far the best way to improve a
+program&#8217;s performance <em>dramatically</em> is to use better algorithms. Once
+profiling has thrown the spotlight on the guilty time-consumer(s), it
+may be better to re-think your program than to try all the tweaks listed
+below.</p>
+<p>Another extremely efficient way to make your program snappy is to use
+library code that has been Seriously Tuned By Someone Else. You <em>might</em>
+be able to write a better quicksort than the one in <code class="docutils literal"><span class="pre">Data.List</span></code>, but
+it will take you much longer than typing <code class="docutils literal"><span class="pre">import</span> <span class="pre">Data.List</span></code>.</p>
+<p>Please report any overly-slow GHC-compiled programs. Since GHC doesn&#8217;t
+have any credible competition in the performance department these days
+it&#8217;s hard to say what overly-slow means, so just use your judgement! Of
+course, if a GHC compiled program runs slower than the same program
+compiled with NHC or Hugs, then it&#8217;s definitely a bug.</p>
+<dl class="docutils">
+<dt>Optimise, using <code class="docutils literal"><span class="pre">-O</span></code> or <code class="docutils literal"><span class="pre">-O2</span></code>:</dt>
+<dd><p class="first">This is the most basic way to make your program go faster.
+Compilation time will be slower, especially with <code class="docutils literal"><span class="pre">-O2</span></code>.</p>
+<p class="last">At present, <code class="docutils literal"><span class="pre">-O2</span></code> is nearly indistinguishable from <code class="docutils literal"><span class="pre">-O</span></code>.</p>
+</dd>
+<dt>Compile via LLVM:</dt>
+<dd>The <a class="reference internal" href="codegens.html#llvm-code-gen"><span class="std std-ref">LLVM code generator</span></a> can sometimes do a far
+better job at producing fast code than the <a class="reference internal" href="codegens.html#native-code-gen"><span class="std std-ref">native code generator</span></a>. This is not universal and depends on the code. Numeric
+heavy code seems to show the best improvement when compiled via LLVM. You
+can also experiment with passing specific flags to LLVM with the
+<a class="reference internal" href="phases.html#ghc-flag--optlo ⟨option⟩"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-optlo</span> <span class="pre">⟨option⟩</span></code></a> and <a class="reference internal" href="phases.html#ghc-flag--optlc ⟨option⟩"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-optlc</span> <span class="pre">⟨option⟩</span></code></a> flags. Be
+careful though as setting these flags stops GHC from setting its usual
+flags for the LLVM optimiser and compiler.</dd>
+<dt>Overloaded functions are not your friend:</dt>
+<dd>Haskell&#8217;s overloading (using type classes) is elegant, neat, etc.,
+etc., but it is death to performance if left to linger in an inner
+loop. How can you squash it?</dd>
+<dt>Give explicit type signatures:</dt>
+<dd><p class="first">Signatures are the basic trick; putting them on exported, top-level
+functions is good software-engineering practice, anyway. (Tip: using
+the <a class="reference internal" href="using-warnings.html#ghc-flag--Wmissing-signatures"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-Wmissing-signatures</span></code></a> option can
+help enforce good signature-practice).</p>
+<p class="last">The automatic specialisation of overloaded functions (with <code class="docutils literal"><span class="pre">-O</span></code>)
+should take care of overloaded local and/or unexported functions.</p>
+</dd>
+<dt>Use <code class="docutils literal"><span class="pre">SPECIALIZE</span></code> pragmas:</dt>
+<dd><span class="target" id="index-5"></span><p class="first last" id="index-6">Specialize the overloading on key functions in your program. See
+<a class="reference internal" href="glasgow_exts.html#specialize-pragma"><span class="std std-ref">SPECIALIZE pragma</span></a> and <a class="reference internal" href="glasgow_exts.html#specialize-instance-pragma"><span class="std std-ref">SPECIALIZE instance pragma</span></a>.</p>
+</dd>
+<dt>&#8220;But how do I know where overloading is creeping in?&#8221;</dt>
+<dd><p class="first">A low-tech way: grep (search) your interface files for overloaded
+type signatures. You can view interface files using the
+<a class="reference internal" href="using.html#ghc-flag---show-iface ⟨file⟩"><code class="xref std std-ghc-flag docutils literal"><span class="pre">--show-iface</span> <span class="pre">⟨file⟩</span></code></a> option (see <a class="reference internal" href="separate_compilation.html#hi-options"><span class="std std-ref">Other options related to interface files</span></a>).</p>
+<div class="last highlight-sh"><div class="highlight"><pre><span></span>$ ghc --show-iface Foo.hi <span class="p">|</span> egrep <span class="s1">&#39;^[a-z].*::.*=&gt;&#39;</span>
+</pre></div>
+</div>
+</dd>
+<dt>Strict functions are your dear friends:</dt>
+<dd><p class="first">And, among other things, lazy pattern-matching is your enemy.</p>
+<p>(If you don&#8217;t know what a &#8220;strict function&#8221; is, please consult a
+functional-programming textbook. A sentence or two of explanation
+here probably would not do much good.)</p>
+<p>Consider these two code fragments:</p>
+<div class="highlight-haskell"><div class="highlight"><pre><span></span><span class="nf">f</span> <span class="p">(</span><span class="kt">Wibble</span> <span class="n">x</span> <span class="n">y</span><span class="p">)</span> <span class="ow">=</span>  <span class="o">...</span> <span class="o">#</span> <span class="n">strict</span>
+
+<span class="nf">f</span> <span class="n">arg</span> <span class="ow">=</span> <span class="kr">let</span> <span class="p">{</span> <span class="p">(</span><span class="kt">Wibble</span> <span class="n">x</span> <span class="n">y</span><span class="p">)</span> <span class="ow">=</span> <span class="n">arg</span> <span class="p">}</span> <span class="kr">in</span> <span class="o">...</span> <span class="o">#</span> <span class="n">lazy</span>
+</pre></div>
+</div>
+<p>The former will result in far better code.</p>
+<p>A less contrived example shows the use of <code class="docutils literal"><span class="pre">cases</span></code> instead of
+<code class="docutils literal"><span class="pre">lets</span></code> to get stricter code (a good thing):</p>
+<div class="last highlight-haskell"><div class="highlight"><pre><span></span><span class="nf">f</span> <span class="p">(</span><span class="kt">Wibble</span> <span class="n">x</span> <span class="n">y</span><span class="p">)</span>  <span class="o">#</span> <span class="n">beautiful</span> <span class="n">but</span> <span class="n">slow</span>
+      <span class="ow">=</span> <span class="kr">let</span>
+            <span class="p">(</span><span class="n">a1</span><span class="p">,</span> <span class="n">b1</span><span class="p">,</span> <span class="n">c1</span><span class="p">)</span> <span class="ow">=</span> <span class="n">unpackFoo</span> <span class="n">x</span>
+            <span class="p">(</span><span class="n">a2</span><span class="p">,</span> <span class="n">b2</span><span class="p">,</span> <span class="n">c2</span><span class="p">)</span> <span class="ow">=</span> <span class="n">unpackFoo</span> <span class="n">y</span>
+        <span class="kr">in</span> <span class="o">...</span>
+
+<span class="nf">f</span> <span class="p">(</span><span class="kt">Wibble</span> <span class="n">x</span> <span class="n">y</span><span class="p">)</span>  <span class="o">#</span> <span class="n">ugly</span><span class="p">,</span> <span class="n">and</span> <span class="n">proud</span> <span class="kr">of</span> <span class="n">it</span>
+      <span class="ow">=</span> <span class="kr">case</span> <span class="p">(</span><span class="n">unpackFoo</span> <span class="n">x</span><span class="p">)</span> <span class="kr">of</span> <span class="p">{</span> <span class="p">(</span><span class="n">a1</span><span class="p">,</span> <span class="n">b1</span><span class="p">,</span> <span class="n">c1</span><span class="p">)</span> <span class="ow">-&gt;</span>
+            <span class="kr">case</span> <span class="p">(</span><span class="n">unpackFoo</span> <span class="n">y</span><span class="p">)</span> <span class="kr">of</span> <span class="p">{</span> <span class="p">(</span><span class="n">a2</span><span class="p">,</span> <span class="n">b2</span><span class="p">,</span> <span class="n">c2</span><span class="p">)</span> <span class="ow">-&gt;</span>
+                <span class="o">...</span>
+      <span class="p">}}</span>
+</pre></div>
+</div>
+</dd>
+<dt>GHC loves single-constructor data-types:</dt>
+<dd>It&#8217;s all the better if a function is strict in a single-constructor
+type (a type with only one data-constructor; for example, tuples are
+single-constructor types).</dd>
+<dt>Newtypes are better than datatypes:</dt>
+<dd>If your datatype has a single constructor with a single field, use a
+<code class="docutils literal"><span class="pre">newtype</span></code> declaration instead of a <code class="docutils literal"><span class="pre">data</span></code> declaration. The
+<code class="docutils literal"><span class="pre">newtype</span></code> will be optimised away in most cases.</dd>
+<dt>&#8220;How do I find out a function&#8217;s strictness?&#8221;</dt>
+<dd><p class="first">Don&#8217;t guess—look it up.</p>
+<p>Look for your function in the interface file, then for the third
+field in the pragma; it should say <code class="docutils literal"><span class="pre">Strictness:</span> <span class="pre">⟨string⟩</span></code>. The
+⟨string⟩ gives the strictness of the function&#8217;s arguments: see
+<a class="reference external" href="https://ghc.haskell.org/trac/ghc/wiki/Commentary/Compiler/Demand">the GHC Commentary</a>
+for a description of the strictness notation.</p>
+<p>For an &#8220;unpackable&#8221; <code class="docutils literal"><span class="pre">U(...)</span></code> argument, the info inside tells the
+strictness of its components. So, if the argument is a pair, and it
+says <code class="docutils literal"><span class="pre">U(AU(LSS))</span></code>, that means “the first component of the pair
+isn&#8217;t used; the second component is itself unpackable, with three
+components (lazy in the first, strict in the second \&amp; third).”</p>
+<p class="last">If the function isn&#8217;t exported, just compile with the extra flag
+<a class="reference internal" href="debugging.html#ghc-flag--ddump-simpl"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-ddump-simpl</span></code></a>; next to the signature for any binder, it will
+print the self-same pragmatic information as would be put in an
+interface file. (Besides, Core syntax is fun to look at!)</p>
+</dd>
+<dt>Force key functions to be <code class="docutils literal"><span class="pre">INLINE</span></code>d (esp. monads):</dt>
+<dd>Placing <code class="docutils literal"><span class="pre">INLINE</span></code> pragmas on certain functions that are used a lot
+can have a dramatic effect. See <a class="reference internal" href="glasgow_exts.html#inline-pragma"><span class="std std-ref">INLINE pragma</span></a>.</dd>
+<dt>Explicit <code class="docutils literal"><span class="pre">export</span></code> list:</dt>
+<dd><p class="first">If you do not have an explicit export list in a module, GHC must
+assume that everything in that module will be exported. This has
+various pessimising effects. For example, if a bit of code is
+actually <em>unused</em> (perhaps because of unfolding effects), GHC will
+not be able to throw it away, because it is exported and some other
+module may be relying on its existence.</p>
+<p class="last">GHC can be quite a bit more aggressive with pieces of code if it
+knows they are not exported.</p>
+</dd>
+<dt>Look at the Core syntax!</dt>
+<dd><p class="first">(The form in which GHC manipulates your code.) Just run your
+compilation with <a class="reference internal" href="debugging.html#ghc-flag--ddump-simpl"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-ddump-simpl</span></code></a> (don&#8217;t forget the <a class="reference internal" href="using-optimisation.html#ghc-flag--O"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-O</span></code></a>).</p>
+<p class="last">If profiling has pointed the finger at particular functions, look at
+their Core code. <code class="docutils literal"><span class="pre">lets</span></code> are bad, <code class="docutils literal"><span class="pre">cases</span></code> are good, dictionaries
+(<code class="docutils literal"><span class="pre">d.⟨Class⟩.⟨Unique⟩</span></code>) [or anything overloading-ish] are bad,
+nested lambdas are bad, explicit data constructors are good,
+primitive operations (e.g., <code class="docutils literal"><span class="pre">eqInt#</span></code>) are good, ...</p>
+</dd>
+<dt>Use strictness annotations:</dt>
+<dd><p class="first">Putting a strictness annotation (<code class="docutils literal"><span class="pre">!</span></code>) on a constructor field helps
+in two ways: it adds strictness to the program, which gives the
+strictness analyser more to work with, and it might help to reduce
+space leaks.</p>
+<p>It can also help in a third way: when used with
+<a class="reference internal" href="using-optimisation.html#ghc-flag--funbox-strict-fields"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-funbox-strict-fields</span></code></a> (see <a class="reference internal" href="using-optimisation.html#options-f"><span class="std std-ref">-f*: platform-independent flags</span></a>), a strict field can
+be unpacked or unboxed in the constructor, and one or more levels of
+indirection may be removed. Unpacking only happens for
+single-constructor datatypes (<code class="docutils literal"><span class="pre">Int</span></code> is a good candidate, for
+example).</p>
+<p class="last">Using <a class="reference internal" href="using-optimisation.html#ghc-flag--funbox-strict-fields"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-funbox-strict-fields</span></code></a> is only really a good idea in
+conjunction with <a class="reference internal" href="using-optimisation.html#ghc-flag--O"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-O</span></code></a>, because otherwise the extra packing and
+unpacking won&#8217;t be optimised away. In fact, it is possible that
+<a class="reference internal" href="using-optimisation.html#ghc-flag--funbox-strict-fields"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-funbox-strict-fields</span></code></a> may worsen performance even <em>with</em> <a class="reference internal" href="using-optimisation.html#ghc-flag--O"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-O</span></code></a>,
+but this is unlikely (let us know if it happens to you).</p>
+</dd>
+<dt>Use unboxed types (a GHC extension):</dt>
+<dd><p class="first">When you are <em>really</em> desperate for speed, and you want to get right
+down to the “raw bits.” Please see <a class="reference internal" href="glasgow_exts.html#glasgow-unboxed"><span class="std std-ref">Unboxed types</span></a> for some
+information about using unboxed types.</p>
+<p class="last">Before resorting to explicit unboxed types, try using strict
+constructor fields and <a class="reference internal" href="using-optimisation.html#ghc-flag--funbox-strict-fields"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-funbox-strict-fields</span></code></a> first (see above).
+That way, your code stays portable.</p>
+</dd>
+<dt>Use <code class="docutils literal"><span class="pre">foreign</span> <span class="pre">import</span></code> (a GHC extension) to plug into fast libraries:</dt>
+<dd><p class="first">This may take real work, but… There exist piles of massively-tuned
+library code, and the best thing is not to compete with it, but link
+with it.</p>
+<p class="last"><a class="reference internal" href="ffi-chap.html#ffi"><span class="std std-ref">Foreign function interface (FFI)</span></a> describes the foreign function interface.</p>
+</dd>
+<dt>Don&#8217;t use <code class="docutils literal"><span class="pre">Float</span></code>s:</dt>
+<dd><p class="first">If you&#8217;re using <code class="docutils literal"><span class="pre">Complex</span></code>, definitely use <code class="docutils literal"><span class="pre">Complex</span> <span class="pre">Double</span></code>
+rather than <code class="docutils literal"><span class="pre">Complex</span> <span class="pre">Float</span></code> (the former is specialised heavily,
+but the latter isn&#8217;t).</p>
+<p><code class="docutils literal"><span class="pre">Floats</span></code> (probably 32-bits) are almost always a bad idea, anyway,
+unless you Really Know What You Are Doing. Use <code class="docutils literal"><span class="pre">Double</span></code>s.
+There&#8217;s rarely a speed disadvantage—modern machines will use the
+same floating-point unit for both. With <code class="docutils literal"><span class="pre">Double</span></code>s, you are much
+less likely to hang yourself with numerical errors.</p>
+<p class="last">One time when <code class="docutils literal"><span class="pre">Float</span></code> might be a good idea is if you have a <em>lot</em>
+of them, say a giant array of <code class="docutils literal"><span class="pre">Float</span></code>s. They take up half the
+space in the heap compared to <code class="docutils literal"><span class="pre">Doubles</span></code>. However, this isn&#8217;t true
+on a 64-bit machine.</p>
+</dd>
+<dt>Use unboxed arrays (<code class="docutils literal"><span class="pre">UArray</span></code>)</dt>
+<dd>GHC supports arrays of unboxed elements, for several basic
+arithmetic element types including <code class="docutils literal"><span class="pre">Int</span></code> and <code class="docutils literal"><span class="pre">Char</span></code>: see the
+<a class="reference external" href="../libraries/array-&#64;LIBRARY_array_VERSION&#64;/Data-Array-Unboxed.html">Data.Array.Unboxed</a> library for details. These arrays are
+likely to be much faster than using standard Haskell 98 arrays from the
+<a class="reference external" href="../libraries/array-&#64;LIBRARY_array_VERSION&#64;/Data-Array.html">Data.Array</a> library.</dd>
+<dt>Use a bigger heap!</dt>
+<dd>If your program&#8217;s GC stats (<a class="reference internal" href="runtime_control.html#rts-flag--S [⟨file⟩]"><code class="xref std std-rts-flag docutils literal"><span class="pre">-S</span> <span class="pre">[⟨file⟩]</span></code></a> RTS option) indicate
+that it&#8217;s doing lots of garbage-collection (say, more than 20% of execution
+time), more memory might help — with the <code class="xref std std-rts-flag docutils literal"><span class="pre">-H⟨size⟩</span></code> or <code class="xref std std-rts-flag docutils literal"><span class="pre">-A⟨size⟩</span></code> RTS
+options (see <a class="reference internal" href="runtime_control.html#rts-options-gc"><span class="std std-ref">RTS options to control the garbage collector</span></a>). As a rule of thumb, try setting
+<code class="xref std std-rts-flag docutils literal"><span class="pre">-H</span> <span class="pre">⟨size⟩</span></code> to the amount of memory you&#8217;re willing to let your process
+consume, or perhaps try passing <a class="reference internal" href="using.html#ghc-flag--H ⟨size⟩"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-H</span> <span class="pre">⟨size⟩</span></code></a> without any argument
+to let GHC calculate a value based on the amount of live data.</dd>
+<dt>Compact your data:</dt>
+<dd>The <a class="reference external" href="../libraries/ghc-compact-0.1.0.0/GHC-Compact.html">GHC.Compact</a> module
+provides a way to make garbage collection more efficient for
+long-lived data structures. Compacting a data structure collects
+the objects together in memory, where they are treated as a single
+object by the garbage collector and not traversed individually.</dd>
+</dl>
+</div>
+<div class="section" id="smaller-producing-a-program-that-is-smaller">
+<span id="smaller"></span><h2>8.3. Smaller: producing a program that is smaller<a class="headerlink" href="#smaller-producing-a-program-that-is-smaller" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p id="index-7">Decrease the &#8220;go-for-it&#8221; threshold for unfolding smallish expressions.
+Give a <a class="reference internal" href="using-optimisation.html#ghc-flag--funfolding-use-threshold=⟨n⟩"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-funfolding-use-threshold=0</span></code></a>
+option for the extreme case. (“Only unfoldings with zero cost should proceed.”)
+Warning: except in certain specialised cases (like Happy parsers) this is likely
+to actually <em>increase</em> the size of your program, because unfolding generally
+enables extra simplifying optimisations to be performed.</p>
+<p>Avoid <a class="reference external" href="../libraries/base-4.11.0.0/Prelude.html#t:Read">Prelude.Read</a>.</p>
+<p>Use <strong class="command">strip</strong> on your executables.</p>
+</div>
+<div class="section" id="thriftier-producing-a-program-that-gobbles-less-heap-space">
+<span id="thriftier"></span><h2>8.4. Thriftier: producing a program that gobbles less heap space<a class="headerlink" href="#thriftier-producing-a-program-that-gobbles-less-heap-space" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p id="index-8">&#8220;I think I have a space leak...&#8221;</p>
+<p>Re-run your program with <code class="xref std std-ghc-flag docutils literal"><span class="pre">+RTS</span> <span class="pre">-S</span></code>, and remove all
+doubt! (You&#8217;ll see the heap usage get bigger and bigger...) (Hmmm... this might
+be even easier with the <a class="reference internal" href="runtime_control.html#rts-flag--G ⟨generations⟩"><code class="xref std std-rts-flag docutils literal"><span class="pre">-G1</span></code></a> RTS option; so...
+<code class="docutils literal"><span class="pre">./a.out</span> <span class="pre">+RTS</span> <span class="pre">-S</span> <span class="pre">-G1</span></code>)</p>
+<p id="index-9">Once again, the profiling facilities (<a class="reference internal" href="profiling.html#profiling"><span class="std std-ref">Profiling</span></a>) are the basic
+tool for demystifying the space behaviour of your program.</p>
+<p>Strict functions are good for space usage, as they are for time, as
+discussed in the previous section. Strict functions get right down to
+business, rather than filling up the heap with closures (the system&#8217;s
+notes to itself about how to evaluate something, should it eventually be
+required).</p>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>ナビゲーション</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="総合索引"
+             >索引</a></li>
+        <li class="right" >
+          <a href="lang.html" title="9. GHC Language Features"
+             >次へ</a> |</li>
+        <li class="right" >
+          <a href="profiling.html" title="7. Profiling"
+             >前へ</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">GHC 8.4.1 User&#39;s Guide</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2015, GHC Team.
+      このドキュメントは <a href="http://sphinx-doc.org/">Sphinx</a> 1.5.6 で生成しました。
+    </div>
+  </body>
+</html>

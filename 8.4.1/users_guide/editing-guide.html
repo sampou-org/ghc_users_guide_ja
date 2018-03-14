@@ -1,0 +1,525 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="ja">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>18. Care and feeding of your GHC User’s Guide &#8212; Glasgow Haskell Compiler 8.4.1 User&#39;s Guide</title>
+    
+    <link rel="stylesheet" href="_static/ghc-theme.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '8.4.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/translations.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="search" type="application/opensearchdescription+xml"
+          title="Glasgow Haskell Compiler 8.4.1 User&#39;s Guide 内を検索"
+          href="_static/opensearch.xml"/>
+    <link rel="index" title="索引" href="genindex.html" />
+    <link rel="search" title="検索" href="search.html" />
+    <link rel="prev" title="17. Eventlog encodings" href="eventlog-formats.html" /> 
+  </head>
+  <body role="document">
+<div class="logo">
+    <h1><a href="index.html">Glasgow Haskell Compiler User's Guide</a></h1>
+</div>
+
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>ナビゲーション</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="総合索引"
+             accesskey="I">索引</a></li>
+        <li class="right" >
+          <a href="eventlog-formats.html" title="17. Eventlog encodings"
+             accesskey="P">前へ</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">GHC 8.4.1 User&#39;s Guide</a> &#187;</li> 
+      </ul>
+    </div>
+
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">目次</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">18. Care and feeding of your GHC User&#8217;s Guide</a><ul>
+<li><a class="reference internal" href="#basics">18.1. Basics</a><ul>
+<li><a class="reference internal" href="#headings">18.1.1. Headings</a></li>
+<li><a class="reference internal" href="#formatting-code">18.1.2. Formatting code</a><ul>
+<li><a class="reference internal" href="#haskell">18.1.2.1. Haskell</a></li>
+<li><a class="reference internal" href="#other-languages">18.1.2.2. Other languages</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#links">18.1.3. Links</a><ul>
+<li><a class="reference internal" href="#within-the-user-s-guide">18.1.3.1. Within the User&#8217;s Guide</a></li>
+<li><a class="reference internal" href="#to-ghc-trac-resources">18.1.3.2. To GHC Trac resources</a></li>
+<li><a class="reference internal" href="#to-external-resources">18.1.3.3. To external resources</a></li>
+<li><a class="reference internal" href="#to-core-library-haddock-documentation">18.1.3.4. To core library Haddock documentation</a></li>
+<li><a class="reference internal" href="#math">18.1.3.5. Math</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#index-entries">18.1.4. Index entries</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#citations">18.2. Citations</a></li>
+<li><a class="reference internal" href="#admonitions">18.3. Admonitions</a></li>
+<li><a class="reference internal" href="#documenting-command-line-options-and-ghci-commands">18.4. Documenting command-line options and GHCi commands</a><ul>
+<li><a class="reference internal" href="#command-line-options">18.4.1. Command-line options</a></li>
+<li><a class="reference internal" href="#ghci-commands">18.4.2. GHCi commands</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#style-conventions">18.5. Style Conventions</a></li>
+<li><a class="reference internal" href="#rest-reference-materials">18.6. ReST reference materials</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>前のトピックへ</h4>
+  <p class="topless"><a href="eventlog-formats.html"
+                        title="前の章へ">17. Eventlog encodings</a></p>
+  <div role="note" aria-label="source link">
+    <h3>このページ</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/editing-guide.rst.txt"
+            rel="nofollow">ソースコードを表示</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>クイック検索</h3>
+    <form class="search" action="search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="検索" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="care-and-feeding-of-your-ghc-user-s-guide">
+<h1>18. Care and feeding of your GHC User&#8217;s Guide<a class="headerlink" href="#care-and-feeding-of-your-ghc-user-s-guide" title="このヘッドラインへのパーマリンク">¶</a></h1>
+<p>The GHC User&#8217;s Guide is the primary reference documentation
+for the Glasgow Haskell Compiler. Even more than this, it at times serves (for
+better or for worse) as a de-facto language standard, being the sole
+non-academic reference for many widely used language extensions.</p>
+<p>Since GHC 8.0, the User&#8217;s Guide is authored in <a class="reference external" href="https://en.wikipedia.org/wiki/ReStructuredText">ReStructuredText</a> (or ReST or RST, for short)
+a rich but light-weight mark-up language aimed at producing documentation. The
+<a class="reference external" href="http://sphinx-doc.org/">Sphinx</a> tool is used to produce the final PDF and
+HTML documentation.</p>
+<p>This document (also written in ReST) serves as a brief introducion to ReST and to
+document the conventions used in the User&#8217;s Guide. This document is <em>not</em> intended
+to be a thorough guide to ReST. For this see the resources referenced
+<a class="reference external" href="#references">below</a>.</p>
+<div class="section" id="basics">
+<h2>18.1. Basics<a class="headerlink" href="#basics" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>Unicode characters are allowed in the document.</p>
+<p>The basic syntax works largely as one would expect. For instance,</p>
+<div class="highlight-rest"><div class="highlight"><pre><span></span>This is a paragraph containing a few sentences of text. Purple turtles walk
+through green fields of lofty maize. Lorem ipsum dolor sit amet, consectetur
+adipiscing elit. Some lists,
+
+<span class="m">1.</span> This is a list item
+
+   a. Followed by a sub-item
+   b. And another!
+   <span class="m">c.</span> Now with <span class="s">``a bit of code``</span> and some <span class="ge">*emphasis*</span>.
+
+<span class="m">2.</span> Back to the first list
+
+Or perhaps you are more of a bullet list person,
+
+<span class="m">*</span> Foo
+<span class="m">*</span> Fizzle
+
+  <span class="m">-</span> Bar
+  <span class="m">-</span> Blah
+
+Or perhaps a definition list is in order,
+
+<span class="ge">*Chelonii*</span>
+    The taxonomic order consisting of modern turtles
+<span class="ge">*Meiolaniidae*</span>
+    The taxonomic order of an extinct variety of herbivorous turtles.
+</pre></div>
+</div>
+<p>Note the blank lines between a list item and its sub-items. Sub-items should be
+on the same indentation level as the content of their parent items. Also note
+that no whitespace is necessary or desirable before the bullet or item number
+(lest the list be indented unnecessarily).</p>
+<p>The above would be rendered as,</p>
+<blockquote>
+<div><p>This is a paragraph containing a few sentences of text. Purple turtles walk
+through green fields of lofty maize. Lorem ipsum dolor sit amet, consectetur
+adipiscing elit. Some lists,</p>
+<ol class="arabic simple">
+<li>This is a list item<ol class="loweralpha">
+<li>Followed by a sub-item</li>
+<li>And another!</li>
+<li>Now with <code class="docutils literal"><span class="pre">a</span> <span class="pre">bit</span> <span class="pre">of</span> <span class="pre">code</span></code> and some <em>emphasis</em>.</li>
+</ol>
+</li>
+<li>Back to the first list</li>
+</ol>
+<p>Or perhaps you are more of a bullet list person,</p>
+<ul class="simple">
+<li>Foo</li>
+<li>Fizzle<ul>
+<li>Bar</li>
+<li>Blah</li>
+</ul>
+</li>
+</ul>
+<p>Or perhaps a definition list is in order,</p>
+<dl class="docutils">
+<dt><em>Chelonii</em></dt>
+<dd>The taxonomic order consisting of modern turtles</dd>
+<dt><em>Meiolaniidae</em></dt>
+<dd>The taxonomic order of an extinct variety of herbivorous turtles.</dd>
+</dl>
+</div></blockquote>
+<div class="section" id="headings">
+<h3>18.1.1. Headings<a class="headerlink" href="#headings" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<p>While ReST can accommodate a wide range of heading styles, we have standardized
+on this convention in the User&#8217;s Guide,</p>
+<div class="highlight-rest"><div class="highlight"><pre><span></span><span class="gh">Header level 1</span>
+<span class="gh">==============</span>
+
+<span class="gh">Header level 2</span>
+<span class="gh">--------------</span>
+
+<span class="gh">Header level 3</span>
+<span class="gh">~~~~~~~~~~~~~~</span>
+
+<span class="gh">Header level 4</span>
+<span class="gh">^^^^^^^^^^^^^^</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="formatting-code">
+<h3>18.1.2. Formatting code<a class="headerlink" href="#formatting-code" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<div class="section" id="haskell">
+<h4>18.1.2.1. Haskell<a class="headerlink" href="#haskell" title="このヘッドラインへのパーマリンク">¶</a></h4>
+<p>Code snippets can be included as both inline and block elements. Inline
+code is denoted with double-backticks whereas block of code are introduced
+by ending a paragraph with double-colons and indentation,</p>
+<div class="highlight-rest"><div class="highlight"><pre><span></span>The <span class="s">``fib``</span> function is defined as, <span class="se">::</span>
+
+<span class="s">    fib :: Integer -&gt; Integer</span>
+<span class="s">    fib 1 = 1</span>
+<span class="s">    fib n = n * fib (n - 1)</span>
+</pre></div>
+</div>
+<p>Which would be rendered as,</p>
+<blockquote>
+<div><p>The <code class="docutils literal"><span class="pre">fib</span></code> function is defined as,</p>
+<div class="highlight-haskell"><div class="highlight"><pre><span></span><span class="nf">fib</span> <span class="ow">::</span> <span class="kt">Integer</span> <span class="ow">-&gt;</span> <span class="kt">Integer</span>
+<span class="nf">fib</span> <span class="mi">1</span> <span class="ow">=</span> <span class="mi">1</span>
+<span class="nf">fib</span> <span class="n">n</span> <span class="ow">=</span> <span class="n">n</span> <span class="o">*</span> <span class="n">fib</span> <span class="p">(</span><span class="n">n</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+</pre></div>
+</div>
+</div></blockquote>
+</div>
+<div class="section" id="other-languages">
+<h4>18.1.2.2. Other languages<a class="headerlink" href="#other-languages" title="このヘッドラインへのパーマリンク">¶</a></h4>
+<p>Double-colon blocks are syntax-highlighted as Haskell by default. To avoid this
+use a
+<code class="docutils literal"><span class="pre">..</span> <span class="pre">code-block</span></code> <a class="reference external" href="http://sphinx-doc.org/markup/code.html#directive-code-block">directive</a> with explicit
+language designation,</p>
+<div class="highlight-rest"><div class="highlight"><pre><span></span>This is a simple shell script,
+
+<span class="p">..</span> <span class="ow">code-block</span><span class="p">::</span> <span class="k">sh</span>
+
+    <span class="ch">#!/bin/bash</span>
+    <span class="nb">echo</span> <span class="s2">&quot;Hello World!&quot;</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="links">
+<h3>18.1.3. Links<a class="headerlink" href="#links" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<div class="section" id="within-the-user-s-guide">
+<h4>18.1.3.1. Within the User&#8217;s Guide<a class="headerlink" href="#within-the-user-s-guide" title="このヘッドラインへのパーマリンク">¶</a></h4>
+<p>Frequently we want to give a name to a section so it can be referred to
+from other points in the document,</p>
+<div class="highlight-rest"><div class="highlight"><pre><span></span><span class="p">..</span> <span class="nt">_options-platform:</span>
+
+<span class="gh">Platform-specific Flags</span>
+<span class="gh">-----------------------</span>
+
+There are lots of platform-specific flags.
+
+<span class="gh">Some other section</span>
+<span class="gh">-------------------</span>
+
+GHC supports a variety of <span class="na">:ref:</span><span class="nv">`x86 specific features &lt;options-platform&gt;`</span>.
+
+See <span class="na">:ref:</span><span class="nv">`options-platform`</span> for details.
+</pre></div>
+</div>
+</div>
+<div class="section" id="to-ghc-trac-resources">
+<h4>18.1.3.2. To GHC Trac resources<a class="headerlink" href="#to-ghc-trac-resources" title="このヘッドラインへのパーマリンク">¶</a></h4>
+<p>There are special macros for conveniently linking to GHC Trac
+Wiki articles and tickets,</p>
+<div class="highlight-rest"><div class="highlight"><pre><span></span>See <span class="na">:ghc-wiki:</span><span class="nv">`Commentary/Latedmd`</span> for details on demand analysis.
+
+See the <span class="na">:ghc-wiki:</span><span class="nv">`coding style &lt;Commentary/CodingStyle&gt;`</span> for guidelines.
+
+See the <span class="na">:ghc-ticket:</span><span class="nv">`123`</span> for further discussion.
+
+See the <span class="na">:ghc-ticket:</span><span class="nv">`this bug &lt;123&gt;`</span> for what happens when this fails.
+</pre></div>
+</div>
+</div>
+<div class="section" id="to-external-resources">
+<h4>18.1.3.3. To external resources<a class="headerlink" href="#to-external-resources" title="このヘッドラインへのパーマリンク">¶</a></h4>
+<p>External links can be written in either of these ways,</p>
+<div class="highlight-rest"><div class="highlight"><pre><span></span>See the <span class="s">`GHC Wiki </span><span class="si">&lt;http://ghc.haskell.org/wiki&gt;</span><span class="s">`_</span> for details.
+
+See the <span class="s">`GHC Wiki`_</span> for details.
+
+<span class="p">..</span> <span class="nt">_GHC Wiki:</span> http://ghc.haskell.org/wiki
+</pre></div>
+</div>
+</div>
+<div class="section" id="to-core-library-haddock-documentation">
+<h4>18.1.3.4. To core library Haddock documentation<a class="headerlink" href="#to-core-library-haddock-documentation" title="このヘッドラインへのパーマリンク">¶</a></h4>
+<p>It is often useful to be able to refer to the Haddock documention of the
+libraries shipped with GHC. The users guide&#8217;s build system provides
+commands for referring to documentation for the following core GHC packages,</p>
+<ul class="simple">
+<li><code class="docutils literal"><span class="pre">base</span></code>: <code class="docutils literal"><span class="pre">:base-ref:</span></code></li>
+<li><code class="docutils literal"><span class="pre">cabal</span></code>: <code class="docutils literal"><span class="pre">:cabal-ref:</span></code></li>
+<li><code class="docutils literal"><span class="pre">ghc-prim</span></code>: <code class="docutils literal"><span class="pre">:ghc-prim-ref:</span></code></li>
+</ul>
+<p>These are defined in <code class="file docutils literal"><span class="pre">docs/users_guide/ghc_config.py.in</span></code>.</p>
+<p>For instance,</p>
+<div class="highlight-rest"><div class="highlight"><pre><span></span>See the documentation for <span class="na">:base-ref:</span><span class="nv">`Control.Applicative &lt;Control-Applicative.html&gt;`</span>
+for details.
+</pre></div>
+</div>
+</div>
+<div class="section" id="math">
+<h4>18.1.3.5. Math<a class="headerlink" href="#math" title="このヘッドラインへのパーマリンク">¶</a></h4>
+<p>You can insert type-set equations using <code class="docutils literal"><span class="pre">:math:</span></code>. For instance,</p>
+<div class="highlight-rest"><div class="highlight"><pre><span></span>Fick&#39;s law of diffusion, <span class="na">:math:</span><span class="nv">`J = -D \frac{d \varphi}{d x}`</span>, ...
+</pre></div>
+</div>
+<p>will render as,</p>
+<blockquote>
+<div>Fick&#8217;s law of diffusion, <span class="math">\(J = -D \frac{d \varphi}{d x}\)</span>, ...</div></blockquote>
+</div>
+</div>
+<div class="section" id="index-entries">
+<h3>18.1.4. Index entries<a class="headerlink" href="#index-entries" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<p>Index entries can be included anywhere in the document as a block element.
+They look like,</p>
+<div class="highlight-rest"><div class="highlight"><pre><span></span>Here is some discussion on the Strict Haskell extension.
+
+<span class="p">..</span> <span class="ow">index</span><span class="p">::</span>
+    single: strict haskell
+    single: language extensions; StrictData
+</pre></div>
+</div>
+<p>This would produce two entries in the index referring to the &#8220;Strict Haskell&#8221;
+section. One would be a simple &#8220;strict haskell&#8221; heading whereas the other would
+be a &#8220;StrictData&#8221; subheading under &#8220;language extensions&#8221;.</p>
+<p>Sadly it is not possible to use inline elements (e.g. monotype inlines) inside
+index headings.</p>
+</div>
+</div>
+<div class="section" id="citations">
+<h2>18.2. Citations<a class="headerlink" href="#citations" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>Citations can be marked-up like this,</p>
+<div class="highlight-rest"><div class="highlight"><pre><span></span>See the original paper <span class="s">[Doe2008]_</span>
+
+<span class="p">..</span> <span class="nt">[Doe2008]</span> John Doe and Leslie Conway.
+             &quot;This is the title of our paper&quot; (2008)
+</pre></div>
+</div>
+</div>
+<div class="section" id="admonitions">
+<h2>18.3. Admonitions<a class="headerlink" href="#admonitions" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p><a class="reference external" href="http://docutils.sourceforge.net/docs/ref/rst/directives.html#admonitions">Admonitions</a> are block elements used to draw the readers attention to a point.
+They should not be over-used for the sake of readability but they can be quite
+effective in separating and drawing attention to points of importance,</p>
+<div class="highlight-rest"><div class="highlight"><pre><span></span><span class="p">..</span> <span class="ow">important</span><span class="p">::</span>
+
+    Be friendly and supportive to your fellow contributors.
+</pre></div>
+</div>
+<p>Would be rendered as,</p>
+<blockquote>
+<div><div class="admonition important">
+<p class="first admonition-title">重要</p>
+<p class="last">Be friendly and supportive to your fellow contributors.</p>
+</div>
+</div></blockquote>
+<p>There are a number of admonitions types,</p>
+<table class="hlist"><tr><td><ul class="simple">
+<li>attention</li>
+<li>caution</li>
+<li>danger</li>
+</ul>
+</td><td><ul class="simple">
+<li>error</li>
+<li>hint</li>
+<li>important</li>
+</ul>
+</td><td><ul class="simple">
+<li>note</li>
+<li>tip</li>
+<li>warning</li>
+</ul>
+</td></tr></table>
+</div>
+<div class="section" id="documenting-command-line-options-and-ghci-commands">
+<h2>18.4. Documenting command-line options and GHCi commands<a class="headerlink" href="#documenting-command-line-options-and-ghci-commands" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p><code class="file docutils literal"><span class="pre">conf.py</span></code> defines a few Sphinx object types for GHCi commands
+(<code class="docutils literal"><span class="pre">ghci-cmd</span></code>), <strong class="program">ghc</strong> command-line options (<code class="docutils literal"><span class="pre">ghc-flag</span></code>), and runtime
+:system options (<code class="docutils literal"><span class="pre">rts-flag</span></code>),</p>
+<div class="section" id="command-line-options">
+<h3>18.4.1. Command-line options<a class="headerlink" href="#command-line-options" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<p>The <code class="docutils literal"><span class="pre">ghc-flag</span></code> and <code class="docutils literal"><span class="pre">rts-flag</span></code> roles/directives can be used to document
+command-line arguments to the <strong class="program">ghc</strong> executable and runtime system,
+respectively. For instance,</p>
+<div class="highlight-rest"><div class="highlight"><pre><span></span><span class="p">..</span> <span class="ow">rts-flag</span><span class="p">::</span> -C ⟨seconds⟩
+
+   <span class="nc">:default:</span> <span class="nf">20 milliseconds</span>
+
+   Sets the context switch interval to ⟨s⟩ seconds.
+</pre></div>
+</div>
+<p>Will be rendered as,</p>
+<blockquote>
+<div><dl class="rts-flag">
+<dt>
+<code class="descname">-C</code><code class="descclassname"> ⟨seconds⟩</code></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Default:</th><td class="field-body">20 milliseconds</td>
+</tr>
+</tbody>
+</table>
+<p>Sets the context switch interval to ⟨s⟩ seconds.</p>
+</dd></dl>
+
+</div></blockquote>
+<p>and will have an associated index entry generated automatically.</p>
+<p>The <code class="docutils literal"><span class="pre">ghc-flag</span></code> directive requires a few extra parameters to be passed.
+This extra information is used to generate the <a class="reference internal" href="flags.html#flag-reference"><span class="std std-ref">Flag reference</span></a> and the
+man page. A <code class="docutils literal"><span class="pre">ghc-flag</span></code> directive looks like this,</p>
+<div class="highlight-rest"><div class="highlight"><pre><span></span><span class="p">..</span> <span class="ow">ghc-flag</span><span class="p">::</span> -fasm
+    <span class="nc">:shortdesc:</span> <span class="nf">Use the native code generator</span>
+    <span class="nc">:type:</span> <span class="nf">dynamic</span>
+    <span class="nc">:reverse:</span> <span class="nf">-fllvm</span>
+    <span class="nc">:category:</span> <span class="nf">codegen</span>
+
+    Regular description...
+</pre></div>
+</div>
+<p>When rendered, the extra parameters will be hidden, and the data stored for
+later use. For more details, see the Sphinx extension <code class="docutils literal"><span class="pre">flags.py</span></code>.</p>
+<p>Note that, as in Style Conventions below, we use <code class="docutils literal"><span class="pre">⟨⟩</span></code> instead of
+less-than/greater-than signs. To reference a <code class="docutils literal"><span class="pre">ghc-flag</span></code> or <code class="docutils literal"><span class="pre">rts-flag</span></code>, you
+must match the definition exactly, including the arguments. A quick way to find
+the exact names and special characters is,</p>
+<div class="highlight-sh"><div class="highlight"><pre><span></span>$ git grep -- <span class="s2">&quot;flag:: -o &quot;</span>
+</pre></div>
+</div>
+<p>which will generate the appropriate,</p>
+<div class="highlight-none"><div class="highlight"><pre><span></span>separate_compilation.rst:.. ghc-flag:: -o ⟨file⟩
+</pre></div>
+</div>
+</div>
+<div class="section" id="ghci-commands">
+<h3>18.4.2. GHCi commands<a class="headerlink" href="#ghci-commands" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<p>The <code class="docutils literal"><span class="pre">ghci-cmd</span></code> role and directive can be used to document GHCi directives. For
+instance, we can describe the GHCi <code class="docutils literal"><span class="pre">:module</span></code> command,</p>
+<div class="highlight-rest"><div class="highlight"><pre><span></span><span class="p">..</span> <span class="ow">ghci-cmd</span><span class="p">::</span> :module; [*]⟨file⟩
+
+    Load a module
+</pre></div>
+</div>
+<p>which will be rendered as,</p>
+<blockquote>
+<div><dl class="ghci-cmd">
+<dt>
+<code class="descname">:module</code><code class="descclassname"> [*]⟨file⟩</code></dt>
+<dd><p>Load a module</p>
+</dd></dl>
+
+</div></blockquote>
+<p>And later refer to it by just the command name, <code class="docutils literal"><span class="pre">:module</span></code>,</p>
+<div class="highlight-rest"><div class="highlight"><pre><span></span>The GHCi <span class="na">:ghci-cmd:</span><span class="nv">`:load`</span> and <span class="na">:ghci-cmd:</span><span class="nv">`:module`</span> commands are used
+to modify the modules in scope.
+</pre></div>
+</div>
+<p>Like command-line options, GHCi commands will have associated index entries
+generated automatically.</p>
+</div>
+</div>
+<div class="section" id="style-conventions">
+<h2>18.5. Style Conventions<a class="headerlink" href="#style-conventions" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>When describing user commands and the like it is common to need to denote
+user-substitutable tokens. In this document we use the convention, <code class="docutils literal"><span class="pre">⟨subst⟩</span></code>
+(note that these are angle brackets, <code class="docutils literal"><span class="pre">U+27E8</span></code> and <code class="docutils literal"><span class="pre">U+27E9</span></code>, not
+less-than/greater-than signs).</p>
+</div>
+<div class="section" id="rest-reference-materials">
+<h2>18.6. ReST reference materials<a class="headerlink" href="#rest-reference-materials" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<ul class="simple">
+<li><a class="reference external" href="http://sphinx-doc.org/rest.html">Sphinx ReST Primer</a>: A great place to start.</li>
+<li><a class="reference external" href="http://sphinx-doc.org/markup/index.html">Sphinx extensions</a>: How Sphinx extends ReST</li>
+<li><a class="reference external" href="http://docutils.sourceforge.net/docs/ref/rst/restructuredtext.html">ReST reference</a>: When you really need the details.</li>
+<li><a class="reference external" href="http://docutils.sourceforge.net/docs/ref/rst/directives.html#code">Directives reference</a></li>
+</ul>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>ナビゲーション</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="総合索引"
+             >索引</a></li>
+        <li class="right" >
+          <a href="eventlog-formats.html" title="17. Eventlog encodings"
+             >前へ</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">GHC 8.4.1 User&#39;s Guide</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2015, GHC Team.
+      このドキュメントは <a href="http://sphinx-doc.org/">Sphinx</a> 1.5.6 で生成しました。
+    </div>
+  </body>
+</html>

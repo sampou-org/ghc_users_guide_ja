@@ -1,0 +1,680 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="ja">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>11. Extending and using GHC as a Library &#8212; Glasgow Haskell Compiler 8.4.1 User&#39;s Guide</title>
+    
+    <link rel="stylesheet" href="_static/ghc-theme.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '8.4.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/translations.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="search" type="application/opensearchdescription+xml"
+          title="Glasgow Haskell Compiler 8.4.1 User&#39;s Guide 内を検索"
+          href="_static/opensearch.xml"/>
+    <link rel="index" title="索引" href="genindex.html" />
+    <link rel="search" title="検索" href="search.html" />
+    <link rel="next" title="12. What to do when something goes wrong" href="gone_wrong.html" />
+    <link rel="prev" title="10. Foreign function interface (FFI)" href="ffi-chap.html" /> 
+  </head>
+  <body role="document">
+<div class="logo">
+    <h1><a href="index.html">Glasgow Haskell Compiler User's Guide</a></h1>
+</div>
+
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>ナビゲーション</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="総合索引"
+             accesskey="I">索引</a></li>
+        <li class="right" >
+          <a href="gone_wrong.html" title="12. What to do when something goes wrong"
+             accesskey="N">次へ</a> |</li>
+        <li class="right" >
+          <a href="ffi-chap.html" title="10. Foreign function interface (FFI)"
+             accesskey="P">前へ</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">GHC 8.4.1 User&#39;s Guide</a> &#187;</li> 
+      </ul>
+    </div>
+
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">目次</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">11. Extending and using GHC as a Library</a><ul>
+<li><a class="reference internal" href="#source-annotations">11.1. Source annotations</a><ul>
+<li><a class="reference internal" href="#annotating-values">11.1.1. Annotating values</a></li>
+<li><a class="reference internal" href="#annotating-types">11.1.2. Annotating types</a></li>
+<li><a class="reference internal" href="#annotating-modules">11.1.3. Annotating modules</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#using-ghc-as-a-library">11.2. Using GHC as a Library</a></li>
+<li><a class="reference internal" href="#compiler-plugins">11.3. Compiler Plugins</a><ul>
+<li><a class="reference internal" href="#using-compiler-plugins">11.3.1. Using compiler plugins</a></li>
+<li><a class="reference internal" href="#writing-compiler-plugins">11.3.2. Writing compiler plugins</a></li>
+<li><a class="reference internal" href="#core-plugins-in-more-detail">11.3.3. Core plugins in more detail</a><ul>
+<li><a class="reference internal" href="#manipulating-bindings">11.3.3.1. Manipulating bindings</a></li>
+<li><a class="reference internal" href="#using-annotations">11.3.3.2. Using Annotations</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#typechecker-plugins">11.3.4. Typechecker plugins</a><ul>
+<li><a class="reference internal" href="#constraint-solving-with-plugins">11.3.4.1. Constraint solving with plugins</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#frontend-plugins">11.3.5. Frontend plugins</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  <h4>前のトピックへ</h4>
+  <p class="topless"><a href="ffi-chap.html"
+                        title="前の章へ">10. Foreign function interface (FFI)</a></p>
+  <h4>次のトピックへ</h4>
+  <p class="topless"><a href="gone_wrong.html"
+                        title="次の章へ">12. What to do when something goes wrong</a></p>
+  <div role="note" aria-label="source link">
+    <h3>このページ</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/extending_ghc.rst.txt"
+            rel="nofollow">ソースコードを表示</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>クイック検索</h3>
+    <form class="search" action="search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="検索" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="extending-and-using-ghc-as-a-library">
+<span id="extending-ghc"></span><h1>11. Extending and using GHC as a Library<a class="headerlink" href="#extending-and-using-ghc-as-a-library" title="このヘッドラインへのパーマリンク">¶</a></h1>
+<p>GHC exposes its internal APIs to users through the built-in ghc package.
+It allows you to write programs that leverage GHC&#8217;s entire compilation
+driver, in order to analyze or compile Haskell code programmatically.
+Furthermore, GHC gives users the ability to load compiler plugins during
+compilation - modules which are allowed to view and change GHC&#8217;s
+internal intermediate representation, Core. Plugins are suitable for
+things like experimental optimizations or analysis, and offer a lower
+barrier of entry to compiler development for many common cases.</p>
+<p>Furthermore, GHC offers a lightweight annotation mechanism that you can
+use to annotate your source code with metadata, which you can later
+inspect with either the compiler API or a compiler plugin.</p>
+<div class="section" id="source-annotations">
+<span id="annotation-pragmas"></span><h2>11.1. Source annotations<a class="headerlink" href="#source-annotations" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>Annotations are small pragmas that allow you to attach data to
+identifiers in source code, which are persisted when compiled. These
+pieces of data can then inspected and utilized when using GHC as a
+library or writing a compiler plugin.</p>
+<div class="section" id="annotating-values">
+<span id="ann-pragma"></span><h3>11.1.1. Annotating values<a class="headerlink" href="#annotating-values" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<p id="index-0">Any expression that has both <code class="docutils literal"><span class="pre">Typeable</span></code> and <code class="docutils literal"><span class="pre">Data</span></code> instances may be
+attached to a top-level value binding using an <code class="docutils literal"><span class="pre">ANN</span></code> pragma. In
+particular, this means you can use <code class="docutils literal"><span class="pre">ANN</span></code> to annotate data constructors
+(e.g. <code class="docutils literal"><span class="pre">Just</span></code>) as well as normal values (e.g. <code class="docutils literal"><span class="pre">take</span></code>). By way of
+example, to annotate the function <code class="docutils literal"><span class="pre">foo</span></code> with the annotation
+<code class="docutils literal"><span class="pre">Just</span> <span class="pre">&quot;Hello&quot;</span></code> you would do this:</p>
+<div class="highlight-haskell"><div class="highlight"><pre><span></span><span class="cm">{-# ANN foo (Just &quot;Hello&quot;) #-}</span>
+<span class="nf">foo</span> <span class="ow">=</span> <span class="o">...</span>
+</pre></div>
+</div>
+<p>A number of restrictions apply to use of annotations:</p>
+<ul>
+<li><p class="first">The binder being annotated must be at the top level (i.e. no nested
+binders)</p>
+</li>
+<li><p class="first">The binder being annotated must be declared in the current module</p>
+</li>
+<li><p class="first">The expression you are annotating with must have a type with
+<code class="docutils literal"><span class="pre">Typeable</span></code> and <code class="docutils literal"><span class="pre">Data</span></code> instances</p>
+</li>
+<li><p class="first">The <a class="reference internal" href="glasgow_exts.html#th-usage"><span class="std std-ref">Template Haskell staging restrictions</span></a> apply to the
+expression being annotated with, so for example you cannot run a
+function from the module being compiled.</p>
+<p>To be precise, the annotation <code class="docutils literal"><span class="pre">{-#</span> <span class="pre">ANN</span> <span class="pre">x</span> <span class="pre">e</span> <span class="pre">#-}</span></code> is well staged if
+and only if <code class="docutils literal"><span class="pre">$(e)</span></code> would be (disregarding the usual type
+restrictions of the splice syntax, and the usual restriction on
+splicing inside a splice - <code class="docutils literal"><span class="pre">$([|1|])</span></code> is fine as an annotation,
+albeit redundant).</p>
+</li>
+</ul>
+<p>If you feel strongly that any of these restrictions are too onerous,
+<a class="reference external" href="https://ghc.haskell.org/trac/ghc/wiki/MailingListsAndIRC">please give the GHC team a shout</a>.</p>
+<p>However, apart from these restrictions, many things are allowed,
+including expressions which are not fully evaluated! Annotation
+expressions will be evaluated by the compiler just like Template Haskell
+splices are. So, this annotation is fine:</p>
+<div class="highlight-haskell"><div class="highlight"><pre><span></span><span class="cm">{-# ANN f SillyAnnotation { foo = (id 10) + $([| 20 |]), bar = &#39;f } #-}</span>
+<span class="nf">f</span> <span class="ow">=</span> <span class="o">...</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="annotating-types">
+<span id="typeann-pragma"></span><h3>11.1.2. Annotating types<a class="headerlink" href="#annotating-types" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<p id="index-1">You can annotate types with the <code class="docutils literal"><span class="pre">ANN</span></code> pragma by using the <code class="docutils literal"><span class="pre">type</span></code>
+keyword. For example:</p>
+<div class="highlight-haskell"><div class="highlight"><pre><span></span><span class="cm">{-# ANN type Foo (Just &quot;A `Maybe String&#39; annotation&quot;) #-}</span>
+<span class="kr">data</span> <span class="kt">Foo</span> <span class="ow">=</span> <span class="o">...</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="annotating-modules">
+<span id="modann-pragma"></span><h3>11.1.3. Annotating modules<a class="headerlink" href="#annotating-modules" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<p id="index-2">You can annotate modules with the <code class="docutils literal"><span class="pre">ANN</span></code> pragma by using the <code class="docutils literal"><span class="pre">module</span></code>
+keyword. For example:</p>
+<div class="highlight-haskell"><div class="highlight"><pre><span></span><span class="cm">{-# ANN module (Just &quot;A `Maybe String&#39; annotation&quot;) #-}</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="using-ghc-as-a-library">
+<span id="ghc-as-a-library"></span><h2>11.2. Using GHC as a Library<a class="headerlink" href="#using-ghc-as-a-library" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>The <code class="docutils literal"><span class="pre">ghc</span></code> package exposes most of GHC&#8217;s frontend to users, and thus
+allows you to write programs that leverage it. This library is actually
+the same library used by GHC&#8217;s internal, frontend compilation driver,
+and thus allows you to write tools that programmatically compile source
+code and inspect it. Such functionality is useful in order to write
+things like IDE or refactoring tools. As a simple example, here&#8217;s a
+program which compiles a module, much like ghc itself does by default
+when invoked:</p>
+<div class="highlight-haskell"><div class="highlight"><pre><span></span><span class="kr">import</span> <span class="nn">GHC</span>
+<span class="kr">import</span> <span class="nn">GHC.Paths</span> <span class="p">(</span> <span class="nf">libdir</span> <span class="p">)</span>
+<span class="kr">import</span> <span class="nn">DynFlags</span> <span class="p">(</span> <span class="nf">defaultLogAction</span> <span class="p">)</span>
+
+<span class="nf">main</span> <span class="ow">=</span>
+    <span class="n">defaultErrorHandler</span> <span class="n">defaultLogAction</span> <span class="o">$</span> <span class="kr">do</span>
+      <span class="n">runGhc</span> <span class="p">(</span><span class="kt">Just</span> <span class="n">libdir</span><span class="p">)</span> <span class="o">$</span> <span class="kr">do</span>
+        <span class="n">dflags</span> <span class="ow">&lt;-</span> <span class="n">getSessionDynFlags</span>
+        <span class="n">setSessionDynFlags</span> <span class="n">dflags</span>
+        <span class="n">target</span> <span class="ow">&lt;-</span> <span class="n">guessTarget</span> <span class="s">&quot;test_main.hs&quot;</span> <span class="kt">Nothing</span>
+        <span class="n">setTargets</span> <span class="p">[</span><span class="n">target</span><span class="p">]</span>
+        <span class="n">load</span> <span class="kt">LoadAllTargets</span>
+</pre></div>
+</div>
+<p>The argument to <code class="docutils literal"><span class="pre">runGhc</span></code> is a bit tricky. GHC needs this to find its
+libraries, so the argument must refer to the directory that is printed
+by <code class="docutils literal"><span class="pre">ghc</span> <span class="pre">--print-libdir</span></code> for the same version of GHC that the program
+is being compiled with. Above we therefore use the <code class="docutils literal"><span class="pre">ghc-paths</span></code> package
+which provides this for us.</p>
+<p>Compiling it results in:</p>
+<div class="highlight-none"><div class="highlight"><pre><span></span>$ cat test_main.hs
+main = putStrLn &quot;hi&quot;
+$ ghc -package ghc simple_ghc_api.hs
+[1 of 1] Compiling Main             ( simple_ghc_api.hs, simple_ghc_api.o )
+Linking simple_ghc_api ...
+$ ./simple_ghc_api
+$ ./test_main
+hi
+$
+</pre></div>
+</div>
+<p>For more information on using the API, as well as more samples and
+references, please see <a class="reference external" href="http://haskell.org/haskellwiki/GHC/As_a_library">this Haskell.org wiki
+page</a>.</p>
+</div>
+<div class="section" id="compiler-plugins">
+<span id="id1"></span><h2>11.3. Compiler Plugins<a class="headerlink" href="#compiler-plugins" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>GHC has the ability to load compiler plugins at compile time. The
+feature is similar to the one provided by
+<a class="reference external" href="http://gcc.gnu.org/wiki/plugins">GCC</a>, and allows users to write
+plugins that can adjust the behaviour of the constraint solver, inspect
+and modify the compilation pipeline, as well as transform and inspect
+GHC&#8217;s intermediate language, Core. Plugins are suitable for experimental
+analysis or optimization, and require no changes to GHC&#8217;s source code to
+use.</p>
+<p>Plugins cannot optimize/inspect C&#8211;, nor can they implement things like
+parser/front-end modifications like GCC, apart from limited changes to
+the constraint solver. If you feel strongly that any of these
+restrictions are too onerous,
+<a class="reference external" href="https://ghc.haskell.org/trac/ghc/wiki/MailingListsAndIRC">please give the GHC team a shout</a>.</p>
+<div class="section" id="using-compiler-plugins">
+<span id="id2"></span><h3>11.3.1. Using compiler plugins<a class="headerlink" href="#using-compiler-plugins" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<p>Plugins can be specified on the command line with the
+<a class="reference internal" href="#ghc-flag--fplugin=⟨module⟩"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-fplugin=⟨module⟩</span></code></a> option where ⟨module⟩ is a
+module in a registered package that exports a plugin. Arguments can be given to
+plugins with the <a class="reference internal" href="#ghc-flag--fplugin-opt=⟨module⟩:⟨args⟩"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-fplugin-opt=⟨module⟩:⟨args⟩</span></code></a> option.</p>
+<dl class="ghc-flag">
+<dt id="ghc-flag--fplugin=⟨module⟩">
+<code class="descname">-fplugin</code><code class="descclassname">=⟨module⟩</code><a class="headerlink" href="#ghc-flag--fplugin=⟨module⟩" title="この定義へのパーマリンク">¶</a></dt>
+<dd><p>Load the plugin in the given module. The module must be a member of a
+package registered in GHC&#8217;s package database.</p>
+</dd></dl>
+
+<dl class="ghc-flag">
+<dt id="ghc-flag--fplugin-opt=⟨module⟩:⟨args⟩">
+<code class="descname">-fplugin-opt</code><code class="descclassname">=⟨module⟩:⟨args⟩</code><a class="headerlink" href="#ghc-flag--fplugin-opt=⟨module⟩:⟨args⟩" title="この定義へのパーマリンク">¶</a></dt>
+<dd><p>Give arguments to a plugin module; module must be specified with
+<a class="reference internal" href="#ghc-flag--fplugin=⟨module⟩"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-fplugin=⟨module⟩</span></code></a>.</p>
+</dd></dl>
+
+<p>As an example, in order to load the plugin exported by <code class="docutils literal"><span class="pre">Foo.Plugin</span></code> in
+the package <code class="docutils literal"><span class="pre">foo-ghc-plugin</span></code>, and give it the parameter &#8220;baz&#8221;, we
+would invoke GHC like this:</p>
+<div class="highlight-none"><div class="highlight"><pre><span></span>$ ghc -fplugin Foo.Plugin -fplugin-opt Foo.Plugin:baz Test.hs
+[1 of 1] Compiling Main             ( Test.hs, Test.o )
+Loading package ghc-prim ... linking ... done.
+Loading package integer-gmp ... linking ... done.
+Loading package base ... linking ... done.
+Loading package ffi-1.0 ... linking ... done.
+Loading package foo-ghc-plugin-0.1 ... linking ... done.
+...
+Linking Test ...
+$
+</pre></div>
+</div>
+<p>Alternatively, core plugins can be specified with Template Haskell.</p>
+<div class="highlight-haskell"><div class="highlight"><pre><span></span><span class="nf">addCorePlugin</span> <span class="s">&quot;Foo.Plugin&quot;</span>
+</pre></div>
+</div>
+<p>This inserts the plugin as a core-to-core pass. Unlike <cite>-fplugin=(module)</cite>,
+the plugin module can&#8217;t reside in the same package as the module calling
+<a class="reference external" href="../libraries/template-haskell-&#64;LIBRARY_template_haskell_VERSION&#64;/Language-Haskell-TH-Syntax.html#v:addCorePlugin">Language.Haskell.TH.Syntax.addCorePlugin</a>. This way, the
+implementation can expect the plugin to be built by the time
+it is needed.</p>
+<p>Plugin modules live in a separate namespace from
+the user import namespace.  By default, these two namespaces are
+the same; however, there are a few command line options which
+control specifically plugin packages:</p>
+<dl class="ghc-flag">
+<dt id="ghc-flag--plugin-package ⟨pkg⟩">
+<code class="descname">-plugin-package</code><code class="descclassname"> ⟨pkg⟩</code><a class="headerlink" href="#ghc-flag--plugin-package ⟨pkg⟩" title="この定義へのパーマリンク">¶</a></dt>
+<dd><p>This option causes the installed package ⟨pkg⟩ to be exposed for plugins,
+such as <a class="reference internal" href="#ghc-flag--fplugin=⟨module⟩"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-fplugin=⟨module⟩</span></code></a>. The package ⟨pkg⟩ can be specified
+in full with its version number (e.g.  <code class="docutils literal"><span class="pre">network-1.0</span></code>) or the version
+number can be omitted if there is only one version of the package
+installed. If there are multiple versions of ⟨pkg⟩ installed and
+<a class="reference internal" href="#ghc-flag--hide-all-plugin-packages"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-hide-all-plugin-packages</span></code></a> was not specified, then all other
+versions will become hidden.  <a class="reference internal" href="#ghc-flag--plugin-package ⟨pkg⟩"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-plugin-package</span> <span class="pre">⟨pkg⟩</span></code></a> supports
+thinning and renaming described in <a class="reference internal" href="packages.html#package-thinning-and-renaming"><span class="std std-ref">Thinning and renaming modules</span></a>.</p>
+<p>Unlike <a class="reference internal" href="packages.html#ghc-flag--package ⟨pkg⟩"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-package</span> <span class="pre">⟨pkg⟩</span></code></a>, this option does NOT cause package ⟨pkg⟩
+to be linked into the resulting executable or shared object.</p>
+</dd></dl>
+
+<dl class="ghc-flag">
+<dt id="ghc-flag--plugin-package-id ⟨pkg-id⟩">
+<code class="descname">-plugin-package-id</code><code class="descclassname"> ⟨pkg-id⟩</code><a class="headerlink" href="#ghc-flag--plugin-package-id ⟨pkg-id⟩" title="この定義へのパーマリンク">¶</a></dt>
+<dd><p>Exposes a package in the plugin namespace like <a class="reference internal" href="#ghc-flag--plugin-package ⟨pkg⟩"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-plugin-package</span>
+<span class="pre">⟨pkg⟩</span></code></a>, but the package is named by its installed package ID rather than by
+name.  This is a more robust way to name packages, and can be used to
+select packages that would otherwise be shadowed. Cabal passes
+<a class="reference internal" href="#ghc-flag--plugin-package-id ⟨pkg-id⟩"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-plugin-package-id</span> <span class="pre">⟨pkg-id⟩</span></code></a> flags to GHC.
+<a class="reference internal" href="#ghc-flag--plugin-package-id ⟨pkg-id⟩"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-plugin-package-id</span> <span class="pre">⟨pkg-id⟩</span></code></a> supports thinning and renaming
+described in <a class="reference internal" href="packages.html#package-thinning-and-renaming"><span class="std std-ref">Thinning and renaming modules</span></a>.</p>
+</dd></dl>
+
+<dl class="ghc-flag">
+<dt id="ghc-flag--hide-all-plugin-packages">
+<code class="descname">-hide-all-plugin-packages</code><a class="headerlink" href="#ghc-flag--hide-all-plugin-packages" title="この定義へのパーマリンク">¶</a></dt>
+<dd><p>By default, all exposed packages in the normal, source import namespace are
+also available for plugins.  This causes those packages to be hidden by
+default.  If you use this flag, then any packages with plugins you require
+need to be explicitly exposed using <a class="reference internal" href="#ghc-flag--plugin-package ⟨pkg⟩"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-plugin-package</span> <span class="pre">⟨pkg⟩</span></code></a>
+options.</p>
+</dd></dl>
+
+<p>At the moment, the only way to specify a dependency on a plugin
+in Cabal is to put it in <code class="docutils literal"><span class="pre">build-depends</span></code> (which uses the conventional
+<a class="reference internal" href="packages.html#ghc-flag--package-id ⟨unit-id⟩"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-package-id</span> <span class="pre">⟨unit-id⟩</span></code></a> flag); however, in the future there
+will be a separate field for specifying plugin dependencies specifically.</p>
+</div>
+<div class="section" id="writing-compiler-plugins">
+<span id="id3"></span><h3>11.3.2. Writing compiler plugins<a class="headerlink" href="#writing-compiler-plugins" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<p>Plugins are modules that export at least a single identifier,
+<code class="docutils literal"><span class="pre">plugin</span></code>, of type <code class="docutils literal"><span class="pre">GhcPlugins.Plugin</span></code>. All plugins should
+<code class="docutils literal"><span class="pre">import</span> <span class="pre">GhcPlugins</span></code> as it defines the interface to the compilation
+pipeline.</p>
+<p>A <code class="docutils literal"><span class="pre">Plugin</span></code> effectively holds a function which installs a compilation
+pass into the compiler pipeline. By default there is the empty plugin
+which does nothing, <code class="docutils literal"><span class="pre">GhcPlugins.defaultPlugin</span></code>, which you should
+override with record syntax to specify your installation function. Since
+the exact fields of the <code class="docutils literal"><span class="pre">Plugin</span></code> type are open to change, this is the
+best way to ensure your plugins will continue to work in the future with
+minimal interface impact.</p>
+<p><code class="docutils literal"><span class="pre">Plugin</span></code> exports a field, <code class="docutils literal"><span class="pre">installCoreToDos</span></code> which is a function of
+type <code class="docutils literal"><span class="pre">[CommandLineOption]</span> <span class="pre">-&gt;</span> <span class="pre">[CoreToDo]</span> <span class="pre">-&gt;</span> <span class="pre">CoreM</span> <span class="pre">[CoreToDo]</span></code>. A
+<code class="docutils literal"><span class="pre">CommandLineOption</span></code> is effectively just <code class="docutils literal"><span class="pre">String</span></code>, and a <code class="docutils literal"><span class="pre">CoreToDo</span></code>
+is basically a function of type <code class="docutils literal"><span class="pre">Core</span> <span class="pre">-&gt;</span> <span class="pre">Core</span></code>. A <code class="docutils literal"><span class="pre">CoreToDo</span></code> gives
+your pass a name and runs it over every compiled module when you invoke
+GHC.</p>
+<p>As a quick example, here is a simple plugin that just does nothing and
+just returns the original compilation pipeline, unmodified, and says
+&#8216;Hello&#8217;:</p>
+<div class="highlight-haskell"><div class="highlight"><pre><span></span><span class="kr">module</span> <span class="nn">DoNothing.Plugin</span> <span class="p">(</span><span class="nf">plugin</span><span class="p">)</span> <span class="kr">where</span>
+<span class="kr">import</span> <span class="nn">GhcPlugins</span>
+
+<span class="nf">plugin</span> <span class="ow">::</span> <span class="kt">Plugin</span>
+<span class="nf">plugin</span> <span class="ow">=</span> <span class="n">defaultPlugin</span> <span class="p">{</span>
+  <span class="n">installCoreToDos</span> <span class="ow">=</span> <span class="n">install</span>
+  <span class="p">}</span>
+
+<span class="nf">install</span> <span class="ow">::</span> <span class="p">[</span><span class="kt">CommandLineOption</span><span class="p">]</span> <span class="ow">-&gt;</span> <span class="p">[</span><span class="kt">CoreToDo</span><span class="p">]</span> <span class="ow">-&gt;</span> <span class="kt">CoreM</span> <span class="p">[</span><span class="kt">CoreToDo</span><span class="p">]</span>
+<span class="nf">install</span> <span class="kr">_</span> <span class="n">todo</span> <span class="ow">=</span> <span class="kr">do</span>
+  <span class="n">putMsgS</span> <span class="s">&quot;Hello!&quot;</span>
+  <span class="n">return</span> <span class="n">todo</span>
+</pre></div>
+</div>
+<p>Provided you compiled this plugin and registered it in a package (with
+cabal for instance,) you can then use it by just specifying
+<code class="docutils literal"><span class="pre">-fplugin=DoNothing.Plugin</span></code> on the command line, and during the
+compilation you should see GHC say &#8216;Hello&#8217;.</p>
+</div>
+<div class="section" id="core-plugins-in-more-detail">
+<span id="id4"></span><h3>11.3.3. Core plugins in more detail<a class="headerlink" href="#core-plugins-in-more-detail" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<p><code class="docutils literal"><span class="pre">CoreToDo</span></code> is effectively a data type that describes all the kinds of
+optimization passes GHC does on Core. There are passes for
+simplification, CSE, vectorisation, etc. There is a specific case for
+plugins, <code class="docutils literal"><span class="pre">CoreDoPluginPass</span> <span class="pre">::</span> <span class="pre">String</span> <span class="pre">-&gt;</span> <span class="pre">PluginPass</span> <span class="pre">-&gt;</span> <span class="pre">CoreToDo</span></code> which
+should be what you always use when inserting your own pass into the
+pipeline. The first parameter is the name of the plugin, and the second
+is the pass you wish to insert.</p>
+<p><code class="docutils literal"><span class="pre">CoreM</span></code> is a monad that all of the Core optimizations live and operate
+inside of.</p>
+<p>A plugin&#8217;s installation function (<code class="docutils literal"><span class="pre">install</span></code> in the above example)
+takes a list of <code class="docutils literal"><span class="pre">CoreToDo</span></code>s and returns a list of <code class="docutils literal"><span class="pre">CoreToDo</span></code>.
+Before GHC begins compiling modules, it enumerates all the needed
+plugins you tell it to load, and runs all of their installation
+functions, initially on a list of passes that GHC specifies itself.
+After doing this for every plugin, the final list of passes is given to
+the optimizer, and are run by simply going over the list in order.</p>
+<p>You should be careful with your installation function, because the list
+of passes you give back isn&#8217;t questioned or double checked by GHC at the
+time of this writing. An installation function like the following:</p>
+<div class="highlight-haskell"><div class="highlight"><pre><span></span><span class="nf">install</span> <span class="ow">::</span> <span class="p">[</span><span class="kt">CommandLineOption</span><span class="p">]</span> <span class="ow">-&gt;</span> <span class="p">[</span><span class="kt">CoreToDo</span><span class="p">]</span> <span class="ow">-&gt;</span> <span class="kt">CoreM</span> <span class="p">[</span><span class="kt">CoreToDo</span><span class="p">]</span>
+<span class="nf">install</span> <span class="kr">_</span> <span class="kr">_</span> <span class="ow">=</span> <span class="n">return</span> <span class="kt">[]</span>
+</pre></div>
+</div>
+<p>is certainly valid, but also certainly not what anyone really wants.</p>
+<div class="section" id="manipulating-bindings">
+<span id="id5"></span><h4>11.3.3.1. Manipulating bindings<a class="headerlink" href="#manipulating-bindings" title="このヘッドラインへのパーマリンク">¶</a></h4>
+<p>In the last section we saw that besides a name, a <code class="docutils literal"><span class="pre">CoreDoPluginPass</span></code>
+takes a pass of type <code class="docutils literal"><span class="pre">PluginPass</span></code>. A <code class="docutils literal"><span class="pre">PluginPass</span></code> is a synonym for
+<code class="docutils literal"><span class="pre">(ModGuts</span> <span class="pre">-&gt;</span> <span class="pre">CoreM</span> <span class="pre">ModGuts)</span></code>. <code class="docutils literal"><span class="pre">ModGuts</span></code> is a type that represents
+the one module being compiled by GHC at any given time.</p>
+<p>A <code class="docutils literal"><span class="pre">ModGuts</span></code> holds all of the module&#8217;s top level bindings which we can
+examine. These bindings are of type <code class="docutils literal"><span class="pre">CoreBind</span></code> and effectively
+represent the binding of a name to body of code. Top-level module
+bindings are part of a <code class="docutils literal"><span class="pre">ModGuts</span></code> in the field <code class="docutils literal"><span class="pre">mg_binds</span></code>.
+Implementing a pass that manipulates the top level bindings merely needs
+to iterate over this field, and return a new <code class="docutils literal"><span class="pre">ModGuts</span></code> with an updated
+<code class="docutils literal"><span class="pre">mg_binds</span></code> field. Because this is such a common case, there is a
+function provided named <code class="docutils literal"><span class="pre">bindsOnlyPass</span></code> which lifts a function of type
+<code class="docutils literal"><span class="pre">([CoreBind]</span> <span class="pre">-&gt;</span> <span class="pre">CoreM</span> <span class="pre">[CoreBind])</span></code> to type
+<code class="docutils literal"><span class="pre">(ModGuts</span> <span class="pre">-&gt;</span> <span class="pre">CoreM</span> <span class="pre">ModGuts)</span></code>.</p>
+<p>Continuing with our example from the last section, we can write a simple
+plugin that just prints out the name of all the non-recursive bindings
+in a module it compiles:</p>
+<div class="highlight-haskell"><div class="highlight"><pre><span></span><span class="kr">module</span> <span class="nn">SayNames.Plugin</span> <span class="p">(</span><span class="nf">plugin</span><span class="p">)</span> <span class="kr">where</span>
+<span class="kr">import</span> <span class="nn">GhcPlugins</span>
+
+<span class="nf">plugin</span> <span class="ow">::</span> <span class="kt">Plugin</span>
+<span class="nf">plugin</span> <span class="ow">=</span> <span class="n">defaultPlugin</span> <span class="p">{</span>
+  <span class="n">installCoreToDos</span> <span class="ow">=</span> <span class="n">install</span>
+  <span class="p">}</span>
+
+<span class="nf">install</span> <span class="ow">::</span> <span class="p">[</span><span class="kt">CommandLineOption</span><span class="p">]</span> <span class="ow">-&gt;</span> <span class="p">[</span><span class="kt">CoreToDo</span><span class="p">]</span> <span class="ow">-&gt;</span> <span class="kt">CoreM</span> <span class="p">[</span><span class="kt">CoreToDo</span><span class="p">]</span>
+<span class="nf">install</span> <span class="kr">_</span> <span class="n">todo</span> <span class="ow">=</span> <span class="kr">do</span>
+  <span class="n">return</span> <span class="p">(</span><span class="kt">CoreDoPluginPass</span> <span class="s">&quot;Say name&quot;</span> <span class="n">pass</span> <span class="kt">:</span> <span class="n">todo</span><span class="p">)</span>
+
+<span class="nf">pass</span> <span class="ow">::</span> <span class="kt">ModGuts</span> <span class="ow">-&gt;</span> <span class="kt">CoreM</span> <span class="kt">ModGuts</span>
+<span class="nf">pass</span> <span class="n">guts</span> <span class="ow">=</span> <span class="kr">do</span> <span class="n">dflags</span> <span class="ow">&lt;-</span> <span class="n">getDynFlags</span>
+               <span class="n">bindsOnlyPass</span> <span class="p">(</span><span class="n">mapM</span> <span class="p">(</span><span class="n">printBind</span> <span class="n">dflags</span><span class="p">))</span> <span class="n">guts</span>
+  <span class="kr">where</span> <span class="n">printBind</span> <span class="ow">::</span> <span class="kt">DynFlags</span> <span class="ow">-&gt;</span> <span class="kt">CoreBind</span> <span class="ow">-&gt;</span> <span class="kt">CoreM</span> <span class="kt">CoreBind</span>
+        <span class="n">printBind</span> <span class="n">dflags</span> <span class="n">bndr</span><span class="o">@</span><span class="p">(</span><span class="kt">NonRec</span> <span class="n">b</span> <span class="kr">_</span><span class="p">)</span> <span class="ow">=</span> <span class="kr">do</span>
+          <span class="n">putMsgS</span> <span class="o">$</span> <span class="s">&quot;Non-recursive binding named &quot;</span> <span class="o">++</span> <span class="n">showSDoc</span> <span class="n">dflags</span> <span class="p">(</span><span class="n">ppr</span> <span class="n">b</span><span class="p">)</span>
+          <span class="n">return</span> <span class="n">bndr</span>
+        <span class="n">printBind</span> <span class="kr">_</span> <span class="n">bndr</span> <span class="ow">=</span> <span class="n">return</span> <span class="n">bndr</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="using-annotations">
+<span id="getting-annotations"></span><h4>11.3.3.2. Using Annotations<a class="headerlink" href="#using-annotations" title="このヘッドラインへのパーマリンク">¶</a></h4>
+<p>Previously we discussed annotation pragmas (<a class="reference internal" href="#annotation-pragmas"><span class="std std-ref">Source annotations</span></a>),
+which we mentioned could be used to give compiler plugins extra guidance
+or information. Annotations for a module can be retrieved by a plugin,
+but you must go through the modules <code class="docutils literal"><span class="pre">ModGuts</span></code> in order to get it.
+Because annotations can be arbitrary instances of <code class="docutils literal"><span class="pre">Data</span></code> and
+<code class="docutils literal"><span class="pre">Typeable</span></code>, you need to give a type annotation specifying the proper
+type of data to retrieve from the interface file, and you need to make
+sure the annotation type used by your users is the same one your plugin
+uses. For this reason, we advise distributing annotations as part of the
+package which also provides compiler plugins if possible.</p>
+<p>To get the annotations of a single binder, you can use
+<code class="docutils literal"><span class="pre">getAnnotations</span></code> and specify the proper type. Here&#8217;s an example that
+will print out the name of any top-level non-recursive binding with the
+<code class="docutils literal"><span class="pre">SomeAnn</span></code> annotation:</p>
+<div class="highlight-haskell"><div class="highlight"><pre><span></span><span class="cm">{-# LANGUAGE DeriveDataTypeable #-}</span>
+<span class="kr">module</span> <span class="nn">SayAnnNames.Plugin</span> <span class="p">(</span><span class="nf">plugin</span><span class="p">,</span> <span class="kt">SomeAnn</span><span class="p">(</span><span class="o">..</span><span class="p">))</span> <span class="kr">where</span>
+<span class="kr">import</span> <span class="nn">GhcPlugins</span>
+<span class="kr">import</span> <span class="nn">Control.Monad</span> <span class="p">(</span><span class="nf">unless</span><span class="p">)</span>
+<span class="kr">import</span> <span class="nn">Data.Data</span>
+
+<span class="kr">data</span> <span class="kt">SomeAnn</span> <span class="ow">=</span> <span class="kt">SomeAnn</span> <span class="kr">deriving</span> <span class="kt">Data</span>
+
+<span class="nf">plugin</span> <span class="ow">::</span> <span class="kt">Plugin</span>
+<span class="nf">plugin</span> <span class="ow">=</span> <span class="n">defaultPlugin</span> <span class="p">{</span>
+  <span class="n">installCoreToDos</span> <span class="ow">=</span> <span class="n">install</span>
+  <span class="p">}</span>
+
+<span class="nf">install</span> <span class="ow">::</span> <span class="p">[</span><span class="kt">CommandLineOption</span><span class="p">]</span> <span class="ow">-&gt;</span> <span class="p">[</span><span class="kt">CoreToDo</span><span class="p">]</span> <span class="ow">-&gt;</span> <span class="kt">CoreM</span> <span class="p">[</span><span class="kt">CoreToDo</span><span class="p">]</span>
+<span class="nf">install</span> <span class="kr">_</span> <span class="n">todo</span> <span class="ow">=</span> <span class="kr">do</span>
+  <span class="n">return</span> <span class="p">(</span><span class="kt">CoreDoPluginPass</span> <span class="s">&quot;Say name&quot;</span> <span class="n">pass</span> <span class="kt">:</span> <span class="n">todo</span><span class="p">)</span>
+
+<span class="nf">pass</span> <span class="ow">::</span> <span class="kt">ModGuts</span> <span class="ow">-&gt;</span> <span class="kt">CoreM</span> <span class="kt">ModGuts</span>
+<span class="nf">pass</span> <span class="n">g</span> <span class="ow">=</span> <span class="kr">do</span>
+          <span class="n">dflags</span> <span class="ow">&lt;-</span> <span class="n">getDynFlags</span>
+          <span class="n">mapM_</span> <span class="p">(</span><span class="n">printAnn</span> <span class="n">dflags</span> <span class="n">g</span><span class="p">)</span> <span class="p">(</span><span class="n">mg_binds</span> <span class="n">g</span><span class="p">)</span> <span class="o">&gt;&gt;</span> <span class="n">return</span> <span class="n">g</span>
+  <span class="kr">where</span> <span class="n">printAnn</span> <span class="ow">::</span> <span class="kt">DynFlags</span> <span class="ow">-&gt;</span> <span class="kt">ModGuts</span> <span class="ow">-&gt;</span> <span class="kt">CoreBind</span> <span class="ow">-&gt;</span> <span class="kt">CoreM</span> <span class="kt">CoreBind</span>
+        <span class="n">printAnn</span> <span class="n">dflags</span> <span class="n">guts</span> <span class="n">bndr</span><span class="o">@</span><span class="p">(</span><span class="kt">NonRec</span> <span class="n">b</span> <span class="kr">_</span><span class="p">)</span> <span class="ow">=</span> <span class="kr">do</span>
+          <span class="n">anns</span> <span class="ow">&lt;-</span> <span class="n">annotationsOn</span> <span class="n">guts</span> <span class="n">b</span> <span class="ow">::</span> <span class="kt">CoreM</span> <span class="p">[</span><span class="kt">SomeAnn</span><span class="p">]</span>
+          <span class="n">unless</span> <span class="p">(</span><span class="n">null</span> <span class="n">anns</span><span class="p">)</span> <span class="o">$</span> <span class="n">putMsgS</span> <span class="o">$</span> <span class="s">&quot;Annotated binding found: &quot;</span> <span class="o">++</span>  <span class="n">showSDoc</span> <span class="n">dflags</span> <span class="p">(</span><span class="n">ppr</span> <span class="n">b</span><span class="p">)</span>
+          <span class="n">return</span> <span class="n">bndr</span>
+        <span class="n">printAnn</span> <span class="kr">_</span> <span class="kr">_</span> <span class="n">bndr</span> <span class="ow">=</span> <span class="n">return</span> <span class="n">bndr</span>
+
+<span class="nf">annotationsOn</span> <span class="ow">::</span> <span class="kt">Data</span> <span class="n">a</span> <span class="ow">=&gt;</span> <span class="kt">ModGuts</span> <span class="ow">-&gt;</span> <span class="kt">CoreBndr</span> <span class="ow">-&gt;</span> <span class="kt">CoreM</span> <span class="p">[</span><span class="n">a</span><span class="p">]</span>
+<span class="nf">annotationsOn</span> <span class="n">guts</span> <span class="n">bndr</span> <span class="ow">=</span> <span class="kr">do</span>
+  <span class="n">anns</span> <span class="ow">&lt;-</span> <span class="n">getAnnotations</span> <span class="n">deserializeWithData</span> <span class="n">guts</span>
+  <span class="n">return</span> <span class="o">$</span> <span class="n">lookupWithDefaultUFM</span> <span class="n">anns</span> <span class="kt">[]</span> <span class="p">(</span><span class="n">varUnique</span> <span class="n">bndr</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Please see the GHC API documentation for more about how to use internal
+APIs, etc.</p>
+</div>
+</div>
+<div class="section" id="typechecker-plugins">
+<span id="id6"></span><h3>11.3.4. Typechecker plugins<a class="headerlink" href="#typechecker-plugins" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<p>In addition to Core plugins, GHC has experimental support for
+typechecker plugins, which allow the behaviour of the constraint solver
+to be modified. For example, they make it possible to interface the
+compiler to an SMT solver, in order to support a richer theory of
+type-level arithmetic expressions than the theory built into GHC (see
+<a class="reference internal" href="glasgow_exts.html#typelit-tyfuns"><span class="std std-ref">Computing With Type-Level Naturals</span></a>).</p>
+<p>The <code class="docutils literal"><span class="pre">Plugin</span></code> type has a field <code class="docutils literal"><span class="pre">tcPlugin</span></code> of type
+<code class="docutils literal"><span class="pre">[CommandLineOption]</span> <span class="pre">-&gt;</span> <span class="pre">Maybe</span> <span class="pre">TcPlugin</span></code>, where the <code class="docutils literal"><span class="pre">TcPlugin</span></code> type
+is defined thus:</p>
+<div class="highlight-haskell"><div class="highlight"><pre><span></span><span class="kr">data</span> <span class="kt">TcPlugin</span> <span class="ow">=</span> <span class="n">forall</span> <span class="n">s</span> <span class="o">.</span> <span class="kt">TcPlugin</span>
+  <span class="p">{</span> <span class="n">tcPluginInit</span>  <span class="ow">::</span> <span class="kt">TcPluginM</span> <span class="n">s</span>
+  <span class="p">,</span> <span class="n">tcPluginSolve</span> <span class="ow">::</span> <span class="n">s</span> <span class="ow">-&gt;</span> <span class="kt">TcPluginSolver</span>
+  <span class="p">,</span> <span class="n">tcPluginStop</span>  <span class="ow">::</span> <span class="n">s</span> <span class="ow">-&gt;</span> <span class="kt">TcPluginM</span> <span class="nb">()</span>
+  <span class="p">}</span>
+
+<span class="kr">type</span> <span class="kt">TcPluginSolver</span> <span class="ow">=</span> <span class="p">[</span><span class="kt">Ct</span><span class="p">]</span> <span class="ow">-&gt;</span> <span class="p">[</span><span class="kt">Ct</span><span class="p">]</span> <span class="ow">-&gt;</span> <span class="p">[</span><span class="kt">Ct</span><span class="p">]</span> <span class="ow">-&gt;</span> <span class="kt">TcPluginM</span> <span class="kt">TcPluginResult</span>
+
+<span class="kr">data</span> <span class="kt">TcPluginResult</span> <span class="ow">=</span> <span class="kt">TcPluginContradiction</span> <span class="p">[</span><span class="kt">Ct</span><span class="p">]</span> <span class="o">|</span> <span class="kt">TcPluginOk</span> <span class="p">[(</span><span class="kt">EvTerm</span><span class="p">,</span><span class="kt">Ct</span><span class="p">)]</span> <span class="p">[</span><span class="kt">Ct</span><span class="p">]</span>
+</pre></div>
+</div>
+<p>(The details of this representation are subject to change as we gain
+more experience writing typechecker plugins. It should not be assumed to
+be stable between GHC releases.)</p>
+<p>The basic idea is as follows:</p>
+<ul class="simple">
+<li>When type checking a module, GHC calls <code class="docutils literal"><span class="pre">tcPluginInit</span></code> once before
+constraint solving starts. This allows the plugin to look things up
+in the context, initialise mutable state or open a connection to an
+external process (e.g. an external SMT solver). The plugin can return
+a result of any type it likes, and the result will be passed to the
+other two fields.</li>
+<li>During constraint solving, GHC repeatedly calls <code class="docutils literal"><span class="pre">tcPluginSolve</span></code>.
+This function is provided with the current set of constraints, and
+should return a <code class="docutils literal"><span class="pre">TcPluginResult</span></code> that indicates whether a
+contradiction was found or progress was made. If the plugin solver
+makes progress, GHC will re-start the constraint solving pipeline,
+looping until a fixed point is reached.</li>
+<li>Finally, GHC calls <code class="docutils literal"><span class="pre">tcPluginStop</span></code> after constraint solving is
+finished, allowing the plugin to dispose of any resources it has
+allocated (e.g. terminating the SMT solver process).</li>
+</ul>
+<p>Plugin code runs in the <code class="docutils literal"><span class="pre">TcPluginM</span></code> monad, which provides a restricted
+interface to GHC API functionality that is relevant for typechecker
+plugins, including <code class="docutils literal"><span class="pre">IO</span></code> and reading the environment. If you need
+functionality that is not exposed in the <code class="docutils literal"><span class="pre">TcPluginM</span></code> module, you can
+use <code class="docutils literal"><span class="pre">unsafeTcPluginTcM</span> <span class="pre">::</span> <span class="pre">TcM</span> <span class="pre">a</span> <span class="pre">-&gt;</span> <span class="pre">TcPluginM</span> <span class="pre">a</span></code>, but are encouraged to
+contact the GHC team to suggest additions to the interface. Note that
+<code class="docutils literal"><span class="pre">TcPluginM</span></code> can perform arbitrary IO via
+<code class="docutils literal"><span class="pre">tcPluginIO</span> <span class="pre">::</span> <span class="pre">IO</span> <span class="pre">a</span> <span class="pre">-&gt;</span> <span class="pre">TcPluginM</span> <span class="pre">a</span></code>, although some care must be taken
+with side effects (particularly in <code class="docutils literal"><span class="pre">tcPluginSolve</span></code>). In general, it is
+up to the plugin author to make sure that any IO they do is safe.</p>
+<div class="section" id="constraint-solving-with-plugins">
+<span id="id7"></span><h4>11.3.4.1. Constraint solving with plugins<a class="headerlink" href="#constraint-solving-with-plugins" title="このヘッドラインへのパーマリンク">¶</a></h4>
+<p>The key component of a typechecker plugin is a function of type
+<code class="docutils literal"><span class="pre">TcPluginSolver</span></code>, like this:</p>
+<div class="highlight-haskell"><div class="highlight"><pre><span></span><span class="nf">solve</span> <span class="ow">::</span> <span class="p">[</span><span class="kt">Ct</span><span class="p">]</span> <span class="ow">-&gt;</span> <span class="p">[</span><span class="kt">Ct</span><span class="p">]</span> <span class="ow">-&gt;</span> <span class="p">[</span><span class="kt">Ct</span><span class="p">]</span> <span class="ow">-&gt;</span> <span class="kt">TcPluginM</span> <span class="kt">TcPluginResult</span>
+<span class="nf">solve</span> <span class="n">givens</span> <span class="n">deriveds</span> <span class="n">wanteds</span> <span class="ow">=</span> <span class="o">...</span>
+</pre></div>
+</div>
+<p>This function will be invoked at two points in the constraint solving
+process: after simplification of given constraints, and after
+unflattening of wanted constraints. The two phases can be distinguished
+because the deriveds and wanteds will be empty in the first case. In
+each case, the plugin should either</p>
+<ul class="simple">
+<li>return <code class="docutils literal"><span class="pre">TcPluginContradiction</span></code> with a list of impossible
+constraints (which must be a subset of those passed in), so they can
+be turned into errors; or</li>
+<li>return <code class="docutils literal"><span class="pre">TcPluginOk</span></code> with lists of solved and new constraints (the
+former must be a subset of those passed in and must be supplied with
+corresponding evidence terms).</li>
+</ul>
+<p>If the plugin cannot make any progress, it should return
+<code class="docutils literal"><span class="pre">TcPluginOk</span> <span class="pre">[]</span> <span class="pre">[]</span></code>. Otherwise, if there were any new constraints, the
+main constraint solver will be re-invoked to simplify them, then the
+plugin will be invoked again. The plugin is responsible for making sure
+that this process eventually terminates.</p>
+<p>Plugins are provided with all available constraints (including
+equalities and typeclass constraints), but it is easy for them to
+discard those that are not relevant to their domain, because they need
+return only those constraints for which they have made progress (either
+by solving or contradicting them).</p>
+<p>Constraints that have been solved by the plugin must be provided with
+evidence in the form of an <code class="docutils literal"><span class="pre">EvTerm</span></code> of the type of the constraint.
+This evidence is ignored for given and derived constraints, which GHC
+&#8220;solves&#8221; simply by discarding them; typically this is used when they are
+uninformative (e.g. reflexive equations). For wanted constraints, the
+evidence will form part of the Core term that is generated after
+typechecking, and can be checked by <code class="docutils literal"><span class="pre">-dcore-lint</span></code>. It is possible for
+the plugin to create equality axioms for use in evidence terms, but GHC
+does not check their consistency, and inconsistent axiom sets may lead
+to segfaults or other runtime misbehaviour.</p>
+</div>
+</div>
+<div class="section" id="frontend-plugins">
+<span id="id8"></span><h3>11.3.5. Frontend plugins<a class="headerlink" href="#frontend-plugins" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<p>A frontend plugin allows you to add new major modes to GHC.  You may prefer
+this over a traditional program which calls the GHC API, as GHC manages a lot
+of parsing flags and administrative nonsense which can be difficult to
+manage manually.  To load a frontend plugin exported by <code class="docutils literal"><span class="pre">Foo.FrontendPlugin</span></code>,
+we just invoke GHC with the <a class="reference internal" href="using.html#ghc-flag---frontend ⟨module⟩"><code class="xref std std-ghc-flag docutils literal"><span class="pre">--frontend</span> <span class="pre">⟨module⟩</span></code></a> flag as follows:</p>
+<div class="highlight-none"><div class="highlight"><pre><span></span>$ ghc --frontend Foo.FrontendPlugin ...other options...
+</pre></div>
+</div>
+<p>Frontend plugins, like compiler plugins, are exported by registered plugins.
+However, unlike compiler modules, frontend plugins are modules that export
+at least a single identifier <code class="docutils literal"><span class="pre">frontendPlugin</span></code> of type
+<code class="docutils literal"><span class="pre">GhcPlugins.FrontendPlugin</span></code>.</p>
+<p><code class="docutils literal"><span class="pre">FrontendPlugin</span></code> exports a field <code class="docutils literal"><span class="pre">frontend</span></code>, which is a function
+<code class="docutils literal"><span class="pre">[String]</span> <span class="pre">-&gt;</span> <span class="pre">[(String,</span> <span class="pre">Maybe</span> <span class="pre">Phase)]</span> <span class="pre">-&gt;</span> <span class="pre">Ghc</span> <span class="pre">()</span></code>.  The first argument
+is a list of extra flags passed to the frontend with <code class="docutils literal"><span class="pre">-ffrontend-opt</span></code>;
+the second argument is the list of arguments, usually source files
+and module names to be compiled (the <code class="docutils literal"><span class="pre">Phase</span></code> indicates if an <code class="docutils literal"><span class="pre">-x</span></code>
+flag was set), and a frontend simply executes some operation in the
+<code class="docutils literal"><span class="pre">Ghc</span></code> monad (which, among other things, has a <code class="docutils literal"><span class="pre">Session</span></code>).</p>
+<p>As a quick example, here is a frontend plugin that prints the arguments that
+were passed to it, and then exits.</p>
+<div class="highlight-haskell"><div class="highlight"><pre><span></span><span class="kr">module</span> <span class="nn">DoNothing.FrontendPlugin</span> <span class="p">(</span><span class="nf">frontendPlugin</span><span class="p">)</span> <span class="kr">where</span>
+<span class="kr">import</span> <span class="nn">GhcPlugins</span>
+
+<span class="nf">frontendPlugin</span> <span class="ow">::</span> <span class="kt">FrontendPlugin</span>
+<span class="nf">frontendPlugin</span> <span class="ow">=</span> <span class="n">defaultFrontendPlugin</span> <span class="p">{</span>
+  <span class="n">frontend</span> <span class="ow">=</span> <span class="n">doNothing</span>
+  <span class="p">}</span>
+
+<span class="nf">doNothing</span> <span class="ow">::</span> <span class="p">[</span><span class="kt">String</span><span class="p">]</span> <span class="ow">-&gt;</span> <span class="p">[(</span><span class="kt">String</span><span class="p">,</span> <span class="kt">Maybe</span> <span class="kt">Phase</span><span class="p">)]</span> <span class="ow">-&gt;</span> <span class="kt">Ghc</span> <span class="nb">()</span>
+<span class="nf">doNothing</span> <span class="n">flags</span> <span class="n">args</span> <span class="ow">=</span> <span class="kr">do</span>
+    <span class="n">liftIO</span> <span class="o">$</span> <span class="n">print</span> <span class="n">flags</span>
+    <span class="n">liftIO</span> <span class="o">$</span> <span class="n">print</span> <span class="n">args</span>
+</pre></div>
+</div>
+<p>Provided you have compiled this plugin and registered it in a package,
+you can just use it by specifying <code class="docutils literal"><span class="pre">--frontend</span> <span class="pre">DoNothing.FrontendPlugin</span></code>
+on the command line to GHC.</p>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>ナビゲーション</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="総合索引"
+             >索引</a></li>
+        <li class="right" >
+          <a href="gone_wrong.html" title="12. What to do when something goes wrong"
+             >次へ</a> |</li>
+        <li class="right" >
+          <a href="ffi-chap.html" title="10. Foreign function interface (FFI)"
+             >前へ</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">GHC 8.4.1 User&#39;s Guide</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2015, GHC Team.
+      このドキュメントは <a href="http://sphinx-doc.org/">Sphinx</a> 1.5.6 で生成しました。
+    </div>
+  </body>
+</html>

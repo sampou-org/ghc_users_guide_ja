@@ -1,0 +1,637 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="ja">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>3. Release notes for version 8.4.1 &#8212; Glasgow Haskell Compiler 8.4.1 User&#39;s Guide</title>
+    
+    <link rel="stylesheet" href="_static/ghc-theme.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '8.4.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/translations.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="search" type="application/opensearchdescription+xml"
+          title="Glasgow Haskell Compiler 8.4.1 User&#39;s Guide 内を検索"
+          href="_static/opensearch.xml"/>
+    <link rel="index" title="索引" href="genindex.html" />
+    <link rel="search" title="検索" href="search.html" />
+    <link rel="next" title="4. Using GHCi" href="ghci.html" />
+    <link rel="prev" title="2. Introduction to GHC" href="intro.html" /> 
+  </head>
+  <body role="document">
+<div class="logo">
+    <h1><a href="index.html">Glasgow Haskell Compiler User's Guide</a></h1>
+</div>
+
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>ナビゲーション</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="総合索引"
+             accesskey="I">索引</a></li>
+        <li class="right" >
+          <a href="ghci.html" title="4. Using GHCi"
+             accesskey="N">次へ</a> |</li>
+        <li class="right" >
+          <a href="intro.html" title="2. Introduction to GHC"
+             accesskey="P">前へ</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">GHC 8.4.1 User&#39;s Guide</a> &#187;</li> 
+      </ul>
+    </div>
+
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">目次</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">3. Release notes for version 8.4.1</a><ul>
+<li><a class="reference internal" href="#highlights">3.1. Highlights</a></li>
+<li><a class="reference internal" href="#full-details">3.2. Full details</a><ul>
+<li><a class="reference internal" href="#language">3.2.1. Language</a></li>
+<li><a class="reference internal" href="#compiler">3.2.2. Compiler</a></li>
+<li><a class="reference internal" href="#runtime-system">3.2.3. Runtime system</a></li>
+<li><a class="reference internal" href="#template-haskell">3.2.4. Template Haskell</a></li>
+<li><a class="reference internal" href="#base-library">3.2.5. <code class="docutils literal"><span class="pre">base</span></code> library</a></li>
+<li><a class="reference internal" href="#build-system">3.2.6. Build system</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#included-libraries">3.3. Included libraries</a><ul>
+<li><a class="reference internal" href="#win32">3.3.1. Win32</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  <h4>前のトピックへ</h4>
+  <p class="topless"><a href="intro.html"
+                        title="前の章へ">2. Introduction to GHC</a></p>
+  <h4>次のトピックへ</h4>
+  <p class="topless"><a href="ghci.html"
+                        title="次の章へ">4. Using GHCi</a></p>
+  <div role="note" aria-label="source link">
+    <h3>このページ</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/8.4.1-notes.rst.txt"
+            rel="nofollow">ソースコードを表示</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>クイック検索</h3>
+    <form class="search" action="search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="検索" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="release-notes-for-version-8-4-1">
+<span id="release-8-4-1"></span><h1>3. Release notes for version 8.4.1<a class="headerlink" href="#release-notes-for-version-8-4-1" title="このヘッドラインへのパーマリンク">¶</a></h1>
+<p>The significant changes to the various parts of the compiler are listed in the
+following sections. There have also been numerous bug fixes and performance
+improvements over the 8.2.1 release.</p>
+<div class="admonition note">
+<p class="first admonition-title">注釈</p>
+<p class="last">This compiling this release requires GCC 4.7 or newer due to
+<a class="reference external" href="https://ghc.haskell.org/trac/ghc/ticket/14244">Trac #14244</a>.</p>
+</div>
+<div class="section" id="highlights">
+<h2>3.1. Highlights<a class="headerlink" href="#highlights" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>The highlights, since the 8.2.1 release, are:</p>
+<ul class="simple">
+<li>GHC is now capable of deriving more instances</li>
+<li>More refinement of the <a class="reference internal" href="glasgow_exts.html#extension-TypeInType"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-XTypeInType</span></code></a> story and improvements in type
+error messages.</li>
+<li>Further improvements in code generation</li>
+<li>Incoporation of library changes including the Phase 2 of the Semigroup-Monoid Proposal</li>
+<li>A variety of Windows compatibility improvements</li>
+<li>Many, many bug fixes.</li>
+</ul>
+</div>
+<div class="section" id="full-details">
+<h2>3.2. Full details<a class="headerlink" href="#full-details" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<div class="section" id="language">
+<h3>3.2.1. Language<a class="headerlink" href="#language" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<ul>
+<li><p class="first">Data families have been generalised a bit: a data family declaration can now
+end with a kind variable <code class="docutils literal"><span class="pre">k</span></code> instead of <code class="docutils literal"><span class="pre">Type</span></code>. Additionally, data/newtype
+instance no longer need to list all the patterns of the family if they don&#8217;t
+wish to; this is quite like how regular datatypes with a kind signature can omit
+some type variables.</p>
+</li>
+<li><p class="first">There are now fewer restrictions regarding whether kind variables can appear
+on the right-hand sides of type and data family instances. Before, there was
+a strict requirements that all kind variables on the RHS had to be explicitly
+bound by type patterns on the LHS. Now, kind variables can be <em>implicitly</em>
+bound, which allows constructions like these:</p>
+<div class="highlight-haskell"><div class="highlight"><pre><span></span><span class="kr">data</span> <span class="kr">family</span> <span class="kt">Nat</span> <span class="ow">::</span> <span class="n">k</span> <span class="ow">-&gt;</span> <span class="n">k</span> <span class="ow">-&gt;</span> <span class="o">*</span>
+<span class="c1">-- k is implicitly bound by an invisible kind pattern</span>
+<span class="kr">newtype</span> <span class="kr">instance</span> <span class="kt">Nat</span> <span class="ow">::</span> <span class="p">(</span><span class="n">k</span> <span class="ow">-&gt;</span> <span class="o">*</span><span class="p">)</span> <span class="ow">-&gt;</span> <span class="p">(</span><span class="n">k</span> <span class="ow">-&gt;</span> <span class="o">*</span><span class="p">)</span> <span class="ow">-&gt;</span> <span class="o">*</span> <span class="kr">where</span>
+  <span class="kt">Nat</span> <span class="ow">::</span> <span class="p">(</span><span class="n">forall</span> <span class="n">xx</span><span class="o">.</span> <span class="n">f</span> <span class="n">xx</span> <span class="ow">-&gt;</span> <span class="n">g</span> <span class="n">xx</span><span class="p">)</span> <span class="ow">-&gt;</span> <span class="kt">Nat</span> <span class="n">f</span> <span class="n">g</span>
+
+<span class="kr">class</span> <span class="kt">Funct</span> <span class="n">f</span> <span class="kr">where</span>
+  <span class="kr">type</span> <span class="kt">Codomain</span> <span class="n">f</span> <span class="ow">::</span> <span class="o">*</span>
+<span class="kr">instance</span> <span class="kt">Funct</span> <span class="p">(</span><span class="kt">&#39;KProxy</span> <span class="ow">::</span> <span class="kt">KProxy</span> <span class="n">o</span><span class="p">)</span> <span class="kr">where</span>
+  <span class="c1">-- o is implicitly bound by the kind signature</span>
+  <span class="c1">-- of the LHS type pattern (&#39;KProxy)</span>
+  <span class="kr">type</span> <span class="kt">Codomain</span> <span class="kt">&#39;KProxy</span> <span class="ow">=</span> <span class="kt">NatTr</span> <span class="p">(</span><span class="kt">Proxy</span> <span class="ow">::</span> <span class="n">o</span> <span class="ow">-&gt;</span> <span class="o">*</span><span class="p">)</span>
+</pre></div>
+</div>
+</li>
+<li><p class="first">Implicitly bidirectional pattern synonyms no longer allow bang patterns
+(<code class="docutils literal"><span class="pre">!</span></code>) or irrefutable patterns (<code class="docutils literal"><span class="pre">~</span></code>) on the right-hand side. Previously,
+this was allowed, although the bang patterns and irrefutable patterns would
+be silently ignored when used in an expression context. This is now a proper
+error, and explicitly bidirectional pattern synonyms should be used in their
+stead. That is, instead of using this (which is an error):</p>
+<div class="highlight-haskell"><div class="highlight"><pre><span></span><span class="kr">data</span> <span class="kt">StrictJust</span> <span class="n">a</span> <span class="ow">=</span> <span class="kt">Just</span> <span class="o">!</span><span class="n">a</span>
+</pre></div>
+</div>
+<p>Use this:</p>
+<div class="highlight-haskell"><div class="highlight"><pre><span></span><span class="kr">data</span> <span class="kt">StrictJust</span> <span class="n">a</span> <span class="ow">&lt;-</span> <span class="kt">Just</span> <span class="o">!</span><span class="n">a</span> <span class="kr">where</span>
+  <span class="kt">StrictJust</span> <span class="o">!</span><span class="n">a</span> <span class="ow">=</span> <span class="kt">Just</span> <span class="n">a</span>
+</pre></div>
+</div>
+</li>
+<li><p class="first">GADTs with kind-polymorphic type arguments now require <a class="reference internal" href="glasgow_exts.html#extension-TypeInType"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-XTypeInType</span></code></a>.
+For instance, consider the following,</p>
+<div class="highlight-haskell"><div class="highlight"><pre><span></span><span class="kr">data</span> <span class="kt">G</span> <span class="ow">::</span> <span class="n">k</span> <span class="ow">-&gt;</span> <span class="o">*</span> <span class="kr">where</span>
+  <span class="kt">GInt</span>   <span class="ow">::</span> <span class="kt">G</span> <span class="kt">Int</span>
+  <span class="kt">GMaybe</span> <span class="ow">::</span> <span class="kt">G</span> <span class="kt">Maybe</span>
+</pre></div>
+</div>
+<p>In previous releases this would compile with <a class="reference internal" href="glasgow_exts.html#extension-PolyKinds"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-XPolyKinds</span></code></a> alone due
+to bug <a class="reference external" href="https://ghc.haskell.org/trac/ghc/ticket/13391">Trac #13391</a>. As of GHC 8.4, however, this requires
+<a class="reference internal" href="glasgow_exts.html#extension-TypeInType"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-XTypeInType</span></code></a>. Note that since GADT kind signatures aren&#8217;t generalized,
+this will also require that you provide a <a class="reference internal" href="glasgow_exts.html#complete-kind-signatures"><span class="std std-ref">CUSK</span></a> by explicitly quantifying over the kind argument,
+<code class="docutils literal"><span class="pre">k</span></code>,</p>
+<div class="highlight-haskell"><div class="highlight"><pre><span></span><span class="kr">data</span> <span class="kt">G</span> <span class="ow">::</span> <span class="n">forall</span> <span class="n">k</span><span class="o">.</span> <span class="n">k</span> <span class="ow">-&gt;</span> <span class="o">*</span> <span class="kr">where</span>
+  <span class="kt">GInt</span>   <span class="ow">::</span> <span class="kt">G</span> <span class="kt">Int</span>
+  <span class="kt">GMaybe</span> <span class="ow">::</span> <span class="kt">G</span> <span class="kt">Maybe</span>
+</pre></div>
+</div>
+</li>
+<li><p class="first">The order in which type variables are quantified in GADT constructor type
+signatures has changed. Before, if you had <code class="docutils literal"><span class="pre">MkT</span></code> as below:</p>
+<div class="highlight-haskell"><div class="highlight"><pre><span></span><span class="kr">data</span> <span class="kt">T</span> <span class="n">a</span> <span class="kr">where</span>
+  <span class="kt">MkT</span> <span class="ow">::</span> <span class="n">forall</span> <span class="n">b</span> <span class="n">a</span><span class="o">.</span> <span class="n">b</span> <span class="ow">-&gt;</span> <span class="kt">T</span> <span class="n">a</span>
+</pre></div>
+</div>
+<p>Then the type of <code class="docutils literal"><span class="pre">MkT</span></code> would (counterintuitively) be
+<code class="docutils literal"><span class="pre">forall</span> <span class="pre">a</span> <span class="pre">b.</span> <span class="pre">b</span> <span class="pre">-&gt;</span> <span class="pre">T</span> <span class="pre">a</span></code>! Now, GHC quantifies the type variables in the
+order that the users writes them, so the type of <code class="docutils literal"><span class="pre">MkT</span></code> is now
+<code class="docutils literal"><span class="pre">forall</span> <span class="pre">b</span> <span class="pre">a.</span> <span class="pre">b</span> <span class="pre">-&gt;</span> <span class="pre">T</span> <span class="pre">a</span></code> (this matters for <a class="reference internal" href="glasgow_exts.html#extension-TypeApplications"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-XTypeApplications</span></code></a>).</p>
+</li>
+<li><p class="first">The new <a class="reference internal" href="glasgow_exts.html#ghc-flag--XEmptyDataDeriving"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-XEmptyDataDeriving</span></code></a> extension allows deriving <code class="docutils literal"><span class="pre">Eq</span></code>,
+<code class="docutils literal"><span class="pre">Ord</span></code>, <code class="docutils literal"><span class="pre">Read</span></code>, and <code class="docutils literal"><span class="pre">Show</span></code> instances directly for empty data types, as
+in <code class="docutils literal"><span class="pre">data</span> <span class="pre">Empty</span> <span class="pre">deriving</span> <span class="pre">Eq</span></code>. (Previously, this would require the use of
+<a class="reference internal" href="glasgow_exts.html#extension-StandaloneDeriving"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-XStandaloneDeriving</span></code></a> to accomplish.)</p>
+<p>One can also now derive <code class="docutils literal"><span class="pre">Data</span></code> instances directly for empty data types (as
+in <code class="docutils literal"><span class="pre">data</span> <span class="pre">Empty</span> <span class="pre">deriving</span> <span class="pre">Data</span></code>) without needing to use
+<a class="reference internal" href="glasgow_exts.html#extension-StandaloneDeriving"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-XStandaloneDeriving</span></code></a>. However, since already requires a GHC
+extension (<a class="reference internal" href="glasgow_exts.html#extension-DeriveDataTypeable"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-XDeriveDataTypeable</span></code></a>), one does not need to enable
+<a class="reference internal" href="glasgow_exts.html#ghc-flag--XEmptyDataDeriving"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-XEmptyDataDeriving</span></code></a> to do so. This also goes for other classes
+which require extensions to derive, such as <a class="reference internal" href="glasgow_exts.html#extension-DeriveFunctor"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-XDeriveFunctor</span></code></a>.</p>
+</li>
+<li><p class="first">Hexadecimal floating point literals (e.g. <code class="docutils literal"><span class="pre">0x0.1p4</span></code>), enabled with
+<a class="reference internal" href="glasgow_exts.html#ghc-flag--XHexFloatLiterals"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-XHexFloatLiterals</span></code></a>.  See
+<a class="reference internal" href="glasgow_exts.html#hex-float-literals"><span class="std std-ref">Hexadecimal floating point literals</span></a>
+for the full details.</p>
+</li>
+</ul>
+</div>
+<div class="section" id="compiler">
+<h3>3.2.2. Compiler<a class="headerlink" href="#compiler" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<ul>
+<li><p class="first">LLVM code generator (e.g. <a class="reference internal" href="phases.html#ghc-flag--fllvm"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-fllvm</span></code></a>) compatible with LLVM releases in
+the 5.0 series.</p>
+</li>
+<li><p class="first">Add warning flag <a class="reference internal" href="using-warnings.html#ghc-flag--Wmissing-export-lists"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-Wmissing-export-lists</span></code></a> which causes the type
+checker to warn when a module does not include an explicit export list.</p>
+</li>
+<li><p class="first">The <code class="docutils literal"><span class="pre">configure</span></code> script now no longer accepts <code class="docutils literal"><span class="pre">--with-TOOL</span></code> flags (e.g.
+<code class="docutils literal"><span class="pre">--with-nm</span></code>, <code class="docutils literal"><span class="pre">--with-ld</span></code>, etc.). Instead, these are taken from environment
+variables, as is typical in <code class="docutils literal"><span class="pre">autoconf</span></code> scripts. For instance,
+<code class="docutils literal"><span class="pre">./configure</span> <span class="pre">--with-nm=/usr/local/bin/nm</span></code> turns into
+<code class="docutils literal"><span class="pre">./configure</span> <span class="pre">NM=/usr/local/bin/nm</span></code>.</p>
+</li>
+<li><p class="first">Derived <code class="docutils literal"><span class="pre">Functor</span></code>, <code class="docutils literal"><span class="pre">Foldable</span></code>, and <code class="docutils literal"><span class="pre">Traversable</span></code> instances are now
+optimized when their last type parameters have phantom roles.
+Specifically,</p>
+<div class="highlight-haskell"><div class="highlight"><pre><span></span><span class="nf">fmap</span> <span class="kr">_</span> <span class="ow">=</span> <span class="n">coerce</span>
+<span class="nf">traverse</span> <span class="kr">_</span> <span class="n">x</span> <span class="ow">=</span> <span class="n">pure</span> <span class="p">(</span><span class="n">coerce</span> <span class="n">x</span><span class="p">)</span>
+<span class="nf">foldMap</span> <span class="kr">_</span> <span class="kr">_</span> <span class="ow">=</span> <span class="n">mempty</span>
+</pre></div>
+</div>
+<p>These definitions of <code class="docutils literal"><span class="pre">foldMap</span></code> and <code class="docutils literal"><span class="pre">traverse</span></code> are lazier than the ones we
+would otherwise derive, as they may produce results without inspecting their
+arguments at all.</p>
+<p>See also <a class="reference internal" href="glasgow_exts.html#deriving-functor"><span class="std std-ref">Deriving Functor instances</span></a>, <a class="reference internal" href="glasgow_exts.html#deriving-foldable"><span class="std std-ref">Deriving Foldable instances</span></a>, and
+<a class="reference internal" href="glasgow_exts.html#deriving-traversable"><span class="std std-ref">Deriving Traversable instances</span></a>.</p>
+</li>
+<li><p class="first">Derived instances for empty data types are now substantially different
+than before. Here is an overview of what has changed. These examples will
+use a running example of <code class="docutils literal"><span class="pre">data</span> <span class="pre">Empty</span> <span class="pre">a</span></code> to describe what happens when an
+instance is derived for <code class="docutils literal"><span class="pre">Empty</span></code>:</p>
+<ul>
+<li><p class="first">Derived <code class="docutils literal"><span class="pre">Eq</span></code> and <code class="docutils literal"><span class="pre">Ord</span></code> instances would previously emit code that used
+<code class="docutils literal"><span class="pre">error</span></code>:</p>
+<div class="highlight-haskell"><div class="highlight"><pre><span></span><span class="kr">instance</span> <span class="kt">Eq</span> <span class="p">(</span><span class="kt">Empty</span> <span class="n">a</span><span class="p">)</span> <span class="kr">where</span>
+  <span class="p">(</span><span class="o">==</span><span class="p">)</span> <span class="ow">=</span> <span class="ne">error</span> <span class="s">&quot;Void ==&quot;</span>
+
+<span class="kr">instance</span> <span class="kt">Ord</span> <span class="p">(</span><span class="kt">Empty</span> <span class="n">a</span><span class="p">)</span> <span class="kr">where</span>
+  <span class="n">compare</span> <span class="ow">=</span> <span class="ne">error</span> <span class="s">&quot;Void compare&quot;</span>
+</pre></div>
+</div>
+<p>Now, they emit code that uses maximally defined, lazier semantics:</p>
+<div class="highlight-haskell"><div class="highlight"><pre><span></span><span class="kr">instance</span> <span class="kt">Eq</span> <span class="p">(</span><span class="kt">Empty</span> <span class="n">a</span><span class="p">)</span> <span class="kr">where</span>
+  <span class="kr">_</span> <span class="o">==</span> <span class="kr">_</span> <span class="ow">=</span> <span class="kt">True</span>
+
+<span class="kr">instance</span> <span class="kt">Ord</span> <span class="p">(</span><span class="kt">Empty</span> <span class="n">a</span><span class="p">)</span> <span class="kr">where</span>
+  <span class="n">compare</span> <span class="kr">_</span> <span class="kr">_</span> <span class="ow">=</span> <span class="kt">EQ</span>
+</pre></div>
+</div>
+</li>
+<li><p class="first">Derived <code class="docutils literal"><span class="pre">Read</span></code> instances would previous emit code that used
+<code class="docutils literal"><span class="pre">parens</span></code>:</p>
+<div class="highlight-haskell"><div class="highlight"><pre><span></span><span class="kr">instance</span> <span class="kt">Read</span> <span class="p">(</span><span class="kt">Empty</span> <span class="n">a</span><span class="p">)</span> <span class="kr">where</span>
+  <span class="n">readPrec</span> <span class="ow">=</span> <span class="n">parens</span> <span class="n">pfail</span>
+</pre></div>
+</div>
+<p>But <code class="docutils literal"><span class="pre">parens</span></code> forces parts of the parsed string that it doesn&#8217;t need to.
+Now, the derived instance will not use <code class="docutils literal"><span class="pre">parens</span></code> (that it, parsing
+<code class="docutils literal"><span class="pre">Empty</span></code> will always fail, without reading <em>any</em> input):</p>
+<div class="highlight-haskell"><div class="highlight"><pre><span></span><span class="kr">instance</span> <span class="kt">Read</span> <span class="p">(</span><span class="kt">Empty</span> <span class="n">a</span><span class="p">)</span> <span class="kr">where</span>
+  <span class="n">readPrec</span> <span class="ow">=</span> <span class="n">pfail</span>
+</pre></div>
+</div>
+</li>
+<li><p class="first">Derived <code class="docutils literal"><span class="pre">Show</span></code> instances would previously emit code that used
+<code class="docutils literal"><span class="pre">error</span></code>:</p>
+<div class="highlight-haskell"><div class="highlight"><pre><span></span><span class="kr">instance</span> <span class="kt">Show</span> <span class="p">(</span><span class="kt">Empty</span> <span class="n">a</span><span class="p">)</span> <span class="kr">where</span>
+  <span class="n">showsPrec</span> <span class="ow">=</span> <span class="ne">error</span> <span class="s">&quot;Void showsPrec&quot;</span>
+</pre></div>
+</div>
+<p>Now, they emit code that inspects the argument. That is, if the argument
+diverges, then showing it will also diverge:</p>
+<div class="highlight-haskell"><div class="highlight"><pre><span></span><span class="kr">instance</span> <span class="kt">Show</span> <span class="p">(</span><span class="kt">Empty</span> <span class="n">a</span><span class="p">)</span> <span class="kr">where</span>
+  <span class="n">showsPrec</span> <span class="kr">_</span> <span class="n">x</span> <span class="ow">=</span> <span class="kr">case</span> <span class="n">x</span> <span class="kr">of</span> <span class="p">{}</span>
+</pre></div>
+</div>
+</li>
+<li><p class="first">Derived <code class="docutils literal"><span class="pre">Functor</span></code>, <code class="docutils literal"><span class="pre">Foldable</span></code>, <code class="docutils literal"><span class="pre">Traversable</span></code>, <code class="docutils literal"><span class="pre">Generic</span></code>,
+<code class="docutils literal"><span class="pre">Generic1</span></code>, <code class="docutils literal"><span class="pre">Lift</span></code>, and <code class="docutils literal"><span class="pre">Data</span></code> instances previously emitted code that
+used <code class="docutils literal"><span class="pre">error</span></code>:</p>
+<div class="highlight-haskell"><div class="highlight"><pre><span></span><span class="kr">instance</span> <span class="kt">Functor</span> <span class="kt">Empty</span> <span class="kr">where</span>
+  <span class="n">fmap</span> <span class="ow">=</span> <span class="ne">error</span> <span class="s">&quot;Void fmap&quot;</span>
+
+<span class="kr">instance</span> <span class="kt">Foldable</span> <span class="kt">Empty</span> <span class="kr">where</span>
+  <span class="n">foldMap</span> <span class="ow">=</span> <span class="ne">error</span> <span class="s">&quot;Void foldMap&quot;</span>
+
+<span class="kr">instance</span> <span class="kt">Traversable</span> <span class="kt">Empty</span> <span class="kr">where</span>
+  <span class="n">traverse</span> <span class="ow">=</span> <span class="ne">error</span> <span class="s">&quot;Void traverse&quot;</span>
+
+<span class="kr">instance</span> <span class="kt">Generic</span> <span class="p">(</span><span class="kt">Empty</span> <span class="n">a</span><span class="p">)</span> <span class="kr">where</span>
+  <span class="n">from</span> <span class="ow">=</span> <span class="kt">M1</span> <span class="p">(</span><span class="ne">error</span> <span class="s">&quot;No generic representation for empty datatype Empty&quot;</span><span class="p">)</span>
+  <span class="n">to</span> <span class="p">(</span><span class="kt">M1</span> <span class="kr">_</span><span class="p">)</span> <span class="ow">=</span> <span class="ne">error</span> <span class="s">&quot;No values for empty datatype Empty&quot;</span>
+<span class="c1">-- Similarly for Generic1</span>
+
+<span class="kr">instance</span> <span class="kt">Lift</span> <span class="p">(</span><span class="kt">Empty</span> <span class="n">a</span><span class="p">)</span> <span class="kr">where</span>
+  <span class="n">lift</span> <span class="kr">_</span> <span class="ow">=</span> <span class="ne">error</span> <span class="s">&quot;Can&#39;t lift value of empty datatype Empty&quot;</span>
+
+<span class="kr">instance</span> <span class="kt">Data</span> <span class="n">a</span> <span class="ow">=&gt;</span> <span class="kt">Data</span> <span class="p">(</span><span class="kt">Empty</span> <span class="n">a</span><span class="p">)</span> <span class="kr">where</span>
+  <span class="n">gfoldl</span> <span class="kr">_</span> <span class="kr">_</span> <span class="kr">_</span> <span class="ow">=</span> <span class="ne">error</span> <span class="s">&quot;Void gfoldl&quot;</span>
+  <span class="n">toConstr</span> <span class="kr">_</span> <span class="ow">=</span> <span class="ne">error</span> <span class="s">&quot;Void toConstr&quot;</span>
+  <span class="o">...</span>
+</pre></div>
+</div>
+<p>Now, derived <code class="docutils literal"><span class="pre">Functor</span></code>, <code class="docutils literal"><span class="pre">Traversable,</span> <span class="pre">``Generic</span></code>, <code class="docutils literal"><span class="pre">Generic1</span></code>,
+<code class="docutils literal"><span class="pre">Lift</span></code>, and <code class="docutils literal"><span class="pre">Data</span></code> instances emit code which inspects their
+arguments:</p>
+<div class="highlight-haskell"><div class="highlight"><pre><span></span><span class="kr">instance</span> <span class="kt">Functor</span> <span class="kt">Empty</span> <span class="kr">where</span>
+  <span class="n">fmap</span> <span class="kr">_</span> <span class="n">x</span> <span class="ow">=</span> <span class="kr">case</span> <span class="n">x</span> <span class="kr">of</span> <span class="p">{}</span>
+
+<span class="kr">instance</span> <span class="kt">Traversable</span> <span class="kt">Empty</span> <span class="kr">where</span>
+  <span class="n">traverse</span> <span class="kr">_</span> <span class="n">x</span> <span class="ow">=</span> <span class="n">pure</span> <span class="p">(</span><span class="kr">case</span> <span class="n">x</span> <span class="kr">of</span> <span class="p">{})</span>
+
+<span class="kr">instance</span> <span class="kt">Generic</span> <span class="p">(</span><span class="kt">Empty</span> <span class="n">a</span><span class="p">)</span> <span class="kr">where</span>
+  <span class="n">from</span> <span class="n">x</span> <span class="ow">=</span> <span class="kt">M1</span> <span class="p">(</span><span class="kr">case</span> <span class="n">x</span> <span class="kr">of</span> <span class="p">{})</span>
+  <span class="n">to</span> <span class="p">(</span><span class="kt">M1</span> <span class="n">x</span><span class="p">)</span> <span class="ow">=</span> <span class="kr">case</span> <span class="n">x</span> <span class="kr">of</span> <span class="p">{}</span>
+
+<span class="c1">-- Similarly for Generic1</span>
+
+<span class="kr">instance</span> <span class="kt">Lift</span> <span class="p">(</span><span class="kt">Empty</span> <span class="n">a</span><span class="p">)</span> <span class="kr">where</span>
+  <span class="n">lift</span> <span class="n">x</span> <span class="ow">=</span> <span class="n">pure</span> <span class="p">(</span><span class="kr">case</span> <span class="n">x</span> <span class="kr">of</span> <span class="p">{})</span>
+
+<span class="kr">instance</span> <span class="kt">Data</span> <span class="n">a</span> <span class="ow">=&gt;</span> <span class="kt">Data</span> <span class="p">(</span><span class="kt">Empty</span> <span class="n">a</span><span class="p">)</span> <span class="kr">where</span>
+  <span class="n">gfoldl</span> <span class="kr">_</span> <span class="n">x</span> <span class="ow">=</span> <span class="kr">case</span> <span class="n">x</span> <span class="kr">of</span> <span class="p">{}</span>
+  <span class="n">toConstr</span> <span class="n">x</span> <span class="ow">=</span> <span class="kr">case</span> <span class="n">x</span> <span class="kr">of</span> <span class="p">{}</span>
+  <span class="o">...</span>
+</pre></div>
+</div>
+<p>Derived <code class="docutils literal"><span class="pre">Foldable</span></code> instances now are maximally lazy:</p>
+<div class="highlight-haskell"><div class="highlight"><pre><span></span><span class="kr">instance</span> <span class="kt">Foldable</span> <span class="kt">Empty</span> <span class="kr">where</span>
+  <span class="n">foldMap</span> <span class="kr">_</span> <span class="kr">_</span> <span class="ow">=</span> <span class="n">mempty</span>
+</pre></div>
+</div>
+</li>
+</ul>
+</li>
+<li><p class="first">Derived <code class="docutils literal"><span class="pre">Foldable</span></code> instances now derive custom definitions for <code class="docutils literal"><span class="pre">null</span></code>
+instead of using the default one. This leads to asymptotically better
+performance for recursive types not shaped like cons-lists, and allows <code class="docutils literal"><span class="pre">null</span></code>
+to terminate for more (but not all) infinitely large structures.</p>
+</li>
+<li><p class="first">Configure on Windows now supports the <code class="docutils literal"><span class="pre">--enable-distro-toolchain</span></code>
+<code class="docutils literal"><span class="pre">configure</span></code> flag, which can be used to build a GHC using compilers on your
+<code class="docutils literal"><span class="pre">PATH</span></code> instead of using the bundled bindist. See <a class="reference external" href="https://ghc.haskell.org/trac/ghc/ticket/13792">Trac #13792</a></p>
+</li>
+<li><p class="first">GHC now enables <a class="reference internal" href="using-optimisation.html#ghc-flag--fllvm-pass-vectors-in-regs"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-fllvm-pass-vectors-in-regs</span></code></a> by default. This means
+that GHC will now use native vector registers to pass vector arguments across
+function calls.</p>
+</li>
+<li><p class="first">The optional <code class="docutils literal"><span class="pre">instance</span></code> keyword is now usable in type family instance
+declarations. See <a class="reference external" href="https://ghc.haskell.org/trac/ghc/ticket/13747">Trac #13747</a></p>
+</li>
+<li><p class="first">Lots of other bugs. See <a class="reference external" href="https://ghc.haskell.org/trac/ghc/query?status=closed&amp;milestone=8.4.1&amp;col=id&amp;col=summary&amp;col=status&amp;col=type&amp;col=priority&amp;col=milestone&amp;col=component&amp;order=priority">Trac</a>
+for a complete list.</p>
+</li>
+<li><p class="first">New flags <a class="reference internal" href="separate_compilation.html#ghc-flag--fignore-optim-changes"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-fignore-optim-changes</span></code></a> and
+<a class="reference internal" href="separate_compilation.html#ghc-flag--fignore-hpc-changes"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-fignore-hpc-changes</span></code></a> allow GHC to reuse previously compiled
+modules even if they were compiled with different optimisation or HPC
+flags. These options are enabled by default by <a class="reference internal" href="using.html#ghc-flag---interactive"><code class="xref std std-ghc-flag docutils literal"><span class="pre">--interactive</span></code></a>.
+See <a class="reference external" href="https://ghc.haskell.org/trac/ghc/ticket/13604">Trac #13604</a></p>
+</li>
+</ul>
+</div>
+<div class="section" id="runtime-system">
+<h3>3.2.3. Runtime system<a class="headerlink" href="#runtime-system" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<ul class="simple">
+<li>Function <code class="docutils literal"><span class="pre">hs_add_root()</span></code> was removed. It was a no-op since GHC-7.2.1
+where module initialisation stopped requiring a call to <code class="docutils literal"><span class="pre">hs_add_root()</span></code>.</li>
+<li>Proper import library support added to GHC which can handle all of the libraries produced
+by <code class="docutils literal"><span class="pre">dlltool</span></code>. The limitation of them needing to be named with the suffix
+<code class="docutils literal"><span class="pre">.dll.a</span></code> is also removed. See <a class="reference external" href="https://ghc.haskell.org/trac/ghc/ticket/13606">Trac #13606</a>, <a class="reference external" href="https://ghc.haskell.org/trac/ghc/ticket/12499">Trac #12499</a>,
+<a class="reference external" href="https://ghc.haskell.org/trac/ghc/ticket/12498">Trac #12498</a></li>
+<li>The GHCi runtime linker on Windows now supports the <code class="docutils literal"><span class="pre">big-obj</span></code> file format.</li>
+<li>The runtime system&#8217;s <a class="reference internal" href="debug-info.html#backtrace-signal"><span class="std std-ref">native stack backtrace</span></a> support
+on POSIX platforms is now triggered by <code class="docutils literal"><span class="pre">SIGQUIT</span></code> instead of <code class="docutils literal"><span class="pre">SIGUSR2</span></code> as
+it was in previous releases. This change is to bring GHC&#8217;s behavior into
+compliance with the model set by the most Java virtual machine
+implementations.</li>
+<li>The GHC runtime on Windows now uses Continue handlers instead of Vectorized
+handlers to trap exceptions. This change gives other exception handlers a chance
+to handle the exception before the runtime does. Furthermore The RTS flag
+<code class="xref std std-rts-flag docutils literal"><span class="pre">--install-seh-handlers=</span></code> Can be used on Wndows to
+completely disable the runtime&#8217;s handling of exceptions. See
+<a class="reference external" href="https://ghc.haskell.org/trac/ghc/ticket/13911">Trac #13911</a>, <a class="reference external" href="https://ghc.haskell.org/trac/ghc/ticket/12110">Trac #12110</a>.</li>
+<li>The GHC runtime on Windows can now generate crash dumps on unhandled exceptions
+using the RTS flag <a class="reference internal" href="runtime_control.html#rts-flag---generate-crash-dumps"><code class="xref std std-rts-flag docutils literal"><span class="pre">--generate-crash-dumps</span></code></a>.</li>
+<li>The GHCi runtime linker now avoid calling GCC to find libraries as much as possible by caching
+the list of search directories of GCC and querying the file system directly. This results in
+much better performance, especially on Windows.</li>
+<li>The GHC runtime on Windows can now generate stack traces on unhandled exceptions.
+When running in GHCi more information is displayed about the symbols if available.
+This behavior can be controlled with the RTS flag <cite>&#8211;generate-stack-traces=&lt;yes|no&gt;</cite>.</li>
+</ul>
+</div>
+<div class="section" id="template-haskell">
+<h3>3.2.4. Template Haskell<a class="headerlink" href="#template-haskell" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<ul>
+<li><p class="first">Template Haskell now reifies data types with GADT syntax accurately.
+Previously, TH used heuristics to determine whether a data type
+should be reified using GADT syntax, which could lead to incorrect results,
+such as <code class="docutils literal"><span class="pre">data</span> <span class="pre">T1</span> <span class="pre">a</span> <span class="pre">=</span> <span class="pre">(a</span> <span class="pre">~</span> <span class="pre">Int)</span> <span class="pre">=&gt;</span> <span class="pre">MkT1</span></code> being reified as a GADT and
+<code class="docutils literal"><span class="pre">data</span> <span class="pre">T2</span> <span class="pre">a</span> <span class="pre">where</span> <span class="pre">MkT2</span> <span class="pre">::</span> <span class="pre">Show</span> <span class="pre">a</span> <span class="pre">=&gt;</span> <span class="pre">T2</span> <span class="pre">a</span></code> <em>not</em> being reified as a GADT.</p>
+<p>In addition, reified GADT constructors now more accurately track the order in
+which users write type variables. Before, if you reified <code class="docutils literal"><span class="pre">MkT</span></code> as below:</p>
+<div class="highlight-haskell"><div class="highlight"><pre><span></span><span class="kr">data</span> <span class="kt">T</span> <span class="n">a</span> <span class="kr">where</span>
+  <span class="kt">MkT</span> <span class="ow">::</span> <span class="n">forall</span> <span class="n">b</span> <span class="n">a</span><span class="o">.</span> <span class="n">b</span> <span class="ow">-&gt;</span> <span class="kt">T</span> <span class="n">a</span>
+</pre></div>
+</div>
+<p>Then the reified type signature of <code class="docutils literal"><span class="pre">MkT</span></code> would have been headed by
+<code class="docutils literal"><span class="pre">ForallC</span> <span class="pre">[PlainTV</span> <span class="pre">a,</span> <span class="pre">PlainTV</span> <span class="pre">b]</span></code>. Now, reifying <code class="docutils literal"><span class="pre">MkT</span></code> will give a type
+headed by <code class="docutils literal"><span class="pre">ForallC</span> <span class="pre">[PlainTV</span> <span class="pre">b,</span> <span class="pre">PlainTV</span> <span class="pre">a]</span></code>, as one would expect.</p>
+</li>
+<li><p class="first"><code class="docutils literal"><span class="pre">Language.Haskell.TH.FamFlavour</span></code>, which was deprecated in GHC 8.2,
+has been removed.</p>
+</li>
+</ul>
+</div>
+<div class="section" id="base-library">
+<h3>3.2.5. <code class="docutils literal"><span class="pre">base</span></code> library<a class="headerlink" href="#base-library" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<ul class="simple">
+<li>Blank strings can now be used as values for environment variables using the
+<code class="docutils literal"><span class="pre">System.Environment.Blank</span></code> module. See <a class="reference external" href="https://ghc.haskell.org/trac/ghc/ticket/12494">Trac #12494</a></li>
+<li><code class="docutils literal"><span class="pre">Data.Type.Equality.==</span></code> is now a closed type family. It works for all kinds
+out of the box. Any modules that previously declared instances of this family
+will need to remove them. Whereas the previous definition was somewhat ad
+hoc, the behavior is now completely uniform. As a result, some applications
+that used to reduce no longer do, and conversely. Most notably, <code class="docutils literal"><span class="pre">(==)</span></code> no
+longer treats the <code class="docutils literal"><span class="pre">*</span></code>, <code class="docutils literal"><span class="pre">j</span> <span class="pre">-&gt;</span> <span class="pre">k</span></code>, or <code class="docutils literal"><span class="pre">()</span></code> kinds specially; equality is
+tested structurally in all cases.</li>
+</ul>
+</div>
+<div class="section" id="build-system">
+<h3>3.2.6. Build system<a class="headerlink" href="#build-system" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<ul class="simple">
+<li><code class="docutils literal"><span class="pre">dll-split</span></code> has been removed and replaced with an automatic partitioning utility <code class="docutils literal"><span class="pre">gen-dll</span></code>.
+This utility can transparently split and compile any DLLs that require this. Note that the <code class="docutils literal"><span class="pre">rts</span></code> and
+<code class="docutils literal"><span class="pre">base</span></code> can not be split at this point because of the mutual recursion between <code class="docutils literal"><span class="pre">base</span></code> and <code class="docutils literal"><span class="pre">rts</span></code>.
+There is currently no explicit dependency between the two in the build system and such there is no way
+to notify <code class="docutils literal"><span class="pre">base</span></code> that the <code class="docutils literal"><span class="pre">rts</span></code> has been split, or vice versa.
+(see <a class="reference external" href="https://ghc.haskell.org/trac/ghc/ticket/5987">Trac #5987</a>).</li>
+</ul>
+</div>
+</div>
+<div class="section" id="included-libraries">
+<h2>3.3. Included libraries<a class="headerlink" href="#included-libraries" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>The package database provided with this distribution also contains a number of
+packages other than GHC itself. See the changelogs provided with these packages
+for further change information.</p>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="25%" />
+<col width="25%" />
+<col width="50%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head"><span class="first last">Package</span></th>
+<th class="head"><span class="first last">Version</span></th>
+<th class="head"><span class="first last">Reason for inclusion</span></th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>ghc</td>
+<td><span class="first last">8.4.1</span></td>
+<td>The compiler itself</td>
+</tr>
+<tr class="row-odd"><td>Cabal</td>
+<td><span class="first last">2.2.0.0</span></td>
+<td>Dependency of <code class="docutils literal"><span class="pre">ghc-pkg</span></code> utility</td>
+</tr>
+<tr class="row-even"><td>Win32</td>
+<td><span class="first last">2.6.1.0</span></td>
+<td>Dependency of <code class="docutils literal"><span class="pre">ghc</span></code> library</td>
+</tr>
+<tr class="row-odd"><td>array</td>
+<td><span class="first last">0.5.2.0</span></td>
+<td>Dependency of <code class="docutils literal"><span class="pre">ghc</span></code> library</td>
+</tr>
+<tr class="row-even"><td>base</td>
+<td><span class="first last">2.1</span></td>
+<td>Core library</td>
+</tr>
+<tr class="row-odd"><td>binary</td>
+<td><span class="first last">0.8.5.1</span></td>
+<td>Dependency of <code class="docutils literal"><span class="pre">ghc</span></code> library</td>
+</tr>
+<tr class="row-even"><td>bytestring</td>
+<td><span class="first last">0.10.8.2</span></td>
+<td>Deppendency of <code class="docutils literal"><span class="pre">ghc</span></code> library</td>
+</tr>
+<tr class="row-odd"><td>containers</td>
+<td><span class="first last">0.5.11.0</span></td>
+<td>Dependency of <code class="docutils literal"><span class="pre">ghc</span></code> library</td>
+</tr>
+<tr class="row-even"><td>deepseq</td>
+<td><span class="first last">1.4.3.0</span></td>
+<td>Dependency of <code class="docutils literal"><span class="pre">ghc</span></code> library</td>
+</tr>
+<tr class="row-odd"><td>directory</td>
+<td><span class="first last">1.3.1.5</span></td>
+<td>Dependency of <code class="docutils literal"><span class="pre">ghc</span></code> library</td>
+</tr>
+<tr class="row-even"><td>filepath</td>
+<td><span class="first last">1.4.2</span></td>
+<td>Dependency of <code class="docutils literal"><span class="pre">ghc</span></code> library</td>
+</tr>
+<tr class="row-odd"><td>ghc-boot</td>
+<td><span class="first last">8.4.1</span></td>
+<td>Internal compiler library</td>
+</tr>
+<tr class="row-even"><td>ghc-compact</td>
+<td><span class="first last">0.1.0.0</span></td>
+<td>Core library</td>
+</tr>
+<tr class="row-odd"><td>ghc-prim</td>
+<td><span class="first last">2.1</span></td>
+<td>Core library</td>
+</tr>
+<tr class="row-even"><td>ghci</td>
+<td><span class="first last">8.4.1</span></td>
+<td>The REPL interface</td>
+</tr>
+<tr class="row-odd"><td>haskeline</td>
+<td><span class="first last">0.7.4.2</span></td>
+<td>Dependency of <code class="docutils literal"><span class="pre">ghci</span></code> executable</td>
+</tr>
+<tr class="row-even"><td>hpc</td>
+<td><span class="first last">0.6.0.3</span></td>
+<td>Dependency of <code class="docutils literal"><span class="pre">hpc</span></code> executable</td>
+</tr>
+<tr class="row-odd"><td>integer-gmp</td>
+<td><span class="first last">1.0.1.0</span></td>
+<td>Core library</td>
+</tr>
+<tr class="row-even"><td>mtl</td>
+<td><span class="first last">2.2.2</span></td>
+<td>Dependency of <code class="docutils literal"><span class="pre">Cabal</span></code> library</td>
+</tr>
+<tr class="row-odd"><td>parsec</td>
+<td><span class="first last">1.12</span></td>
+<td>Dependency of <code class="docutils literal"><span class="pre">Cabal</span></code> library</td>
+</tr>
+<tr class="row-even"><td>process</td>
+<td><span class="first last">1.6.3.0</span></td>
+<td>Dependency of <code class="docutils literal"><span class="pre">ghc</span></code> library</td>
+</tr>
+<tr class="row-odd"><td>template-haskell</td>
+<td><span class="first last">2.13.0.0</span></td>
+<td>Core library</td>
+</tr>
+<tr class="row-even"><td>text</td>
+<td><span class="first last">1.2.3.0</span></td>
+<td>Dependency of <code class="docutils literal"><span class="pre">Cabal</span></code> library</td>
+</tr>
+<tr class="row-odd"><td>time</td>
+<td><span class="first last">1.8.0.2</span></td>
+<td>Dependency of <code class="docutils literal"><span class="pre">ghc</span></code> library</td>
+</tr>
+<tr class="row-even"><td>transformers</td>
+<td><span class="first last">0.5.5.0</span></td>
+<td>Dependency of <code class="docutils literal"><span class="pre">ghc</span></code> library</td>
+</tr>
+<tr class="row-odd"><td>unix</td>
+<td><span class="first last">2.7.2.2</span></td>
+<td>Dependency of <code class="docutils literal"><span class="pre">ghc</span></code> library</td>
+</tr>
+<tr class="row-even"><td>xhtml</td>
+<td><span class="first last">3000.2.2</span></td>
+<td>Dependency of <code class="docutils literal"><span class="pre">haddock</span></code> executable</td>
+</tr>
+</tbody>
+</table>
+<div class="section" id="win32">
+<h3>3.3.1. Win32<a class="headerlink" href="#win32" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<div class="admonition attention">
+<p class="first admonition-title">注意</p>
+<p class="last">This release is a backwards incompatible release which corrects the type of
+certain APIs. See issue <a class="reference external" href="https://github.com/haskell/win32/issues/24">#24</a>.</p>
+</div>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>ナビゲーション</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="総合索引"
+             >索引</a></li>
+        <li class="right" >
+          <a href="ghci.html" title="4. Using GHCi"
+             >次へ</a> |</li>
+        <li class="right" >
+          <a href="intro.html" title="2. Introduction to GHC"
+             >前へ</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">GHC 8.4.1 User&#39;s Guide</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2015, GHC Team.
+      このドキュメントは <a href="http://sphinx-doc.org/">Sphinx</a> 1.5.6 で生成しました。
+    </div>
+  </body>
+</html>
