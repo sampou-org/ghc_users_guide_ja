@@ -66,95 +66,186 @@
 - 大量のバグが修正されています．
 
 
-Full details
-------------
+..
+   Full details
+   ------------
 
-Language
-~~~~~~~~
+詳細
+----
 
-- Data families have been generalised a bit: a data family declaration can now
-  end with a kind variable ``k`` instead of ``Type``. Additionally, data/newtype
-  instance no longer need to list all the patterns of the family if they don't
-  wish to; this is quite like how regular datatypes with a kind signature can omit
-  some type variables.
+..
+   Language
+   ~~~~~~~~
 
-- There are now fewer restrictions regarding whether kind variables can appear
-  on the right-hand sides of type and data family instances. Before, there was
-  a strict requirements that all kind variables on the RHS had to be explicitly
-  bound by type patterns on the LHS. Now, kind variables can be *implicitly*
-  bound, which allows constructions like these: ::
+言語
+~~~~
+
+..
+   - Data families have been generalised a bit: a data family declaration can now
+     end with a kind variable ``k`` instead of ``Type``. Additionally, data/newtype
+     instance no longer need to list all the patterns of the family if they don't
+     wish to; this is quite like how regular datatypes with a kind signature can omit
+     some type variables.
+
+- データ族を少し一般化してあります．
+  データ族宣言の最後を ``Type`` ではなく，カインド変数 ``k`` で終えられます．
+  加えて，data あるいは newtype インスタンスは望まないのであれば，すべての族のパターンを列挙する必要はなくなりました．
+  これは，通常のカインドシグネチャ付きのデータ型では型変数を省略できるのと同じです．
+
+..
+   - There are now fewer restrictions regarding whether kind variables can appear
+     on the right-hand sides of type and data family instances. Before, there was
+     a strict requirements that all kind variables on the RHS had to be explicitly
+     bound by type patterns on the LHS. Now, kind variables can be *implicitly*
+     bound, which allows constructions like these: ::
+
+       data family Nat :: k -> k -> *
+       -- k is implicitly bound by an invisible kind pattern
+       newtype instance Nat :: (k -> *) -> (k -> *) -> * where
+	 Nat :: (forall xx. f xx -> g xx) -> Nat f g
+
+       class Funct f where
+	 type Codomain f :: *
+       instance Funct ('KProxy :: KProxy o) where
+	 -- o is implicitly bound by the kind signature
+	 -- of the LHS type pattern ('KProxy)
+	 type Codomain 'KProxy = NatTr (Proxy :: o -> *)
+
+- 型族およびデータ族インスタンスの右辺にカインド変数が出現できるかどうかに関してほとんど制約はなくなりました．
+  以前は，右辺のすべてのカインド変数は左辺の型パターンで明示的に束縛されていなければなりませんでした．
+  これからは， *暗黙に* 束縛されたカインド変数が許され，以下のような構成が可能になります． ::
 
     data family Nat :: k -> k -> *
-    -- k is implicitly bound by an invisible kind pattern
+    -- k は見えないカインドパターンで暗黙に束縛されている
     newtype instance Nat :: (k -> *) -> (k -> *) -> * where
       Nat :: (forall xx. f xx -> g xx) -> Nat f g
 
     class Funct f where
       type Codomain f :: *
     instance Funct ('KProxy :: KProxy o) where
-      -- o is implicitly bound by the kind signature
-      -- of the LHS type pattern ('KProxy)
+      -- o は左辺の型パターン('KProxy)の
+      -- カインドシグネチャで暗黙に束縛されている
       type Codomain 'KProxy = NatTr (Proxy :: o -> *)
 
-- Implicitly bidirectional pattern synonyms no longer allow bang patterns
-  (``!``) or irrefutable patterns (``~``) on the right-hand side. Previously,
-  this was allowed, although the bang patterns and irrefutable patterns would
-  be silently ignored when used in an expression context. This is now a proper
-  error, and explicitly bidirectional pattern synonyms should be used in their
-  stead. That is, instead of using this (which is an error): ::
+..
+   - Implicitly bidirectional pattern synonyms no longer allow bang patterns
+     (``!``) or irrefutable patterns (``~``) on the right-hand side. Previously,
+     this was allowed, although the bang patterns and irrefutable patterns would
+     be silently ignored when used in an expression context. This is now a proper
+     error, and explicitly bidirectional pattern synonyms should be used in their
+     stead. That is, instead of using this (which is an error): ::
+
+	 data StrictJust a = Just !a
+
+     Use this: ::
+
+	 data StrictJust a <- Just !a where
+	   StrictJust !a = Just a
+
+- 暗黙に双方向的であるパターンシノニムの右辺では，バンパターン(``!``)および反駁不可パターン(``~``)は使えなくなりました．
+  直前のリリースでは使えましたが，1つのコンテキストで使ったときには黙って無視されていました．
+  これが正しくエラーになるということです．代りに明示的に双方向的であるパターンシノニムを使わなければなりません．
+  すなわち，以下のように(エラーになる) ::
 
       data StrictJust a = Just !a
 
-  Use this: ::
+  ではなく，次のようにすべきです． ::
 
       data StrictJust a <- Just !a where
         StrictJust !a = Just a
 
-- GADTs with kind-polymorphic type arguments now require :ghc-flag:`-XTypeInType`.
-  For instance, consider the following, ::
+..
+   - GADTs with kind-polymorphic type arguments now require :ghc-flag:`-XTypeInType`.
+     For instance, consider the following, ::
+
+	 data G :: k -> * where
+	   GInt   :: G Int
+	   GMaybe :: G Maybe
+
+     In previous releases this would compile with :ghc-flag:`-XPolyKinds` alone due
+     to bug :ghc-ticket:`13391`. As of GHC 8.4, however, this requires
+     :ghc-flag:`-XTypeInType`. Note that since GADT kind signatures aren't generalized,
+     this will also require that you provide a :ref:`CUSK
+     <complete-kind-signatures>` by explicitly quantifying over the kind argument,
+     ``k``, ::
+
+	 data G :: forall k. k -> * where
+	   GInt   :: G Int
+	   GMaybe :: G Maybe
+
+- カインド多相の型引数を伴う GADT を使うには :ghc-flag:`-XTypeInType` を有効にしなければならなくなりました．
+  たとえば， ::
 
       data G :: k -> * where
         GInt   :: G Int
         GMaybe :: G Maybe
 
-  In previous releases this would compile with :ghc-flag:`-XPolyKinds` alone due
-  to bug :ghc-ticket:`13391`. As of GHC 8.4, however, this requires
-  :ghc-flag:`-XTypeInType`. Note that since GADT kind signatures aren't generalized,
-  this will also require that you provide a :ref:`CUSK
-  <complete-kind-signatures>` by explicitly quantifying over the kind argument,
-  ``k``, ::
+  を考えたとき，直前のリリースでは :ghc-ticket:`13391` のバグにより
+  :ghc-flag:`-XPolyKinds` を有効するだけでコンパイルできました．
+  しかし，GHC 8.4 では :ghc-flag:`-XTypeInType` を有効にしなけばなりません．
+  GADT のカインドシグネチャは一般化されないので :ref:`CUSK <complete-kind-signatures>` が必要で，
+  それには，カインド引数 ``k`` を明示的に量化しなければならないことに注意してください． ::
 
       data G :: forall k. k -> * where
         GInt   :: G Int
         GMaybe :: G Maybe
 
-- The order in which type variables are quantified in GADT constructor type
-  signatures has changed. Before, if you had ``MkT`` as below: ::
+..
+   - The order in which type variables are quantified in GADT constructor type
+     signatures has changed. Before, if you had ``MkT`` as below: ::
+
+	 data T a where
+	   MkT :: forall b a. b -> T a
+
+     Then the type of ``MkT`` would (counterintuitively) be
+     ``forall a b. b -> T a``! Now, GHC quantifies the type variables in the
+     order that the users writes them, so the type of ``MkT`` is now
+     ``forall b a. b -> T a`` (this matters for :ghc-flag:`-XTypeApplications`).
+
+- GADT 構成子の型シグネチャにおいて型変数が量化される順序が変更になりました．
+  以前は ``MkT`` は以下のように ::
 
       data T a where
         MkT :: forall b a. b -> T a
 
-  Then the type of ``MkT`` would (counterintuitively) be
-  ``forall a b. b -> T a``! Now, GHC quantifies the type variables in the
-  order that the users writes them, so the type of ``MkT`` is now
-  ``forall b a. b -> T a`` (this matters for :ghc-flag:`-XTypeApplications`).
+  としていました．このとき ``MkT`` の型は(直観に反して) ``forall a b. b -> T a`` になりました．
+  GHC はユーザーが書いた順で型変数を量化するようになりました．
+  したがって ``MkT`` の型は ``forall b a. b -> T a`` (これは :ghc-flag:`-XTypeApplications` が有効なときに重要です)．
 
-- The new :ghc-flag:`-XEmptyDataDeriving` extension allows deriving ``Eq``,
-  ``Ord``, ``Read``, and ``Show`` instances directly for empty data types, as
-  in ``data Empty deriving Eq``. (Previously, this would require the use of
-  :ghc-flag:`-XStandaloneDeriving` to accomplish.)
+..
+   - The new :ghc-flag:`-XEmptyDataDeriving` extension allows deriving ``Eq``,
+     ``Ord``, ``Read``, and ``Show`` instances directly for empty data types, as
+     in ``data Empty deriving Eq``. (Previously, this would require the use of
+     :ghc-flag:`-XStandaloneDeriving` to accomplish.)
 
-  One can also now derive ``Data`` instances directly for empty data types (as
-  in ``data Empty deriving Data``) without needing to use
-  :ghc-flag:`-XStandaloneDeriving`. However, since already requires a GHC
-  extension (:ghc-flag:`-XDeriveDataTypeable`), one does not need to enable
-  :ghc-flag:`-XEmptyDataDeriving` to do so. This also goes for other classes
-  which require extensions to derive, such as :ghc-flag:`-XDeriveFunctor`.
+     One can also now derive ``Data`` instances directly for empty data types (as
+     in ``data Empty deriving Data``) without needing to use
+     :ghc-flag:`-XStandaloneDeriving`. However, since already requires a GHC
+     extension (:ghc-flag:`-XDeriveDataTypeable`), one does not need to enable
+     :ghc-flag:`-XEmptyDataDeriving` to do so. This also goes for other classes
+     which require extensions to derive, such as :ghc-flag:`-XDeriveFunctor`.
 
-- Hexadecimal floating point literals (e.g. ``0x0.1p4``), enabled with
-  :ghc-flag:`-XHexFloatLiterals`.  See
-  :ref:`Hexadecimal floating point literals <hex-float-literals>`
-  for the full details.
+- 新しく :ghc-flag:`-XEmptyDataDeriving` という拡張ができました．
+  これを有効にすると直接，空のデータ型に対して ``Eq`` ， ``Ord`` ，
+  ``Read`` ， ``Show`` のインスタンスを導出できるようになります．
+  たとえば ``data Empty deriving Eq`` のように書けます．
+  (直前のリリースでは :ghc-flag:`-XStandaloneDeriving` を有効にする必要がありました．)
+
+  また，（``data Empty deriving Data`` のように) ``Data`` インスタンスも
+  :ghc-flag:`-XStandaloneDeriving` を指定しなくても，
+  直接，空のデータ型から導出できるようになりました．
+  しかし，GHCの拡張 :ghc-flag:`-XDeriveDataTypeable` が必要なので，そのために，
+  :ghc-flag:`-XEmptyDataDeriving` を有効にする必要はありません．
+  これは :ghc-flag:`-XDeriveFunctor` などの拡張を必要とする他のクラスでも同じです．
+
+..
+   - Hexadecimal floating point literals (e.g. ``0x0.1p4``), enabled with
+     :ghc-flag:`-XHexFloatLiterals`.  See
+     :ref:`Hexadecimal floating point literals <hex-float-literals>`
+     for the full details.
+
+- :ghc-flag:`-XHexFloatLiterals` を有効にすれば，16進浮動小数点数リテラル(たとえば ``0x0.1p4``)が使えます．
+  詳細については :ref:`Hexadecimal floating point literals <hex-float-literals>` を参照してください．
 
 Compiler
 ~~~~~~~~
