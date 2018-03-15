@@ -62,8 +62,8 @@
   <ul>
 <li><a class="reference internal" href="#">3. バージョン 8.4.1 のリリースノート</a><ul>
 <li><a class="reference internal" href="#id2">3.1. ハイライト</a></li>
-<li><a class="reference internal" href="#full-details">3.2. Full details</a><ul>
-<li><a class="reference internal" href="#language">3.2.1. Language</a></li>
+<li><a class="reference internal" href="#id3">3.2. 詳細</a><ul>
+<li><a class="reference internal" href="#id4">3.2.1. 言語</a></li>
 <li><a class="reference internal" href="#compiler">3.2.2. Compiler</a></li>
 <li><a class="reference internal" href="#runtime-system">3.2.3. Runtime system</a></li>
 <li><a class="reference internal" href="#template-haskell">3.2.4. Template Haskell</a></li>
@@ -130,96 +130,99 @@
 <li>大量のバグが修正されています．</li>
 </ul>
 </div>
-<div class="section" id="full-details">
-<h2>3.2. Full details<a class="headerlink" href="#full-details" title="このヘッドラインへのパーマリンク">¶</a></h2>
-<div class="section" id="language">
-<h3>3.2.1. Language<a class="headerlink" href="#language" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<div class="section" id="id3">
+<h2>3.2. 詳細<a class="headerlink" href="#id3" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<div class="section" id="id4">
+<h3>3.2.1. 言語<a class="headerlink" href="#id4" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<ul class="simple">
+<li>データ族を少し一般化してあります．
+データ族宣言の最後を <code class="docutils literal"><span class="pre">Type</span></code> ではなく，カインド変数 <code class="docutils literal"><span class="pre">k</span></code> で終えられます．
+加えて，data あるいは newtype インスタンスは望まないのであれば，すべての族のパターンを列挙する必要はなくなりました．
+これは，通常のカインドシグネチャ付きのデータ型では型変数を省略できるのと同じです．</li>
+</ul>
 <ul>
-<li><p class="first">Data families have been generalised a bit: a data family declaration can now
-end with a kind variable <code class="docutils literal"><span class="pre">k</span></code> instead of <code class="docutils literal"><span class="pre">Type</span></code>. Additionally, data/newtype
-instance no longer need to list all the patterns of the family if they don&#8217;t
-wish to; this is quite like how regular datatypes with a kind signature can omit
-some type variables.</p>
-</li>
-<li><p class="first">There are now fewer restrictions regarding whether kind variables can appear
-on the right-hand sides of type and data family instances. Before, there was
-a strict requirements that all kind variables on the RHS had to be explicitly
-bound by type patterns on the LHS. Now, kind variables can be <em>implicitly</em>
-bound, which allows constructions like these:</p>
+<li><p class="first">型族およびデータ族インスタンスの右辺にカインド変数が出現できるかどうかに関してほとんど制約はなくなりました．
+以前は，右辺のすべてのカインド変数は左辺の型パターンで明示的に束縛されていなければなりませんでした．
+これからは， <em>暗黙に</em> 束縛されたカインド変数が許され，以下のような構成が可能になります．</p>
 <div class="highlight-haskell"><div class="highlight"><pre><span></span><span class="kr">data</span> <span class="kr">family</span> <span class="kt">Nat</span> <span class="ow">::</span> <span class="n">k</span> <span class="ow">-&gt;</span> <span class="n">k</span> <span class="ow">-&gt;</span> <span class="o">*</span>
-<span class="c1">-- k is implicitly bound by an invisible kind pattern</span>
+<span class="c1">-- k は見えないカインドパターンで暗黙に束縛されている</span>
 <span class="kr">newtype</span> <span class="kr">instance</span> <span class="kt">Nat</span> <span class="ow">::</span> <span class="p">(</span><span class="n">k</span> <span class="ow">-&gt;</span> <span class="o">*</span><span class="p">)</span> <span class="ow">-&gt;</span> <span class="p">(</span><span class="n">k</span> <span class="ow">-&gt;</span> <span class="o">*</span><span class="p">)</span> <span class="ow">-&gt;</span> <span class="o">*</span> <span class="kr">where</span>
   <span class="kt">Nat</span> <span class="ow">::</span> <span class="p">(</span><span class="n">forall</span> <span class="n">xx</span><span class="o">.</span> <span class="n">f</span> <span class="n">xx</span> <span class="ow">-&gt;</span> <span class="n">g</span> <span class="n">xx</span><span class="p">)</span> <span class="ow">-&gt;</span> <span class="kt">Nat</span> <span class="n">f</span> <span class="n">g</span>
 
 <span class="kr">class</span> <span class="kt">Funct</span> <span class="n">f</span> <span class="kr">where</span>
   <span class="kr">type</span> <span class="kt">Codomain</span> <span class="n">f</span> <span class="ow">::</span> <span class="o">*</span>
 <span class="kr">instance</span> <span class="kt">Funct</span> <span class="p">(</span><span class="kt">&#39;KProxy</span> <span class="ow">::</span> <span class="kt">KProxy</span> <span class="n">o</span><span class="p">)</span> <span class="kr">where</span>
-  <span class="c1">-- o is implicitly bound by the kind signature</span>
-  <span class="c1">-- of the LHS type pattern (&#39;KProxy)</span>
+  <span class="c1">-- o は左辺の型パターン(&#39;KProxy)の</span>
+  <span class="c1">-- カインドシグネチャで暗黙に束縛されている</span>
   <span class="kr">type</span> <span class="kt">Codomain</span> <span class="kt">&#39;KProxy</span> <span class="ow">=</span> <span class="kt">NatTr</span> <span class="p">(</span><span class="kt">Proxy</span> <span class="ow">::</span> <span class="n">o</span> <span class="ow">-&gt;</span> <span class="o">*</span><span class="p">)</span>
 </pre></div>
 </div>
 </li>
-<li><p class="first">Implicitly bidirectional pattern synonyms no longer allow bang patterns
-(<code class="docutils literal"><span class="pre">!</span></code>) or irrefutable patterns (<code class="docutils literal"><span class="pre">~</span></code>) on the right-hand side. Previously,
-this was allowed, although the bang patterns and irrefutable patterns would
-be silently ignored when used in an expression context. This is now a proper
-error, and explicitly bidirectional pattern synonyms should be used in their
-stead. That is, instead of using this (which is an error):</p>
+</ul>
+<ul>
+<li><p class="first">暗黙に双方向的であるパターンシノニムの右辺では，バンパターン(<code class="docutils literal"><span class="pre">!</span></code>)および反駁不可パターン(<code class="docutils literal"><span class="pre">~</span></code>)は使えなくなりました．
+直前のリリースでは使えましたが，1つのコンテキストで使ったときには黙って無視されていました．
+これが正しくエラーになるということです．代りに明示的に双方向的であるパターンシノニムを使わなければなりません．
+すなわち，以下のように(エラーになる)</p>
 <div class="highlight-haskell"><div class="highlight"><pre><span></span><span class="kr">data</span> <span class="kt">StrictJust</span> <span class="n">a</span> <span class="ow">=</span> <span class="kt">Just</span> <span class="o">!</span><span class="n">a</span>
 </pre></div>
 </div>
-<p>Use this:</p>
+<p>ではなく，次のようにすべきです．</p>
 <div class="highlight-haskell"><div class="highlight"><pre><span></span><span class="kr">data</span> <span class="kt">StrictJust</span> <span class="n">a</span> <span class="ow">&lt;-</span> <span class="kt">Just</span> <span class="o">!</span><span class="n">a</span> <span class="kr">where</span>
   <span class="kt">StrictJust</span> <span class="o">!</span><span class="n">a</span> <span class="ow">=</span> <span class="kt">Just</span> <span class="n">a</span>
 </pre></div>
 </div>
 </li>
-<li><p class="first">GADTs with kind-polymorphic type arguments now require <a class="reference internal" href="glasgow_exts.html#extension-TypeInType"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-XTypeInType</span></code></a>.
-For instance, consider the following,</p>
+</ul>
+<ul>
+<li><p class="first">カインド多相の型引数を伴う GADT を使うには <a class="reference internal" href="glasgow_exts.html#extension-TypeInType"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-XTypeInType</span></code></a> を有効にしなければならなくなりました．
+たとえば，</p>
 <div class="highlight-haskell"><div class="highlight"><pre><span></span><span class="kr">data</span> <span class="kt">G</span> <span class="ow">::</span> <span class="n">k</span> <span class="ow">-&gt;</span> <span class="o">*</span> <span class="kr">where</span>
   <span class="kt">GInt</span>   <span class="ow">::</span> <span class="kt">G</span> <span class="kt">Int</span>
   <span class="kt">GMaybe</span> <span class="ow">::</span> <span class="kt">G</span> <span class="kt">Maybe</span>
 </pre></div>
 </div>
-<p>In previous releases this would compile with <a class="reference internal" href="glasgow_exts.html#extension-PolyKinds"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-XPolyKinds</span></code></a> alone due
-to bug <a class="reference external" href="https://ghc.haskell.org/trac/ghc/ticket/13391">Trac #13391</a>. As of GHC 8.4, however, this requires
-<a class="reference internal" href="glasgow_exts.html#extension-TypeInType"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-XTypeInType</span></code></a>. Note that since GADT kind signatures aren&#8217;t generalized,
-this will also require that you provide a <a class="reference internal" href="glasgow_exts.html#complete-kind-signatures"><span class="std std-ref">CUSK</span></a> by explicitly quantifying over the kind argument,
-<code class="docutils literal"><span class="pre">k</span></code>,</p>
+<p>を考えたとき，直前のリリースでは <a class="reference external" href="https://ghc.haskell.org/trac/ghc/ticket/13391">Trac #13391</a> のバグにより
+<a class="reference internal" href="glasgow_exts.html#extension-PolyKinds"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-XPolyKinds</span></code></a> を有効するだけでコンパイルできました．
+しかし，GHC 8.4 では <a class="reference internal" href="glasgow_exts.html#extension-TypeInType"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-XTypeInType</span></code></a> を有効にしなけばなりません．
+GADT のカインドシグネチャは一般化されないので <a class="reference internal" href="glasgow_exts.html#complete-kind-signatures"><span class="std std-ref">CUSK</span></a> が必要で，
+それには，カインド引数 <code class="docutils literal"><span class="pre">k</span></code> を明示的に量化しなければならないことに注意してください．</p>
 <div class="highlight-haskell"><div class="highlight"><pre><span></span><span class="kr">data</span> <span class="kt">G</span> <span class="ow">::</span> <span class="n">forall</span> <span class="n">k</span><span class="o">.</span> <span class="n">k</span> <span class="ow">-&gt;</span> <span class="o">*</span> <span class="kr">where</span>
   <span class="kt">GInt</span>   <span class="ow">::</span> <span class="kt">G</span> <span class="kt">Int</span>
   <span class="kt">GMaybe</span> <span class="ow">::</span> <span class="kt">G</span> <span class="kt">Maybe</span>
 </pre></div>
 </div>
 </li>
-<li><p class="first">The order in which type variables are quantified in GADT constructor type
-signatures has changed. Before, if you had <code class="docutils literal"><span class="pre">MkT</span></code> as below:</p>
+</ul>
+<ul>
+<li><p class="first">GADT 構成子の型シグネチャにおいて型変数が量化される順序が変更になりました．
+以前は <code class="docutils literal"><span class="pre">MkT</span></code> は以下のように</p>
 <div class="highlight-haskell"><div class="highlight"><pre><span></span><span class="kr">data</span> <span class="kt">T</span> <span class="n">a</span> <span class="kr">where</span>
   <span class="kt">MkT</span> <span class="ow">::</span> <span class="n">forall</span> <span class="n">b</span> <span class="n">a</span><span class="o">.</span> <span class="n">b</span> <span class="ow">-&gt;</span> <span class="kt">T</span> <span class="n">a</span>
 </pre></div>
 </div>
-<p>Then the type of <code class="docutils literal"><span class="pre">MkT</span></code> would (counterintuitively) be
-<code class="docutils literal"><span class="pre">forall</span> <span class="pre">a</span> <span class="pre">b.</span> <span class="pre">b</span> <span class="pre">-&gt;</span> <span class="pre">T</span> <span class="pre">a</span></code>! Now, GHC quantifies the type variables in the
-order that the users writes them, so the type of <code class="docutils literal"><span class="pre">MkT</span></code> is now
-<code class="docutils literal"><span class="pre">forall</span> <span class="pre">b</span> <span class="pre">a.</span> <span class="pre">b</span> <span class="pre">-&gt;</span> <span class="pre">T</span> <span class="pre">a</span></code> (this matters for <a class="reference internal" href="glasgow_exts.html#extension-TypeApplications"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-XTypeApplications</span></code></a>).</p>
+<p>としていました．このとき <code class="docutils literal"><span class="pre">MkT</span></code> の型は(直観に反して) <code class="docutils literal"><span class="pre">forall</span> <span class="pre">a</span> <span class="pre">b.</span> <span class="pre">b</span> <span class="pre">-&gt;</span> <span class="pre">T</span> <span class="pre">a</span></code> になりました．
+GHC はユーザーが書いた順で型変数を量化するようになりました．
+したがって <code class="docutils literal"><span class="pre">MkT</span></code> の型は <code class="docutils literal"><span class="pre">forall</span> <span class="pre">b</span> <span class="pre">a.</span> <span class="pre">b</span> <span class="pre">-&gt;</span> <span class="pre">T</span> <span class="pre">a</span></code> (これは <a class="reference internal" href="glasgow_exts.html#extension-TypeApplications"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-XTypeApplications</span></code></a> が有効なときに重要です)．</p>
 </li>
-<li><p class="first">The new <a class="reference internal" href="glasgow_exts.html#ghc-flag--XEmptyDataDeriving"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-XEmptyDataDeriving</span></code></a> extension allows deriving <code class="docutils literal"><span class="pre">Eq</span></code>,
-<code class="docutils literal"><span class="pre">Ord</span></code>, <code class="docutils literal"><span class="pre">Read</span></code>, and <code class="docutils literal"><span class="pre">Show</span></code> instances directly for empty data types, as
-in <code class="docutils literal"><span class="pre">data</span> <span class="pre">Empty</span> <span class="pre">deriving</span> <span class="pre">Eq</span></code>. (Previously, this would require the use of
-<a class="reference internal" href="glasgow_exts.html#extension-StandaloneDeriving"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-XStandaloneDeriving</span></code></a> to accomplish.)</p>
-<p>One can also now derive <code class="docutils literal"><span class="pre">Data</span></code> instances directly for empty data types (as
-in <code class="docutils literal"><span class="pre">data</span> <span class="pre">Empty</span> <span class="pre">deriving</span> <span class="pre">Data</span></code>) without needing to use
-<a class="reference internal" href="glasgow_exts.html#extension-StandaloneDeriving"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-XStandaloneDeriving</span></code></a>. However, since already requires a GHC
-extension (<a class="reference internal" href="glasgow_exts.html#extension-DeriveDataTypeable"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-XDeriveDataTypeable</span></code></a>), one does not need to enable
-<a class="reference internal" href="glasgow_exts.html#ghc-flag--XEmptyDataDeriving"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-XEmptyDataDeriving</span></code></a> to do so. This also goes for other classes
-which require extensions to derive, such as <a class="reference internal" href="glasgow_exts.html#extension-DeriveFunctor"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-XDeriveFunctor</span></code></a>.</p>
+</ul>
+<ul>
+<li><p class="first">新しく <a class="reference internal" href="glasgow_exts.html#ghc-flag--XEmptyDataDeriving"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-XEmptyDataDeriving</span></code></a> という拡張ができました．
+これを有効にすると直接，空のデータ型に対して <code class="docutils literal"><span class="pre">Eq</span></code> ， <code class="docutils literal"><span class="pre">Ord</span></code> ，
+<code class="docutils literal"><span class="pre">Read</span></code> ， <code class="docutils literal"><span class="pre">Show</span></code> のインスタンスを導出できるようになります．
+たとえば <code class="docutils literal"><span class="pre">data</span> <span class="pre">Empty</span> <span class="pre">deriving</span> <span class="pre">Eq</span></code> のように書けます．
+(直前のリリースでは <a class="reference internal" href="glasgow_exts.html#extension-StandaloneDeriving"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-XStandaloneDeriving</span></code></a> を有効にする必要がありました．)</p>
+<p>また，（<code class="docutils literal"><span class="pre">data</span> <span class="pre">Empty</span> <span class="pre">deriving</span> <span class="pre">Data</span></code> のように) <code class="docutils literal"><span class="pre">Data</span></code> インスタンスも
+<a class="reference internal" href="glasgow_exts.html#extension-StandaloneDeriving"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-XStandaloneDeriving</span></code></a> を指定しなくても，
+直接，空のデータ型から導出できるようになりました．
+しかし，GHCの拡張 <a class="reference internal" href="glasgow_exts.html#extension-DeriveDataTypeable"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-XDeriveDataTypeable</span></code></a> が必要なので，そのために，
+<a class="reference internal" href="glasgow_exts.html#ghc-flag--XEmptyDataDeriving"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-XEmptyDataDeriving</span></code></a> を有効にする必要はありません．
+これは <a class="reference internal" href="glasgow_exts.html#extension-DeriveFunctor"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-XDeriveFunctor</span></code></a> などの拡張を必要とする他のクラスでも同じです．</p>
 </li>
-<li><p class="first">Hexadecimal floating point literals (e.g. <code class="docutils literal"><span class="pre">0x0.1p4</span></code>), enabled with
-<a class="reference internal" href="glasgow_exts.html#ghc-flag--XHexFloatLiterals"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-XHexFloatLiterals</span></code></a>.  See
-<a class="reference internal" href="glasgow_exts.html#hex-float-literals"><span class="std std-ref">Hexadecimal floating point literals</span></a>
-for the full details.</p>
-</li>
+</ul>
+<ul class="simple">
+<li><a class="reference internal" href="glasgow_exts.html#ghc-flag--XHexFloatLiterals"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-XHexFloatLiterals</span></code></a> を有効にすれば，16進浮動小数点数リテラル(たとえば <code class="docutils literal"><span class="pre">0x0.1p4</span></code>)が使えます．
+詳細については <a class="reference internal" href="glasgow_exts.html#hex-float-literals"><span class="std std-ref">Hexadecimal floating point literals</span></a> を参照してください．</li>
 </ul>
 </div>
 <div class="section" id="compiler">
