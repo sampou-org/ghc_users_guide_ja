@@ -511,6 +511,12 @@
       instance Foldable Empty where
         foldMap _ _ = mempty
 
+..
+   - Derived ``Foldable`` instances now derive custom definitions for ``null``
+     instead of using the default one. This leads to asymptotically better
+     performance for recursive types not shaped like cons-lists, and allows ``null``
+     to terminate for more (but not all) infinitely large structures.
+
 - Derived ``Foldable`` instances now derive custom definitions for ``null``
   instead of using the default one. This leads to asymptotically better
   performance for recursive types not shaped like cons-lists, and allows ``null``

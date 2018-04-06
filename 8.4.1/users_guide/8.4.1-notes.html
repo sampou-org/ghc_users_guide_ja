@@ -365,31 +365,27 @@ GHC はユーザーが書いた順で型変数を量化するようになりま�
 </li>
 </ul>
 </li>
-<li><p class="first">Derived <code class="docutils literal"><span class="pre">Foldable</span></code> instances now derive custom definitions for <code class="docutils literal"><span class="pre">null</span></code>
+</ul>
+<ul class="simple">
+<li>Derived <code class="docutils literal"><span class="pre">Foldable</span></code> instances now derive custom definitions for <code class="docutils literal"><span class="pre">null</span></code>
 instead of using the default one. This leads to asymptotically better
 performance for recursive types not shaped like cons-lists, and allows <code class="docutils literal"><span class="pre">null</span></code>
-to terminate for more (but not all) infinitely large structures.</p>
-</li>
-<li><p class="first">Configure on Windows now supports the <code class="docutils literal"><span class="pre">--enable-distro-toolchain</span></code>
+to terminate for more (but not all) infinitely large structures.</li>
+<li>Configure on Windows now supports the <code class="docutils literal"><span class="pre">--enable-distro-toolchain</span></code>
 <code class="docutils literal"><span class="pre">configure</span></code> flag, which can be used to build a GHC using compilers on your
-<code class="docutils literal"><span class="pre">PATH</span></code> instead of using the bundled bindist. See <a class="reference external" href="https://ghc.haskell.org/trac/ghc/ticket/13792">Trac #13792</a></p>
-</li>
-<li><p class="first">GHC now enables <a class="reference internal" href="using-optimisation.html#ghc-flag--fllvm-pass-vectors-in-regs"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-fllvm-pass-vectors-in-regs</span></code></a> by default. This means
+<code class="docutils literal"><span class="pre">PATH</span></code> instead of using the bundled bindist. See <a class="reference external" href="https://ghc.haskell.org/trac/ghc/ticket/13792">Trac #13792</a></li>
+<li>GHC now enables <a class="reference internal" href="using-optimisation.html#ghc-flag--fllvm-pass-vectors-in-regs"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-fllvm-pass-vectors-in-regs</span></code></a> by default. This means
 that GHC will now use native vector registers to pass vector arguments across
-function calls.</p>
-</li>
-<li><p class="first">The optional <code class="docutils literal"><span class="pre">instance</span></code> keyword is now usable in type family instance
-declarations. See <a class="reference external" href="https://ghc.haskell.org/trac/ghc/ticket/13747">Trac #13747</a></p>
-</li>
-<li><p class="first">Lots of other bugs. See <a class="reference external" href="https://ghc.haskell.org/trac/ghc/query?status=closed&amp;milestone=8.4.1&amp;col=id&amp;col=summary&amp;col=status&amp;col=type&amp;col=priority&amp;col=milestone&amp;col=component&amp;order=priority">Trac</a>
-for a complete list.</p>
-</li>
-<li><p class="first">New flags <a class="reference internal" href="separate_compilation.html#ghc-flag--fignore-optim-changes"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-fignore-optim-changes</span></code></a> and
+function calls.</li>
+<li>The optional <code class="docutils literal"><span class="pre">instance</span></code> keyword is now usable in type family instance
+declarations. See <a class="reference external" href="https://ghc.haskell.org/trac/ghc/ticket/13747">Trac #13747</a></li>
+<li>Lots of other bugs. See <a class="reference external" href="https://ghc.haskell.org/trac/ghc/query?status=closed&amp;milestone=8.4.1&amp;col=id&amp;col=summary&amp;col=status&amp;col=type&amp;col=priority&amp;col=milestone&amp;col=component&amp;order=priority">Trac</a>
+for a complete list.</li>
+<li>New flags <a class="reference internal" href="separate_compilation.html#ghc-flag--fignore-optim-changes"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-fignore-optim-changes</span></code></a> and
 <a class="reference internal" href="separate_compilation.html#ghc-flag--fignore-hpc-changes"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-fignore-hpc-changes</span></code></a> allow GHC to reuse previously compiled
 modules even if they were compiled with different optimisation or HPC
 flags. These options are enabled by default by <a class="reference internal" href="using.html#ghc-flag---interactive"><code class="xref std std-ghc-flag docutils literal"><span class="pre">--interactive</span></code></a>.
-See <a class="reference external" href="https://ghc.haskell.org/trac/ghc/ticket/13604">Trac #13604</a></p>
-</li>
+See <a class="reference external" href="https://ghc.haskell.org/trac/ghc/ticket/13604">Trac #13604</a></li>
 </ul>
 </div>
 <div class="section" id="runtime-system">
