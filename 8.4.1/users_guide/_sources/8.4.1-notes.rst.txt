@@ -517,30 +517,46 @@
      performance for recursive types not shaped like cons-lists, and allows ``null``
      to terminate for more (but not all) infinitely large structures.
 
-- Derived ``Foldable`` instances now derive custom definitions for ``null``
-  instead of using the default one. This leads to asymptotically better
-  performance for recursive types not shaped like cons-lists, and allows ``null``
-  to terminate for more (but not all) infinitely large structures.
+- 導出された ``Foldable`` のインスタンスはデフォルトのものではなく，
+  カスタマイズされた ``null`` の定義を導出するようになりました．
+  これにより，コンスリストとは違う形の再帰型に対する漸近的性能が改善されます．
+  また，はてしなく大きな構造の多く（すべてではありません）に対して ``null`` で
+  終端できるようになります．
 
-- Configure on Windows now supports the ``--enable-distro-toolchain``
-  ``configure`` flag, which can be used to build a GHC using compilers on your
-  ``PATH`` instead of using the bundled bindist. See :ghc-ticket:`13792`
+..
+   - Configure on Windows now supports the ``--enable-distro-toolchain``
+     ``configure`` flag, which can be used to build a GHC using compilers on your
+     ``PATH`` instead of using the bundled bindist. See :ghc-ticket:`13792`
 
-- GHC now enables :ghc-flag:`-fllvm-pass-vectors-in-regs` by default. This means
-  that GHC will now use native vector registers to pass vector arguments across
-  function calls.
+- Windowsでの設定では ``--enable-distro-toolchain`` という ``configure`` のフラグが
+  サポートされるようになりました．このフラグを使えば，バンドルされたバインドのものではなく，
+  ``PATH`` 上にあるコンパイラを使って GHC をビルドできます．
+  :ghc-ticket:`13792` を参照してください．
 
-- The optional ``instance`` keyword is now usable in type family instance
-  declarations. See :ghc-ticket:`13747`
+..
+   - GHC now enables :ghc-flag:`-fllvm-pass-vectors-in-regs` by default. This means
+     that GHC will now use native vector registers to pass vector arguments across
+     function calls.
 
-- Lots of other bugs. See `Trac <https://ghc.haskell.org/trac/ghc/query?status=closed&milestone=8.4.1&col=id&col=summary&col=status&col=type&col=priority&col=milestone&col=component&order=priority>`_
-  for a complete list.
+- GHC はデフォルトで :ghc-flag:`-fllvm-pass-vectors-in-regs` を有効にするようになりました．
+  すなわち，GHC はネイティブのベクトルレジスタを使用して，関数呼び出しの向うへベクトル引数を渡すようになりました．
 
-- New flags :ghc-flag:`-fignore-optim-changes` and
-  :ghc-flag:`-fignore-hpc-changes` allow GHC to reuse previously compiled
-  modules even if they were compiled with different optimisation or HPC
-  flags. These options are enabled by default by :ghc-flag:`--interactive`.
-  See :ghc-ticket:`13604`
+..
+   - The optional ``instance`` keyword is now usable in type family instance
+     declarations. See :ghc-ticket:`13747`
+
+- 型族インスタンス宣言のなかで ``instance`` キーワードを追加することができるようになりました．
+  :ghc-ticket:`13747` を参照してください．
+	      
+- 他にも多くのバグを修正しました．
+  `Trac <https://ghc.haskell.org/trac/ghc/query?status=closed&milestone=8.4.1&col=id&col=summary&col=status&col=type&col=priority&col=milestone&col=component&order=priority>`_
+  に，一覧表があります．
+
+- 新しいフラグ :ghc-flag:`-fignore-optim-changes` および
+  :ghc-flag:`-fignore-hpc-changes` を使うと，最適化フラグや HPC フラグが異っていても
+  直前にコンパイルしたモジュールを再利用できます．
+  これらのオプションはデフォルトで :ghc-flag:`--interactive` により有効になります．
+  :ghc-ticket:`13604` を参照してください．
 
 Runtime system
 ~~~~~~~~~~~~~~
