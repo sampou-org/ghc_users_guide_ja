@@ -558,11 +558,16 @@
   これらのオプションはデフォルトで :ghc-flag:`--interactive` により有効になります．
   :ghc-ticket:`13604` を参照してください．
 
-Runtime system
-~~~~~~~~~~~~~~
+..
+   Runtime system
+   ~~~~~~~~~~~~~~
 
-- Function ``hs_add_root()`` was removed. It was a no-op since GHC-7.2.1
-  where module initialisation stopped requiring a call to ``hs_add_root()``.
+ランタイムシステム
+~~~~~~~~~~~~~~~~~~
+
+- 関数 ``hs_add_root()`` が削除されました．この関数は，GHC-7.2.1 以降，
+  モジュールの初期化が ``hs_add_root()`` の呼び出しを要求しなくなって，
+  何もしない関数になっていました．
 
 - Proper import library support added to GHC which can handle all of the libraries produced
   by ``dlltool``. The limitation of them needing to be named with the suffix
