@@ -1,0 +1,21 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><link rel="stylesheet" type="text/css" href="style.css" /><script type="text/javascript" src="highlight.js"></script></head><body><pre><span class="hs-pragma">{-# LANGUAGE CPP #-}</span><span>
+</span><a name="line-2"></a><span>
+</span><a name="line-3"></a><span class="hs-comment">-- | Custom GHC &quot;Prelude&quot;</span><span>
+</span><a name="line-4"></a><span class="hs-comment">--</span><span>
+</span><a name="line-5"></a><span class="hs-comment">-- This module serves as a replacement for the &quot;Prelude&quot; module</span><span>
+</span><a name="line-6"></a><span class="hs-comment">-- and abstracts over differences between the bootstrapping</span><span>
+</span><a name="line-7"></a><span class="hs-comment">-- GHC version, and may also provide a common default vocabulary.</span><span>
+</span><a name="line-8"></a><span class="hs-comment">--</span><span>
+</span><a name="line-9"></a><span class="hs-keyword">module</span><span> </span><span class="hs-identifier">GhcPrelude</span><span> </span><span class="hs-special">(</span><span class="hs-keyword">module</span><span> </span><span class="hs-identifier">X</span><span class="hs-special">)</span><span> </span><span class="hs-keyword">where</span><span>
+</span><a name="line-10"></a><span>
+</span><a name="line-11"></a><span class="hs-comment">-- We export the 'Semigroup' class but w/o the (&lt;&gt;) operator to avoid</span><span>
+</span><a name="line-12"></a><span class="hs-comment">-- clashing with the (Outputable.&lt;&gt;) operator which is heavily used</span><span>
+</span><a name="line-13"></a><span class="hs-comment">-- through GHC's code-base.</span><span>
+</span><a name="line-14"></a><span>
+</span><a name="line-15"></a><span class="hs-cpp">#if MIN_VERSION_base(4,11,0)
+</span><span class="hs-keyword">import</span><span> </span><a href="../base-4.11.1.0/src/%{MODULE/./-}.html#%{NAME}/Prelude.html"><span class="hs-identifier">Prelude</span></a><span> </span><span class="hs-keyword">as</span><span> </span><span class="hs-identifier">X</span><span> </span><span class="hs-keyword">hiding</span><span> </span><span class="hs-special">(</span><span class="hs-special">(</span><a href="../base-4.11.1.0/src/%{MODULE/./-}.html#%{NAME}/GHC.Base.html#%3C%3E"><span class="hs-operator hs-var">&lt;&gt;</span></a><span class="hs-special">)</span><span class="hs-special">)</span><span>
+</span><a name="line-17"></a><span class="hs-cpp">#else
+</span><span class="hs-keyword">import</span><span> </span><span class="hs-identifier">Prelude</span><span> </span><span class="hs-keyword">as</span><span> </span><span class="hs-identifier">X</span><span>
+</span><a name="line-19"></a><span class="hs-keyword">import</span><span> </span><span class="hs-identifier">Data.Semigroup</span><span> </span><span class="hs-keyword">as</span><span> </span><span class="hs-identifier">X</span><span> </span><span class="hs-special">(</span><span class="hs-identifier">Semigroup</span><span class="hs-special">)</span><span>
+</span><a name="line-20"></a><span class="hs-cpp">#endif
+</span></pre></body></html>

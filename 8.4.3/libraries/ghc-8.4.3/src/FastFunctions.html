@@ -1,0 +1,22 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><link rel="stylesheet" type="text/css" href="style.css" /><script type="text/javascript" src="highlight.js"></script></head><body><pre><span class="hs-comment">{-
+(c) The University of Glasgow, 2000-2006
+-}</span><span>
+</span><a name="line-4"></a><span>
+</span><a name="line-5"></a><span class="hs-pragma">{-# LANGUAGE CPP, MagicHash, UnboxedTuples #-}</span><span>
+</span><a name="line-6"></a><span>
+</span><a name="line-7"></a><span class="hs-keyword">module</span><span> </span><span class="hs-identifier">FastFunctions</span><span> </span><span class="hs-special">(</span><span>
+</span><a name="line-8"></a><span>    </span><a href="FastFunctions.html#inlinePerformIO"><span class="hs-identifier hs-var">inlinePerformIO</span></a><span class="hs-special">,</span><span>
+</span><a name="line-9"></a><span>  </span><span class="hs-special">)</span><span> </span><span class="hs-keyword">where</span><span>
+</span><a name="line-10"></a><span>
+</span><a name="line-11"></a><span class="hs-cpp">#include &quot;HsVersions.h&quot;
+</span><span>
+</span><a name="line-13"></a><span class="hs-keyword">import</span><span> </span><a href="GhcPrelude.html"><span class="hs-identifier">GhcPrelude</span></a><span> </span><span class="hs-special">(</span><span class="hs-special">)</span><span>
+</span><a name="line-14"></a><span>
+</span><a name="line-15"></a><span class="hs-keyword">import</span><span> </span><a href="../base-4.11.1.0/src/%{MODULE/./-}.html#%{NAME}/GHC.Exts.html"><span class="hs-identifier">GHC.Exts</span></a><span>
+</span><a name="line-16"></a><span class="hs-keyword">import</span><span> </span><a href="../base-4.11.1.0/src/%{MODULE/./-}.html#%{NAME}/GHC.IO.html"><span class="hs-identifier">GHC.IO</span></a><span>   </span><span class="hs-special">(</span><span class="hs-identifier hs-type">IO</span><span class="hs-special">(</span><span class="hs-glyph">..</span><span class="hs-special">)</span><span class="hs-special">)</span><span>
+</span><a name="line-17"></a><span>
+</span><a name="line-18"></a><span class="hs-comment">-- Just like unsafePerformIO, but we inline it.</span><span>
+</span><a name="line-19"></a><span class="hs-pragma">{-# INLINE</span><span> </span><span class="hs-pragma">inlinePerformIO</span><span> </span><span class="hs-pragma">#-}</span><span>
+</span><a name="line-20"></a><span class="hs-identifier">inlinePerformIO</span><span> </span><span class="hs-glyph">::</span><span> </span><span class="hs-identifier hs-type">IO</span><span> </span><a href="#local-6989586621679041709"><span class="hs-identifier hs-type">a</span></a><span> </span><span class="hs-glyph">-&gt;</span><span> </span><a href="#local-6989586621679041709"><span class="hs-identifier hs-type">a</span></a><span>
+</span><a name="line-21"></a><a name="inlinePerformIO"><a href="FastFunctions.html#inlinePerformIO"><span class="hs-identifier">inlinePerformIO</span></a></a><span> </span><span class="hs-special">(</span><span class="hs-identifier hs-var">IO</span><span> </span><a name="local-6989586621679041710"><a href="#local-6989586621679041710"><span class="hs-identifier">m</span></a></a><span class="hs-special">)</span><span> </span><span class="hs-glyph">=</span><span> </span><span class="hs-keyword">case</span><span> </span><a href="#local-6989586621679041710"><span class="hs-identifier hs-var">m</span></a><span> </span><span class="hs-identifier hs-var">realWorld#</span><span> </span><span class="hs-keyword">of</span><span> </span><span class="hs-special">(#</span><span> </span><span class="hs-identifier">_</span><span class="hs-special">,</span><span> </span><a name="local-6989586621679041711"><a href="#local-6989586621679041711"><span class="hs-identifier">r</span></a></a><span> </span><span class="hs-special">#)</span><span>   </span><span class="hs-glyph">-&gt;</span><span> </span><a href="#local-6989586621679041711"><span class="hs-identifier hs-var">r</span></a><span>
+</span><a name="line-22"></a></pre></body></html>

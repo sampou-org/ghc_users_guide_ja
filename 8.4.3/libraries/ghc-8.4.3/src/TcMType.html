@@ -1,0 +1,1720 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><link rel="stylesheet" type="text/css" href="style.css" /><script type="text/javascript" src="highlight.js"></script></head><body><pre><span class="hs-comment">{-
+(c) The University of Glasgow 2006
+(c) The GRASP/AQUA Project, Glasgow University, 1992-1998
+
+
+Monadic type operations
+
+This module contains monadic operations over types that contain
+mutable type variables
+-}</span><span>
+</span><a name="line-11"></a><span>
+</span><a name="line-12"></a><span class="hs-pragma">{-# LANGUAGE CPP, TupleSections, MultiWayIf #-}</span><span>
+</span><a name="line-13"></a><span>
+</span><a name="line-14"></a><span class="hs-keyword">module</span><span> </span><span class="hs-identifier">TcMType</span><span> </span><span class="hs-special">(</span><span>
+</span><a name="line-15"></a><span>  </span><a href="TcType.html#TcTyVar"><span class="hs-identifier hs-type">TcTyVar</span></a><span class="hs-special">,</span><span> </span><a href="TcType.html#TcKind"><span class="hs-identifier hs-type">TcKind</span></a><span class="hs-special">,</span><span> </span><a href="TcType.html#TcType"><span class="hs-identifier hs-type">TcType</span></a><span class="hs-special">,</span><span> </span><a href="TcType.html#TcTauType"><span class="hs-identifier hs-type">TcTauType</span></a><span class="hs-special">,</span><span> </span><a href="TcType.html#TcThetaType"><span class="hs-identifier hs-type">TcThetaType</span></a><span class="hs-special">,</span><span> </span><a href="TcType.html#TcTyVarSet"><span class="hs-identifier hs-type">TcTyVarSet</span></a><span class="hs-special">,</span><span>
+</span><a name="line-16"></a><span>
+</span><a name="line-17"></a><span>  </span><span class="hs-comment">--------------------------------</span><span>
+</span><a name="line-18"></a><span>  </span><span class="hs-comment">-- Creating new mutable type variables</span><span>
+</span><a name="line-19"></a><span>  </span><a href="TcMType.html#newFlexiTyVar"><span class="hs-identifier hs-var">newFlexiTyVar</span></a><span class="hs-special">,</span><span>
+</span><a name="line-20"></a><span>  </span><a href="TcMType.html#newFlexiTyVarTy"><span class="hs-identifier hs-var">newFlexiTyVarTy</span></a><span class="hs-special">,</span><span>              </span><span class="hs-comment">-- Kind -&gt; TcM TcType</span><span>
+</span><a name="line-21"></a><span>  </span><a href="TcMType.html#newFlexiTyVarTys"><span class="hs-identifier hs-var">newFlexiTyVarTys</span></a><span class="hs-special">,</span><span>             </span><span class="hs-comment">-- Int -&gt; Kind -&gt; TcM [TcType]</span><span>
+</span><a name="line-22"></a><span>  </span><a href="TcMType.html#newOpenFlexiTyVarTy"><span class="hs-identifier hs-var">newOpenFlexiTyVarTy</span></a><span class="hs-special">,</span><span> </span><a href="TcMType.html#newOpenTypeKind"><span class="hs-identifier hs-var">newOpenTypeKind</span></a><span class="hs-special">,</span><span>
+</span><a name="line-23"></a><span>  </span><a href="TcMType.html#newMetaKindVar"><span class="hs-identifier hs-var">newMetaKindVar</span></a><span class="hs-special">,</span><span> </span><a href="TcMType.html#newMetaKindVars"><span class="hs-identifier hs-var">newMetaKindVars</span></a><span class="hs-special">,</span><span> </span><a href="TcMType.html#newMetaTyVarTyAtLevel"><span class="hs-identifier hs-var">newMetaTyVarTyAtLevel</span></a><span class="hs-special">,</span><span>
+</span><a name="line-24"></a><span>  </span><a href="TcMType.html#cloneMetaTyVar"><span class="hs-identifier hs-var">cloneMetaTyVar</span></a><span class="hs-special">,</span><span>
+</span><a name="line-25"></a><span>  </span><a href="TcMType.html#newFmvTyVar"><span class="hs-identifier hs-var">newFmvTyVar</span></a><span class="hs-special">,</span><span> </span><a href="TcMType.html#newFskTyVar"><span class="hs-identifier hs-var">newFskTyVar</span></a><span class="hs-special">,</span><span>
+</span><a name="line-26"></a><span>
+</span><a name="line-27"></a><span>  </span><a href="TcMType.html#readMetaTyVar"><span class="hs-identifier hs-var">readMetaTyVar</span></a><span class="hs-special">,</span><span> </span><a href="TcMType.html#writeMetaTyVar"><span class="hs-identifier hs-var">writeMetaTyVar</span></a><span class="hs-special">,</span><span>
+</span><a name="line-28"></a><span>  </span><a href="TcMType.html#newMetaDetails"><span class="hs-identifier hs-var">newMetaDetails</span></a><span class="hs-special">,</span><span> </span><a href="TcMType.html#isFilledMetaTyVar"><span class="hs-identifier hs-var">isFilledMetaTyVar</span></a><span class="hs-special">,</span><span> </span><a href="TcMType.html#isUnfilledMetaTyVar"><span class="hs-identifier hs-var">isUnfilledMetaTyVar</span></a><span class="hs-special">,</span><span>
+</span><a name="line-29"></a><span>
+</span><a name="line-30"></a><span>  </span><span class="hs-comment">--------------------------------</span><span>
+</span><a name="line-31"></a><span>  </span><span class="hs-comment">-- Expected types</span><span>
+</span><a name="line-32"></a><span>  </span><a href="TcType.html#ExpType"><span class="hs-identifier hs-type">ExpType</span></a><span class="hs-special">(</span><span class="hs-glyph">..</span><span class="hs-special">)</span><span class="hs-special">,</span><span> </span><a href="TcType.html#ExpSigmaType"><span class="hs-identifier hs-type">ExpSigmaType</span></a><span class="hs-special">,</span><span> </span><a href="TcType.html#ExpRhoType"><span class="hs-identifier hs-type">ExpRhoType</span></a><span class="hs-special">,</span><span>
+</span><a name="line-33"></a><span>  </span><a href="TcType.html#mkCheckExpType"><span class="hs-identifier hs-var">mkCheckExpType</span></a><span class="hs-special">,</span><span>
+</span><a name="line-34"></a><span>  </span><a href="TcMType.html#newInferExpType"><span class="hs-identifier hs-var">newInferExpType</span></a><span class="hs-special">,</span><span> </span><a href="TcMType.html#newInferExpTypeInst"><span class="hs-identifier hs-var">newInferExpTypeInst</span></a><span class="hs-special">,</span><span> </span><a href="TcMType.html#newInferExpTypeNoInst"><span class="hs-identifier hs-var">newInferExpTypeNoInst</span></a><span class="hs-special">,</span><span>
+</span><a name="line-35"></a><span>  </span><a href="TcMType.html#readExpType"><span class="hs-identifier hs-var">readExpType</span></a><span class="hs-special">,</span><span> </span><a href="TcMType.html#readExpType_maybe"><span class="hs-identifier hs-var">readExpType_maybe</span></a><span class="hs-special">,</span><span>
+</span><a name="line-36"></a><span>  </span><a href="TcMType.html#expTypeToType"><span class="hs-identifier hs-var">expTypeToType</span></a><span class="hs-special">,</span><span> </span><a href="TcMType.html#checkingExpType_maybe"><span class="hs-identifier hs-var">checkingExpType_maybe</span></a><span class="hs-special">,</span><span> </span><a href="TcMType.html#checkingExpType"><span class="hs-identifier hs-var">checkingExpType</span></a><span class="hs-special">,</span><span>
+</span><a name="line-37"></a><span>  </span><a href="TcMType.html#tauifyExpType"><span class="hs-identifier hs-var">tauifyExpType</span></a><span class="hs-special">,</span><span> </span><a href="TcMType.html#inferResultToType"><span class="hs-identifier hs-var">inferResultToType</span></a><span class="hs-special">,</span><span>
+</span><a name="line-38"></a><span>
+</span><a name="line-39"></a><span>  </span><span class="hs-comment">--------------------------------</span><span>
+</span><a name="line-40"></a><span>  </span><span class="hs-comment">-- Creating fresh type variables for pm checking</span><span>
+</span><a name="line-41"></a><span>  </span><a href="TcMType.html#genInstSkolTyVarsX"><span class="hs-identifier hs-var">genInstSkolTyVarsX</span></a><span class="hs-special">,</span><span>
+</span><a name="line-42"></a><span>
+</span><a name="line-43"></a><span>  </span><span class="hs-comment">--------------------------------</span><span>
+</span><a name="line-44"></a><span>  </span><span class="hs-comment">-- Creating new evidence variables</span><span>
+</span><a name="line-45"></a><span>  </span><a href="TcMType.html#newEvVar"><span class="hs-identifier hs-var">newEvVar</span></a><span class="hs-special">,</span><span> </span><a href="TcMType.html#newEvVars"><span class="hs-identifier hs-var">newEvVars</span></a><span class="hs-special">,</span><span> </span><a href="TcMType.html#newDict"><span class="hs-identifier hs-var">newDict</span></a><span class="hs-special">,</span><span>
+</span><a name="line-46"></a><span>  </span><a href="TcMType.html#newWanted"><span class="hs-identifier hs-var">newWanted</span></a><span class="hs-special">,</span><span> </span><a href="TcMType.html#newWanteds"><span class="hs-identifier hs-var">newWanteds</span></a><span class="hs-special">,</span><span> </span><a href="TcMType.html#cloneWanted"><span class="hs-identifier hs-var">cloneWanted</span></a><span class="hs-special">,</span><span> </span><a href="TcMType.html#cloneWC"><span class="hs-identifier hs-var">cloneWC</span></a><span class="hs-special">,</span><span>
+</span><a name="line-47"></a><span>  </span><a href="TcMType.html#emitWanted"><span class="hs-identifier hs-var">emitWanted</span></a><span class="hs-special">,</span><span> </span><a href="TcMType.html#emitWantedEq"><span class="hs-identifier hs-var">emitWantedEq</span></a><span class="hs-special">,</span><span> </span><a href="TcMType.html#emitWantedEvVar"><span class="hs-identifier hs-var">emitWantedEvVar</span></a><span class="hs-special">,</span><span> </span><a href="TcMType.html#emitWantedEvVars"><span class="hs-identifier hs-var">emitWantedEvVars</span></a><span class="hs-special">,</span><span>
+</span><a name="line-48"></a><span>  </span><a href="TcRnMonad.html#newTcEvBinds"><span class="hs-identifier hs-var">newTcEvBinds</span></a><span class="hs-special">,</span><span> </span><a href="TcRnMonad.html#addTcEvBind"><span class="hs-identifier hs-var">addTcEvBind</span></a><span class="hs-special">,</span><span>
+</span><a name="line-49"></a><span>
+</span><a name="line-50"></a><span>  </span><a href="TcMType.html#newCoercionHole"><span class="hs-identifier hs-var">newCoercionHole</span></a><span class="hs-special">,</span><span> </span><a href="TcMType.html#fillCoercionHole"><span class="hs-identifier hs-var">fillCoercionHole</span></a><span class="hs-special">,</span><span> </span><a href="TcMType.html#isFilledCoercionHole"><span class="hs-identifier hs-var">isFilledCoercionHole</span></a><span class="hs-special">,</span><span>
+</span><a name="line-51"></a><span>  </span><a href="TcMType.html#unpackCoercionHole"><span class="hs-identifier hs-var">unpackCoercionHole</span></a><span class="hs-special">,</span><span> </span><a href="TcMType.html#unpackCoercionHole_maybe"><span class="hs-identifier hs-var">unpackCoercionHole_maybe</span></a><span class="hs-special">,</span><span>
+</span><a name="line-52"></a><span>  </span><a href="TcMType.html#checkCoercionHole"><span class="hs-identifier hs-var">checkCoercionHole</span></a><span class="hs-special">,</span><span>
+</span><a name="line-53"></a><span>
+</span><a name="line-54"></a><span>  </span><span class="hs-comment">--------------------------------</span><span>
+</span><a name="line-55"></a><span>  </span><span class="hs-comment">-- Instantiation</span><span>
+</span><a name="line-56"></a><span>  </span><a href="TcMType.html#newMetaTyVars"><span class="hs-identifier hs-var">newMetaTyVars</span></a><span class="hs-special">,</span><span> </span><a href="TcMType.html#newMetaTyVarX"><span class="hs-identifier hs-var">newMetaTyVarX</span></a><span class="hs-special">,</span><span> </span><a href="TcMType.html#newMetaTyVarsX"><span class="hs-identifier hs-var">newMetaTyVarsX</span></a><span class="hs-special">,</span><span>
+</span><a name="line-57"></a><span>  </span><a href="TcMType.html#newMetaSigTyVars"><span class="hs-identifier hs-var">newMetaSigTyVars</span></a><span class="hs-special">,</span><span> </span><a href="TcMType.html#newMetaSigTyVarX"><span class="hs-identifier hs-var">newMetaSigTyVarX</span></a><span class="hs-special">,</span><span>
+</span><a name="line-58"></a><span>  </span><a href="TcMType.html#newSigTyVar"><span class="hs-identifier hs-var">newSigTyVar</span></a><span class="hs-special">,</span><span> </span><a href="TcMType.html#newWildCardX"><span class="hs-identifier hs-var">newWildCardX</span></a><span class="hs-special">,</span><span>
+</span><a name="line-59"></a><span>  </span><a href="TcMType.html#tcInstType"><span class="hs-identifier hs-var">tcInstType</span></a><span class="hs-special">,</span><span>
+</span><a name="line-60"></a><span>  </span><a href="TcMType.html#tcInstSkolTyVars"><span class="hs-identifier hs-var">tcInstSkolTyVars</span></a><span class="hs-special">,</span><a href="TcMType.html#tcInstSkolTyVarsX"><span class="hs-identifier hs-var">tcInstSkolTyVarsX</span></a><span class="hs-special">,</span><span>
+</span><a name="line-61"></a><span>  </span><a href="TcMType.html#tcInstSuperSkolTyVarsX"><span class="hs-identifier hs-var">tcInstSuperSkolTyVarsX</span></a><span class="hs-special">,</span><span>
+</span><a name="line-62"></a><span>  </span><a href="TcMType.html#tcSkolDFunType"><span class="hs-identifier hs-var">tcSkolDFunType</span></a><span class="hs-special">,</span><span> </span><a href="TcMType.html#tcSuperSkolTyVars"><span class="hs-identifier hs-var">tcSuperSkolTyVars</span></a><span class="hs-special">,</span><span>
+</span><a name="line-63"></a><span>
+</span><a name="line-64"></a><span>  </span><a href="TcMType.html#instSkolTyCoVars"><span class="hs-identifier hs-var">instSkolTyCoVars</span></a><span class="hs-special">,</span><span> </span><a href="TcMType.html#freshenTyVarBndrs"><span class="hs-identifier hs-var">freshenTyVarBndrs</span></a><span class="hs-special">,</span><span> </span><a href="TcMType.html#freshenCoVarBndrsX"><span class="hs-identifier hs-var">freshenCoVarBndrsX</span></a><span class="hs-special">,</span><span>
+</span><a name="line-65"></a><span>
+</span><a name="line-66"></a><span>  </span><span class="hs-comment">--------------------------------</span><span>
+</span><a name="line-67"></a><span>  </span><span class="hs-comment">-- Zonking and tidying</span><span>
+</span><a name="line-68"></a><span>  </span><a href="TcMType.html#zonkTidyTcType"><span class="hs-identifier hs-var">zonkTidyTcType</span></a><span class="hs-special">,</span><span> </span><a href="TcMType.html#zonkTidyOrigin"><span class="hs-identifier hs-var">zonkTidyOrigin</span></a><span class="hs-special">,</span><span>
+</span><a name="line-69"></a><span>  </span><a href="TcMType.html#tidyEvVar"><span class="hs-identifier hs-var">tidyEvVar</span></a><span class="hs-special">,</span><span> </span><a href="TcMType.html#tidyCt"><span class="hs-identifier hs-var">tidyCt</span></a><span class="hs-special">,</span><span> </span><a href="TcMType.html#tidySkolemInfo"><span class="hs-identifier hs-var">tidySkolemInfo</span></a><span class="hs-special">,</span><span>
+</span><a name="line-70"></a><span>  </span><a href="TcMType.html#skolemiseRuntimeUnk"><span class="hs-identifier hs-var">skolemiseRuntimeUnk</span></a><span class="hs-special">,</span><span>
+</span><a name="line-71"></a><span>  </span><a href="TcMType.html#zonkTcTyVar"><span class="hs-identifier hs-var">zonkTcTyVar</span></a><span class="hs-special">,</span><span> </span><a href="TcMType.html#zonkTcTyVars"><span class="hs-identifier hs-var">zonkTcTyVars</span></a><span class="hs-special">,</span><span>
+</span><a name="line-72"></a><span>  </span><a href="TcMType.html#zonkTcTyVarToTyVar"><span class="hs-identifier hs-var">zonkTcTyVarToTyVar</span></a><span class="hs-special">,</span><span> </span><a href="TcMType.html#zonkSigTyVarPairs"><span class="hs-identifier hs-var">zonkSigTyVarPairs</span></a><span class="hs-special">,</span><span>
+</span><a name="line-73"></a><span>  </span><a href="TcMType.html#zonkTyCoVarsAndFV"><span class="hs-identifier hs-var">zonkTyCoVarsAndFV</span></a><span class="hs-special">,</span><span> </span><a href="TcMType.html#zonkTcTypeAndFV"><span class="hs-identifier hs-var">zonkTcTypeAndFV</span></a><span class="hs-special">,</span><span>
+</span><a name="line-74"></a><span>  </span><a href="TcMType.html#zonkTyCoVarsAndFVList"><span class="hs-identifier hs-var">zonkTyCoVarsAndFVList</span></a><span class="hs-special">,</span><span>
+</span><a name="line-75"></a><span>  </span><a href="TcMType.html#zonkTcTypeAndSplitDepVars"><span class="hs-identifier hs-var">zonkTcTypeAndSplitDepVars</span></a><span class="hs-special">,</span><span> </span><a href="TcMType.html#zonkTcTypesAndSplitDepVars"><span class="hs-identifier hs-var">zonkTcTypesAndSplitDepVars</span></a><span class="hs-special">,</span><span>
+</span><a name="line-76"></a><span>  </span><a href="TcMType.html#zonkQuantifiedTyVar"><span class="hs-identifier hs-var">zonkQuantifiedTyVar</span></a><span class="hs-special">,</span><span> </span><a href="TcMType.html#defaultTyVar"><span class="hs-identifier hs-var">defaultTyVar</span></a><span class="hs-special">,</span><span>
+</span><a name="line-77"></a><span>  </span><a href="TcMType.html#quantifyTyVars"><span class="hs-identifier hs-var">quantifyTyVars</span></a><span class="hs-special">,</span><span>
+</span><a name="line-78"></a><span>  </span><a href="TcMType.html#zonkTcTyCoVarBndr"><span class="hs-identifier hs-var">zonkTcTyCoVarBndr</span></a><span class="hs-special">,</span><span> </span><a href="TcMType.html#zonkTcTyVarBinder"><span class="hs-identifier hs-var">zonkTcTyVarBinder</span></a><span class="hs-special">,</span><span>
+</span><a name="line-79"></a><span>  </span><a href="TcMType.html#zonkTcType"><span class="hs-identifier hs-var">zonkTcType</span></a><span class="hs-special">,</span><span> </span><a href="TcMType.html#zonkTcTypes"><span class="hs-identifier hs-var">zonkTcTypes</span></a><span class="hs-special">,</span><span> </span><a href="TcMType.html#zonkCo"><span class="hs-identifier hs-var">zonkCo</span></a><span class="hs-special">,</span><span>
+</span><a name="line-80"></a><span>  </span><a href="TcMType.html#zonkTyCoVarKind"><span class="hs-identifier hs-var">zonkTyCoVarKind</span></a><span class="hs-special">,</span><span> </span><a href="TcMType.html#zonkTcTypeMapper"><span class="hs-identifier hs-var">zonkTcTypeMapper</span></a><span class="hs-special">,</span><span>
+</span><a name="line-81"></a><span>
+</span><a name="line-82"></a><span>  </span><a href="TcMType.html#zonkEvVar"><span class="hs-identifier hs-var">zonkEvVar</span></a><span class="hs-special">,</span><span> </span><a href="TcMType.html#zonkWC"><span class="hs-identifier hs-var">zonkWC</span></a><span class="hs-special">,</span><span> </span><a href="TcMType.html#zonkSimples"><span class="hs-identifier hs-var">zonkSimples</span></a><span class="hs-special">,</span><span>
+</span><a name="line-83"></a><span>  </span><a href="TcMType.html#zonkId"><span class="hs-identifier hs-var">zonkId</span></a><span class="hs-special">,</span><span> </span><a href="TcMType.html#zonkCoVar"><span class="hs-identifier hs-var">zonkCoVar</span></a><span class="hs-special">,</span><span>
+</span><a name="line-84"></a><span>  </span><a href="TcMType.html#zonkCt"><span class="hs-identifier hs-var">zonkCt</span></a><span class="hs-special">,</span><span> </span><a href="TcMType.html#zonkSkolemInfo"><span class="hs-identifier hs-var">zonkSkolemInfo</span></a><span class="hs-special">,</span><span>
+</span><a name="line-85"></a><span>
+</span><a name="line-86"></a><span>  </span><a href="TcMType.html#tcGetGlobalTyCoVars"><span class="hs-identifier hs-var">tcGetGlobalTyCoVars</span></a><span class="hs-special">,</span><span>
+</span><a name="line-87"></a><span>
+</span><a name="line-88"></a><span>  </span><span class="hs-comment">------------------------------</span><span>
+</span><a name="line-89"></a><span>  </span><span class="hs-comment">-- Levity polymorphism</span><span>
+</span><a name="line-90"></a><span>  </span><a href="TcMType.html#ensureNotLevPoly"><span class="hs-identifier hs-var">ensureNotLevPoly</span></a><span class="hs-special">,</span><span> </span><a href="TcMType.html#checkForLevPoly"><span class="hs-identifier hs-var">checkForLevPoly</span></a><span class="hs-special">,</span><span> </span><a href="TcMType.html#checkForLevPolyX"><span class="hs-identifier hs-var">checkForLevPolyX</span></a><span class="hs-special">,</span><span> </span><a href="TcMType.html#formatLevPolyErr"><span class="hs-identifier hs-var">formatLevPolyErr</span></a><span>
+</span><a name="line-91"></a><span>  </span><span class="hs-special">)</span><span> </span><span class="hs-keyword">where</span><span>
+</span><a name="line-92"></a><span>
+</span><a name="line-93"></a><span class="hs-cpp">#include &quot;HsVersions.h&quot;
+</span><span>
+</span><a name="line-95"></a><span class="hs-comment">-- friends:</span><span>
+</span><a name="line-96"></a><span class="hs-keyword">import</span><span> </span><a href="GhcPrelude.html"><span class="hs-identifier">GhcPrelude</span></a><span>
+</span><a name="line-97"></a><span>
+</span><a name="line-98"></a><span class="hs-keyword">import</span><span> </span><a href="TyCoRep.html"><span class="hs-identifier">TyCoRep</span></a><span>
+</span><a name="line-99"></a><span class="hs-keyword">import</span><span> </span><a href="TcType.html"><span class="hs-identifier">TcType</span></a><span>
+</span><a name="line-100"></a><span class="hs-keyword">import</span><span> </span><a href="Type.html"><span class="hs-identifier">Type</span></a><span>
+</span><a name="line-101"></a><span class="hs-keyword">import</span><span> </span><a href="Kind.html"><span class="hs-identifier">Kind</span></a><span>
+</span><a name="line-102"></a><span class="hs-keyword">import</span><span> </span><a href="Coercion.html"><span class="hs-identifier">Coercion</span></a><span>
+</span><a name="line-103"></a><span class="hs-keyword">import</span><span> </span><a href="Class.html"><span class="hs-identifier">Class</span></a><span>
+</span><a name="line-104"></a><span class="hs-keyword">import</span><span> </span><a href="Var.html"><span class="hs-identifier">Var</span></a><span>
+</span><a name="line-105"></a><span>
+</span><a name="line-106"></a><span class="hs-comment">-- others:</span><span>
+</span><a name="line-107"></a><span class="hs-keyword">import</span><span> </span><a href="TcRnMonad.html"><span class="hs-identifier">TcRnMonad</span></a><span>        </span><span class="hs-comment">-- TcType, amongst others</span><span>
+</span><a name="line-108"></a><span class="hs-keyword">import</span><span> </span><a href="TcEvidence.html"><span class="hs-identifier">TcEvidence</span></a><span>
+</span><a name="line-109"></a><span class="hs-keyword">import</span><span> </span><a href="Id.html"><span class="hs-identifier">Id</span></a><span>
+</span><a name="line-110"></a><span class="hs-keyword">import</span><span> </span><a href="Name.html"><span class="hs-identifier">Name</span></a><span>
+</span><a name="line-111"></a><span class="hs-keyword">import</span><span> </span><a href="VarSet.html"><span class="hs-identifier">VarSet</span></a><span>
+</span><a name="line-112"></a><span class="hs-keyword">import</span><span> </span><a href="TysWiredIn.html"><span class="hs-identifier">TysWiredIn</span></a><span>
+</span><a name="line-113"></a><span class="hs-keyword">import</span><span> </span><a href="TysPrim.html"><span class="hs-identifier">TysPrim</span></a><span>
+</span><a name="line-114"></a><span class="hs-keyword">import</span><span> </span><a href="VarEnv.html"><span class="hs-identifier">VarEnv</span></a><span>
+</span><a name="line-115"></a><span class="hs-keyword">import</span><span> </span><a href="NameEnv.html"><span class="hs-identifier">NameEnv</span></a><span>
+</span><a name="line-116"></a><span class="hs-keyword">import</span><span> </span><a href="PrelNames.html"><span class="hs-identifier">PrelNames</span></a><span>
+</span><a name="line-117"></a><span class="hs-keyword">import</span><span> </span><a href="Util.html"><span class="hs-identifier">Util</span></a><span>
+</span><a name="line-118"></a><span class="hs-keyword">import</span><span> </span><a href="Outputable.html"><span class="hs-identifier">Outputable</span></a><span>
+</span><a name="line-119"></a><span class="hs-keyword">import</span><span> </span><a href="FastString.html"><span class="hs-identifier">FastString</span></a><span>
+</span><a name="line-120"></a><span class="hs-keyword">import</span><span> </span><a href="SrcLoc.html"><span class="hs-identifier">SrcLoc</span></a><span>
+</span><a name="line-121"></a><span class="hs-keyword">import</span><span> </span><a href="Bag.html"><span class="hs-identifier">Bag</span></a><span>
+</span><a name="line-122"></a><span class="hs-keyword">import</span><span> </span><a href="Pair.html"><span class="hs-identifier">Pair</span></a><span>
+</span><a name="line-123"></a><span class="hs-keyword">import</span><span> </span><a href="UniqSet.html"><span class="hs-identifier">UniqSet</span></a><span>
+</span><a name="line-124"></a><span class="hs-keyword">import</span><span> </span><span class="hs-keyword">qualified</span><span> </span><a href="../ghc-boot-8.4.3/src/%{MODULE/./-}.html#%{NAME}/GHC.LanguageExtensions.html"><span class="hs-identifier">GHC.LanguageExtensions</span></a><span> </span><span class="hs-keyword">as</span><span> </span><span class="hs-identifier">LangExt</span><span>
+</span><a name="line-125"></a><span>
+</span><a name="line-126"></a><span class="hs-keyword">import</span><span> </span><a href="../base-4.11.1.0/src/%{MODULE/./-}.html#%{NAME}/Control.Monad.html"><span class="hs-identifier">Control.Monad</span></a><span>
+</span><a name="line-127"></a><span class="hs-keyword">import</span><span> </span><a href="Maybes.html"><span class="hs-identifier">Maybes</span></a><span>
+</span><a name="line-128"></a><span class="hs-keyword">import</span><span> </span><a href="../base-4.11.1.0/src/%{MODULE/./-}.html#%{NAME}/Data.List.html"><span class="hs-identifier">Data.List</span></a><span>        </span><span class="hs-special">(</span><span> </span><a href="../base-4.11.1.0/src/%{MODULE/./-}.html#%{NAME}/Data.Traversable.html#mapAccumL"><span class="hs-identifier hs-var">mapAccumL</span></a><span> </span><span class="hs-special">)</span><span>
+</span><a name="line-129"></a><span class="hs-keyword">import</span><span> </span><a href="../base-4.11.1.0/src/%{MODULE/./-}.html#%{NAME}/Control.Arrow.html"><span class="hs-identifier">Control.Arrow</span></a><span>    </span><span class="hs-special">(</span><span> </span><a href="../base-4.11.1.0/src/%{MODULE/./-}.html#%{NAME}/Control.Arrow.html#second"><span class="hs-identifier hs-var">second</span></a><span> </span><span class="hs-special">)</span><span>
+</span><a name="line-130"></a><span>
+</span><a name="line-131"></a><span class="hs-comment">{-
+************************************************************************
+*                                                                      *
+        Kind variables
+*                                                                      *
+************************************************************************
+-}</span><span>
+</span><a name="line-138"></a><span>
+</span><a name="line-139"></a><span class="hs-identifier">mkKindName</span><span> </span><span class="hs-glyph">::</span><span> </span><a href="Unique.html#Unique"><span class="hs-identifier hs-type">Unique</span></a><span> </span><span class="hs-glyph">-&gt;</span><span> </span><a href="Name.html#Name"><span class="hs-identifier hs-type">Name</span></a><span>
+</span><a name="line-140"></a><a name="mkKindName"><a href="TcMType.html#mkKindName"><span class="hs-identifier">mkKindName</span></a></a><span> </span><a name="local-6989586621679803024"><a href="#local-6989586621679803024"><span class="hs-identifier">unique</span></a></a><span> </span><span class="hs-glyph">=</span><span> </span><a href="Name.html#mkSystemName"><span class="hs-identifier hs-var">mkSystemName</span></a><span> </span><a href="#local-6989586621679803024"><span class="hs-identifier hs-var">unique</span></a><span> </span><a href="TcMType.html#kind_var_occ"><span class="hs-identifier hs-var">kind_var_occ</span></a><span>
+</span><a name="line-141"></a><span>
+</span><a name="line-142"></a><span class="hs-identifier">kind_var_occ</span><span> </span><span class="hs-glyph">::</span><span> </span><a href="OccName.html#OccName"><span class="hs-identifier hs-type">OccName</span></a><span> </span><span class="hs-comment">-- Just one for all MetaKindVars</span><span>
+</span><a name="line-143"></a><span>                        </span><span class="hs-comment">-- They may be jiggled by tidying</span><span>
+</span><a name="line-144"></a><a name="kind_var_occ"><a href="TcMType.html#kind_var_occ"><span class="hs-identifier">kind_var_occ</span></a></a><span> </span><span class="hs-glyph">=</span><span> </span><a href="OccName.html#mkOccName"><span class="hs-identifier hs-var">mkOccName</span></a><span> </span><a href="OccName.html#tvName"><span class="hs-identifier hs-var">tvName</span></a><span> </span><span class="hs-string">&quot;k&quot;</span><span>
+</span><a name="line-145"></a><span>
+</span><a name="line-146"></a><span class="hs-identifier">newMetaKindVar</span><span> </span><span class="hs-glyph">::</span><span> </span><a href="TcRnTypes.html#TcM"><span class="hs-identifier hs-type">TcM</span></a><span> </span><a href="TcType.html#TcKind"><span class="hs-identifier hs-type">TcKind</span></a><span>
+</span><a name="line-147"></a><a name="newMetaKindVar"><a href="TcMType.html#newMetaKindVar"><span class="hs-identifier">newMetaKindVar</span></a></a><span> </span><span class="hs-glyph">=</span><span> </span><span class="hs-keyword">do</span><span> </span><span class="hs-special">{</span><span> </span><a name="local-6989586621679803025"><a href="#local-6989586621679803025"><span class="hs-identifier">uniq</span></a></a><span> </span><span class="hs-glyph">&lt;-</span><span> </span><a href="TcRnMonad.html#newUnique"><span class="hs-identifier hs-var">newUnique</span></a><span>
+</span><a name="line-148"></a><span>                    </span><span class="hs-special">;</span><span> </span><a name="local-6989586621679803026"><a href="#local-6989586621679803026"><span class="hs-identifier">details</span></a></a><span> </span><span class="hs-glyph">&lt;-</span><span> </span><a href="TcMType.html#newMetaDetails"><span class="hs-identifier hs-var">newMetaDetails</span></a><span> </span><a href="TcType.html#TauTv"><span class="hs-identifier hs-var">TauTv</span></a><span>
+</span><a name="line-149"></a><span>                    </span><span class="hs-special">;</span><span> </span><span class="hs-keyword">let</span><span> </span><a name="local-6989586621679803027"><a href="#local-6989586621679803027"><span class="hs-identifier">kv</span></a></a><span> </span><span class="hs-glyph">=</span><span> </span><a href="Var.html#mkTcTyVar"><span class="hs-identifier hs-var">mkTcTyVar</span></a><span> </span><span class="hs-special">(</span><a href="TcMType.html#mkKindName"><span class="hs-identifier hs-var">mkKindName</span></a><span> </span><a href="#local-6989586621679803025"><span class="hs-identifier hs-var">uniq</span></a><span class="hs-special">)</span><span> </span><a href="TysWiredIn.html#liftedTypeKind"><span class="hs-identifier hs-var">liftedTypeKind</span></a><span> </span><a href="#local-6989586621679803026"><span class="hs-identifier hs-var">details</span></a><span>
+</span><a name="line-150"></a><span>                    </span><span class="hs-special">;</span><span> </span><a href="../base-4.11.1.0/src/%{MODULE/./-}.html#%{NAME}/GHC.Base.html#return"><span class="hs-identifier hs-var">return</span></a><span> </span><span class="hs-special">(</span><a href="TyCoRep.html#mkTyVarTy"><span class="hs-identifier hs-var">mkTyVarTy</span></a><span> </span><a href="#local-6989586621679803027"><span class="hs-identifier hs-var">kv</span></a><span class="hs-special">)</span><span> </span><span class="hs-special">}</span><span>
+</span><a name="line-151"></a><span>
+</span><a name="line-152"></a><span class="hs-identifier">newMetaKindVars</span><span> </span><span class="hs-glyph">::</span><span> </span><span class="hs-identifier hs-type">Int</span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><a href="TcRnTypes.html#TcM"><span class="hs-identifier hs-type">TcM</span></a><span> </span><span class="hs-special">[</span><a href="TcType.html#TcKind"><span class="hs-identifier hs-type">TcKind</span></a><span class="hs-special">]</span><span>
+</span><a name="line-153"></a><a name="newMetaKindVars"><a href="TcMType.html#newMetaKindVars"><span class="hs-identifier">newMetaKindVars</span></a></a><span> </span><a name="local-6989586621679803028"><a href="#local-6989586621679803028"><span class="hs-identifier">n</span></a></a><span> </span><span class="hs-glyph">=</span><span> </span><a href="../base-4.11.1.0/src/%{MODULE/./-}.html#%{NAME}/Data.Traversable.html#mapM"><span class="hs-identifier hs-var">mapM</span></a><span> </span><span class="hs-special">(</span><span class="hs-glyph">\</span><span> </span><span class="hs-identifier">_</span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><a href="TcMType.html#newMetaKindVar"><span class="hs-identifier hs-var">newMetaKindVar</span></a><span class="hs-special">)</span><span> </span><span class="hs-special">(</span><a href="Util.html#nOfThem"><span class="hs-identifier hs-var">nOfThem</span></a><span> </span><a href="#local-6989586621679803028"><span class="hs-identifier hs-var">n</span></a><span> </span><span class="hs-special">(</span><span class="hs-special">)</span><span class="hs-special">)</span><span>
+</span><a name="line-154"></a><span>
+</span><a name="line-155"></a><span class="hs-comment">{-
+************************************************************************
+*                                                                      *
+     Evidence variables; range over constraints we can abstract over
+*                                                                      *
+************************************************************************
+-}</span><span>
+</span><a name="line-162"></a><span>
+</span><a name="line-163"></a><span class="hs-identifier">newEvVars</span><span> </span><span class="hs-glyph">::</span><span> </span><a href="TcType.html#TcThetaType"><span class="hs-identifier hs-type">TcThetaType</span></a><span> </span><span class="hs-glyph">-&gt;</span><span> </span><a href="TcRnTypes.html#TcM"><span class="hs-identifier hs-type">TcM</span></a><span> </span><span class="hs-special">[</span><a href="Var.html#EvVar"><span class="hs-identifier hs-type">EvVar</span></a><span class="hs-special">]</span><span>
+</span><a name="line-164"></a><a name="newEvVars"><a href="TcMType.html#newEvVars"><span class="hs-identifier">newEvVars</span></a></a><span> </span><a name="local-6989586621679803029"><a href="#local-6989586621679803029"><span class="hs-identifier">theta</span></a></a><span> </span><span class="hs-glyph">=</span><span> </span><a href="../base-4.11.1.0/src/%{MODULE/./-}.html#%{NAME}/Data.Traversable.html#mapM"><span class="hs-identifier hs-var">mapM</span></a><span> </span><a href="TcMType.html#newEvVar"><span class="hs-identifier hs-var">newEvVar</span></a><span> </span><a href="#local-6989586621679803029"><span class="hs-identifier hs-var">theta</span></a><span>
+</span><a name="line-165"></a><span>
+</span><a name="line-166"></a><span class="hs-comment">--------------</span><span>
+</span><a name="line-167"></a><span>
+</span><a name="line-168"></a><span class="hs-identifier">newEvVar</span><span> </span><span class="hs-glyph">::</span><span> </span><a href="TcType.html#TcPredType"><span class="hs-identifier hs-type">TcPredType</span></a><span> </span><span class="hs-glyph">-&gt;</span><span> </span><a href="TcRnTypes.html#TcRnIf"><span class="hs-identifier hs-type">TcRnIf</span></a><span> </span><a href="#local-6989586621679803022"><span class="hs-identifier hs-type">gbl</span></a><span> </span><a href="#local-6989586621679803023"><span class="hs-identifier hs-type">lcl</span></a><span> </span><a href="Var.html#EvVar"><span class="hs-identifier hs-type">EvVar</span></a><span>
+</span><a name="line-169"></a><span class="hs-comment">-- Creates new *rigid* variables for predicates</span><span>
+</span><a name="line-170"></a><a name="newEvVar"><a href="TcMType.html#newEvVar"><span class="hs-identifier">newEvVar</span></a></a><span> </span><a name="local-6989586621679803030"><a href="#local-6989586621679803030"><span class="hs-identifier">ty</span></a></a><span> </span><span class="hs-glyph">=</span><span> </span><span class="hs-keyword">do</span><span> </span><span class="hs-special">{</span><span> </span><a name="local-6989586621679803031"><a href="#local-6989586621679803031"><span class="hs-identifier">name</span></a></a><span> </span><span class="hs-glyph">&lt;-</span><span> </span><a href="TcRnMonad.html#newSysName"><span class="hs-identifier hs-var">newSysName</span></a><span> </span><span class="hs-special">(</span><a href="TcMType.html#predTypeOccName"><span class="hs-identifier hs-var">predTypeOccName</span></a><span> </span><a href="#local-6989586621679803030"><span class="hs-identifier hs-var">ty</span></a><span class="hs-special">)</span><span>
+</span><a name="line-171"></a><span>                 </span><span class="hs-special">;</span><span> </span><a href="../base-4.11.1.0/src/%{MODULE/./-}.html#%{NAME}/GHC.Base.html#return"><span class="hs-identifier hs-var">return</span></a><span> </span><span class="hs-special">(</span><a href="Id.html#mkLocalIdOrCoVar"><span class="hs-identifier hs-var">mkLocalIdOrCoVar</span></a><span> </span><a href="#local-6989586621679803031"><span class="hs-identifier hs-var">name</span></a><span> </span><a href="#local-6989586621679803030"><span class="hs-identifier hs-var">ty</span></a><span class="hs-special">)</span><span> </span><span class="hs-special">}</span><span>
+</span><a name="line-172"></a><span>
+</span><a name="line-173"></a><span class="hs-identifier">newWanted</span><span> </span><span class="hs-glyph">::</span><span> </span><a href="TcRnTypes.html#CtOrigin"><span class="hs-identifier hs-type">CtOrigin</span></a><span> </span><span class="hs-glyph">-&gt;</span><span> </span><a href="../base-4.11.1.0/src/%{MODULE/./-}.html#%{NAME}/GHC.Base.html#Maybe"><span class="hs-identifier hs-type">Maybe</span></a><span> </span><a href="TcRnTypes.html#TypeOrKind"><span class="hs-identifier hs-type">TypeOrKind</span></a><span> </span><span class="hs-glyph">-&gt;</span><span> </span><a href="TyCoRep.html#PredType"><span class="hs-identifier hs-type">PredType</span></a><span> </span><span class="hs-glyph">-&gt;</span><span> </span><a href="TcRnTypes.html#TcM"><span class="hs-identifier hs-type">TcM</span></a><span> </span><a href="TcRnTypes.html#CtEvidence"><span class="hs-identifier hs-type">CtEvidence</span></a><span>
+</span><a name="line-174"></a><span class="hs-comment">-- Deals with both equality and non-equality predicates</span><span>
+</span><a name="line-175"></a><a name="newWanted"><a href="TcMType.html#newWanted"><span class="hs-identifier">newWanted</span></a></a><span> </span><a name="local-6989586621679803032"><a href="#local-6989586621679803032"><span class="hs-identifier">orig</span></a></a><span> </span><a name="local-6989586621679803033"><a href="#local-6989586621679803033"><span class="hs-identifier">t_or_k</span></a></a><span> </span><a name="local-6989586621679803034"><a href="#local-6989586621679803034"><span class="hs-identifier">pty</span></a></a><span>
+</span><a name="line-176"></a><span>  </span><span class="hs-glyph">=</span><span> </span><span class="hs-keyword">do</span><span> </span><a name="local-6989586621679803035"><a href="#local-6989586621679803035"><span class="hs-identifier">loc</span></a></a><span> </span><span class="hs-glyph">&lt;-</span><span> </span><a href="TcRnMonad.html#getCtLocM"><span class="hs-identifier hs-var">getCtLocM</span></a><span> </span><a href="#local-6989586621679803032"><span class="hs-identifier hs-var">orig</span></a><span> </span><a href="#local-6989586621679803033"><span class="hs-identifier hs-var">t_or_k</span></a><span>
+</span><a name="line-177"></a><span>       </span><a name="local-6989586621679803036"><a href="#local-6989586621679803036"><span class="hs-identifier">d</span></a></a><span> </span><span class="hs-glyph">&lt;-</span><span> </span><span class="hs-keyword">if</span><span> </span><a href="Type.html#isEqPred"><span class="hs-identifier hs-var">isEqPred</span></a><span> </span><a href="#local-6989586621679803034"><span class="hs-identifier hs-var">pty</span></a><span> </span><span class="hs-keyword">then</span><span> </span><a href="TcRnTypes.html#HoleDest"><span class="hs-identifier hs-var">HoleDest</span></a><span>  </span><a href="../base-4.11.1.0/src/%{MODULE/./-}.html#%{NAME}/Data.Functor.html#%3C%24%3E"><span class="hs-operator hs-var">&lt;$&gt;</span></a><span> </span><a href="TcMType.html#newCoercionHole"><span class="hs-identifier hs-var">newCoercionHole</span></a><span> </span><a href="#local-6989586621679803034"><span class="hs-identifier hs-var">pty</span></a><span>
+</span><a name="line-178"></a><span>                            </span><span class="hs-keyword">else</span><span> </span><a href="TcRnTypes.html#EvVarDest"><span class="hs-identifier hs-var">EvVarDest</span></a><span> </span><a href="../base-4.11.1.0/src/%{MODULE/./-}.html#%{NAME}/Data.Functor.html#%3C%24%3E"><span class="hs-operator hs-var">&lt;$&gt;</span></a><span> </span><a href="TcMType.html#newEvVar"><span class="hs-identifier hs-var">newEvVar</span></a><span> </span><a href="#local-6989586621679803034"><span class="hs-identifier hs-var">pty</span></a><span>
+</span><a name="line-179"></a><span>       </span><a href="../base-4.11.1.0/src/%{MODULE/./-}.html#%{NAME}/GHC.Base.html#return"><span class="hs-identifier hs-var">return</span></a><span> </span><a href="../base-4.11.1.0/src/%{MODULE/./-}.html#%{NAME}/GHC.Base.html#%24"><span class="hs-operator hs-var">$</span></a><span> </span><a href="TcRnTypes.html#CtWanted"><span class="hs-identifier hs-var">CtWanted</span></a><span> </span><span class="hs-special">{</span><span> </span><span class="hs-identifier">ctev_dest</span><span> </span><span class="hs-glyph">=</span><span> </span><a href="#local-6989586621679803036"><span class="hs-identifier hs-var">d</span></a><span>
+</span><a name="line-180"></a><span>                         </span><span class="hs-special">,</span><span> </span><span class="hs-identifier">ctev_pred</span><span> </span><span class="hs-glyph">=</span><span> </span><a href="#local-6989586621679803034"><span class="hs-identifier hs-var">pty</span></a><span>
+</span><a name="line-181"></a><span>                         </span><span class="hs-special">,</span><span> </span><span class="hs-identifier">ctev_nosh</span><span> </span><span class="hs-glyph">=</span><span> </span><a href="TcRnTypes.html#WDeriv"><span class="hs-identifier hs-var">WDeriv</span></a><span>
+</span><a name="line-182"></a><span>                         </span><span class="hs-special">,</span><span> </span><span class="hs-identifier">ctev_loc</span><span> </span><span class="hs-glyph">=</span><span> </span><a href="#local-6989586621679803035"><span class="hs-identifier hs-var">loc</span></a><span> </span><span class="hs-special">}</span><span>
+</span><a name="line-183"></a><span>
+</span><a name="line-184"></a><span class="hs-identifier">newWanteds</span><span> </span><span class="hs-glyph">::</span><span> </span><a href="TcRnTypes.html#CtOrigin"><span class="hs-identifier hs-type">CtOrigin</span></a><span> </span><span class="hs-glyph">-&gt;</span><span> </span><a href="TyCoRep.html#ThetaType"><span class="hs-identifier hs-type">ThetaType</span></a><span> </span><span class="hs-glyph">-&gt;</span><span> </span><a href="TcRnTypes.html#TcM"><span class="hs-identifier hs-type">TcM</span></a><span> </span><span class="hs-special">[</span><a href="TcRnTypes.html#CtEvidence"><span class="hs-identifier hs-type">CtEvidence</span></a><span class="hs-special">]</span><span>
+</span><a name="line-185"></a><a name="newWanteds"><a href="TcMType.html#newWanteds"><span class="hs-identifier">newWanteds</span></a></a><span> </span><a name="local-6989586621679803037"><a href="#local-6989586621679803037"><span class="hs-identifier">orig</span></a></a><span> </span><span class="hs-glyph">=</span><span> </span><a href="../base-4.11.1.0/src/%{MODULE/./-}.html#%{NAME}/Data.Traversable.html#mapM"><span class="hs-identifier hs-var">mapM</span></a><span> </span><span class="hs-special">(</span><a href="TcMType.html#newWanted"><span class="hs-identifier hs-var">newWanted</span></a><span> </span><a href="#local-6989586621679803037"><span class="hs-identifier hs-var">orig</span></a><span> </span><a href="../base-4.11.1.0/src/%{MODULE/./-}.html#%{NAME}/GHC.Base.html#Nothing"><span class="hs-identifier hs-var">Nothing</span></a><span class="hs-special">)</span><span>
+</span><a name="line-186"></a><span>
+</span><a name="line-187"></a><span class="hs-identifier">cloneWanted</span><span> </span><span class="hs-glyph">::</span><span> </span><a href="TcRnTypes.html#Ct"><span class="hs-identifier hs-type">Ct</span></a><span> </span><span class="hs-glyph">-&gt;</span><span> </span><a href="TcRnTypes.html#TcM"><span class="hs-identifier hs-type">TcM</span></a><span> </span><a href="TcRnTypes.html#CtEvidence"><span class="hs-identifier hs-type">CtEvidence</span></a><span>
+</span><a name="line-188"></a><a name="cloneWanted"><a href="TcMType.html#cloneWanted"><span class="hs-identifier">cloneWanted</span></a></a><span> </span><a name="local-6989586621679803038"><a href="#local-6989586621679803038"><span class="hs-identifier">ct</span></a></a><span>
+</span><a name="line-189"></a><span>  </span><span class="hs-glyph">=</span><span> </span><a href="TcMType.html#newWanted"><span class="hs-identifier hs-var">newWanted</span></a><span> </span><span class="hs-special">(</span><a href="TcRnTypes.html#ctEvOrigin"><span class="hs-identifier hs-var">ctEvOrigin</span></a><span> </span><a href="#local-6989586621679803039"><span class="hs-identifier hs-var">ev</span></a><span class="hs-special">)</span><span> </span><a href="../base-4.11.1.0/src/%{MODULE/./-}.html#%{NAME}/GHC.Base.html#Nothing"><span class="hs-identifier hs-var">Nothing</span></a><span> </span><span class="hs-special">(</span><a href="TcRnTypes.html#ctEvPred"><span class="hs-identifier hs-var">ctEvPred</span></a><span> </span><a href="#local-6989586621679803039"><span class="hs-identifier hs-var">ev</span></a><span class="hs-special">)</span><span>
+</span><a name="line-190"></a><span>  </span><span class="hs-keyword">where</span><span>
+</span><a name="line-191"></a><span>    </span><a name="local-6989586621679803039"><a href="#local-6989586621679803039"><span class="hs-identifier">ev</span></a></a><span> </span><span class="hs-glyph">=</span><span> </span><a href="TcRnTypes.html#ctEvidence"><span class="hs-identifier hs-var">ctEvidence</span></a><span> </span><a href="#local-6989586621679803038"><span class="hs-identifier hs-var">ct</span></a><span>
+</span><a name="line-192"></a><span>
+</span><a name="line-193"></a><span class="hs-identifier">cloneWC</span><span> </span><span class="hs-glyph">::</span><span> </span><a href="TcRnTypes.html#WantedConstraints"><span class="hs-identifier hs-type">WantedConstraints</span></a><span> </span><span class="hs-glyph">-&gt;</span><span> </span><a href="TcRnTypes.html#TcM"><span class="hs-identifier hs-type">TcM</span></a><span> </span><a href="TcRnTypes.html#WantedConstraints"><span class="hs-identifier hs-type">WantedConstraints</span></a><span>
+</span><a name="line-194"></a><a name="cloneWC"><a href="TcMType.html#cloneWC"><span class="hs-identifier">cloneWC</span></a></a><span> </span><a name="local-6989586621679803040"><a href="#local-6989586621679803040"><span class="hs-identifier">wc</span></a></a><span class="hs-glyph">@</span><span class="hs-special">(</span><a href="TcRnTypes.html#WC"><span class="hs-identifier hs-var">WC</span></a><span> </span><span class="hs-special">{</span><span> </span><span class="hs-identifier">wc_simple</span><span> </span><span class="hs-glyph">=</span><span> </span><a name="local-6989586621679803041"><a href="#local-6989586621679803041"><span class="hs-identifier">simples</span></a></a><span class="hs-special">,</span><span> </span><span class="hs-identifier">wc_impl</span><span> </span><span class="hs-glyph">=</span><span> </span><a name="local-6989586621679803042"><a href="#local-6989586621679803042"><span class="hs-identifier">implics</span></a></a><span> </span><span class="hs-special">}</span><span class="hs-special">)</span><span>
+</span><a name="line-195"></a><span>  </span><span class="hs-glyph">=</span><span> </span><span class="hs-keyword">do</span><span> </span><span class="hs-special">{</span><span> </span><a name="local-6989586621679803050"><a href="#local-6989586621679803050"><span class="hs-identifier">simples'</span></a></a><span> </span><span class="hs-glyph">&lt;-</span><span> </span><a href="Bag.html#mapBagM"><span class="hs-identifier hs-var">mapBagM</span></a><span> </span><a href="#local-6989586621679803043"><span class="hs-identifier hs-var">clone_one</span></a><span> </span><a href="#local-6989586621679803041"><span class="hs-identifier hs-var">simples</span></a><span>
+</span><a name="line-196"></a><span>       </span><span class="hs-special">;</span><span> </span><a name="local-6989586621679803051"><a href="#local-6989586621679803051"><span class="hs-identifier">implics'</span></a></a><span> </span><span class="hs-glyph">&lt;-</span><span> </span><a href="Bag.html#mapBagM"><span class="hs-identifier hs-var">mapBagM</span></a><span> </span><a href="#local-6989586621679803044"><span class="hs-identifier hs-var">clone_implic</span></a><span> </span><a href="#local-6989586621679803042"><span class="hs-identifier hs-var">implics</span></a><span>
+</span><a name="line-197"></a><span>       </span><span class="hs-special">;</span><span> </span><a href="../base-4.11.1.0/src/%{MODULE/./-}.html#%{NAME}/GHC.Base.html#return"><span class="hs-identifier hs-var">return</span></a><span> </span><span class="hs-special">(</span><a href="#local-6989586621679803040"><span class="hs-identifier hs-var">wc</span></a><span> </span><span class="hs-special">{</span><span> </span><span class="hs-identifier">wc_simple</span><span> </span><span class="hs-glyph">=</span><span> </span><a href="#local-6989586621679803050"><span class="hs-identifier hs-var">simples'</span></a><span class="hs-special">,</span><span> </span><span class="hs-identifier">wc_impl</span><span> </span><span class="hs-glyph">=</span><span> </span><a href="#local-6989586621679803051"><span class="hs-identifier hs-var">implics'</span></a><span> </span><span class="hs-special">}</span><span class="hs-special">)</span><span> </span><span class="hs-special">}</span><span>
+</span><a name="line-198"></a><span>  </span><span class="hs-keyword">where</span><span>
+</span><a name="line-199"></a><span>    </span><a name="local-6989586621679803043"><a href="#local-6989586621679803043"><span class="hs-identifier">clone_one</span></a></a><span> </span><a name="local-6989586621679803045"><a href="#local-6989586621679803045"><span class="hs-identifier">ct</span></a></a><span> </span><span class="hs-glyph">=</span><span> </span><span class="hs-keyword">do</span><span> </span><span class="hs-special">{</span><span> </span><a name="local-6989586621679803046"><a href="#local-6989586621679803046"><span class="hs-identifier">ev</span></a></a><span> </span><span class="hs-glyph">&lt;-</span><span> </span><a href="TcMType.html#cloneWanted"><span class="hs-identifier hs-var">cloneWanted</span></a><span> </span><a href="#local-6989586621679803045"><span class="hs-identifier hs-var">ct</span></a><span class="hs-special">;</span><span> </span><a href="../base-4.11.1.0/src/%{MODULE/./-}.html#%{NAME}/GHC.Base.html#return"><span class="hs-identifier hs-var">return</span></a><span> </span><span class="hs-special">(</span><a href="TcRnTypes.html#mkNonCanonical"><span class="hs-identifier hs-var">mkNonCanonical</span></a><span> </span><a href="#local-6989586621679803046"><span class="hs-identifier hs-var">ev</span></a><span class="hs-special">)</span><span> </span><span class="hs-special">}</span><span>
+</span><a name="line-200"></a><span>
+</span><a name="line-201"></a><span>    </span><a name="local-6989586621679803044"><a href="#local-6989586621679803044"><span class="hs-identifier">clone_implic</span></a></a><span> </span><a name="local-6989586621679803047"><a href="#local-6989586621679803047"><span class="hs-identifier">implic</span></a></a><span class="hs-glyph">@</span><span class="hs-special">(</span><a href="TcRnTypes.html#Implic"><span class="hs-identifier hs-var">Implic</span></a><span> </span><span class="hs-special">{</span><span> </span><span class="hs-identifier">ic_wanted</span><span> </span><span class="hs-glyph">=</span><span> </span><a name="local-6989586621679803048"><a href="#local-6989586621679803048"><span class="hs-identifier">inner_wanted</span></a></a><span> </span><span class="hs-special">}</span><span class="hs-special">)</span><span>
+</span><a name="line-202"></a><span>      </span><span class="hs-glyph">=</span><span> </span><span class="hs-keyword">do</span><span> </span><span class="hs-special">{</span><span> </span><a name="local-6989586621679803049"><a href="#local-6989586621679803049"><span class="hs-identifier">inner_wanted'</span></a></a><span> </span><span class="hs-glyph">&lt;-</span><span> </span><a href="TcMType.html#cloneWC"><span class="hs-identifier hs-var">cloneWC</span></a><span> </span><a href="#local-6989586621679803048"><span class="hs-identifier hs-var">inner_wanted</span></a><span>
+</span><a name="line-203"></a><span>           </span><span class="hs-special">;</span><span> </span><a href="../base-4.11.1.0/src/%{MODULE/./-}.html#%{NAME}/GHC.Base.html#return"><span class="hs-identifier hs-var">return</span></a><span> </span><span class="hs-special">(</span><a href="#local-6989586621679803047"><span class="hs-identifier hs-var">implic</span></a><span> </span><span class="hs-special">{</span><span> </span><span class="hs-identifier">ic_wanted</span><span> </span><span class="hs-glyph">=</span><span> </span><a href="#local-6989586621679803049"><span class="hs-identifier hs-var">inner_wanted'</span></a><span> </span><span class="hs-special">}</span><span class="hs-special">)</span><span> </span><span class="hs-special">}</span><span>
+</span><a name="line-204"></a><span>
+</span><a name="line-205"></a><span class="hs-comment">-- | Emits a new Wanted. Deals with both equalities and non-equalities.</span><span>
+</span><a name="line-206"></a><span class="hs-identifier">emitWanted</span><span> </span><span class="hs-glyph">::</span><span> </span><a href="TcRnTypes.html#CtOrigin"><span class="hs-identifier hs-type">CtOrigin</span></a><span> </span><span class="hs-glyph">-&gt;</span><span> </span><a href="TcType.html#TcPredType"><span class="hs-identifier hs-type">TcPredType</span></a><span> </span><span class="hs-glyph">-&gt;</span><span> </span><a href="TcRnTypes.html#TcM"><span class="hs-identifier hs-type">TcM</span></a><span> </span><a href="TcEvidence.html#EvTerm"><span class="hs-identifier hs-type">EvTerm</span></a><span>
+</span><a name="line-207"></a><a name="emitWanted"><a href="TcMType.html#emitWanted"><span class="hs-identifier">emitWanted</span></a></a><span> </span><a name="local-6989586621679803052"><a href="#local-6989586621679803052"><span class="hs-identifier">origin</span></a></a><span> </span><a name="local-6989586621679803053"><a href="#local-6989586621679803053"><span class="hs-identifier">pty</span></a></a><span>
+</span><a name="line-208"></a><span>  </span><span class="hs-glyph">=</span><span> </span><span class="hs-keyword">do</span><span> </span><span class="hs-special">{</span><span> </span><a name="local-6989586621679803054"><a href="#local-6989586621679803054"><span class="hs-identifier">ev</span></a></a><span> </span><span class="hs-glyph">&lt;-</span><span> </span><a href="TcMType.html#newWanted"><span class="hs-identifier hs-var">newWanted</span></a><span> </span><a href="#local-6989586621679803052"><span class="hs-identifier hs-var">origin</span></a><span> </span><a href="../base-4.11.1.0/src/%{MODULE/./-}.html#%{NAME}/GHC.Base.html#Nothing"><span class="hs-identifier hs-var">Nothing</span></a><span> </span><a href="#local-6989586621679803053"><span class="hs-identifier hs-var">pty</span></a><span>
+</span><a name="line-209"></a><span>       </span><span class="hs-special">;</span><span> </span><a href="TcRnMonad.html#emitSimple"><span class="hs-identifier hs-var">emitSimple</span></a><span> </span><a href="../base-4.11.1.0/src/%{MODULE/./-}.html#%{NAME}/GHC.Base.html#%24"><span class="hs-operator hs-var">$</span></a><span> </span><a href="TcRnTypes.html#mkNonCanonical"><span class="hs-identifier hs-var">mkNonCanonical</span></a><span> </span><a href="#local-6989586621679803054"><span class="hs-identifier hs-var">ev</span></a><span>
+</span><a name="line-210"></a><span>       </span><span class="hs-special">;</span><span> </span><a href="../base-4.11.1.0/src/%{MODULE/./-}.html#%{NAME}/GHC.Base.html#return"><span class="hs-identifier hs-var">return</span></a><span> </span><a href="../base-4.11.1.0/src/%{MODULE/./-}.html#%{NAME}/GHC.Base.html#%24"><span class="hs-operator hs-var">$</span></a><span> </span><a href="TcRnTypes.html#ctEvTerm"><span class="hs-identifier hs-var">ctEvTerm</span></a><span> </span><a href="#local-6989586621679803054"><span class="hs-identifier hs-var">ev</span></a><span> </span><span class="hs-special">}</span><span>
+</span><a name="line-211"></a><span>
+</span><a name="line-212"></a><span class="hs-comment">-- | Emits a new equality constraint</span><span>
+</span><a name="line-213"></a><span class="hs-identifier">emitWantedEq</span><span> </span><span class="hs-glyph">::</span><span> </span><a href="TcRnTypes.html#CtOrigin"><span class="hs-identifier hs-type">CtOrigin</span></a><span> </span><span class="hs-glyph">-&gt;</span><span> </span><a href="TcRnTypes.html#TypeOrKind"><span class="hs-identifier hs-type">TypeOrKind</span></a><span> </span><span class="hs-glyph">-&gt;</span><span> </span><a href="CoAxiom.html#Role"><span class="hs-identifier hs-type">Role</span></a><span> </span><span class="hs-glyph">-&gt;</span><span> </span><a href="TcType.html#TcType"><span class="hs-identifier hs-type">TcType</span></a><span> </span><span class="hs-glyph">-&gt;</span><span> </span><a href="TcType.html#TcType"><span class="hs-identifier hs-type">TcType</span></a><span> </span><span class="hs-glyph">-&gt;</span><span> </span><a href="TcRnTypes.html#TcM"><span class="hs-identifier hs-type">TcM</span></a><span> </span><a href="TyCoRep.html#Coercion"><span class="hs-identifier hs-type">Coercion</span></a><span>
+</span><a name="line-214"></a><a name="emitWantedEq"><a href="TcMType.html#emitWantedEq"><span class="hs-identifier">emitWantedEq</span></a></a><span> </span><a name="local-6989586621679803055"><a href="#local-6989586621679803055"><span class="hs-identifier">origin</span></a></a><span> </span><a name="local-6989586621679803056"><a href="#local-6989586621679803056"><span class="hs-identifier">t_or_k</span></a></a><span> </span><span class="hs-keyword">role</span><span> </span><a name="local-6989586621679803058"><a href="#local-6989586621679803058"><span class="hs-identifier">ty1</span></a></a><span> </span><a name="local-6989586621679803059"><a href="#local-6989586621679803059"><span class="hs-identifier">ty2</span></a></a><span>
+</span><a name="line-215"></a><span>  </span><span class="hs-glyph">=</span><span> </span><span class="hs-keyword">do</span><span> </span><span class="hs-special">{</span><span> </span><a name="local-6989586621679803061"><a href="#local-6989586621679803061"><span class="hs-identifier">hole</span></a></a><span> </span><span class="hs-glyph">&lt;-</span><span> </span><a href="TcMType.html#newCoercionHole"><span class="hs-identifier hs-var">newCoercionHole</span></a><span> </span><a href="#local-6989586621679803060"><span class="hs-identifier hs-var">pty</span></a><span>
+</span><a name="line-216"></a><span>       </span><span class="hs-special">;</span><span> </span><a name="local-6989586621679803062"><a href="#local-6989586621679803062"><span class="hs-identifier">loc</span></a></a><span> </span><span class="hs-glyph">&lt;-</span><span> </span><a href="TcRnMonad.html#getCtLocM"><span class="hs-identifier hs-var">getCtLocM</span></a><span> </span><a href="#local-6989586621679803055"><span class="hs-identifier hs-var">origin</span></a><span> </span><span class="hs-special">(</span><a href="../base-4.11.1.0/src/%{MODULE/./-}.html#%{NAME}/GHC.Base.html#Just"><span class="hs-identifier hs-var">Just</span></a><span> </span><a href="#local-6989586621679803056"><span class="hs-identifier hs-var">t_or_k</span></a><span class="hs-special">)</span><span>
+</span><a name="line-217"></a><span>       </span><span class="hs-special">;</span><span> </span><a href="TcRnMonad.html#emitSimple"><span class="hs-identifier hs-var">emitSimple</span></a><span> </span><a href="../base-4.11.1.0/src/%{MODULE/./-}.html#%{NAME}/GHC.Base.html#%24"><span class="hs-operator hs-var">$</span></a><span> </span><a href="TcRnTypes.html#mkNonCanonical"><span class="hs-identifier hs-var">mkNonCanonical</span></a><span> </span><a href="../base-4.11.1.0/src/%{MODULE/./-}.html#%{NAME}/GHC.Base.html#%24"><span class="hs-operator hs-var">$</span></a><span>
+</span><a name="line-218"></a><span>         </span><a href="TcRnTypes.html#CtWanted"><span class="hs-identifier hs-var">CtWanted</span></a><span> </span><span class="hs-special">{</span><span> </span><span class="hs-identifier">ctev_pred</span><span> </span><span class="hs-glyph">=</span><span> </span><a href="#local-6989586621679803060"><span class="hs-identifier hs-var">pty</span></a><span class="hs-special">,</span><span> </span><span class="hs-identifier">ctev_dest</span><span> </span><span class="hs-glyph">=</span><span> </span><a href="TcRnTypes.html#HoleDest"><span class="hs-identifier hs-var">HoleDest</span></a><span> </span><a href="#local-6989586621679803061"><span class="hs-identifier hs-var">hole</span></a><span>
+</span><a name="line-219"></a><span>                  </span><span class="hs-special">,</span><span> </span><span class="hs-identifier">ctev_nosh</span><span> </span><span class="hs-glyph">=</span><span> </span><a href="TcRnTypes.html#WDeriv"><span class="hs-identifier hs-var">WDeriv</span></a><span class="hs-special">,</span><span> </span><span class="hs-identifier">ctev_loc</span><span> </span><span class="hs-glyph">=</span><span> </span><a href="#local-6989586621679803062"><span class="hs-identifier hs-var">loc</span></a><span> </span><span class="hs-special">}</span><span>
+</span><a name="line-220"></a><span>       </span><span class="hs-special">;</span><span> </span><a href="../base-4.11.1.0/src/%{MODULE/./-}.html#%{NAME}/GHC.Base.html#return"><span class="hs-identifier hs-var">return</span></a><span> </span><span class="hs-special">(</span><a href="TyCoRep.html#HoleCo"><span class="hs-identifier hs-var">HoleCo</span></a><span> </span><a href="#local-6989586621679803061"><span class="hs-identifier hs-var">hole</span></a><span class="hs-special">)</span><span> </span><span class="hs-special">}</span><span>
+</span><a name="line-221"></a><span>  </span><span class="hs-keyword">where</span><span>
+</span><a name="line-222"></a><span>    </span><a name="local-6989586621679803060"><a href="#local-6989586621679803060"><span class="hs-identifier">pty</span></a></a><span> </span><span class="hs-glyph">=</span><span> </span><a href="Type.html#mkPrimEqPredRole"><span class="hs-identifier hs-var">mkPrimEqPredRole</span></a><span> </span><span class="hs-keyword">role</span><span> </span><a href="#local-6989586621679803058"><span class="hs-identifier hs-var">ty1</span></a><span> </span><a href="#local-6989586621679803059"><span class="hs-identifier hs-var">ty2</span></a><span>
+</span><a name="line-223"></a><span>
+</span><a name="line-224"></a><span class="hs-comment">-- | Creates a new EvVar and immediately emits it as a Wanted.</span><span>
+</span><a name="line-225"></a><span class="hs-comment">-- No equality predicates here.</span><span>
+</span><a name="line-226"></a><span class="hs-identifier">emitWantedEvVar</span><span> </span><span class="hs-glyph">::</span><span> </span><a href="TcRnTypes.html#CtOrigin"><span class="hs-identifier hs-type">CtOrigin</span></a><span> </span><span class="hs-glyph">-&gt;</span><span> </span><a href="TcType.html#TcPredType"><span class="hs-identifier hs-type">TcPredType</span></a><span> </span><span class="hs-glyph">-&gt;</span><span> </span><a href="TcRnTypes.html#TcM"><span class="hs-identifier hs-type">TcM</span></a><span> </span><a href="Var.html#EvVar"><span class="hs-identifier hs-type">EvVar</span></a><span>
+</span><a name="line-227"></a><a name="emitWantedEvVar"><a href="TcMType.html#emitWantedEvVar"><span class="hs-identifier">emitWantedEvVar</span></a></a><span> </span><a name="local-6989586621679803063"><a href="#local-6989586621679803063"><span class="hs-identifier">origin</span></a></a><span> </span><a name="local-6989586621679803064"><a href="#local-6989586621679803064"><span class="hs-identifier">ty</span></a></a><span>
+</span><a name="line-228"></a><span>  </span><span class="hs-glyph">=</span><span> </span><span class="hs-keyword">do</span><span> </span><span class="hs-special">{</span><span> </span><a name="local-6989586621679803065"><a href="#local-6989586621679803065"><span class="hs-identifier">new_cv</span></a></a><span> </span><span class="hs-glyph">&lt;-</span><span> </span><a href="TcMType.html#newEvVar"><span class="hs-identifier hs-var">newEvVar</span></a><span> </span><a href="#local-6989586621679803064"><span class="hs-identifier hs-var">ty</span></a><span>
+</span><a name="line-229"></a><span>       </span><span class="hs-special">;</span><span> </span><a name="local-6989586621679803066"><a href="#local-6989586621679803066"><span class="hs-identifier">loc</span></a></a><span> </span><span class="hs-glyph">&lt;-</span><span> </span><a href="TcRnMonad.html#getCtLocM"><span class="hs-identifier hs-var">getCtLocM</span></a><span> </span><a href="#local-6989586621679803063"><span class="hs-identifier hs-var">origin</span></a><span> </span><a href="../base-4.11.1.0/src/%{MODULE/./-}.html#%{NAME}/GHC.Base.html#Nothing"><span class="hs-identifier hs-var">Nothing</span></a><span>
+</span><a name="line-230"></a><span>       </span><span class="hs-special">;</span><span> </span><span class="hs-keyword">let</span><span> </span><a name="local-6989586621679803067"><a href="#local-6989586621679803067"><span class="hs-identifier">ctev</span></a></a><span> </span><span class="hs-glyph">=</span><span> </span><a href="TcRnTypes.html#CtWanted"><span class="hs-identifier hs-var">CtWanted</span></a><span> </span><span class="hs-special">{</span><span> </span><span class="hs-identifier">ctev_dest</span><span> </span><span class="hs-glyph">=</span><span> </span><a href="TcRnTypes.html#EvVarDest"><span class="hs-identifier hs-var">EvVarDest</span></a><span> </span><a href="#local-6989586621679803065"><span class="hs-identifier hs-var">new_cv</span></a><span>
+</span><a name="line-231"></a><span>                             </span><span class="hs-special">,</span><span> </span><span class="hs-identifier">ctev_pred</span><span> </span><span class="hs-glyph">=</span><span> </span><a href="#local-6989586621679803064"><span class="hs-identifier hs-var">ty</span></a><span>
+</span><a name="line-232"></a><span>                             </span><span class="hs-special">,</span><span> </span><span class="hs-identifier">ctev_nosh</span><span> </span><span class="hs-glyph">=</span><span> </span><a href="TcRnTypes.html#WDeriv"><span class="hs-identifier hs-var">WDeriv</span></a><span>
+</span><a name="line-233"></a><span>                             </span><span class="hs-special">,</span><span> </span><span class="hs-identifier">ctev_loc</span><span>  </span><span class="hs-glyph">=</span><span> </span><a href="#local-6989586621679803066"><span class="hs-identifier hs-var">loc</span></a><span> </span><span class="hs-special">}</span><span>
+</span><a name="line-234"></a><span>       </span><span class="hs-special">;</span><span> </span><a href="TcRnMonad.html#emitSimple"><span class="hs-identifier hs-var">emitSimple</span></a><span> </span><a href="../base-4.11.1.0/src/%{MODULE/./-}.html#%{NAME}/GHC.Base.html#%24"><span class="hs-operator hs-var">$</span></a><span> </span><a href="TcRnTypes.html#mkNonCanonical"><span class="hs-identifier hs-var">mkNonCanonical</span></a><span> </span><a href="#local-6989586621679803067"><span class="hs-identifier hs-var">ctev</span></a><span>
+</span><a name="line-235"></a><span>       </span><span class="hs-special">;</span><span> </span><a href="../base-4.11.1.0/src/%{MODULE/./-}.html#%{NAME}/GHC.Base.html#return"><span class="hs-identifier hs-var">return</span></a><span> </span><a href="#local-6989586621679803065"><span class="hs-identifier hs-var">new_cv</span></a><span> </span><span class="hs-special">}</span><span>
+</span><a name="line-236"></a><span>
+</span><a name="line-237"></a><span class="hs-identifier">emitWantedEvVars</span><span> </span><span class="hs-glyph">::</span><span> </span><a href="TcRnTypes.html#CtOrigin"><span class="hs-identifier hs-type">CtOrigin</span></a><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="hs-special">[</span><a href="TcType.html#TcPredType"><span class="hs-identifier hs-type">TcPredType</span></a><span class="hs-special">]</span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><a href="TcRnTypes.html#TcM"><span class="hs-identifier hs-type">TcM</span></a><span> </span><span class="hs-special">[</span><a href="Var.html#EvVar"><span class="hs-identifier hs-type">EvVar</span></a><span class="hs-special">]</span><span>
+</span><a name="line-238"></a><a name="emitWantedEvVars"><a href="TcMType.html#emitWantedEvVars"><span class="hs-identifier">emitWantedEvVars</span></a></a><span> </span><a name="local-6989586621679803068"><a href="#local-6989586621679803068"><span class="hs-identifier">orig</span></a></a><span> </span><span class="hs-glyph">=</span><span> </span><a href="../base-4.11.1.0/src/%{MODULE/./-}.html#%{NAME}/Data.Traversable.html#mapM"><span class="hs-identifier hs-var">mapM</span></a><span> </span><span class="hs-special">(</span><a href="TcMType.html#emitWantedEvVar"><span class="hs-identifier hs-var">emitWantedEvVar</span></a><span> </span><a href="#local-6989586621679803068"><span class="hs-identifier hs-var">orig</span></a><span class="hs-special">)</span><span>
+</span><a name="line-239"></a><span>
+</span><a name="line-240"></a><span class="hs-identifier">newDict</span><span> </span><span class="hs-glyph">::</span><span> </span><a href="Class.html#Class"><span class="hs-identifier hs-type">Class</span></a><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="hs-special">[</span><a href="TcType.html#TcType"><span class="hs-identifier hs-type">TcType</span></a><span class="hs-special">]</span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><a href="TcRnTypes.html#TcM"><span class="hs-identifier hs-type">TcM</span></a><span> </span><a href="Var.html#DictId"><span class="hs-identifier hs-type">DictId</span></a><span>
+</span><a name="line-241"></a><a name="newDict"><a href="TcMType.html#newDict"><span class="hs-identifier">newDict</span></a></a><span> </span><a name="local-6989586621679803069"><a href="#local-6989586621679803069"><span class="hs-identifier">cls</span></a></a><span> </span><a name="local-6989586621679803070"><a href="#local-6989586621679803070"><span class="hs-identifier">tys</span></a></a><span>
+</span><a name="line-242"></a><span>  </span><span class="hs-glyph">=</span><span> </span><span class="hs-keyword">do</span><span> </span><span class="hs-special">{</span><span> </span><a name="local-6989586621679803071"><a href="#local-6989586621679803071"><span class="hs-identifier">name</span></a></a><span> </span><span class="hs-glyph">&lt;-</span><span> </span><a href="TcRnMonad.html#newSysName"><span class="hs-identifier hs-var">newSysName</span></a><span> </span><span class="hs-special">(</span><a href="OccName.html#mkDictOcc"><span class="hs-identifier hs-var">mkDictOcc</span></a><span> </span><span class="hs-special">(</span><a href="Name.html#getOccName"><span class="hs-identifier hs-var">getOccName</span></a><span> </span><a href="#local-6989586621679803069"><span class="hs-identifier hs-var">cls</span></a><span class="hs-special">)</span><span class="hs-special">)</span><span>
+</span><a name="line-243"></a><span>       </span><span class="hs-special">;</span><span> </span><a href="../base-4.11.1.0/src/%{MODULE/./-}.html#%{NAME}/GHC.Base.html#return"><span class="hs-identifier hs-var">return</span></a><span> </span><span class="hs-special">(</span><a href="Id.html#mkLocalId"><span class="hs-identifier hs-var">mkLocalId</span></a><span> </span><a href="#local-6989586621679803071"><span class="hs-identifier hs-var">name</span></a><span> </span><span class="hs-special">(</span><a href="Type.html#mkClassPred"><span class="hs-identifier hs-var">mkClassPred</span></a><span> </span><a href="#local-6989586621679803069"><span class="hs-identifier hs-var">cls</span></a><span> </span><a href="#local-6989586621679803070"><span class="hs-identifier hs-var">tys</span></a><span class="hs-special">)</span><span class="hs-special">)</span><span> </span><span class="hs-special">}</span><span>
+</span><a name="line-244"></a><span>
+</span><a name="line-245"></a><span class="hs-identifier">predTypeOccName</span><span> </span><span class="hs-glyph">::</span><span> </span><a href="TyCoRep.html#PredType"><span class="hs-identifier hs-type">PredType</span></a><span> </span><span class="hs-glyph">-&gt;</span><span> </span><a href="OccName.html#OccName"><span class="hs-identifier hs-type">OccName</span></a><span>
+</span><a name="line-246"></a><a name="predTypeOccName"><a href="TcMType.html#predTypeOccName"><span class="hs-identifier">predTypeOccName</span></a></a><span> </span><a name="local-6989586621679803072"><a href="#local-6989586621679803072"><span class="hs-identifier">ty</span></a></a><span> </span><span class="hs-glyph">=</span><span> </span><span class="hs-keyword">case</span><span> </span><a href="Type.html#classifyPredType"><span class="hs-identifier hs-var">classifyPredType</span></a><span> </span><a href="#local-6989586621679803072"><span class="hs-identifier hs-var">ty</span></a><span> </span><span class="hs-keyword">of</span><span>
+</span><a name="line-247"></a><span>    </span><a href="Type.html#ClassPred"><span class="hs-identifier hs-var">ClassPred</span></a><span> </span><a name="local-6989586621679803073"><a href="#local-6989586621679803073"><span class="hs-identifier">cls</span></a></a><span> </span><span class="hs-identifier">_</span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><a href="OccName.html#mkDictOcc"><span class="hs-identifier hs-var">mkDictOcc</span></a><span> </span><span class="hs-special">(</span><a href="Name.html#getOccName"><span class="hs-identifier hs-var">getOccName</span></a><span> </span><a href="#local-6989586621679803073"><span class="hs-identifier hs-var">cls</span></a><span class="hs-special">)</span><span>
+</span><a name="line-248"></a><span>    </span><a href="Type.html#EqPred"><span class="hs-identifier hs-var">EqPred</span></a><span> </span><span class="hs-identifier">_</span><span> </span><span class="hs-identifier">_</span><span> </span><span class="hs-identifier">_</span><span>    </span><span class="hs-glyph">-&gt;</span><span> </span><a href="OccName.html#mkVarOccFS"><span class="hs-identifier hs-var">mkVarOccFS</span></a><span> </span><span class="hs-special">(</span><a href="FastString.html#fsLit"><span class="hs-identifier hs-var">fsLit</span></a><span> </span><span class="hs-string">&quot;co&quot;</span><span class="hs-special">)</span><span>
+</span><a name="line-249"></a><span>    </span><a href="Type.html#IrredPred"><span class="hs-identifier hs-var">IrredPred</span></a><span> </span><span class="hs-identifier">_</span><span>     </span><span class="hs-glyph">-&gt;</span><span> </span><a href="OccName.html#mkVarOccFS"><span class="hs-identifier hs-var">mkVarOccFS</span></a><span> </span><span class="hs-special">(</span><a href="FastString.html#fsLit"><span class="hs-identifier hs-var">fsLit</span></a><span> </span><span class="hs-string">&quot;irred&quot;</span><span class="hs-special">)</span><span>
+</span><a name="line-250"></a><span>
+</span><a name="line-251"></a><span class="hs-comment">{-
+************************************************************************
+*                                                                      *
+        Coercion holes
+*                                                                      *
+************************************************************************
+-}</span><span>
+</span><a name="line-258"></a><span>
+</span><a name="line-259"></a><span class="hs-identifier">newCoercionHole</span><span> </span><span class="hs-glyph">::</span><span> </span><a href="TcType.html#TcPredType"><span class="hs-identifier hs-type">TcPredType</span></a><span> </span><span class="hs-glyph">-&gt;</span><span> </span><a href="TcRnTypes.html#TcM"><span class="hs-identifier hs-type">TcM</span></a><span> </span><a href="TyCoRep.html#CoercionHole"><span class="hs-identifier hs-type">CoercionHole</span></a><span>
+</span><a name="line-260"></a><a name="newCoercionHole"><a href="TcMType.html#newCoercionHole"><span class="hs-identifier">newCoercionHole</span></a></a><span> </span><a name="local-6989586621679803074"><a href="#local-6989586621679803074"><span class="hs-identifier">pred_ty</span></a></a><span>
+</span><a name="line-261"></a><span>  </span><span class="hs-glyph">=</span><span> </span><span class="hs-keyword">do</span><span> </span><span class="hs-special">{</span><span> </span><a name="local-6989586621679803075"><a href="#local-6989586621679803075"><span class="hs-identifier">co_var</span></a></a><span> </span><span class="hs-glyph">&lt;-</span><span> </span><a href="TcMType.html#newEvVar"><span class="hs-identifier hs-var">newEvVar</span></a><span> </span><a href="#local-6989586621679803074"><span class="hs-identifier hs-var">pred_ty</span></a><span>
+</span><a name="line-262"></a><span>       </span><span class="hs-special">;</span><span> </span><a href="TcRnMonad.html#traceTc"><span class="hs-identifier hs-var">traceTc</span></a><span> </span><span class="hs-string">&quot;New coercion hole:&quot;</span><span> </span><span class="hs-special">(</span><a href="Outputable.html#ppr"><span class="hs-identifier hs-var">ppr</span></a><span> </span><a href="#local-6989586621679803075"><span class="hs-identifier hs-var">co_var</span></a><span class="hs-special">)</span><span>
+</span><a name="line-263"></a><span>       </span><span class="hs-special">;</span><span> </span><a name="local-6989586621679803076"><a href="#local-6989586621679803076"><span class="hs-identifier">ref</span></a></a><span> </span><span class="hs-glyph">&lt;-</span><span> </span><a href="IOEnv.html#newMutVar"><span class="hs-identifier hs-var">newMutVar</span></a><span> </span><a href="../base-4.11.1.0/src/%{MODULE/./-}.html#%{NAME}/GHC.Base.html#Nothing"><span class="hs-identifier hs-var">Nothing</span></a><span>
+</span><a name="line-264"></a><span>       </span><span class="hs-special">;</span><span> </span><a href="../base-4.11.1.0/src/%{MODULE/./-}.html#%{NAME}/GHC.Base.html#return"><span class="hs-identifier hs-var">return</span></a><span> </span><a href="../base-4.11.1.0/src/%{MODULE/./-}.html#%{NAME}/GHC.Base.html#%24"><span class="hs-operator hs-var">$</span></a><span> </span><a href="TyCoRep.html#CoercionHole"><span class="hs-identifier hs-var">CoercionHole</span></a><span> </span><span class="hs-special">{</span><span> </span><span class="hs-identifier">ch_co_var</span><span> </span><span class="hs-glyph">=</span><span> </span><a href="#local-6989586621679803075"><span class="hs-identifier hs-var">co_var</span></a><span class="hs-special">,</span><span> </span><span class="hs-identifier">ch_ref</span><span> </span><span class="hs-glyph">=</span><span> </span><a href="#local-6989586621679803076"><span class="hs-identifier hs-var">ref</span></a><span> </span><span class="hs-special">}</span><span> </span><span class="hs-special">}</span><span>
+</span><a name="line-265"></a><span>
+</span><a name="line-266"></a><span class="hs-comment">-- | Put a value in a coercion hole</span><span>
+</span><a name="line-267"></a><span class="hs-identifier">fillCoercionHole</span><span> </span><span class="hs-glyph">::</span><span> </span><a href="TyCoRep.html#CoercionHole"><span class="hs-identifier hs-type">CoercionHole</span></a><span> </span><span class="hs-glyph">-&gt;</span><span> </span><a href="TyCoRep.html#Coercion"><span class="hs-identifier hs-type">Coercion</span></a><span> </span><span class="hs-glyph">-&gt;</span><span> </span><a href="TcRnTypes.html#TcM"><span class="hs-identifier hs-type">TcM</span></a><span> </span><span class="hs-special">(</span><span class="hs-special">)</span><span>
+</span><a name="line-268"></a><a name="fillCoercionHole"><a href="TcMType.html#fillCoercionHole"><span class="hs-identifier">fillCoercionHole</span></a></a><span> </span><span class="hs-special">(</span><a href="TyCoRep.html#CoercionHole"><span class="hs-identifier hs-var">CoercionHole</span></a><span> </span><span class="hs-special">{</span><span> </span><span class="hs-identifier">ch_ref</span><span> </span><span class="hs-glyph">=</span><span> </span><a name="local-6989586621679803077"><a href="#local-6989586621679803077"><span class="hs-identifier">ref</span></a></a><span class="hs-special">,</span><span> </span><span class="hs-identifier">ch_co_var</span><span> </span><span class="hs-glyph">=</span><span> </span><a name="local-6989586621679803078"><a href="#local-6989586621679803078"><span class="hs-identifier">cv</span></a></a><span> </span><span class="hs-special">}</span><span class="hs-special">)</span><span> </span><a name="local-6989586621679803079"><a href="#local-6989586621679803079"><span class="hs-identifier">co</span></a></a><span>
+</span><a name="line-269"></a><span>  </span><span class="hs-glyph">=</span><span> </span><span class="hs-keyword">do</span><span> </span><span class="hs-special">{</span><span>
+</span><a name="line-270"></a><span class="hs-cpp">#if defined(DEBUG)
+</span><span>       </span><span class="hs-special">;</span><span> </span><span class="hs-identifier">cts</span><span> </span><span class="hs-glyph">&lt;-</span><span> </span><span class="hs-identifier">readTcRef</span><span> </span><span class="hs-identifier">ref</span><span>
+</span><a name="line-272"></a><span>       </span><span class="hs-special">;</span><span> </span><span class="hs-identifier">whenIsJust</span><span> </span><span class="hs-identifier">cts</span><span> </span><span class="hs-operator">$</span><span> </span><span class="hs-glyph">\</span><span class="hs-identifier">old_co</span><span> </span><span class="hs-glyph">-&gt;</span><span>
+</span><a name="line-273"></a><span>         </span><span class="hs-identifier">pprPanic</span><span> </span><span class="hs-string">&quot;Filling a filled coercion hole&quot;</span><span> </span><span class="hs-special">(</span><span class="hs-identifier">ppr</span><span> </span><span class="hs-identifier">cv</span><span> </span><span class="hs-operator">$$</span><span> </span><span class="hs-identifier">ppr</span><span> </span><span class="hs-identifier">co</span><span> </span><span class="hs-operator">$$</span><span> </span><span class="hs-identifier">ppr</span><span> </span><span class="hs-identifier">old_co</span><span class="hs-special">)</span><span>
+</span><a name="line-274"></a><span class="hs-cpp">#endif
+</span><span class="">       ; traceTc &quot;Filling coercion hole&quot; (ppr cv &lt;+&gt; text &quot;:=&quot; &lt;+&gt; ppr co)
+       ; writeTcRef ref (Just co) }
+
+-- | Is a coercion hole filled in?
+isFilledCoercionHole :: CoercionHole -&gt; TcM Bool
+isFilledCoercionHole (CoercionHole { ch_ref = ref }) = isJust &lt;$&gt; readTcRef ref
+
+-- | Retrieve the contents of a coercion hole. Panics if the hole
+-- is unfilled
+unpackCoercionHole :: CoercionHole -&gt; TcM Coercion
+unpackCoercionHole hole
+  = do { contents &lt;- unpackCoercionHole_maybe hole
+       ; case contents of
+           Just co -&gt; return co
+           Nothing -&gt; pprPanic &quot;Unfilled coercion hole&quot; (ppr hole) }
+
+-- | Retrieve the contents of a coercion hole, if it is filled
+unpackCoercionHole_maybe :: CoercionHole -&gt; TcM (Maybe Coercion)
+unpackCoercionHole_maybe (CoercionHole { ch_ref = ref }) = readTcRef ref
+
+-- | Check that a coercion is appropriate for filling a hole. (The hole
+-- itself is needed only for printing. NB: This must be /lazy/ in the coercion,
+-- as it's used in TcHsSyn in the presence of knots.
+-- Always returns the checked coercion, but this return value is necessary
+-- so that the input coercion is forced only when the output is forced.
+checkCoercionHole :: CoVar -&gt; Coercion -&gt; TcM Coercion
+checkCoercionHole cv co
+  | debugIsOn
+  = do { cv_ty &lt;- zonkTcType (varType cv)
+                  -- co is already zonked, but cv might not be
+       ; return $
+         ASSERT2( ok cv_ty
+                , (text &quot;Bad coercion hole&quot; &lt;+&gt;
+                   ppr cv &lt;&gt; colon &lt;+&gt; vcat [ ppr t1, ppr t2, ppr role
+                                            , ppr cv_ty ]) )
+         co }
+  | otherwise
+  = return co
+
+  where
+    (Pair t1 t2, role) = coercionKindRole co
+    ok cv_ty | EqPred cv_rel cv_t1 cv_t2 &lt;- classifyPredType cv_ty
+             =  t1 `eqType` cv_t1
+             &amp;&amp; t2 `eqType` cv_t2
+             &amp;&amp; role == eqRelRole cv_rel
+             | otherwise
+             = False
+
+{-
+************************************************************************
+*
+    Expected types
+*
+************************************************************************
+
+Note [ExpType]
+~~~~~~~~~~~~~~
+
+An ExpType is used as the &quot;expected type&quot; when type-checking an expression.
+An ExpType can hold a &quot;hole&quot; that can be filled in by the type-checker.
+This allows us to have one tcExpr that works in both checking mode and
+synthesis mode (that is, bidirectional type-checking). Previously, this
+was achieved by using ordinary unification variables, but we don't need
+or want that generality. (For example, #11397 was caused by doing the
+wrong thing with unification variables.) Instead, we observe that these
+holes should
+
+1. never be nested
+2. never appear as the type of a variable
+3. be used linearly (never be duplicated)
+
+By defining ExpType, separately from Type, we can achieve goals 1 and 2
+statically.
+
+See also [wiki:Typechecking]
+
+Note [TcLevel of ExpType]
+~~~~~~~~~~~~~~~~~~~~~~~~~
+Consider
+
+  data G a where
+    MkG :: G Bool
+
+  foo MkG = True
+
+This is a classic untouchable-variable / ambiguous GADT return type
+scenario. But, with ExpTypes, we'll be inferring the type of the RHS.
+And, because there is only one branch of the case, we won't trigger
+Note [Case branches must never infer a non-tau type] of TcMatches.
+We thus must track a TcLevel in an Inferring ExpType. If we try to
+fill the ExpType and find that the TcLevels don't work out, we
+fill the ExpType with a tau-tv at the low TcLevel, hopefully to
+be worked out later by some means. This is triggered in
+test gadt/gadt-escape1.
+
+-}
+
+-- actual data definition is in TcType
+
+-- | Make an 'ExpType' suitable for inferring a type of kind * or #.
+newInferExpTypeNoInst :: TcM ExpSigmaType
+newInferExpTypeNoInst = newInferExpType False
+
+newInferExpTypeInst :: TcM ExpRhoType
+newInferExpTypeInst = newInferExpType True
+
+newInferExpType :: Bool -&gt; TcM ExpType
+newInferExpType inst
+  = do { u &lt;- newUnique
+       ; tclvl &lt;- getTcLevel
+       ; traceTc &quot;newOpenInferExpType&quot; (ppr u &lt;+&gt; ppr inst &lt;+&gt; ppr tclvl)
+       ; ref &lt;- newMutVar Nothing
+       ; return (Infer (IR { ir_uniq = u, ir_lvl = tclvl
+                           , ir_ref = ref, ir_inst = inst })) }
+
+-- | Extract a type out of an ExpType, if one exists. But one should always
+-- exist. Unless you're quite sure you know what you're doing.
+readExpType_maybe :: ExpType -&gt; TcM (Maybe TcType)
+readExpType_maybe (Check ty)                   = return (Just ty)
+readExpType_maybe (Infer (IR { ir_ref = ref})) = readMutVar ref
+
+-- | Extract a type out of an ExpType. Otherwise, panics.
+readExpType :: ExpType -&gt; TcM TcType
+readExpType exp_ty
+  = do { mb_ty &lt;- readExpType_maybe exp_ty
+       ; case mb_ty of
+           Just ty -&gt; return ty
+           Nothing -&gt; pprPanic &quot;Unknown expected type&quot; (ppr exp_ty) }
+
+-- | Returns the expected type when in checking mode.
+checkingExpType_maybe :: ExpType -&gt; Maybe TcType
+checkingExpType_maybe (Check ty) = Just ty
+checkingExpType_maybe _          = Nothing
+
+-- | Returns the expected type when in checking mode. Panics if in inference
+-- mode.
+checkingExpType :: String -&gt; ExpType -&gt; TcType
+checkingExpType _   (Check ty) = ty
+checkingExpType err et         = pprPanic &quot;checkingExpType&quot; (text err $$ ppr et)
+
+tauifyExpType :: ExpType -&gt; TcM ExpType
+-- ^ Turn a (Infer hole) type into a (Check alpha),
+-- where alpha is a fresh unification variable
+tauifyExpType (Check ty)      = return (Check ty)  -- No-op for (Check ty)
+tauifyExpType (Infer inf_res) = do { ty &lt;- inferResultToType inf_res
+                                   ; return (Check ty) }
+
+-- | Extracts the expected type if there is one, or generates a new
+-- TauTv if there isn't.
+expTypeToType :: ExpType -&gt; TcM TcType
+expTypeToType (Check ty)      = return ty
+expTypeToType (Infer inf_res) = inferResultToType inf_res
+
+inferResultToType :: InferResult -&gt; TcM Type
+inferResultToType (IR { ir_uniq = u, ir_lvl = tc_lvl
+                      , ir_ref = ref })
+  = do { rr  &lt;- newMetaTyVarTyAtLevel tc_lvl runtimeRepTy
+       ; tau &lt;- newMetaTyVarTyAtLevel tc_lvl (tYPE rr)
+             -- See Note [TcLevel of ExpType]
+       ; writeMutVar ref (Just tau)
+       ; traceTc &quot;Forcing ExpType to be monomorphic:&quot;
+                 (ppr u &lt;+&gt; text &quot;:=&quot; &lt;+&gt; ppr tau)
+       ; return tau }
+
+
+{- *********************************************************************
+*                                                                      *
+        SkolemTvs (immutable)
+*                                                                      *
+********************************************************************* -}
+
+tcInstType :: ([TyVar] -&gt; TcM (TCvSubst, [TcTyVar]))
+                   -- ^ How to instantiate the type variables
+           -&gt; Id                                            -- ^ Type to instantiate
+           -&gt; TcM ([(Name, TcTyVar)], TcThetaType, TcType)  -- ^ Result
+                -- (type vars, preds (incl equalities), rho)
+tcInstType inst_tyvars id
+  = case tcSplitForAllTys (idType id) of
+        ([],    rho) -&gt; let     -- There may be overloading despite no type variables;
+                                --      (?x :: Int) =&gt; Int -&gt; Int
+                                (theta, tau) = tcSplitPhiTy rho
+                            in
+                            return ([], theta, tau)
+
+        (tyvars, rho) -&gt; do { (subst, tyvars') &lt;- inst_tyvars tyvars
+                            ; let (theta, tau) = tcSplitPhiTy (substTyAddInScope subst rho)
+                                  tv_prs       = map tyVarName tyvars `zip` tyvars'
+                            ; return (tv_prs, theta, tau) }
+
+tcSkolDFunType :: DFunId -&gt; TcM ([TcTyVar], TcThetaType, TcType)
+-- Instantiate a type signature with skolem constants.
+-- We could give them fresh names, but no need to do so
+tcSkolDFunType dfun
+  = do { (tv_prs, theta, tau) &lt;- tcInstType tcInstSuperSkolTyVars dfun
+       ; return (map snd tv_prs, theta, tau) }
+
+tcSuperSkolTyVars :: [TyVar] -&gt; (TCvSubst, [TcTyVar])
+-- Make skolem constants, but do *not* give them new names, as above
+-- Moreover, make them &quot;super skolems&quot;; see comments with superSkolemTv
+-- see Note [Kind substitution when instantiating]
+-- Precondition: tyvars should be ordered by scoping
+tcSuperSkolTyVars = mapAccumL tcSuperSkolTyVar emptyTCvSubst
+
+tcSuperSkolTyVar :: TCvSubst -&gt; TyVar -&gt; (TCvSubst, TcTyVar)
+tcSuperSkolTyVar subst tv
+  = (extendTvSubstWithClone subst tv new_tv, new_tv)
+  where
+    kind   = substTyUnchecked subst (tyVarKind tv)
+    new_tv = mkTcTyVar (tyVarName tv) kind superSkolemTv
+
+-- | Given a list of @['TyVar']@, skolemize the type variables,
+-- returning a substitution mapping the original tyvars to the
+-- skolems, and the list of newly bound skolems.  See also
+-- tcInstSkolTyVars' for a precondition.  The resulting
+-- skolems are non-overlappable; see Note [Overlap and deriving]
+-- for an example where this matters.
+tcInstSkolTyVars :: [TyVar] -&gt; TcM (TCvSubst, [TcTyVar])
+tcInstSkolTyVars = tcInstSkolTyVarsX emptyTCvSubst
+
+tcInstSkolTyVarsX :: TCvSubst -&gt; [TyVar] -&gt; TcM (TCvSubst, [TcTyVar])
+tcInstSkolTyVarsX = tcInstSkolTyVars' False
+
+tcInstSuperSkolTyVars :: [TyVar] -&gt; TcM (TCvSubst, [TcTyVar])
+tcInstSuperSkolTyVars = tcInstSuperSkolTyVarsX emptyTCvSubst
+
+tcInstSuperSkolTyVarsX :: TCvSubst -&gt; [TyVar] -&gt; TcM (TCvSubst, [TcTyVar])
+tcInstSuperSkolTyVarsX subst = tcInstSkolTyVars' True subst
+
+tcInstSkolTyVars' :: Bool -&gt; TCvSubst -&gt; [TyVar] -&gt; TcM (TCvSubst, [TcTyVar])
+-- Precondition: tyvars should be ordered (kind vars first)
+-- see Note [Kind substitution when instantiating]
+-- Get the location from the monad; this is a complete freshening operation
+tcInstSkolTyVars' overlappable subst tvs
+  = do { loc &lt;- getSrcSpanM
+       ; lvl &lt;- getTcLevel
+       ; instSkolTyCoVarsX (mkTcSkolTyVar lvl loc overlappable) subst tvs }
+
+mkTcSkolTyVar :: TcLevel -&gt; SrcSpan -&gt; Bool -&gt; TcTyCoVarMaker gbl lcl
+mkTcSkolTyVar lvl loc overlappable old_name kind
+  = do { uniq &lt;- newUnique
+       ; let name = mkInternalName uniq (getOccName old_name) loc
+       ; return (mkTcTyVar name kind details) }
+  where
+    details = SkolemTv (pushTcLevel lvl) overlappable
+              -- NB: skolems bump the level
+
+------------------
+freshenTyVarBndrs :: [TyVar] -&gt; TcRnIf gbl lcl (TCvSubst, [TyVar])
+-- ^ Give fresh uniques to a bunch of TyVars, but they stay
+--   as TyVars, rather than becoming TcTyVars
+-- Used in FamInst.newFamInst, and Inst.newClsInst
+freshenTyVarBndrs = instSkolTyCoVars mk_tv
+  where
+    mk_tv old_name kind
+       = do { uniq &lt;- newUnique
+            ; return (mkTyVar (setNameUnique old_name uniq) kind) }
+
+freshenCoVarBndrsX :: TCvSubst -&gt; [CoVar] -&gt; TcRnIf gbl lcl (TCvSubst, [CoVar])
+-- ^ Give fresh uniques to a bunch of CoVars
+-- Used in FamInst.newFamInst
+freshenCoVarBndrsX subst = instSkolTyCoVarsX mk_cv subst
+  where
+    mk_cv old_name kind
+      = do { uniq &lt;- newUnique
+           ; return (mkCoVar (setNameUnique old_name uniq) kind) }
+
+------------------
+type TcTyCoVarMaker gbl lcl = Name -&gt; Kind -&gt; TcRnIf gbl lcl TyCoVar
+     -- The TcTyCoVarMaker should make a fresh Name, based on the old one
+     -- Freshness is critical. See Note [Skolems in zonkSyntaxExpr] in TcHsSyn
+
+instSkolTyCoVars :: TcTyCoVarMaker gbl lcl -&gt; [TyVar] -&gt; TcRnIf gbl lcl (TCvSubst, [TyCoVar])
+instSkolTyCoVars mk_tcv = instSkolTyCoVarsX mk_tcv emptyTCvSubst
+
+instSkolTyCoVarsX :: TcTyCoVarMaker gbl lcl
+                  -&gt; TCvSubst -&gt; [TyCoVar] -&gt; TcRnIf gbl lcl (TCvSubst, [TyCoVar])
+instSkolTyCoVarsX mk_tcv = mapAccumLM (instSkolTyCoVarX mk_tcv)
+
+instSkolTyCoVarX :: TcTyCoVarMaker gbl lcl
+                 -&gt; TCvSubst -&gt; TyCoVar -&gt; TcRnIf gbl lcl (TCvSubst, TyCoVar)
+instSkolTyCoVarX mk_tcv subst tycovar
+  = do  { new_tcv &lt;- mk_tcv old_name kind
+        ; let subst1 | isTyVar new_tcv
+                     = extendTvSubstWithClone subst tycovar new_tcv
+                     | otherwise
+                     = extendCvSubstWithClone subst tycovar new_tcv
+        ; return (subst1, new_tcv) }
+  where
+    old_name = tyVarName tycovar
+    kind     = substTyUnchecked subst (tyVarKind tycovar)
+
+newFskTyVar :: TcType -&gt; TcM TcTyVar
+newFskTyVar fam_ty
+  = do { uniq &lt;- newUnique
+       ; ref  &lt;- newMutVar Flexi
+       ; let details = MetaTv { mtv_info  = FlatSkolTv
+                              , mtv_ref   = ref
+                              , mtv_tclvl = fmvTcLevel }
+             name = mkMetaTyVarName uniq (fsLit &quot;fsk&quot;)
+       ; return (mkTcTyVar name (typeKind fam_ty) details) }
+
+{-
+Note [Kind substitution when instantiating]
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+When we instantiate a bunch of kind and type variables, first we
+expect them to be topologically sorted.
+Then we have to instantiate the kind variables, build a substitution
+from old variables to the new variables, then instantiate the type
+variables substituting the original kind.
+
+Exemple: If we want to instantiate
+  [(k1 :: *), (k2 :: *), (a :: k1 -&gt; k2), (b :: k1)]
+we want
+  [(?k1 :: *), (?k2 :: *), (?a :: ?k1 -&gt; ?k2), (?b :: ?k1)]
+instead of the buggous
+  [(?k1 :: *), (?k2 :: *), (?a :: k1 -&gt; k2), (?b :: k1)]
+
+
+************************************************************************
+*                                                                      *
+        MetaTvs (meta type variables; mutable)
+*                                                                      *
+************************************************************************
+-}
+
+newSigTyVar :: Name -&gt; Kind -&gt; TcM TcTyVar
+newSigTyVar name kind
+  = do { details &lt;- newMetaDetails SigTv
+       ; return (mkTcTyVar name kind details) }
+
+newFmvTyVar :: TcType -&gt; TcM TcTyVar
+-- Very like newMetaTyVar, except sets mtv_tclvl to one less
+-- so that the fmv is untouchable.
+newFmvTyVar fam_ty
+  = do { uniq &lt;- newUnique
+       ; ref  &lt;- newMutVar Flexi
+       ; let details = MetaTv { mtv_info  = FlatMetaTv
+                              , mtv_ref   = ref
+                              , mtv_tclvl = fmvTcLevel }
+             name = mkMetaTyVarName uniq (fsLit &quot;s&quot;)
+       ; return (mkTcTyVar name (typeKind fam_ty) details) }
+
+newMetaDetails :: MetaInfo -&gt; TcM TcTyVarDetails
+newMetaDetails info
+  = do { ref &lt;- newMutVar Flexi
+       ; tclvl &lt;- getTcLevel
+       ; return (MetaTv { mtv_info = info
+                        , mtv_ref = ref
+                        , mtv_tclvl = tclvl }) }
+
+cloneMetaTyVar :: TcTyVar -&gt; TcM TcTyVar
+cloneMetaTyVar tv
+  = ASSERT( isTcTyVar tv )
+    do  { uniq &lt;- newUnique
+        ; ref  &lt;- newMutVar Flexi
+        ; let name'    = setNameUnique (tyVarName tv) uniq
+              details' = case tcTyVarDetails tv of
+                           details@(MetaTv {}) -&gt; details { mtv_ref = ref }
+                           _ -&gt; pprPanic &quot;cloneMetaTyVar&quot; (ppr tv)
+        ; return (mkTcTyVar name' (tyVarKind tv) details') }
+
+-- Works for both type and kind variables
+readMetaTyVar :: TyVar -&gt; TcM MetaDetails
+readMetaTyVar tyvar = ASSERT2( isMetaTyVar tyvar, ppr tyvar )
+                      readMutVar (metaTyVarRef tyvar)
+
+isFilledMetaTyVar :: TyVar -&gt; TcM Bool
+-- True of a filled-in (Indirect) meta type variable
+isFilledMetaTyVar tv
+  | MetaTv { mtv_ref = ref } &lt;- tcTyVarDetails tv
+  = do  { details &lt;- readMutVar ref
+        ; return (isIndirect details) }
+  | otherwise = return False
+
+isUnfilledMetaTyVar :: TyVar -&gt; TcM Bool
+-- True of a un-filled-in (Flexi) meta type variable
+isUnfilledMetaTyVar tv
+  | MetaTv { mtv_ref = ref } &lt;- tcTyVarDetails tv
+  = do  { details &lt;- readMutVar ref
+        ; return (isFlexi details) }
+  | otherwise = return False
+
+--------------------
+-- Works with both type and kind variables
+writeMetaTyVar :: TcTyVar -&gt; TcType -&gt; TcM ()
+-- Write into a currently-empty MetaTyVar
+
+writeMetaTyVar tyvar ty
+  | not debugIsOn
+  = writeMetaTyVarRef tyvar (metaTyVarRef tyvar) ty
+
+-- Everything from here on only happens if DEBUG is on
+  | not (isTcTyVar tyvar)
+  = WARN( True, text &quot;Writing to non-tc tyvar&quot; &lt;+&gt; ppr tyvar )
+    return ()
+
+  | MetaTv { mtv_ref = ref } &lt;- tcTyVarDetails tyvar
+  = writeMetaTyVarRef tyvar ref ty
+
+  | otherwise
+  = WARN( True, text &quot;Writing to non-meta tyvar&quot; &lt;+&gt; ppr tyvar )
+    return ()
+
+--------------------
+writeMetaTyVarRef :: TcTyVar -&gt; TcRef MetaDetails -&gt; TcType -&gt; TcM ()
+-- Here the tyvar is for error checking only;
+-- the ref cell must be for the same tyvar
+writeMetaTyVarRef tyvar ref ty
+  | not debugIsOn
+  = do { traceTc &quot;writeMetaTyVar&quot; (ppr tyvar &lt;+&gt; dcolon &lt;+&gt; ppr (tyVarKind tyvar)
+                                   &lt;+&gt; text &quot;:=&quot; &lt;+&gt; ppr ty)
+       ; writeTcRef ref (Indirect ty) }
+
+  -- Everything from here on only happens if DEBUG is on
+  | otherwise
+  = do { meta_details &lt;- readMutVar ref;
+       -- Zonk kinds to allow the error check to work
+       ; zonked_tv_kind &lt;- zonkTcType tv_kind
+       ; zonked_ty_kind &lt;- zonkTcType ty_kind
+       ; let kind_check_ok = isPredTy tv_kind  -- Don't check kinds for updates
+                                               -- to coercion variables.  Why not??
+                          || isConstraintKind zonked_tv_kind
+                          || tcEqKind zonked_ty_kind zonked_tv_kind
+             -- Hack alert! isConstraintKind: see TcHsType
+             -- Note [Extra-constraint holes in partial type signatures]
+
+             kind_msg = hang (text &quot;Ill-kinded update to meta tyvar&quot;)
+                           2 (    ppr tyvar &lt;+&gt; text &quot;::&quot; &lt;+&gt; (ppr tv_kind $$ ppr zonked_tv_kind)
+                              &lt;+&gt; text &quot;:=&quot;
+                              &lt;+&gt; ppr ty &lt;+&gt; text &quot;::&quot; &lt;+&gt; (ppr ty_kind $$ ppr zonked_ty_kind) )
+
+       ; traceTc &quot;writeMetaTyVar&quot; (ppr tyvar &lt;+&gt; text &quot;:=&quot; &lt;+&gt; ppr ty)
+
+       -- Check for double updates
+       ; MASSERT2( isFlexi meta_details, double_upd_msg meta_details )
+
+       -- Check for level OK
+       -- See Note [Level check when unifying]
+       ; MASSERT2( level_check_ok, level_check_msg )
+
+       -- Check Kinds ok
+       ; MASSERT2( kind_check_ok, kind_msg )
+
+       -- Do the write
+       ; writeMutVar ref (Indirect ty) }
+  where
+    tv_kind = tyVarKind tyvar
+    ty_kind = typeKind ty
+
+    tv_lvl = tcTyVarLevel tyvar
+    ty_lvl = tcTypeLevel ty
+
+    level_check_ok = isFlattenTyVar tyvar
+                  || not (ty_lvl `strictlyDeeperThan` tv_lvl)
+    level_check_msg = ppr ty_lvl $$ ppr tv_lvl $$ ppr tyvar $$ ppr ty
+
+    double_upd_msg details = hang (text &quot;Double update of meta tyvar&quot;)
+                                2 (ppr tyvar $$ ppr details)
+
+
+{- Note [Level check when unifying]
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+When unifying
+     alpha:lvl := ty
+we expect that the TcLevel of 'ty' will be &lt;= lvl.
+However, during unflatting we do
+     fuv:l := ty:(l+1)
+which is usually wrong; hence the check isFmmvTyVar in level_check_ok.
+See Note [TcLevel assignment] in TcType.
+-}
+
+{-
+% Generating fresh variables for pattern match check
+-}
+
+-- UNINSTANTIATED VERSION OF tcInstSkolTyCoVars
+genInstSkolTyVarsX :: SrcSpan -&gt; TCvSubst -&gt; [TyVar]
+                   -&gt; TcRnIf gbl lcl (TCvSubst, [TcTyVar])
+-- Precondition: tyvars should be scoping-ordered
+-- see Note [Kind substitution when instantiating]
+-- Get the location from the monad; this is a complete freshening operation
+genInstSkolTyVarsX loc subst tvs
+  = instSkolTyCoVarsX (mkTcSkolTyVar topTcLevel loc False) subst tvs
+
+{-
+************************************************************************
+*                                                                      *
+        MetaTvs: TauTvs
+*                                                                      *
+************************************************************************
+
+Note [Never need to instantiate coercion variables]
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+With coercion variables sloshing around in types, it might seem that we
+sometimes need to instantiate coercion variables. This would be problematic,
+because coercion variables inhabit unboxed equality (~#), and the constraint
+solver thinks in terms only of boxed equality (~). The solution is that
+we never need to instantiate coercion variables in the first place.
+
+The tyvars that we need to instantiate come from the types of functions,
+data constructors, and patterns. These will never be quantified over
+coercion variables, except for the special case of the promoted Eq#. But,
+that can't ever appear in user code, so we're safe!
+-}
+
+mkMetaTyVarName :: Unique -&gt; FastString -&gt; Name
+-- Makes a /System/ Name, which is eagerly eliminated by
+-- the unifier; see TcUnify.nicer_to_update_tv1, and
+-- TcCanonical.canEqTyVarTyVar (nicer_to_update_tv2)
+mkMetaTyVarName uniq str = mkSystemName uniq (mkTyVarOccFS str)
+
+newAnonMetaTyVar :: MetaInfo -&gt; Kind -&gt; TcM TcTyVar
+-- Make a new meta tyvar out of thin air
+newAnonMetaTyVar meta_info kind
+  = do  { uniq &lt;- newUnique
+        ; let name = mkMetaTyVarName uniq s
+              s = case meta_info of
+                        TauTv       -&gt; fsLit &quot;t&quot;
+                        FlatMetaTv  -&gt; fsLit &quot;fmv&quot;
+                        FlatSkolTv  -&gt; fsLit &quot;fsk&quot;
+                        SigTv       -&gt; fsLit &quot;a&quot;
+        ; details &lt;- newMetaDetails meta_info
+        ; return (mkTcTyVar name kind details) }
+
+cloneAnonMetaTyVar :: MetaInfo -&gt; TyVar -&gt; TcKind -&gt; TcM TcTyVar
+-- Same as newAnonMetaTyVar, but use a supplied TyVar as the source of the print-name
+cloneAnonMetaTyVar info tv kind
+  = do  { uniq    &lt;- newUnique
+        ; details &lt;- newMetaDetails info
+        ; let name = mkSystemName uniq (getOccName tv)
+                       -- See Note [Name of an instantiated type variable]
+        ; return (mkTcTyVar name kind details) }
+
+{- Note [Name of an instantiated type variable]
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+At the moment we give a unification variable a System Name, which
+influences the way it is tidied; see TypeRep.tidyTyVarBndr.
+-}
+
+newFlexiTyVar :: Kind -&gt; TcM TcTyVar
+newFlexiTyVar kind = newAnonMetaTyVar TauTv kind
+
+newFlexiTyVarTy :: Kind -&gt; TcM TcType
+newFlexiTyVarTy kind = do
+    tc_tyvar &lt;- newFlexiTyVar kind
+    return (mkTyVarTy tc_tyvar)
+
+newFlexiTyVarTys :: Int -&gt; Kind -&gt; TcM [TcType]
+newFlexiTyVarTys n kind = mapM newFlexiTyVarTy (nOfThem n kind)
+
+newOpenTypeKind :: TcM TcKind
+newOpenTypeKind
+  = do { rr &lt;- newFlexiTyVarTy runtimeRepTy
+       ; return (tYPE rr) }
+
+-- | Create a tyvar that can be a lifted or unlifted type.
+-- Returns alpha :: TYPE kappa, where both alpha and kappa are fresh
+newOpenFlexiTyVarTy :: TcM TcType
+newOpenFlexiTyVarTy
+  = do { kind &lt;- newOpenTypeKind
+       ; newFlexiTyVarTy kind }
+
+newMetaSigTyVars :: [TyVar] -&gt; TcM (TCvSubst, [TcTyVar])
+newMetaSigTyVars = mapAccumLM newMetaSigTyVarX emptyTCvSubst
+
+newMetaTyVars :: [TyVar] -&gt; TcM (TCvSubst, [TcTyVar])
+-- Instantiate with META type variables
+-- Note that this works for a sequence of kind, type, and coercion variables
+-- variables.  Eg    [ (k:*), (a:k-&gt;k) ]
+--             Gives [ (k7:*), (a8:k7-&gt;k7) ]
+newMetaTyVars = mapAccumLM newMetaTyVarX emptyTCvSubst
+    -- emptyTCvSubst has an empty in-scope set, but that's fine here
+    -- Since the tyvars are freshly made, they cannot possibly be
+    -- captured by any existing for-alls.
+
+newMetaTyVarX :: TCvSubst -&gt; TyVar -&gt; TcM (TCvSubst, TcTyVar)
+-- Make a new unification variable tyvar whose Name and Kind come from
+-- an existing TyVar. We substitute kind variables in the kind.
+newMetaTyVarX subst tyvar = new_meta_tv_x TauTv subst tyvar
+
+newMetaTyVarsX :: TCvSubst -&gt; [TyVar] -&gt; TcM (TCvSubst, [TcTyVar])
+-- Just like newMetaTyVars, but start with an existing substitution.
+newMetaTyVarsX subst = mapAccumLM newMetaTyVarX subst
+
+newMetaSigTyVarX :: TCvSubst -&gt; TyVar -&gt; TcM (TCvSubst, TcTyVar)
+-- Just like newMetaTyVarX, but make a SigTv
+newMetaSigTyVarX subst tyvar = new_meta_tv_x SigTv subst tyvar
+
+newWildCardX :: TCvSubst -&gt; TyVar -&gt; TcM (TCvSubst, TcTyVar)
+newWildCardX subst tv
+  = do { new_tv &lt;- newAnonMetaTyVar TauTv (substTy subst (tyVarKind tv))
+       ; return (extendTvSubstWithClone subst tv new_tv, new_tv) }
+
+new_meta_tv_x :: MetaInfo -&gt; TCvSubst -&gt; TyVar -&gt; TcM (TCvSubst, TcTyVar)
+new_meta_tv_x info subst tv
+  = do  { new_tv &lt;- cloneAnonMetaTyVar info tv substd_kind
+        ; let subst1 = extendTvSubstWithClone subst tv new_tv
+        ; return (subst1, new_tv) }
+  where
+    substd_kind = substTyUnchecked subst (tyVarKind tv)
+      -- NOTE: Trac #12549 is fixed so we could use
+      -- substTy here, but the tc_infer_args problem
+      -- is not yet fixed so leaving as unchecked for now.
+      -- OLD NOTE:
+      -- Unchecked because we call newMetaTyVarX from
+      -- tcInstBinder, which is called from tc_infer_args
+      -- which does not yet take enough trouble to ensure
+      -- the in-scope set is right; e.g. Trac #12785 trips
+      -- if we use substTy here
+
+newMetaTyVarTyAtLevel :: TcLevel -&gt; TcKind -&gt; TcM TcType
+newMetaTyVarTyAtLevel tc_lvl kind
+  = do  { uniq &lt;- newUnique
+        ; ref  &lt;- newMutVar Flexi
+        ; let name = mkMetaTyVarName uniq (fsLit &quot;p&quot;)
+              details = MetaTv { mtv_info  = TauTv
+                               , mtv_ref   = ref
+                               , mtv_tclvl = tc_lvl }
+        ; return (mkTyVarTy (mkTcTyVar name kind details)) }
+
+{- *********************************************************************
+*                                                                      *
+             Quantification
+*                                                                      *
+************************************************************************
+
+Note [quantifyTyVars]
+~~~~~~~~~~~~~~~~~~~~~
+quantifyTyVars is given the free vars of a type that we
+are about to wrap in a forall.
+
+It takes these free type/kind variables (partitioned into dependent and
+non-dependent variables) and
+  1. Zonks them and remove globals and covars
+  2. Extends kvs1 with free kind vars in the kinds of tvs (removing globals)
+  3. Calls zonkQuantifiedTyVar on each
+
+Step (2) is often unimportant, because the kind variable is often
+also free in the type.  Eg
+     Typeable k (a::k)
+has free vars {k,a}.  But the type (see Trac #7916)
+    (f::k-&gt;*) (a::k)
+has free vars {f,a}, but we must add 'k' as well! Hence step (3).
+
+* This function distinguishes between dependent and non-dependent
+  variables only to keep correct defaulting behavior with -XNoPolyKinds.
+  With -XPolyKinds, it treats both classes of variables identically.
+
+* quantifyTyVars never quantifies over
+    - a coercion variable
+    - a runtime-rep variable
+
+Note [quantifyTyVars determinism]
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+The results of quantifyTyVars are wrapped in a forall and can end up in the
+interface file. One such example is inferred type signatures. They also affect
+the results of optimizations, for example worker-wrapper. This means that to
+get deterministic builds quantifyTyVars needs to be deterministic.
+
+To achieve this CandidatesQTvs is backed by deterministic sets which allows them
+to be later converted to a list in a deterministic order.
+
+For more information about deterministic sets see
+Note [Deterministic UniqFM] in UniqDFM.
+-}
+
+quantifyTyVars
+  :: TcTyCoVarSet     -- Global tvs; already zonked
+  -&gt; CandidatesQTvs   -- See Note [Dependent type variables] in TcType
+                      -- Already zonked
+  -&gt; TcM [TcTyVar]
+-- See Note [quantifyTyVars]
+-- Can be given a mixture of TcTyVars and TyVars, in the case of
+--   associated type declarations. Also accepts covars, but *never* returns any.
+
+quantifyTyVars gbl_tvs dvs@(DV{ dv_kvs = dep_tkvs, dv_tvs = nondep_tkvs })
+  = do { traceTc &quot;quantifyTyVars&quot; (vcat [ppr dvs, ppr gbl_tvs])
+       ; let dep_kvs = dVarSetElemsWellScoped $
+                       dep_tkvs `dVarSetMinusVarSet` gbl_tvs
+                       -- dVarSetElemsWellScoped: put the kind variables into
+                       --    well-scoped order.
+                       --    E.g.  [k, (a::k)] not the other way roud
+
+             nondep_tvs = dVarSetElems $
+                          (nondep_tkvs `minusDVarSet` dep_tkvs)
+                           `dVarSetMinusVarSet` gbl_tvs
+                 -- See Note [Dependent type variables] in TcType
+                 -- The `minus` dep_tkvs removes any kind-level vars
+                 --    e.g. T k (a::k)   Since k appear in a kind it'll
+                 --    be in dv_kvs, and is dependent. So remove it from
+                 --    dv_tvs which will also contain k
+                 -- No worry about dependent covars here;
+                 --    they are all in dep_tkvs
+                 -- No worry about scoping, because these are all
+                 --    type variables
+                 -- NB kinds of tvs are zonked by zonkTyCoVarsAndFV
+
+             -- In the non-PolyKinds case, default the kind variables
+             -- to *, and zonk the tyvars as usual.  Notice that this
+             -- may make quantifyTyVars return a shorter list
+             -- than it was passed, but that's ok
+       ; poly_kinds  &lt;- xoptM LangExt.PolyKinds
+       ; dep_kvs'    &lt;- mapMaybeM (zonk_quant (not poly_kinds)) dep_kvs
+       ; nondep_tvs' &lt;- mapMaybeM (zonk_quant False)            nondep_tvs
+       ; let final_qtvs = dep_kvs' ++ nondep_tvs'
+           -- Because of the order, any kind variables
+           -- mentioned in the kinds of the nondep_tvs'
+           -- now refer to the dep_kvs'
+
+       ; traceTc &quot;quantifyTyVars&quot;
+           (vcat [ text &quot;globals:&quot; &lt;+&gt; ppr gbl_tvs
+                 , text &quot;nondep:&quot;  &lt;+&gt; pprTyVars nondep_tvs
+                 , text &quot;dep:&quot;     &lt;+&gt; pprTyVars dep_kvs
+                 , text &quot;dep_kvs'&quot; &lt;+&gt; pprTyVars dep_kvs'
+                 , text &quot;nondep_tvs'&quot; &lt;+&gt; pprTyVars nondep_tvs' ])
+
+       -- We should never quantify over coercion variables; check this
+       ; let co_vars = filter isCoVar final_qtvs
+       ; MASSERT2( null co_vars, ppr co_vars )
+
+       ; return final_qtvs }
+  where
+    -- zonk_quant returns a tyvar if it should be quantified over;
+    -- otherwise, it returns Nothing. The latter case happens for
+    --    * Kind variables, with -XNoPolyKinds: don't quantify over these
+    --    * RuntimeRep variables: we never quantify over these
+    zonk_quant default_kind tkv
+      | not (isTcTyVar tkv)
+      = return (Just tkv)  -- For associated types, we have the class variables
+                           -- in scope, and they are TyVars not TcTyVars
+      | otherwise
+      = do { deflt_done &lt;- defaultTyVar default_kind tkv
+           ; case deflt_done of
+               True  -&gt; return Nothing
+               False -&gt; do { tv &lt;- zonkQuantifiedTyVar tkv
+                           ; return (Just tv) } }
+
+zonkQuantifiedTyVar :: TcTyVar -&gt; TcM TcTyVar
+-- The quantified type variables often include meta type variables
+-- we want to freeze them into ordinary type variables
+-- The meta tyvar is updated to point to the new skolem TyVar.  Now any
+-- bound occurrences of the original type variable will get zonked to
+-- the immutable version.
+--
+-- We leave skolem TyVars alone; they are immutable.
+--
+-- This function is called on both kind and type variables,
+-- but kind variables *only* if PolyKinds is on.
+
+zonkQuantifiedTyVar tv
+  = case tcTyVarDetails tv of
+      SkolemTv {} -&gt; do { kind &lt;- zonkTcType (tyVarKind tv)
+                        ; return (setTyVarKind tv kind) }
+        -- It might be a skolem type variable,
+        -- for example from a user type signature
+
+      MetaTv {} -&gt; skolemiseUnboundMetaTyVar tv
+
+      _other -&gt; pprPanic &quot;zonkQuantifiedTyVar&quot; (ppr tv) -- RuntimeUnk
+
+defaultTyVar :: Bool      -- True &lt;=&gt; please default this kind variable to *
+             -&gt; TcTyVar   -- If it's a MetaTyVar then it is unbound
+             -&gt; TcM Bool  -- True &lt;=&gt; defaulted away altogether
+
+defaultTyVar default_kind tv
+  | not (isMetaTyVar tv)
+  = return False
+
+  | isSigTyVar tv
+    -- Do not default SigTvs. Doing so would violate the invariants
+    -- on SigTvs; see Note [Signature skolems] in TcType.
+    -- Trac #13343 is an example; #14555 is another
+    -- See Note [Kind generalisation and SigTvs]
+  = return False
+
+
+  | isRuntimeRepVar tv  -- Do not quantify over a RuntimeRep var
+                        -- unless it is a SigTv, handled earlier
+  = do { traceTc &quot;Defaulting a RuntimeRep var to LiftedRep&quot; (ppr tv)
+       ; writeMetaTyVar tv liftedRepTy
+       ; return True }
+
+  | default_kind                 -- -XNoPolyKinds and this is a kind var
+  = do { default_kind_var tv     -- so default it to * if possible
+       ; return True }
+
+  | otherwise
+  = return False
+
+  where
+    default_kind_var :: TyVar -&gt; TcM ()
+       -- defaultKindVar is used exclusively with -XNoPolyKinds
+       -- See Note [Defaulting with -XNoPolyKinds]
+       -- It takes an (unconstrained) meta tyvar and defaults it.
+       -- Works only on vars of type *; for other kinds, it issues an error.
+    default_kind_var kv
+      | isStarKind (tyVarKind kv)
+      = do { traceTc &quot;Defaulting a kind var to *&quot; (ppr kv)
+           ; writeMetaTyVar kv liftedTypeKind }
+      | otherwise
+      = addErr (vcat [ text &quot;Cannot default kind variable&quot; &lt;+&gt; quotes (ppr kv')
+                     , text &quot;of kind:&quot; &lt;+&gt; ppr (tyVarKind kv')
+                     , text &quot;Perhaps enable PolyKinds or add a kind signature&quot; ])
+      where
+        (_, kv') = tidyOpenTyCoVar emptyTidyEnv kv
+
+skolemiseRuntimeUnk :: TcTyVar -&gt; TcM TyVar
+skolemiseRuntimeUnk tv
+  = skolemise_tv tv RuntimeUnk
+
+skolemiseUnboundMetaTyVar :: TcTyVar -&gt; TcM TyVar
+skolemiseUnboundMetaTyVar tv
+  = skolemise_tv tv (SkolemTv (metaTyVarTcLevel tv) False)
+
+skolemise_tv :: TcTyVar -&gt; TcTyVarDetails -&gt; TcM TyVar
+-- We have a Meta tyvar with a ref-cell inside it
+-- Skolemise it, so that
+--   we are totally out of Meta-tyvar-land
+-- We create a skolem TyVar, not a regular TyVar
+--   See Note [Zonking to Skolem]
+skolemise_tv tv details
+  = ASSERT2( isMetaTyVar tv, ppr tv )
+    do  { when debugIsOn (check_empty tv)
+        ; span &lt;- getSrcSpanM    -- Get the location from &quot;here&quot;
+                                 -- ie where we are generalising
+        ; kind &lt;- zonkTcType (tyVarKind tv)
+        ; let uniq        = getUnique tv
+                -- NB: Use same Unique as original tyvar. This is
+                -- important for TcHsType.splitTelescopeTvs to work properly
+
+              tv_name     = getOccName tv
+              final_name  = mkInternalName uniq tv_name span
+              final_tv    = mkTcTyVar final_name kind details
+
+        ; traceTc &quot;Skolemising&quot; (ppr tv &lt;+&gt; text &quot;:=&quot; &lt;+&gt; ppr final_tv)
+        ; writeMetaTyVar tv (mkTyVarTy final_tv)
+        ; return final_tv }
+
+  where
+    check_empty tv       -- [Sept 04] Check for non-empty.
+      = when debugIsOn $  -- See note [Silly Type Synonym]
+        do { cts &lt;- readMetaTyVar tv
+           ; case cts of
+               Flexi       -&gt; return ()
+               Indirect ty -&gt; WARN( True, ppr tv $$ ppr ty )
+                              return () }
+
+{- Note [Defaulting with -XNoPolyKinds]
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Consider
+
+  data Compose f g a = Mk (f (g a))
+
+We infer
+
+  Compose :: forall k1 k2. (k2 -&gt; *) -&gt; (k1 -&gt; k2) -&gt; k1 -&gt; *
+  Mk :: forall k1 k2 (f :: k2 -&gt; *) (g :: k1 -&gt; k2) (a :: k1).
+        f (g a) -&gt; Compose k1 k2 f g a
+
+Now, in another module, we have -XNoPolyKinds -XDataKinds in effect.
+What does 'Mk mean? Pre GHC-8.0 with -XNoPolyKinds,
+we just defaulted all kind variables to *. But that's no good here,
+because the kind variables in 'Mk aren't of kind *, so defaulting to *
+is ill-kinded.
+
+After some debate on #11334, we decided to issue an error in this case.
+The code is in defaultKindVar.
+
+Note [What is a meta variable?]
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+A &quot;meta type-variable&quot;, also know as a &quot;unification variable&quot; is a placeholder
+introduced by the typechecker for an as-yet-unknown monotype.
+
+For example, when we see a call `reverse (f xs)`, we know that we calling
+    reverse :: forall a. [a] -&gt; [a]
+So we know that the argument `f xs` must be a &quot;list of something&quot;. But what is
+the &quot;something&quot;? We don't know until we explore the `f xs` a bit more. So we set
+out what we do know at the call of `reverse` by instantiate its type with a fresh
+meta tyvar, `alpha` say. So now the type of the argument `f xs`, and of the
+result, is `[alpha]`. The unification variable `alpha` stands for the
+as-yet-unknown type of the elements of the list.
+
+As type inference progresses we may learn more about `alpha`. For example, suppose
+`f` has the type
+    f :: forall b. b -&gt; [Maybe b]
+Then we instantiate `f`'s type with another fresh unification variable, say
+`beta`; and equate `f`'s result type with reverse's argument type, thus
+`[alpha] ~ [Maybe beta]`.
+
+Now we can solve this equality to learn that `alpha ~ Maybe beta`, so we've
+refined our knowledge about `alpha`. And so on.
+
+If you found this Note useful, you may also want to have a look at
+Section 5 of &quot;Practical type inference for higher rank types&quot; (Peyton Jones,
+Vytiniotis, Weirich and Shields. J. Functional Programming. 2011).
+
+Note [What is zonking?]
+~~~~~~~~~~~~~~~~~~~~~~~
+GHC relies heavily on mutability in the typechecker for efficient operation.
+For this reason, throughout much of the type checking process meta type
+variables (the MetaTv constructor of TcTyVarDetails) are represented by mutable
+variables (known as TcRefs).
+
+Zonking is the process of ripping out these mutable variables and replacing them
+with a real Type. This involves traversing the entire type expression, but the
+interesting part of replacing the mutable variables occurs in zonkTyVarOcc.
+
+There are two ways to zonk a Type:
+
+ * zonkTcTypeToType, which is intended to be used at the end of type-checking
+   for the final zonk. It has to deal with unfilled metavars, either by filling
+   it with a value like Any or failing (determined by the UnboundTyVarZonker
+   used).
+
+ * zonkTcType, which will happily ignore unfilled metavars. This is the
+   appropriate function to use while in the middle of type-checking.
+
+Note [Zonking to Skolem]
+~~~~~~~~~~~~~~~~~~~~~~~~
+We used to zonk quantified type variables to regular TyVars.  However, this
+leads to problems.  Consider this program from the regression test suite:
+
+  eval :: Int -&gt; String -&gt; String -&gt; String
+  eval 0 root actual = evalRHS 0 root actual
+
+  evalRHS :: Int -&gt; a
+  evalRHS 0 root actual = eval 0 root actual
+
+It leads to the deferral of an equality (wrapped in an implication constraint)
+
+  forall a. () =&gt; ((String -&gt; String -&gt; String) ~ a)
+
+which is propagated up to the toplevel (see TcSimplify.tcSimplifyInferCheck).
+In the meantime `a' is zonked and quantified to form `evalRHS's signature.
+This has the *side effect* of also zonking the `a' in the deferred equality
+(which at this point is being handed around wrapped in an implication
+constraint).
+
+Finally, the equality (with the zonked `a') will be handed back to the
+simplifier by TcRnDriver.tcRnSrcDecls calling TcSimplify.tcSimplifyTop.
+If we zonk `a' with a regular type variable, we will have this regular type
+variable now floating around in the simplifier, which in many places assumes to
+only see proper TcTyVars.
+
+We can avoid this problem by zonking with a skolem.  The skolem is rigid
+(which we require for a quantified variable), but is still a TcTyVar that the
+simplifier knows how to deal with.
+
+Note [Silly Type Synonyms]
+~~~~~~~~~~~~~~~~~~~~~~~~~~
+Consider this:
+        type C u a = u  -- Note 'a' unused
+
+        foo :: (forall a. C u a -&gt; C u a) -&gt; u
+        foo x = ...
+
+        bar :: Num u =&gt; u
+        bar = foo (\t -&gt; t + t)
+
+* From the (\t -&gt; t+t) we get type  {Num d} =&gt;  d -&gt; d
+  where d is fresh.
+
+* Now unify with type of foo's arg, and we get:
+        {Num (C d a)} =&gt;  C d a -&gt; C d a
+  where a is fresh.
+
+* Now abstract over the 'a', but float out the Num (C d a) constraint
+  because it does not 'really' mention a.  (see exactTyVarsOfType)
+  The arg to foo becomes
+        \/\a -&gt; \t -&gt; t+t
+
+* So we get a dict binding for Num (C d a), which is zonked to give
+        a = ()
+  [Note Sept 04: now that we are zonking quantified type variables
+  on construction, the 'a' will be frozen as a regular tyvar on
+  quantification, so the floated dict will still have type (C d a).
+  Which renders this whole note moot; happily!]
+
+* Then the \/\a abstraction has a zonked 'a' in it.
+
+All very silly.   I think its harmless to ignore the problem.  We'll end up with
+a \/\a in the final result but all the occurrences of a will be zonked to ()
+
+************************************************************************
+*                                                                      *
+              Zonking types
+*                                                                      *
+************************************************************************
+
+-}
+
+-- | @tcGetGlobalTyCoVars@ returns a fully-zonked set of *scoped* tyvars free in
+-- the environment. To improve subsequent calls to the same function it writes
+-- the zonked set back into the environment. Note that this returns all
+-- variables free in anything (term-level or type-level) in scope. We thus
+-- don't have to worry about clashes with things that are not in scope, because
+-- if they are reachable, then they'll be returned here.
+tcGetGlobalTyCoVars :: TcM TcTyVarSet
+tcGetGlobalTyCoVars
+  = do { (TcLclEnv {tcl_tyvars = gtv_var}) &lt;- getLclEnv
+       ; gbl_tvs  &lt;- readMutVar gtv_var
+       ; gbl_tvs' &lt;- zonkTyCoVarsAndFV gbl_tvs
+       ; writeMutVar gtv_var gbl_tvs'
+       ; return gbl_tvs' }
+
+-- | Zonk a type without using the smart constructors; the result type
+-- is available for inspection within the type-checking knot.
+zonkTcTypeInKnot :: TcType -&gt; TcM TcType
+zonkTcTypeInKnot = mapType (zonkTcTypeMapper { tcm_smart = False }) ()
+
+zonkTcTypeAndFV :: TcType -&gt; TcM DTyCoVarSet
+-- Zonk a type and take its free variables
+-- With kind polymorphism it can be essential to zonk *first*
+-- so that we find the right set of free variables.  Eg
+--    forall k1. forall (a:k2). a
+-- where k2:=k1 is in the substitution.  We don't want
+-- k2 to look free in this type!
+-- NB: This might be called from within the knot, so don't use
+-- smart constructors. See Note [Type-checking inside the knot] in TcHsType
+zonkTcTypeAndFV ty
+  = tyCoVarsOfTypeDSet &lt;$&gt; zonkTcTypeInKnot ty
+
+-- | Zonk a type and call 'candidateQTyVarsOfType' on it.
+-- Works within the knot.
+zonkTcTypeAndSplitDepVars :: TcType -&gt; TcM CandidatesQTvs
+zonkTcTypeAndSplitDepVars ty
+  = candidateQTyVarsOfType &lt;$&gt; zonkTcTypeInKnot ty
+
+zonkTcTypesAndSplitDepVars :: [TcType] -&gt; TcM CandidatesQTvs
+zonkTcTypesAndSplitDepVars tys
+  = candidateQTyVarsOfTypes &lt;$&gt; mapM zonkTcTypeInKnot tys
+
+zonkTyCoVar :: TyCoVar -&gt; TcM TcType
+-- Works on TyVars and TcTyVars
+zonkTyCoVar tv | isTcTyVar tv = zonkTcTyVar tv
+               | isTyVar   tv = mkTyVarTy &lt;$&gt; zonkTyCoVarKind tv
+               | otherwise    = ASSERT2( isCoVar tv, ppr tv )
+                                mkCoercionTy . mkCoVarCo &lt;$&gt; zonkTyCoVarKind tv
+   -- Hackily, when typechecking type and class decls
+   -- we have TyVars in scopeadded (only) in
+   -- TcHsType.tcTyClTyVars, but it seems
+   -- painful to make them into TcTyVars there
+
+zonkTyCoVarsAndFV :: TyCoVarSet -&gt; TcM TyCoVarSet
+zonkTyCoVarsAndFV tycovars =
+  tyCoVarsOfTypes &lt;$&gt; mapM zonkTyCoVar (nonDetEltsUniqSet tycovars)
+  -- It's OK to use nonDetEltsUniqSet here because we immediately forget about
+  -- the ordering by turning it into a nondeterministic set and the order
+  -- of zonking doesn't matter for determinism.
+
+-- Takes a list of TyCoVars, zonks them and returns a
+-- deterministically ordered list of their free variables.
+zonkTyCoVarsAndFVList :: [TyCoVar] -&gt; TcM [TyCoVar]
+zonkTyCoVarsAndFVList tycovars =
+  tyCoVarsOfTypesList &lt;$&gt; mapM zonkTyCoVar tycovars
+
+zonkTcTyVars :: [TcTyVar] -&gt; TcM [TcType]
+zonkTcTyVars tyvars = mapM zonkTcTyVar tyvars
+
+-----------------  Types
+zonkTyCoVarKind :: TyCoVar -&gt; TcM TyCoVar
+zonkTyCoVarKind tv = do { kind' &lt;- zonkTcType (tyVarKind tv)
+                        ; return (setTyVarKind tv kind') }
+
+zonkTcTypes :: [TcType] -&gt; TcM [TcType]
+zonkTcTypes tys = mapM zonkTcType tys
+
+{-
+************************************************************************
+*                                                                      *
+              Zonking constraints
+*                                                                      *
+************************************************************************
+-}
+
+zonkImplication :: Implication -&gt; TcM Implication
+zonkImplication implic@(Implic { ic_skols  = skols
+                               , ic_given  = given
+                               , ic_wanted = wanted
+                               , ic_info   = info })
+  = do { skols'  &lt;- mapM zonkTcTyCoVarBndr skols  -- Need to zonk their kinds!
+                                                  -- as Trac #7230 showed
+       ; given'  &lt;- mapM zonkEvVar given
+       ; info'   &lt;- zonkSkolemInfo info
+       ; wanted' &lt;- zonkWCRec wanted
+       ; return (implic { ic_skols  = skols'
+                        , ic_given  = given'
+                        , ic_wanted = wanted'
+                        , ic_info   = info' }) }
+
+zonkEvVar :: EvVar -&gt; TcM EvVar
+zonkEvVar var = do { ty' &lt;- zonkTcType (varType var)
+                   ; return (setVarType var ty') }
+
+
+zonkWC :: WantedConstraints -&gt; TcM WantedConstraints
+zonkWC wc = zonkWCRec wc
+
+zonkWCRec :: WantedConstraints -&gt; TcM WantedConstraints
+zonkWCRec (WC { wc_simple = simple, wc_impl = implic })
+  = do { simple' &lt;- zonkSimples simple
+       ; implic' &lt;- mapBagM zonkImplication implic
+       ; return (WC { wc_simple = simple', wc_impl = implic' }) }
+
+zonkSimples :: Cts -&gt; TcM Cts
+zonkSimples cts = do { cts' &lt;- mapBagM zonkCt' cts
+                     ; traceTc &quot;zonkSimples done:&quot; (ppr cts')
+                     ; return cts' }
+
+zonkCt' :: Ct -&gt; TcM Ct
+zonkCt' ct = zonkCt ct
+
+{- Note [zonkCt behaviour]
+~~~~~~~~~~~~~~~~~~~~~~~~~~
+zonkCt tries to maintain the canonical form of a Ct.  For example,
+  - a CDictCan should stay a CDictCan;
+  - a CTyEqCan should stay a CTyEqCan (if the LHS stays as a variable.).
+  - a CHoleCan should stay a CHoleCan
+  - a CIrredCan should stay a CIrredCan with its cc_insol flag intact
+
+Why?, for example:
+- For CDictCan, the @TcSimplify.expandSuperClasses@ step, which runs after the
+  simple wanted and plugin loop, looks for @CDictCan@s. If a plugin is in use,
+  constraints are zonked before being passed to the plugin. This means if we
+  don't preserve a canonical form, @expandSuperClasses@ fails to expand
+  superclasses. This is what happened in Trac #11525.
+
+- For CHoleCan, once we forget that it's a hole, we can never recover that info.
+
+- For CIrredCan we want to see if a constraint is insoluble with insolubleWC
+
+NB: we do not expect to see any CFunEqCans, because zonkCt is only
+called on unflattened constraints.
+
+NB: Constraints are always re-flattened etc by the canonicaliser in
+@TcCanonical@ even if they come in as CDictCan. Only canonical constraints that
+are actually in the inert set carry all the guarantees. So it is okay if zonkCt
+creates e.g. a CDictCan where the cc_tyars are /not/ function free.
+-}
+
+zonkCt :: Ct -&gt; TcM Ct
+zonkCt ct@(CHoleCan { cc_ev = ev })
+  = do { ev' &lt;- zonkCtEvidence ev
+       ; return $ ct { cc_ev = ev' } }
+
+zonkCt ct@(CDictCan { cc_ev = ev, cc_tyargs = args })
+  = do { ev'   &lt;- zonkCtEvidence ev
+       ; args' &lt;- mapM zonkTcType args
+       ; return $ ct { cc_ev = ev', cc_tyargs = args' } }
+
+zonkCt ct@(CTyEqCan { cc_ev = ev, cc_tyvar = tv, cc_rhs = rhs })
+  = do { ev'    &lt;- zonkCtEvidence ev
+       ; tv_ty' &lt;- zonkTcTyVar tv
+       ; case getTyVar_maybe tv_ty' of
+           Just tv' -&gt; do { rhs' &lt;- zonkTcType rhs
+                          ; return ct { cc_ev    = ev'
+                                      , cc_tyvar = tv'
+                                      , cc_rhs   = rhs' } }
+           Nothing  -&gt; return (mkNonCanonical ev') }
+
+zonkCt ct@(CIrredCan { cc_ev = ev }) -- Preserve the cc_insol flag
+  = do { ev' &lt;- zonkCtEvidence ev
+       ; return (ct { cc_ev = ev' }) }
+
+zonkCt ct
+  = ASSERT( not (isCFunEqCan ct) )
+  -- We do not expect to see any CFunEqCans, because zonkCt is only called on
+  -- unflattened constraints.
+    do { fl' &lt;- zonkCtEvidence (cc_ev ct)
+       ; return (mkNonCanonical fl') }
+
+zonkCtEvidence :: CtEvidence -&gt; TcM CtEvidence
+zonkCtEvidence ctev@(CtGiven { ctev_pred = pred })
+  = do { pred' &lt;- zonkTcType pred
+       ; return (ctev { ctev_pred = pred'}) }
+zonkCtEvidence ctev@(CtWanted { ctev_pred = pred, ctev_dest = dest })
+  = do { pred' &lt;- zonkTcType pred
+       ; let dest' = case dest of
+                       EvVarDest ev -&gt; EvVarDest $ setVarType ev pred'
+                         -- necessary in simplifyInfer
+                       HoleDest h   -&gt; HoleDest h
+       ; return (ctev { ctev_pred = pred', ctev_dest = dest' }) }
+zonkCtEvidence ctev@(CtDerived { ctev_pred = pred })
+  = do { pred' &lt;- zonkTcType pred
+       ; return (ctev { ctev_pred = pred' }) }
+
+zonkSkolemInfo :: SkolemInfo -&gt; TcM SkolemInfo
+zonkSkolemInfo (SigSkol cx ty tv_prs)  = do { ty' &lt;- zonkTcType ty
+                                            ; return (SigSkol cx ty' tv_prs) }
+zonkSkolemInfo (InferSkol ntys) = do { ntys' &lt;- mapM do_one ntys
+                                     ; return (InferSkol ntys') }
+  where
+    do_one (n, ty) = do { ty' &lt;- zonkTcType ty; return (n, ty') }
+zonkSkolemInfo skol_info = return skol_info
+
+{-
+%************************************************************************
+%*                                                                      *
+\subsection{Zonking -- the main work-horses: zonkTcType, zonkTcTyVar}
+*                                                                      *
+*              For internal use only!                                  *
+*                                                                      *
+************************************************************************
+
+-}
+
+-- zonkId is used *during* typechecking just to zonk the Id's type
+zonkId :: TcId -&gt; TcM TcId
+zonkId id
+  = do { ty' &lt;- zonkTcType (idType id)
+       ; return (Id.setIdType id ty') }
+
+zonkCoVar :: CoVar -&gt; TcM CoVar
+zonkCoVar = zonkId
+
+-- | A suitable TyCoMapper for zonking a type inside the knot, and
+-- before all metavars are filled in.
+zonkTcTypeMapper :: TyCoMapper () TcM
+zonkTcTypeMapper = TyCoMapper
+  { tcm_smart = True
+  , tcm_tyvar = const zonkTcTyVar
+  , tcm_covar = const (\cv -&gt; mkCoVarCo &lt;$&gt; zonkTyCoVarKind cv)
+  , tcm_hole  = hole
+  , tcm_tybinder = \_env tv _vis -&gt; ((), ) &lt;$&gt; zonkTcTyCoVarBndr tv }
+  where
+    hole :: () -&gt; CoercionHole -&gt; TcM Coercion
+    hole _ hole@(CoercionHole { ch_ref = ref, ch_co_var = cv })
+      = do { contents &lt;- readTcRef ref
+           ; case contents of
+               Just co -&gt; do { co' &lt;- zonkCo co
+                             ; checkCoercionHole cv co' }
+               Nothing -&gt; do { cv' &lt;- zonkCoVar cv
+                             ; return $ HoleCo (hole { ch_co_var = cv' }) } }
+
+
+-- For unbound, mutable tyvars, zonkType uses the function given to it
+-- For tyvars bound at a for-all, zonkType zonks them to an immutable
+--      type variable and zonks the kind too
+zonkTcType :: TcType -&gt; TcM TcType
+zonkTcType = mapType zonkTcTypeMapper ()
+
+-- | &quot;Zonk&quot; a coercion -- really, just zonk any types in the coercion
+zonkCo :: Coercion -&gt; TcM Coercion
+zonkCo = mapCoercion zonkTcTypeMapper ()
+
+zonkTcTyCoVarBndr :: TcTyCoVar -&gt; TcM TcTyCoVar
+-- A tyvar binder is never a unification variable (MetaTv),
+-- rather it is always a skolems.  BUT it may have a kind
+-- that has not yet been zonked, and may include kind
+-- unification variables.
+zonkTcTyCoVarBndr tyvar
+    -- can't use isCoVar, because it looks at a TyCon. Argh.
+  = ASSERT2( isImmutableTyVar tyvar || (not $ isTyVar tyvar), pprTyVar tyvar )
+    updateTyVarKindM zonkTcType tyvar
+
+zonkTcTyVarBinder :: TyVarBndr TcTyVar vis -&gt; TcM (TyVarBndr TcTyVar vis)
+zonkTcTyVarBinder (TvBndr tv vis)
+  = do { tv' &lt;- zonkTcTyCoVarBndr tv
+       ; return (TvBndr tv' vis) }
+
+zonkTcTyVar :: TcTyVar -&gt; TcM TcType
+-- Simply look through all Flexis
+zonkTcTyVar tv
+  | isTcTyVar tv
+  = case tcTyVarDetails tv of
+      SkolemTv {}   -&gt; zonk_kind_and_return
+      RuntimeUnk {} -&gt; zonk_kind_and_return
+      MetaTv { mtv_ref = ref }
+         -&gt; do { cts &lt;- readMutVar ref
+               ; case cts of
+                    Flexi       -&gt; zonk_kind_and_return
+                    Indirect ty -&gt; zonkTcType ty }
+
+  | otherwise -- coercion variable
+  = zonk_kind_and_return
+  where
+    zonk_kind_and_return = do { z_tv &lt;- zonkTyCoVarKind tv
+                              ; return (mkTyVarTy z_tv) }
+
+-- Variant that assumes that any result of zonking is still a TyVar.
+-- Should be used only on skolems and SigTvs
+zonkTcTyVarToTyVar :: TcTyVar -&gt; TcM TcTyVar
+zonkTcTyVarToTyVar tv
+  = do { ty &lt;- zonkTcTyVar tv
+       ; return (tcGetTyVar &quot;zonkTcTyVarToVar&quot; ty) }
+
+zonkSigTyVarPairs :: [(Name,TcTyVar)] -&gt; TcM [(Name,TcTyVar)]
+zonkSigTyVarPairs prs
+  = mapM do_one prs
+  where
+    do_one (nm, tv) = do { tv' &lt;- zonkTcTyVarToTyVar tv
+                         ; return (nm, tv') }
+
+{-
+%************************************************************************
+%*                                                                      *
+                 Tidying
+*                                                                      *
+************************************************************************
+-}
+
+zonkTidyTcType :: TidyEnv -&gt; TcType -&gt; TcM (TidyEnv, TcType)
+zonkTidyTcType env ty = do { ty' &lt;- zonkTcType ty
+                           ; return (tidyOpenType env ty') }
+
+zonkTidyOrigin :: TidyEnv -&gt; CtOrigin -&gt; TcM (TidyEnv, CtOrigin)
+zonkTidyOrigin env (GivenOrigin skol_info)
+  = do { skol_info1 &lt;- zonkSkolemInfo skol_info
+       ; let skol_info2 = tidySkolemInfo env skol_info1
+       ; return (env, GivenOrigin skol_info2) }
+zonkTidyOrigin env orig@(TypeEqOrigin { uo_actual   = act
+                                      , uo_expected = exp })
+  = do { (env1, act') &lt;- zonkTidyTcType env  act
+       ; (env2, exp') &lt;- zonkTidyTcType env1 exp
+       ; return ( env2, orig { uo_actual   = act'
+                             , uo_expected = exp' }) }
+zonkTidyOrigin env (KindEqOrigin ty1 m_ty2 orig t_or_k)
+  = do { (env1, ty1')   &lt;- zonkTidyTcType env  ty1
+       ; (env2, m_ty2') &lt;- case m_ty2 of
+                             Just ty2 -&gt; second Just &lt;$&gt; zonkTidyTcType env1 ty2
+                             Nothing  -&gt; return (env1, Nothing)
+       ; (env3, orig')  &lt;- zonkTidyOrigin env2 orig
+       ; return (env3, KindEqOrigin ty1' m_ty2' orig' t_or_k) }
+zonkTidyOrigin env (FunDepOrigin1 p1 l1 p2 l2)
+  = do { (env1, p1') &lt;- zonkTidyTcType env  p1
+       ; (env2, p2') &lt;- zonkTidyTcType env1 p2
+       ; return (env2, FunDepOrigin1 p1' l1 p2' l2) }
+zonkTidyOrigin env (FunDepOrigin2 p1 o1 p2 l2)
+  = do { (env1, p1') &lt;- zonkTidyTcType env  p1
+       ; (env2, p2') &lt;- zonkTidyTcType env1 p2
+       ; (env3, o1') &lt;- zonkTidyOrigin env2 o1
+       ; return (env3, FunDepOrigin2 p1' o1' p2' l2) }
+zonkTidyOrigin env orig = return (env, orig)
+
+----------------
+tidyCt :: TidyEnv -&gt; Ct -&gt; Ct
+-- Used only in error reporting
+-- Also converts it to non-canonical
+tidyCt env ct
+  = case ct of
+     CHoleCan { cc_ev = ev }
+       -&gt; ct { cc_ev = tidy_ev env ev }
+     _ -&gt; mkNonCanonical (tidy_ev env (ctEvidence ct))
+  where
+    tidy_ev :: TidyEnv -&gt; CtEvidence -&gt; CtEvidence
+     -- NB: we do not tidy the ctev_evar field because we don't
+     --     show it in error messages
+    tidy_ev env ctev@(CtGiven { ctev_pred = pred })
+      = ctev { ctev_pred = tidyType env pred }
+    tidy_ev env ctev@(CtWanted { ctev_pred = pred })
+      = ctev { ctev_pred = tidyType env pred }
+    tidy_ev env ctev@(CtDerived { ctev_pred = pred })
+      = ctev { ctev_pred = tidyType env pred }
+
+----------------
+tidyEvVar :: TidyEnv -&gt; EvVar -&gt; EvVar
+tidyEvVar env var = setVarType var (tidyType env (varType var))
+
+----------------
+tidySkolemInfo :: TidyEnv -&gt; SkolemInfo -&gt; SkolemInfo
+tidySkolemInfo env (DerivSkol ty)         = DerivSkol (tidyType env ty)
+tidySkolemInfo env (SigSkol cx ty tv_prs) = tidySigSkol env cx ty tv_prs
+tidySkolemInfo env (InferSkol ids)        = InferSkol (mapSnd (tidyType env) ids)
+tidySkolemInfo env (UnifyForAllSkol ty)   = UnifyForAllSkol (tidyType env ty)
+tidySkolemInfo _   info                   = info
+
+tidySigSkol :: TidyEnv -&gt; UserTypeCtxt
+            -&gt; TcType -&gt; [(Name,TcTyVar)] -&gt; SkolemInfo
+-- We need to take special care when tidying SigSkol
+-- See Note [SigSkol SkolemInfo] in TcRnTypes
+tidySigSkol env cx ty tv_prs
+  = SigSkol cx (tidy_ty env ty) tv_prs'
+  where
+    tv_prs' = mapSnd (tidyTyVarOcc env) tv_prs
+    inst_env = mkNameEnv tv_prs'
+
+    tidy_ty env (ForAllTy (TvBndr tv vis) ty)
+      = ForAllTy (TvBndr tv' vis) (tidy_ty env' ty)
+      where
+        (env', tv') = tidy_tv_bndr env tv
+
+    tidy_ty env (FunTy arg res)
+      = FunTy (tidyType env arg) (tidy_ty env res)
+
+    tidy_ty env ty = tidyType env ty
+
+    tidy_tv_bndr :: TidyEnv -&gt; TyVar -&gt; (TidyEnv, TyVar)
+    tidy_tv_bndr env@(occ_env, subst) tv
+      | Just tv' &lt;- lookupNameEnv inst_env (tyVarName tv)
+      = ((occ_env, extendVarEnv subst tv tv'), tv')
+
+      | otherwise
+      = tidyTyCoVarBndr env tv
+
+-------------------------------------------------------------------------
+{-
+%************************************************************************
+%*                                                                      *
+             Levity polymorphism checks
+*                                                                      *
+************************************************************************
+
+See Note [Levity polymorphism checking] in DsMonad
+
+-}
+
+-- | According to the rules around representation polymorphism
+-- (see https://ghc.haskell.org/trac/ghc/wiki/NoSubKinds), no binder
+-- can have a representation-polymorphic type. This check ensures
+-- that we respect this rule. It is a bit regrettable that this error
+-- occurs in zonking, after which we should have reported all errors.
+-- But it's hard to see where else to do it, because this can be discovered
+-- only after all solving is done. And, perhaps most importantly, this
+-- isn't really a compositional property of a type system, so it's
+-- not a terrible surprise that the check has to go in an awkward spot.
+ensureNotLevPoly :: Type  -- its zonked type
+                 -&gt; SDoc  -- where this happened
+                 -&gt; TcM ()
+ensureNotLevPoly ty doc
+  = whenNoErrs $   -- sometimes we end up zonking bogus definitions of type
+                   -- forall a. a. See, for example, test ghci/scripts/T9140
+    checkForLevPoly doc ty
+
+  -- See Note [Levity polymorphism checking] in DsMonad
+checkForLevPoly :: SDoc -&gt; Type -&gt; TcM ()
+checkForLevPoly = checkForLevPolyX addErr
+
+checkForLevPolyX :: Monad m
+                 =&gt; (SDoc -&gt; m ())  -- how to report an error
+                 -&gt; SDoc -&gt; Type -&gt; m ()
+checkForLevPolyX add_err extra ty
+  | isTypeLevPoly ty
+  = add_err (formatLevPolyErr ty $$ extra)
+  | otherwise
+  = return ()
+
+formatLevPolyErr :: Type  -- levity-polymorphic type
+                 -&gt; SDoc
+formatLevPolyErr ty
+  = hang (text &quot;A levity-polymorphic type is not allowed here:&quot;)
+       2 (vcat [ text &quot;Type:&quot; &lt;+&gt; ppr tidy_ty
+               , text &quot;Kind:&quot; &lt;+&gt; ppr tidy_ki ])
+  where
+    (tidy_env, tidy_ty) = tidyOpenType emptyTidyEnv ty
+    tidy_ki             = tidyType tidy_env (typeKind ty)
+</span></pre></body></html>

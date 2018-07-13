@@ -1,0 +1,47 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><link rel="stylesheet" type="text/css" href="style.css" /><script type="text/javascript" src="highlight.js"></script></head><body><pre><span class="hs-comment">{-
+(c) The GRASP/AQUA Project, Glasgow University, 1992-1998
+
+\section[Constants]{Info about this compilation}
+-}</span><span>
+</span><a name="line-6"></a><span>
+</span><a name="line-7"></a><span class="hs-keyword">module</span><span> </span><span class="hs-identifier">Constants</span><span> </span><span class="hs-special">(</span><span class="hs-keyword">module</span><span> </span><a href="Constants.html"><span class="hs-identifier">Constants</span></a><span class="hs-special">)</span><span> </span><span class="hs-keyword">where</span><span>
+</span><a name="line-8"></a><span>
+</span><a name="line-9"></a><span class="hs-keyword">import</span><span> </span><a href="GhcPrelude.html"><span class="hs-identifier">GhcPrelude</span></a><span>
+</span><a name="line-10"></a><span>
+</span><a name="line-11"></a><span class="hs-keyword">import</span><span> </span><a href="Config.html"><span class="hs-identifier">Config</span></a><span>
+</span><a name="line-12"></a><span>
+</span><a name="line-13"></a><span class="hs-identifier">hiVersion</span><span> </span><span class="hs-glyph">::</span><span> </span><span class="hs-identifier hs-type">Integer</span><span>
+</span><a name="line-14"></a><a name="hiVersion"><a href="Constants.html#hiVersion"><span class="hs-identifier">hiVersion</span></a></a><span> </span><span class="hs-glyph">=</span><span> </span><a href="../base-4.11.1.0/src/%{MODULE/./-}.html#%{NAME}/Text.Read.html#read"><span class="hs-identifier hs-var">read</span></a><span> </span><span class="hs-special">(</span><a href="Config.html#cProjectVersionInt"><span class="hs-identifier hs-var">cProjectVersionInt</span></a><span> </span><a href="../base-4.11.1.0/src/%{MODULE/./-}.html#%{NAME}/GHC.Base.html#%2B%2B"><span class="hs-operator hs-var">++</span></a><span> </span><a href="Config.html#cProjectPatchLevel"><span class="hs-identifier hs-var">cProjectPatchLevel</span></a><span class="hs-special">)</span><span> </span><span class="hs-glyph">::</span><span> </span><span class="hs-identifier hs-type">Integer</span><span>
+</span><a name="line-15"></a><span>
+</span><a name="line-16"></a><span class="hs-comment">-- All pretty arbitrary:</span><span>
+</span><a name="line-17"></a><span>
+</span><a name="line-18"></a><span class="hs-identifier">mAX_TUPLE_SIZE</span><span> </span><span class="hs-glyph">::</span><span> </span><span class="hs-identifier hs-type">Int</span><span>
+</span><a name="line-19"></a><a name="mAX_TUPLE_SIZE"><a href="Constants.html#mAX_TUPLE_SIZE"><span class="hs-identifier">mAX_TUPLE_SIZE</span></a></a><span> </span><span class="hs-glyph">=</span><span> </span><span class="hs-number">62</span><span> </span><span class="hs-comment">-- Should really match the number</span><span>
+</span><a name="line-20"></a><span>                    </span><span class="hs-comment">-- of decls in Data.Tuple</span><span>
+</span><a name="line-21"></a><span>
+</span><a name="line-22"></a><span class="hs-identifier">mAX_CTUPLE_SIZE</span><span> </span><span class="hs-glyph">::</span><span> </span><span class="hs-identifier hs-type">Int</span><span>   </span><span class="hs-comment">-- Constraint tuples</span><span>
+</span><a name="line-23"></a><a name="mAX_CTUPLE_SIZE"><a href="Constants.html#mAX_CTUPLE_SIZE"><span class="hs-identifier">mAX_CTUPLE_SIZE</span></a></a><span> </span><span class="hs-glyph">=</span><span> </span><span class="hs-number">62</span><span>     </span><span class="hs-comment">-- Should match the number of decls in GHC.Classes</span><span>
+</span><a name="line-24"></a><span>
+</span><a name="line-25"></a><span class="hs-identifier">mAX_SUM_SIZE</span><span> </span><span class="hs-glyph">::</span><span> </span><span class="hs-identifier hs-type">Int</span><span>
+</span><a name="line-26"></a><a name="mAX_SUM_SIZE"><a href="Constants.html#mAX_SUM_SIZE"><span class="hs-identifier">mAX_SUM_SIZE</span></a></a><span> </span><span class="hs-glyph">=</span><span> </span><span class="hs-number">62</span><span>
+</span><a name="line-27"></a><span>
+</span><a name="line-28"></a><span class="hs-comment">-- | Default maximum depth for both class instance search and type family</span><span>
+</span><a name="line-29"></a><span class="hs-comment">-- reduction. See also Trac #5395.</span><span>
+</span><a name="line-30"></a><span class="hs-identifier">mAX_REDUCTION_DEPTH</span><span> </span><span class="hs-glyph">::</span><span> </span><span class="hs-identifier hs-type">Int</span><span>
+</span><a name="line-31"></a><a name="mAX_REDUCTION_DEPTH"><a href="Constants.html#mAX_REDUCTION_DEPTH"><span class="hs-identifier">mAX_REDUCTION_DEPTH</span></a></a><span> </span><span class="hs-glyph">=</span><span> </span><span class="hs-number">200</span><span>
+</span><a name="line-32"></a><span>
+</span><a name="line-33"></a><span class="hs-comment">-- | Default maximum constraint-solver iterations</span><span>
+</span><a name="line-34"></a><span class="hs-comment">-- Typically there should be very few</span><span>
+</span><a name="line-35"></a><span class="hs-identifier">mAX_SOLVER_ITERATIONS</span><span> </span><span class="hs-glyph">::</span><span> </span><span class="hs-identifier hs-type">Int</span><span>
+</span><a name="line-36"></a><a name="mAX_SOLVER_ITERATIONS"><a href="Constants.html#mAX_SOLVER_ITERATIONS"><span class="hs-identifier">mAX_SOLVER_ITERATIONS</span></a></a><span> </span><span class="hs-glyph">=</span><span> </span><span class="hs-number">4</span><span>
+</span><a name="line-37"></a><span>
+</span><a name="line-38"></a><span class="hs-identifier">wORD64_SIZE</span><span> </span><span class="hs-glyph">::</span><span> </span><span class="hs-identifier hs-type">Int</span><span>
+</span><a name="line-39"></a><a name="wORD64_SIZE"><a href="Constants.html#wORD64_SIZE"><span class="hs-identifier">wORD64_SIZE</span></a></a><span> </span><span class="hs-glyph">=</span><span> </span><span class="hs-number">8</span><span>
+</span><a name="line-40"></a><span>
+</span><a name="line-41"></a><span class="hs-comment">-- Size of float in bytes.</span><span>
+</span><a name="line-42"></a><span class="hs-identifier">fLOAT_SIZE</span><span> </span><span class="hs-glyph">::</span><span> </span><span class="hs-identifier hs-type">Int</span><span>
+</span><a name="line-43"></a><a name="fLOAT_SIZE"><a href="Constants.html#fLOAT_SIZE"><span class="hs-identifier">fLOAT_SIZE</span></a></a><span> </span><span class="hs-glyph">=</span><span> </span><span class="hs-number">4</span><span>
+</span><a name="line-44"></a><span>
+</span><a name="line-45"></a><span class="hs-identifier">tARGET_MAX_CHAR</span><span> </span><span class="hs-glyph">::</span><span> </span><span class="hs-identifier hs-type">Int</span><span>
+</span><a name="line-46"></a><a name="tARGET_MAX_CHAR"><a href="Constants.html#tARGET_MAX_CHAR"><span class="hs-identifier">tARGET_MAX_CHAR</span></a></a><span> </span><span class="hs-glyph">=</span><span> </span><span class="hs-number">0x10ffff</span><span>
+</span><a name="line-47"></a></pre></body></html>

@@ -1,0 +1,134 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><link rel="stylesheet" type="text/css" href="style.css" /><script type="text/javascript" src="highlight.js"></script></head><body><pre><span class="hs-pragma">{-# LINE</span><span> </span><span class="hs-pragma">1</span><span> </span><span class="hs-pragma">&quot;libraries\\Win32\\Graphics\\Win32\\GDI\\Pen.hsc&quot;</span><span> </span><span class="hs-pragma">#-}</span><span>
+</span><a name="line-2"></a><span>
+</span><a name="line-3"></a><span class="hs-pragma">{-# LINE</span><span> </span><span class="hs-pragma">2</span><span> </span><span class="hs-pragma">&quot;libraries\\Win32\\Graphics\\Win32\\GDI\\Pen.hsc&quot;</span><span> </span><span class="hs-pragma">#-}</span><span>
+</span><a name="line-4"></a><span class="hs-pragma">{-# LANGUAGE Safe #-}</span><span>
+</span><a name="line-5"></a><span>
+</span><a name="line-6"></a><span class="hs-pragma">{-# LINE</span><span> </span><span class="hs-pragma">6</span><span> </span><span class="hs-pragma">&quot;libraries\\Win32\\Graphics\\Win32\\GDI\\Pen.hsc&quot;</span><span> </span><span class="hs-pragma">#-}</span><span>
+</span><a name="line-7"></a><span class="hs-comment">-----------------------------------------------------------------------------</span><span>
+</span><a name="line-8"></a><span class="hs-comment">-- |</span><span>
+</span><a name="line-9"></a><span class="hs-comment">-- Module      :  Graphics.Win32.GDI.Pen</span><span>
+</span><a name="line-10"></a><span class="hs-comment">-- Copyright   :  (c) Alastair Reid, 1997-2003</span><span>
+</span><a name="line-11"></a><span class="hs-comment">-- License     :  BSD-style (see the file libraries/base/LICENSE)</span><span>
+</span><a name="line-12"></a><span class="hs-comment">--</span><span>
+</span><a name="line-13"></a><span class="hs-comment">-- Maintainer  :  Esa Ilari Vuokko &lt;ei@vuokko.info&gt;</span><span>
+</span><a name="line-14"></a><span class="hs-comment">-- Stability   :  provisional</span><span>
+</span><a name="line-15"></a><span class="hs-comment">-- Portability :  portable</span><span>
+</span><a name="line-16"></a><span class="hs-comment">--</span><span>
+</span><a name="line-17"></a><span class="hs-comment">-- A collection of FFI declarations for interfacing with Win32.</span><span>
+</span><a name="line-18"></a><span class="hs-comment">--</span><span>
+</span><a name="line-19"></a><span class="hs-comment">-----------------------------------------------------------------------------</span><span>
+</span><a name="line-20"></a><span>
+</span><a name="line-21"></a><span class="hs-keyword">module</span><span> </span><span class="hs-identifier">Graphics.Win32.GDI.Pen</span><span> </span><span class="hs-keyword">where</span><span>
+</span><a name="line-22"></a><span>
+</span><a name="line-23"></a><span class="hs-keyword">import</span><span> </span><span class="hs-identifier">System.Win32.Types</span><span>
+</span><a name="line-24"></a><span class="hs-keyword">import</span><span> </span><span class="hs-identifier">Graphics.Win32.GDI.Types</span><span>
+</span><a name="line-25"></a><span>
+</span><a name="line-26"></a><span class="hs-cpp">#include &quot;windows_cconv.h&quot;
+</span><span>
+</span><a name="line-28"></a><span>
+</span><a name="line-29"></a><span>
+</span><a name="line-30"></a><span class="hs-comment">----------------------------------------------------------------</span><span>
+</span><a name="line-31"></a><span class="hs-comment">-- Stock Objects</span><span>
+</span><a name="line-32"></a><span class="hs-comment">----------------------------------------------------------------</span><span>
+</span><a name="line-33"></a><span>
+</span><a name="line-34"></a><span class="hs-keyword">type</span><span> </span><a name="StockPen"><a href="Graphics.Win32.GDI.Pen.html#StockPen"><span class="hs-identifier">StockPen</span></a></a><span>   </span><span class="hs-glyph">=</span><span> </span><a href="System.Win32.Types.html#INT"><span class="hs-identifier hs-type">INT</span></a><span>
+</span><a name="line-35"></a><span>
+</span><a name="line-36"></a><span class="hs-identifier">wHITE_PEN</span><span>     </span><span class="hs-glyph">::</span><span> </span><a href="Graphics.Win32.GDI.Pen.html#StockPen"><span class="hs-identifier hs-type">StockPen</span></a><span>
+</span><a name="line-37"></a><a name="wHITE_PEN"><a href="Graphics.Win32.GDI.Pen.html#wHITE_PEN"><span class="hs-identifier">wHITE_PEN</span></a></a><span>     </span><span class="hs-glyph">=</span><span>  </span><span class="hs-number">6</span><span>
+</span><a name="line-38"></a><span class="hs-identifier">bLACK_PEN</span><span>     </span><span class="hs-glyph">::</span><span> </span><a href="Graphics.Win32.GDI.Pen.html#StockPen"><span class="hs-identifier hs-type">StockPen</span></a><span>
+</span><a name="line-39"></a><a name="bLACK_PEN"><a href="Graphics.Win32.GDI.Pen.html#bLACK_PEN"><span class="hs-identifier">bLACK_PEN</span></a></a><span>     </span><span class="hs-glyph">=</span><span>  </span><span class="hs-number">7</span><span>
+</span><a name="line-40"></a><span class="hs-identifier">nULL_PEN</span><span>      </span><span class="hs-glyph">::</span><span> </span><a href="Graphics.Win32.GDI.Pen.html#StockPen"><span class="hs-identifier hs-type">StockPen</span></a><span>
+</span><a name="line-41"></a><a name="nULL_PEN"><a href="Graphics.Win32.GDI.Pen.html#nULL_PEN"><span class="hs-identifier">nULL_PEN</span></a></a><span>      </span><span class="hs-glyph">=</span><span>  </span><span class="hs-number">8</span><span>
+</span><a name="line-42"></a><span>
+</span><a name="line-43"></a><span class="hs-pragma">{-# LINE</span><span> </span><span class="hs-pragma">40</span><span> </span><span class="hs-pragma">&quot;libraries\\Win32\\Graphics\\Win32\\GDI\\Pen.hsc&quot;</span><span> </span><span class="hs-pragma">#-}</span><span>
+</span><a name="line-44"></a><span>
+</span><a name="line-45"></a><span class="hs-identifier">getStockPen</span><span> </span><span class="hs-glyph">::</span><span> </span><span class="hs-identifier">StockPen</span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="hs-identifier">IO</span><span> </span><span class="hs-identifier">HPEN</span><span>
+</span><a name="line-46"></a><span class="hs-identifier">getStockPen</span><span> </span><span class="hs-identifier">stockpen</span><span> </span><span class="hs-glyph">=</span><span>
+</span><a name="line-47"></a><span>  </span><span class="hs-identifier">failIfNull</span><span> </span><span class="hs-string">&quot;GetStockPen&quot;</span><span> </span><span class="hs-operator">$</span><span> </span><span class="hs-identifier">c_GetStockPen</span><span> </span><span class="hs-identifier">stockpen</span><span>
+</span><a name="line-48"></a><span class="hs-keyword">foreign</span><span> </span><span class="hs-keyword">import</span><span> </span><span class="hs-identifier">WINDOWS_CCONV</span><span> </span><span class="hs-keyword">unsafe</span><span> </span><span class="hs-string">&quot;windows.h GetStockObject&quot;</span><span>
+</span><a name="line-49"></a><span>  </span><span class="hs-identifier">c_GetStockPen</span><span> </span><span class="hs-glyph">::</span><span> </span><span class="hs-identifier">StockPen</span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="hs-identifier">IO</span><span> </span><span class="hs-identifier">HPEN</span><span>
+</span><a name="line-50"></a><span>
+</span><a name="line-51"></a><span class="hs-identifier">deletePen</span><span> </span><span class="hs-glyph">::</span><span> </span><span class="hs-identifier">HPEN</span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="hs-identifier">IO</span><span> </span><span class="hs-special">(</span><span class="hs-special">)</span><span>
+</span><a name="line-52"></a><span class="hs-identifier">deletePen</span><span> </span><span class="hs-identifier">pen</span><span> </span><span class="hs-glyph">=</span><span>
+</span><a name="line-53"></a><span>  </span><span class="hs-identifier">failIfFalse_</span><span> </span><span class="hs-string">&quot;DeletePen&quot;</span><span> </span><span class="hs-operator">$</span><span> </span><span class="hs-identifier">c_DeletePen</span><span> </span><span class="hs-identifier">pen</span><span>
+</span><a name="line-54"></a><span class="hs-keyword">foreign</span><span> </span><span class="hs-keyword">import</span><span> </span><span class="hs-identifier">WINDOWS_CCONV</span><span> </span><span class="hs-keyword">unsafe</span><span> </span><span class="hs-string">&quot;windows.h DeleteObject&quot;</span><span>
+</span><a name="line-55"></a><span>  </span><span class="hs-identifier">c_DeletePen</span><span> </span><span class="hs-glyph">::</span><span> </span><span class="hs-identifier">HPEN</span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="hs-identifier">IO</span><span> </span><span class="hs-identifier">Bool</span><span>
+</span><a name="line-56"></a><span>
+</span><a name="line-57"></a><span class="hs-comment">----------------------------------------------------------------</span><span>
+</span><a name="line-58"></a><span class="hs-comment">-- Creating pens</span><span>
+</span><a name="line-59"></a><span class="hs-comment">----------------------------------------------------------------</span><span>
+</span><a name="line-60"></a><span>
+</span><a name="line-61"></a><span class="hs-keyword">type</span><span> </span><span class="hs-identifier">PenStyle</span><span>   </span><span class="hs-glyph">=</span><span> </span><span class="hs-identifier">INT</span><span>
+</span><a name="line-62"></a><span>
+</span><a name="line-63"></a><span class="hs-identifier">pS_SOLID</span><span>              </span><span class="hs-glyph">::</span><span> </span><span class="hs-identifier">PenStyle</span><span>
+</span><a name="line-64"></a><span class="hs-identifier">pS_SOLID</span><span>              </span><span class="hs-glyph">=</span><span>  </span><span class="hs-number">0</span><span>
+</span><a name="line-65"></a><span class="hs-identifier">pS_DASH</span><span>               </span><span class="hs-glyph">::</span><span> </span><span class="hs-identifier">PenStyle</span><span>
+</span><a name="line-66"></a><span class="hs-identifier">pS_DASH</span><span>               </span><span class="hs-glyph">=</span><span>  </span><span class="hs-number">1</span><span>
+</span><a name="line-67"></a><span class="hs-identifier">pS_DOT</span><span>                </span><span class="hs-glyph">::</span><span> </span><span class="hs-identifier">PenStyle</span><span>
+</span><a name="line-68"></a><span class="hs-identifier">pS_DOT</span><span>                </span><span class="hs-glyph">=</span><span>  </span><span class="hs-number">2</span><span>
+</span><a name="line-69"></a><span class="hs-identifier">pS_DASHDOT</span><span>            </span><span class="hs-glyph">::</span><span> </span><span class="hs-identifier">PenStyle</span><span>
+</span><a name="line-70"></a><span class="hs-identifier">pS_DASHDOT</span><span>            </span><span class="hs-glyph">=</span><span>  </span><span class="hs-number">3</span><span>
+</span><a name="line-71"></a><span class="hs-identifier">pS_DASHDOTDOT</span><span>         </span><span class="hs-glyph">::</span><span> </span><span class="hs-identifier">PenStyle</span><span>
+</span><a name="line-72"></a><span class="hs-identifier">pS_DASHDOTDOT</span><span>         </span><span class="hs-glyph">=</span><span>  </span><span class="hs-number">4</span><span>
+</span><a name="line-73"></a><span class="hs-identifier">pS_NULL</span><span>               </span><span class="hs-glyph">::</span><span> </span><span class="hs-identifier">PenStyle</span><span>
+</span><a name="line-74"></a><span class="hs-identifier">pS_NULL</span><span>               </span><span class="hs-glyph">=</span><span>  </span><span class="hs-number">5</span><span>
+</span><a name="line-75"></a><span class="hs-identifier">pS_INSIDEFRAME</span><span>        </span><span class="hs-glyph">::</span><span> </span><span class="hs-identifier">PenStyle</span><span>
+</span><a name="line-76"></a><span class="hs-identifier">pS_INSIDEFRAME</span><span>        </span><span class="hs-glyph">=</span><span>  </span><span class="hs-number">6</span><span>
+</span><a name="line-77"></a><span class="hs-identifier">pS_USERSTYLE</span><span>          </span><span class="hs-glyph">::</span><span> </span><span class="hs-identifier">PenStyle</span><span>
+</span><a name="line-78"></a><span class="hs-identifier">pS_USERSTYLE</span><span>          </span><span class="hs-glyph">=</span><span>  </span><span class="hs-number">7</span><span>
+</span><a name="line-79"></a><span class="hs-identifier">pS_ALTERNATE</span><span>          </span><span class="hs-glyph">::</span><span> </span><span class="hs-identifier">PenStyle</span><span>
+</span><a name="line-80"></a><span class="hs-identifier">pS_ALTERNATE</span><span>          </span><span class="hs-glyph">=</span><span>  </span><span class="hs-number">8</span><span>
+</span><a name="line-81"></a><span class="hs-identifier">pS_STYLE_MASK</span><span>         </span><span class="hs-glyph">::</span><span> </span><span class="hs-identifier">PenStyle</span><span>
+</span><a name="line-82"></a><span class="hs-identifier">pS_STYLE_MASK</span><span>         </span><span class="hs-glyph">=</span><span>  </span><span class="hs-number">15</span><span>
+</span><a name="line-83"></a><span>
+</span><a name="line-84"></a><span class="hs-pragma">{-# LINE</span><span> </span><span class="hs-pragma">71</span><span> </span><span class="hs-pragma">&quot;libraries\\Win32\\Graphics\\Win32\\GDI\\Pen.hsc&quot;</span><span> </span><span class="hs-pragma">#-}</span><span>
+</span><a name="line-85"></a><span>
+</span><a name="line-86"></a><span class="hs-identifier">pS_ENDCAP_ROUND</span><span>       </span><span class="hs-glyph">::</span><span> </span><span class="hs-identifier">PenStyle</span><span>
+</span><a name="line-87"></a><span class="hs-identifier">pS_ENDCAP_ROUND</span><span>       </span><span class="hs-glyph">=</span><span>  </span><span class="hs-number">0</span><span>
+</span><a name="line-88"></a><span class="hs-identifier">pS_ENDCAP_SQUARE</span><span>      </span><span class="hs-glyph">::</span><span> </span><span class="hs-identifier">PenStyle</span><span>
+</span><a name="line-89"></a><span class="hs-identifier">pS_ENDCAP_SQUARE</span><span>      </span><span class="hs-glyph">=</span><span>  </span><span class="hs-number">256</span><span>
+</span><a name="line-90"></a><span class="hs-identifier">pS_ENDCAP_FLAT</span><span>        </span><span class="hs-glyph">::</span><span> </span><span class="hs-identifier">PenStyle</span><span>
+</span><a name="line-91"></a><span class="hs-identifier">pS_ENDCAP_FLAT</span><span>        </span><span class="hs-glyph">=</span><span>  </span><span class="hs-number">512</span><span>
+</span><a name="line-92"></a><span class="hs-identifier">pS_ENDCAP_MASK</span><span>        </span><span class="hs-glyph">::</span><span> </span><span class="hs-identifier">PenStyle</span><span>
+</span><a name="line-93"></a><span class="hs-identifier">pS_ENDCAP_MASK</span><span>        </span><span class="hs-glyph">=</span><span>  </span><span class="hs-number">3840</span><span>
+</span><a name="line-94"></a><span>
+</span><a name="line-95"></a><span class="hs-pragma">{-# LINE</span><span> </span><span class="hs-pragma">78</span><span> </span><span class="hs-pragma">&quot;libraries\\Win32\\Graphics\\Win32\\GDI\\Pen.hsc&quot;</span><span> </span><span class="hs-pragma">#-}</span><span>
+</span><a name="line-96"></a><span>
+</span><a name="line-97"></a><span class="hs-identifier">pS_JOIN_ROUND</span><span>         </span><span class="hs-glyph">::</span><span> </span><span class="hs-identifier">PenStyle</span><span>
+</span><a name="line-98"></a><span class="hs-identifier">pS_JOIN_ROUND</span><span>         </span><span class="hs-glyph">=</span><span>  </span><span class="hs-number">0</span><span>
+</span><a name="line-99"></a><span class="hs-identifier">pS_JOIN_BEVEL</span><span>         </span><span class="hs-glyph">::</span><span> </span><span class="hs-identifier">PenStyle</span><span>
+</span><a name="line-100"></a><span class="hs-identifier">pS_JOIN_BEVEL</span><span>         </span><span class="hs-glyph">=</span><span>  </span><span class="hs-number">4096</span><span>
+</span><a name="line-101"></a><span class="hs-identifier">pS_JOIN_MITER</span><span>         </span><span class="hs-glyph">::</span><span> </span><span class="hs-identifier">PenStyle</span><span>
+</span><a name="line-102"></a><span class="hs-identifier">pS_JOIN_MITER</span><span>         </span><span class="hs-glyph">=</span><span>  </span><span class="hs-number">8192</span><span>
+</span><a name="line-103"></a><span>
+</span><a name="line-104"></a><span class="hs-pragma">{-# LINE</span><span> </span><span class="hs-pragma">84</span><span> </span><span class="hs-pragma">&quot;libraries\\Win32\\Graphics\\Win32\\GDI\\Pen.hsc&quot;</span><span> </span><span class="hs-pragma">#-}</span><span>
+</span><a name="line-105"></a><span class="hs-comment">-- , pS_JOIN_MASK         = PS_JOIN_MASK</span><span>
+</span><a name="line-106"></a><span class="hs-comment">{-
+If PS_JOIN_MASK is not defined with your GNU Windows32 header files,
+you'll have to define it.
+-}</span><span>
+</span><a name="line-110"></a><span>
+</span><a name="line-111"></a><span class="hs-identifier">pS_COSMETIC</span><span>           </span><span class="hs-glyph">::</span><span> </span><span class="hs-identifier">PenStyle</span><span>
+</span><a name="line-112"></a><span class="hs-identifier">pS_COSMETIC</span><span>           </span><span class="hs-glyph">=</span><span>  </span><span class="hs-number">0</span><span>
+</span><a name="line-113"></a><span class="hs-identifier">pS_GEOMETRIC</span><span>          </span><span class="hs-glyph">::</span><span> </span><span class="hs-identifier">PenStyle</span><span>
+</span><a name="line-114"></a><span class="hs-identifier">pS_GEOMETRIC</span><span>          </span><span class="hs-glyph">=</span><span>  </span><span class="hs-number">65536</span><span>
+</span><a name="line-115"></a><span class="hs-identifier">pS_TYPE_MASK</span><span>          </span><span class="hs-glyph">::</span><span> </span><span class="hs-identifier">PenStyle</span><span>
+</span><a name="line-116"></a><span class="hs-identifier">pS_TYPE_MASK</span><span>          </span><span class="hs-glyph">=</span><span>  </span><span class="hs-number">983040</span><span>
+</span><a name="line-117"></a><span>
+</span><a name="line-118"></a><span class="hs-pragma">{-# LINE</span><span> </span><span class="hs-pragma">95</span><span> </span><span class="hs-pragma">&quot;libraries\\Win32\\Graphics\\Win32\\GDI\\Pen.hsc&quot;</span><span> </span><span class="hs-pragma">#-}</span><span>
+</span><a name="line-119"></a><span>
+</span><a name="line-120"></a><span class="hs-identifier">createPen</span><span> </span><span class="hs-glyph">::</span><span> </span><span class="hs-identifier">PenStyle</span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="hs-identifier">INT</span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="hs-identifier">COLORREF</span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="hs-identifier">IO</span><span> </span><span class="hs-identifier">HPEN</span><span>
+</span><a name="line-121"></a><span class="hs-identifier">createPen</span><span> </span><span class="hs-identifier">style</span><span> </span><span class="hs-identifier">n</span><span> </span><span class="hs-identifier">color</span><span> </span><span class="hs-glyph">=</span><span>
+</span><a name="line-122"></a><span>  </span><span class="hs-identifier">failIfNull</span><span> </span><span class="hs-string">&quot;CreatePen&quot;</span><span> </span><span class="hs-operator">$</span><span> </span><span class="hs-identifier">c_CreatePen</span><span> </span><span class="hs-identifier">style</span><span> </span><span class="hs-identifier">n</span><span> </span><span class="hs-identifier">color</span><span>
+</span><a name="line-123"></a><span class="hs-keyword">foreign</span><span> </span><span class="hs-keyword">import</span><span> </span><span class="hs-identifier">WINDOWS_CCONV</span><span> </span><span class="hs-keyword">unsafe</span><span> </span><span class="hs-string">&quot;windows.h CreatePen&quot;</span><span>
+</span><a name="line-124"></a><span>  </span><span class="hs-identifier">c_CreatePen</span><span> </span><span class="hs-glyph">::</span><span> </span><span class="hs-identifier">PenStyle</span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="hs-identifier">INT</span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="hs-identifier">COLORREF</span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="hs-identifier">IO</span><span> </span><span class="hs-identifier">HPEN</span><span>
+</span><a name="line-125"></a><span>
+</span><a name="line-126"></a><span class="hs-comment">-- Not very well supported on Win'95</span><span>
+</span><a name="line-127"></a><span class="hs-comment">-- %fun NullHANDLE ExtCreatePen :: PenStyle -&gt; INT -&gt; LOGBRUSH -&gt; [StyleBit] -&gt; IO HPEN</span><span>
+</span><a name="line-128"></a><span>
+</span><a name="line-129"></a><span class="hs-comment">-- ToDo: CreatePenIndirect</span><span>
+</span><a name="line-130"></a><span>
+</span><a name="line-131"></a><span class="hs-comment">----------------------------------------------------------------</span><span>
+</span><a name="line-132"></a><span class="hs-comment">-- End</span><span>
+</span><a name="line-133"></a><span class="hs-comment">----------------------------------------------------------------</span><span>
+</span><a name="line-134"></a></pre></body></html>

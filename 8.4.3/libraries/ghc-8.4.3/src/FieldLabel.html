@@ -1,0 +1,131 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><link rel="stylesheet" type="text/css" href="style.css" /><script type="text/javascript" src="highlight.js"></script></head><body><pre><span class="hs-comment">{-
+%
+% (c) Adam Gundry 2013-2015
+%
+
+This module defines the representation of FieldLabels as stored in
+TyCons.  As well as a selector name, these have some extra structure
+to support the DuplicateRecordFields extension.
+
+In the normal case (with NoDuplicateRecordFields), a datatype like
+
+    data T = MkT { foo :: Int }
+
+has
+
+    FieldLabel { flLabel        = &quot;foo&quot;
+               , flIsOverloaded = False
+               , flSelector     = foo }.
+
+In particular, the Name of the selector has the same string
+representation as the label.  If DuplicateRecordFields
+is enabled, however, the same declaration instead gives
+
+    FieldLabel { flLabel        = &quot;foo&quot;
+               , flIsOverloaded = True
+               , flSelector     = $sel:foo:MkT }.
+
+Now the name of the selector ($sel:foo:MkT) does not match the label of
+the field (foo).  We must be careful not to show the selector name to
+the user!  The point of mangling the selector name is to allow a
+module to define the same field label in different datatypes:
+
+    data T = MkT { foo :: Int }
+    data U = MkU { foo :: Bool }
+
+Now there will be two FieldLabel values for 'foo', one in T and one in
+U.  They share the same label (FieldLabelString), but the selector
+functions differ.
+
+See also Note [Representing fields in AvailInfo] in Avail.
+
+Note [Why selector names include data constructors]
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+As explained above, a selector name includes the name of the first
+data constructor in the type, so that the same label can appear
+multiple times in the same module.  (This is irrespective of whether
+the first constructor has that field, for simplicity.)
+
+We use a data constructor name, rather than the type constructor name,
+because data family instances do not have a representation type
+constructor name generated until relatively late in the typechecking
+process.
+
+Of course, datatypes with no constructors cannot have any fields.
+
+-}</span><span>
+</span><a name="line-58"></a><span>
+</span><a name="line-59"></a><span class="hs-pragma">{-# LANGUAGE DeriveDataTypeable #-}</span><span>
+</span><a name="line-60"></a><span class="hs-pragma">{-# LANGUAGE DeriveFunctor #-}</span><span>
+</span><a name="line-61"></a><span class="hs-pragma">{-# LANGUAGE DeriveFoldable #-}</span><span>
+</span><a name="line-62"></a><span class="hs-pragma">{-# LANGUAGE DeriveTraversable #-}</span><span>
+</span><a name="line-63"></a><span class="hs-pragma">{-# LANGUAGE StandaloneDeriving #-}</span><span>
+</span><a name="line-64"></a><span>
+</span><a name="line-65"></a><span class="hs-keyword">module</span><span> </span><span class="hs-identifier">FieldLabel</span><span> </span><span class="hs-special">(</span><span> </span><a href="FieldLabel.html#FieldLabelString"><span class="hs-identifier hs-type">FieldLabelString</span></a><span>
+</span><a name="line-66"></a><span>                  </span><span class="hs-special">,</span><span> </span><a href="FieldLabel.html#FieldLabelEnv"><span class="hs-identifier hs-type">FieldLabelEnv</span></a><span>
+</span><a name="line-67"></a><span>                  </span><span class="hs-special">,</span><span> </span><a href="FieldLabel.html#FieldLbl"><span class="hs-identifier hs-type">FieldLbl</span></a><span class="hs-special">(</span><span class="hs-glyph">..</span><span class="hs-special">)</span><span>
+</span><a name="line-68"></a><span>                  </span><span class="hs-special">,</span><span> </span><a href="FieldLabel.html#FieldLabel"><span class="hs-identifier hs-type">FieldLabel</span></a><span>
+</span><a name="line-69"></a><span>                  </span><span class="hs-special">,</span><span> </span><a href="FieldLabel.html#mkFieldLabelOccs"><span class="hs-identifier hs-var">mkFieldLabelOccs</span></a><span>
+</span><a name="line-70"></a><span>                  </span><span class="hs-special">)</span><span> </span><span class="hs-keyword">where</span><span>
+</span><a name="line-71"></a><span>
+</span><a name="line-72"></a><span class="hs-keyword">import</span><span> </span><a href="GhcPrelude.html"><span class="hs-identifier">GhcPrelude</span></a><span>
+</span><a name="line-73"></a><span>
+</span><a name="line-74"></a><span class="hs-keyword">import</span><span> </span><a href="OccName.html"><span class="hs-identifier">OccName</span></a><span>
+</span><a name="line-75"></a><span class="hs-keyword">import</span><span> </span><a href="Name.html"><span class="hs-identifier">Name</span></a><span>
+</span><a name="line-76"></a><span>
+</span><a name="line-77"></a><span class="hs-keyword">import</span><span> </span><a href="FastString.html"><span class="hs-identifier">FastString</span></a><span>
+</span><a name="line-78"></a><span class="hs-keyword">import</span><span> </span><a href="FastStringEnv.html"><span class="hs-identifier">FastStringEnv</span></a><span>
+</span><a name="line-79"></a><span class="hs-keyword">import</span><span> </span><a href="Outputable.html"><span class="hs-identifier">Outputable</span></a><span>
+</span><a name="line-80"></a><span class="hs-keyword">import</span><span> </span><a href="Binary.html"><span class="hs-identifier">Binary</span></a><span>
+</span><a name="line-81"></a><span>
+</span><a name="line-82"></a><span class="hs-keyword">import</span><span> </span><a href="../base-4.11.1.0/src/%{MODULE/./-}.html#%{NAME}/Data.Data.html"><span class="hs-identifier">Data.Data</span></a><span>
+</span><a name="line-83"></a><span>
+</span><a name="line-84"></a><span class="hs-comment">-- | Field labels are just represented as strings;</span><span>
+</span><a name="line-85"></a><span class="hs-comment">-- they are not necessarily unique (even within a module)</span><span>
+</span><a name="line-86"></a><span class="hs-keyword">type</span><span> </span><a name="FieldLabelString"><a href="FieldLabel.html#FieldLabelString"><span class="hs-identifier">FieldLabelString</span></a></a><span> </span><span class="hs-glyph">=</span><span> </span><a href="FastString.html#FastString"><span class="hs-identifier hs-type">FastString</span></a><span>
+</span><a name="line-87"></a><span>
+</span><a name="line-88"></a><span class="hs-comment">-- | A map from labels to all the auxiliary information</span><span>
+</span><a name="line-89"></a><span class="hs-keyword">type</span><span> </span><a name="FieldLabelEnv"><a href="FieldLabel.html#FieldLabelEnv"><span class="hs-identifier">FieldLabelEnv</span></a></a><span> </span><span class="hs-glyph">=</span><span> </span><a href="FastStringEnv.html#DFastStringEnv"><span class="hs-identifier hs-type">DFastStringEnv</span></a><span> </span><a href="FieldLabel.html#FieldLabel"><span class="hs-identifier hs-type">FieldLabel</span></a><span>
+</span><a name="line-90"></a><span>
+</span><a name="line-91"></a><span>
+</span><a name="line-92"></a><span class="hs-keyword">type</span><span> </span><a name="FieldLabel"><a href="FieldLabel.html#FieldLabel"><span class="hs-identifier">FieldLabel</span></a></a><span> </span><span class="hs-glyph">=</span><span> </span><a href="FieldLabel.html#FieldLbl"><span class="hs-identifier hs-type">FieldLbl</span></a><span> </span><a href="Name.html#Name"><span class="hs-identifier hs-type">Name</span></a><span>
+</span><a name="line-93"></a><span>
+</span><a name="line-94"></a><span class="hs-comment">-- | Fields in an algebraic record type</span><span>
+</span><a name="line-95"></a><span class="hs-keyword">data</span><span> </span><a name="FieldLbl"><a href="FieldLabel.html#FieldLbl"><span class="hs-identifier">FieldLbl</span></a></a><span> </span><a name="local-6989586621679291363"><a href="#local-6989586621679291363"><span class="hs-identifier">a</span></a></a><span> </span><span class="hs-glyph">=</span><span> </span><a name="FieldLabel"><a href="FieldLabel.html#FieldLabel"><span class="hs-identifier">FieldLabel</span></a></a><span> </span><span class="hs-special">{</span><span>
+</span><a name="line-96"></a><span>      </span><a name="flLabel"><a href="FieldLabel.html#flLabel"><span class="hs-identifier">flLabel</span></a></a><span>        </span><span class="hs-glyph">::</span><span> </span><a href="FieldLabel.html#FieldLabelString"><span class="hs-identifier hs-type">FieldLabelString</span></a><span class="hs-special">,</span><span> </span><span class="hs-comment">-- ^ User-visible label of the field</span><span>
+</span><a name="line-97"></a><span>      </span><a name="flIsOverloaded"><a href="FieldLabel.html#flIsOverloaded"><span class="hs-identifier">flIsOverloaded</span></a></a><span> </span><span class="hs-glyph">::</span><span> </span><span class="hs-identifier hs-type">Bool</span><span class="hs-special">,</span><span>             </span><span class="hs-comment">-- ^ Was DuplicateRecordFields on</span><span>
+</span><a name="line-98"></a><span>                                          </span><span class="hs-comment">--   in the defining module for this datatype?</span><span>
+</span><a name="line-99"></a><span>      </span><a name="flSelector"><a href="FieldLabel.html#flSelector"><span class="hs-identifier">flSelector</span></a></a><span>     </span><span class="hs-glyph">::</span><span> </span><a href="#local-6989586621679291363"><span class="hs-identifier hs-type">a</span></a><span>                 </span><span class="hs-comment">-- ^ Record selector function</span><span>
+</span><a name="line-100"></a><span>    </span><span class="hs-special">}</span><span>
+</span><a name="line-101"></a><span>  </span><span class="hs-keyword">deriving</span><span> </span><span class="hs-special">(</span><span class="hs-identifier hs-type">Eq</span><span class="hs-special">,</span><span> </span><a href="../base-4.11.1.0/src/%{MODULE/./-}.html#%{NAME}/GHC.Base.html#Functor"><span class="hs-identifier hs-type">Functor</span></a><span class="hs-special">,</span><span> </span><a href="../base-4.11.1.0/src/%{MODULE/./-}.html#%{NAME}/Data.Foldable.html#Foldable"><span class="hs-identifier hs-type">Foldable</span></a><span class="hs-special">,</span><span> </span><a href="../base-4.11.1.0/src/%{MODULE/./-}.html#%{NAME}/Data.Traversable.html#Traversable"><span class="hs-identifier hs-type">Traversable</span></a><span class="hs-special">)</span><span>
+</span><a name="line-102"></a><span class="hs-keyword">deriving</span><span> </span><span class="hs-keyword">instance</span><span> </span><a href="../base-4.11.1.0/src/%{MODULE/./-}.html#%{NAME}/Data.Data.html#Data"><span class="hs-identifier hs-type">Data</span></a><span> </span><a href="#local-6989586621679291380"><span class="hs-identifier hs-type">a</span></a><span> </span><span class="hs-glyph">=&gt;</span><span> </span><a href="../base-4.11.1.0/src/%{MODULE/./-}.html#%{NAME}/Data.Data.html#Data"><span class="hs-identifier hs-type">Data</span></a><span> </span><span class="hs-special">(</span><a href="FieldLabel.html#FieldLbl"><span class="hs-identifier hs-type">FieldLbl</span></a><span> </span><a href="#local-6989586621679291380"><span class="hs-identifier hs-type">a</span></a><span class="hs-special">)</span><span>
+</span><a name="line-103"></a><span>
+</span><a name="line-104"></a><span class="hs-keyword">instance</span><span> </span><a href="Outputable.html#Outputable"><span class="hs-identifier hs-type">Outputable</span></a><span> </span><a href="#local-6989586621679291373"><span class="hs-identifier hs-type">a</span></a><span> </span><span class="hs-glyph">=&gt;</span><span> </span><a href="Outputable.html#Outputable"><span class="hs-identifier hs-type">Outputable</span></a><span> </span><span class="hs-special">(</span><a href="FieldLabel.html#FieldLbl"><span class="hs-identifier hs-type">FieldLbl</span></a><span> </span><a href="#local-6989586621679291373"><span class="hs-identifier hs-type">a</span></a><span class="hs-special">)</span><span> </span><span class="hs-keyword">where</span><span>
+</span><a name="line-105"></a><span>    </span><a name="local-8214565720323905451"><a href="Outputable.html#ppr"><span class="hs-identifier">ppr</span></a></a><span> </span><a name="local-6989586621679291374"><a href="#local-6989586621679291374"><span class="hs-identifier">fl</span></a></a><span> </span><span class="hs-glyph">=</span><span> </span><a href="Outputable.html#ppr"><span class="hs-identifier hs-var">ppr</span></a><span> </span><span class="hs-special">(</span><span class="hs-identifier">flLabel</span><span> </span><a href="#local-6989586621679291374"><span class="hs-identifier hs-var">fl</span></a><span class="hs-special">)</span><span> </span><a href="Outputable.html#%3C%3E"><span class="hs-operator hs-var">&lt;&gt;</span></a><span> </span><a href="Outputable.html#braces"><span class="hs-identifier hs-var">braces</span></a><span> </span><span class="hs-special">(</span><a href="Outputable.html#ppr"><span class="hs-identifier hs-var">ppr</span></a><span> </span><span class="hs-special">(</span><span class="hs-identifier">flSelector</span><span> </span><a href="#local-6989586621679291374"><span class="hs-identifier hs-var">fl</span></a><span class="hs-special">)</span><span class="hs-special">)</span><span>
+</span><a name="line-106"></a><span>
+</span><a name="line-107"></a><span class="hs-keyword">instance</span><span> </span><a href="Binary.html#Binary"><span class="hs-identifier hs-type">Binary</span></a><span> </span><a href="#local-6989586621679291364"><span class="hs-identifier hs-type">a</span></a><span> </span><span class="hs-glyph">=&gt;</span><span> </span><a href="Binary.html#Binary"><span class="hs-identifier hs-type">Binary</span></a><span> </span><span class="hs-special">(</span><a href="FieldLabel.html#FieldLbl"><span class="hs-identifier hs-type">FieldLbl</span></a><span> </span><a href="#local-6989586621679291364"><span class="hs-identifier hs-type">a</span></a><span class="hs-special">)</span><span> </span><span class="hs-keyword">where</span><span>
+</span><a name="line-108"></a><span>    </span><a name="local-8214565720323954483"><a href="Binary.html#put_"><span class="hs-identifier">put_</span></a></a><span> </span><a name="local-6989586621679291365"><a href="#local-6989586621679291365"><span class="hs-identifier">bh</span></a></a><span> </span><span class="hs-special">(</span><a href="FieldLabel.html#FieldLabel"><span class="hs-identifier hs-var">FieldLabel</span></a><span> </span><a name="local-6989586621679291366"><a href="#local-6989586621679291366"><span class="hs-identifier">aa</span></a></a><span> </span><a name="local-6989586621679291367"><a href="#local-6989586621679291367"><span class="hs-identifier">ab</span></a></a><span> </span><a name="local-6989586621679291368"><a href="#local-6989586621679291368"><span class="hs-identifier">ac</span></a></a><span class="hs-special">)</span><span> </span><span class="hs-glyph">=</span><span> </span><span class="hs-keyword">do</span><span>
+</span><a name="line-109"></a><span>        </span><a href="Binary.html#put_"><span class="hs-identifier hs-var">put_</span></a><span> </span><a href="#local-6989586621679291365"><span class="hs-identifier hs-var">bh</span></a><span> </span><a href="#local-6989586621679291366"><span class="hs-identifier hs-var">aa</span></a><span>
+</span><a name="line-110"></a><span>        </span><a href="Binary.html#put_"><span class="hs-identifier hs-var">put_</span></a><span> </span><a href="#local-6989586621679291365"><span class="hs-identifier hs-var">bh</span></a><span> </span><a href="#local-6989586621679291367"><span class="hs-identifier hs-var">ab</span></a><span>
+</span><a name="line-111"></a><span>        </span><a href="Binary.html#put_"><span class="hs-identifier hs-var">put_</span></a><span> </span><a href="#local-6989586621679291365"><span class="hs-identifier hs-var">bh</span></a><span> </span><a href="#local-6989586621679291368"><span class="hs-identifier hs-var">ac</span></a><span>
+</span><a name="line-112"></a><span>    </span><a name="local-8214565720323954485"><a href="Binary.html#get"><span class="hs-identifier">get</span></a></a><span> </span><a name="local-6989586621679291369"><a href="#local-6989586621679291369"><span class="hs-identifier">bh</span></a></a><span> </span><span class="hs-glyph">=</span><span> </span><span class="hs-keyword">do</span><span>
+</span><a name="line-113"></a><span>        </span><a name="local-6989586621679291370"><a href="#local-6989586621679291370"><span class="hs-identifier">ab</span></a></a><span> </span><span class="hs-glyph">&lt;-</span><span> </span><a href="Binary.html#get"><span class="hs-identifier hs-var">get</span></a><span> </span><a href="#local-6989586621679291369"><span class="hs-identifier hs-var">bh</span></a><span>
+</span><a name="line-114"></a><span>        </span><a name="local-6989586621679291371"><a href="#local-6989586621679291371"><span class="hs-identifier">ac</span></a></a><span> </span><span class="hs-glyph">&lt;-</span><span> </span><a href="Binary.html#get"><span class="hs-identifier hs-var">get</span></a><span> </span><a href="#local-6989586621679291369"><span class="hs-identifier hs-var">bh</span></a><span>
+</span><a name="line-115"></a><span>        </span><a name="local-6989586621679291372"><a href="#local-6989586621679291372"><span class="hs-identifier">ad</span></a></a><span> </span><span class="hs-glyph">&lt;-</span><span> </span><a href="Binary.html#get"><span class="hs-identifier hs-var">get</span></a><span> </span><a href="#local-6989586621679291369"><span class="hs-identifier hs-var">bh</span></a><span>
+</span><a name="line-116"></a><span>        </span><a href="../base-4.11.1.0/src/%{MODULE/./-}.html#%{NAME}/GHC.Base.html#return"><span class="hs-identifier hs-var">return</span></a><span> </span><span class="hs-special">(</span><a href="FieldLabel.html#FieldLabel"><span class="hs-identifier hs-var">FieldLabel</span></a><span> </span><a href="#local-6989586621679291370"><span class="hs-identifier hs-var">ab</span></a><span> </span><a href="#local-6989586621679291371"><span class="hs-identifier hs-var">ac</span></a><span> </span><a href="#local-6989586621679291372"><span class="hs-identifier hs-var">ad</span></a><span class="hs-special">)</span><span>
+</span><a name="line-117"></a><span>
+</span><a name="line-118"></a><span>
+</span><a name="line-119"></a><span class="hs-comment">-- | Record selector OccNames are built from the underlying field name</span><span>
+</span><a name="line-120"></a><span class="hs-comment">-- and the name of the first data constructor of the type, to support</span><span>
+</span><a name="line-121"></a><span class="hs-comment">-- duplicate record field names.</span><span>
+</span><a name="line-122"></a><span class="hs-comment">-- See Note [Why selector names include data constructors].</span><span>
+</span><a name="line-123"></a><span class="hs-identifier">mkFieldLabelOccs</span><span> </span><span class="hs-glyph">::</span><span> </span><a href="FieldLabel.html#FieldLabelString"><span class="hs-identifier hs-type">FieldLabelString</span></a><span> </span><span class="hs-glyph">-&gt;</span><span> </span><a href="OccName.html#OccName"><span class="hs-identifier hs-type">OccName</span></a><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="hs-identifier hs-type">Bool</span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><a href="FieldLabel.html#FieldLbl"><span class="hs-identifier hs-type">FieldLbl</span></a><span> </span><a href="OccName.html#OccName"><span class="hs-identifier hs-type">OccName</span></a><span>
+</span><a name="line-124"></a><a name="mkFieldLabelOccs"><a href="FieldLabel.html#mkFieldLabelOccs"><span class="hs-identifier">mkFieldLabelOccs</span></a></a><span> </span><a name="local-6989586621679291375"><a href="#local-6989586621679291375"><span class="hs-identifier">lbl</span></a></a><span> </span><a name="local-6989586621679291376"><a href="#local-6989586621679291376"><span class="hs-identifier">dc</span></a></a><span> </span><a name="local-6989586621679291377"><a href="#local-6989586621679291377"><span class="hs-identifier">is_overloaded</span></a></a><span>
+</span><a name="line-125"></a><span>  </span><span class="hs-glyph">=</span><span> </span><a href="FieldLabel.html#FieldLabel"><span class="hs-identifier hs-var">FieldLabel</span></a><span> </span><span class="hs-special">{</span><span> </span><span class="hs-identifier">flLabel</span><span> </span><span class="hs-glyph">=</span><span> </span><a href="#local-6989586621679291375"><span class="hs-identifier hs-var">lbl</span></a><span class="hs-special">,</span><span> </span><span class="hs-identifier">flIsOverloaded</span><span> </span><span class="hs-glyph">=</span><span> </span><a href="#local-6989586621679291377"><span class="hs-identifier hs-var">is_overloaded</span></a><span>
+</span><a name="line-126"></a><span>               </span><span class="hs-special">,</span><span> </span><span class="hs-identifier">flSelector</span><span> </span><span class="hs-glyph">=</span><span> </span><a href="#local-6989586621679291379"><span class="hs-identifier hs-var">sel_occ</span></a><span> </span><span class="hs-special">}</span><span>
+</span><a name="line-127"></a><span>  </span><span class="hs-keyword">where</span><span>
+</span><a name="line-128"></a><span>    </span><a name="local-6989586621679291378"><a href="#local-6989586621679291378"><span class="hs-identifier">str</span></a></a><span>     </span><span class="hs-glyph">=</span><span> </span><span class="hs-string">&quot;:&quot;</span><span> </span><a href="../base-4.11.1.0/src/%{MODULE/./-}.html#%{NAME}/GHC.Base.html#%2B%2B"><span class="hs-operator hs-var">++</span></a><span> </span><a href="FastString.html#unpackFS"><span class="hs-identifier hs-var">unpackFS</span></a><span> </span><a href="#local-6989586621679291375"><span class="hs-identifier hs-var">lbl</span></a><span> </span><a href="../base-4.11.1.0/src/%{MODULE/./-}.html#%{NAME}/GHC.Base.html#%2B%2B"><span class="hs-operator hs-var">++</span></a><span> </span><span class="hs-string">&quot;:&quot;</span><span> </span><a href="../base-4.11.1.0/src/%{MODULE/./-}.html#%{NAME}/GHC.Base.html#%2B%2B"><span class="hs-operator hs-var">++</span></a><span> </span><a href="OccName.html#occNameString"><span class="hs-identifier hs-var">occNameString</span></a><span> </span><a href="#local-6989586621679291376"><span class="hs-identifier hs-var">dc</span></a><span>
+</span><a name="line-129"></a><span>    </span><a name="local-6989586621679291379"><a href="#local-6989586621679291379"><span class="hs-identifier">sel_occ</span></a></a><span> </span><span class="hs-glyph">|</span><span> </span><a href="#local-6989586621679291377"><span class="hs-identifier hs-var">is_overloaded</span></a><span> </span><span class="hs-glyph">=</span><span> </span><a href="OccName.html#mkRecFldSelOcc"><span class="hs-identifier hs-var">mkRecFldSelOcc</span></a><span> </span><a href="#local-6989586621679291378"><span class="hs-identifier hs-var">str</span></a><span>
+</span><a name="line-130"></a><span>            </span><span class="hs-glyph">|</span><span> </span><a href="../base-4.11.1.0/src/%{MODULE/./-}.html#%{NAME}/GHC.Base.html#otherwise"><span class="hs-identifier hs-var">otherwise</span></a><span>     </span><span class="hs-glyph">=</span><span> </span><a href="OccName.html#mkVarOccFS"><span class="hs-identifier hs-var">mkVarOccFS</span></a><span> </span><a href="#local-6989586621679291375"><span class="hs-identifier hs-var">lbl</span></a><span>
+</span><a name="line-131"></a></pre></body></html>

@@ -1,0 +1,37 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><link rel="stylesheet" type="text/css" href="style.css" /><script type="text/javascript" src="highlight.js"></script></head><body><pre><span class="hs-pragma">{-# LANGUAGE CPP #-}</span><span>
+</span><a name="line-2"></a><span>
+</span><a name="line-3"></a><span class="hs-comment">-- | Compatibility layer for &quot;Control.Monad.Fail&quot;</span><span>
+</span><a name="line-4"></a><span class="hs-keyword">module</span><span> </span><span class="hs-identifier">Distribution.Compat.MonadFail</span><span> </span><span class="hs-special">(</span><span> </span><a href="../base-4.11.1.0/src/%{MODULE/./-}.html#%{NAME}/Control.Monad.Fail.html#MonadFail"><span class="hs-identifier hs-type">MonadFail</span></a><span class="hs-special">(</span><a href="../base-4.11.1.0/src/%{MODULE/./-}.html#%{NAME}/Control.Monad.Fail.html#fail"><span class="hs-identifier hs-var">fail</span></a><span class="hs-special">)</span><span> </span><span class="hs-special">)</span><span> </span><span class="hs-keyword">where</span><span>
+</span><a name="line-5"></a><span class="hs-cpp">#if __GLASGOW_HASKELL__ &gt;= 800
+</span><span class="hs-comment">-- provided by base-4.9.0.0 and later</span><span>
+</span><a name="line-7"></a><span class="hs-keyword">import</span><span> </span><a href="../base-4.11.1.0/src/%{MODULE/./-}.html#%{NAME}/Control.Monad.Fail.html"><span class="hs-identifier">Control.Monad.Fail</span></a><span> </span><span class="hs-special">(</span><a href="../base-4.11.1.0/src/%{MODULE/./-}.html#%{NAME}/Control.Monad.Fail.html#MonadFail"><span class="hs-identifier hs-type">MonadFail</span></a><span class="hs-special">(</span><a href="../base-4.11.1.0/src/%{MODULE/./-}.html#%{NAME}/Control.Monad.Fail.html#fail"><span class="hs-identifier hs-var">fail</span></a><span class="hs-special">)</span><span class="hs-special">)</span><span>
+</span><a name="line-8"></a><span class="hs-cpp">#else
+</span><span class="hs-comment">-- the following code corresponds to</span><span>
+</span><a name="line-10"></a><span class="hs-comment">-- http://hackage.haskell.org/package/fail-4.9.0.0</span><span>
+</span><a name="line-11"></a><span class="hs-keyword">import</span><span> </span><span class="hs-keyword">qualified</span><span> </span><span class="hs-identifier">Prelude</span><span> </span><span class="hs-keyword">as</span><span> </span><span class="hs-identifier">P</span><span>
+</span><a name="line-12"></a><span class="hs-keyword">import</span><span> </span><span class="hs-identifier">Distribution.Compat.Prelude</span><span> </span><span class="hs-keyword">hiding</span><span> </span><span class="hs-special">(</span><span class="hs-identifier">fail</span><span class="hs-special">)</span><span>
+</span><a name="line-13"></a><span>
+</span><a name="line-14"></a><span class="hs-keyword">import</span><span> </span><span class="hs-identifier">Text.ParserCombinators.ReadP</span><span>
+</span><a name="line-15"></a><span class="hs-keyword">import</span><span> </span><span class="hs-identifier">Text.ParserCombinators.ReadPrec</span><span>
+</span><a name="line-16"></a><span>
+</span><a name="line-17"></a><span class="hs-keyword">class</span><span> </span><span class="hs-identifier">Monad</span><span> </span><span class="hs-identifier">m</span><span> </span><span class="hs-glyph">=&gt;</span><span> </span><span class="hs-identifier">MonadFail</span><span> </span><span class="hs-identifier">m</span><span> </span><span class="hs-keyword">where</span><span>
+</span><a name="line-18"></a><span>    </span><span class="hs-identifier">fail</span><span> </span><span class="hs-glyph">::</span><span> </span><span class="hs-identifier">String</span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="hs-identifier">m</span><span> </span><span class="hs-identifier">a</span><span>
+</span><a name="line-19"></a><span>
+</span><a name="line-20"></a><span class="hs-comment">-- instances provided by base-4.9</span><span>
+</span><a name="line-21"></a><span>
+</span><a name="line-22"></a><span class="hs-keyword">instance</span><span> </span><span class="hs-identifier">MonadFail</span><span> </span><span class="hs-identifier">Maybe</span><span> </span><span class="hs-keyword">where</span><span>
+</span><a name="line-23"></a><span>    </span><span class="hs-identifier">fail</span><span> </span><span class="hs-identifier">_</span><span> </span><span class="hs-glyph">=</span><span> </span><span class="hs-identifier">Nothing</span><span>
+</span><a name="line-24"></a><span>
+</span><a name="line-25"></a><span class="hs-keyword">instance</span><span> </span><span class="hs-identifier">MonadFail</span><span> </span><span class="hs-special">[</span><span class="hs-special">]</span><span> </span><span class="hs-keyword">where</span><span>
+</span><a name="line-26"></a><span>    </span><span class="hs-identifier">fail</span><span> </span><span class="hs-identifier">_</span><span> </span><span class="hs-glyph">=</span><span> </span><span class="hs-special">[</span><span class="hs-special">]</span><span>
+</span><a name="line-27"></a><span>
+</span><a name="line-28"></a><span class="hs-keyword">instance</span><span> </span><span class="hs-identifier">MonadFail</span><span> </span><span class="hs-identifier">P.IO</span><span> </span><span class="hs-keyword">where</span><span>
+</span><a name="line-29"></a><span>    </span><span class="hs-identifier">fail</span><span> </span><span class="hs-glyph">=</span><span> </span><span class="hs-identifier">P.fail</span><span>
+</span><a name="line-30"></a><span>
+</span><a name="line-31"></a><span class="hs-keyword">instance</span><span> </span><span class="hs-identifier">MonadFail</span><span> </span><span class="hs-identifier">ReadPrec</span><span> </span><span class="hs-keyword">where</span><span>
+</span><a name="line-32"></a><span>    </span><span class="hs-identifier">fail</span><span> </span><span class="hs-glyph">=</span><span> </span><span class="hs-identifier">P.fail</span><span> </span><span class="hs-comment">-- = P (\_ -&gt; fail s)</span><span>
+</span><a name="line-33"></a><span>
+</span><a name="line-34"></a><span class="hs-keyword">instance</span><span> </span><span class="hs-identifier">MonadFail</span><span> </span><span class="hs-identifier">ReadP</span><span> </span><span class="hs-keyword">where</span><span>
+</span><a name="line-35"></a><span>    </span><span class="hs-identifier">fail</span><span> </span><span class="hs-glyph">=</span><span> </span><span class="hs-identifier">P.fail</span><span>
+</span><a name="line-36"></a><span class="hs-cpp">#endif
+</span></pre></body></html>

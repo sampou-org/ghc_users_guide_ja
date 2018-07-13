@@ -1,0 +1,1546 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><link rel="stylesheet" type="text/css" href="style.css" /><script type="text/javascript" src="highlight.js"></script></head><body><pre><span class="hs-pragma">{-# LANGUAGE CPP, NondecreasingIndentation, ScopedTypeVariables #-}</span><span>
+</span><a name="line-2"></a><span class="hs-pragma">{-# LANGUAGE TupleSections, NamedFieldPuns #-}</span><span>
+</span><a name="line-3"></a><span>
+</span><a name="line-4"></a><span class="hs-comment">-- -----------------------------------------------------------------------------</span><span>
+</span><a name="line-5"></a><span class="hs-comment">--</span><span>
+</span><a name="line-6"></a><span class="hs-comment">-- (c) The University of Glasgow, 2005-2012</span><span>
+</span><a name="line-7"></a><span class="hs-comment">--</span><span>
+</span><a name="line-8"></a><span class="hs-comment">-- The GHC API</span><span>
+</span><a name="line-9"></a><span class="hs-comment">--</span><span>
+</span><a name="line-10"></a><span class="hs-comment">-- -----------------------------------------------------------------------------</span><span>
+</span><a name="line-11"></a><span>
+</span><a name="line-12"></a><span class="hs-keyword">module</span><span> </span><span class="hs-identifier">GHC</span><span> </span><span class="hs-special">(</span><span>
+</span><a name="line-13"></a><span>        </span><span class="hs-comment">-- * Initialisation</span><span>
+</span><a name="line-14"></a><span>        </span><a href="GHC.html#defaultErrorHandler"><span class="hs-identifier hs-var">defaultErrorHandler</span></a><span class="hs-special">,</span><span>
+</span><a name="line-15"></a><span>        </span><a href="GHC.html#defaultCleanupHandler"><span class="hs-identifier hs-var">defaultCleanupHandler</span></a><span class="hs-special">,</span><span>
+</span><a name="line-16"></a><span>        </span><a href="ErrUtils.html#prettyPrintGhcErrors"><span class="hs-identifier hs-var">prettyPrintGhcErrors</span></a><span class="hs-special">,</span><span>
+</span><a name="line-17"></a><span>        </span><a href="Panic.html#withSignalHandlers"><span class="hs-identifier hs-var">withSignalHandlers</span></a><span class="hs-special">,</span><span>
+</span><a name="line-18"></a><span>        </span><a href="GHC.html#withCleanupSession"><span class="hs-identifier hs-var">withCleanupSession</span></a><span class="hs-special">,</span><span>
+</span><a name="line-19"></a><span>
+</span><a name="line-20"></a><span>        </span><span class="hs-comment">-- * GHC Monad</span><span>
+</span><a name="line-21"></a><span>        </span><a href="GhcMonad.html#Ghc"><span class="hs-identifier hs-type">Ghc</span></a><span class="hs-special">,</span><span> </span><a href="GhcMonad.html#GhcT"><span class="hs-identifier hs-type">GhcT</span></a><span class="hs-special">,</span><span> </span><a href="GhcMonad.html#GhcMonad"><span class="hs-identifier hs-type">GhcMonad</span></a><span class="hs-special">(</span><span class="hs-glyph">..</span><span class="hs-special">)</span><span class="hs-special">,</span><span> </span><a href="HscTypes.html#HscEnv"><span class="hs-identifier hs-type">HscEnv</span></a><span class="hs-special">,</span><span>
+</span><a name="line-22"></a><span>        </span><a href="GHC.html#runGhc"><span class="hs-identifier hs-var">runGhc</span></a><span class="hs-special">,</span><span> </span><a href="GHC.html#runGhcT"><span class="hs-identifier hs-var">runGhcT</span></a><span class="hs-special">,</span><span> </span><a href="GHC.html#initGhcMonad"><span class="hs-identifier hs-var">initGhcMonad</span></a><span class="hs-special">,</span><span>
+</span><a name="line-23"></a><span>        </span><a href="Exception.html#gcatch"><span class="hs-identifier hs-var">gcatch</span></a><span class="hs-special">,</span><span> </span><a href="Exception.html#gbracket"><span class="hs-identifier hs-var">gbracket</span></a><span class="hs-special">,</span><span> </span><a href="Exception.html#gfinally"><span class="hs-identifier hs-var">gfinally</span></a><span class="hs-special">,</span><span>
+</span><a name="line-24"></a><span>        </span><a href="GhcMonad.html#printException"><span class="hs-identifier hs-var">printException</span></a><span class="hs-special">,</span><span>
+</span><a name="line-25"></a><span>        </span><a href="HscTypes.html#handleSourceError"><span class="hs-identifier hs-var">handleSourceError</span></a><span class="hs-special">,</span><span>
+</span><a name="line-26"></a><span>        </span><a href="HscTypes.html#needsTemplateHaskellOrQQ"><span class="hs-identifier hs-var">needsTemplateHaskellOrQQ</span></a><span class="hs-special">,</span><span>
+</span><a name="line-27"></a><span>
+</span><a name="line-28"></a><span>        </span><span class="hs-comment">-- * Flags and settings</span><span>
+</span><a name="line-29"></a><span>        </span><a href="DynFlags.html#DynFlags"><span class="hs-identifier hs-type">DynFlags</span></a><span class="hs-special">(</span><span class="hs-glyph">..</span><span class="hs-special">)</span><span class="hs-special">,</span><span> </span><a href="DynFlags.html#GeneralFlag"><span class="hs-identifier hs-type">GeneralFlag</span></a><span class="hs-special">(</span><span class="hs-glyph">..</span><span class="hs-special">)</span><span class="hs-special">,</span><span> </span><a href="ErrUtils.html#Severity"><span class="hs-identifier hs-type">Severity</span></a><span class="hs-special">(</span><span class="hs-glyph">..</span><span class="hs-special">)</span><span class="hs-special">,</span><span> </span><a href="DynFlags.html#HscTarget"><span class="hs-identifier hs-type">HscTarget</span></a><span class="hs-special">(</span><span class="hs-glyph">..</span><span class="hs-special">)</span><span class="hs-special">,</span><span> </span><a href="DynFlags.html#gopt"><span class="hs-identifier hs-var">gopt</span></a><span class="hs-special">,</span><span>
+</span><a name="line-30"></a><span>        </span><a href="DynFlags.html#GhcMode"><span class="hs-identifier hs-type">GhcMode</span></a><span class="hs-special">(</span><span class="hs-glyph">..</span><span class="hs-special">)</span><span class="hs-special">,</span><span> </span><a href="DynFlags.html#GhcLink"><span class="hs-identifier hs-type">GhcLink</span></a><span class="hs-special">(</span><span class="hs-glyph">..</span><span class="hs-special">)</span><span class="hs-special">,</span><span> </span><a href="DynFlags.html#defaultObjectTarget"><span class="hs-identifier hs-var">defaultObjectTarget</span></a><span class="hs-special">,</span><span>
+</span><a name="line-31"></a><span>        </span><a href="GHC.html#parseDynamicFlags"><span class="hs-identifier hs-var">parseDynamicFlags</span></a><span class="hs-special">,</span><span>
+</span><a name="line-32"></a><span>        </span><a href="GhcMonad.html#getSessionDynFlags"><span class="hs-identifier hs-var">getSessionDynFlags</span></a><span class="hs-special">,</span><span> </span><a href="GHC.html#setSessionDynFlags"><span class="hs-identifier hs-var">setSessionDynFlags</span></a><span class="hs-special">,</span><span>
+</span><a name="line-33"></a><span>        </span><a href="GHC.html#getProgramDynFlags"><span class="hs-identifier hs-var">getProgramDynFlags</span></a><span class="hs-special">,</span><span> </span><a href="GHC.html#setProgramDynFlags"><span class="hs-identifier hs-var">setProgramDynFlags</span></a><span class="hs-special">,</span><span> </span><a href="GHC.html#setLogAction"><span class="hs-identifier hs-var">setLogAction</span></a><span class="hs-special">,</span><span>
+</span><a name="line-34"></a><span>        </span><a href="GHC.html#getInteractiveDynFlags"><span class="hs-identifier hs-var">getInteractiveDynFlags</span></a><span class="hs-special">,</span><span> </span><a href="GHC.html#setInteractiveDynFlags"><span class="hs-identifier hs-var">setInteractiveDynFlags</span></a><span class="hs-special">,</span><span>
+</span><a name="line-35"></a><span>
+</span><a name="line-36"></a><span>        </span><span class="hs-comment">-- * Targets</span><span>
+</span><a name="line-37"></a><span>        </span><a href="HscTypes.html#Target"><span class="hs-identifier hs-type">Target</span></a><span class="hs-special">(</span><span class="hs-glyph">..</span><span class="hs-special">)</span><span class="hs-special">,</span><span> </span><a href="HscTypes.html#TargetId"><span class="hs-identifier hs-type">TargetId</span></a><span class="hs-special">(</span><span class="hs-glyph">..</span><span class="hs-special">)</span><span class="hs-special">,</span><span> </span><a href="DriverPhases.html#Phase"><span class="hs-identifier hs-type">Phase</span></a><span class="hs-special">,</span><span>
+</span><a name="line-38"></a><span>        </span><a href="GHC.html#setTargets"><span class="hs-identifier hs-var">setTargets</span></a><span class="hs-special">,</span><span>
+</span><a name="line-39"></a><span>        </span><a href="GHC.html#getTargets"><span class="hs-identifier hs-var">getTargets</span></a><span class="hs-special">,</span><span>
+</span><a name="line-40"></a><span>        </span><a href="GHC.html#addTarget"><span class="hs-identifier hs-var">addTarget</span></a><span class="hs-special">,</span><span>
+</span><a name="line-41"></a><span>        </span><a href="GHC.html#removeTarget"><span class="hs-identifier hs-var">removeTarget</span></a><span class="hs-special">,</span><span>
+</span><a name="line-42"></a><span>        </span><a href="GHC.html#guessTarget"><span class="hs-identifier hs-var">guessTarget</span></a><span class="hs-special">,</span><span>
+</span><a name="line-43"></a><span>
+</span><a name="line-44"></a><span>        </span><span class="hs-comment">-- * Loading\/compiling the program</span><span>
+</span><a name="line-45"></a><span>        </span><a href="GhcMake.html#depanal"><span class="hs-identifier hs-var">depanal</span></a><span class="hs-special">,</span><span>
+</span><a name="line-46"></a><span>        </span><a href="GhcMake.html#load"><span class="hs-identifier hs-var">load</span></a><span class="hs-special">,</span><span> </span><a href="GhcMake.html#LoadHowMuch"><span class="hs-identifier hs-type">LoadHowMuch</span></a><span class="hs-special">(</span><span class="hs-glyph">..</span><span class="hs-special">)</span><span class="hs-special">,</span><span> </span><a href="HscTypes.html#InteractiveImport"><span class="hs-identifier hs-type">InteractiveImport</span></a><span class="hs-special">(</span><span class="hs-glyph">..</span><span class="hs-special">)</span><span class="hs-special">,</span><span>
+</span><a name="line-47"></a><span>        </span><a href="BasicTypes.html#SuccessFlag"><span class="hs-identifier hs-type">SuccessFlag</span></a><span class="hs-special">(</span><span class="hs-glyph">..</span><span class="hs-special">)</span><span class="hs-special">,</span><span> </span><a href="BasicTypes.html#succeeded"><span class="hs-identifier hs-var">succeeded</span></a><span class="hs-special">,</span><span> </span><a href="BasicTypes.html#failed"><span class="hs-identifier hs-var">failed</span></a><span class="hs-special">,</span><span>
+</span><a name="line-48"></a><span>        </span><a href="GhcMonad.html#defaultWarnErrLogger"><span class="hs-identifier hs-var">defaultWarnErrLogger</span></a><span class="hs-special">,</span><span> </span><a href="GhcMonad.html#WarnErrLogger"><span class="hs-identifier hs-type">WarnErrLogger</span></a><span class="hs-special">,</span><span>
+</span><a name="line-49"></a><span>        </span><a href="GHC.html#workingDirectoryChanged"><span class="hs-identifier hs-var">workingDirectoryChanged</span></a><span class="hs-special">,</span><span>
+</span><a name="line-50"></a><span>        </span><a href="GHC.html#parseModule"><span class="hs-identifier hs-var">parseModule</span></a><span class="hs-special">,</span><span> </span><a href="GHC.html#typecheckModule"><span class="hs-identifier hs-var">typecheckModule</span></a><span class="hs-special">,</span><span> </span><a href="GHC.html#desugarModule"><span class="hs-identifier hs-var">desugarModule</span></a><span class="hs-special">,</span><span> </span><a href="GHC.html#loadModule"><span class="hs-identifier hs-var">loadModule</span></a><span class="hs-special">,</span><span>
+</span><a name="line-51"></a><span>        </span><a href="GHC.html#ParsedModule"><span class="hs-identifier hs-type">ParsedModule</span></a><span class="hs-special">(</span><span class="hs-glyph">..</span><span class="hs-special">)</span><span class="hs-special">,</span><span> </span><a href="GHC.html#TypecheckedModule"><span class="hs-identifier hs-type">TypecheckedModule</span></a><span class="hs-special">(</span><span class="hs-glyph">..</span><span class="hs-special">)</span><span class="hs-special">,</span><span> </span><a href="GHC.html#DesugaredModule"><span class="hs-identifier hs-type">DesugaredModule</span></a><span class="hs-special">(</span><span class="hs-glyph">..</span><span class="hs-special">)</span><span class="hs-special">,</span><span>
+</span><a name="line-52"></a><span>        </span><a href="GHC.html#TypecheckedSource"><span class="hs-identifier hs-type">TypecheckedSource</span></a><span class="hs-special">,</span><span> </span><a href="GHC.html#ParsedSource"><span class="hs-identifier hs-type">ParsedSource</span></a><span class="hs-special">,</span><span> </span><a href="GHC.html#RenamedSource"><span class="hs-identifier hs-type">RenamedSource</span></a><span class="hs-special">,</span><span>   </span><span class="hs-comment">-- ditto</span><span>
+</span><a name="line-53"></a><span>        </span><a href="GHC.html#TypecheckedMod"><span class="hs-identifier hs-type">TypecheckedMod</span></a><span class="hs-special">,</span><span> </span><a href="GHC.html#ParsedMod"><span class="hs-identifier hs-type">ParsedMod</span></a><span class="hs-special">,</span><span>
+</span><a name="line-54"></a><span>        </span><a href="GHC.html#moduleInfo"><span class="hs-identifier hs-var">moduleInfo</span></a><span class="hs-special">,</span><span> </span><a href="GHC.html#renamedSource"><span class="hs-identifier hs-var">renamedSource</span></a><span class="hs-special">,</span><span> </span><a href="GHC.html#typecheckedSource"><span class="hs-identifier hs-var">typecheckedSource</span></a><span class="hs-special">,</span><span>
+</span><a name="line-55"></a><span>        </span><a href="GHC.html#parsedSource"><span class="hs-identifier hs-var">parsedSource</span></a><span class="hs-special">,</span><span> </span><a href="GHC.html#coreModule"><span class="hs-identifier hs-var">coreModule</span></a><span class="hs-special">,</span><span>
+</span><a name="line-56"></a><span>
+</span><a name="line-57"></a><span>        </span><span class="hs-comment">-- ** Compiling to Core</span><span>
+</span><a name="line-58"></a><span>        </span><a href="GHC.html#CoreModule"><span class="hs-identifier hs-type">CoreModule</span></a><span class="hs-special">(</span><span class="hs-glyph">..</span><span class="hs-special">)</span><span class="hs-special">,</span><span>
+</span><a name="line-59"></a><span>        </span><a href="GHC.html#compileToCoreModule"><span class="hs-identifier hs-var">compileToCoreModule</span></a><span class="hs-special">,</span><span> </span><a href="GHC.html#compileToCoreSimplified"><span class="hs-identifier hs-var">compileToCoreSimplified</span></a><span class="hs-special">,</span><span>
+</span><a name="line-60"></a><span>
+</span><a name="line-61"></a><span>        </span><span class="hs-comment">-- * Inspecting the module structure of the program</span><span>
+</span><a name="line-62"></a><span>        </span><a href="HscTypes.html#ModuleGraph"><span class="hs-identifier hs-type">ModuleGraph</span></a><span class="hs-special">,</span><span> </span><a href="HscTypes.html#emptyMG"><span class="hs-identifier hs-var">emptyMG</span></a><span class="hs-special">,</span><span> </span><a href="HscTypes.html#mapMG"><span class="hs-identifier hs-var">mapMG</span></a><span class="hs-special">,</span><span> </span><a href="HscTypes.html#mkModuleGraph"><span class="hs-identifier hs-var">mkModuleGraph</span></a><span class="hs-special">,</span><span> </span><a href="HscTypes.html#mgModSummaries"><span class="hs-identifier hs-var">mgModSummaries</span></a><span class="hs-special">,</span><span>
+</span><a name="line-63"></a><span>        </span><a href="HscTypes.html#mgLookupModule"><span class="hs-identifier hs-var">mgLookupModule</span></a><span class="hs-special">,</span><span>
+</span><a name="line-64"></a><span>        </span><a href="HscTypes.html#ModSummary"><span class="hs-identifier hs-type">ModSummary</span></a><span class="hs-special">(</span><span class="hs-glyph">..</span><span class="hs-special">)</span><span class="hs-special">,</span><span> </span><a href="HscTypes.html#ms_mod_name"><span class="hs-identifier hs-var">ms_mod_name</span></a><span class="hs-special">,</span><span> </span><a href="Module.html#ModLocation"><span class="hs-identifier hs-type">ModLocation</span></a><span class="hs-special">(</span><span class="hs-glyph">..</span><span class="hs-special">)</span><span class="hs-special">,</span><span>
+</span><a name="line-65"></a><span>        </span><a href="GHC.html#getModSummary"><span class="hs-identifier hs-var">getModSummary</span></a><span class="hs-special">,</span><span>
+</span><a name="line-66"></a><span>        </span><a href="GHC.html#getModuleGraph"><span class="hs-identifier hs-var">getModuleGraph</span></a><span class="hs-special">,</span><span>
+</span><a name="line-67"></a><span>        </span><a href="GHC.html#isLoaded"><span class="hs-identifier hs-var">isLoaded</span></a><span class="hs-special">,</span><span>
+</span><a name="line-68"></a><span>        </span><a href="GhcMake.html#topSortModuleGraph"><span class="hs-identifier hs-var">topSortModuleGraph</span></a><span class="hs-special">,</span><span>
+</span><a name="line-69"></a><span>
+</span><a name="line-70"></a><span>        </span><span class="hs-comment">-- * Inspecting modules</span><span>
+</span><a name="line-71"></a><span>        </span><a href="GHC.html#ModuleInfo"><span class="hs-identifier hs-type">ModuleInfo</span></a><span class="hs-special">,</span><span>
+</span><a name="line-72"></a><span>        </span><a href="GHC.html#getModuleInfo"><span class="hs-identifier hs-var">getModuleInfo</span></a><span class="hs-special">,</span><span>
+</span><a name="line-73"></a><span>        </span><a href="GHC.html#modInfoTyThings"><span class="hs-identifier hs-var">modInfoTyThings</span></a><span class="hs-special">,</span><span>
+</span><a name="line-74"></a><span>        </span><a href="GHC.html#modInfoTopLevelScope"><span class="hs-identifier hs-var">modInfoTopLevelScope</span></a><span class="hs-special">,</span><span>
+</span><a name="line-75"></a><span>        </span><a href="GHC.html#modInfoExports"><span class="hs-identifier hs-var">modInfoExports</span></a><span class="hs-special">,</span><span>
+</span><a name="line-76"></a><span>        </span><a href="GHC.html#modInfoExportsWithSelectors"><span class="hs-identifier hs-var">modInfoExportsWithSelectors</span></a><span class="hs-special">,</span><span>
+</span><a name="line-77"></a><span>        </span><a href="GHC.html#modInfoInstances"><span class="hs-identifier hs-var">modInfoInstances</span></a><span class="hs-special">,</span><span>
+</span><a name="line-78"></a><span>        </span><a href="GHC.html#modInfoIsExportedName"><span class="hs-identifier hs-var">modInfoIsExportedName</span></a><span class="hs-special">,</span><span>
+</span><a name="line-79"></a><span>        </span><a href="GHC.html#modInfoLookupName"><span class="hs-identifier hs-var">modInfoLookupName</span></a><span class="hs-special">,</span><span>
+</span><a name="line-80"></a><span>        </span><a href="GHC.html#modInfoIface"><span class="hs-identifier hs-var">modInfoIface</span></a><span class="hs-special">,</span><span>
+</span><a name="line-81"></a><span>        </span><a href="GHC.html#modInfoSafe"><span class="hs-identifier hs-var">modInfoSafe</span></a><span class="hs-special">,</span><span>
+</span><a name="line-82"></a><span>        </span><a href="GHC.html#lookupGlobalName"><span class="hs-identifier hs-var">lookupGlobalName</span></a><span class="hs-special">,</span><span>
+</span><a name="line-83"></a><span>        </span><a href="GHC.html#findGlobalAnns"><span class="hs-identifier hs-var">findGlobalAnns</span></a><span class="hs-special">,</span><span>
+</span><a name="line-84"></a><span>        </span><a href="GHC.html#mkPrintUnqualifiedForModule"><span class="hs-identifier hs-var">mkPrintUnqualifiedForModule</span></a><span class="hs-special">,</span><span>
+</span><a name="line-85"></a><span>        </span><a href="HscTypes.html#ModIface"><span class="hs-identifier hs-type">ModIface</span></a><span class="hs-special">(</span><span class="hs-glyph">..</span><span class="hs-special">)</span><span class="hs-special">,</span><span>
+</span><a name="line-86"></a><span>        </span><a href="DynFlags.html#SafeHaskellMode"><span class="hs-identifier hs-type">SafeHaskellMode</span></a><span class="hs-special">(</span><span class="hs-glyph">..</span><span class="hs-special">)</span><span class="hs-special">,</span><span>
+</span><a name="line-87"></a><span>
+</span><a name="line-88"></a><span>        </span><span class="hs-comment">-- * Querying the environment</span><span>
+</span><a name="line-89"></a><span>        </span><span class="hs-comment">-- packageDbModules,</span><span>
+</span><a name="line-90"></a><span>
+</span><a name="line-91"></a><span>        </span><span class="hs-comment">-- * Printing</span><span>
+</span><a name="line-92"></a><span>        </span><a href="Outputable.html#PrintUnqualified"><span class="hs-identifier hs-type">PrintUnqualified</span></a><span class="hs-special">,</span><span> </span><a href="Outputable.html#alwaysQualify"><span class="hs-identifier hs-var">alwaysQualify</span></a><span class="hs-special">,</span><span>
+</span><a name="line-93"></a><span>
+</span><a name="line-94"></a><span>        </span><span class="hs-comment">-- * Interactive evaluation</span><span>
+</span><a name="line-95"></a><span>
+</span><a name="line-96"></a><span>        </span><span class="hs-comment">-- ** Executing statements</span><span>
+</span><a name="line-97"></a><span>        </span><a href="InteractiveEval.html#execStmt"><span class="hs-identifier hs-var">execStmt</span></a><span class="hs-special">,</span><span> </span><a href="InteractiveEvalTypes.html#ExecOptions"><span class="hs-identifier hs-type">ExecOptions</span></a><span class="hs-special">(</span><span class="hs-glyph">..</span><span class="hs-special">)</span><span class="hs-special">,</span><span> </span><a href="InteractiveEval.html#execOptions"><span class="hs-identifier hs-var">execOptions</span></a><span class="hs-special">,</span><span> </span><a href="InteractiveEvalTypes.html#ExecResult"><span class="hs-identifier hs-type">ExecResult</span></a><span class="hs-special">(</span><span class="hs-glyph">..</span><span class="hs-special">)</span><span class="hs-special">,</span><span>
+</span><a name="line-98"></a><span>        </span><a href="InteractiveEval.html#resumeExec"><span class="hs-identifier hs-var">resumeExec</span></a><span class="hs-special">,</span><span>
+</span><a name="line-99"></a><span>
+</span><a name="line-100"></a><span>        </span><span class="hs-comment">-- ** Adding new declarations</span><span>
+</span><a name="line-101"></a><span>        </span><a href="InteractiveEval.html#runDecls"><span class="hs-identifier hs-var">runDecls</span></a><span class="hs-special">,</span><span> </span><a href="InteractiveEval.html#runDeclsWithLocation"><span class="hs-identifier hs-var">runDeclsWithLocation</span></a><span class="hs-special">,</span><span>
+</span><a name="line-102"></a><span>
+</span><a name="line-103"></a><span>        </span><span class="hs-comment">-- ** Get/set the current context</span><span>
+</span><a name="line-104"></a><span>        </span><a href="InteractiveEval.html#parseImportDecl"><span class="hs-identifier hs-var">parseImportDecl</span></a><span class="hs-special">,</span><span>
+</span><a name="line-105"></a><span>        </span><a href="InteractiveEval.html#setContext"><span class="hs-identifier hs-var">setContext</span></a><span class="hs-special">,</span><span> </span><a href="InteractiveEval.html#getContext"><span class="hs-identifier hs-var">getContext</span></a><span class="hs-special">,</span><span>
+</span><a name="line-106"></a><span>        </span><a href="GHC.html#setGHCiMonad"><span class="hs-identifier hs-var">setGHCiMonad</span></a><span class="hs-special">,</span><span> </span><a href="GHC.html#getGHCiMonad"><span class="hs-identifier hs-var">getGHCiMonad</span></a><span class="hs-special">,</span><span>
+</span><a name="line-107"></a><span>
+</span><a name="line-108"></a><span>        </span><span class="hs-comment">-- ** Inspecting the current context</span><span>
+</span><a name="line-109"></a><span>        </span><a href="GHC.html#getBindings"><span class="hs-identifier hs-var">getBindings</span></a><span class="hs-special">,</span><span> </span><a href="GHC.html#getInsts"><span class="hs-identifier hs-var">getInsts</span></a><span class="hs-special">,</span><span> </span><a href="GHC.html#getPrintUnqual"><span class="hs-identifier hs-var">getPrintUnqual</span></a><span class="hs-special">,</span><span>
+</span><a name="line-110"></a><span>        </span><a href="GHC.html#findModule"><span class="hs-identifier hs-var">findModule</span></a><span class="hs-special">,</span><span> </span><a href="GHC.html#lookupModule"><span class="hs-identifier hs-var">lookupModule</span></a><span class="hs-special">,</span><span>
+</span><a name="line-111"></a><span>        </span><a href="GHC.html#isModuleTrusted"><span class="hs-identifier hs-var">isModuleTrusted</span></a><span class="hs-special">,</span><span> </span><a href="GHC.html#moduleTrustReqs"><span class="hs-identifier hs-var">moduleTrustReqs</span></a><span class="hs-special">,</span><span>
+</span><a name="line-112"></a><span>        </span><a href="InteractiveEval.html#getNamesInScope"><span class="hs-identifier hs-var">getNamesInScope</span></a><span class="hs-special">,</span><span>
+</span><a name="line-113"></a><span>        </span><a href="InteractiveEval.html#getRdrNamesInScope"><span class="hs-identifier hs-var">getRdrNamesInScope</span></a><span class="hs-special">,</span><span>
+</span><a name="line-114"></a><span>        </span><a href="GHC.html#getGRE"><span class="hs-identifier hs-var">getGRE</span></a><span class="hs-special">,</span><span>
+</span><a name="line-115"></a><span>        </span><a href="InteractiveEval.html#moduleIsInterpreted"><span class="hs-identifier hs-var">moduleIsInterpreted</span></a><span class="hs-special">,</span><span>
+</span><a name="line-116"></a><span>        </span><a href="InteractiveEval.html#getInfo"><span class="hs-identifier hs-var">getInfo</span></a><span class="hs-special">,</span><span>
+</span><a name="line-117"></a><span>        </span><a href="InteractiveEval.html#showModule"><span class="hs-identifier hs-var">showModule</span></a><span class="hs-special">,</span><span>
+</span><a name="line-118"></a><span>        </span><a href="InteractiveEval.html#moduleIsBootOrNotObjectLinkable"><span class="hs-identifier hs-var">moduleIsBootOrNotObjectLinkable</span></a><span class="hs-special">,</span><span>
+</span><a name="line-119"></a><span>        </span><a href="GHC.html#getNameToInstancesIndex"><span class="hs-identifier hs-var">getNameToInstancesIndex</span></a><span class="hs-special">,</span><span>
+</span><a name="line-120"></a><span>
+</span><a name="line-121"></a><span>        </span><span class="hs-comment">-- ** Inspecting types and kinds</span><span>
+</span><a name="line-122"></a><span>        </span><a href="InteractiveEval.html#exprType"><span class="hs-identifier hs-var">exprType</span></a><span class="hs-special">,</span><span> </span><a href="TcRnDriver.html#TcRnExprMode"><span class="hs-identifier hs-type">TcRnExprMode</span></a><span class="hs-special">(</span><span class="hs-glyph">..</span><span class="hs-special">)</span><span class="hs-special">,</span><span>
+</span><a name="line-123"></a><span>        </span><a href="InteractiveEval.html#typeKind"><span class="hs-identifier hs-var">typeKind</span></a><span class="hs-special">,</span><span>
+</span><a name="line-124"></a><span>
+</span><a name="line-125"></a><span>        </span><span class="hs-comment">-- ** Looking up a Name</span><span>
+</span><a name="line-126"></a><span>        </span><a href="InteractiveEval.html#parseName"><span class="hs-identifier hs-var">parseName</span></a><span class="hs-special">,</span><span>
+</span><a name="line-127"></a><span>        </span><a href="GHC.html#lookupName"><span class="hs-identifier hs-var">lookupName</span></a><span class="hs-special">,</span><span>
+</span><a name="line-128"></a><span>
+</span><a name="line-129"></a><span>        </span><span class="hs-comment">-- ** Compiling expressions</span><span>
+</span><a name="line-130"></a><span>        </span><a href="../ghci-8.4.3/src/%{MODULE/./-}.html#%{NAME}/GHCi.RemoteTypes.html#HValue"><span class="hs-identifier hs-type">HValue</span></a><span class="hs-special">,</span><span> </span><a href="InteractiveEval.html#parseExpr"><span class="hs-identifier hs-var">parseExpr</span></a><span class="hs-special">,</span><span> </span><a href="InteractiveEval.html#compileParsedExpr"><span class="hs-identifier hs-var">compileParsedExpr</span></a><span class="hs-special">,</span><span>
+</span><a name="line-131"></a><span>        </span><a href="InteractiveEval.html#compileExpr"><span class="hs-identifier hs-var">InteractiveEval.compileExpr</span></a><span class="hs-special">,</span><span> </span><a href="InteractiveEval.html#dynCompileExpr"><span class="hs-identifier hs-var">dynCompileExpr</span></a><span class="hs-special">,</span><span>
+</span><a name="line-132"></a><span>        </span><a href="../ghci-8.4.3/src/%{MODULE/./-}.html#%{NAME}/GHCi.RemoteTypes.html#ForeignHValue"><span class="hs-identifier hs-type">ForeignHValue</span></a><span class="hs-special">,</span><span>
+</span><a name="line-133"></a><span>        </span><a href="InteractiveEval.html#compileExprRemote"><span class="hs-identifier hs-var">compileExprRemote</span></a><span class="hs-special">,</span><span> </span><a href="InteractiveEval.html#compileParsedExprRemote"><span class="hs-identifier hs-var">compileParsedExprRemote</span></a><span class="hs-special">,</span><span>
+</span><a name="line-134"></a><span>
+</span><a name="line-135"></a><span>        </span><span class="hs-comment">-- ** Other</span><span>
+</span><a name="line-136"></a><span>        </span><a href="TcRnDriver.html#runTcInteractive"><span class="hs-identifier hs-var">runTcInteractive</span></a><span class="hs-special">,</span><span>   </span><span class="hs-comment">-- Desired by some clients (Trac #8878)</span><span>
+</span><a name="line-137"></a><span>        </span><a href="InteractiveEval.html#isStmt"><span class="hs-identifier hs-var">isStmt</span></a><span class="hs-special">,</span><span> </span><a href="InteractiveEval.html#hasImport"><span class="hs-identifier hs-var">hasImport</span></a><span class="hs-special">,</span><span> </span><a href="InteractiveEval.html#isImport"><span class="hs-identifier hs-var">isImport</span></a><span class="hs-special">,</span><span> </span><a href="InteractiveEval.html#isDecl"><span class="hs-identifier hs-var">isDecl</span></a><span class="hs-special">,</span><span>
+</span><a name="line-138"></a><span>
+</span><a name="line-139"></a><span>        </span><span class="hs-comment">-- ** The debugger</span><span>
+</span><a name="line-140"></a><span>        </span><a href="InteractiveEvalTypes.html#SingleStep"><span class="hs-identifier hs-type">SingleStep</span></a><span class="hs-special">(</span><span class="hs-glyph">..</span><span class="hs-special">)</span><span class="hs-special">,</span><span>
+</span><a name="line-141"></a><span>        </span><a href="InteractiveEvalTypes.html#Resume"><span class="hs-identifier hs-type">Resume</span></a><span class="hs-special">(</span><span class="hs-glyph">..</span><span class="hs-special">)</span><span class="hs-special">,</span><span>
+</span><a name="line-142"></a><span>        </span><a href="InteractiveEvalTypes.html#History"><span class="hs-identifier hs-type">History</span></a><span class="hs-special">(</span><span class="hs-identifier">historyBreakInfo</span><span class="hs-special">,</span><span> </span><span class="hs-identifier">historyEnclosingDecls</span><span class="hs-special">)</span><span class="hs-special">,</span><span>
+</span><a name="line-143"></a><span>        </span><a href="GHC.html#getHistorySpan"><span class="hs-identifier hs-var">GHC.getHistorySpan</span></a><span class="hs-special">,</span><span> </span><a href="InteractiveEval.html#getHistoryModule"><span class="hs-identifier hs-var">getHistoryModule</span></a><span class="hs-special">,</span><span>
+</span><a name="line-144"></a><span>        </span><a href="InteractiveEval.html#abandon"><span class="hs-identifier hs-var">abandon</span></a><span class="hs-special">,</span><span> </span><a href="InteractiveEval.html#abandonAll"><span class="hs-identifier hs-var">abandonAll</span></a><span class="hs-special">,</span><span>
+</span><a name="line-145"></a><span>        </span><a href="InteractiveEval.html#getResumeContext"><span class="hs-identifier hs-var">getResumeContext</span></a><span class="hs-special">,</span><span>
+</span><a name="line-146"></a><span>        </span><a href="GHC.html#obtainTermFromId"><span class="hs-identifier hs-var">GHC.obtainTermFromId</span></a><span class="hs-special">,</span><span> </span><a href="GHC.html#obtainTermFromVal"><span class="hs-identifier hs-var">GHC.obtainTermFromVal</span></a><span class="hs-special">,</span><span> </span><a href="InteractiveEval.html#reconstructType"><span class="hs-identifier hs-var">reconstructType</span></a><span class="hs-special">,</span><span>
+</span><a name="line-147"></a><span>        </span><a href="GHC.html#modInfoModBreaks"><span class="hs-identifier hs-var">modInfoModBreaks</span></a><span class="hs-special">,</span><span>
+</span><a name="line-148"></a><span>        </span><a href="ByteCodeTypes.html#ModBreaks"><span class="hs-identifier hs-type">ModBreaks</span></a><span class="hs-special">(</span><span class="hs-glyph">..</span><span class="hs-special">)</span><span class="hs-special">,</span><span> </span><a href="ByteCodeTypes.html#BreakIndex"><span class="hs-identifier hs-type">BreakIndex</span></a><span class="hs-special">,</span><span>
+</span><a name="line-149"></a><span>        </span><a href="InteractiveEvalTypes.html#BreakInfo"><span class="hs-identifier hs-type">BreakInfo</span></a><span class="hs-special">(</span><span class="hs-identifier">breakInfo_number</span><span class="hs-special">,</span><span> </span><span class="hs-identifier">breakInfo_module</span><span class="hs-special">)</span><span class="hs-special">,</span><span>
+</span><a name="line-150"></a><span>        </span><a href="InteractiveEval.html#back"><span class="hs-identifier hs-var">InteractiveEval.back</span></a><span class="hs-special">,</span><span>
+</span><a name="line-151"></a><span>        </span><a href="InteractiveEval.html#forward"><span class="hs-identifier hs-var">InteractiveEval.forward</span></a><span class="hs-special">,</span><span>
+</span><a name="line-152"></a><span>
+</span><a name="line-153"></a><span>        </span><span class="hs-comment">-- * Abstract syntax elements</span><span>
+</span><a name="line-154"></a><span>
+</span><a name="line-155"></a><span>        </span><span class="hs-comment">-- ** Packages</span><span>
+</span><a name="line-156"></a><span>        </span><a href="Module.html#UnitId"><span class="hs-identifier hs-type">UnitId</span></a><span class="hs-special">,</span><span>
+</span><a name="line-157"></a><span>
+</span><a name="line-158"></a><span>        </span><span class="hs-comment">-- ** Modules</span><span>
+</span><a name="line-159"></a><span>        </span><a href="Module.html#Module"><span class="hs-identifier hs-type">Module</span></a><span class="hs-special">,</span><span> </span><a href="Module.html#mkModule"><span class="hs-identifier hs-var">mkModule</span></a><span class="hs-special">,</span><span> </span><a href="Module.html#pprModule"><span class="hs-identifier hs-var">pprModule</span></a><span class="hs-special">,</span><span> </span><a href="Module.html#moduleName"><span class="hs-identifier hs-var">moduleName</span></a><span class="hs-special">,</span><span> </span><a href="Module.html#moduleUnitId"><span class="hs-identifier hs-var">moduleUnitId</span></a><span class="hs-special">,</span><span>
+</span><a name="line-160"></a><span>        </span><a href="Module.html#ModuleName"><span class="hs-identifier hs-type">ModuleName</span></a><span class="hs-special">,</span><span> </span><a href="Module.html#mkModuleName"><span class="hs-identifier hs-var">mkModuleName</span></a><span class="hs-special">,</span><span> </span><a href="Module.html#moduleNameString"><span class="hs-identifier hs-var">moduleNameString</span></a><span class="hs-special">,</span><span>
+</span><a name="line-161"></a><span>
+</span><a name="line-162"></a><span>        </span><span class="hs-comment">-- ** Names</span><span>
+</span><a name="line-163"></a><span>        </span><a href="Name.html#Name"><span class="hs-identifier hs-type">Name</span></a><span class="hs-special">,</span><span>
+</span><a name="line-164"></a><span>        </span><a href="Name.html#isExternalName"><span class="hs-identifier hs-var">isExternalName</span></a><span class="hs-special">,</span><span> </span><a href="Name.html#nameModule"><span class="hs-identifier hs-var">nameModule</span></a><span class="hs-special">,</span><span> </span><a href="GHC.html#pprParenSymName"><span class="hs-identifier hs-var">pprParenSymName</span></a><span class="hs-special">,</span><span> </span><a href="Name.html#nameSrcSpan"><span class="hs-identifier hs-var">nameSrcSpan</span></a><span class="hs-special">,</span><span>
+</span><a name="line-165"></a><span>        </span><a href="Name.html#NamedThing"><span class="hs-identifier hs-type">NamedThing</span></a><span class="hs-special">(</span><span class="hs-glyph">..</span><span class="hs-special">)</span><span class="hs-special">,</span><span>
+</span><a name="line-166"></a><span>        </span><a href="RdrName.html#RdrName"><span class="hs-identifier hs-type">RdrName</span></a><span class="hs-special">(</span><a href="RdrName.html#Qual"><span class="hs-identifier hs-var">Qual</span></a><span class="hs-special">,</span><a href="RdrName.html#Unqual"><span class="hs-identifier hs-var">Unqual</span></a><span class="hs-special">)</span><span class="hs-special">,</span><span>
+</span><a name="line-167"></a><span>
+</span><a name="line-168"></a><span>        </span><span class="hs-comment">-- ** Identifiers</span><span>
+</span><a name="line-169"></a><span>        </span><a href="Var.html#Id"><span class="hs-identifier hs-type">Id</span></a><span class="hs-special">,</span><span> </span><a href="Id.html#idType"><span class="hs-identifier hs-var">idType</span></a><span class="hs-special">,</span><span>
+</span><a name="line-170"></a><span>        </span><a href="Id.html#isImplicitId"><span class="hs-identifier hs-var">isImplicitId</span></a><span class="hs-special">,</span><span> </span><a href="Id.html#isDeadBinder"><span class="hs-identifier hs-var">isDeadBinder</span></a><span class="hs-special">,</span><span>
+</span><a name="line-171"></a><span>        </span><a href="Var.html#isExportedId"><span class="hs-identifier hs-var">isExportedId</span></a><span class="hs-special">,</span><span> </span><a href="Var.html#isLocalId"><span class="hs-identifier hs-var">isLocalId</span></a><span class="hs-special">,</span><span> </span><a href="Var.html#isGlobalId"><span class="hs-identifier hs-var">isGlobalId</span></a><span class="hs-special">,</span><span>
+</span><a name="line-172"></a><span>        </span><a href="Id.html#isRecordSelector"><span class="hs-identifier hs-var">isRecordSelector</span></a><span class="hs-special">,</span><span>
+</span><a name="line-173"></a><span>        </span><a href="Id.html#isPrimOpId"><span class="hs-identifier hs-var">isPrimOpId</span></a><span class="hs-special">,</span><span> </span><a href="Id.html#isFCallId"><span class="hs-identifier hs-var">isFCallId</span></a><span class="hs-special">,</span><span> </span><a href="Id.html#isClassOpId_maybe"><span class="hs-identifier hs-var">isClassOpId_maybe</span></a><span class="hs-special">,</span><span>
+</span><a name="line-174"></a><span>        </span><a href="Id.html#isDataConWorkId"><span class="hs-identifier hs-var">isDataConWorkId</span></a><span class="hs-special">,</span><span> </span><a href="Id.html#idDataCon"><span class="hs-identifier hs-var">idDataCon</span></a><span class="hs-special">,</span><span>
+</span><a name="line-175"></a><span>        </span><a href="Id.html#isBottomingId"><span class="hs-identifier hs-var">isBottomingId</span></a><span class="hs-special">,</span><span> </span><a href="GHC.html#isDictonaryId"><span class="hs-identifier hs-var">isDictonaryId</span></a><span class="hs-special">,</span><span>
+</span><a name="line-176"></a><span>        </span><a href="Id.html#recordSelectorTyCon"><span class="hs-identifier hs-var">recordSelectorTyCon</span></a><span class="hs-special">,</span><span>
+</span><a name="line-177"></a><span>
+</span><a name="line-178"></a><span>        </span><span class="hs-comment">-- ** Type constructors</span><span>
+</span><a name="line-179"></a><span>        </span><a href="TyCon.html#TyCon"><span class="hs-identifier hs-type">TyCon</span></a><span class="hs-special">,</span><span>
+</span><a name="line-180"></a><span>        </span><a href="TyCon.html#tyConTyVars"><span class="hs-identifier hs-var">tyConTyVars</span></a><span class="hs-special">,</span><span> </span><a href="TyCon.html#tyConDataCons"><span class="hs-identifier hs-var">tyConDataCons</span></a><span class="hs-special">,</span><span> </span><a href="TyCon.html#tyConArity"><span class="hs-identifier hs-var">tyConArity</span></a><span class="hs-special">,</span><span>
+</span><a name="line-181"></a><span>        </span><a href="TyCon.html#isClassTyCon"><span class="hs-identifier hs-var">isClassTyCon</span></a><span class="hs-special">,</span><span> </span><a href="TyCon.html#isTypeSynonymTyCon"><span class="hs-identifier hs-var">isTypeSynonymTyCon</span></a><span class="hs-special">,</span><span> </span><a href="TyCon.html#isTypeFamilyTyCon"><span class="hs-identifier hs-var">isTypeFamilyTyCon</span></a><span class="hs-special">,</span><span> </span><a href="TyCon.html#isNewTyCon"><span class="hs-identifier hs-var">isNewTyCon</span></a><span class="hs-special">,</span><span>
+</span><a name="line-182"></a><span>        </span><a href="TyCon.html#isPrimTyCon"><span class="hs-identifier hs-var">isPrimTyCon</span></a><span class="hs-special">,</span><span> </span><a href="TyCon.html#isFunTyCon"><span class="hs-identifier hs-var">isFunTyCon</span></a><span class="hs-special">,</span><span>
+</span><a name="line-183"></a><span>        </span><a href="TyCon.html#isFamilyTyCon"><span class="hs-identifier hs-var">isFamilyTyCon</span></a><span class="hs-special">,</span><span> </span><a href="TyCon.html#isOpenFamilyTyCon"><span class="hs-identifier hs-var">isOpenFamilyTyCon</span></a><span class="hs-special">,</span><span> </span><a href="TyCon.html#isOpenTypeFamilyTyCon"><span class="hs-identifier hs-var">isOpenTypeFamilyTyCon</span></a><span class="hs-special">,</span><span>
+</span><a name="line-184"></a><span>        </span><a href="TyCon.html#tyConClass_maybe"><span class="hs-identifier hs-var">tyConClass_maybe</span></a><span class="hs-special">,</span><span>
+</span><a name="line-185"></a><span>        </span><a href="TyCon.html#synTyConRhs_maybe"><span class="hs-identifier hs-var">synTyConRhs_maybe</span></a><span class="hs-special">,</span><span> </span><a href="TyCon.html#synTyConDefn_maybe"><span class="hs-identifier hs-var">synTyConDefn_maybe</span></a><span class="hs-special">,</span><span> </span><a href="TyCon.html#tyConKind"><span class="hs-identifier hs-var">tyConKind</span></a><span class="hs-special">,</span><span>
+</span><a name="line-186"></a><span>
+</span><a name="line-187"></a><span>        </span><span class="hs-comment">-- ** Type variables</span><span>
+</span><a name="line-188"></a><span>        </span><a href="Var.html#TyVar"><span class="hs-identifier hs-type">TyVar</span></a><span class="hs-special">,</span><span>
+</span><a name="line-189"></a><span>        </span><a href="TysPrim.html#alphaTyVars"><span class="hs-identifier hs-var">alphaTyVars</span></a><span class="hs-special">,</span><span>
+</span><a name="line-190"></a><span>
+</span><a name="line-191"></a><span>        </span><span class="hs-comment">-- ** Data constructors</span><span>
+</span><a name="line-192"></a><span>        </span><a href="DataCon.html#DataCon"><span class="hs-identifier hs-type">DataCon</span></a><span class="hs-special">,</span><span>
+</span><a name="line-193"></a><span>        </span><a href="DataCon.html#dataConSig"><span class="hs-identifier hs-var">dataConSig</span></a><span class="hs-special">,</span><span> </span><a href="GHC.html#dataConType"><span class="hs-identifier hs-var">dataConType</span></a><span class="hs-special">,</span><span> </span><a href="DataCon.html#dataConTyCon"><span class="hs-identifier hs-var">dataConTyCon</span></a><span class="hs-special">,</span><span> </span><a href="DataCon.html#dataConFieldLabels"><span class="hs-identifier hs-var">dataConFieldLabels</span></a><span class="hs-special">,</span><span>
+</span><a name="line-194"></a><span>        </span><a href="DataCon.html#dataConIsInfix"><span class="hs-identifier hs-var">dataConIsInfix</span></a><span class="hs-special">,</span><span> </span><a href="DataCon.html#isVanillaDataCon"><span class="hs-identifier hs-var">isVanillaDataCon</span></a><span class="hs-special">,</span><span> </span><a href="DataCon.html#dataConUserType"><span class="hs-identifier hs-var">dataConUserType</span></a><span class="hs-special">,</span><span>
+</span><a name="line-195"></a><span>        </span><a href="DataCon.html#dataConSrcBangs"><span class="hs-identifier hs-var">dataConSrcBangs</span></a><span class="hs-special">,</span><span>
+</span><a name="line-196"></a><span>        </span><a href="DataCon.html#StrictnessMark"><span class="hs-identifier hs-type">StrictnessMark</span></a><span class="hs-special">(</span><span class="hs-glyph">..</span><span class="hs-special">)</span><span class="hs-special">,</span><span> </span><a href="DataCon.html#isMarkedStrict"><span class="hs-identifier hs-var">isMarkedStrict</span></a><span class="hs-special">,</span><span>
+</span><a name="line-197"></a><span>
+</span><a name="line-198"></a><span>        </span><span class="hs-comment">-- ** Classes</span><span>
+</span><a name="line-199"></a><span>        </span><a href="Class.html#Class"><span class="hs-identifier hs-type">Class</span></a><span class="hs-special">,</span><span>
+</span><a name="line-200"></a><span>        </span><a href="Class.html#classMethods"><span class="hs-identifier hs-var">classMethods</span></a><span class="hs-special">,</span><span> </span><a href="Class.html#classSCTheta"><span class="hs-identifier hs-var">classSCTheta</span></a><span class="hs-special">,</span><span> </span><a href="Class.html#classTvsFds"><span class="hs-identifier hs-var">classTvsFds</span></a><span class="hs-special">,</span><span> </span><a href="Class.html#classATs"><span class="hs-identifier hs-var">classATs</span></a><span class="hs-special">,</span><span>
+</span><a name="line-201"></a><span>        </span><a href="Class.html#pprFundeps"><span class="hs-identifier hs-var">pprFundeps</span></a><span class="hs-special">,</span><span>
+</span><a name="line-202"></a><span>
+</span><a name="line-203"></a><span>        </span><span class="hs-comment">-- ** Instances</span><span>
+</span><a name="line-204"></a><span>        </span><a href="InstEnv.html#ClsInst"><span class="hs-identifier hs-type">ClsInst</span></a><span class="hs-special">,</span><span>
+</span><a name="line-205"></a><span>        </span><a href="InstEnv.html#instanceDFunId"><span class="hs-identifier hs-var">instanceDFunId</span></a><span class="hs-special">,</span><span>
+</span><a name="line-206"></a><span>        </span><a href="InstEnv.html#pprInstance"><span class="hs-identifier hs-var">pprInstance</span></a><span class="hs-special">,</span><span> </span><a href="InstEnv.html#pprInstanceHdr"><span class="hs-identifier hs-var">pprInstanceHdr</span></a><span class="hs-special">,</span><span>
+</span><a name="line-207"></a><span>        </span><a href="PprTyThing.html#pprFamInst"><span class="hs-identifier hs-var">pprFamInst</span></a><span class="hs-special">,</span><span>
+</span><a name="line-208"></a><span>
+</span><a name="line-209"></a><span>        </span><a href="FamInstEnv.html#FamInst"><span class="hs-identifier hs-type">FamInst</span></a><span class="hs-special">,</span><span>
+</span><a name="line-210"></a><span>
+</span><a name="line-211"></a><span>        </span><span class="hs-comment">-- ** Types and Kinds</span><span>
+</span><a name="line-212"></a><span>        </span><a href="TyCoRep.html#Type"><span class="hs-identifier hs-type">Type</span></a><span class="hs-special">,</span><span> </span><a href="Type.html#splitForAllTys"><span class="hs-identifier hs-var">splitForAllTys</span></a><span class="hs-special">,</span><span> </span><a href="Type.html#funResultTy"><span class="hs-identifier hs-var">funResultTy</span></a><span class="hs-special">,</span><span>
+</span><a name="line-213"></a><span>        </span><a href="TyCoRep.html#pprParendType"><span class="hs-identifier hs-var">pprParendType</span></a><span class="hs-special">,</span><span> </span><a href="TyCoRep.html#pprTypeApp"><span class="hs-identifier hs-var">pprTypeApp</span></a><span class="hs-special">,</span><span>
+</span><a name="line-214"></a><span>        </span><a href="TyCoRep.html#Kind"><span class="hs-identifier hs-type">Kind</span></a><span class="hs-special">,</span><span>
+</span><a name="line-215"></a><span>        </span><a href="TyCoRep.html#PredType"><span class="hs-identifier hs-type">PredType</span></a><span class="hs-special">,</span><span>
+</span><a name="line-216"></a><span>        </span><a href="TyCoRep.html#ThetaType"><span class="hs-identifier hs-type">ThetaType</span></a><span class="hs-special">,</span><span> </span><a href="TyCoRep.html#pprForAll"><span class="hs-identifier hs-var">pprForAll</span></a><span class="hs-special">,</span><span> </span><a href="TyCoRep.html#pprThetaArrowTy"><span class="hs-identifier hs-var">pprThetaArrowTy</span></a><span class="hs-special">,</span><span>
+</span><a name="line-217"></a><span>
+</span><a name="line-218"></a><span>        </span><span class="hs-comment">-- ** Entities</span><span>
+</span><a name="line-219"></a><span>        </span><a href="TyCoRep.html#TyThing"><span class="hs-identifier hs-type">TyThing</span></a><span class="hs-special">(</span><span class="hs-glyph">..</span><span class="hs-special">)</span><span class="hs-special">,</span><span>
+</span><a name="line-220"></a><span>
+</span><a name="line-221"></a><span>        </span><span class="hs-comment">-- ** Syntax</span><span>
+</span><a name="line-222"></a><span>        </span><span class="hs-keyword">module</span><span> </span><a href="HsSyn.html"><span class="hs-identifier">HsSyn</span></a><span class="hs-special">,</span><span> </span><span class="hs-comment">-- ToDo: remove extraneous bits</span><span>
+</span><a name="line-223"></a><span>
+</span><a name="line-224"></a><span>        </span><span class="hs-comment">-- ** Fixities</span><span>
+</span><a name="line-225"></a><span>        </span><a href="BasicTypes.html#FixityDirection"><span class="hs-identifier hs-type">FixityDirection</span></a><span class="hs-special">(</span><span class="hs-glyph">..</span><span class="hs-special">)</span><span class="hs-special">,</span><span>
+</span><a name="line-226"></a><span>        </span><a href="BasicTypes.html#defaultFixity"><span class="hs-identifier hs-var">defaultFixity</span></a><span class="hs-special">,</span><span> </span><a href="BasicTypes.html#maxPrecedence"><span class="hs-identifier hs-var">maxPrecedence</span></a><span class="hs-special">,</span><span>
+</span><a name="line-227"></a><span>        </span><a href="BasicTypes.html#negateFixity"><span class="hs-identifier hs-var">negateFixity</span></a><span class="hs-special">,</span><span>
+</span><a name="line-228"></a><span>        </span><a href="BasicTypes.html#compareFixity"><span class="hs-identifier hs-var">compareFixity</span></a><span class="hs-special">,</span><span>
+</span><a name="line-229"></a><span>        </span><a href="BasicTypes.html#LexicalFixity"><span class="hs-identifier hs-type">LexicalFixity</span></a><span class="hs-special">(</span><span class="hs-glyph">..</span><span class="hs-special">)</span><span class="hs-special">,</span><span>
+</span><a name="line-230"></a><span>
+</span><a name="line-231"></a><span>        </span><span class="hs-comment">-- ** Source locations</span><span>
+</span><a name="line-232"></a><span>        </span><a href="SrcLoc.html#SrcLoc"><span class="hs-identifier hs-type">SrcLoc</span></a><span class="hs-special">(</span><span class="hs-glyph">..</span><span class="hs-special">)</span><span class="hs-special">,</span><span> </span><a href="SrcLoc.html#RealSrcLoc"><span class="hs-identifier hs-type">RealSrcLoc</span></a><span class="hs-special">,</span><span>
+</span><a name="line-233"></a><span>        </span><a href="SrcLoc.html#mkSrcLoc"><span class="hs-identifier hs-var">mkSrcLoc</span></a><span class="hs-special">,</span><span> </span><a href="SrcLoc.html#noSrcLoc"><span class="hs-identifier hs-var">noSrcLoc</span></a><span class="hs-special">,</span><span>
+</span><a name="line-234"></a><span>        </span><a href="SrcLoc.html#srcLocFile"><span class="hs-identifier hs-var">srcLocFile</span></a><span class="hs-special">,</span><span> </span><a href="SrcLoc.html#srcLocLine"><span class="hs-identifier hs-var">srcLocLine</span></a><span class="hs-special">,</span><span> </span><a href="SrcLoc.html#srcLocCol"><span class="hs-identifier hs-var">srcLocCol</span></a><span class="hs-special">,</span><span>
+</span><a name="line-235"></a><span>        </span><a href="SrcLoc.html#SrcSpan"><span class="hs-identifier hs-type">SrcSpan</span></a><span class="hs-special">(</span><span class="hs-glyph">..</span><span class="hs-special">)</span><span class="hs-special">,</span><span> </span><a href="SrcLoc.html#RealSrcSpan"><span class="hs-identifier hs-type">RealSrcSpan</span></a><span class="hs-special">,</span><span>
+</span><a name="line-236"></a><span>        </span><a href="SrcLoc.html#mkSrcSpan"><span class="hs-identifier hs-var">mkSrcSpan</span></a><span class="hs-special">,</span><span> </span><a href="SrcLoc.html#srcLocSpan"><span class="hs-identifier hs-var">srcLocSpan</span></a><span class="hs-special">,</span><span> </span><a href="SrcLoc.html#isGoodSrcSpan"><span class="hs-identifier hs-var">isGoodSrcSpan</span></a><span class="hs-special">,</span><span> </span><a href="SrcLoc.html#noSrcSpan"><span class="hs-identifier hs-var">noSrcSpan</span></a><span class="hs-special">,</span><span>
+</span><a name="line-237"></a><span>        </span><a href="SrcLoc.html#srcSpanStart"><span class="hs-identifier hs-var">srcSpanStart</span></a><span class="hs-special">,</span><span> </span><a href="SrcLoc.html#srcSpanEnd"><span class="hs-identifier hs-var">srcSpanEnd</span></a><span class="hs-special">,</span><span>
+</span><a name="line-238"></a><span>        </span><a href="SrcLoc.html#srcSpanFile"><span class="hs-identifier hs-var">srcSpanFile</span></a><span class="hs-special">,</span><span>
+</span><a name="line-239"></a><span>        </span><a href="SrcLoc.html#srcSpanStartLine"><span class="hs-identifier hs-var">srcSpanStartLine</span></a><span class="hs-special">,</span><span> </span><a href="SrcLoc.html#srcSpanEndLine"><span class="hs-identifier hs-var">srcSpanEndLine</span></a><span class="hs-special">,</span><span>
+</span><a name="line-240"></a><span>        </span><a href="SrcLoc.html#srcSpanStartCol"><span class="hs-identifier hs-var">srcSpanStartCol</span></a><span class="hs-special">,</span><span> </span><a href="SrcLoc.html#srcSpanEndCol"><span class="hs-identifier hs-var">srcSpanEndCol</span></a><span class="hs-special">,</span><span>
+</span><a name="line-241"></a><span>
+</span><a name="line-242"></a><span>        </span><span class="hs-comment">-- ** Located</span><span>
+</span><a name="line-243"></a><span>        </span><a href="SrcLoc.html#GenLocated"><span class="hs-identifier hs-type">GenLocated</span></a><span class="hs-special">(</span><span class="hs-glyph">..</span><span class="hs-special">)</span><span class="hs-special">,</span><span> </span><a href="SrcLoc.html#Located"><span class="hs-identifier hs-type">Located</span></a><span class="hs-special">,</span><span>
+</span><a name="line-244"></a><span>
+</span><a name="line-245"></a><span>        </span><span class="hs-comment">-- *** Constructing Located</span><span>
+</span><a name="line-246"></a><span>        </span><a href="SrcLoc.html#noLoc"><span class="hs-identifier hs-var">noLoc</span></a><span class="hs-special">,</span><span> </span><a href="SrcLoc.html#mkGeneralLocated"><span class="hs-identifier hs-var">mkGeneralLocated</span></a><span class="hs-special">,</span><span>
+</span><a name="line-247"></a><span>
+</span><a name="line-248"></a><span>        </span><span class="hs-comment">-- *** Deconstructing Located</span><span>
+</span><a name="line-249"></a><span>        </span><a href="SrcLoc.html#getLoc"><span class="hs-identifier hs-var">getLoc</span></a><span class="hs-special">,</span><span> </span><a href="SrcLoc.html#unLoc"><span class="hs-identifier hs-var">unLoc</span></a><span class="hs-special">,</span><span>
+</span><a name="line-250"></a><span>
+</span><a name="line-251"></a><span>        </span><span class="hs-comment">-- *** Combining and comparing Located values</span><span>
+</span><a name="line-252"></a><span>        </span><a href="SrcLoc.html#eqLocated"><span class="hs-identifier hs-var">eqLocated</span></a><span class="hs-special">,</span><span> </span><a href="SrcLoc.html#cmpLocated"><span class="hs-identifier hs-var">cmpLocated</span></a><span class="hs-special">,</span><span> </span><a href="SrcLoc.html#combineLocs"><span class="hs-identifier hs-var">combineLocs</span></a><span class="hs-special">,</span><span> </span><a href="SrcLoc.html#addCLoc"><span class="hs-identifier hs-var">addCLoc</span></a><span class="hs-special">,</span><span>
+</span><a name="line-253"></a><span>        </span><a href="SrcLoc.html#leftmost_smallest"><span class="hs-identifier hs-var">leftmost_smallest</span></a><span class="hs-special">,</span><span> </span><a href="SrcLoc.html#leftmost_largest"><span class="hs-identifier hs-var">leftmost_largest</span></a><span class="hs-special">,</span><span> </span><a href="SrcLoc.html#rightmost"><span class="hs-identifier hs-var">rightmost</span></a><span class="hs-special">,</span><span>
+</span><a name="line-254"></a><span>        </span><a href="SrcLoc.html#spans"><span class="hs-identifier hs-var">spans</span></a><span class="hs-special">,</span><span> </span><a href="SrcLoc.html#isSubspanOf"><span class="hs-identifier hs-var">isSubspanOf</span></a><span class="hs-special">,</span><span>
+</span><a name="line-255"></a><span>
+</span><a name="line-256"></a><span>        </span><span class="hs-comment">-- * Exceptions</span><span>
+</span><a name="line-257"></a><span>        </span><a href="Panic.html#GhcException"><span class="hs-identifier hs-type">GhcException</span></a><span class="hs-special">(</span><span class="hs-glyph">..</span><span class="hs-special">)</span><span class="hs-special">,</span><span> </span><a href="Panic.html#showGhcException"><span class="hs-identifier hs-var">showGhcException</span></a><span class="hs-special">,</span><span>
+</span><a name="line-258"></a><span>
+</span><a name="line-259"></a><span>        </span><span class="hs-comment">-- * Token stream manipulations</span><span>
+</span><a name="line-260"></a><span>        </span><a href="Lexer.html#Token"><span class="hs-identifier hs-type">Token</span></a><span class="hs-special">,</span><span>
+</span><a name="line-261"></a><span>        </span><a href="GHC.html#getTokenStream"><span class="hs-identifier hs-var">getTokenStream</span></a><span class="hs-special">,</span><span> </span><a href="GHC.html#getRichTokenStream"><span class="hs-identifier hs-var">getRichTokenStream</span></a><span class="hs-special">,</span><span>
+</span><a name="line-262"></a><span>        </span><a href="GHC.html#showRichTokenStream"><span class="hs-identifier hs-var">showRichTokenStream</span></a><span class="hs-special">,</span><span> </span><a href="GHC.html#addSourceToTokens"><span class="hs-identifier hs-var">addSourceToTokens</span></a><span class="hs-special">,</span><span>
+</span><a name="line-263"></a><span>
+</span><a name="line-264"></a><span>        </span><span class="hs-comment">-- * Pure interface to the parser</span><span>
+</span><a name="line-265"></a><span>        </span><a href="GHC.html#parser"><span class="hs-identifier hs-var">parser</span></a><span class="hs-special">,</span><span>
+</span><a name="line-266"></a><span>
+</span><a name="line-267"></a><span>        </span><span class="hs-comment">-- * API Annotations</span><span>
+</span><a name="line-268"></a><span>        </span><a href="ApiAnnotation.html#ApiAnns"><span class="hs-identifier hs-type">ApiAnns</span></a><span class="hs-special">,</span><a href="ApiAnnotation.html#AnnKeywordId"><span class="hs-identifier hs-type">AnnKeywordId</span></a><span class="hs-special">(</span><span class="hs-glyph">..</span><span class="hs-special">)</span><span class="hs-special">,</span><a href="ApiAnnotation.html#AnnotationComment"><span class="hs-identifier hs-type">AnnotationComment</span></a><span class="hs-special">(</span><span class="hs-glyph">..</span><span class="hs-special">)</span><span class="hs-special">,</span><span>
+</span><a name="line-269"></a><span>        </span><a href="ApiAnnotation.html#getAnnotation"><span class="hs-identifier hs-var">getAnnotation</span></a><span class="hs-special">,</span><span> </span><a href="ApiAnnotation.html#getAndRemoveAnnotation"><span class="hs-identifier hs-var">getAndRemoveAnnotation</span></a><span class="hs-special">,</span><span>
+</span><a name="line-270"></a><span>        </span><a href="ApiAnnotation.html#getAnnotationComments"><span class="hs-identifier hs-var">getAnnotationComments</span></a><span class="hs-special">,</span><span> </span><a href="ApiAnnotation.html#getAndRemoveAnnotationComments"><span class="hs-identifier hs-var">getAndRemoveAnnotationComments</span></a><span class="hs-special">,</span><span>
+</span><a name="line-271"></a><span>        </span><a href="ApiAnnotation.html#unicodeAnn"><span class="hs-identifier hs-var">unicodeAnn</span></a><span class="hs-special">,</span><span>
+</span><a name="line-272"></a><span>
+</span><a name="line-273"></a><span>        </span><span class="hs-comment">-- * Miscellaneous</span><span>
+</span><a name="line-274"></a><span>        </span><span class="hs-comment">--sessionHscEnv,</span><span>
+</span><a name="line-275"></a><span>        </span><a href="GhcMake.html#cyclicModuleErr"><span class="hs-identifier hs-var">cyclicModuleErr</span></a><span class="hs-special">,</span><span>
+</span><a name="line-276"></a><span>  </span><span class="hs-special">)</span><span> </span><span class="hs-keyword">where</span><span>
+</span><a name="line-277"></a><span>
+</span><a name="line-278"></a><span class="hs-comment">{-
+ ToDo:
+
+  * inline bits of HscMain here to simplify layering: hscTcExpr, hscStmt.
+-}</span><span>
+</span><a name="line-283"></a><span>
+</span><a name="line-284"></a><span class="hs-cpp">#include &quot;HsVersions.h&quot;
+</span><span class="">
+import GhcPrelude hiding (init)
+
+import ByteCodeTypes
+import InteractiveEval
+import InteractiveEvalTypes
+import TcRnDriver       ( runTcInteractive )
+import GHCi
+import GHCi.RemoteTypes
+
+import PprTyThing       ( pprFamInst )
+import HscMain
+import GhcMake
+import DriverPipeline   ( compileOne' )
+import GhcMonad
+import TcRnMonad        ( finalSafeMode, fixSafeInstances )
+import TcRnTypes
+import Packages
+import NameSet
+import RdrName
+import HsSyn
+import Type     hiding( typeKind )
+import TcType           hiding( typeKind )
+import Id
+import TysPrim          ( alphaTyVars )
+import TyCon
+import Class
+import DataCon
+import Name             hiding ( varName )
+import Avail
+import InstEnv
+import FamInstEnv ( FamInst )
+import SrcLoc
+import CoreSyn
+import TidyPgm
+import DriverPhases     ( Phase(..), isHaskellSrcFilename )
+import Finder
+import HscTypes
+import CmdLineParser
+import DynFlags hiding (WarnReason(..))
+import SysTools
+import Annotations
+import Module
+import Panic
+import Platform
+import Bag              ( listToBag, unitBag )
+import ErrUtils
+import MonadUtils
+import Util
+import StringBuffer
+import Outputable
+import BasicTypes
+import Maybes           ( expectJust )
+import FastString
+import qualified Parser
+import Lexer
+import ApiAnnotation
+import qualified GHC.LanguageExtensions as LangExt
+import NameEnv
+import CoreFVs          ( orphNamesOfFamInst )
+import FamInstEnv       ( famInstEnvElts )
+import TcRnDriver
+import Inst
+import FamInst
+import FileCleanup
+
+import Data.Foldable
+import qualified Data.Map.Strict as Map
+import Data.Set (Set)
+import qualified Data.Sequence as Seq
+import System.Directory ( doesFileExist )
+import Data.Maybe
+import Data.List        ( find )
+import Data.Time
+import Data.Typeable    ( Typeable )
+import Data.Word        ( Word8 )
+import Control.Monad
+import System.Exit      ( exitWith, ExitCode(..) )
+import Exception
+import Data.IORef
+import System.FilePath
+
+
+-- %************************************************************************
+-- %*                                                                      *
+--             Initialisation: exception handlers
+-- %*                                                                      *
+-- %************************************************************************
+
+
+-- | Install some default exception handlers and run the inner computation.
+-- Unless you want to handle exceptions yourself, you should wrap this around
+-- the top level of your program.  The default handlers output the error
+-- message(s) to stderr and exit cleanly.
+defaultErrorHandler :: (ExceptionMonad m)
+                    =&gt; FatalMessager -&gt; FlushOut -&gt; m a -&gt; m a
+defaultErrorHandler fm (FlushOut flushOut) inner =
+  -- top-level exception handler: any unrecognised exception is a compiler bug.
+  ghandle (\exception -&gt; liftIO $ do
+           flushOut
+           case fromException exception of
+                -- an IO exception probably isn't our fault, so don't panic
+                Just (ioe :: IOException) -&gt;
+                  fatalErrorMsg'' fm (show ioe)
+                _ -&gt; case fromException exception of
+                     Just UserInterrupt -&gt;
+                         -- Important to let this one propagate out so our
+                         -- calling process knows we were interrupted by ^C
+                         liftIO $ throwIO UserInterrupt
+                     Just StackOverflow -&gt;
+                         fatalErrorMsg'' fm &quot;stack overflow: use +RTS -K&lt;size&gt; to increase it&quot;
+                     _ -&gt; case fromException exception of
+                          Just (ex :: ExitCode) -&gt; liftIO $ throwIO ex
+                          _ -&gt;
+                              fatalErrorMsg'' fm
+                                  (show (Panic (show exception)))
+           exitWith (ExitFailure 1)
+         ) $
+
+  -- error messages propagated as exceptions
+  handleGhcException
+            (\ge -&gt; liftIO $ do
+                flushOut
+                case ge of
+                     Signal _ -&gt; exitWith (ExitFailure 1)
+                     _ -&gt; do fatalErrorMsg'' fm (show ge)
+                             exitWith (ExitFailure 1)
+            ) $
+  inner
+
+-- | This function is no longer necessary, cleanup is now done by
+-- runGhc/runGhcT.
+{-# DEPRECATED defaultCleanupHandler &quot;Cleanup is now done by runGhc/runGhcT&quot; #-}
+defaultCleanupHandler :: (ExceptionMonad m) =&gt; DynFlags -&gt; m a -&gt; m a
+defaultCleanupHandler _ m = m
+ where _warning_suppression = m `gonException` undefined
+
+
+-- %************************************************************************
+-- %*                                                                      *
+--             The Ghc Monad
+-- %*                                                                      *
+-- %************************************************************************
+
+-- | Run function for the 'Ghc' monad.
+--
+-- It initialises the GHC session and warnings via 'initGhcMonad'.  Each call
+-- to this function will create a new session which should not be shared among
+-- several threads.
+--
+-- Any errors not handled inside the 'Ghc' action are propagated as IO
+-- exceptions.
+
+runGhc :: Maybe FilePath  -- ^ See argument to 'initGhcMonad'.
+       -&gt; Ghc a           -- ^ The action to perform.
+       -&gt; IO a
+runGhc mb_top_dir ghc = do
+  ref &lt;- newIORef (panic &quot;empty session&quot;)
+  let session = Session ref
+  flip unGhc session $ withSignalHandlers $ do -- catch ^C
+    initGhcMonad mb_top_dir
+    withCleanupSession ghc
+
+-- | Run function for 'GhcT' monad transformer.
+--
+-- It initialises the GHC session and warnings via 'initGhcMonad'.  Each call
+-- to this function will create a new session which should not be shared among
+-- several threads.
+
+runGhcT :: ExceptionMonad m =&gt;
+           Maybe FilePath  -- ^ See argument to 'initGhcMonad'.
+        -&gt; GhcT m a        -- ^ The action to perform.
+        -&gt; m a
+runGhcT mb_top_dir ghct = do
+  ref &lt;- liftIO $ newIORef (panic &quot;empty session&quot;)
+  let session = Session ref
+  flip unGhcT session $ withSignalHandlers $ do -- catch ^C
+    initGhcMonad mb_top_dir
+    withCleanupSession ghct
+
+withCleanupSession :: GhcMonad m =&gt; m a -&gt; m a
+withCleanupSession ghc = ghc `gfinally` cleanup
+  where
+   cleanup = do
+      hsc_env &lt;- getSession
+      let dflags = hsc_dflags hsc_env
+      liftIO $ do
+          cleanTempFiles dflags
+          cleanTempDirs dflags
+          stopIServ hsc_env -- shut down the IServ
+          log_finaliser dflags dflags
+          --  exceptions will be blocked while we clean the temporary files,
+          -- so there shouldn't be any difficulty if we receive further
+          -- signals.
+
+-- | Initialise a GHC session.
+--
+-- If you implement a custom 'GhcMonad' you must call this function in the
+-- monad run function.  It will initialise the session variable and clear all
+-- warnings.
+--
+-- The first argument should point to the directory where GHC's library files
+-- reside.  More precisely, this should be the output of @ghc --print-libdir@
+-- of the version of GHC the module using this API is compiled with.  For
+-- portability, you should use the @ghc-paths@ package, available at
+-- &lt;http://hackage.haskell.org/package/ghc-paths&gt;.
+
+initGhcMonad :: GhcMonad m =&gt; Maybe FilePath -&gt; m ()
+initGhcMonad mb_top_dir
+  = do { env &lt;- liftIO $
+                do { mySettings &lt;- initSysTools mb_top_dir
+                   ; myLlvmTargets &lt;- initLlvmTargets mb_top_dir
+                   ; dflags &lt;- initDynFlags (defaultDynFlags mySettings myLlvmTargets)
+                   ; checkBrokenTablesNextToCode dflags
+                   ; setUnsafeGlobalDynFlags dflags
+                      -- c.f. DynFlags.parseDynamicFlagsFull, which
+                      -- creates DynFlags and sets the UnsafeGlobalDynFlags
+                   ; newHscEnv dflags }
+       ; setSession env }
+
+-- | The binutils linker on ARM emits unnecessary R_ARM_COPY relocations which
+-- breaks tables-next-to-code in dynamically linked modules. This
+-- check should be more selective but there is currently no released
+-- version where this bug is fixed.
+-- See https://sourceware.org/bugzilla/show_bug.cgi?id=16177 and
+-- https://ghc.haskell.org/trac/ghc/ticket/4210#comment:29
+checkBrokenTablesNextToCode :: MonadIO m =&gt; DynFlags -&gt; m ()
+checkBrokenTablesNextToCode dflags
+  = do { broken &lt;- checkBrokenTablesNextToCode' dflags
+       ; when broken
+         $ do { _ &lt;- liftIO $ throwIO $ mkApiErr dflags invalidLdErr
+              ; fail &quot;unsupported linker&quot;
+              }
+       }
+  where
+    invalidLdErr = text &quot;Tables-next-to-code not supported on ARM&quot; &lt;+&gt;
+                   text &quot;when using binutils ld (please see:&quot; &lt;+&gt;
+                   text &quot;https://sourceware.org/bugzilla/show_bug.cgi?id=16177)&quot;
+
+checkBrokenTablesNextToCode' :: MonadIO m =&gt; DynFlags -&gt; m Bool
+checkBrokenTablesNextToCode' dflags
+  | not (isARM arch)              = return False
+  | WayDyn `notElem` ways dflags  = return False
+  | not (tablesNextToCode dflags) = return False
+  | otherwise                     = do
+    linkerInfo &lt;- liftIO $ getLinkerInfo dflags
+    case linkerInfo of
+      GnuLD _  -&gt; return True
+      _        -&gt; return False
+  where platform = targetPlatform dflags
+        arch = platformArch platform
+
+
+-- %************************************************************************
+-- %*                                                                      *
+--             Flags &amp; settings
+-- %*                                                                      *
+-- %************************************************************************
+
+-- $DynFlags
+--
+-- The GHC session maintains two sets of 'DynFlags':
+--
+--   * The &quot;interactive&quot; @DynFlags@, which are used for everything
+--     related to interactive evaluation, including 'runStmt',
+--     'runDecls', 'exprType', 'lookupName' and so on (everything
+--     under \&quot;Interactive evaluation\&quot; in this module).
+--
+--   * The &quot;program&quot; @DynFlags@, which are used when loading
+--     whole modules with 'load'
+--
+-- 'setInteractiveDynFlags', 'getInteractiveDynFlags' work with the
+-- interactive @DynFlags@.
+--
+-- 'setProgramDynFlags', 'getProgramDynFlags' work with the
+-- program @DynFlags@.
+--
+-- 'setSessionDynFlags' sets both @DynFlags@, and 'getSessionDynFlags'
+-- retrieves the program @DynFlags@ (for backwards compatibility).
+
+
+-- | Updates both the interactive and program DynFlags in a Session.
+-- This also reads the package database (unless it has already been
+-- read), and prepares the compilers knowledge about packages.  It can
+-- be called again to load new packages: just add new package flags to
+-- (packageFlags dflags).
+--
+-- Returns a list of new packages that may need to be linked in using
+-- the dynamic linker (see 'linkPackages') as a result of new package
+-- flags.  If you are not doing linking or doing static linking, you
+-- can ignore the list of packages returned.
+--
+setSessionDynFlags :: GhcMonad m =&gt; DynFlags -&gt; m [InstalledUnitId]
+setSessionDynFlags dflags = do
+  dflags' &lt;- checkNewDynFlags dflags
+  (dflags'', preload) &lt;- liftIO $ initPackages dflags'
+  modifySession $ \h -&gt; h{ hsc_dflags = dflags''
+                         , hsc_IC = (hsc_IC h){ ic_dflags = dflags'' } }
+  invalidateModSummaryCache
+  return preload
+
+-- | Sets the program 'DynFlags'.  Note: this invalidates the internal
+-- cached module graph, causing more work to be done the next time
+-- 'load' is called.
+setProgramDynFlags :: GhcMonad m =&gt; DynFlags -&gt; m [InstalledUnitId]
+setProgramDynFlags dflags = setProgramDynFlags_ True dflags
+
+-- | Set the action taken when the compiler produces a message.  This
+-- can also be accomplished using 'setProgramDynFlags', but using
+-- 'setLogAction' avoids invalidating the cached module graph.
+setLogAction :: GhcMonad m =&gt; LogAction -&gt; LogFinaliser -&gt; m ()
+setLogAction action finaliser = do
+  dflags' &lt;- getProgramDynFlags
+  void $ setProgramDynFlags_ False $
+    dflags' { log_action = action
+            , log_finaliser = finaliser }
+
+setProgramDynFlags_ :: GhcMonad m =&gt; Bool -&gt; DynFlags -&gt; m [InstalledUnitId]
+setProgramDynFlags_ invalidate_needed dflags = do
+  dflags' &lt;- checkNewDynFlags dflags
+  dflags_prev &lt;- getProgramDynFlags
+  (dflags'', preload) &lt;-
+    if (packageFlagsChanged dflags_prev dflags')
+       then liftIO $ initPackages dflags'
+       else return (dflags', [])
+  modifySession $ \h -&gt; h{ hsc_dflags = dflags'' }
+  when invalidate_needed $ invalidateModSummaryCache
+  return preload
+
+
+-- When changing the DynFlags, we want the changes to apply to future
+-- loads, but without completely discarding the program.  But the
+-- DynFlags are cached in each ModSummary in the hsc_mod_graph, so
+-- after a change to DynFlags, the changes would apply to new modules
+-- but not existing modules; this seems undesirable.
+--
+-- Furthermore, the GHC API client might expect that changing
+-- log_action would affect future compilation messages, but for those
+-- modules we have cached ModSummaries for, we'll continue to use the
+-- old log_action.  This is definitely wrong (#7478).
+--
+-- Hence, we invalidate the ModSummary cache after changing the
+-- DynFlags.  We do this by tweaking the date on each ModSummary, so
+-- that the next downsweep will think that all the files have changed
+-- and preprocess them again.  This won't necessarily cause everything
+-- to be recompiled, because by the time we check whether we need to
+-- recopmile a module, we'll have re-summarised the module and have a
+-- correct ModSummary.
+--
+invalidateModSummaryCache :: GhcMonad m =&gt; m ()
+invalidateModSummaryCache =
+  modifySession $ \h -&gt; h { hsc_mod_graph = mapMG inval (hsc_mod_graph h) }
+ where
+  inval ms = ms { ms_hs_date = addUTCTime (-1) (ms_hs_date ms) }
+
+-- | Returns the program 'DynFlags'.
+getProgramDynFlags :: GhcMonad m =&gt; m DynFlags
+getProgramDynFlags = getSessionDynFlags
+
+-- | Set the 'DynFlags' used to evaluate interactive expressions.
+-- Note: this cannot be used for changes to packages.  Use
+-- 'setSessionDynFlags', or 'setProgramDynFlags' and then copy the
+-- 'pkgState' into the interactive @DynFlags@.
+setInteractiveDynFlags :: GhcMonad m =&gt; DynFlags -&gt; m ()
+setInteractiveDynFlags dflags = do
+  dflags' &lt;- checkNewDynFlags dflags
+  dflags'' &lt;- checkNewInteractiveDynFlags dflags'
+  modifySession $ \h -&gt; h{ hsc_IC = (hsc_IC h) { ic_dflags = dflags'' }}
+
+-- | Get the 'DynFlags' used to evaluate interactive expressions.
+getInteractiveDynFlags :: GhcMonad m =&gt; m DynFlags
+getInteractiveDynFlags = withSession $ \h -&gt; return (ic_dflags (hsc_IC h))
+
+
+parseDynamicFlags :: MonadIO m =&gt;
+                     DynFlags -&gt; [Located String]
+                  -&gt; m (DynFlags, [Located String], [Warn])
+parseDynamicFlags = parseDynamicFlagsCmdLine
+
+-- | Checks the set of new DynFlags for possibly erroneous option
+-- combinations when invoking 'setSessionDynFlags' and friends, and if
+-- found, returns a fixed copy (if possible).
+checkNewDynFlags :: MonadIO m =&gt; DynFlags -&gt; m DynFlags
+checkNewDynFlags dflags = do
+  -- See Note [DynFlags consistency]
+  let (dflags', warnings) = makeDynFlagsConsistent dflags
+  liftIO $ handleFlagWarnings dflags (map (Warn NoReason) warnings)
+  return dflags'
+
+checkNewInteractiveDynFlags :: MonadIO m =&gt; DynFlags -&gt; m DynFlags
+checkNewInteractiveDynFlags dflags0 = do
+  dflags1 &lt;-
+      if xopt LangExt.StaticPointers dflags0
+      then do liftIO $ printOrThrowWarnings dflags0 $ listToBag
+                [mkPlainWarnMsg dflags0 interactiveSrcSpan
+                 $ text &quot;StaticPointers is not supported in GHCi interactive expressions.&quot;]
+              return $ xopt_unset dflags0 LangExt.StaticPointers
+      else return dflags0
+  return dflags1
+
+
+-- %************************************************************************
+-- %*                                                                      *
+--             Setting, getting, and modifying the targets
+-- %*                                                                      *
+-- %************************************************************************
+
+-- ToDo: think about relative vs. absolute file paths. And what
+-- happens when the current directory changes.
+
+-- | Sets the targets for this session.  Each target may be a module name
+-- or a filename.  The targets correspond to the set of root modules for
+-- the program\/library.  Unloading the current program is achieved by
+-- setting the current set of targets to be empty, followed by 'load'.
+setTargets :: GhcMonad m =&gt; [Target] -&gt; m ()
+setTargets targets = modifySession (\h -&gt; h{ hsc_targets = targets })
+
+-- | Returns the current set of targets
+getTargets :: GhcMonad m =&gt; m [Target]
+getTargets = withSession (return . hsc_targets)
+
+-- | Add another target.
+addTarget :: GhcMonad m =&gt; Target -&gt; m ()
+addTarget target
+  = modifySession (\h -&gt; h{ hsc_targets = target : hsc_targets h })
+
+-- | Remove a target
+removeTarget :: GhcMonad m =&gt; TargetId -&gt; m ()
+removeTarget target_id
+  = modifySession (\h -&gt; h{ hsc_targets = filter (hsc_targets h) })
+  where
+   filter targets = [ t | t@(Target id _ _) &lt;- targets, id /= target_id ]
+
+-- | Attempts to guess what Target a string refers to.  This function
+-- implements the @--make@/GHCi command-line syntax for filenames:
+--
+--   - if the string looks like a Haskell source filename, then interpret it
+--     as such
+--
+--   - if adding a .hs or .lhs suffix yields the name of an existing file,
+--     then use that
+--
+--   - otherwise interpret the string as a module name
+--
+guessTarget :: GhcMonad m =&gt; String -&gt; Maybe Phase -&gt; m Target
+guessTarget str (Just phase)
+   = return (Target (TargetFile str (Just phase)) True Nothing)
+guessTarget str Nothing
+   | isHaskellSrcFilename file
+   = return (target (TargetFile file Nothing))
+   | otherwise
+   = do exists &lt;- liftIO $ doesFileExist hs_file
+        if exists
+           then return (target (TargetFile hs_file Nothing))
+           else do
+        exists &lt;- liftIO $ doesFileExist lhs_file
+        if exists
+           then return (target (TargetFile lhs_file Nothing))
+           else do
+        if looksLikeModuleName file
+           then return (target (TargetModule (mkModuleName file)))
+           else do
+        dflags &lt;- getDynFlags
+        liftIO $ throwGhcExceptionIO
+                 (ProgramError (showSDoc dflags $
+                 text &quot;target&quot; &lt;+&gt; quotes (text file) &lt;+&gt;
+                 text &quot;is not a module name or a source file&quot;))
+     where
+         (file,obj_allowed)
+                | '*':rest &lt;- str = (rest, False)
+                | otherwise       = (str,  True)
+
+         hs_file  = file &lt;.&gt; &quot;hs&quot;
+         lhs_file = file &lt;.&gt; &quot;lhs&quot;
+
+         target tid = Target tid obj_allowed Nothing
+
+
+-- | Inform GHC that the working directory has changed.  GHC will flush
+-- its cache of module locations, since it may no longer be valid.
+--
+-- Note: Before changing the working directory make sure all threads running
+-- in the same session have stopped.  If you change the working directory,
+-- you should also unload the current program (set targets to empty,
+-- followed by load).
+workingDirectoryChanged :: GhcMonad m =&gt; m ()
+workingDirectoryChanged = withSession $ (liftIO . flushFinderCaches)
+
+
+-- %************************************************************************
+-- %*                                                                      *
+--             Running phases one at a time
+-- %*                                                                      *
+-- %************************************************************************
+
+class ParsedMod m where
+  modSummary   :: m -&gt; ModSummary
+  parsedSource :: m -&gt; ParsedSource
+
+class ParsedMod m =&gt; TypecheckedMod m where
+  renamedSource     :: m -&gt; Maybe RenamedSource
+  typecheckedSource :: m -&gt; TypecheckedSource
+  moduleInfo        :: m -&gt; ModuleInfo
+  tm_internals      :: m -&gt; (TcGblEnv, ModDetails)
+        -- ToDo: improvements that could be made here:
+        --  if the module succeeded renaming but not typechecking,
+        --  we can still get back the GlobalRdrEnv and exports, so
+        --  perhaps the ModuleInfo should be split up into separate
+        --  fields.
+
+class TypecheckedMod m =&gt; DesugaredMod m where
+  coreModule :: m -&gt; ModGuts
+
+-- | The result of successful parsing.
+data ParsedModule =
+  ParsedModule { pm_mod_summary   :: ModSummary
+               , pm_parsed_source :: ParsedSource
+               , pm_extra_src_files :: [FilePath]
+               , pm_annotations :: ApiAnns }
+               -- See Note [Api annotations] in ApiAnnotation.hs
+
+instance ParsedMod ParsedModule where
+  modSummary m    = pm_mod_summary m
+  parsedSource m = pm_parsed_source m
+
+-- | The result of successful typechecking.  It also contains the parser
+--   result.
+data TypecheckedModule =
+  TypecheckedModule { tm_parsed_module       :: ParsedModule
+                    , tm_renamed_source      :: Maybe RenamedSource
+                    , tm_typechecked_source  :: TypecheckedSource
+                    , tm_checked_module_info :: ModuleInfo
+                    , tm_internals_          :: (TcGblEnv, ModDetails)
+                    }
+
+instance ParsedMod TypecheckedModule where
+  modSummary m   = modSummary (tm_parsed_module m)
+  parsedSource m = parsedSource (tm_parsed_module m)
+
+instance TypecheckedMod TypecheckedModule where
+  renamedSource m     = tm_renamed_source m
+  typecheckedSource m = tm_typechecked_source m
+  moduleInfo m        = tm_checked_module_info m
+  tm_internals m      = tm_internals_ m
+
+-- | The result of successful desugaring (i.e., translation to core).  Also
+--  contains all the information of a typechecked module.
+data DesugaredModule =
+  DesugaredModule { dm_typechecked_module :: TypecheckedModule
+                  , dm_core_module        :: ModGuts
+             }
+
+instance ParsedMod DesugaredModule where
+  modSummary m   = modSummary (dm_typechecked_module m)
+  parsedSource m = parsedSource (dm_typechecked_module m)
+
+instance TypecheckedMod DesugaredModule where
+  renamedSource m     = renamedSource (dm_typechecked_module m)
+  typecheckedSource m = typecheckedSource (dm_typechecked_module m)
+  moduleInfo m        = moduleInfo (dm_typechecked_module m)
+  tm_internals m      = tm_internals_ (dm_typechecked_module m)
+
+instance DesugaredMod DesugaredModule where
+  coreModule m = dm_core_module m
+
+type ParsedSource      = Located (HsModule GhcPs)
+type RenamedSource     = (HsGroup GhcRn, [LImportDecl GhcRn], Maybe [(LIE GhcRn, Avails)],
+                          Maybe LHsDocString)
+type TypecheckedSource = LHsBinds GhcTc
+
+-- NOTE:
+--   - things that aren't in the output of the typechecker right now:
+--     - the export list
+--     - the imports
+--     - type signatures
+--     - type/data/newtype declarations
+--     - class declarations
+--     - instances
+--   - extra things in the typechecker's output:
+--     - default methods are turned into top-level decls.
+--     - dictionary bindings
+
+-- | Return the 'ModSummary' of a module with the given name.
+--
+-- The module must be part of the module graph (see 'hsc_mod_graph' and
+-- 'ModuleGraph').  If this is not the case, this function will throw a
+-- 'GhcApiError'.
+--
+-- This function ignores boot modules and requires that there is only one
+-- non-boot module with the given name.
+getModSummary :: GhcMonad m =&gt; ModuleName -&gt; m ModSummary
+getModSummary mod = do
+   mg &lt;- liftM hsc_mod_graph getSession
+   let mods_by_name = [ ms | ms &lt;- mgModSummaries mg
+                      , ms_mod_name ms == mod
+                      , not (isBootSummary ms) ]
+   case mods_by_name of
+     [] -&gt; do dflags &lt;- getDynFlags
+              liftIO $ throwIO $ mkApiErr dflags (text &quot;Module not part of module graph&quot;)
+     [ms] -&gt; return ms
+     multiple -&gt; do dflags &lt;- getDynFlags
+                    liftIO $ throwIO $ mkApiErr dflags (text &quot;getModSummary is ambiguous: &quot; &lt;+&gt; ppr multiple)
+
+-- | Parse a module.
+--
+-- Throws a 'SourceError' on parse error.
+parseModule :: GhcMonad m =&gt; ModSummary -&gt; m ParsedModule
+parseModule ms = do
+   hsc_env &lt;- getSession
+   let hsc_env_tmp = hsc_env { hsc_dflags = ms_hspp_opts ms }
+   hpm &lt;- liftIO $ hscParse hsc_env_tmp ms
+   return (ParsedModule ms (hpm_module hpm) (hpm_src_files hpm)
+                           (hpm_annotations hpm))
+               -- See Note [Api annotations] in ApiAnnotation.hs
+
+-- | Typecheck and rename a parsed module.
+--
+-- Throws a 'SourceError' if either fails.
+typecheckModule :: GhcMonad m =&gt; ParsedModule -&gt; m TypecheckedModule
+typecheckModule pmod = do
+ let ms = modSummary pmod
+ hsc_env &lt;- getSession
+ let hsc_env_tmp = hsc_env { hsc_dflags = ms_hspp_opts ms }
+ (tc_gbl_env, rn_info)
+       &lt;- liftIO $ hscTypecheckRename hsc_env_tmp ms $
+                      HsParsedModule { hpm_module = parsedSource pmod,
+                                       hpm_src_files = pm_extra_src_files pmod,
+                                       hpm_annotations = pm_annotations pmod }
+ details &lt;- liftIO $ makeSimpleDetails hsc_env_tmp tc_gbl_env
+ safe    &lt;- liftIO $ finalSafeMode (ms_hspp_opts ms) tc_gbl_env
+
+ return $
+     TypecheckedModule {
+       tm_internals_          = (tc_gbl_env, details),
+       tm_parsed_module       = pmod,
+       tm_renamed_source      = rn_info,
+       tm_typechecked_source  = tcg_binds tc_gbl_env,
+       tm_checked_module_info =
+         ModuleInfo {
+           minf_type_env  = md_types details,
+           minf_exports   = md_exports details,
+           minf_rdr_env   = Just (tcg_rdr_env tc_gbl_env),
+           minf_instances = fixSafeInstances safe $ md_insts details,
+           minf_iface     = Nothing,
+           minf_safe      = safe,
+           minf_modBreaks = emptyModBreaks
+         }}
+
+-- | Desugar a typechecked module.
+desugarModule :: GhcMonad m =&gt; TypecheckedModule -&gt; m DesugaredModule
+desugarModule tcm = do
+ let ms = modSummary tcm
+ let (tcg, _) = tm_internals tcm
+ hsc_env &lt;- getSession
+ let hsc_env_tmp = hsc_env { hsc_dflags = ms_hspp_opts ms }
+ guts &lt;- liftIO $ hscDesugar hsc_env_tmp ms tcg
+ return $
+     DesugaredModule {
+       dm_typechecked_module = tcm,
+       dm_core_module        = guts
+     }
+
+-- | Load a module.  Input doesn't need to be desugared.
+--
+-- A module must be loaded before dependent modules can be typechecked.  This
+-- always includes generating a 'ModIface' and, depending on the
+-- 'DynFlags.hscTarget', may also include code generation.
+--
+-- This function will always cause recompilation and will always overwrite
+-- previous compilation results (potentially files on disk).
+--
+loadModule :: (TypecheckedMod mod, GhcMonad m) =&gt; mod -&gt; m mod
+loadModule tcm = do
+   let ms = modSummary tcm
+   let mod = ms_mod_name ms
+   let loc = ms_location ms
+   let (tcg, _details) = tm_internals tcm
+
+   mb_linkable &lt;- case ms_obj_date ms of
+                     Just t | t &gt; ms_hs_date ms  -&gt; do
+                         l &lt;- liftIO $ findObjectLinkable (ms_mod ms)
+                                                  (ml_obj_file loc) t
+                         return (Just l)
+                     _otherwise -&gt; return Nothing
+
+   let source_modified | isNothing mb_linkable = SourceModified
+                       | otherwise             = SourceUnmodified
+                       -- we can't determine stability here
+
+   -- compile doesn't change the session
+   hsc_env &lt;- getSession
+   mod_info &lt;- liftIO $ compileOne' (Just tcg) Nothing
+                                    hsc_env ms 1 1 Nothing mb_linkable
+                                    source_modified
+
+   modifySession $ \e -&gt; e{ hsc_HPT = addToHpt (hsc_HPT e) mod mod_info }
+   return tcm
+
+
+-- %************************************************************************
+-- %*                                                                      *
+--             Dealing with Core
+-- %*                                                                      *
+-- %************************************************************************
+
+-- | A CoreModule consists of just the fields of a 'ModGuts' that are needed for
+-- the 'GHC.compileToCoreModule' interface.
+data CoreModule
+  = CoreModule {
+      -- | Module name
+      cm_module   :: !Module,
+      -- | Type environment for types declared in this module
+      cm_types    :: !TypeEnv,
+      -- | Declarations
+      cm_binds    :: CoreProgram,
+      -- | Safe Haskell mode
+      cm_safe     :: SafeHaskellMode
+    }
+
+instance Outputable CoreModule where
+   ppr (CoreModule {cm_module = mn, cm_types = te, cm_binds = cb,
+                    cm_safe = sf})
+    = text &quot;%module&quot; &lt;+&gt; ppr mn &lt;+&gt; parens (ppr sf) &lt;+&gt; ppr te
+      $$ vcat (map ppr cb)
+
+-- | This is the way to get access to the Core bindings corresponding
+-- to a module. 'compileToCore' parses, typechecks, and
+-- desugars the module, then returns the resulting Core module (consisting of
+-- the module name, type declarations, and function declarations) if
+-- successful.
+compileToCoreModule :: GhcMonad m =&gt; FilePath -&gt; m CoreModule
+compileToCoreModule = compileCore False
+
+-- | Like compileToCoreModule, but invokes the simplifier, so
+-- as to return simplified and tidied Core.
+compileToCoreSimplified :: GhcMonad m =&gt; FilePath -&gt; m CoreModule
+compileToCoreSimplified = compileCore True
+
+compileCore :: GhcMonad m =&gt; Bool -&gt; FilePath -&gt; m CoreModule
+compileCore simplify fn = do
+   -- First, set the target to the desired filename
+   target &lt;- guessTarget fn Nothing
+   addTarget target
+   _ &lt;- load LoadAllTargets
+   -- Then find dependencies
+   modGraph &lt;- depanal [] True
+   case find ((== fn) . msHsFilePath) (mgModSummaries modGraph) of
+     Just modSummary -&gt; do
+       -- Now we have the module name;
+       -- parse, typecheck and desugar the module
+       (tcg, mod_guts) &lt;- -- TODO: space leaky: call hsc* directly?
+         do tm &lt;- typecheckModule =&lt;&lt; parseModule modSummary
+            let tcg = fst (tm_internals tm)
+            (,) tcg . coreModule &lt;$&gt; desugarModule tm
+       liftM (gutsToCoreModule (mg_safe_haskell mod_guts)) $
+         if simplify
+          then do
+             -- If simplify is true: simplify (hscSimplify), then tidy
+             -- (tidyProgram).
+             hsc_env &lt;- getSession
+             simpl_guts &lt;- liftIO $ do
+               plugins &lt;- readIORef (tcg_th_coreplugins tcg)
+               hscSimplify hsc_env plugins mod_guts
+             tidy_guts &lt;- liftIO $ tidyProgram hsc_env simpl_guts
+             return $ Left tidy_guts
+          else
+             return $ Right mod_guts
+
+     Nothing -&gt; panic &quot;compileToCoreModule: target FilePath not found in\
+                           module dependency graph&quot;
+  where -- two versions, based on whether we simplify (thus run tidyProgram,
+        -- which returns a (CgGuts, ModDetails) pair, or not (in which case
+        -- we just have a ModGuts.
+        gutsToCoreModule :: SafeHaskellMode
+                         -&gt; Either (CgGuts, ModDetails) ModGuts
+                         -&gt; CoreModule
+        gutsToCoreModule safe_mode (Left (cg, md)) = CoreModule {
+          cm_module = cg_module cg,
+          cm_types  = md_types md,
+          cm_binds  = cg_binds cg,
+          cm_safe   = safe_mode
+        }
+        gutsToCoreModule safe_mode (Right mg) = CoreModule {
+          cm_module  = mg_module mg,
+          cm_types   = typeEnvFromEntities (bindersOfBinds (mg_binds mg))
+                                           (mg_tcs mg)
+                                           (mg_fam_insts mg),
+          cm_binds   = mg_binds mg,
+          cm_safe    = safe_mode
+         }
+
+-- %************************************************************************
+-- %*                                                                      *
+--             Inspecting the session
+-- %*                                                                      *
+-- %************************************************************************
+
+-- | Get the module dependency graph.
+getModuleGraph :: GhcMonad m =&gt; m ModuleGraph -- ToDo: DiGraph ModSummary
+getModuleGraph = liftM hsc_mod_graph getSession
+
+-- | Return @True@ &lt;==&gt; module is loaded.
+isLoaded :: GhcMonad m =&gt; ModuleName -&gt; m Bool
+isLoaded m = withSession $ \hsc_env -&gt;
+  return $! isJust (lookupHpt (hsc_HPT hsc_env) m)
+
+-- | Return the bindings for the current interactive session.
+getBindings :: GhcMonad m =&gt; m [TyThing]
+getBindings = withSession $ \hsc_env -&gt;
+    return $ icInScopeTTs $ hsc_IC hsc_env
+
+-- | Return the instances for the current interactive session.
+getInsts :: GhcMonad m =&gt; m ([ClsInst], [FamInst])
+getInsts = withSession $ \hsc_env -&gt;
+    return $ ic_instances (hsc_IC hsc_env)
+
+getPrintUnqual :: GhcMonad m =&gt; m PrintUnqualified
+getPrintUnqual = withSession $ \hsc_env -&gt;
+  return (icPrintUnqual (hsc_dflags hsc_env) (hsc_IC hsc_env))
+
+-- | Container for information about a 'Module'.
+data ModuleInfo = ModuleInfo {
+        minf_type_env  :: TypeEnv,
+        minf_exports   :: [AvailInfo],
+        minf_rdr_env   :: Maybe GlobalRdrEnv,   -- Nothing for a compiled/package mod
+        minf_instances :: [ClsInst],
+        minf_iface     :: Maybe ModIface,
+        minf_safe      :: SafeHaskellMode,
+        minf_modBreaks :: ModBreaks
+  }
+        -- We don't want HomeModInfo here, because a ModuleInfo applies
+        -- to package modules too.
+
+-- | Request information about a loaded 'Module'
+getModuleInfo :: GhcMonad m =&gt; Module -&gt; m (Maybe ModuleInfo)  -- XXX: Maybe X
+getModuleInfo mdl = withSession $ \hsc_env -&gt; do
+  let mg = hsc_mod_graph hsc_env
+  if mgElemModule mg mdl
+        then liftIO $ getHomeModuleInfo hsc_env mdl
+        else do
+  {- if isHomeModule (hsc_dflags hsc_env) mdl
+        then return Nothing
+        else -} liftIO $ getPackageModuleInfo hsc_env mdl
+   -- ToDo: we don't understand what the following comment means.
+   --    (SDM, 19/7/2011)
+   -- getPackageModuleInfo will attempt to find the interface, so
+   -- we don't want to call it for a home module, just in case there
+   -- was a problem loading the module and the interface doesn't
+   -- exist... hence the isHomeModule test here.  (ToDo: reinstate)
+
+getPackageModuleInfo :: HscEnv -&gt; Module -&gt; IO (Maybe ModuleInfo)
+getPackageModuleInfo hsc_env mdl
+  = do  eps &lt;- hscEPS hsc_env
+        iface &lt;- hscGetModuleInterface hsc_env mdl
+        let
+            avails = mi_exports iface
+            pte    = eps_PTE eps
+            tys    = [ ty | name &lt;- concatMap availNames avails,
+                            Just ty &lt;- [lookupTypeEnv pte name] ]
+        --
+        return (Just (ModuleInfo {
+                        minf_type_env  = mkTypeEnv tys,
+                        minf_exports   = avails,
+                        minf_rdr_env   = Just $! availsToGlobalRdrEnv (moduleName mdl) avails,
+                        minf_instances = error &quot;getModuleInfo: instances for package module unimplemented&quot;,
+                        minf_iface     = Just iface,
+                        minf_safe      = getSafeMode $ mi_trust iface,
+                        minf_modBreaks = emptyModBreaks
+                }))
+
+getHomeModuleInfo :: HscEnv -&gt; Module -&gt; IO (Maybe ModuleInfo)
+getHomeModuleInfo hsc_env mdl =
+  case lookupHpt (hsc_HPT hsc_env) (moduleName mdl) of
+    Nothing  -&gt; return Nothing
+    Just hmi -&gt; do
+      let details = hm_details hmi
+          iface   = hm_iface hmi
+      return (Just (ModuleInfo {
+                        minf_type_env  = md_types details,
+                        minf_exports   = md_exports details,
+                        minf_rdr_env   = mi_globals $! hm_iface hmi,
+                        minf_instances = md_insts details,
+                        minf_iface     = Just iface,
+                        minf_safe      = getSafeMode $ mi_trust iface
+                       ,minf_modBreaks = getModBreaks hmi
+                        }))
+
+-- | The list of top-level entities defined in a module
+modInfoTyThings :: ModuleInfo -&gt; [TyThing]
+modInfoTyThings minf = typeEnvElts (minf_type_env minf)
+
+modInfoTopLevelScope :: ModuleInfo -&gt; Maybe [Name]
+modInfoTopLevelScope minf
+  = fmap (map gre_name . globalRdrEnvElts) (minf_rdr_env minf)
+
+modInfoExports :: ModuleInfo -&gt; [Name]
+modInfoExports minf = concatMap availNames $! minf_exports minf
+
+modInfoExportsWithSelectors :: ModuleInfo -&gt; [Name]
+modInfoExportsWithSelectors minf = concatMap availNamesWithSelectors $! minf_exports minf
+
+-- | Returns the instances defined by the specified module.
+-- Warning: currently unimplemented for package modules.
+modInfoInstances :: ModuleInfo -&gt; [ClsInst]
+modInfoInstances = minf_instances
+
+modInfoIsExportedName :: ModuleInfo -&gt; Name -&gt; Bool
+modInfoIsExportedName minf name = elemNameSet name (availsToNameSet (minf_exports minf))
+
+mkPrintUnqualifiedForModule :: GhcMonad m =&gt;
+                               ModuleInfo
+                            -&gt; m (Maybe PrintUnqualified) -- XXX: returns a Maybe X
+mkPrintUnqualifiedForModule minf = withSession $ \hsc_env -&gt; do
+  return (fmap (mkPrintUnqualified (hsc_dflags hsc_env)) (minf_rdr_env minf))
+
+modInfoLookupName :: GhcMonad m =&gt;
+                     ModuleInfo -&gt; Name
+                  -&gt; m (Maybe TyThing) -- XXX: returns a Maybe X
+modInfoLookupName minf name = withSession $ \hsc_env -&gt; do
+   case lookupTypeEnv (minf_type_env minf) name of
+     Just tyThing -&gt; return (Just tyThing)
+     Nothing      -&gt; do
+       eps &lt;- liftIO $ readIORef (hsc_EPS hsc_env)
+       return $! lookupType (hsc_dflags hsc_env)
+                            (hsc_HPT hsc_env) (eps_PTE eps) name
+
+modInfoIface :: ModuleInfo -&gt; Maybe ModIface
+modInfoIface = minf_iface
+
+-- | Retrieve module safe haskell mode
+modInfoSafe :: ModuleInfo -&gt; SafeHaskellMode
+modInfoSafe = minf_safe
+
+modInfoModBreaks :: ModuleInfo -&gt; ModBreaks
+modInfoModBreaks = minf_modBreaks
+
+isDictonaryId :: Id -&gt; Bool
+isDictonaryId id
+  = case tcSplitSigmaTy (idType id) of {
+      (_tvs, _theta, tau) -&gt; isDictTy tau }
+
+-- | Looks up a global name: that is, any top-level name in any
+-- visible module.  Unlike 'lookupName', lookupGlobalName does not use
+-- the interactive context, and therefore does not require a preceding
+-- 'setContext'.
+lookupGlobalName :: GhcMonad m =&gt; Name -&gt; m (Maybe TyThing)
+lookupGlobalName name = withSession $ \hsc_env -&gt; do
+   liftIO $ lookupTypeHscEnv hsc_env name
+
+findGlobalAnns :: (GhcMonad m, Typeable a) =&gt; ([Word8] -&gt; a) -&gt; AnnTarget Name -&gt; m [a]
+findGlobalAnns deserialize target = withSession $ \hsc_env -&gt; do
+    ann_env &lt;- liftIO $ prepareAnnotations hsc_env Nothing
+    return (findAnns deserialize ann_env target)
+
+-- | get the GlobalRdrEnv for a session
+getGRE :: GhcMonad m =&gt; m GlobalRdrEnv
+getGRE = withSession $ \hsc_env-&gt; return $ ic_rn_gbl_env (hsc_IC hsc_env)
+
+-- | Retrieve all type and family instances in the environment, indexed
+-- by 'Name'. Each name's lists will contain every instance in which that name
+-- is mentioned in the instance head.
+getNameToInstancesIndex :: GhcMonad m
+  =&gt; [Module]  -- ^ visible modules. An orphan instance will be returned if and
+               -- only it is visible from at least one module in the list.
+  -&gt; m (Messages, Maybe (NameEnv ([ClsInst], [FamInst])))
+getNameToInstancesIndex visible_mods = do
+  hsc_env &lt;- getSession
+  liftIO $ runTcInteractive hsc_env $
+    do { loadUnqualIfaces hsc_env (hsc_IC hsc_env)
+       ; InstEnvs {ie_global, ie_local} &lt;- tcGetInstEnvs
+       ; let visible_mods' = mkModuleSet visible_mods
+       ; (pkg_fie, home_fie) &lt;- tcGetFamInstEnvs
+       -- We use Data.Sequence.Seq because we are creating left associated
+       -- mappends.
+       -- cls_index and fam_index below are adapted from TcRnDriver.lookupInsts
+       ; let cls_index = Map.fromListWith mappend
+                 [ (n, Seq.singleton ispec)
+                 | ispec &lt;- instEnvElts ie_local ++ instEnvElts ie_global
+                 , instIsVisible visible_mods' ispec
+                 , n &lt;- nameSetElemsStable $ orphNamesOfClsInst ispec
+                 ]
+       ; let fam_index = Map.fromListWith mappend
+                 [ (n, Seq.singleton fispec)
+                 | fispec &lt;- famInstEnvElts home_fie ++ famInstEnvElts pkg_fie
+                 , n &lt;- nameSetElemsStable $ orphNamesOfFamInst fispec
+                 ]
+       ; return $ mkNameEnv $
+           [ (nm, (toList clss, toList fams))
+           | (nm, (clss, fams)) &lt;- Map.toList $ Map.unionWith mappend
+               (fmap (,Seq.empty) cls_index)
+               (fmap (Seq.empty,) fam_index)
+           ] }
+
+-- -----------------------------------------------------------------------------
+
+{- ToDo: Move the primary logic here to compiler/main/Packages.hs
+-- | Return all /external/ modules available in the package database.
+-- Modules from the current session (i.e., from the 'HomePackageTable') are
+-- not included.  This includes module names which are reexported by packages.
+packageDbModules :: GhcMonad m =&gt;
+                    Bool  -- ^ Only consider exposed packages.
+                 -&gt; m [Module]
+packageDbModules only_exposed = do
+   dflags &lt;- getSessionDynFlags
+   let pkgs = eltsUFM (pkgIdMap (pkgState dflags))
+   return $
+     [ mkModule pid modname
+     | p &lt;- pkgs
+     , not only_exposed || exposed p
+     , let pid = packageConfigId p
+     , modname &lt;- exposedModules p
+               ++ map exportName (reexportedModules p) ]
+               -}
+
+-- -----------------------------------------------------------------------------
+-- Misc exported utils
+
+dataConType :: DataCon -&gt; Type
+dataConType dc = idType (dataConWrapId dc)
+
+-- | print a 'NamedThing', adding parentheses if the name is an operator.
+pprParenSymName :: NamedThing a =&gt; a -&gt; SDoc
+pprParenSymName a = parenSymOcc (getOccName a) (ppr (getName a))
+
+-- ----------------------------------------------------------------------------
+
+
+-- ToDo:
+--   - Data and Typeable instances for HsSyn.
+
+-- ToDo: check for small transformations that happen to the syntax in
+-- the typechecker (eg. -e ==&gt; negate e, perhaps for fromIntegral)
+
+-- ToDo: maybe use TH syntax instead of IfaceSyn?  There's already a way
+-- to get from TyCons, Ids etc. to TH syntax (reify).
+
+-- :browse will use either lm_toplev or inspect lm_interface, depending
+-- on whether the module is interpreted or not.
+
+
+-- Extract the filename, stringbuffer content and dynflags associed to a module
+--
+-- XXX: Explain pre-conditions
+getModuleSourceAndFlags :: GhcMonad m =&gt; Module -&gt; m (String, StringBuffer, DynFlags)
+getModuleSourceAndFlags mod = do
+  m &lt;- getModSummary (moduleName mod)
+  case ml_hs_file $ ms_location m of
+    Nothing -&gt; do dflags &lt;- getDynFlags
+                  liftIO $ throwIO $ mkApiErr dflags (text &quot;No source available for module &quot; &lt;+&gt; ppr mod)
+    Just sourceFile -&gt; do
+        source &lt;- liftIO $ hGetStringBuffer sourceFile
+        return (sourceFile, source, ms_hspp_opts m)
+
+
+-- | Return module source as token stream, including comments.
+--
+-- The module must be in the module graph and its source must be available.
+-- Throws a 'HscTypes.SourceError' on parse error.
+getTokenStream :: GhcMonad m =&gt; Module -&gt; m [Located Token]
+getTokenStream mod = do
+  (sourceFile, source, flags) &lt;- getModuleSourceAndFlags mod
+  let startLoc = mkRealSrcLoc (mkFastString sourceFile) 1 1
+  case lexTokenStream source startLoc flags of
+    POk _ ts  -&gt; return ts
+    PFailed _ span err -&gt;
+        do dflags &lt;- getDynFlags
+           liftIO $ throwIO $ mkSrcErr (unitBag $ mkPlainErrMsg dflags span err)
+
+-- | Give even more information on the source than 'getTokenStream'
+-- This function allows reconstructing the source completely with
+-- 'showRichTokenStream'.
+getRichTokenStream :: GhcMonad m =&gt; Module -&gt; m [(Located Token, String)]
+getRichTokenStream mod = do
+  (sourceFile, source, flags) &lt;- getModuleSourceAndFlags mod
+  let startLoc = mkRealSrcLoc (mkFastString sourceFile) 1 1
+  case lexTokenStream source startLoc flags of
+    POk _ ts -&gt; return $ addSourceToTokens startLoc source ts
+    PFailed _ span err -&gt;
+        do dflags &lt;- getDynFlags
+           liftIO $ throwIO $ mkSrcErr (unitBag $ mkPlainErrMsg dflags span err)
+
+-- | Given a source location and a StringBuffer corresponding to this
+-- location, return a rich token stream with the source associated to the
+-- tokens.
+addSourceToTokens :: RealSrcLoc -&gt; StringBuffer -&gt; [Located Token]
+                  -&gt; [(Located Token, String)]
+addSourceToTokens _ _ [] = []
+addSourceToTokens loc buf (t@(L span _) : ts)
+    = case span of
+      UnhelpfulSpan _ -&gt; (t,&quot;&quot;) : addSourceToTokens loc buf ts
+      RealSrcSpan s   -&gt; (t,str) : addSourceToTokens newLoc newBuf ts
+        where
+          (newLoc, newBuf, str) = go &quot;&quot; loc buf
+          start = realSrcSpanStart s
+          end = realSrcSpanEnd s
+          go acc loc buf | loc &lt; start = go acc nLoc nBuf
+                         | start &lt;= loc &amp;&amp; loc &lt; end = go (ch:acc) nLoc nBuf
+                         | otherwise = (loc, buf, reverse acc)
+              where (ch, nBuf) = nextChar buf
+                    nLoc = advanceSrcLoc loc ch
+
+
+-- | Take a rich token stream such as produced from 'getRichTokenStream' and
+-- return source code almost identical to the original code (except for
+-- insignificant whitespace.)
+showRichTokenStream :: [(Located Token, String)] -&gt; String
+showRichTokenStream ts = go startLoc ts &quot;&quot;
+    where sourceFile = getFile $ map (getLoc . fst) ts
+          getFile [] = panic &quot;showRichTokenStream: No source file found&quot;
+          getFile (UnhelpfulSpan _ : xs) = getFile xs
+          getFile (RealSrcSpan s : _) = srcSpanFile s
+          startLoc = mkRealSrcLoc sourceFile 1 1
+          go _ [] = id
+          go loc ((L span _, str):ts)
+              = case span of
+                UnhelpfulSpan _ -&gt; go loc ts
+                RealSrcSpan s
+                 | locLine == tokLine -&gt; ((replicate (tokCol - locCol) ' ') ++)
+                                       . (str ++)
+                                       . go tokEnd ts
+                 | otherwise -&gt; ((replicate (tokLine - locLine) '\n') ++)
+                               . ((replicate (tokCol - 1) ' ') ++)
+                              . (str ++)
+                              . go tokEnd ts
+                  where (locLine, locCol) = (srcLocLine loc, srcLocCol loc)
+                        (tokLine, tokCol) = (srcSpanStartLine s, srcSpanStartCol s)
+                        tokEnd = realSrcSpanEnd s
+
+-- -----------------------------------------------------------------------------
+-- Interactive evaluation
+
+-- | Takes a 'ModuleName' and possibly a 'UnitId', and consults the
+-- filesystem and package database to find the corresponding 'Module',
+-- using the algorithm that is used for an @import@ declaration.
+findModule :: GhcMonad m =&gt; ModuleName -&gt; Maybe FastString -&gt; m Module
+findModule mod_name maybe_pkg = withSession $ \hsc_env -&gt; do
+  let
+    dflags   = hsc_dflags hsc_env
+    this_pkg = thisPackage dflags
+  --
+  case maybe_pkg of
+    Just pkg | fsToUnitId pkg /= this_pkg &amp;&amp; pkg /= fsLit &quot;this&quot; -&gt; liftIO $ do
+      res &lt;- findImportedModule hsc_env mod_name maybe_pkg
+      case res of
+        Found _ m -&gt; return m
+        err       -&gt; throwOneError $ noModError dflags noSrcSpan mod_name err
+    _otherwise -&gt; do
+      home &lt;- lookupLoadedHomeModule mod_name
+      case home of
+        Just m  -&gt; return m
+        Nothing -&gt; liftIO $ do
+           res &lt;- findImportedModule hsc_env mod_name maybe_pkg
+           case res of
+             Found loc m | moduleUnitId m /= this_pkg -&gt; return m
+                         | otherwise -&gt; modNotLoadedError dflags m loc
+             err -&gt; throwOneError $ noModError dflags noSrcSpan mod_name err
+
+modNotLoadedError :: DynFlags -&gt; Module -&gt; ModLocation -&gt; IO a
+modNotLoadedError dflags m loc = throwGhcExceptionIO $ CmdLineError $ showSDoc dflags $
+   text &quot;module is not loaded:&quot; &lt;+&gt;
+   quotes (ppr (moduleName m)) &lt;+&gt;
+   parens (text (expectJust &quot;modNotLoadedError&quot; (ml_hs_file loc)))
+
+-- | Like 'findModule', but differs slightly when the module refers to
+-- a source file, and the file has not been loaded via 'load'.  In
+-- this case, 'findModule' will throw an error (module not loaded),
+-- but 'lookupModule' will check to see whether the module can also be
+-- found in a package, and if so, that package 'Module' will be
+-- returned.  If not, the usual module-not-found error will be thrown.
+--
+lookupModule :: GhcMonad m =&gt; ModuleName -&gt; Maybe FastString -&gt; m Module
+lookupModule mod_name (Just pkg) = findModule mod_name (Just pkg)
+lookupModule mod_name Nothing = withSession $ \hsc_env -&gt; do
+  home &lt;- lookupLoadedHomeModule mod_name
+  case home of
+    Just m  -&gt; return m
+    Nothing -&gt; liftIO $ do
+      res &lt;- findExposedPackageModule hsc_env mod_name Nothing
+      case res of
+        Found _ m -&gt; return m
+        err       -&gt; throwOneError $ noModError (hsc_dflags hsc_env) noSrcSpan mod_name err
+
+lookupLoadedHomeModule :: GhcMonad m =&gt; ModuleName -&gt; m (Maybe Module)
+lookupLoadedHomeModule mod_name = withSession $ \hsc_env -&gt;
+  case lookupHpt (hsc_HPT hsc_env) mod_name of
+    Just mod_info      -&gt; return (Just (mi_module (hm_iface mod_info)))
+    _not_a_home_module -&gt; return Nothing
+
+-- | Check that a module is safe to import (according to Safe Haskell).
+--
+-- We return True to indicate the import is safe and False otherwise
+-- although in the False case an error may be thrown first.
+isModuleTrusted :: GhcMonad m =&gt; Module -&gt; m Bool
+isModuleTrusted m = withSession $ \hsc_env -&gt;
+    liftIO $ hscCheckSafe hsc_env m noSrcSpan
+
+-- | Return if a module is trusted and the pkgs it depends on to be trusted.
+moduleTrustReqs :: GhcMonad m =&gt; Module -&gt; m (Bool, Set InstalledUnitId)
+moduleTrustReqs m = withSession $ \hsc_env -&gt;
+    liftIO $ hscGetSafe hsc_env m noSrcSpan
+
+-- | Set the monad GHCi lifts user statements into.
+--
+-- Checks that a type (in string form) is an instance of the
+-- @GHC.GHCi.GHCiSandboxIO@ type class. Sets it to be the GHCi monad if it is,
+-- throws an error otherwise.
+setGHCiMonad :: GhcMonad m =&gt; String -&gt; m ()
+setGHCiMonad name = withSession $ \hsc_env -&gt; do
+    ty &lt;- liftIO $ hscIsGHCiMonad hsc_env name
+    modifySession $ \s -&gt;
+        let ic = (hsc_IC s) { ic_monad = ty }
+        in s { hsc_IC = ic }
+
+-- | Get the monad GHCi lifts user statements into.
+getGHCiMonad :: GhcMonad m =&gt; m Name
+getGHCiMonad = fmap (ic_monad . hsc_IC) getSession
+
+getHistorySpan :: GhcMonad m =&gt; History -&gt; m SrcSpan
+getHistorySpan h = withSession $ \hsc_env -&gt;
+    return $ InteractiveEval.getHistorySpan hsc_env h
+
+obtainTermFromVal :: GhcMonad m =&gt; Int -&gt;  Bool -&gt; Type -&gt; a -&gt; m Term
+obtainTermFromVal bound force ty a = withSession $ \hsc_env -&gt;
+    liftIO $ InteractiveEval.obtainTermFromVal hsc_env bound force ty a
+
+obtainTermFromId :: GhcMonad m =&gt; Int -&gt; Bool -&gt; Id -&gt; m Term
+obtainTermFromId bound force id = withSession $ \hsc_env -&gt;
+    liftIO $ InteractiveEval.obtainTermFromId hsc_env bound force id
+
+
+-- | Returns the 'TyThing' for a 'Name'.  The 'Name' may refer to any
+-- entity known to GHC, including 'Name's defined using 'runStmt'.
+lookupName :: GhcMonad m =&gt; Name -&gt; m (Maybe TyThing)
+lookupName name =
+     withSession $ \hsc_env -&gt;
+       liftIO $ hscTcRcLookupName hsc_env name
+
+-- -----------------------------------------------------------------------------
+-- Pure API
+
+-- | A pure interface to the module parser.
+--
+parser :: String         -- ^ Haskell module source text (full Unicode is supported)
+       -&gt; DynFlags       -- ^ the flags
+       -&gt; FilePath       -- ^ the filename (for source locations)
+       -&gt; (WarningMessages, Either ErrorMessages (Located (HsModule GhcPs)))
+
+parser str dflags filename =
+   let
+       loc  = mkRealSrcLoc (mkFastString filename) 1 1
+       buf  = stringToStringBuffer str
+   in
+   case unP Parser.parseModule (mkPState dflags buf loc) of
+
+     PFailed warnFn span err   -&gt;
+         let (warns,_) = warnFn dflags in
+         (warns, Left $ unitBag (mkPlainErrMsg dflags span err))
+
+     POk pst rdr_module -&gt;
+         let (warns,_) = getMessages pst dflags in
+         (warns, Right rdr_module)
+</span></pre></body></html>

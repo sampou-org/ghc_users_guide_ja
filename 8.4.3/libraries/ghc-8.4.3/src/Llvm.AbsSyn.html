@@ -1,0 +1,353 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><link rel="stylesheet" type="text/css" href="style.css" /><script type="text/javascript" src="highlight.js"></script></head><body><pre><span class="hs-comment">--------------------------------------------------------------------------------</span><span>
+</span><a name="line-2"></a><span class="hs-comment">-- | The LLVM abstract syntax.</span><span>
+</span><a name="line-3"></a><span class="hs-comment">--</span><span>
+</span><a name="line-4"></a><span>
+</span><a name="line-5"></a><span class="hs-keyword">module</span><span> </span><span class="hs-identifier">Llvm.AbsSyn</span><span> </span><span class="hs-keyword">where</span><span>
+</span><a name="line-6"></a><span>
+</span><a name="line-7"></a><span class="hs-keyword">import</span><span> </span><a href="GhcPrelude.html"><span class="hs-identifier">GhcPrelude</span></a><span>
+</span><a name="line-8"></a><span>
+</span><a name="line-9"></a><span class="hs-keyword">import</span><span> </span><a href="Llvm.MetaData.html"><span class="hs-identifier">Llvm.MetaData</span></a><span>
+</span><a name="line-10"></a><span class="hs-keyword">import</span><span> </span><a href="Llvm.Types.html"><span class="hs-identifier">Llvm.Types</span></a><span>
+</span><a name="line-11"></a><span>
+</span><a name="line-12"></a><span class="hs-keyword">import</span><span> </span><a href="Unique.html"><span class="hs-identifier">Unique</span></a><span>
+</span><a name="line-13"></a><span>
+</span><a name="line-14"></a><span class="hs-comment">-- | Block labels</span><span>
+</span><a name="line-15"></a><span class="hs-keyword">type</span><span> </span><a name="LlvmBlockId"><a href="Llvm.AbsSyn.html#LlvmBlockId"><span class="hs-identifier">LlvmBlockId</span></a></a><span> </span><span class="hs-glyph">=</span><span> </span><a href="Unique.html#Unique"><span class="hs-identifier hs-type">Unique</span></a><span>
+</span><a name="line-16"></a><span>
+</span><a name="line-17"></a><span class="hs-comment">-- | A block of LLVM code.</span><span>
+</span><a name="line-18"></a><span class="hs-keyword">data</span><span> </span><a name="LlvmBlock"><a href="Llvm.AbsSyn.html#LlvmBlock"><span class="hs-identifier">LlvmBlock</span></a></a><span> </span><span class="hs-glyph">=</span><span> </span><a name="LlvmBlock"><a href="Llvm.AbsSyn.html#LlvmBlock"><span class="hs-identifier">LlvmBlock</span></a></a><span> </span><span class="hs-special">{</span><span>
+</span><a name="line-19"></a><span>    </span><span class="hs-comment">-- | The code label for this block</span><span>
+</span><a name="line-20"></a><span>    </span><a name="blockLabel"><a href="Llvm.AbsSyn.html#blockLabel"><span class="hs-identifier">blockLabel</span></a></a><span> </span><span class="hs-glyph">::</span><span> </span><a href="Llvm.AbsSyn.html#LlvmBlockId"><span class="hs-identifier hs-type">LlvmBlockId</span></a><span class="hs-special">,</span><span>
+</span><a name="line-21"></a><span>
+</span><a name="line-22"></a><span>    </span><span class="hs-comment">-- | A list of LlvmStatement's representing the code for this block.</span><span>
+</span><a name="line-23"></a><span>    </span><span class="hs-comment">-- This list must end with a control flow statement.</span><span>
+</span><a name="line-24"></a><span>    </span><a name="blockStmts"><a href="Llvm.AbsSyn.html#blockStmts"><span class="hs-identifier">blockStmts</span></a></a><span> </span><span class="hs-glyph">::</span><span> </span><span class="hs-special">[</span><a href="Llvm.AbsSyn.html#LlvmStatement"><span class="hs-identifier hs-type">LlvmStatement</span></a><span class="hs-special">]</span><span>
+</span><a name="line-25"></a><span>  </span><span class="hs-special">}</span><span>
+</span><a name="line-26"></a><span>
+</span><a name="line-27"></a><span class="hs-keyword">type</span><span> </span><a name="LlvmBlocks"><a href="Llvm.AbsSyn.html#LlvmBlocks"><span class="hs-identifier">LlvmBlocks</span></a></a><span> </span><span class="hs-glyph">=</span><span> </span><span class="hs-special">[</span><a href="Llvm.AbsSyn.html#LlvmBlock"><span class="hs-identifier hs-type">LlvmBlock</span></a><span class="hs-special">]</span><span>
+</span><a name="line-28"></a><span>
+</span><a name="line-29"></a><span class="hs-comment">-- | An LLVM Module. This is a top level container in LLVM.</span><span>
+</span><a name="line-30"></a><span class="hs-keyword">data</span><span> </span><a name="LlvmModule"><a href="Llvm.AbsSyn.html#LlvmModule"><span class="hs-identifier">LlvmModule</span></a></a><span> </span><span class="hs-glyph">=</span><span> </span><a name="LlvmModule"><a href="Llvm.AbsSyn.html#LlvmModule"><span class="hs-identifier">LlvmModule</span></a></a><span>  </span><span class="hs-special">{</span><span>
+</span><a name="line-31"></a><span>    </span><span class="hs-comment">-- | Comments to include at the start of the module.</span><span>
+</span><a name="line-32"></a><span>    </span><a name="modComments"><a href="Llvm.AbsSyn.html#modComments"><span class="hs-identifier">modComments</span></a></a><span>  </span><span class="hs-glyph">::</span><span> </span><span class="hs-special">[</span><a href="Llvm.Types.html#LMString"><span class="hs-identifier hs-type">LMString</span></a><span class="hs-special">]</span><span class="hs-special">,</span><span>
+</span><a name="line-33"></a><span>
+</span><a name="line-34"></a><span>    </span><span class="hs-comment">-- | LLVM Alias type definitions.</span><span>
+</span><a name="line-35"></a><span>    </span><a name="modAliases"><a href="Llvm.AbsSyn.html#modAliases"><span class="hs-identifier">modAliases</span></a></a><span>   </span><span class="hs-glyph">::</span><span> </span><span class="hs-special">[</span><a href="Llvm.Types.html#LlvmAlias"><span class="hs-identifier hs-type">LlvmAlias</span></a><span class="hs-special">]</span><span class="hs-special">,</span><span>
+</span><a name="line-36"></a><span>
+</span><a name="line-37"></a><span>    </span><span class="hs-comment">-- | LLVM meta data.</span><span>
+</span><a name="line-38"></a><span>    </span><a name="modMeta"><a href="Llvm.AbsSyn.html#modMeta"><span class="hs-identifier">modMeta</span></a></a><span>      </span><span class="hs-glyph">::</span><span> </span><span class="hs-special">[</span><a href="Llvm.MetaData.html#MetaDecl"><span class="hs-identifier hs-type">MetaDecl</span></a><span class="hs-special">]</span><span class="hs-special">,</span><span>
+</span><a name="line-39"></a><span>
+</span><a name="line-40"></a><span>    </span><span class="hs-comment">-- | Global variables to include in the module.</span><span>
+</span><a name="line-41"></a><span>    </span><a name="modGlobals"><a href="Llvm.AbsSyn.html#modGlobals"><span class="hs-identifier">modGlobals</span></a></a><span>   </span><span class="hs-glyph">::</span><span> </span><span class="hs-special">[</span><a href="Llvm.Types.html#LMGlobal"><span class="hs-identifier hs-type">LMGlobal</span></a><span class="hs-special">]</span><span class="hs-special">,</span><span>
+</span><a name="line-42"></a><span>
+</span><a name="line-43"></a><span>    </span><span class="hs-comment">-- | LLVM Functions used in this module but defined in other modules.</span><span>
+</span><a name="line-44"></a><span>    </span><a name="modFwdDecls"><a href="Llvm.AbsSyn.html#modFwdDecls"><span class="hs-identifier">modFwdDecls</span></a></a><span>  </span><span class="hs-glyph">::</span><span> </span><a href="Llvm.Types.html#LlvmFunctionDecls"><span class="hs-identifier hs-type">LlvmFunctionDecls</span></a><span class="hs-special">,</span><span>
+</span><a name="line-45"></a><span>
+</span><a name="line-46"></a><span>    </span><span class="hs-comment">-- | LLVM Functions defined in this module.</span><span>
+</span><a name="line-47"></a><span>    </span><a name="modFuncs"><a href="Llvm.AbsSyn.html#modFuncs"><span class="hs-identifier">modFuncs</span></a></a><span>     </span><span class="hs-glyph">::</span><span> </span><a href="Llvm.AbsSyn.html#LlvmFunctions"><span class="hs-identifier hs-type">LlvmFunctions</span></a><span>
+</span><a name="line-48"></a><span>  </span><span class="hs-special">}</span><span>
+</span><a name="line-49"></a><span>
+</span><a name="line-50"></a><span class="hs-comment">-- | An LLVM Function</span><span>
+</span><a name="line-51"></a><span class="hs-keyword">data</span><span> </span><a name="LlvmFunction"><a href="Llvm.AbsSyn.html#LlvmFunction"><span class="hs-identifier">LlvmFunction</span></a></a><span> </span><span class="hs-glyph">=</span><span> </span><a name="LlvmFunction"><a href="Llvm.AbsSyn.html#LlvmFunction"><span class="hs-identifier">LlvmFunction</span></a></a><span> </span><span class="hs-special">{</span><span>
+</span><a name="line-52"></a><span>    </span><span class="hs-comment">-- | The signature of this declared function.</span><span>
+</span><a name="line-53"></a><span>    </span><a name="funcDecl"><a href="Llvm.AbsSyn.html#funcDecl"><span class="hs-identifier">funcDecl</span></a></a><span>      </span><span class="hs-glyph">::</span><span> </span><a href="Llvm.Types.html#LlvmFunctionDecl"><span class="hs-identifier hs-type">LlvmFunctionDecl</span></a><span class="hs-special">,</span><span>
+</span><a name="line-54"></a><span>
+</span><a name="line-55"></a><span>    </span><span class="hs-comment">-- | The functions arguments</span><span>
+</span><a name="line-56"></a><span>    </span><a name="funcArgs"><a href="Llvm.AbsSyn.html#funcArgs"><span class="hs-identifier">funcArgs</span></a></a><span>      </span><span class="hs-glyph">::</span><span> </span><span class="hs-special">[</span><a href="Llvm.Types.html#LMString"><span class="hs-identifier hs-type">LMString</span></a><span class="hs-special">]</span><span class="hs-special">,</span><span>
+</span><a name="line-57"></a><span>
+</span><a name="line-58"></a><span>    </span><span class="hs-comment">-- | The function attributes.</span><span>
+</span><a name="line-59"></a><span>    </span><a name="funcAttrs"><a href="Llvm.AbsSyn.html#funcAttrs"><span class="hs-identifier">funcAttrs</span></a></a><span>     </span><span class="hs-glyph">::</span><span> </span><span class="hs-special">[</span><a href="Llvm.Types.html#LlvmFuncAttr"><span class="hs-identifier hs-type">LlvmFuncAttr</span></a><span class="hs-special">]</span><span class="hs-special">,</span><span>
+</span><a name="line-60"></a><span>
+</span><a name="line-61"></a><span>    </span><span class="hs-comment">-- | The section to put the function into,</span><span>
+</span><a name="line-62"></a><span>    </span><a name="funcSect"><a href="Llvm.AbsSyn.html#funcSect"><span class="hs-identifier">funcSect</span></a></a><span>      </span><span class="hs-glyph">::</span><span> </span><a href="Llvm.Types.html#LMSection"><span class="hs-identifier hs-type">LMSection</span></a><span class="hs-special">,</span><span>
+</span><a name="line-63"></a><span>
+</span><a name="line-64"></a><span>    </span><span class="hs-comment">-- | Prefix data</span><span>
+</span><a name="line-65"></a><span>    </span><a name="funcPrefix"><a href="Llvm.AbsSyn.html#funcPrefix"><span class="hs-identifier">funcPrefix</span></a></a><span>    </span><span class="hs-glyph">::</span><span> </span><a href="../base-4.11.1.0/src/%{MODULE/./-}.html#%{NAME}/GHC.Base.html#Maybe"><span class="hs-identifier hs-type">Maybe</span></a><span> </span><a href="Llvm.Types.html#LlvmStatic"><span class="hs-identifier hs-type">LlvmStatic</span></a><span class="hs-special">,</span><span>
+</span><a name="line-66"></a><span>
+</span><a name="line-67"></a><span>    </span><span class="hs-comment">-- | The body of the functions.</span><span>
+</span><a name="line-68"></a><span>    </span><a name="funcBody"><a href="Llvm.AbsSyn.html#funcBody"><span class="hs-identifier">funcBody</span></a></a><span>      </span><span class="hs-glyph">::</span><span> </span><a href="Llvm.AbsSyn.html#LlvmBlocks"><span class="hs-identifier hs-type">LlvmBlocks</span></a><span>
+</span><a name="line-69"></a><span>  </span><span class="hs-special">}</span><span>
+</span><a name="line-70"></a><span>
+</span><a name="line-71"></a><span class="hs-keyword">type</span><span> </span><a name="LlvmFunctions"><a href="Llvm.AbsSyn.html#LlvmFunctions"><span class="hs-identifier">LlvmFunctions</span></a></a><span> </span><span class="hs-glyph">=</span><span> </span><span class="hs-special">[</span><a href="Llvm.AbsSyn.html#LlvmFunction"><span class="hs-identifier hs-type">LlvmFunction</span></a><span class="hs-special">]</span><span>
+</span><a name="line-72"></a><span>
+</span><a name="line-73"></a><span class="hs-keyword">type</span><span> </span><a name="SingleThreaded"><a href="Llvm.AbsSyn.html#SingleThreaded"><span class="hs-identifier">SingleThreaded</span></a></a><span> </span><span class="hs-glyph">=</span><span> </span><span class="hs-identifier hs-type">Bool</span><span>
+</span><a name="line-74"></a><span>
+</span><a name="line-75"></a><span class="hs-comment">-- | LLVM ordering types for synchronization purposes. (Introduced in LLVM</span><span>
+</span><a name="line-76"></a><span class="hs-comment">-- 3.0). Please see the LLVM documentation for a better description.</span><span>
+</span><a name="line-77"></a><span class="hs-keyword">data</span><span> </span><a name="LlvmSyncOrdering"><a href="Llvm.AbsSyn.html#LlvmSyncOrdering"><span class="hs-identifier">LlvmSyncOrdering</span></a></a><span>
+</span><a name="line-78"></a><span>  </span><span class="hs-comment">-- | Some partial order of operations exists.</span><span>
+</span><a name="line-79"></a><span>  </span><span class="hs-glyph">=</span><span> </span><a name="SyncUnord"><a href="Llvm.AbsSyn.html#SyncUnord"><span class="hs-identifier">SyncUnord</span></a></a><span>
+</span><a name="line-80"></a><span>  </span><span class="hs-comment">-- | A single total order for operations at a single address exists.</span><span>
+</span><a name="line-81"></a><span>  </span><span class="hs-glyph">|</span><span> </span><a name="SyncMonotonic"><a href="Llvm.AbsSyn.html#SyncMonotonic"><span class="hs-identifier">SyncMonotonic</span></a></a><span>
+</span><a name="line-82"></a><span>  </span><span class="hs-comment">-- | Acquire synchronization operation.</span><span>
+</span><a name="line-83"></a><span>  </span><span class="hs-glyph">|</span><span> </span><a name="SyncAcquire"><a href="Llvm.AbsSyn.html#SyncAcquire"><span class="hs-identifier">SyncAcquire</span></a></a><span>
+</span><a name="line-84"></a><span>  </span><span class="hs-comment">-- | Release synchronization operation.</span><span>
+</span><a name="line-85"></a><span>  </span><span class="hs-glyph">|</span><span> </span><a name="SyncRelease"><a href="Llvm.AbsSyn.html#SyncRelease"><span class="hs-identifier">SyncRelease</span></a></a><span>
+</span><a name="line-86"></a><span>  </span><span class="hs-comment">-- | Acquire + Release synchronization operation.</span><span>
+</span><a name="line-87"></a><span>  </span><span class="hs-glyph">|</span><span> </span><a name="SyncAcqRel"><a href="Llvm.AbsSyn.html#SyncAcqRel"><span class="hs-identifier">SyncAcqRel</span></a></a><span>
+</span><a name="line-88"></a><span>  </span><span class="hs-comment">-- | Full sequential Consistency operation.</span><span>
+</span><a name="line-89"></a><span>  </span><span class="hs-glyph">|</span><span> </span><a name="SyncSeqCst"><a href="Llvm.AbsSyn.html#SyncSeqCst"><span class="hs-identifier">SyncSeqCst</span></a></a><span>
+</span><a name="line-90"></a><span>  </span><span class="hs-keyword">deriving</span><span> </span><span class="hs-special">(</span><a href="../base-4.11.1.0/src/%{MODULE/./-}.html#%{NAME}/GHC.Show.html#Show"><span class="hs-identifier hs-type">Show</span></a><span class="hs-special">,</span><span> </span><span class="hs-identifier hs-type">Eq</span><span class="hs-special">)</span><span>
+</span><a name="line-91"></a><span>
+</span><a name="line-92"></a><span class="hs-comment">-- | LLVM atomic operations. Please see the @atomicrmw@ instruction in</span><span>
+</span><a name="line-93"></a><span class="hs-comment">-- the LLVM documentation for a complete description.</span><span>
+</span><a name="line-94"></a><span class="hs-keyword">data</span><span> </span><a name="LlvmAtomicOp"><a href="Llvm.AbsSyn.html#LlvmAtomicOp"><span class="hs-identifier">LlvmAtomicOp</span></a></a><span>
+</span><a name="line-95"></a><span>  </span><span class="hs-glyph">=</span><span> </span><a name="LAO_Xchg"><a href="Llvm.AbsSyn.html#LAO_Xchg"><span class="hs-identifier">LAO_Xchg</span></a></a><span>
+</span><a name="line-96"></a><span>  </span><span class="hs-glyph">|</span><span> </span><a name="LAO_Add"><a href="Llvm.AbsSyn.html#LAO_Add"><span class="hs-identifier">LAO_Add</span></a></a><span>
+</span><a name="line-97"></a><span>  </span><span class="hs-glyph">|</span><span> </span><a name="LAO_Sub"><a href="Llvm.AbsSyn.html#LAO_Sub"><span class="hs-identifier">LAO_Sub</span></a></a><span>
+</span><a name="line-98"></a><span>  </span><span class="hs-glyph">|</span><span> </span><a name="LAO_And"><a href="Llvm.AbsSyn.html#LAO_And"><span class="hs-identifier">LAO_And</span></a></a><span>
+</span><a name="line-99"></a><span>  </span><span class="hs-glyph">|</span><span> </span><a name="LAO_Nand"><a href="Llvm.AbsSyn.html#LAO_Nand"><span class="hs-identifier">LAO_Nand</span></a></a><span>
+</span><a name="line-100"></a><span>  </span><span class="hs-glyph">|</span><span> </span><a name="LAO_Or"><a href="Llvm.AbsSyn.html#LAO_Or"><span class="hs-identifier">LAO_Or</span></a></a><span>
+</span><a name="line-101"></a><span>  </span><span class="hs-glyph">|</span><span> </span><a name="LAO_Xor"><a href="Llvm.AbsSyn.html#LAO_Xor"><span class="hs-identifier">LAO_Xor</span></a></a><span>
+</span><a name="line-102"></a><span>  </span><span class="hs-glyph">|</span><span> </span><a name="LAO_Max"><a href="Llvm.AbsSyn.html#LAO_Max"><span class="hs-identifier">LAO_Max</span></a></a><span>
+</span><a name="line-103"></a><span>  </span><span class="hs-glyph">|</span><span> </span><a name="LAO_Min"><a href="Llvm.AbsSyn.html#LAO_Min"><span class="hs-identifier">LAO_Min</span></a></a><span>
+</span><a name="line-104"></a><span>  </span><span class="hs-glyph">|</span><span> </span><a name="LAO_Umax"><a href="Llvm.AbsSyn.html#LAO_Umax"><span class="hs-identifier">LAO_Umax</span></a></a><span>
+</span><a name="line-105"></a><span>  </span><span class="hs-glyph">|</span><span> </span><a name="LAO_Umin"><a href="Llvm.AbsSyn.html#LAO_Umin"><span class="hs-identifier">LAO_Umin</span></a></a><span>
+</span><a name="line-106"></a><span>  </span><span class="hs-keyword">deriving</span><span> </span><span class="hs-special">(</span><a href="../base-4.11.1.0/src/%{MODULE/./-}.html#%{NAME}/GHC.Show.html#Show"><span class="hs-identifier hs-type">Show</span></a><span class="hs-special">,</span><span> </span><span class="hs-identifier hs-type">Eq</span><span class="hs-special">)</span><span>
+</span><a name="line-107"></a><span>
+</span><a name="line-108"></a><span class="hs-comment">-- | Llvm Statements</span><span>
+</span><a name="line-109"></a><span class="hs-keyword">data</span><span> </span><a name="LlvmStatement"><a href="Llvm.AbsSyn.html#LlvmStatement"><span class="hs-identifier">LlvmStatement</span></a></a><span>
+</span><a name="line-110"></a><span>  </span><span class="hs-comment">{- |
+    Assign an expression to a variable:
+      * dest:   Variable to assign to
+      * source: Source expression
+  -}</span><span>
+</span><a name="line-115"></a><span>  </span><span class="hs-glyph">=</span><span> </span><a name="Assignment"><a href="Llvm.AbsSyn.html#Assignment"><span class="hs-identifier">Assignment</span></a></a><span> </span><a href="Llvm.Types.html#LlvmVar"><span class="hs-identifier hs-type">LlvmVar</span></a><span> </span><a href="Llvm.AbsSyn.html#LlvmExpression"><span class="hs-identifier hs-type">LlvmExpression</span></a><span>
+</span><a name="line-116"></a><span>
+</span><a name="line-117"></a><span>  </span><span class="hs-comment">{- |
+    Memory fence operation
+  -}</span><span>
+</span><a name="line-120"></a><span>  </span><span class="hs-glyph">|</span><span> </span><a name="Fence"><a href="Llvm.AbsSyn.html#Fence"><span class="hs-identifier">Fence</span></a></a><span> </span><span class="hs-identifier hs-type">Bool</span><span> </span><a href="Llvm.AbsSyn.html#LlvmSyncOrdering"><span class="hs-identifier hs-type">LlvmSyncOrdering</span></a><span>
+</span><a name="line-121"></a><span>
+</span><a name="line-122"></a><span>  </span><span class="hs-comment">{- |
+    Always branch to the target label
+  -}</span><span>
+</span><a name="line-125"></a><span>  </span><span class="hs-glyph">|</span><span> </span><a name="Branch"><a href="Llvm.AbsSyn.html#Branch"><span class="hs-identifier">Branch</span></a></a><span> </span><a href="Llvm.Types.html#LlvmVar"><span class="hs-identifier hs-type">LlvmVar</span></a><span>
+</span><a name="line-126"></a><span>
+</span><a name="line-127"></a><span>  </span><span class="hs-comment">{- |
+    Branch to label targetTrue if cond is true otherwise to label targetFalse
+      * cond:        condition that will be tested, must be of type i1
+      * targetTrue:  label to branch to if cond is true
+      * targetFalse: label to branch to if cond is false
+  -}</span><span>
+</span><a name="line-133"></a><span>  </span><span class="hs-glyph">|</span><span> </span><a name="BranchIf"><a href="Llvm.AbsSyn.html#BranchIf"><span class="hs-identifier">BranchIf</span></a></a><span> </span><a href="Llvm.Types.html#LlvmVar"><span class="hs-identifier hs-type">LlvmVar</span></a><span> </span><a href="Llvm.Types.html#LlvmVar"><span class="hs-identifier hs-type">LlvmVar</span></a><span> </span><a href="Llvm.Types.html#LlvmVar"><span class="hs-identifier hs-type">LlvmVar</span></a><span>
+</span><a name="line-134"></a><span>
+</span><a name="line-135"></a><span>  </span><span class="hs-comment">{- |
+    Comment
+    Plain comment.
+  -}</span><span>
+</span><a name="line-139"></a><span>  </span><span class="hs-glyph">|</span><span> </span><a name="Comment"><a href="Llvm.AbsSyn.html#Comment"><span class="hs-identifier">Comment</span></a></a><span> </span><span class="hs-special">[</span><a href="Llvm.Types.html#LMString"><span class="hs-identifier hs-type">LMString</span></a><span class="hs-special">]</span><span>
+</span><a name="line-140"></a><span>
+</span><a name="line-141"></a><span>  </span><span class="hs-comment">{- |
+    Set a label on this position.
+      * name: Identifier of this label, unique for this module
+  -}</span><span>
+</span><a name="line-145"></a><span>  </span><span class="hs-glyph">|</span><span> </span><a name="MkLabel"><a href="Llvm.AbsSyn.html#MkLabel"><span class="hs-identifier">MkLabel</span></a></a><span> </span><a href="Llvm.AbsSyn.html#LlvmBlockId"><span class="hs-identifier hs-type">LlvmBlockId</span></a><span>
+</span><a name="line-146"></a><span>
+</span><a name="line-147"></a><span>  </span><span class="hs-comment">{- |
+    Store variable value in pointer ptr. If value is of type t then ptr must
+    be of type t*.
+      * value: Variable/Constant to store.
+      * ptr:   Location to store the value in
+  -}</span><span>
+</span><a name="line-153"></a><span>  </span><span class="hs-glyph">|</span><span> </span><a name="Store"><a href="Llvm.AbsSyn.html#Store"><span class="hs-identifier">Store</span></a></a><span> </span><a href="Llvm.Types.html#LlvmVar"><span class="hs-identifier hs-type">LlvmVar</span></a><span> </span><a href="Llvm.Types.html#LlvmVar"><span class="hs-identifier hs-type">LlvmVar</span></a><span>
+</span><a name="line-154"></a><span>
+</span><a name="line-155"></a><span>  </span><span class="hs-comment">{- |
+    Multiway branch
+      * scrutinee: Variable or constant which must be of integer type that is
+                   determines which arm is chosen.
+      * def:       The default label if there is no match in target.
+      * target:    A list of (value,label) where the value is an integer
+                   constant and label the corresponding label to jump to if the
+                   scrutinee matches the value.
+  -}</span><span>
+</span><a name="line-164"></a><span>  </span><span class="hs-glyph">|</span><span> </span><a name="Switch"><a href="Llvm.AbsSyn.html#Switch"><span class="hs-identifier">Switch</span></a></a><span> </span><a href="Llvm.Types.html#LlvmVar"><span class="hs-identifier hs-type">LlvmVar</span></a><span> </span><a href="Llvm.Types.html#LlvmVar"><span class="hs-identifier hs-type">LlvmVar</span></a><span> </span><span class="hs-special">[</span><span class="hs-special">(</span><a href="Llvm.Types.html#LlvmVar"><span class="hs-identifier hs-type">LlvmVar</span></a><span class="hs-special">,</span><span> </span><a href="Llvm.Types.html#LlvmVar"><span class="hs-identifier hs-type">LlvmVar</span></a><span class="hs-special">)</span><span class="hs-special">]</span><span>
+</span><a name="line-165"></a><span>
+</span><a name="line-166"></a><span>  </span><span class="hs-comment">{- |
+    Return a result.
+      * result: The variable or constant to return
+  -}</span><span>
+</span><a name="line-170"></a><span>  </span><span class="hs-glyph">|</span><span> </span><a name="Return"><a href="Llvm.AbsSyn.html#Return"><span class="hs-identifier">Return</span></a></a><span> </span><span class="hs-special">(</span><a href="../base-4.11.1.0/src/%{MODULE/./-}.html#%{NAME}/GHC.Base.html#Maybe"><span class="hs-identifier hs-type">Maybe</span></a><span> </span><a href="Llvm.Types.html#LlvmVar"><span class="hs-identifier hs-type">LlvmVar</span></a><span class="hs-special">)</span><span>
+</span><a name="line-171"></a><span>
+</span><a name="line-172"></a><span>  </span><span class="hs-comment">{- |
+    An instruction for the optimizer that the code following is not reachable
+  -}</span><span>
+</span><a name="line-175"></a><span>  </span><span class="hs-glyph">|</span><span> </span><a name="Unreachable"><a href="Llvm.AbsSyn.html#Unreachable"><span class="hs-identifier">Unreachable</span></a></a><span>
+</span><a name="line-176"></a><span>
+</span><a name="line-177"></a><span>  </span><span class="hs-comment">{- |
+    Raise an expression to a statement (if don't want result or want to use
+    Llvm unnamed values.
+  -}</span><span>
+</span><a name="line-181"></a><span>  </span><span class="hs-glyph">|</span><span> </span><a name="Expr"><a href="Llvm.AbsSyn.html#Expr"><span class="hs-identifier">Expr</span></a></a><span> </span><a href="Llvm.AbsSyn.html#LlvmExpression"><span class="hs-identifier hs-type">LlvmExpression</span></a><span>
+</span><a name="line-182"></a><span>
+</span><a name="line-183"></a><span>  </span><span class="hs-comment">{- |
+    A nop LLVM statement. Useful as its often more efficient to use this
+    then to wrap LLvmStatement in a Just or [].
+  -}</span><span>
+</span><a name="line-187"></a><span>  </span><span class="hs-glyph">|</span><span> </span><a name="Nop"><a href="Llvm.AbsSyn.html#Nop"><span class="hs-identifier">Nop</span></a></a><span>
+</span><a name="line-188"></a><span>
+</span><a name="line-189"></a><span>  </span><span class="hs-comment">{- |
+    A LLVM statement with metadata attached to it.
+  -}</span><span>
+</span><a name="line-192"></a><span>  </span><span class="hs-glyph">|</span><span> </span><a name="MetaStmt"><a href="Llvm.AbsSyn.html#MetaStmt"><span class="hs-identifier">MetaStmt</span></a></a><span> </span><span class="hs-special">[</span><a href="Llvm.MetaData.html#MetaAnnot"><span class="hs-identifier hs-type">MetaAnnot</span></a><span class="hs-special">]</span><span> </span><a href="Llvm.AbsSyn.html#LlvmStatement"><span class="hs-identifier hs-type">LlvmStatement</span></a><span>
+</span><a name="line-193"></a><span>
+</span><a name="line-194"></a><span>  </span><span class="hs-keyword">deriving</span><span> </span><span class="hs-special">(</span><span class="hs-identifier hs-type">Eq</span><span class="hs-special">)</span><span>
+</span><a name="line-195"></a><span>
+</span><a name="line-196"></a><span>
+</span><a name="line-197"></a><span class="hs-comment">-- | Llvm Expressions</span><span>
+</span><a name="line-198"></a><span class="hs-keyword">data</span><span> </span><a name="LlvmExpression"><a href="Llvm.AbsSyn.html#LlvmExpression"><span class="hs-identifier">LlvmExpression</span></a></a><span>
+</span><a name="line-199"></a><span>  </span><span class="hs-comment">{- |
+    Allocate amount * sizeof(tp) bytes on the stack
+      * tp:     LlvmType to reserve room for
+      * amount: The nr of tp's which must be allocated
+  -}</span><span>
+</span><a name="line-204"></a><span>  </span><span class="hs-glyph">=</span><span> </span><a name="Alloca"><a href="Llvm.AbsSyn.html#Alloca"><span class="hs-identifier">Alloca</span></a></a><span> </span><a href="Llvm.Types.html#LlvmType"><span class="hs-identifier hs-type">LlvmType</span></a><span> </span><span class="hs-identifier hs-type">Int</span><span>
+</span><a name="line-205"></a><span>
+</span><a name="line-206"></a><span>  </span><span class="hs-comment">{- |
+    Perform the machine operator op on the operands left and right
+      * op:    operator
+      * left:  left operand
+      * right: right operand
+  -}</span><span>
+</span><a name="line-212"></a><span>  </span><span class="hs-glyph">|</span><span> </span><a name="LlvmOp"><a href="Llvm.AbsSyn.html#LlvmOp"><span class="hs-identifier">LlvmOp</span></a></a><span> </span><a href="Llvm.Types.html#LlvmMachOp"><span class="hs-identifier hs-type">LlvmMachOp</span></a><span> </span><a href="Llvm.Types.html#LlvmVar"><span class="hs-identifier hs-type">LlvmVar</span></a><span> </span><a href="Llvm.Types.html#LlvmVar"><span class="hs-identifier hs-type">LlvmVar</span></a><span>
+</span><a name="line-213"></a><span>
+</span><a name="line-214"></a><span>  </span><span class="hs-comment">{- |
+    Perform a compare operation on the operands left and right
+      * op:    operator
+      * left:  left operand
+      * right: right operand
+  -}</span><span>
+</span><a name="line-220"></a><span>  </span><span class="hs-glyph">|</span><span> </span><a name="Compare"><a href="Llvm.AbsSyn.html#Compare"><span class="hs-identifier">Compare</span></a></a><span> </span><a href="Llvm.Types.html#LlvmCmpOp"><span class="hs-identifier hs-type">LlvmCmpOp</span></a><span> </span><a href="Llvm.Types.html#LlvmVar"><span class="hs-identifier hs-type">LlvmVar</span></a><span> </span><a href="Llvm.Types.html#LlvmVar"><span class="hs-identifier hs-type">LlvmVar</span></a><span>
+</span><a name="line-221"></a><span>
+</span><a name="line-222"></a><span>  </span><span class="hs-comment">{- |
+    Extract a scalar element from a vector
+      * val: The vector
+      * idx: The index of the scalar within the vector
+  -}</span><span>
+</span><a name="line-227"></a><span>  </span><span class="hs-glyph">|</span><span> </span><a name="Extract"><a href="Llvm.AbsSyn.html#Extract"><span class="hs-identifier">Extract</span></a></a><span> </span><a href="Llvm.Types.html#LlvmVar"><span class="hs-identifier hs-type">LlvmVar</span></a><span> </span><a href="Llvm.Types.html#LlvmVar"><span class="hs-identifier hs-type">LlvmVar</span></a><span>
+</span><a name="line-228"></a><span>
+</span><a name="line-229"></a><span>  </span><span class="hs-comment">{- |
+    Extract a scalar element from a structure
+      * val: The structure
+      * idx: The index of the scalar within the structure
+    Corresponds to &quot;extractvalue&quot; instruction.
+  -}</span><span>
+</span><a name="line-235"></a><span>  </span><span class="hs-glyph">|</span><span> </span><a name="ExtractV"><a href="Llvm.AbsSyn.html#ExtractV"><span class="hs-identifier">ExtractV</span></a></a><span> </span><a href="Llvm.Types.html#LlvmVar"><span class="hs-identifier hs-type">LlvmVar</span></a><span> </span><span class="hs-identifier hs-type">Int</span><span>
+</span><a name="line-236"></a><span>
+</span><a name="line-237"></a><span>  </span><span class="hs-comment">{- |
+    Insert a scalar element into a vector
+      * val:   The source vector
+      * elt:   The scalar to insert
+      * index: The index at which to insert the scalar
+  -}</span><span>
+</span><a name="line-243"></a><span>  </span><span class="hs-glyph">|</span><span> </span><a name="Insert"><a href="Llvm.AbsSyn.html#Insert"><span class="hs-identifier">Insert</span></a></a><span> </span><a href="Llvm.Types.html#LlvmVar"><span class="hs-identifier hs-type">LlvmVar</span></a><span> </span><a href="Llvm.Types.html#LlvmVar"><span class="hs-identifier hs-type">LlvmVar</span></a><span> </span><a href="Llvm.Types.html#LlvmVar"><span class="hs-identifier hs-type">LlvmVar</span></a><span>
+</span><a name="line-244"></a><span>
+</span><a name="line-245"></a><span>  </span><span class="hs-comment">{- |
+    Allocate amount * sizeof(tp) bytes on the heap
+      * tp:     LlvmType to reserve room for
+      * amount: The nr of tp's which must be allocated
+  -}</span><span>
+</span><a name="line-250"></a><span>  </span><span class="hs-glyph">|</span><span> </span><a name="Malloc"><a href="Llvm.AbsSyn.html#Malloc"><span class="hs-identifier">Malloc</span></a></a><span> </span><a href="Llvm.Types.html#LlvmType"><span class="hs-identifier hs-type">LlvmType</span></a><span> </span><span class="hs-identifier hs-type">Int</span><span>
+</span><a name="line-251"></a><span>
+</span><a name="line-252"></a><span>  </span><span class="hs-comment">{- |
+    Load the value at location ptr
+  -}</span><span>
+</span><a name="line-255"></a><span>  </span><span class="hs-glyph">|</span><span> </span><a name="Load"><a href="Llvm.AbsSyn.html#Load"><span class="hs-identifier">Load</span></a></a><span> </span><a href="Llvm.Types.html#LlvmVar"><span class="hs-identifier hs-type">LlvmVar</span></a><span>
+</span><a name="line-256"></a><span>
+</span><a name="line-257"></a><span>  </span><span class="hs-comment">{- |
+    Atomic load of the value at location ptr
+  -}</span><span>
+</span><a name="line-260"></a><span>  </span><span class="hs-glyph">|</span><span> </span><a name="ALoad"><a href="Llvm.AbsSyn.html#ALoad"><span class="hs-identifier">ALoad</span></a></a><span> </span><a href="Llvm.AbsSyn.html#LlvmSyncOrdering"><span class="hs-identifier hs-type">LlvmSyncOrdering</span></a><span> </span><a href="Llvm.AbsSyn.html#SingleThreaded"><span class="hs-identifier hs-type">SingleThreaded</span></a><span> </span><a href="Llvm.Types.html#LlvmVar"><span class="hs-identifier hs-type">LlvmVar</span></a><span>
+</span><a name="line-261"></a><span>
+</span><a name="line-262"></a><span>  </span><span class="hs-comment">{- |
+    Navigate in a structure, selecting elements
+      * inbound: Is the pointer inbounds? (computed pointer doesn't overflow)
+      * ptr:     Location of the structure
+      * indexes: A list of indexes to select the correct value.
+  -}</span><span>
+</span><a name="line-268"></a><span>  </span><span class="hs-glyph">|</span><span> </span><a name="GetElemPtr"><a href="Llvm.AbsSyn.html#GetElemPtr"><span class="hs-identifier">GetElemPtr</span></a></a><span> </span><span class="hs-identifier hs-type">Bool</span><span> </span><a href="Llvm.Types.html#LlvmVar"><span class="hs-identifier hs-type">LlvmVar</span></a><span> </span><span class="hs-special">[</span><a href="Llvm.Types.html#LlvmVar"><span class="hs-identifier hs-type">LlvmVar</span></a><span class="hs-special">]</span><span>
+</span><a name="line-269"></a><span>
+</span><a name="line-270"></a><span>  </span><span class="hs-comment">{- |
+    Cast the variable from to the to type. This is an abstraction of three
+    cast operators in Llvm, inttoptr, ptrtoint and bitcast.
+       * cast: Cast type
+       * from: Variable to cast
+       * to:   type to cast to
+  -}</span><span>
+</span><a name="line-277"></a><span>  </span><span class="hs-glyph">|</span><span> </span><a name="Cast"><a href="Llvm.AbsSyn.html#Cast"><span class="hs-identifier">Cast</span></a></a><span> </span><a href="Llvm.Types.html#LlvmCastOp"><span class="hs-identifier hs-type">LlvmCastOp</span></a><span> </span><a href="Llvm.Types.html#LlvmVar"><span class="hs-identifier hs-type">LlvmVar</span></a><span> </span><a href="Llvm.Types.html#LlvmType"><span class="hs-identifier hs-type">LlvmType</span></a><span>
+</span><a name="line-278"></a><span>
+</span><a name="line-279"></a><span>  </span><span class="hs-comment">{- |
+    Atomic read-modify-write operation
+       * op:       Atomic operation
+       * addr:     Address to modify
+       * operand:  Operand to operation
+       * ordering: Ordering requirement
+  -}</span><span>
+</span><a name="line-286"></a><span>  </span><span class="hs-glyph">|</span><span> </span><a name="AtomicRMW"><a href="Llvm.AbsSyn.html#AtomicRMW"><span class="hs-identifier">AtomicRMW</span></a></a><span> </span><a href="Llvm.AbsSyn.html#LlvmAtomicOp"><span class="hs-identifier hs-type">LlvmAtomicOp</span></a><span> </span><a href="Llvm.Types.html#LlvmVar"><span class="hs-identifier hs-type">LlvmVar</span></a><span> </span><a href="Llvm.Types.html#LlvmVar"><span class="hs-identifier hs-type">LlvmVar</span></a><span> </span><a href="Llvm.AbsSyn.html#LlvmSyncOrdering"><span class="hs-identifier hs-type">LlvmSyncOrdering</span></a><span>
+</span><a name="line-287"></a><span>
+</span><a name="line-288"></a><span>  </span><span class="hs-comment">{- |
+    Compare-and-exchange operation
+       * addr:     Address to modify
+       * old:      Expected value
+       * new:      New value
+       * suc_ord:  Ordering required in success case
+       * fail_ord: Ordering required in failure case, can be no stronger than
+                   suc_ord
+
+    Result is an @i1@, true if store was successful.
+  -}</span><span>
+</span><a name="line-299"></a><span>  </span><span class="hs-glyph">|</span><span> </span><a name="CmpXChg"><a href="Llvm.AbsSyn.html#CmpXChg"><span class="hs-identifier">CmpXChg</span></a></a><span> </span><a href="Llvm.Types.html#LlvmVar"><span class="hs-identifier hs-type">LlvmVar</span></a><span> </span><a href="Llvm.Types.html#LlvmVar"><span class="hs-identifier hs-type">LlvmVar</span></a><span> </span><a href="Llvm.Types.html#LlvmVar"><span class="hs-identifier hs-type">LlvmVar</span></a><span> </span><a href="Llvm.AbsSyn.html#LlvmSyncOrdering"><span class="hs-identifier hs-type">LlvmSyncOrdering</span></a><span> </span><a href="Llvm.AbsSyn.html#LlvmSyncOrdering"><span class="hs-identifier hs-type">LlvmSyncOrdering</span></a><span>
+</span><a name="line-300"></a><span>
+</span><a name="line-301"></a><span>  </span><span class="hs-comment">{- |
+    Call a function. The result is the value of the expression.
+      * tailJumps: CallType to signal if the function should be tail called
+      * fnptrval:  An LLVM value containing a pointer to a function to be
+                   invoked. Can be indirect. Should be LMFunction type.
+      * args:      Concrete arguments for the parameters
+      * attrs:     A list of function attributes for the call. Only NoReturn,
+                   NoUnwind, ReadOnly and ReadNone are valid here.
+  -}</span><span>
+</span><a name="line-310"></a><span>  </span><span class="hs-glyph">|</span><span> </span><a name="Call"><a href="Llvm.AbsSyn.html#Call"><span class="hs-identifier">Call</span></a></a><span> </span><a href="Llvm.Types.html#LlvmCallType"><span class="hs-identifier hs-type">LlvmCallType</span></a><span> </span><a href="Llvm.Types.html#LlvmVar"><span class="hs-identifier hs-type">LlvmVar</span></a><span> </span><span class="hs-special">[</span><a href="Llvm.Types.html#LlvmVar"><span class="hs-identifier hs-type">LlvmVar</span></a><span class="hs-special">]</span><span> </span><span class="hs-special">[</span><a href="Llvm.Types.html#LlvmFuncAttr"><span class="hs-identifier hs-type">LlvmFuncAttr</span></a><span class="hs-special">]</span><span>
+</span><a name="line-311"></a><span>
+</span><a name="line-312"></a><span>  </span><span class="hs-comment">{- |
+    Call a function as above but potentially taking metadata as arguments.
+      * tailJumps: CallType to signal if the function should be tail called
+      * fnptrval:  An LLVM value containing a pointer to a function to be
+                   invoked. Can be indirect. Should be LMFunction type.
+      * args:      Arguments that may include metadata.
+      * attrs:     A list of function attributes for the call. Only NoReturn,
+                   NoUnwind, ReadOnly and ReadNone are valid here.
+  -}</span><span>
+</span><a name="line-321"></a><span>  </span><span class="hs-glyph">|</span><span> </span><a name="CallM"><a href="Llvm.AbsSyn.html#CallM"><span class="hs-identifier">CallM</span></a></a><span> </span><a href="Llvm.Types.html#LlvmCallType"><span class="hs-identifier hs-type">LlvmCallType</span></a><span> </span><a href="Llvm.Types.html#LlvmVar"><span class="hs-identifier hs-type">LlvmVar</span></a><span> </span><span class="hs-special">[</span><a href="Llvm.MetaData.html#MetaExpr"><span class="hs-identifier hs-type">MetaExpr</span></a><span class="hs-special">]</span><span> </span><span class="hs-special">[</span><a href="Llvm.Types.html#LlvmFuncAttr"><span class="hs-identifier hs-type">LlvmFuncAttr</span></a><span class="hs-special">]</span><span>
+</span><a name="line-322"></a><span>
+</span><a name="line-323"></a><span>  </span><span class="hs-comment">{- |
+    Merge variables from different basic blocks which are predecessors of this
+    basic block in a new variable of type tp.
+      * tp:         type of the merged variable, must match the types of the
+                    predecessor variables.
+      * predecessors: A list of variables and the basic block that they originate
+                      from.
+  -}</span><span>
+</span><a name="line-331"></a><span>  </span><span class="hs-glyph">|</span><span> </span><a name="Phi"><a href="Llvm.AbsSyn.html#Phi"><span class="hs-identifier">Phi</span></a></a><span> </span><a href="Llvm.Types.html#LlvmType"><span class="hs-identifier hs-type">LlvmType</span></a><span> </span><span class="hs-special">[</span><span class="hs-special">(</span><a href="Llvm.Types.html#LlvmVar"><span class="hs-identifier hs-type">LlvmVar</span></a><span class="hs-special">,</span><a href="Llvm.Types.html#LlvmVar"><span class="hs-identifier hs-type">LlvmVar</span></a><span class="hs-special">)</span><span class="hs-special">]</span><span>
+</span><a name="line-332"></a><span>
+</span><a name="line-333"></a><span>  </span><span class="hs-comment">{- |
+    Inline assembly expression. Syntax is very similar to the style used by GCC.
+      * assembly:    Actual inline assembly code.
+      * constraints: Operand constraints.
+      * return ty:   Return type of function.
+      * vars:        Any variables involved in the assembly code.
+      * sideeffect:  Does the expression have side effects not visible from the
+                     constraints list.
+      * alignstack:  Should the stack be conservatively aligned before this
+                     expression is executed.
+  -}</span><span>
+</span><a name="line-344"></a><span>  </span><span class="hs-glyph">|</span><span> </span><a name="Asm"><a href="Llvm.AbsSyn.html#Asm"><span class="hs-identifier">Asm</span></a></a><span> </span><a href="Llvm.Types.html#LMString"><span class="hs-identifier hs-type">LMString</span></a><span> </span><a href="Llvm.Types.html#LMString"><span class="hs-identifier hs-type">LMString</span></a><span> </span><a href="Llvm.Types.html#LlvmType"><span class="hs-identifier hs-type">LlvmType</span></a><span> </span><span class="hs-special">[</span><a href="Llvm.Types.html#LlvmVar"><span class="hs-identifier hs-type">LlvmVar</span></a><span class="hs-special">]</span><span> </span><span class="hs-identifier hs-type">Bool</span><span> </span><span class="hs-identifier hs-type">Bool</span><span>
+</span><a name="line-345"></a><span>
+</span><a name="line-346"></a><span>  </span><span class="hs-comment">{- |
+    A LLVM expression with metadata attached to it.
+  -}</span><span>
+</span><a name="line-349"></a><span>  </span><span class="hs-glyph">|</span><span> </span><a name="MExpr"><a href="Llvm.AbsSyn.html#MExpr"><span class="hs-identifier">MExpr</span></a></a><span> </span><span class="hs-special">[</span><a href="Llvm.MetaData.html#MetaAnnot"><span class="hs-identifier hs-type">MetaAnnot</span></a><span class="hs-special">]</span><span> </span><a href="Llvm.AbsSyn.html#LlvmExpression"><span class="hs-identifier hs-type">LlvmExpression</span></a><span>
+</span><a name="line-350"></a><span>
+</span><a name="line-351"></a><span>  </span><span class="hs-keyword">deriving</span><span> </span><span class="hs-special">(</span><span class="hs-identifier hs-type">Eq</span><span class="hs-special">)</span><span>
+</span><a name="line-352"></a><span>
+</span><a name="line-353"></a></pre></body></html>

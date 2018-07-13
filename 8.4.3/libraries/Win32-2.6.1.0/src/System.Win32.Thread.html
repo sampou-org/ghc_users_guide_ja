@@ -1,0 +1,47 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><link rel="stylesheet" type="text/css" href="style.css" /><script type="text/javascript" src="highlight.js"></script></head><body><pre><span class="hs-pragma">{-# LANGUAGE CPP #-}</span><span>
+</span><a name="line-2"></a><span class="hs-comment">{- |
+   Module      :  System.Win32.Thread
+   Copyright   :  2013 shelarcy
+   License     :  BSD-style
+
+   Maintainer  :  shelarcy@gmail.com
+   Stability   :  Provisional
+   Portability :  Non-portable (Win32 API)
+
+   This modules provides just thread control APIs.
+   This modules doesn't provide thread register control APIs. Because these APIs are used for Debugging.
+-}</span><span>
+</span><a name="line-14"></a><span class="hs-keyword">module</span><span> </span><span class="hs-identifier">System.Win32.Thread</span><span>
+</span><a name="line-15"></a><span>  </span><span class="hs-special">(</span><span> </span><a href="System.Win32.DebugApi.html#THANDLE"><span class="hs-identifier hs-type">THANDLE</span></a><span class="hs-special">,</span><span> </span><a href="System.Win32.DebugApi.html#TID"><span class="hs-identifier hs-type">TID</span></a><span>
+</span><a name="line-16"></a><span>  </span><span class="hs-special">,</span><span> </span><a href="System.Win32.Thread.html#getCurrentThread"><span class="hs-identifier hs-var">getCurrentThread</span></a><span>
+</span><a name="line-17"></a><span>  </span><span class="hs-special">,</span><span> </span><a href="System.Win32.DebugApi.html#suspendThread"><span class="hs-identifier hs-var">suspendThread</span></a><span>
+</span><a name="line-18"></a><span>  </span><span class="hs-special">,</span><span> </span><a href="System.Win32.DebugApi.html#c_SuspendThread"><span class="hs-identifier hs-var">c_SuspendThread</span></a><span>
+</span><a name="line-19"></a><span>  </span><span class="hs-special">,</span><span> </span><a href="System.Win32.DebugApi.html#resumeThread"><span class="hs-identifier hs-var">resumeThread</span></a><span>
+</span><a name="line-20"></a><span>  </span><span class="hs-special">,</span><span> </span><a href="System.Win32.DebugApi.html#c_ResumeThread"><span class="hs-identifier hs-var">c_ResumeThread</span></a><span>
+</span><a name="line-21"></a><span>  </span><span class="hs-special">,</span><span> </span><a href="System.Win32.DebugApi.html#withSuspendedThread"><span class="hs-identifier hs-var">withSuspendedThread</span></a><span>
+</span><a name="line-22"></a><span>  </span><span class="hs-special">,</span><span> </span><a href="System.Win32.Thread.html#getThreadId"><span class="hs-identifier hs-var">getThreadId</span></a><span>
+</span><a name="line-23"></a><span>  </span><span class="hs-special">,</span><span> </span><a href="System.Win32.Thread.html#c_GetThreadId"><span class="hs-identifier hs-var">c_GetThreadId</span></a><span>
+</span><a name="line-24"></a><span>  </span><span class="hs-special">,</span><span> </span><a href="System.Win32.Thread.html#getCurrentThreadId"><span class="hs-identifier hs-var">getCurrentThreadId</span></a><span>
+</span><a name="line-25"></a><span>  </span><span class="hs-special">,</span><span> </span><a href="System.Win32.Thread.html#c_GetCurrentThreadId"><span class="hs-identifier hs-var">c_GetCurrentThreadId</span></a><span>
+</span><a name="line-26"></a><span>  </span><span class="hs-special">)</span><span> </span><span class="hs-keyword">where</span><span>
+</span><a name="line-27"></a><span>
+</span><a name="line-28"></a><span class="hs-keyword">import</span><span> </span><a href="System.Win32.DebugApi.html"><span class="hs-identifier">System.Win32.DebugApi</span></a><span>
+</span><a name="line-29"></a><span class="hs-keyword">import</span><span> </span><a href="System.Win32.Types.html"><span class="hs-identifier">System.Win32.Types</span></a><span> </span><span class="hs-special">(</span><span> </span><a href="System.Win32.Types.html#failIfZero"><span class="hs-identifier hs-var">failIfZero</span></a><span> </span><span class="hs-special">)</span><span>
+</span><a name="line-30"></a><span>
+</span><a name="line-31"></a><span class="hs-cpp">#include &quot;windows_cconv.h&quot;
+</span><span>
+</span><a name="line-33"></a><span class="hs-identifier">getThreadId</span><span> </span><span class="hs-glyph">::</span><span> </span><a href="System.Win32.DebugApi.html#THANDLE"><span class="hs-identifier hs-type">THANDLE</span></a><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="hs-identifier hs-type">IO</span><span> </span><a href="System.Win32.DebugApi.html#TID"><span class="hs-identifier hs-type">TID</span></a><span>
+</span><a name="line-34"></a><a name="getThreadId"><a href="System.Win32.Thread.html#getThreadId"><span class="hs-identifier">getThreadId</span></a></a><span> </span><span class="hs-glyph">=</span><span> </span><a href="System.Win32.Types.html#failIfZero"><span class="hs-identifier hs-var">failIfZero</span></a><span> </span><span class="hs-string">&quot;GetThreadId&quot;</span><span> </span><a href="../base-4.11.1.0/src/%{MODULE/./-}.html#%{NAME}/GHC.Base.html#."><span class="hs-operator hs-var">.</span></a><span> </span><a href="System.Win32.Thread.html#c_GetThreadId"><span class="hs-identifier hs-var">c_GetThreadId</span></a><span>
+</span><a name="line-35"></a><span>
+</span><a name="line-36"></a><span class="hs-identifier">getCurrentThreadId</span><span> </span><span class="hs-glyph">::</span><span> </span><span class="hs-identifier hs-type">IO</span><span> </span><a href="System.Win32.DebugApi.html#TID"><span class="hs-identifier hs-type">TID</span></a><span>
+</span><a name="line-37"></a><a name="getCurrentThreadId"><a href="System.Win32.Thread.html#getCurrentThreadId"><span class="hs-identifier">getCurrentThreadId</span></a></a><span> </span><span class="hs-glyph">=</span><span> </span><a href="System.Win32.Types.html#failIfZero"><span class="hs-identifier hs-var">failIfZero</span></a><span> </span><span class="hs-string">&quot;GetThreadId&quot;</span><span> </span><a href="System.Win32.Thread.html#c_GetCurrentThreadId"><span class="hs-identifier hs-var">c_GetCurrentThreadId</span></a><span>
+</span><a name="line-38"></a><span>
+</span><a name="line-39"></a><span class="hs-keyword">foreign</span><span> </span><span class="hs-keyword">import</span><span> </span><span class="hs-identifier">WINDOWS_CCONV</span><span> </span><span class="hs-string">&quot;windows.h GetCurrentThread&quot;</span><span>
+</span><a name="line-40"></a><span>    </span><span class="hs-identifier">getCurrentThread</span><span> </span><span class="hs-glyph">::</span><span> </span><span class="hs-identifier hs-type">IO</span><span> </span><a href="System.Win32.DebugApi.html#THANDLE"><span class="hs-identifier hs-type">THANDLE</span></a><span>
+</span><a name="line-41"></a><span>
+</span><a name="line-42"></a><span class="hs-keyword">foreign</span><span> </span><span class="hs-keyword">import</span><span> </span><span class="hs-identifier">WINDOWS_CCONV</span><span> </span><span class="hs-string">&quot;windows.h GetThreadId&quot;</span><span>
+</span><a name="line-43"></a><span>    </span><span class="hs-identifier">c_GetThreadId</span><span> </span><span class="hs-glyph">::</span><span> </span><a href="System.Win32.DebugApi.html#THANDLE"><span class="hs-identifier hs-type">THANDLE</span></a><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="hs-identifier hs-type">IO</span><span> </span><a href="System.Win32.DebugApi.html#TID"><span class="hs-identifier hs-type">TID</span></a><span>
+</span><a name="line-44"></a><span>
+</span><a name="line-45"></a><span class="hs-keyword">foreign</span><span> </span><span class="hs-keyword">import</span><span> </span><span class="hs-identifier">WINDOWS_CCONV</span><span> </span><span class="hs-string">&quot;windows.h GetCurrentThreadId&quot;</span><span>
+</span><a name="line-46"></a><span>    </span><span class="hs-identifier">c_GetCurrentThreadId</span><span> </span><span class="hs-glyph">::</span><span> </span><span class="hs-identifier hs-type">IO</span><span> </span><a href="System.Win32.DebugApi.html#TID"><span class="hs-identifier hs-type">TID</span></a><span>
+</span><a name="line-47"></a></pre></body></html>

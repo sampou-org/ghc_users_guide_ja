@@ -1,0 +1,1250 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Documentation and Markup &mdash; Haddock 1.0 documentation</title>
+    
+    <link rel="stylesheet" href="_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '1.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="Haddock 1.0 documentation" href="index.html" />
+    <link rel="prev" title="Invoking Haddock" href="invoking.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="invoking.html" title="Invoking Haddock"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">Haddock 1.0 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="documentation-and-markup">
+<h1>Documentation and Markup<a class="headerlink" href="#documentation-and-markup" title="Permalink to this headline">¶</a></h1>
+<p>Haddock understands special documentation annotations in the Haskell
+source file and propagates these into the generated documentation. The
+annotations are purely optional: if there are no annotations, Haddock
+will just generate documentation that contains the type signatures, data
+type declarations, and class declarations exported by each of the
+modules being processed.</p>
+<div class="section" id="documenting-a-top-level-declaration">
+<h2>Documenting a Top-Level Declaration<a class="headerlink" href="#documenting-a-top-level-declaration" title="Permalink to this headline">¶</a></h2>
+<p>The simplest example of a documentation annotation is for documenting
+any top-level declaration (function type signature, type declaration, or
+class declaration). For example, if the source file contains the
+following type signature:</p>
+<div class="highlight-haskell"><div class="highlight"><pre><span class="nf">square</span> <span class="ow">::</span> <span class="kt">Int</span> <span class="ow">-&gt;</span> <span class="kt">Int</span>
+<span class="nf">square</span> <span class="n">x</span> <span class="ow">=</span> <span class="n">x</span> <span class="o">*</span> <span class="n">x</span>
+</pre></div>
+</div>
+<p>Then we can document it like this:</p>
+<div class="highlight-haskell"><div class="highlight"><pre><span class="c1">-- |The &#39;square&#39; function squares an integer.</span>
+<span class="nf">square</span> <span class="ow">::</span> <span class="kt">Int</span> <span class="ow">-&gt;</span> <span class="kt">Int</span>
+<span class="nf">square</span> <span class="n">x</span> <span class="ow">=</span> <span class="n">x</span> <span class="o">*</span> <span class="n">x</span>
+</pre></div>
+</div>
+<p>The <tt class="docutils literal"><span class="pre">--</span> <span class="pre">|</span></tt> syntax begins a documentation annotation, which applies
+to the <em>following</em> declaration in the source file. Note that the
+annotation is just a comment in Haskell — it will be ignored by the
+Haskell compiler.</p>
+<p>The declaration following a documentation annotation should be one of
+the following:</p>
+<ul class="simple">
+<li>A type signature for a top-level function,</li>
+<li>A definition for a top-level function with no type signature,</li>
+<li>A <tt class="docutils literal"><span class="pre">data</span></tt> declaration,</li>
+<li>A <tt class="docutils literal"><span class="pre">newtype</span></tt> declaration,</li>
+<li>A <tt class="docutils literal"><span class="pre">type</span></tt> declaration</li>
+<li>A <tt class="docutils literal"><span class="pre">class</span></tt> declaration,</li>
+<li>A <tt class="docutils literal"><span class="pre">data</span> <span class="pre">family</span></tt> or <tt class="docutils literal"><span class="pre">type</span> <span class="pre">family</span></tt> declaration, or</li>
+<li>A <tt class="docutils literal"><span class="pre">data</span> <span class="pre">instance</span></tt> or <tt class="docutils literal"><span class="pre">type</span> <span class="pre">instance</span></tt> declaration.</li>
+</ul>
+<p>If the annotation is followed by a different kind of declaration, it
+will probably be ignored by Haddock.</p>
+<p>Some people like to write their documentation <em>after</em> the declaration;
+this is possible in Haddock too:</p>
+<div class="highlight-haskell"><div class="highlight"><pre><span class="nf">square</span> <span class="ow">::</span> <span class="kt">Int</span> <span class="ow">-&gt;</span> <span class="kt">Int</span>
+<span class="c1">-- ^The &#39;square&#39; function squares an integer.</span>
+<span class="nf">square</span> <span class="n">x</span> <span class="ow">=</span> <span class="n">x</span> <span class="o">*</span> <span class="n">x</span>
+</pre></div>
+</div>
+<p>Since Haddock uses the GHC API internally, it can infer types for
+top-level functions without type signatures. However, you&#8217;re
+encouraged to add explicit type signatures for all top-level
+functions, to make your source code more readable for your users, and
+at times to avoid GHC inferring overly general type signatures that
+are less helpful to your users.</p>
+<p>Documentation annotations may span several lines; the annotation
+continues until the first non-comment line in the source file. For
+example:</p>
+<div class="highlight-haskell"><div class="highlight"><pre><span class="c1">-- |The &#39;square&#39; function squares an integer.</span>
+<span class="c1">-- It takes one argument, of type &#39;Int&#39;.</span>
+<span class="nf">square</span> <span class="ow">::</span> <span class="kt">Int</span> <span class="ow">-&gt;</span> <span class="kt">Int</span>
+<span class="nf">square</span> <span class="n">x</span> <span class="ow">=</span> <span class="n">x</span> <span class="o">*</span> <span class="n">x</span>
+</pre></div>
+</div>
+<p>You can also use Haskell&#8217;s nested-comment style for documentation
+annotations, which is sometimes more convenient when using multi-line
+comments:</p>
+<div class="highlight-haskell"><div class="highlight"><pre><span class="cm">{-|</span>
+<span class="cm">  The &#39;square&#39; function squares an integer.</span>
+<span class="cm">  It takes one argument, of type &#39;Int&#39;.</span>
+<span class="cm">-}</span>
+<span class="nf">square</span> <span class="ow">::</span> <span class="kt">Int</span> <span class="ow">-&gt;</span> <span class="kt">Int</span>
+<span class="nf">square</span> <span class="n">x</span> <span class="ow">=</span> <span class="n">x</span> <span class="o">*</span> <span class="n">x</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="documenting-parts-of-a-declaration">
+<h2>Documenting Parts of a Declaration<a class="headerlink" href="#documenting-parts-of-a-declaration" title="Permalink to this headline">¶</a></h2>
+<p>In addition to documenting the whole declaration, in some cases we can
+also document individual parts of the declaration.</p>
+<div class="section" id="class-methods">
+<h3>Class Methods<a class="headerlink" href="#class-methods" title="Permalink to this headline">¶</a></h3>
+<p>Class methods are documented in the same way as top level type
+signatures, by using either the <tt class="docutils literal"><span class="pre">--</span> <span class="pre">|</span></tt> or <tt class="docutils literal"><span class="pre">--</span> <span class="pre">^</span></tt> annotations:</p>
+<div class="highlight-haskell"><div class="highlight"><pre><span class="kr">class</span> <span class="kt">C</span> <span class="n">a</span> <span class="kr">where</span>
+   <span class="c1">-- | This is the documentation for the &#39;f&#39; method</span>
+   <span class="n">f</span> <span class="ow">::</span> <span class="n">a</span> <span class="ow">-&gt;</span> <span class="kt">Int</span>
+   <span class="c1">-- | This is the documentation for the &#39;g&#39; method</span>
+   <span class="n">g</span> <span class="ow">::</span> <span class="kt">Int</span> <span class="ow">-&gt;</span> <span class="n">a</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="constructors-and-record-fields">
+<h3>Constructors and Record Fields<a class="headerlink" href="#constructors-and-record-fields" title="Permalink to this headline">¶</a></h3>
+<p>Constructors are documented like so:</p>
+<div class="highlight-haskell"><div class="highlight"><pre><span class="kr">data</span> <span class="kt">T</span> <span class="n">a</span> <span class="n">b</span>
+  <span class="c1">-- | This is the documentation for the &#39;C1&#39; constructor</span>
+  <span class="ow">=</span> <span class="kt">C1</span> <span class="n">a</span> <span class="n">b</span>
+  <span class="c1">-- | This is the documentation for the &#39;C2&#39; constructor</span>
+  <span class="o">|</span> <span class="kt">C2</span> <span class="n">a</span> <span class="n">b</span>
+</pre></div>
+</div>
+<p>or like this:</p>
+<div class="highlight-haskell"><div class="highlight"><pre><span class="kr">data</span> <span class="kt">T</span> <span class="n">a</span> <span class="n">b</span>
+  <span class="ow">=</span> <span class="kt">C1</span> <span class="n">a</span> <span class="n">b</span>  <span class="c1">-- ^ This is the documentation for the &#39;C1&#39; constructor</span>
+  <span class="o">|</span> <span class="kt">C2</span> <span class="n">a</span> <span class="n">b</span>  <span class="c1">-- ^ This is the documentation for the &#39;C2&#39; constructor</span>
+</pre></div>
+</div>
+<p>Record fields are documented using one of these styles:</p>
+<div class="highlight-haskell"><div class="highlight"><pre><span class="kr">data</span> <span class="kt">R</span> <span class="n">a</span> <span class="n">b</span> <span class="ow">=</span>
+  <span class="kt">C</span> <span class="p">{</span> <span class="c1">-- | This is the documentation for the &#39;a&#39; field</span>
+      <span class="n">a</span> <span class="ow">::</span> <span class="n">a</span><span class="p">,</span>
+      <span class="c1">-- | This is the documentation for the &#39;b&#39; field</span>
+      <span class="n">b</span> <span class="ow">::</span> <span class="n">b</span>
+    <span class="p">}</span>
+
+<span class="kr">data</span> <span class="kt">R</span> <span class="n">a</span> <span class="n">b</span> <span class="ow">=</span>
+  <span class="kt">C</span> <span class="p">{</span> <span class="n">a</span> <span class="ow">::</span> <span class="n">a</span>  <span class="c1">-- ^ This is the documentation for the &#39;a&#39; field</span>
+    <span class="p">,</span> <span class="n">b</span> <span class="ow">::</span> <span class="n">b</span>  <span class="c1">-- ^ This is the documentation for the &#39;b&#39; field</span>
+    <span class="p">}</span>
+</pre></div>
+</div>
+<p>Alternative layout styles are generally accepted by Haddock - for
+example doc comments can appear before or after the comma in separated
+lists such as the list of record fields above.</p>
+<p>In case that more than one constructor exports a field with the same
+name, the documentation attached to the first occurence of the field
+will be used, even if a comment is not present.</p>
+<div class="highlight-haskell"><div class="highlight"><pre><span class="kr">data</span> <span class="kt">T</span> <span class="n">a</span> <span class="ow">=</span> <span class="kt">A</span> <span class="p">{</span> <span class="n">someField</span> <span class="ow">::</span> <span class="n">a</span> <span class="c1">-- ^ Doc for someField of A</span>
+             <span class="p">}</span>
+         <span class="o">|</span> <span class="kt">B</span> <span class="p">{</span> <span class="n">someField</span> <span class="ow">::</span> <span class="n">a</span> <span class="c1">-- ^ Doc for someField of B</span>
+             <span class="p">}</span>
+</pre></div>
+</div>
+<p>In the above example, all occurences of <tt class="docutils literal"><span class="pre">someField</span></tt> in the
+documentation are going to be documented with
+<tt class="docutils literal"><span class="pre">Doc</span> <span class="pre">for</span> <span class="pre">someField</span> <span class="pre">of</span> <span class="pre">A</span></tt>. Note that Haddock versions 2.14.0 and before
+would join up documentation of each field and render the result. The
+reason for this seemingly weird behaviour is the fact that <tt class="docutils literal"><span class="pre">someField</span></tt>
+is actually the same (partial) function.</p>
+</div>
+<div class="section" id="function-arguments">
+<h3>Function Arguments<a class="headerlink" href="#function-arguments" title="Permalink to this headline">¶</a></h3>
+<p>Individual arguments to a function may be documented like this:</p>
+<div class="highlight-haskell"><div class="highlight"><pre><span class="nf">f</span>  <span class="ow">::</span> <span class="kt">Int</span>      <span class="c1">-- ^ The &#39;Int&#39; argument</span>
+   <span class="ow">-&gt;</span> <span class="kt">Float</span>    <span class="c1">-- ^ The &#39;Float&#39; argument</span>
+   <span class="ow">-&gt;</span> <span class="kt">IO</span> <span class="nb">()</span>    <span class="c1">-- ^ The return value</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="the-module-description">
+<span id="module-description"></span><h2>The Module Description<a class="headerlink" href="#the-module-description" title="Permalink to this headline">¶</a></h2>
+<p>A module itself may be documented with multiple fields that can then be
+displayed by the backend. In particular, the HTML backend displays all
+the fields it currently knows about. We first show the most complete
+module documentation example and then talk about the fields.</p>
+<div class="highlight-haskell"><div class="highlight"><pre><span class="cm">{-|</span>
+<span class="cm">Module      : W</span>
+<span class="cm">Description : Short description</span>
+<span class="cm">Copyright   : (c) Some Guy, 2013</span>
+<span class="cm">                  Someone Else, 2014</span>
+<span class="cm">License     : GPL-3</span>
+<span class="cm">Maintainer  : sample@email.com</span>
+<span class="cm">Stability   : experimental</span>
+<span class="cm">Portability : POSIX</span>
+
+<span class="cm">Here is a longer description of this module, containing some</span>
+<span class="cm">commentary with @some markup@.</span>
+<span class="cm">-}</span>
+<span class="kr">module</span> <span class="nn">W</span> <span class="kr">where</span>
+<span class="o">...</span>
+</pre></div>
+</div>
+<p>All fields are optional but they must be in order if they do appear.
+Multi-line fields are accepted but the consecutive lines have to start
+indented more than their label. If your label is indented one space as
+is often the case with the <tt class="docutils literal"><span class="pre">--</span></tt> syntax, the consecutive lines have
+to start at two spaces at the very least. For example, above we saw a
+multiline <tt class="docutils literal"><span class="pre">Copyright</span></tt> field:</p>
+<div class="highlight-haskell"><div class="highlight"><pre><span class="cm">{-|</span>
+<span class="cm">...</span>
+<span class="cm">Copyright   : (c) Some Guy, 2013</span>
+<span class="cm">                  Someone Else, 2014</span>
+<span class="cm">...</span>
+<span class="cm">-}</span>
+</pre></div>
+</div>
+<p>That could equivalently be written as</p>
+<div class="highlight-haskell"><div class="highlight"><pre><span class="c1">-- | ...</span>
+<span class="c1">-- Copyright:</span>
+<span class="c1">--  (c) Some Guy, 2013</span>
+<span class="c1">--  Someone Else, 2014</span>
+<span class="c1">-- ...</span>
+</pre></div>
+</div>
+<p>or as</p>
+<div class="highlight-haskell"><div class="highlight"><pre><span class="c1">-- | ...</span>
+<span class="c1">-- Copyright: (c) Some Guy, 2013</span>
+<span class="c1">--     Someone Else, 2014</span>
+<span class="c1">-- ...</span>
+</pre></div>
+</div>
+<p>but not as</p>
+<div class="highlight-haskell"><div class="highlight"><pre><span class="c1">-- | ...</span>
+<span class="c1">-- Copyright: (c) Some Guy, 2013</span>
+<span class="c1">-- Someone Else, 2014</span>
+<span class="c1">-- ...</span>
+</pre></div>
+</div>
+<p>since the <tt class="docutils literal"><span class="pre">Someone</span></tt> needs to be indented more than the
+<tt class="docutils literal"><span class="pre">Copyright</span></tt>.</p>
+<p>Whether new lines and other formatting in multiline fields is
+preserved depends on the field type. For example, new lines in the
+<tt class="docutils literal"><span class="pre">Copyright</span></tt> field are preserved, but new lines in the
+<tt class="docutils literal"><span class="pre">Description</span></tt> field are not; leading whitespace is not preserved in
+either <a class="footnote-reference" href="#backend" id="id1">[1]</a>. Please note that we do not enforce the format for
+any of the fields and the established formats are just a convention.</p>
+<table class="docutils footnote" frame="void" id="backend" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id1">[1]</a></td><td>Technically, whitespace and newlines in the
+<tt class="docutils literal"><span class="pre">Description</span></tt> field are preserved verbatim by the HTML backend,
+but because most browsers collapse whitespace in HTML, they don&#8217;t
+render as such. But other backends may render this whitespace.</td></tr>
+</tbody>
+</table>
+<div class="section" id="fields-of-the-module-description">
+<h3>Fields of the Module Description<a class="headerlink" href="#fields-of-the-module-description" title="Permalink to this headline">¶</a></h3>
+<p>The <tt class="docutils literal"><span class="pre">Module</span></tt> field specifies the current module name. Since the module
+name can be inferred automatically from the source file, it doesn&#8217;t
+affect the output of any of the backends. But you might want to
+include it for any other tools that might be parsing these comments
+without the help of GHC.</p>
+<p>The <tt class="docutils literal"><span class="pre">Description</span></tt> field accepts some short text which outlines the
+general purpose of the module. If you&#8217;re generating HTML, it will show
+up next to the module link in the module index.</p>
+<p>The <tt class="docutils literal"><span class="pre">Copyright</span></tt>, <tt class="docutils literal"><span class="pre">License</span></tt>, <tt class="docutils literal"><span class="pre">Maintainer</span></tt> and <tt class="docutils literal"><span class="pre">Stability</span></tt> fields should
+be obvious. An alternative spelling for the <tt class="docutils literal"><span class="pre">License</span></tt> field is accepted
+as <tt class="docutils literal"><span class="pre">Licence</span></tt> but the output will always prefer <tt class="docutils literal"><span class="pre">License</span></tt>.</p>
+<p>The <tt class="docutils literal"><span class="pre">Portability</span></tt> field has seen varied use by different library
+authors. Some people put down things like operating system constraints
+there while others put down which GHC extensions are used in the module.
+Note that you might want to consider using the <tt class="docutils literal"><span class="pre">show-extensions</span></tt> module
+flag for the latter (see <a class="reference internal" href="#module-attrs"><em>Module Attributes</em></a>).</p>
+<p>Finally, a module may contain a documentation comment before the
+module header, in which case this comment is interpreted by Haddock as
+an overall description of the module itself, and placed in a section
+entitled <tt class="docutils literal"><span class="pre">Description</span></tt> in the documentation for the module. All the
+usual Haddock <a class="reference internal" href="#markup"><em>Markup</em></a> is valid in this comment.</p>
+</div>
+</div>
+<div class="section" id="controlling-the-documentation-structure">
+<h2>Controlling the Documentation Structure<a class="headerlink" href="#controlling-the-documentation-structure" title="Permalink to this headline">¶</a></h2>
+<p>Haddock produces interface documentation that lists only the entities
+actually exported by the module. If there is no export list then all
+entities defined by the module are exported.</p>
+<p>The documentation for a module will
+include <em>all</em> entities exported by that module, even if they were
+re-exported from another module. The only exception is when Haddock can&#8217;t
+see the declaration for the re-exported entity, perhaps because it isn&#8217;t
+part of the batch of modules currently being processed.</p>
+<p>To Haddock the export list has even more significance than just
+specifying the entities to be included in the documentation. It also
+specifies the <em>order</em> that entities will be listed in the generated
+documentation. This leaves the programmer free to implement functions in
+any order he/she pleases, and indeed in any <em>module</em> he/she pleases, but
+still specify the order that the functions should be documented in the
+export list. Indeed, many programmers already do this: the export list
+is often used as a kind of ad-hoc interface documentation, with
+headings, groups of functions, type signatures and declarations in
+comments.</p>
+<p>In the next section we give examples illustrating most of the
+structural markup features. After the examples we go into more detail
+explaining the related markup, namely <a class="reference internal" href="#section-headings"><em>Section Headings</em></a>,
+<a class="reference internal" href="#named-chunks"><em>(Named) Chunks of Documentation</em></a>, and <a class="reference internal" href="#re-exporting-entire-module"><em>Re-Exporting an Entire Module</em></a>.</p>
+<div class="section" id="documentation-structure-examples">
+<span id="structure-examples"></span><h3>Documentation Structure Examples<a class="headerlink" href="#documentation-structure-examples" title="Permalink to this headline">¶</a></h3>
+<p>We now give several examples that produce similar results and
+illustrate most of the structural markup features. The first two
+example use an export list, but the third example does not.</p>
+<p>The first example, using an export list with <a class="reference internal" href="#section-headings"><em>Section Headings</em></a>
+and inline section descriptions:</p>
+<div class="highlight-haskell"><div class="highlight"><pre><span class="kr">module</span> <span class="nn">Image</span>
+  <span class="p">(</span> <span class="c1">-- * Image importers</span>
+    <span class="c1">--</span>
+    <span class="c1">-- | There is a &quot;smart&quot; importer, &#39;readImage&#39;, that determines</span>
+    <span class="c1">-- the image format from the file extension, and several</span>
+    <span class="c1">-- &quot;dumb&quot; format-specific importers that decode the file at</span>
+    <span class="c1">-- the specified type.</span>
+    <span class="nf">readImage</span>
+  <span class="p">,</span> <span class="nf">readPngImage</span>
+  <span class="p">,</span> <span class="nf">readGifImage</span>
+  <span class="p">,</span> <span class="o">...</span>
+    <span class="c1">-- * Image exporters</span>
+    <span class="c1">-- ...</span>
+  <span class="p">)</span> <span class="kr">where</span>
+
+<span class="kr">import</span> <span class="nn">Image.Types</span> <span class="p">(</span> <span class="kt">Image</span> <span class="p">)</span>
+
+<span class="c1">-- | Read an image, guessing the format from the file name.</span>
+<span class="nf">readImage</span> <span class="ow">::</span> <span class="kt">FilePath</span> <span class="ow">-&gt;</span> <span class="kt">IO</span> <span class="kt">Image</span>
+<span class="nf">readImage</span> <span class="ow">=</span> <span class="o">...</span>
+
+<span class="c1">-- | Read a GIF.</span>
+<span class="nf">readGifImage</span> <span class="ow">::</span> <span class="kt">FilePath</span> <span class="ow">-&gt;</span> <span class="kt">IO</span> <span class="kt">Image</span>
+<span class="nf">readGifImage</span> <span class="ow">=</span> <span class="o">...</span>
+
+<span class="c1">-- | Read a PNG.</span>
+<span class="nf">readPngImage</span> <span class="ow">::</span> <span class="kt">FilePath</span> <span class="ow">-&gt;</span> <span class="kt">IO</span> <span class="kt">Image</span>
+<span class="nf">readPngImage</span> <span class="ow">=</span> <span class="o">...</span>
+
+<span class="o">...</span>
+</pre></div>
+</div>
+<p>Note that the order of the entities <tt class="docutils literal"><span class="pre">readPngImage</span></tt> and
+<tt class="docutils literal"><span class="pre">readGifImage</span></tt> in the export list is different from the order of the
+actual declarations farther down; the order in the export list is the
+order used in the generated docs. Also, the imported <tt class="docutils literal"><span class="pre">Image</span></tt> type
+itself is not re-exported, so it will not be included in the rendered
+docs (see <a class="reference internal" href="#hyperlinking-re-exported"><em>Hyperlinking and Re-Exported Entities</em></a>).</p>
+<p>The second example, using an export list with a section description
+defined elsewhere (the <tt class="docutils literal"><span class="pre">$imageImporters</span></tt>; see <a class="reference internal" href="#named-chunks"><em>(Named) Chunks of Documentation</em></a>):</p>
+<div class="highlight-haskell"><div class="highlight"><pre><span class="kr">module</span> <span class="nn">Image</span>
+  <span class="p">(</span> <span class="c1">-- * Image importers</span>
+    <span class="c1">--</span>
+    <span class="c1">-- $imageImporters</span>
+    <span class="nf">readImage</span>
+  <span class="p">,</span> <span class="nf">readPngImage</span>
+  <span class="p">,</span> <span class="nf">readGifImage</span>
+  <span class="p">,</span> <span class="o">...</span>
+    <span class="c1">-- * Image exporters</span>
+    <span class="c1">-- ...</span>
+  <span class="p">)</span> <span class="kr">where</span>
+
+<span class="kr">import</span> <span class="nn">Image.Types</span> <span class="p">(</span> <span class="kt">Image</span> <span class="p">)</span>
+
+<span class="c1">-- $imageImporters</span>
+<span class="c1">--</span>
+<span class="c1">-- There is a &quot;smart&quot; importer, &#39;readImage&#39;, that determines the</span>
+<span class="c1">-- image format from the file extension, and several &quot;dumb&quot;</span>
+<span class="c1">-- format-specific importers that decode the file at the specified</span>
+<span class="c1">-- type.</span>
+
+<span class="c1">-- | Read an image, guessing the format from the file name.</span>
+<span class="nf">readImage</span> <span class="ow">::</span> <span class="kt">FilePath</span> <span class="ow">-&gt;</span> <span class="kt">IO</span> <span class="kt">Image</span>
+<span class="nf">readImage</span> <span class="ow">=</span> <span class="o">...</span>
+
+<span class="c1">-- | Read a GIF.</span>
+<span class="nf">readGifImage</span> <span class="ow">::</span> <span class="kt">FilePath</span> <span class="ow">-&gt;</span> <span class="kt">IO</span> <span class="kt">Image</span>
+<span class="nf">readGifImage</span> <span class="ow">=</span> <span class="o">...</span>
+
+<span class="c1">-- | Read a PNG.</span>
+<span class="nf">readPngImage</span> <span class="ow">::</span> <span class="kt">FilePath</span> <span class="ow">-&gt;</span> <span class="kt">IO</span> <span class="kt">Image</span>
+<span class="nf">readPngImage</span> <span class="ow">=</span> <span class="o">...</span>
+
+<span class="o">...</span>
+</pre></div>
+</div>
+<p>This produces the same rendered docs as the first example, but the
+source code itself is arguably more readable, since the documentation
+for the group of importer functions is closer to their definitions.</p>
+<p>The third example, without an export list:</p>
+<div class="highlight-haskell"><div class="highlight"><pre><span class="kr">module</span> <span class="nn">Image</span> <span class="kr">where</span>
+
+<span class="kr">import</span> <span class="nn">Image.Types</span> <span class="p">(</span> <span class="kt">Image</span> <span class="p">)</span>
+
+<span class="c1">-- * Image importers</span>
+<span class="c1">--</span>
+<span class="c1">-- $imageImporters</span>
+<span class="c1">--</span>
+<span class="c1">-- There is a &quot;smart&quot; importer, &#39;readImage&#39;, that determines the</span>
+<span class="c1">-- image format from the file extension, and several &quot;dumb&quot;</span>
+<span class="c1">-- format-specific importers that decode the file at the specified</span>
+<span class="c1">-- type.</span>
+
+<span class="c1">-- | Read an image, guessing the format from the file name.</span>
+<span class="nf">readImage</span> <span class="ow">::</span> <span class="kt">FilePath</span> <span class="ow">-&gt;</span> <span class="kt">IO</span> <span class="kt">Image</span>
+<span class="nf">readImage</span> <span class="ow">=</span> <span class="o">...</span>
+
+<span class="c1">-- | Read a GIF.</span>
+<span class="nf">readGifImage</span> <span class="ow">::</span> <span class="kt">FilePath</span> <span class="ow">-&gt;</span> <span class="kt">IO</span> <span class="kt">Image</span>
+<span class="nf">readGifImage</span> <span class="ow">=</span> <span class="o">...</span>
+
+<span class="c1">-- | Read a PNG.</span>
+<span class="nf">readPngImage</span> <span class="ow">::</span> <span class="kt">FilePath</span> <span class="ow">-&gt;</span> <span class="kt">IO</span> <span class="kt">Image</span>
+<span class="nf">readPngImage</span> <span class="ow">=</span> <span class="o">...</span>
+
+<span class="o">...</span>
+
+<span class="c1">-- * Image exporters</span>
+<span class="c1">-- ...</span>
+</pre></div>
+</div>
+<p>Note that the section headers (e.g. <tt class="docutils literal"><span class="pre">--</span> <span class="pre">*</span> <span class="pre">Image</span> <span class="pre">importers</span></tt>) now
+appear in the module body itself, and that the section documentation
+is still given using <a class="reference internal" href="#named-chunks"><em>(Named) Chunks of Documentation</em></a>. Unlike in the first example
+when using an export list, the named chunk syntax <tt class="docutils literal"><span class="pre">$imageImporters</span></tt>
+<em>must</em> be used for the section documentation; attempting to use the
+<tt class="docutils literal"><span class="pre">--</span> <span class="pre">|</span> <span class="pre">...</span></tt> syntax to document the image importers here will wrongly
+associate the documentation chunk with the next definition!</p>
+</div>
+<div class="section" id="section-headings">
+<span id="id2"></span><h3>Section Headings<a class="headerlink" href="#section-headings" title="Permalink to this headline">¶</a></h3>
+<p>You can insert headings and sub-headings in the documentation by
+including annotations at the appropriate point in the export list, or
+in the module body directly when not using an export list.</p>
+<p>For example:</p>
+<div class="highlight-haskell"><div class="highlight"><pre><span class="kr">module</span> <span class="nn">Foo</span> <span class="p">(</span>
+  <span class="c1">-- * Classes</span>
+  <span class="kt">C</span><span class="p">(</span><span class="o">..</span><span class="p">),</span>
+  <span class="c1">-- * Types</span>
+  <span class="c1">-- ** A data type</span>
+  <span class="kt">T</span><span class="p">,</span>
+  <span class="c1">-- ** A record</span>
+  <span class="kt">R</span><span class="p">,</span>
+  <span class="c1">-- * Some functions</span>
+  <span class="nf">f</span><span class="p">,</span> <span class="nf">g</span>
+  <span class="p">)</span> <span class="kr">where</span>
+</pre></div>
+</div>
+<p>Headings are introduced with the syntax <tt class="docutils literal"><span class="pre">--</span> <span class="pre">*</span></tt>, <tt class="docutils literal"><span class="pre">--</span> <span class="pre">**</span></tt> and so
+on, where the number of <tt class="docutils literal"><span class="pre">*</span></tt>s indicates the level of the heading
+(section, sub-section, sub-sub-section, etc.).</p>
+<p>If you use section headings, then Haddock will generate a table of
+contents at the top of the module documentation for you.</p>
+<p>The alternative style of placing the commas at the beginning of each
+line is also supported. e.g.:</p>
+<div class="highlight-haskell"><div class="highlight"><pre><span class="kr">module</span> <span class="nn">Foo</span> <span class="p">(</span>
+  <span class="c1">-- * Classes</span>
+  <span class="p">,</span> <span class="kt">C</span><span class="p">(</span><span class="o">..</span><span class="p">)</span>
+  <span class="c1">-- * Types</span>
+  <span class="c1">-- ** A data type</span>
+  <span class="p">,</span> <span class="kt">T</span>
+  <span class="c1">-- ** A record</span>
+  <span class="p">,</span> <span class="kt">R</span>
+  <span class="c1">-- * Some functions</span>
+  <span class="p">,</span> <span class="nf">f</span>
+  <span class="p">,</span> <span class="nf">g</span>
+  <span class="p">)</span> <span class="kr">where</span>
+</pre></div>
+</div>
+<p>When not using an export list, you may insert section headers in the
+module body. Such section headers associate with all entities
+declaried up until the next section header. For example:</p>
+<div class="highlight-haskell"><div class="highlight"><pre><span class="kr">module</span> <span class="nn">Foo</span> <span class="kr">where</span>
+
+<span class="c1">-- * Classes</span>
+<span class="kr">class</span> <span class="kt">C</span> <span class="n">a</span> <span class="kr">where</span> <span class="o">...</span>
+
+<span class="c1">-- * Types</span>
+<span class="c1">-- ** A data type</span>
+<span class="kr">data</span> <span class="kt">T</span> <span class="ow">=</span> <span class="o">...</span>
+
+<span class="c1">-- ** A record</span>
+<span class="kr">data</span> <span class="kt">R</span> <span class="ow">=</span> <span class="o">...</span>
+
+<span class="c1">-- * Some functions</span>
+<span class="nf">f</span> <span class="ow">::</span> <span class="o">...</span>
+<span class="nf">f</span> <span class="ow">=</span> <span class="o">...</span>
+<span class="nf">g</span> <span class="ow">::</span> <span class="o">...</span>
+<span class="nf">g</span> <span class="ow">=</span> <span class="o">...</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="re-exporting-an-entire-module">
+<span id="re-exporting-entire-module"></span><h3>Re-Exporting an Entire Module<a class="headerlink" href="#re-exporting-an-entire-module" title="Permalink to this headline">¶</a></h3>
+<p>Haskell allows you to re-export the entire contents of a module (or at
+least, everything currently in scope that was imported from a given
+module) by listing it in the export list:</p>
+<div class="highlight-haskell"><div class="highlight"><pre><span class="kr">module</span> <span class="nn">A</span> <span class="p">(</span>
+  <span class="nf">module</span> <span class="kt">B</span><span class="p">,</span>
+  <span class="nf">module</span> <span class="kt">C</span>
+ <span class="p">)</span> <span class="kr">where</span>
+</pre></div>
+</div>
+<p>What will the Haddock-generated documentation for this module look like?
+Well, it depends on how the modules <tt class="docutils literal"><span class="pre">B</span></tt> and <tt class="docutils literal"><span class="pre">C</span></tt> are imported. If
+they are imported wholly and without any <tt class="docutils literal"><span class="pre">hiding</span></tt> qualifiers, then the
+documentation will just contain a cross-reference to the documentation
+for <tt class="docutils literal"><span class="pre">B</span></tt> and <tt class="docutils literal"><span class="pre">C</span></tt>.</p>
+<p>However, if the modules are not <em>completely</em> re-exported, for example:</p>
+<div class="highlight-haskell"><div class="highlight"><pre><span class="kr">module</span> <span class="nn">A</span> <span class="p">(</span>
+  <span class="nf">module</span> <span class="kt">B</span><span class="p">,</span>
+  <span class="nf">module</span> <span class="kt">C</span>
+ <span class="p">)</span> <span class="kr">where</span>
+
+<span class="kr">import</span> <span class="nn">B</span> <span class="k">hiding</span> <span class="p">(</span><span class="nf">f</span><span class="p">)</span>
+<span class="kr">import</span> <span class="nn">C</span> <span class="p">(</span><span class="nf">a</span><span class="p">,</span> <span class="nf">b</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>then Haddock behaves as if the set of entities re-exported from <tt class="docutils literal"><span class="pre">B</span></tt>
+and <tt class="docutils literal"><span class="pre">C</span></tt> had been listed explicitly in the export list <a class="footnote-reference" href="#notimplemented" id="id3">[2]</a>.</p>
+<table class="docutils footnote" frame="void" id="notimplemented" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id3">[2]</a></td><td>This is not implemented at the time of writing
+(Haddock version 2.17.3 with GHC 8.0.2). At the moment, Haddock
+always inserts a module cross-reference.</td></tr>
+</tbody>
+</table>
+<p>The exception to this rule is when the re-exported module is declared
+with the <tt class="docutils literal"><span class="pre">hide</span></tt> attribute (see <a class="reference internal" href="#module-attrs"><em>Module Attributes</em></a>), in which
+case the module is
+never cross-referenced; the contents are always expanded in place in the
+re-exporting module.</p>
+</div>
+<div class="section" id="named-chunks-of-documentation">
+<span id="named-chunks"></span><h3>(Named) Chunks of Documentation<a class="headerlink" href="#named-chunks-of-documentation" title="Permalink to this headline">¶</a></h3>
+<p>It is often desirable to include a chunk of documentation which is not
+attached to any particular Haskell declaration, for example, when
+giving summary documentation for a group of related definitions (see
+<a class="reference internal" href="#structure-examples"><em>Documentation Structure Examples</em></a>). In addition to including such documenation
+chunks at the top of the file, as part of the
+<a class="reference internal" href="#module-description"><em>The Module Description</em></a>, you can also associate them with
+<a class="reference internal" href="#section-headings"><em>Section Headings</em></a>.</p>
+<p>There are several ways to associate documentation chunks with section
+headings, depending on whether you are using an export list or not:</p>
+<ul>
+<li><p class="first">The documentation can be included in the export list directly, by
+preceding it with a <tt class="docutils literal"><span class="pre">--</span> <span class="pre">|</span></tt>. For example:</p>
+<div class="highlight-haskell"><div class="highlight"><pre><span class="kr">module</span> <span class="nn">Foo</span> <span class="p">(</span>
+   <span class="c1">-- * A section heading</span>
+
+   <span class="c1">-- | Some documentation not attached to a particular Haskell entity</span>
+   <span class="o">...</span>
+ <span class="p">)</span> <span class="kr">where</span>
+</pre></div>
+</div>
+<p>In this case the chunk is not &#8220;named&#8221;.</p>
+</li>
+<li><p class="first">If the documentation is large and placing it inline in the export
+list might bloat the export list and obscure the structure, then it
+can be given a name and placed out of line in the body of the module.
+This is achieved with a special form of documentation annotation
+<tt class="docutils literal"><span class="pre">--&nbsp;$</span></tt>, which we call a <em>named chunk</em>:</p>
+<div class="highlight-haskell"><div class="highlight"><pre><span class="kr">module</span> <span class="nn">Foo</span> <span class="p">(</span>
+   <span class="c1">-- * A section heading</span>
+
+   <span class="c1">-- $doc</span>
+   <span class="o">...</span>
+ <span class="p">)</span> <span class="kr">where</span>
+
+<span class="c1">-- $doc</span>
+<span class="c1">-- Here is a large chunk of documentation which may be referred to by</span>
+<span class="c1">-- the name $doc.</span>
+</pre></div>
+</div>
+<p>The documentation chunk is given a name of your choice (here
+<tt class="docutils literal"><span class="pre">doc</span></tt>), which is the sequence of alphanumeric characters directly
+after the <tt class="docutils literal"><span class="pre">--&nbsp;$</span></tt>, and it may be referred to by the same name in
+the export list. Note that named chunks must come <em>after</em> any
+imports in the module body.</p>
+</li>
+<li><p class="first">If you aren&#8217;t using an export list, then your only choice is to use
+a named chunk with the <tt class="docutils literal"><span class="pre">--</span> <span class="pre">$</span></tt> syntax. For example:</p>
+<div class="highlight-haskell"><div class="highlight"><pre><span class="kr">module</span> <span class="nn">Foo</span> <span class="kr">where</span>
+
+<span class="c1">-- * A section heading</span>
+<span class="c1">--</span>
+<span class="c1">-- $doc</span>
+<span class="c1">-- Here is a large chunk of documentation which may be referred to by</span>
+<span class="c1">-- the name $doc.</span>
+</pre></div>
+</div>
+<p>Just like with entity declariations when not using an export list,
+named chunks of documentation are associated with the preceding
+section header here, or with the implicit top-level documentation
+section if there is no preceding section header.</p>
+<p><strong>Warning</strong>: the form used in the first bullet above, where the
+chunk is not named, <em>does not work</em> when you aren&#8217;t using an
+export list. For example</p>
+<div class="highlight-haskell"><div class="highlight"><pre><span class="kr">module</span> <span class="nn">Foo</span> <span class="kr">where</span>
+
+<span class="c1">-- * A section heading</span>
+<span class="c1">--</span>
+<span class="c1">-- | Some documentation not attached to a particular Haskell entity</span>
+
+<span class="c1">-- | The fooifier.</span>
+<span class="nf">foo</span> <span class="ow">::</span> <span class="o">...</span>
+</pre></div>
+</div>
+<p>will result in <tt class="docutils literal"><span class="pre">Some</span> <span class="pre">documentation</span> <span class="pre">not</span> <span class="pre">...</span></tt> being attached to
+<em>next</em> entity declaration, here <tt class="docutils literal"><span class="pre">foo</span></tt>, in addition to any other
+documentation that next entity already has!</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="section" id="hyperlinking-and-re-exported-entities">
+<span id="hyperlinking-re-exported"></span><h2>Hyperlinking and Re-Exported Entities<a class="headerlink" href="#hyperlinking-and-re-exported-entities" title="Permalink to this headline">¶</a></h2>
+<p>When Haddock renders a type in the generated documentation, it
+hyperlinks all the type constructors and class names in that type to
+their respective definitions. But for a given type constructor or class
+there may be several modules re-exporting it, and therefore several
+modules whose documentation contains the definition of that type or
+class (possibly including the current module!) so which one do we link
+to?</p>
+<p>Let&#8217;s look at an example. Suppose we have three modules <tt class="docutils literal"><span class="pre">A</span></tt>, <tt class="docutils literal"><span class="pre">B</span></tt> and
+<tt class="docutils literal"><span class="pre">C</span></tt> defined as follows:</p>
+<div class="highlight-haskell"><div class="highlight"><pre><span class="kr">module</span> <span class="nn">A</span> <span class="p">(</span><span class="kt">T</span><span class="p">)</span> <span class="kr">where</span>
+<span class="kr">data</span> <span class="kt">T</span> <span class="n">a</span> <span class="ow">=</span> <span class="kt">C</span> <span class="n">a</span>
+
+<span class="kr">module</span> <span class="nn">B</span> <span class="p">(</span><span class="nf">f</span><span class="p">)</span> <span class="kr">where</span>
+<span class="kr">import</span> <span class="nn">A</span>
+<span class="nf">f</span> <span class="ow">::</span> <span class="kt">T</span> <span class="kt">Int</span> <span class="ow">-&gt;</span> <span class="kt">Int</span>
+<span class="nf">f</span> <span class="p">(</span><span class="kt">C</span> <span class="n">i</span><span class="p">)</span> <span class="ow">=</span> <span class="n">i</span>
+
+<span class="kr">module</span> <span class="nn">C</span> <span class="p">(</span><span class="kt">T</span><span class="p">,</span> <span class="nf">f</span><span class="p">)</span> <span class="kr">where</span>
+<span class="kr">import</span> <span class="nn">A</span>
+<span class="kr">import</span> <span class="nn">B</span>
+</pre></div>
+</div>
+<p>Module <tt class="docutils literal"><span class="pre">A</span></tt> exports a datatype <tt class="docutils literal"><span class="pre">T</span></tt>. Module <tt class="docutils literal"><span class="pre">B</span></tt> imports <tt class="docutils literal"><span class="pre">A</span></tt> and
+exports a function <tt class="docutils literal"><span class="pre">f</span></tt> whose type refers to <tt class="docutils literal"><span class="pre">T</span></tt>. Also, both <tt class="docutils literal"><span class="pre">T</span></tt>
+and <tt class="docutils literal"><span class="pre">f</span></tt> are re-exported from module C.</p>
+<p>Haddock takes the view that each entity has a <em>home</em> module; that is,
+the module that the library designer would most like to direct the user
+to, to find the documentation for that entity. So, Haddock makes all
+links to an entity point to the home module. The one exception is when
+the entity is also exported by the current module: Haddock makes a local
+link if it can.</p>
+<p>How is the home module for an entity determined? Haddock uses the
+following rules:</p>
+<ul class="simple">
+<li>If modules A and B both export the entity, and module A imports
+(directly or indirectly) module B, then B is preferred.</li>
+<li>A module with the <tt class="docutils literal"><span class="pre">hide</span></tt> attribute is never chosen as the home.</li>
+<li>A module with the <tt class="docutils literal"><span class="pre">not-home</span></tt> attribute is only chosen if there are
+no other modules to choose.</li>
+</ul>
+<p>If multiple modules fit the criteria, then one is chosen at random. If
+no modules fit the criteria (because the candidates are all hidden),
+then Haddock will issue a warning for each reference to an entity
+without a home.</p>
+<p>In the example above, module <tt class="docutils literal"><span class="pre">A</span></tt> is chosen as the home for <tt class="docutils literal"><span class="pre">T</span></tt>
+because it does not import any other module that exports <tt class="docutils literal"><span class="pre">T</span></tt>. The link
+from <tt class="docutils literal"><span class="pre">f</span></tt>&#8216;s type in module <tt class="docutils literal"><span class="pre">B</span></tt> will therefore point to <tt class="docutils literal"><span class="pre">A.T</span></tt>.
+However, <tt class="docutils literal"><span class="pre">C</span></tt> also exports <tt class="docutils literal"><span class="pre">T</span></tt> and <tt class="docutils literal"><span class="pre">f</span></tt>, and the link from <tt class="docutils literal"><span class="pre">f</span></tt>&#8216;s
+type in <tt class="docutils literal"><span class="pre">C</span></tt> will therefore point locally to <tt class="docutils literal"><span class="pre">C.T</span></tt>.</p>
+</div>
+<div class="section" id="module-attributes">
+<span id="module-attrs"></span><h2>Module Attributes<a class="headerlink" href="#module-attributes" title="Permalink to this headline">¶</a></h2>
+<p>Certain attributes may be specified for each module which affects the
+way that Haddock generates documentation for that module. Attributes are
+specified in a comma-separated list in an
+<tt class="docutils literal"><span class="pre">{-#</span> <span class="pre">OPTIONS_HADDOCK</span> <span class="pre">...</span> <span class="pre">#-}</span></tt> pragma at the top of the module, either
+before or after the module description. For example:</p>
+<div class="highlight-haskell"><div class="highlight"><pre><span class="cm">{-# OPTIONS_HADDOCK hide, prune, ignore-exports #-}</span>
+
+<span class="c1">-- |Module description</span>
+<span class="kr">module</span> <span class="nn">A</span> <span class="kr">where</span>
+<span class="o">...</span>
+</pre></div>
+</div>
+<p>The options and module description can be in either order.</p>
+<p>The following attributes are currently understood by Haddock:</p>
+<dl class="docutils">
+<dt><tt class="docutils literal"><span class="pre">hide</span></tt></dt>
+<dd>Omit this module from the generated documentation, but nevertheless
+propagate definitions and documentation from within this module to
+modules that re-export those definitions.</dd>
+<dt><tt class="docutils literal"><span class="pre">prune</span></tt></dt>
+<dd>Omit definitions that have no documentation annotations from the
+generated documentation.</dd>
+<dt><tt class="docutils literal"><span class="pre">ignore-exports</span></tt></dt>
+<dd>Ignore the export list. Generate documentation as if the module had
+no export list - i.e. all the top-level declarations are exported,
+and section headings may be given in the body of the module.</dd>
+<dt><tt class="docutils literal"><span class="pre">not-home</span></tt></dt>
+<dd>Indicates that the current module should not be considered to be the
+home module for each entity it exports, unless that entity is not
+exported from any other module. See <a class="reference internal" href="#hyperlinking-re-exported"><em>Hyperlinking and Re-Exported Entities</em></a>
+for more details.</dd>
+<dt><tt class="docutils literal"><span class="pre">show-extensions</span></tt></dt>
+<dd>Indicates that we should render the extensions used in this module
+in the resulting documentation. This will only render if the output
+format supports it. If Language is set, it will be shown as well and
+all the extensions implied by it won&#8217;t. All enabled extensions will
+be rendered, including those implied by their more powerful
+versions.</dd>
+</dl>
+</div>
+<div class="section" id="markup">
+<span id="id4"></span><h2>Markup<a class="headerlink" href="#markup" title="Permalink to this headline">¶</a></h2>
+<p>Haddock understands certain textual cues inside documentation
+annotations that tell it how to render the documentation. The cues (or
+“markup”) have been designed to be simple and mnemonic in ASCII so that
+the programmer doesn&#8217;t have to deal with heavyweight annotations when
+editing documentation comments.</p>
+<div class="section" id="paragraphs">
+<h3>Paragraphs<a class="headerlink" href="#paragraphs" title="Permalink to this headline">¶</a></h3>
+<p>One or more blank lines separates two paragraphs in a documentation
+comment.</p>
+</div>
+<div class="section" id="special-characters">
+<h3>Special Characters<a class="headerlink" href="#special-characters" title="Permalink to this headline">¶</a></h3>
+<p>The following characters have special meanings in documentation
+comments: <tt class="docutils literal"><span class="pre">\\</span></tt>, <tt class="docutils literal"><span class="pre">/</span></tt>, <tt class="docutils literal"><span class="pre">'</span></tt>, <tt class="docutils literal"><span class="pre">\`</span></tt>, <tt class="docutils literal"><span class="pre">&quot;</span></tt>, <tt class="docutils literal"><span class="pre">&#64;</span></tt>, <tt class="docutils literal"><span class="pre">&lt;</span></tt>, <tt class="docutils literal"><span class="pre">$</span></tt>. To insert a
+literal occurrence of one of these special characters, precede it with a
+backslash (<tt class="docutils literal"><span class="pre">\\</span></tt>).</p>
+<p>Additionally, the character <tt class="docutils literal"><span class="pre">&gt;</span></tt> has a special meaning at the beginning
+of a line, and the following characters have special meanings at the
+beginning of a paragraph: <tt class="docutils literal"><span class="pre">*</span></tt>, <tt class="docutils literal"><span class="pre">-</span></tt>. These characters can also be
+escaped using <tt class="docutils literal"><span class="pre">\\</span></tt>.</p>
+<p>Furthermore, the character sequence <tt class="docutils literal"><span class="pre">&gt;&gt;&gt;</span></tt> has a special meaning at the
+beginning of a line. To escape it, just prefix the characters in the
+sequence with a backslash.</p>
+</div>
+<div class="section" id="character-references">
+<h3>Character References<a class="headerlink" href="#character-references" title="Permalink to this headline">¶</a></h3>
+<p>Although Haskell source files may contain any character from the Unicode
+character set, the encoding of these characters as bytes varies between
+systems, so that only source files restricted to the ASCII character set
+are portable. Other characters may be specified in character and string
+literals using Haskell character escapes. To represent such characters
+in documentation comments, Haddock supports SGML-style numeric character
+references of the forms <tt class="docutils literal"><span class="pre">&amp;#</span></tt>D<tt class="docutils literal"><span class="pre">;</span></tt> and <tt class="docutils literal"><span class="pre">&amp;#x</span></tt>H<tt class="docutils literal"><span class="pre">;</span></tt> where D
+and H are decimal and hexadecimal numbers denoting a code position in
+Unicode (or ISO 10646). For example, the references <tt class="docutils literal"><span class="pre">&amp;#x3BB;</span></tt>,
+<tt class="docutils literal"><span class="pre">&amp;#x3bb;</span></tt> and <tt class="docutils literal"><span class="pre">&amp;#955;</span></tt> all represent the lower-case letter lambda.</p>
+</div>
+<div class="section" id="code-blocks">
+<h3>Code Blocks<a class="headerlink" href="#code-blocks" title="Permalink to this headline">¶</a></h3>
+<p>Displayed blocks of code are indicated by surrounding a paragraph with
+<tt class="docutils literal"><span class="pre">&#64;...&#64;</span></tt> or by preceding each line of a paragraph with <tt class="docutils literal"><span class="pre">&gt;</span></tt> (we often
+call these “bird tracks”). For example:</p>
+<div class="highlight-haskell"><div class="highlight"><pre><span class="c1">-- | This documentation includes two blocks of code:</span>
+<span class="c1">--</span>
+<span class="c1">-- @</span>
+<span class="c1">--     f x = x + x</span>
+<span class="c1">-- @</span>
+<span class="c1">--</span>
+<span class="c1">-- &gt;  g x = x * 42</span>
+</pre></div>
+</div>
+<p>There is an important difference between the two forms of code block: in
+the bird-track form, the text to the right of the ‘<tt class="docutils literal"><span class="pre">&gt;</span></tt>’ is
+interpreted literally, whereas the <tt class="docutils literal"><span class="pre">&#64;...&#64;</span></tt> form interprets markup as
+normal inside the code block. In particular, <tt class="docutils literal"><span class="pre">/</span></tt> is markup for italics,
+and so e.g. <tt class="docutils literal"><span class="pre">&#64;x</span> <span class="pre">/</span> <span class="pre">y</span> <span class="pre">/</span> <span class="pre">z&#64;</span></tt> renders as <tt class="docutils literal"><span class="pre">x</span></tt> followed by italic
+<tt class="docutils literal"><span class="pre">y</span></tt> with no slashes, followed by <tt class="docutils literal"><span class="pre">z</span></tt>.</p>
+</div>
+<div class="section" id="examples">
+<h3>Examples<a class="headerlink" href="#examples" title="Permalink to this headline">¶</a></h3>
+<p>Haddock has markup support for examples of interaction with a
+<em>read-eval-print loop (REPL)</em>. An example is introduced with <tt class="docutils literal"><span class="pre">&gt;&gt;&gt;</span></tt>
+followed by an expression followed by zero or more result lines:</p>
+<div class="highlight-haskell"><div class="highlight"><pre><span class="c1">-- | Two examples are given below:</span>
+<span class="c1">--</span>
+<span class="c1">-- &gt;&gt;&gt; fib 10</span>
+<span class="c1">-- 55</span>
+<span class="c1">--</span>
+<span class="c1">-- &gt;&gt;&gt; putStrLn &quot;foo\nbar&quot;</span>
+<span class="c1">-- foo</span>
+<span class="c1">-- bar</span>
+</pre></div>
+</div>
+<p>Result lines that only contain the string <tt class="docutils literal"><span class="pre">&lt;BLANKLINE&gt;</span></tt> are rendered
+as blank lines in the generated documentation.</p>
+</div>
+<div class="section" id="properties">
+<h3>Properties<a class="headerlink" href="#properties" title="Permalink to this headline">¶</a></h3>
+<p>Haddock provides markup for properties:</p>
+<div class="highlight-haskell"><div class="highlight"><pre><span class="c1">-- | Addition is commutative:</span>
+<span class="c1">--</span>
+<span class="c1">-- prop&gt; a + b = b + a</span>
+</pre></div>
+</div>
+<p>This allows third-party applications to extract and verify them.</p>
+</div>
+<div class="section" id="hyperlinked-identifiers">
+<h3>Hyperlinked Identifiers<a class="headerlink" href="#hyperlinked-identifiers" title="Permalink to this headline">¶</a></h3>
+<p>Referring to a Haskell identifier, whether it be a type, class,
+constructor, or function, is done by surrounding it with single quotes:</p>
+<div class="highlight-haskell"><div class="highlight"><pre><span class="c1">-- | This module defines the type &#39;T&#39;.</span>
+</pre></div>
+</div>
+<p>If there is an entity <tt class="docutils literal"><span class="pre">T</span></tt> in scope in the current module, then the
+documentation will hyperlink the reference in the text to the definition
+of <tt class="docutils literal"><span class="pre">T</span></tt> (if the output format supports hyperlinking, of course; in a
+printed format it might instead insert a page reference to the
+definition).</p>
+<p>It is also possible to refer to entities that are not in scope in the
+current module, by giving the full qualified name of the entity:</p>
+<div class="highlight-haskell"><div class="highlight"><pre><span class="c1">-- | The identifier &#39;M.T&#39; is not in scope</span>
+</pre></div>
+</div>
+<p>If <tt class="docutils literal"><span class="pre">M.T</span></tt> is not otherwise in scope, then Haddock will simply emit a
+link pointing to the entity <tt class="docutils literal"><span class="pre">T</span></tt> exported from module <tt class="docutils literal"><span class="pre">M</span></tt> (without
+checking to see whether either <tt class="docutils literal"><span class="pre">M</span></tt> or <tt class="docutils literal"><span class="pre">M.T</span></tt> exist).</p>
+<p>To make life easier for documentation writers, a quoted identifier is
+only interpreted as such if the quotes surround a lexically valid
+Haskell identifier. This means, for example, that it normally isn&#8217;t
+necessary to escape the single quote when used as an apostrophe:</p>
+<div class="highlight-haskell"><div class="highlight"><pre><span class="c1">-- | I don&#39;t have to escape my apostrophes; great, isn&#39;t it?</span>
+</pre></div>
+</div>
+<p>Nothing special is needed to hyperlink identifiers which contain
+apostrophes themselves: to hyperlink <tt class="docutils literal"><span class="pre">foo'</span></tt> one would simply type
+<tt class="docutils literal"><span class="pre">'foo''</span></tt>. To hyperlink identifiers written in infix form, simply put
+them in quotes as always: <tt class="docutils literal"><span class="pre">'`elem`'</span></tt>.</p>
+<p>For compatibility with other systems, the following alternative form of
+markup is accepted <a class="footnote-reference" href="#id6" id="id5">[3]</a>: <tt class="docutils literal"><span class="pre">`T'</span></tt>.</p>
+<table class="docutils footnote" frame="void" id="id6" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id5">[3]</a></td><td>We chose not to use this as the primary markup for identifiers
+because strictly speaking the <tt class="docutils literal"><span class="pre">`</span></tt> character should not be used as a
+left quote, it is a grave accent.</td></tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="emphasis-bold-and-monospaced-text">
+<h3>Emphasis, Bold and Monospaced Text<a class="headerlink" href="#emphasis-bold-and-monospaced-text" title="Permalink to this headline">¶</a></h3>
+<p>Emphasis may be added by surrounding text with <tt class="docutils literal"><span class="pre">/.../</span></tt>. Other markup
+is valid inside emphasis. To have a forward slash inside of emphasis,
+just escape it: <tt class="docutils literal"><span class="pre">/fo\/o/</span></tt></p>
+<p>Bold (strong) text is indicated by surrounding it with <tt class="docutils literal"><span class="pre">__...__</span></tt>.
+Other markup is valid inside bold. For example, <tt class="docutils literal"><span class="pre">__/foo/__</span></tt> will make
+the emphasised text <tt class="docutils literal"><span class="pre">foo</span></tt> bold. You don&#8217;t have to escape a single
+underscore if you need it bold:
+<tt class="docutils literal"><span class="pre">__This_text_with_underscores_is_bold__</span></tt>.</p>
+<p>Monospaced (or typewriter) text is indicated by surrounding it with
+<tt class="docutils literal"><span class="pre">&#64;...&#64;</span></tt>. Other markup is valid inside a monospaced span: for example
+<tt class="docutils literal"><span class="pre">&#64;'f'&nbsp;a&nbsp;b&#64;</span></tt> will hyperlink the identifier <tt class="docutils literal"><span class="pre">f</span></tt> inside the code
+fragment, but <tt class="docutils literal"><span class="pre">&#64;__FILE__&#64;</span></tt> will render <tt class="docutils literal"><span class="pre">FILE</span></tt> in bold with no
+underscores, which may not be what you had in mind.</p>
+</div>
+<div class="section" id="linking-to-modules">
+<h3>Linking to Modules<a class="headerlink" href="#linking-to-modules" title="Permalink to this headline">¶</a></h3>
+<p>Linking to a module is done by surrounding the module name with double
+quotes:</p>
+<div class="highlight-haskell"><div class="highlight"><pre><span class="c1">-- | This is a reference to the &quot;Foo&quot; module.</span>
+</pre></div>
+</div>
+<p>A basic check is done on the syntax of the header name to ensure that it
+is valid before turning it into a link but unlike with identifiers,
+whether the module is in scope isn&#8217;t checked and will always be turned
+into a link.</p>
+</div>
+<div class="section" id="itemized-and-enumerated-lists">
+<h3>Itemized and Enumerated Lists<a class="headerlink" href="#itemized-and-enumerated-lists" title="Permalink to this headline">¶</a></h3>
+<p>A bulleted item is represented by preceding a paragraph with either
+“<tt class="docutils literal"><span class="pre">*</span></tt>” or “<tt class="docutils literal"><span class="pre">-</span></tt>”. A sequence of bulleted paragraphs is rendered as an
+itemized list in the generated documentation, eg.:</p>
+<div class="highlight-haskell"><div class="highlight"><pre><span class="c1">-- | This is a bulleted list:</span>
+<span class="c1">--</span>
+<span class="c1">--     * first item</span>
+<span class="c1">--</span>
+<span class="c1">--     * second item</span>
+</pre></div>
+</div>
+<p>An enumerated list is similar, except each paragraph must be preceded by
+either “<tt class="docutils literal"><span class="pre">(n)</span></tt>” or “<tt class="docutils literal"><span class="pre">n.</span></tt>” where n is any integer. e.g.</p>
+<div class="highlight-haskell"><div class="highlight"><pre><span class="c1">-- | This is an enumerated list:</span>
+<span class="c1">--</span>
+<span class="c1">--     (1) first item</span>
+<span class="c1">--</span>
+<span class="c1">--     2. second item</span>
+</pre></div>
+</div>
+<p>Lists of the same type don&#8217;t have to be separated by a newline:</p>
+<div class="highlight-haskell"><div class="highlight"><pre><span class="c1">-- | This is an enumerated list:</span>
+<span class="c1">--</span>
+<span class="c1">--     (1) first item</span>
+<span class="c1">--     2. second item</span>
+<span class="c1">--</span>
+<span class="c1">-- This is a bulleted list:</span>
+<span class="c1">--</span>
+<span class="c1">--     * first item</span>
+<span class="c1">--     * second item</span>
+</pre></div>
+</div>
+<p>You can have more than one line of content in a list element:</p>
+<div class="highlight-haskell"><div class="highlight"><pre><span class="c1">-- |</span>
+<span class="c1">-- * first item</span>
+<span class="c1">-- and more content for the first item</span>
+<span class="c1">-- * second item</span>
+<span class="c1">-- and more content for the second item</span>
+</pre></div>
+</div>
+<p>You can even nest whole paragraphs inside of list elements. The rules
+are 4 spaces for each indentation level. You&#8217;re required to use a
+newline before such nested paragraph:</p>
+<div class="highlight-haskell"><div class="highlight"><pre><span class="cm">{-|</span>
+<span class="cm">* Beginning of list</span>
+<span class="cm">This belongs to the list above!</span>
+
+<span class="cm">    &gt; nested</span>
+<span class="cm">    &gt; bird</span>
+<span class="cm">    &gt; tracks</span>
+
+<span class="cm">    * Next list</span>
+<span class="cm">    More of the indented list.</span>
+
+<span class="cm">        * Deeper</span>
+
+<span class="cm">            @</span>
+<span class="cm">            even code blocks work</span>
+<span class="cm">            @</span>
+
+<span class="cm">            * Deeper</span>
+
+<span class="cm">                    1. Even deeper!</span>
+<span class="cm">                    2. No newline separation even in indented lists.</span>
+<span class="cm">-}</span>
+</pre></div>
+</div>
+<p>The indentation of the first list item is honoured. That is, in the
+following example the items are on the same level. Before Haddock
+2.16.1, the second item would have been nested under the first item
+which was unexpected.</p>
+<div class="highlight-haskell"><div class="highlight"><pre><span class="cm">{-|</span>
+<span class="cm">    * foo</span>
+
+<span class="cm">    * bar</span>
+<span class="cm">-}</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="definition-lists">
+<h3>Definition Lists<a class="headerlink" href="#definition-lists" title="Permalink to this headline">¶</a></h3>
+<p>Definition lists are written as follows:</p>
+<div class="highlight-haskell"><div class="highlight"><pre><span class="c1">-- | This is a definition list:</span>
+<span class="c1">--</span>
+<span class="c1">--   [@foo@]: The description of @foo@.</span>
+<span class="c1">--</span>
+<span class="c1">--   [@bar@]: The description of @bar@.</span>
+</pre></div>
+</div>
+<p>To produce output something like this:</p>
+<dl class="docutils">
+<dt><tt class="docutils literal"><span class="pre">foo</span></tt></dt>
+<dd>The description of <tt class="docutils literal"><span class="pre">foo</span></tt>.</dd>
+<dt><tt class="docutils literal"><span class="pre">bar</span></tt></dt>
+<dd>The description of <tt class="docutils literal"><span class="pre">bar</span></tt>.</dd>
+</dl>
+<p>Each paragraph should be preceded by the “definition term” enclosed in
+square brackets and followed by a colon. Other markup operators may be
+used freely within the definition term. You can escape <tt class="docutils literal"><span class="pre">]</span></tt> with a
+backslash as usual.</p>
+<p>Same rules about nesting and no newline separation as for bulleted and
+numbered lists apply.</p>
+</div>
+<div class="section" id="urls">
+<h3>URLs<a class="headerlink" href="#urls" title="Permalink to this headline">¶</a></h3>
+<p>A URL can be included in a documentation comment by surrounding it in
+angle brackets, for example:</p>
+<div class="highlight-haskell"><div class="highlight"><pre><span class="o">&lt;</span><span class="n">http</span><span class="kt">://</span><span class="n">example</span><span class="o">.</span><span class="n">com</span><span class="o">&gt;</span>
+</pre></div>
+</div>
+<p>If the output format supports it, the URL will be turned into a
+hyperlink when rendered.</p>
+<p>If Haddock sees something that looks like a URL (such as something
+starting with <tt class="docutils literal"><span class="pre">http://</span></tt> or <tt class="docutils literal"><span class="pre">ssh://</span></tt>) where the URL markup is valid,
+it will automatically make it a hyperlink.</p>
+</div>
+<div class="section" id="links">
+<h3>Links<a class="headerlink" href="#links" title="Permalink to this headline">¶</a></h3>
+<p>Haddock supports Markdown syntax for inline links. A link consists of a
+link text and a URL. The link text is enclosed in square brackets and
+followed by the URL enclosed in regular parentheses, for example:</p>
+<div class="highlight-haskell"><div class="highlight"><pre><span class="p">[</span><span class="n">some</span> <span class="n">link</span><span class="p">](</span><span class="n">http</span><span class="kt">://</span><span class="n">example</span><span class="o">.</span><span class="n">com</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>The link text is used as a descriptive text for the URL, if the output
+format supports it.</p>
+</div>
+<div class="section" id="images">
+<h3>Images<a class="headerlink" href="#images" title="Permalink to this headline">¶</a></h3>
+<p>Haddock supports Markdown syntax for inline images. This resembles the
+syntax for links, but starts with an exclamation mark. An example looks
+like this:</p>
+<div class="highlight-haskell"><div class="highlight"><pre><span class="o">!</span><span class="p">[</span><span class="n">image</span> <span class="n">description</span><span class="p">](</span><span class="n">pathtoimage</span><span class="o">.</span><span class="n">png</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>If the output format supports it, the image will be rendered inside the
+documentation. The image description is used as relpacement text and/or
+image title.</p>
+</div>
+<div class="section" id="mathematics-latex">
+<h3>Mathematics / LaTeX<a class="headerlink" href="#mathematics-latex" title="Permalink to this headline">¶</a></h3>
+<p>Haddock supports LaTeX syntax for rendering mathematical notation. The
+delimiters are <tt class="docutils literal"><span class="pre">\[...\]</span></tt> for displayed mathematics and <tt class="docutils literal"><span class="pre">\(...\)</span></tt>
+for in-line mathematics. An example looks like this:</p>
+<div class="highlight-haskell"><div class="highlight"><pre><span class="nf">\</span><span class="p">[</span>
+<span class="nf">f</span><span class="p">(</span><span class="n">a</span><span class="p">)</span> <span class="ow">=</span> <span class="nf">\</span><span class="n">frac</span><span class="p">{</span><span class="mi">1</span><span class="p">}{</span><span class="mi">2</span><span class="nf">\</span><span class="n">pi</span> <span class="n">i</span><span class="p">}</span><span class="nf">\</span><span class="n">oint_</span><span class="nf">\</span><span class="n">gamma</span> <span class="nf">\</span><span class="n">frac</span><span class="p">{</span><span class="n">f</span><span class="p">(</span><span class="n">z</span><span class="p">)}{</span><span class="n">z</span><span class="o">-</span><span class="n">a</span><span class="p">}</span><span class="nf">\</span><span class="p">,</span><span class="nf">\</span><span class="n">mathrm</span><span class="p">{</span><span class="n">d</span><span class="p">}</span><span class="n">z</span>
+<span class="nf">\</span><span class="p">]</span>
+</pre></div>
+</div>
+<p>If the output format supports it, the mathematics will be rendered
+inside the documentation. For example, the HTML backend will display
+the mathematics via <a class="reference external" href="https://www.mathjax.org">MathJax</a>.</p>
+</div>
+<div class="section" id="grid-tables">
+<h3>Grid Tables<a class="headerlink" href="#grid-tables" title="Permalink to this headline">¶</a></h3>
+<p>Inspired by reSTs grid tables Haddock supports a complete table representation via a grid-like &#8220;ASCII art&#8221;. Grid tables are described with a visual grid made up of the characters &#8220;-&#8221;, &#8220;=&#8221;, &#8220;|&#8221;, and &#8220;+&#8221;. The hyphen (&#8220;-&#8221;) is used for horizontal lines (row separators). The equals sign (&#8220;=&#8221;) may be used to separate optional header rows from the table body. The vertical bar (&#8220;|&#8221;) is used for vertical lines (column separators). The plus sign (&#8220;+&#8221;) is used for intersections of horizontal and vertical lines.</p>
+<div class="highlight-haskell"><div class="highlight"><pre><span class="c1">-- | This is a grid table:</span>
+<span class="c1">--</span>
+<span class="c1">-- +------------------------+------------+----------+----------+</span>
+<span class="c1">-- | Header row, column 1   | Header 2   | Header 3 | Header 4 |</span>
+<span class="c1">-- | (header rows optional) |            |          |          |</span>
+<span class="c1">-- +========================+============+==========+==========+</span>
+<span class="c1">-- | body row 1, column 1   | column 2   | column 3 | column 4 |</span>
+<span class="c1">-- +------------------------+------------+----------+----------+</span>
+<span class="c1">-- | body row 2             | Cells may span columns.          |</span>
+<span class="c1">-- +------------------------+------------+---------------------+</span>
+<span class="c1">-- | body row 3             | Cells may  | \[                  |</span>
+<span class="c1">-- +------------------------+ span rows. | f(n) = \sum_{i=1}   |</span>
+<span class="c1">-- | body row 4             |            | \]                  |</span>
+<span class="c1">-- +------------------------+------------+---------------------+</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="anchors">
+<h3>Anchors<a class="headerlink" href="#anchors" title="Permalink to this headline">¶</a></h3>
+<p>Sometimes it is useful to be able to link to a point in the
+documentation which doesn&#8217;t correspond to a particular entity. For that
+purpose, we allow <em>anchors</em> to be included in a documentation comment.
+The syntax is <tt class="docutils literal"><span class="pre">#label#</span></tt>, where label is the name of the anchor. An
+anchor is invisible in the generated documentation.</p>
+<p>To link to an anchor from elsewhere, use the syntax <tt class="docutils literal"><span class="pre">&quot;module#label&quot;</span></tt>
+where module is the module name containing the anchor, and label is the
+anchor label. The module does not have to be local, it can be imported
+via an interface. Please note that in Haddock versions 2.13.x and
+earlier, the syntax was <tt class="docutils literal"><span class="pre">&quot;module\#label&quot;</span></tt>. It is considered deprecated
+and will be removed in the future.</p>
+</div>
+<div class="section" id="headings">
+<h3>Headings<a class="headerlink" href="#headings" title="Permalink to this headline">¶</a></h3>
+<p>Headings inside of comment documentation are possible by preceding them
+with a number of <tt class="docutils literal"><span class="pre">=</span></tt>s. From 1 to 6 are accepted. Extra <tt class="docutils literal"><span class="pre">=</span></tt>s will
+be treated as belonging to the text of the heading. Note that it&#8217;s up to
+the output format to decide how to render the different levels.</p>
+<div class="highlight-haskell"><div class="highlight"><pre><span class="c1">-- |</span>
+<span class="c1">-- = Heading level 1 with some /emphasis/</span>
+<span class="c1">-- Something underneath the heading.</span>
+<span class="c1">--</span>
+<span class="c1">-- == /Subheading/</span>
+<span class="c1">-- More content.</span>
+<span class="c1">--</span>
+<span class="c1">-- === Subsubheading</span>
+<span class="c1">-- Even more content.</span>
+</pre></div>
+</div>
+<p>Note that while headings have to start on a new paragraph, we allow
+paragraph-level content to follow these immediately.</p>
+<div class="highlight-haskell"><div class="highlight"><pre><span class="c1">-- |</span>
+<span class="c1">-- = Heading level 1 with some __bold__</span>
+<span class="c1">-- Something underneath the heading.</span>
+<span class="c1">--</span>
+<span class="c1">-- == /Subheading/</span>
+<span class="c1">-- More content.</span>
+<span class="c1">--</span>
+<span class="c1">-- === Subsubheading</span>
+<span class="c1">-- &gt;&gt;&gt; examples are only allowed at the start of paragraphs</span>
+</pre></div>
+</div>
+<p>As of 2.15.1, there&#8217;s experimental (read: subject to change or get
+removed) support for collapsible headers: simply wrap your existing
+header title in underscores, as per bold syntax. The collapsible section
+will stretch until the end of the comment or until a header of equal or
+smaller number of <tt class="docutils literal"><span class="pre">=</span></tt>s.</p>
+<div class="highlight-haskell"><div class="highlight"><pre><span class="c1">-- |</span>
+<span class="c1">-- === __Examples:__</span>
+<span class="c1">-- &gt;&gt;&gt; Some very long list of examples</span>
+<span class="c1">--</span>
+<span class="c1">-- ==== This still falls under the collapse</span>
+<span class="c1">-- Some specialised examples</span>
+<span class="c1">--</span>
+<span class="c1">-- === This is does not go into the collapsable section.</span>
+<span class="c1">-- More content.</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="metadata">
+<h3>Metadata<a class="headerlink" href="#metadata" title="Permalink to this headline">¶</a></h3>
+<p>Since Haddock 2.16.0, some support for embedding metadata in the
+comments has started to appear. The use of such data aims to standardise
+various community conventions in how such information is conveyed and to
+provide uniform rendering.</p>
+<div class="section" id="since">
+<h4>Since<a class="headerlink" href="#since" title="Permalink to this headline">¶</a></h4>
+<p><tt class="docutils literal"><span class="pre">&#64;since</span></tt> annotation can be used to convey information about when the
+function was introduced or when it has changed in the way significant to
+the user. <tt class="docutils literal"><span class="pre">&#64;since</span></tt> is a paragraph-level element. While multiple such
+annotations are not an error, only the one to appear in the comment last
+will be used. <tt class="docutils literal"><span class="pre">&#64;since</span></tt> has to be followed with a version number, no
+further description is currently allowed. The meaning of this feature is
+subject to change in the future per user feedback.</p>
+<div class="highlight-haskell"><div class="highlight"><pre><span class="c1">-- |</span>
+<span class="c1">-- Some comment</span>
+<span class="c1">--</span>
+<span class="c1">-- @since 1.2.3</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Documentation and Markup</a><ul>
+<li><a class="reference internal" href="#documenting-a-top-level-declaration">Documenting a Top-Level Declaration</a></li>
+<li><a class="reference internal" href="#documenting-parts-of-a-declaration">Documenting Parts of a Declaration</a><ul>
+<li><a class="reference internal" href="#class-methods">Class Methods</a></li>
+<li><a class="reference internal" href="#constructors-and-record-fields">Constructors and Record Fields</a></li>
+<li><a class="reference internal" href="#function-arguments">Function Arguments</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#the-module-description">The Module Description</a><ul>
+<li><a class="reference internal" href="#fields-of-the-module-description">Fields of the Module Description</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#controlling-the-documentation-structure">Controlling the Documentation Structure</a><ul>
+<li><a class="reference internal" href="#documentation-structure-examples">Documentation Structure Examples</a></li>
+<li><a class="reference internal" href="#section-headings">Section Headings</a></li>
+<li><a class="reference internal" href="#re-exporting-an-entire-module">Re-Exporting an Entire Module</a></li>
+<li><a class="reference internal" href="#named-chunks-of-documentation">(Named) Chunks of Documentation</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#hyperlinking-and-re-exported-entities">Hyperlinking and Re-Exported Entities</a></li>
+<li><a class="reference internal" href="#module-attributes">Module Attributes</a></li>
+<li><a class="reference internal" href="#markup">Markup</a><ul>
+<li><a class="reference internal" href="#paragraphs">Paragraphs</a></li>
+<li><a class="reference internal" href="#special-characters">Special Characters</a></li>
+<li><a class="reference internal" href="#character-references">Character References</a></li>
+<li><a class="reference internal" href="#code-blocks">Code Blocks</a></li>
+<li><a class="reference internal" href="#examples">Examples</a></li>
+<li><a class="reference internal" href="#properties">Properties</a></li>
+<li><a class="reference internal" href="#hyperlinked-identifiers">Hyperlinked Identifiers</a></li>
+<li><a class="reference internal" href="#emphasis-bold-and-monospaced-text">Emphasis, Bold and Monospaced Text</a></li>
+<li><a class="reference internal" href="#linking-to-modules">Linking to Modules</a></li>
+<li><a class="reference internal" href="#itemized-and-enumerated-lists">Itemized and Enumerated Lists</a></li>
+<li><a class="reference internal" href="#definition-lists">Definition Lists</a></li>
+<li><a class="reference internal" href="#urls">URLs</a></li>
+<li><a class="reference internal" href="#links">Links</a></li>
+<li><a class="reference internal" href="#images">Images</a></li>
+<li><a class="reference internal" href="#mathematics-latex">Mathematics / LaTeX</a></li>
+<li><a class="reference internal" href="#grid-tables">Grid Tables</a></li>
+<li><a class="reference internal" href="#anchors">Anchors</a></li>
+<li><a class="reference internal" href="#headings">Headings</a></li>
+<li><a class="reference internal" href="#metadata">Metadata</a><ul>
+<li><a class="reference internal" href="#since">Since</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="invoking.html"
+                        title="previous chapter">Invoking Haddock</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/markup.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="invoking.html" title="Invoking Haddock"
+             >previous</a> |</li>
+        <li><a href="index.html">Haddock 1.0 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2016, Simon Marlow.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.3.
+    </div>
+  </body>
+</html>

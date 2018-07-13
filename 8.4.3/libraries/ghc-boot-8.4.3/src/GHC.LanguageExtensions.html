@@ -1,0 +1,18 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><link rel="stylesheet" type="text/css" href="style.css" /><script type="text/javascript" src="highlight.js"></script></head><body><pre><span class="hs-pragma">{-# OPTIONS_GHC -fno-warn-orphans #-}</span><span>
+</span><a name="line-2"></a><span>
+</span><a name="line-3"></a><span class="hs-comment">-- | This module re-exports the 'Extension' type along with an orphan 'Binary'</span><span>
+</span><a name="line-4"></a><span class="hs-comment">-- instance for it.</span><span>
+</span><a name="line-5"></a><span class="hs-comment">--</span><span>
+</span><a name="line-6"></a><span class="hs-comment">-- Note that the @ghc-boot@ package has a large set of dependencies; for this</span><span>
+</span><a name="line-7"></a><span class="hs-comment">-- reason the 'Extension' type itself is defined in the</span><span>
+</span><a name="line-8"></a><span class="hs-comment">-- &quot;GHC.LanguageExtensions.Type&quot; module provided by the @ghc-boot-th@ package,</span><span>
+</span><a name="line-9"></a><span class="hs-comment">-- which has no dependencies outside of @base@. For this reason</span><span>
+</span><a name="line-10"></a><span class="hs-comment">-- @template-haskell@ depends upon @ghc-boot-th@, not @ghc-boot@.</span><span>
+</span><a name="line-11"></a><span class="hs-comment">--</span><span>
+</span><a name="line-12"></a><span class="hs-keyword">module</span><span> </span><span class="hs-identifier">GHC.LanguageExtensions</span><span> </span><span class="hs-special">(</span><span> </span><span class="hs-keyword">module</span><span> </span><a href="../ghc-boot-th-8.4.3/src/%{MODULE/./-}.html#%{NAME}/GHC.LanguageExtensions.Type.html"><span class="hs-identifier">GHC.LanguageExtensions.Type</span></a><span> </span><span class="hs-special">)</span><span> </span><span class="hs-keyword">where</span><span>
+</span><a name="line-13"></a><span>
+</span><a name="line-14"></a><span class="hs-keyword">import</span><span> </span><a href="../binary-0.8.5.1/src/%{MODULE/./-}.html#%{NAME}/Data.Binary.html"><span class="hs-identifier">Data.Binary</span></a><span>
+</span><a name="line-15"></a><span class="hs-keyword">import</span><span> </span><a href="../ghc-boot-th-8.4.3/src/%{MODULE/./-}.html#%{NAME}/GHC.LanguageExtensions.Type.html"><span class="hs-identifier">GHC.LanguageExtensions.Type</span></a><span>
+</span><a name="line-16"></a><span>
+</span><a name="line-17"></a><span class="hs-keyword">instance</span><span> </span><a href="../binary-0.8.5.1/src/%{MODULE/./-}.html#%{NAME}/Data.Binary.Class.html#Binary"><span class="hs-identifier hs-type">Binary</span></a><span> </span><a href="../ghc-boot-th-8.4.3/src/%{MODULE/./-}.html#%{NAME}/GHC.LanguageExtensions.Type.html#Extension"><span class="hs-identifier hs-type">Extension</span></a><span>
+</span><a name="line-18"></a></pre></body></html>
