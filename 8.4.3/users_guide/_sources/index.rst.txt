@@ -1,8 +1,12 @@
 .. GHC User's Guide documentation master file, created by
 
 
-Welcome to the GHC User's Guide
-===============================
+..
+   Welcome to the GHC User's Guide
+   ===============================
+
+GHC ユーザーズガイドにようこそ
+==============================
 
 Contents:
 
@@ -31,8 +35,12 @@ Contents:
    editing-guide
 
 
-Indices and tables
-==================
+..
+   Indices and tables
+   ==================
+
+索引と表
+========
 
 * :ref:`genindex`
 * :ref:`search`
