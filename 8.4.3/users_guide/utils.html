@@ -1,0 +1,358 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="ja">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>15. Other Haskell utility programs &#8212; Glasgow Haskell Compiler 8.4.3 User&#39;s Guide</title>
+    <link rel="stylesheet" href="_static/ghc-theme.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '8.4.3',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/translations.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js"></script>
+    <link rel="search" type="application/opensearchdescription+xml"
+          title="Glasgow Haskell Compiler 8.4.3 User&#39;s Guide 内を検索"
+          href="_static/opensearch.xml"/>
+    <link rel="index" title="索引" href="genindex.html" />
+    <link rel="search" title="検索" href="search.html" />
+    <link rel="next" title="16. Running GHC on Win32 systems" href="win32-dlls.html" />
+    <link rel="prev" title="14. Debugging compiled programs" href="debug-info.html" /> 
+  </head>
+  <body>
+<div class="logo">
+    <h1><a href="index.html">Glasgow Haskell Compiler User's Guide</a></h1>
+</div>
+
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>ナビゲーション</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="総合索引"
+             accesskey="I">索引</a></li>
+        <li class="right" >
+          <a href="win32-dlls.html" title="16. Running GHC on Win32 systems"
+             accesskey="N">次へ</a> |</li>
+        <li class="right" >
+          <a href="debug-info.html" title="14. Debugging compiled programs"
+             accesskey="P">前へ</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">GHC 8.4.3 User&#39;s Guide</a> &#187;</li> 
+      </ul>
+    </div>
+
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">目次</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">15. Other Haskell utility programs</a><ul>
+<li><a class="reference internal" href="#yacc-for-haskell-happy">15.1. &quot;Yacc for Haskell&quot;: <code class="docutils literal"><span class="pre">happy</span></code></a></li>
+<li><a class="reference internal" href="#writing-haskell-interfaces-to-c-code-hsc2hs">15.2. Writing Haskell interfaces to C code: <code class="docutils literal"><span class="pre">hsc2hs</span></code></a><ul>
+<li><a class="reference internal" href="#command-line-syntax">15.2.1. command line syntax</a></li>
+<li><a class="reference internal" href="#input-syntax">15.2.2. Input syntax</a></li>
+<li><a class="reference internal" href="#custom-constructs">15.2.3. Custom constructs</a></li>
+<li><a class="reference internal" href="#cross-compilation">15.2.4. Cross-compilation</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  <h4>前のトピックへ</h4>
+  <p class="topless"><a href="debug-info.html"
+                        title="前の章へ">14. Debugging compiled programs</a></p>
+  <h4>次のトピックへ</h4>
+  <p class="topless"><a href="win32-dlls.html"
+                        title="次の章へ">16. Running GHC on Win32 systems</a></p>
+  <div role="note" aria-label="source link">
+    <h3>このページ</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/utils.rst.txt"
+            rel="nofollow">ソースコードを表示</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>クイック検索</h3>
+    <form class="search" action="search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="検索" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="other-haskell-utility-programs">
+<span id="utils"></span><h1>15. Other Haskell utility programs<a class="headerlink" href="#other-haskell-utility-programs" title="このヘッドラインへのパーマリンク">¶</a></h1>
+<p id="index-0">This section describes other program(s) which we distribute, that help
+with the Great Haskell Programming Task.</p>
+<div class="section" id="yacc-for-haskell-happy">
+<span id="happy"></span><h2>15.1. &quot;Yacc for Haskell&quot;: <code class="docutils literal"><span class="pre">happy</span></code><a class="headerlink" href="#yacc-for-haskell-happy" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p id="index-1">Andy Gill and Simon Marlow have written a parser-generator for Haskell,
+called <code class="docutils literal"><span class="pre">happy</span></code>. <code class="docutils literal"><span class="pre">Happy</span></code> is to Haskell what <code class="docutils literal"><span class="pre">Yacc</span></code> is to C.</p>
+<p>You can get <code class="docutils literal"><span class="pre">happy</span></code> from <a class="reference external" href="http://www.haskell.org/happy/">the Happy
+Homepage</a>.</p>
+<p><code class="docutils literal"><span class="pre">Happy</span></code> is at its shining best when compiled by GHC.</p>
+</div>
+<div class="section" id="writing-haskell-interfaces-to-c-code-hsc2hs">
+<span id="hsc2hs"></span><h2>15.2. Writing Haskell interfaces to C code: <code class="docutils literal"><span class="pre">hsc2hs</span></code><a class="headerlink" href="#writing-haskell-interfaces-to-c-code-hsc2hs" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p id="index-2">The <code class="docutils literal"><span class="pre">hsc2hs</span></code> command can be used to automate some parts of the process
+of writing Haskell bindings to C code. It reads an almost-Haskell source
+with embedded special constructs, and outputs a real Haskell file with
+these constructs processed, based on information taken from some C
+headers. The extra constructs deal with accessing C data from Haskell.</p>
+<p>It may also output a C file which contains additional C functions to be
+linked into the program, together with a C header that gets included
+into the C code to which the Haskell module will be compiled (when
+compiled via C) and into the C file. These two files are created when
+the <code class="docutils literal"><span class="pre">#def</span></code> construct is used (see below).</p>
+<p>Actually <code class="docutils literal"><span class="pre">hsc2hs</span></code> does not output the Haskell file directly. It
+creates a C program that includes the headers, gets automatically
+compiled and run. That program outputs the Haskell code.</p>
+<p>In the following, &quot;Haskell file&quot; is the main output (usually a <code class="docutils literal"><span class="pre">.hs</span></code>
+file), &quot;compiled Haskell file&quot; is the Haskell file after <code class="docutils literal"><span class="pre">ghc</span></code> has
+compiled it to C (i.e. a <code class="docutils literal"><span class="pre">.hc</span></code> file), &quot;C program&quot; is the program that
+outputs the Haskell file, &quot;C file&quot; is the optionally generated C file,
+and &quot;C header&quot; is its header file.</p>
+<div class="section" id="command-line-syntax">
+<h3>15.2.1. command line syntax<a class="headerlink" href="#command-line-syntax" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<p><code class="docutils literal"><span class="pre">hsc2hs</span></code> takes input files as arguments, and flags that modify its
+behavior:</p>
+<dl class="docutils">
+<dt><code class="docutils literal"><span class="pre">-o</span> <span class="pre">FILE</span></code>, <code class="docutils literal"><span class="pre">--output=FILE</span></code></dt>
+<dd>Name of the Haskell file.</dd>
+<dt><code class="docutils literal"><span class="pre">-t</span> <span class="pre">FILE</span></code>, <code class="docutils literal"><span class="pre">--template=FILE</span></code></dt>
+<dd>The template file (see below).</dd>
+<dt><code class="docutils literal"><span class="pre">-c</span> <span class="pre">PROG</span></code>, <code class="docutils literal"><span class="pre">--cc=PROG</span></code></dt>
+<dd>The C compiler to use (default: <code class="docutils literal"><span class="pre">gcc</span></code>)</dd>
+<dt><code class="docutils literal"><span class="pre">-l</span> <span class="pre">PROG</span></code>, <code class="docutils literal"><span class="pre">--ld=PROG</span></code></dt>
+<dd>The linker to use (default: <code class="docutils literal"><span class="pre">gcc</span></code>).</dd>
+<dt><code class="docutils literal"><span class="pre">-C</span> <span class="pre">FLAG</span></code>, <code class="docutils literal"><span class="pre">--cflag=FLAG</span></code></dt>
+<dd>An extra flag to pass to the C compiler.</dd>
+<dt><code class="docutils literal"><span class="pre">-I</span> <span class="pre">DIR</span></code></dt>
+<dd>Passed to the C compiler.</dd>
+<dt><code class="docutils literal"><span class="pre">-L</span> <span class="pre">FLAG</span></code>, <code class="docutils literal"><span class="pre">--lflag=FLAG</span></code></dt>
+<dd>An extra flag to pass to the linker.</dd>
+<dt><code class="docutils literal"><span class="pre">-i</span> <span class="pre">FILE</span></code>, <code class="docutils literal"><span class="pre">--include=FILE</span></code></dt>
+<dd>As if the appropriate <code class="docutils literal"><span class="pre">#include</span></code> directive was placed in the
+source.</dd>
+<dt><code class="docutils literal"><span class="pre">-D</span> <span class="pre">NAME[=VALUE]</span></code>, <code class="docutils literal"><span class="pre">--define=NAME[=VALUE]</span></code></dt>
+<dd>As if the appropriate <code class="docutils literal"><span class="pre">#define</span></code> directive was placed in the
+source.</dd>
+<dt><code class="docutils literal"><span class="pre">--no-compile</span></code></dt>
+<dd>Stop after writing out the intermediate C program to disk. The file
+name for the intermediate C program is the input file name with
+<code class="docutils literal"><span class="pre">.hsc</span></code> replaced with <code class="docutils literal"><span class="pre">_hsc_make.c</span></code>.</dd>
+<dt><code class="docutils literal"><span class="pre">-k</span></code>, <code class="docutils literal"><span class="pre">--keep-files</span></code></dt>
+<dd>Proceed as normal, but do not delete any intermediate files.</dd>
+<dt><code class="docutils literal"><span class="pre">-x</span></code>, <code class="docutils literal"><span class="pre">--cross-compile</span></code></dt>
+<dd>Activate cross-compilation mode (see <a class="reference internal" href="#hsc2hs-cross"><span class="std std-ref">Cross-compilation</span></a>).</dd>
+<dt><code class="docutils literal"><span class="pre">--cross-safe</span></code></dt>
+<dd>Restrict the .hsc directives to those supported by the
+<code class="docutils literal"><span class="pre">--cross-compile</span></code> mode (see <a class="reference internal" href="#hsc2hs-cross"><span class="std std-ref">Cross-compilation</span></a>). This should be
+useful if your <code class="docutils literal"><span class="pre">.hsc</span></code> files must be safely cross-compiled and you
+wish to keep non-cross-compilable constructs from creeping into
+them.</dd>
+<dt><code class="docutils literal"><span class="pre">-?</span></code>, <code class="docutils literal"><span class="pre">--help</span></code></dt>
+<dd>Display a summary of the available flags and exit successfully.</dd>
+<dt><code class="docutils literal"><span class="pre">-V</span></code>, <code class="docutils literal"><span class="pre">--version</span></code></dt>
+<dd>Output version information and exit successfully.</dd>
+</dl>
+<p>The input file should end with .hsc (it should be plain Haskell source
+only; literate Haskell is not supported at the moment). Output files by
+default get names with the <code class="docutils literal"><span class="pre">.hsc</span></code> suffix replaced:</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="47%" />
+<col width="53%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">.hs</span></code></td>
+<td>Haskell file</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">_hsc.h</span></code></td>
+<td>C header</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">_hsc.c</span></code></td>
+<td>C file</td>
+</tr>
+</tbody>
+</table>
+<p>The C program is compiled using the Haskell compiler. This provides the
+include path to <code class="docutils literal"><span class="pre">HsFFI.h</span></code> which is automatically included into the C
+program.</p>
+</div>
+<div class="section" id="input-syntax">
+<h3>15.2.2. Input syntax<a class="headerlink" href="#input-syntax" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<p>All special processing is triggered by the <code class="docutils literal"><span class="pre">#</span></code> operator. To output a
+literal <code class="docutils literal"><span class="pre">#</span></code>, write it twice: <code class="docutils literal"><span class="pre">##</span></code>. Inside string literals and
+comments <code class="docutils literal"><span class="pre">#</span></code> characters are not processed.</p>
+<p>A <code class="docutils literal"><span class="pre">#</span></code> is followed by optional spaces and tabs, an alphanumeric keyword
+that describes the kind of processing, and its arguments. Arguments look
+like C expressions separated by commas (they are not written inside
+parens). They extend up to the nearest unmatched <code class="docutils literal"><span class="pre">)</span></code>, <code class="docutils literal"><span class="pre">]</span></code> or <code class="docutils literal"><span class="pre">}</span></code>,
+or to the end of line if it occurs outside any <code class="docutils literal"><span class="pre">()</span> <span class="pre">[]</span> <span class="pre">{}</span> <span class="pre">''</span> <span class="pre">&quot;&quot;</span> <span class="pre">/**/</span></code>
+and is not preceded by a backslash. Backslash-newline pairs are
+stripped.</p>
+<p>In addition <code class="docutils literal"><span class="pre">#{stuff}</span></code> is equivalent to <code class="docutils literal"><span class="pre">#stuff</span></code> except that it's
+self-delimited and thus needs not to be placed at the end of line or in
+some brackets.</p>
+<p>Meanings of specific keywords:</p>
+<dl class="docutils">
+<dt><code class="docutils literal"><span class="pre">#include</span> <span class="pre">&lt;file.h&gt;</span></code>, <code class="docutils literal"><span class="pre">#include</span> <span class="pre">&quot;file.h&quot;</span></code></dt>
+<dd>The specified file gets included into the C program, the compiled
+Haskell file, and the C header. <code class="docutils literal"><span class="pre">&lt;HsFFI.h&gt;</span></code> is included
+automatically.</dd>
+<dt><code class="docutils literal"><span class="pre">#define</span> <span class="pre">⟨name⟩</span></code>, <code class="docutils literal"><span class="pre">#define</span> <span class="pre">⟨name</span> <span class="pre">⟨value⟩</span></code>, <code class="docutils literal"><span class="pre">#undef</span> <span class="pre">⟨name⟩</span></code></dt>
+<dd>Similar to <code class="docutils literal"><span class="pre">#include</span></code>. Note that <code class="docutils literal"><span class="pre">#includes</span></code> and <code class="docutils literal"><span class="pre">#defines</span></code>
+may be put in the same file twice so they should not assume
+otherwise.</dd>
+<dt><code class="docutils literal"><span class="pre">#let</span> <span class="pre">⟨name⟩</span> <span class="pre">⟨parameters⟩</span> <span class="pre">=</span> <span class="pre">&quot;⟨definition⟩&quot;</span></code></dt>
+<dd>Defines a macro to be applied to the Haskell source. Parameter names
+are comma-separated, not inside parens. Such macro is invoked as
+other <code class="docutils literal"><span class="pre">#</span></code>-constructs, starting with <code class="docutils literal"><span class="pre">#name</span></code>. The definition will
+be put in the C program inside parens as arguments of <code class="docutils literal"><span class="pre">printf</span></code>. To
+refer to a parameter, close the quote, put a parameter name and open
+the quote again, to let C string literals concatenate. Or use
+<code class="docutils literal"><span class="pre">printf</span></code>'s format directives. Values of arguments must be given as
+strings, unless the macro stringifies them itself using the C
+preprocessor's <code class="docutils literal"><span class="pre">#parameter</span></code> syntax.</dd>
+<dt><code class="docutils literal"><span class="pre">#def</span> <span class="pre">⟨C_definition⟩</span></code></dt>
+<dd>The definition (of a function, variable, struct or typedef) is
+written to the C file, and its prototype or extern declaration to
+the C header. Inline functions are handled correctly. struct
+definitions and typedefs are written to the C program too. The
+<code class="docutils literal"><span class="pre">inline</span></code>, <code class="docutils literal"><span class="pre">struct</span></code> or <code class="docutils literal"><span class="pre">typedef</span></code> keyword must come just after
+<code class="docutils literal"><span class="pre">def</span></code>.</dd>
+<dt><code class="docutils literal"><span class="pre">#if</span> <span class="pre">⟨condition⟩</span></code>, <code class="docutils literal"><span class="pre">#ifdef</span> <span class="pre">⟨name⟩</span></code>, <code class="docutils literal"><span class="pre">#ifndef</span> <span class="pre">⟨name⟩</span></code>, <code class="docutils literal"><span class="pre">#elif</span> <span class="pre">⟨condition⟩</span></code>, <code class="docutils literal"><span class="pre">#else</span></code>, <code class="docutils literal"><span class="pre">#endif</span></code>, <code class="docutils literal"><span class="pre">#error</span> <span class="pre">⟨message⟩</span></code>, <code class="docutils literal"><span class="pre">#warning</span> <span class="pre">⟨message⟩</span></code></dt>
+<dd>Conditional compilation directives are passed unmodified to the C
+program, C file, and C header. Putting them in the C program means
+that appropriate parts of the Haskell file will be skipped.</dd>
+<dt><code class="docutils literal"><span class="pre">#const</span> <span class="pre">⟨C_expression⟩</span></code></dt>
+<dd>The expression must be convertible to <code class="docutils literal"><span class="pre">long</span></code> or <code class="docutils literal"><span class="pre">unsigned</span> <span class="pre">long</span></code>.
+Its value (literal or negated literal) will be output.</dd>
+<dt><code class="docutils literal"><span class="pre">#const_str</span> <span class="pre">⟨C_expression⟩</span></code></dt>
+<dd>The expression must be convertible to const char pointer. Its value
+(string literal) will be output.</dd>
+<dt><code class="docutils literal"><span class="pre">#type</span> <span class="pre">⟨C_type⟩</span></code></dt>
+<dd>A Haskell equivalent of the C numeric type will be output. It will
+be one of <code class="docutils literal"><span class="pre">{Int,Word}{8,16,32,64}</span></code>, <code class="docutils literal"><span class="pre">Float</span></code>, <code class="docutils literal"><span class="pre">Double</span></code>,
+<code class="docutils literal"><span class="pre">LDouble</span></code>.</dd>
+<dt><code class="docutils literal"><span class="pre">#peek</span> <span class="pre">⟨struct_type⟩,</span> <span class="pre">⟨field⟩</span></code></dt>
+<dd>A function that peeks a field of a C struct will be output. It will
+have the type <code class="docutils literal"><span class="pre">Storable</span> <span class="pre">b</span> <span class="pre">=&gt;</span> <span class="pre">Ptr</span> <span class="pre">a</span> <span class="pre">-&gt;</span> <span class="pre">IO</span> <span class="pre">b</span></code>. The intention is that
+<code class="docutils literal"><span class="pre">#peek</span></code> and <code class="docutils literal"><span class="pre">#poke</span></code> can be used for implementing the operations
+of class <code class="docutils literal"><span class="pre">Storable</span></code> for a given C struct (see the
+<code class="docutils literal"><span class="pre">Foreign.Storable</span></code> module in the library documentation).</dd>
+<dt><code class="docutils literal"><span class="pre">#poke</span> <span class="pre">⟨struct_type⟩,</span> <span class="pre">⟨field⟩</span></code></dt>
+<dd>Similarly for poke. It will have the type
+<code class="docutils literal"><span class="pre">Storable</span> <span class="pre">b</span> <span class="pre">=&gt;</span> <span class="pre">Ptr</span> <span class="pre">a</span> <span class="pre">-&gt;</span> <span class="pre">b</span> <span class="pre">-&gt;</span> <span class="pre">IO</span> <span class="pre">()</span></code>.</dd>
+<dt><code class="docutils literal"><span class="pre">#ptr</span> <span class="pre">⟨struct_type⟩,</span> <span class="pre">⟨field⟩</span></code></dt>
+<dd>Makes a pointer to a field struct. It will have the type
+<code class="docutils literal"><span class="pre">Ptr</span> <span class="pre">a</span> <span class="pre">-&gt;</span> <span class="pre">Ptr</span> <span class="pre">b</span></code>.</dd>
+<dt><code class="docutils literal"><span class="pre">#offset</span> <span class="pre">⟨struct_type⟩,</span> <span class="pre">⟨field⟩</span></code></dt>
+<dd>Computes the offset, in bytes, of <code class="docutils literal"><span class="pre">field</span></code> in <code class="docutils literal"><span class="pre">struct_type</span></code>. It
+will have type <code class="docutils literal"><span class="pre">Int</span></code>.</dd>
+<dt><code class="docutils literal"><span class="pre">#size</span> <span class="pre">⟨struct_type⟩</span></code></dt>
+<dd>Computes the size, in bytes, of <code class="docutils literal"><span class="pre">struct_type</span></code>. It will have type
+<code class="docutils literal"><span class="pre">Int</span></code>.</dd>
+<dt><code class="docutils literal"><span class="pre">#alignment</span> <span class="pre">⟨struct_type⟩</span></code></dt>
+<dd>Computes the alignment, in bytes, of <code class="docutils literal"><span class="pre">struct_type</span></code>. It will have type
+<code class="docutils literal"><span class="pre">Int</span></code>.</dd>
+<dt><code class="docutils literal"><span class="pre">#enum</span> <span class="pre">⟨type⟩,</span> <span class="pre">⟨constructor⟩,</span> <span class="pre">⟨value⟩,</span> <span class="pre">⟨value⟩,</span> <span class="pre">...</span></code></dt>
+<dd>A shortcut for multiple definitions which use <code class="docutils literal"><span class="pre">#const</span></code>. Each
+<code class="docutils literal"><span class="pre">value</span></code> is a name of a C integer constant, e.g. enumeration value.
+The name will be translated to Haskell by making each letter
+following an underscore uppercase, making all the rest lowercase,
+and removing underscores. You can supply a different translation by
+writing <code class="docutils literal"><span class="pre">hs_name</span> <span class="pre">=</span> <span class="pre">c_value</span></code> instead of a <code class="docutils literal"><span class="pre">value</span></code>, in which case
+<code class="docutils literal"><span class="pre">c_value</span></code> may be an arbitrary expression. The <code class="docutils literal"><span class="pre">hs_name</span></code> will be
+defined as having the specified <code class="docutils literal"><span class="pre">type</span></code>. Its definition is the
+specified <code class="docutils literal"><span class="pre">constructor</span></code> (which in fact may be an expression or be
+empty) applied to the appropriate integer value. You can have
+multiple <code class="docutils literal"><span class="pre">#enum</span></code> definitions with the same <code class="docutils literal"><span class="pre">type</span></code>; this
+construct does not emit the type definition itself.</dd>
+</dl>
+</div>
+<div class="section" id="custom-constructs">
+<h3>15.2.3. Custom constructs<a class="headerlink" href="#custom-constructs" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<p><code class="docutils literal"><span class="pre">#const</span></code>, <code class="docutils literal"><span class="pre">#type</span></code>, <code class="docutils literal"><span class="pre">#peek</span></code>, <code class="docutils literal"><span class="pre">#poke</span></code> and <code class="docutils literal"><span class="pre">#ptr</span></code> are not
+hardwired into the <code class="docutils literal"><span class="pre">hsc2hs</span></code>, but are defined in a C template that is
+included in the C program: <code class="docutils literal"><span class="pre">template-hsc.h</span></code>. Custom constructs and
+templates can be used too. Any <code class="docutils literal"><span class="pre">#</span></code>-construct with unknown key is
+expected to be handled by a C template.</p>
+<p>A C template should define a macro or function with name prefixed by
+<code class="docutils literal"><span class="pre">hsc_</span></code> that handles the construct by emitting the expansion to stdout.
+See <code class="docutils literal"><span class="pre">template-hsc.h</span></code> for examples.</p>
+<p>Such macros can also be defined directly in the source. They are useful
+for making a <code class="docutils literal"><span class="pre">#let</span></code>-like macro whose expansion uses other <code class="docutils literal"><span class="pre">#let</span></code>
+macros. Plain <code class="docutils literal"><span class="pre">#let</span></code> prepends <code class="docutils literal"><span class="pre">hsc_</span></code> to the macro name and wraps the
+definition in a <code class="docutils literal"><span class="pre">printf</span></code> call.</p>
+</div>
+<div class="section" id="cross-compilation">
+<span id="hsc2hs-cross"></span><h3>15.2.4. Cross-compilation<a class="headerlink" href="#cross-compilation" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<p><code class="docutils literal"><span class="pre">hsc2hs</span></code> normally operates by creating, compiling, and running a C
+program. That approach doesn't work when cross-compiling — in this
+case, the C compiler's generates code for the target machine, not the
+host machine. For this situation, there's a special mode
+<code class="docutils literal"><span class="pre">hsc2hs</span> <span class="pre">--cross-compile</span></code> which can generate the .hs by extracting
+information from compilations only — specifically, whether or not
+compilation fails.</p>
+<p>Only a subset of <code class="docutils literal"><span class="pre">.hsc</span></code> syntax is supported by <code class="docutils literal"><span class="pre">--cross-compile</span></code>.
+The following are unsupported:</p>
+<ul class="simple">
+<li><code class="docutils literal"><span class="pre">#{const_str}</span></code></li>
+<li><code class="docutils literal"><span class="pre">#{let}</span></code></li>
+<li><code class="docutils literal"><span class="pre">#{def}</span></code></li>
+<li>Custom constructs</li>
+</ul>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>ナビゲーション</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="総合索引"
+             >索引</a></li>
+        <li class="right" >
+          <a href="win32-dlls.html" title="16. Running GHC on Win32 systems"
+             >次へ</a> |</li>
+        <li class="right" >
+          <a href="debug-info.html" title="14. Debugging compiled programs"
+             >前へ</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">GHC 8.4.3 User&#39;s Guide</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2015, GHC Team.
+      このドキュメントは <a href="http://sphinx-doc.org/">Sphinx</a> 1.6.7 で生成しました。
+    </div>
+  </body>
+</html>

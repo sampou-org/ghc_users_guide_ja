@@ -1,0 +1,263 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="ja">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>10.38. Concurrent and Parallel Haskell &#8212; Glasgow Haskell Compiler 8.4.3 User&#39;s Guide</title>
+    <link rel="stylesheet" href="_static/ghc-theme.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '8.4.3',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/translations.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js"></script>
+    <link rel="search" type="application/opensearchdescription+xml"
+          title="Glasgow Haskell Compiler 8.4.3 User&#39;s Guide 内を検索"
+          href="_static/opensearch.xml"/>
+    <link rel="index" title="索引" href="genindex.html" />
+    <link rel="search" title="検索" href="search.html" />
+    <link rel="next" title="10.39. Safe Haskell" href="safe_haskell.html" />
+    <link rel="prev" title="10.1. Language options" href="glasgow_exts.html" /> 
+  </head>
+  <body>
+<div class="logo">
+    <h1><a href="index.html">Glasgow Haskell Compiler User's Guide</a></h1>
+</div>
+
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>ナビゲーション</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="総合索引"
+             accesskey="I">索引</a></li>
+        <li class="right" >
+          <a href="safe_haskell.html" title="10.39. Safe Haskell"
+             accesskey="N">次へ</a> |</li>
+        <li class="right" >
+          <a href="glasgow_exts.html" title="10.1. Language options"
+             accesskey="P">前へ</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">GHC 8.4.3 User&#39;s Guide</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="lang.html" accesskey="U">10. GHC Language Features</a> &#187;</li> 
+      </ul>
+    </div>
+
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">目次</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">10.38. Concurrent and Parallel Haskell</a><ul>
+<li><a class="reference internal" href="#concurrent-haskell">10.38.1. Concurrent Haskell</a></li>
+<li><a class="reference internal" href="#software-transactional-memory">10.38.2. Software Transactional Memory</a></li>
+<li><a class="reference internal" href="#parallel-haskell">10.38.3. Parallel Haskell</a></li>
+<li><a class="reference internal" href="#annotating-pure-code-for-parallelism">10.38.4. Annotating pure code for parallelism</a></li>
+<li><a class="reference internal" href="#data-parallel-haskell">10.38.5. Data Parallel Haskell</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>前のトピックへ</h4>
+  <p class="topless"><a href="glasgow_exts.html"
+                        title="前の章へ">10.1. Language options</a></p>
+  <h4>次のトピックへ</h4>
+  <p class="topless"><a href="safe_haskell.html"
+                        title="次の章へ">10.39. Safe Haskell</a></p>
+  <div role="note" aria-label="source link">
+    <h3>このページ</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/parallel.rst.txt"
+            rel="nofollow">ソースコードを表示</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>クイック検索</h3>
+    <form class="search" action="search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="検索" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="concurrent-and-parallel-haskell">
+<span id="lang-parallel"></span><h1>10.38. Concurrent and Parallel Haskell<a class="headerlink" href="#concurrent-and-parallel-haskell" title="このヘッドラインへのパーマリンク">¶</a></h1>
+<p id="index-0">GHC implements some major extensions to Haskell to support concurrent
+and parallel programming. Let us first establish terminology:</p>
+<ul class="simple">
+<li><em>Parallelism</em> means running a Haskell program on multiple processors,
+with the goal of improving performance. Ideally, this should be done
+invisibly, and with no semantic changes.</li>
+<li><em>Concurrency</em> means implementing a program by using multiple
+I/O-performing threads. While a concurrent Haskell program <em>can</em> run
+on a parallel machine, the primary goal of using concurrency is not
+to gain performance, but rather because that is the simplest and most
+direct way to write the program. Since the threads perform I/O, the
+semantics of the program is necessarily non-deterministic.</li>
+</ul>
+<p>GHC supports both concurrency and parallelism.</p>
+<div class="section" id="concurrent-haskell">
+<span id="id1"></span><h2>10.38.1. Concurrent Haskell<a class="headerlink" href="#concurrent-haskell" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>Concurrent Haskell is the name given to GHC's concurrency extension. It
+is enabled by default, so no special flags are required. The <a class="reference external" href="https://www.haskell.org/ghc/docs/papers/concurrent-haskell.ps.gz">Concurrent
+Haskell
+paper</a>
+is still an excellent resource, as is <a class="reference external" href="http://research.microsoft.com/%7Esimonpj/papers/marktoberdorf/">Tackling the awkward
+squad</a>.</p>
+<p>To the programmer, Concurrent Haskell introduces no new language
+constructs; rather, it appears simply as a library,
+<a class="reference external" href="../libraries/base-4.11.1.0/Control-Concurrent.html">Control.Concurrent</a>. The functions exported by this library include:</p>
+<ul class="simple">
+<li>Forking and killing threads.</li>
+<li>Sleeping.</li>
+<li>Synchronised mutable variables, called <code class="docutils literal"><span class="pre">MVars</span></code></li>
+<li>Support for bound threads; see the paper <a class="reference external" href="http://community.haskell.org/~simonmar/papers/conc-ffi.pdf">Extending the FFI with
+concurrency</a>.</li>
+</ul>
+</div>
+<div class="section" id="software-transactional-memory">
+<h2>10.38.2. Software Transactional Memory<a class="headerlink" href="#software-transactional-memory" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>GHC now supports a new way to coordinate the activities of Concurrent
+Haskell threads, called Software Transactional Memory (STM). The <a class="reference external" href="https://wiki.haskell.org/Research_papers/Parallelism_and_concurrency#Lock_free_data_structures_and_transactional_memory">STM
+papers</a>
+are an excellent introduction to what STM is, and how to use it.</p>
+<p>The main library you need to use is the <a class="reference external" href="http://hackage.haskell.org/package/stm">stm
+library</a>. The main features
+supported are these:</p>
+<ul class="simple">
+<li>Atomic blocks.</li>
+<li>Transactional variables.</li>
+<li>Operations for composing transactions: <code class="docutils literal"><span class="pre">retry</span></code>, and <code class="docutils literal"><span class="pre">orElse</span></code>.</li>
+<li>Data invariants.</li>
+</ul>
+<p>All these features are described in the papers mentioned earlier.</p>
+</div>
+<div class="section" id="parallel-haskell">
+<h2>10.38.3. Parallel Haskell<a class="headerlink" href="#parallel-haskell" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p id="index-1">GHC includes support for running Haskell programs in parallel on
+symmetric, shared-memory multi-processor (SMP). By default GHC runs
+your program on one processor; if you want it to run in parallel you
+must link your program with the <a class="reference internal" href="phases.html#ghc-flag--threaded"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-threaded</span></code></a>, and run it with the RTS
+<a class="reference internal" href="using-concurrent.html#rts-flag--N ⟨x⟩"><code class="xref std std-rts-flag docutils literal"><span class="pre">-N</span> <span class="pre">⟨x⟩</span></code></a> option; see <a class="reference internal" href="using-concurrent.html#using-smp"><span class="std std-ref">Using SMP parallelism</span></a>). The runtime will schedule the
+running Haskell threads among the available OS threads, running as many in
+parallel as you specified with the <a class="reference internal" href="using-concurrent.html#rts-flag--N ⟨x⟩"><code class="xref std std-rts-flag docutils literal"><span class="pre">-N</span> <span class="pre">⟨x⟩</span></code></a> RTS option.</p>
+</div>
+<div class="section" id="annotating-pure-code-for-parallelism">
+<h2>10.38.4. Annotating pure code for parallelism<a class="headerlink" href="#annotating-pure-code-for-parallelism" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>Ordinary single-threaded Haskell programs will not benefit from enabling
+SMP parallelism alone: you must expose parallelism to the compiler. One
+way to do so is forking threads using Concurrent Haskell
+(<a class="reference internal" href="#concurrent-haskell"><span class="std std-ref">Concurrent Haskell</span></a>), but the simplest mechanism for extracting
+parallelism from pure code is to use the <code class="docutils literal"><span class="pre">par</span></code> combinator, which is
+closely related to (and often used with) <code class="docutils literal"><span class="pre">seq</span></code>. Both of these are
+available from the
+<a class="reference external" href="http://hackage.haskell.org/package/parallel">parallel library</a>:</p>
+<div class="highlight-haskell"><div class="highlight"><pre><span></span><span class="kr">infixr</span> <span class="mi">0</span> <span class="p">`</span><span class="n">par</span><span class="p">`</span>
+<span class="kr">infixr</span> <span class="mi">1</span> <span class="p">`</span><span class="n">pseq</span><span class="p">`</span>
+
+<span class="nf">par</span>  <span class="ow">::</span> <span class="n">a</span> <span class="ow">-&gt;</span> <span class="n">b</span> <span class="ow">-&gt;</span> <span class="n">b</span>
+<span class="nf">pseq</span> <span class="ow">::</span> <span class="n">a</span> <span class="ow">-&gt;</span> <span class="n">b</span> <span class="ow">-&gt;</span> <span class="n">b</span>
+</pre></div>
+</div>
+<p>The expression <code class="docutils literal"><span class="pre">(x</span> <span class="pre">`par`</span> <span class="pre">y)</span></code> <em>sparks</em> the evaluation of <code class="docutils literal"><span class="pre">x</span></code> (to weak
+head normal form) and returns <code class="docutils literal"><span class="pre">y</span></code>. Sparks are queued for execution in
+FIFO order, but are not executed immediately. If the runtime detects
+that there is an idle CPU, then it may convert a spark into a real
+thread, and run the new thread on the idle CPU. In this way the
+available parallelism is spread amongst the real CPUs.</p>
+<p>For example, consider the following parallel version of our old nemesis,
+<code class="docutils literal"><span class="pre">nfib</span></code>:</p>
+<div class="highlight-haskell"><div class="highlight"><pre><span></span><span class="kr">import</span> <span class="nn">Control.Parallel</span>
+
+<span class="nf">nfib</span> <span class="ow">::</span> <span class="kt">Int</span> <span class="ow">-&gt;</span> <span class="kt">Int</span>
+<span class="nf">nfib</span> <span class="n">n</span> <span class="o">|</span> <span class="n">n</span> <span class="o">&lt;=</span> <span class="mi">1</span> <span class="ow">=</span> <span class="mi">1</span>
+       <span class="o">|</span> <span class="n">otherwise</span> <span class="ow">=</span> <span class="n">par</span> <span class="n">n1</span> <span class="p">(</span><span class="n">pseq</span> <span class="n">n2</span> <span class="p">(</span><span class="n">n1</span> <span class="o">+</span> <span class="n">n2</span> <span class="o">+</span> <span class="mi">1</span><span class="p">))</span>
+                     <span class="kr">where</span> <span class="n">n1</span> <span class="ow">=</span> <span class="n">nfib</span> <span class="p">(</span><span class="n">n</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+                           <span class="n">n2</span> <span class="ow">=</span> <span class="n">nfib</span> <span class="p">(</span><span class="n">n</span><span class="o">-</span><span class="mi">2</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>For values of <code class="docutils literal"><span class="pre">n</span></code> greater than 1, we use <code class="docutils literal"><span class="pre">par</span></code> to spark a thread to
+evaluate <code class="docutils literal"><span class="pre">nfib</span> <span class="pre">(n-1)</span></code>, and then we use <code class="docutils literal"><span class="pre">pseq</span></code> to force the parent
+thread to evaluate <code class="docutils literal"><span class="pre">nfib</span> <span class="pre">(n-2)</span></code> before going on to add together these
+two subexpressions. In this divide-and-conquer approach, we only spark a
+new thread for one branch of the computation (leaving the parent to
+evaluate the other branch). Also, we must use <code class="docutils literal"><span class="pre">pseq</span></code> to ensure that
+the parent will evaluate <code class="docutils literal"><span class="pre">n2</span></code> <em>before</em> <code class="docutils literal"><span class="pre">n1</span></code> in the expression
+<code class="docutils literal"><span class="pre">(n1</span> <span class="pre">+</span> <span class="pre">n2</span> <span class="pre">+</span> <span class="pre">1)</span></code>. It is not sufficient to reorder the expression as
+<code class="docutils literal"><span class="pre">(n2</span> <span class="pre">+</span> <span class="pre">n1</span> <span class="pre">+</span> <span class="pre">1)</span></code>, because the compiler may not generate code to
+evaluate the addends from left to right.</p>
+<p>Note that we use <code class="docutils literal"><span class="pre">pseq</span></code> rather than <code class="docutils literal"><span class="pre">seq</span></code>. The two are almost
+equivalent, but differ in their runtime behaviour in a subtle way:
+<code class="docutils literal"><span class="pre">seq</span></code> can evaluate its arguments in either order, but <code class="docutils literal"><span class="pre">pseq</span></code> is
+required to evaluate its first argument before its second, which makes
+it more suitable for controlling the evaluation order in conjunction
+with <code class="docutils literal"><span class="pre">par</span></code>.</p>
+<p>When using <code class="docutils literal"><span class="pre">par</span></code>, the general rule of thumb is that the sparked
+computation should be required at a later time, but not too soon. Also,
+the sparked computation should not be too small, otherwise the cost of
+forking it in parallel will be too large relative to the amount of
+parallelism gained. Getting these factors right is tricky in practice.</p>
+<p>It is possible to glean a little information about how well <code class="docutils literal"><span class="pre">par</span></code> is
+working from the runtime statistics; see <a class="reference internal" href="runtime_control.html#rts-options-gc"><span class="std std-ref">RTS options to control the garbage collector</span></a>.</p>
+<p>More sophisticated combinators for expressing parallelism are available
+from the <code class="docutils literal"><span class="pre">Control.Parallel.Strategies</span></code> module in the <a class="reference external" href="http://hackage.haskell.org/package/parallel">parallel
+package</a>. This module
+builds functionality around <code class="docutils literal"><span class="pre">par</span></code>, expressing more elaborate patterns
+of parallel computation, such as parallel <code class="docutils literal"><span class="pre">map</span></code>.</p>
+</div>
+<div class="section" id="data-parallel-haskell">
+<span id="dph"></span><h2>10.38.5. Data Parallel Haskell<a class="headerlink" href="#data-parallel-haskell" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>GHC includes experimental support for Data Parallel Haskell (DPH). This
+code is highly unstable and is only provided as a technology preview.
+More information can be found on the corresponding
+<a class="reference external" href="http://www.haskell.org/haskellwiki/GHC/Data_Parallel_Haskell">DPH wiki page</a>.</p>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>ナビゲーション</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="総合索引"
+             >索引</a></li>
+        <li class="right" >
+          <a href="safe_haskell.html" title="10.39. Safe Haskell"
+             >次へ</a> |</li>
+        <li class="right" >
+          <a href="glasgow_exts.html" title="10.1. Language options"
+             >前へ</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">GHC 8.4.3 User&#39;s Guide</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="lang.html" >10. GHC Language Features</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2015, GHC Team.
+      このドキュメントは <a href="http://sphinx-doc.org/">Sphinx</a> 1.6.7 で生成しました。
+    </div>
+  </body>
+</html>

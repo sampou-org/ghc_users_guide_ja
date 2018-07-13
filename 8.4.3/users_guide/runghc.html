@@ -1,0 +1,180 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="ja">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>6. Using runghc &#8212; Glasgow Haskell Compiler 8.4.3 User&#39;s Guide</title>
+    <link rel="stylesheet" href="_static/ghc-theme.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '8.4.3',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/translations.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js"></script>
+    <link rel="search" type="application/opensearchdescription+xml"
+          title="Glasgow Haskell Compiler 8.4.3 User&#39;s Guide 内を検索"
+          href="_static/opensearch.xml"/>
+    <link rel="index" title="索引" href="genindex.html" />
+    <link rel="search" title="検索" href="search.html" />
+    <link rel="next" title="7. Using GHC" href="usage.html" />
+    <link rel="prev" title="5. Using GHCi" href="ghci.html" /> 
+  </head>
+  <body>
+<div class="logo">
+    <h1><a href="index.html">Glasgow Haskell Compiler User's Guide</a></h1>
+</div>
+
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>ナビゲーション</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="総合索引"
+             accesskey="I">索引</a></li>
+        <li class="right" >
+          <a href="usage.html" title="7. Using GHC"
+             accesskey="N">次へ</a> |</li>
+        <li class="right" >
+          <a href="ghci.html" title="5. Using GHCi"
+             accesskey="P">前へ</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">GHC 8.4.3 User&#39;s Guide</a> &#187;</li> 
+      </ul>
+    </div>
+
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">目次</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">6. Using runghc</a><ul>
+<li><a class="reference internal" href="#usage">6.1. Usage</a></li>
+<li><a class="reference internal" href="#runghc-flags">6.2. runghc flags</a></li>
+<li><a class="reference internal" href="#ghc-flags">6.3. GHC Flags</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>前のトピックへ</h4>
+  <p class="topless"><a href="ghci.html"
+                        title="前の章へ">5. Using GHCi</a></p>
+  <h4>次のトピックへ</h4>
+  <p class="topless"><a href="usage.html"
+                        title="次の章へ">7. Using GHC</a></p>
+  <div role="note" aria-label="source link">
+    <h3>このページ</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/runghc.rst.txt"
+            rel="nofollow">ソースコードを表示</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>クイック検索</h3>
+    <form class="search" action="search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="検索" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="using-runghc">
+<span id="runghc"></span><h1>6. Using runghc<a class="headerlink" href="#using-runghc" title="このヘッドラインへのパーマリンク">¶</a></h1>
+<p id="index-0"><code class="docutils literal"><span class="pre">runghc</span></code> allows you to run Haskell programs without first having to
+compile them.</p>
+<div class="section" id="usage">
+<span id="runghc-introduction"></span><h2>6.1. Usage<a class="headerlink" href="#usage" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>The <code class="docutils literal"><span class="pre">runghc</span></code> command-line looks like:</p>
+<div class="highlight-none"><div class="highlight"><pre><span></span>runghc [runghc flags] [GHC flags] module [program args]
+</pre></div>
+</div>
+<p>Any flags not recognized by runghc are automatically passed to GHC.
+If a flag is recognized by both runghc and GHC but you want to
+pass it to GHC then you can place it after a <code class="docutils literal"><span class="pre">--</span></code> separator. Flags after the
+separator are treated as GHC only flags. Alternatively you can use the runghc
+option <code class="docutils literal"><span class="pre">--ghc-arg=&lt;arg&gt;</span></code> to pass any flag or argument directly to GHC.</p>
+<p><code class="docutils literal"><span class="pre">module</span></code> could be a Haskell source filename with or without the extension.
+If for some reason the filename starts with a <code class="docutils literal"><span class="pre">-</span></code> you can use a second
+<code class="docutils literal"><span class="pre">--</span></code> to indicate the end of flags. Anything following a second
+<code class="docutils literal"><span class="pre">--</span></code> will be considered a program file or module name followed by its
+arguments. For example:</p>
+<ul class="simple">
+<li><code class="docutils literal"><span class="pre">runghc</span> <span class="pre">--</span> <span class="pre">--</span> <span class="pre">-hello.hs</span></code></li>
+</ul>
+</div>
+<div class="section" id="runghc-flags">
+<h2>6.2. runghc flags<a class="headerlink" href="#runghc-flags" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>runghc accepts the following flags:</p>
+<ul class="simple">
+<li><code class="docutils literal"><span class="pre">-f</span> <span class="pre">/path/to/ghc</span></code>: tell runghc the path of GHC executable to use to run the program. By default runghc will search for GHC in the directories in the system search path.</li>
+<li><code class="docutils literal"><span class="pre">--ghc-arg=&lt;arg&gt;</span></code>: Pass an option or argument to GHC</li>
+<li><code class="docutils literal"><span class="pre">--help</span></code>: print usage information.</li>
+<li><code class="docutils literal"><span class="pre">--version</span></code>: print version information.</li>
+</ul>
+</div>
+<div class="section" id="ghc-flags">
+<h2>6.3. GHC Flags<a class="headerlink" href="#ghc-flags" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>As discussed earlier, use <code class="docutils literal"><span class="pre">--</span></code> or <code class="docutils literal"><span class="pre">--ghc-arg=&lt;arg&gt;</span></code> to disambiguate GHC
+flags when needed. For example, <code class="docutils literal"><span class="pre">-f</span></code> is recognized by runghc, therefore to
+pass <code class="docutils literal"><span class="pre">-fliberate-case</span></code> to GHC use any of the following:</p>
+<ul class="simple">
+<li><code class="docutils literal"><span class="pre">runghc</span> <span class="pre">--</span> <span class="pre">-fliberate-case</span></code></li>
+<li><code class="docutils literal"><span class="pre">runghc</span> <span class="pre">--ghc-arg=-fliberate-case</span></code></li>
+</ul>
+<p>Note that any non-flag arguments are never passed to GHC. An unused non-flag
+argument will be considered as the name of the program to run. If a GHC flag
+takes an argument use <code class="docutils literal"><span class="pre">--ghc-arg=&lt;arg&gt;</span></code> to pass the argument to GHC.
+For example, if you want to pass <code class="docutils literal"><span class="pre">-package</span> <span class="pre">foo</span></code> to GHC use any of the
+following:</p>
+<ul class="simple">
+<li><code class="docutils literal"><span class="pre">runghc</span> <span class="pre">-package</span> <span class="pre">--ghc-arg=foo</span> <span class="pre">Main.hs</span></code></li>
+<li><code class="docutils literal"><span class="pre">runghc</span> <span class="pre">--ghc-arg=-package</span> <span class="pre">--ghc-arg=foo</span> <span class="pre">Main.hs</span></code></li>
+</ul>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>ナビゲーション</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="総合索引"
+             >索引</a></li>
+        <li class="right" >
+          <a href="usage.html" title="7. Using GHC"
+             >次へ</a> |</li>
+        <li class="right" >
+          <a href="ghci.html" title="5. Using GHCi"
+             >前へ</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">GHC 8.4.3 User&#39;s Guide</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2015, GHC Team.
+      このドキュメントは <a href="http://sphinx-doc.org/">Sphinx</a> 1.6.7 で生成しました。
+    </div>
+  </body>
+</html>

@@ -1,0 +1,1442 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="ja">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>7.3. Optimisation (code improvement) &#8212; Glasgow Haskell Compiler 8.4.3 User&#39;s Guide</title>
+    <link rel="stylesheet" href="_static/ghc-theme.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '8.4.3',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/translations.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js"></script>
+    <link rel="search" type="application/opensearchdescription+xml"
+          title="Glasgow Haskell Compiler 8.4.3 User&#39;s Guide 内を検索"
+          href="_static/opensearch.xml"/>
+    <link rel="index" title="索引" href="genindex.html" />
+    <link rel="search" title="検索" href="search.html" />
+    <link rel="next" title="7.4. Using Concurrent Haskell" href="using-concurrent.html" />
+    <link rel="prev" title="7.2. Warnings and sanity-checking" href="using-warnings.html" /> 
+  </head>
+  <body>
+<div class="logo">
+    <h1><a href="index.html">Glasgow Haskell Compiler User's Guide</a></h1>
+</div>
+
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>ナビゲーション</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="総合索引"
+             accesskey="I">索引</a></li>
+        <li class="right" >
+          <a href="using-concurrent.html" title="7.4. Using Concurrent Haskell"
+             accesskey="N">次へ</a> |</li>
+        <li class="right" >
+          <a href="using-warnings.html" title="7.2. Warnings and sanity-checking"
+             accesskey="P">前へ</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">GHC 8.4.3 User&#39;s Guide</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="usage.html" accesskey="U">7. Using GHC</a> &#187;</li> 
+      </ul>
+    </div>
+
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">目次</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">7.3. Optimisation (code improvement)</a><ul>
+<li><a class="reference internal" href="#o-convenient-packages-of-optimisation-flags">7.3.1. <code class="docutils literal"><span class="pre">-O*</span></code>: convenient “packages” of optimisation flags.</a></li>
+<li><a class="reference internal" href="#f-platform-independent-flags">7.3.2. <code class="docutils literal"><span class="pre">-f*</span></code>: platform-independent flags</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>前のトピックへ</h4>
+  <p class="topless"><a href="using-warnings.html"
+                        title="前の章へ">7.2. Warnings and sanity-checking</a></p>
+  <h4>次のトピックへ</h4>
+  <p class="topless"><a href="using-concurrent.html"
+                        title="次の章へ">7.4. Using Concurrent Haskell</a></p>
+  <div role="note" aria-label="source link">
+    <h3>このページ</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/using-optimisation.rst.txt"
+            rel="nofollow">ソースコードを表示</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>クイック検索</h3>
+    <form class="search" action="search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="検索" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="optimisation-code-improvement">
+<span id="options-optimise"></span><h1>7.3. Optimisation (code improvement)<a class="headerlink" href="#optimisation-code-improvement" title="このヘッドラインへのパーマリンク">¶</a></h1>
+<p id="index-0">The <code class="docutils literal"><span class="pre">-O*</span></code> options specify convenient &quot;packages&quot; of optimisation flags;
+the <code class="docutils literal"><span class="pre">-f*</span></code> options described later on specify <em>individual</em>
+optimisations to be turned on/off; the <code class="docutils literal"><span class="pre">-m*</span></code> options specify
+<em>machine-specific</em> optimisations to be turned on/off.</p>
+<p>Most of these options are boolean and have options to turn them both &quot;on&quot; and
+&quot;off&quot; (beginning with the prefix <code class="docutils literal"><span class="pre">no-</span></code>). For instance, while <code class="docutils literal"><span class="pre">-fspecialise</span></code>
+enables specialisation, <code class="docutils literal"><span class="pre">-fno-specialise</span></code> disables it. When multiple flags for
+the same option appear in the command-line they are evaluated from left to
+right. For instance, <code class="docutils literal"><span class="pre">-fno-specialise</span> <span class="pre">-fspecialise</span></code> will enable
+specialisation.</p>
+<p>It is important to note that the <code class="docutils literal"><span class="pre">-O*</span></code> flags are roughly equivalent to
+combinations of <code class="docutils literal"><span class="pre">-f*</span></code> flags. For this reason, the effect of the
+<code class="docutils literal"><span class="pre">-O*</span></code> and <code class="docutils literal"><span class="pre">-f*</span></code> flags is dependent upon the order in which they
+occur on the command line.</p>
+<p>For instance, take the example of <code class="docutils literal"><span class="pre">-fno-specialise</span> <span class="pre">-O1</span></code>. Despite the
+<code class="docutils literal"><span class="pre">-fno-specialise</span></code> appearing in the command line, specialisation will
+still be enabled. This is the case as <code class="docutils literal"><span class="pre">-O1</span></code> implies <code class="docutils literal"><span class="pre">-fspecialise</span></code>,
+overriding the previous flag. By contrast, <code class="docutils literal"><span class="pre">-O1</span> <span class="pre">-fno-specialise</span></code> will
+compile without specialisation, as one would expect.</p>
+<div class="section" id="o-convenient-packages-of-optimisation-flags">
+<span id="optimise-pkgs"></span><h2>7.3.1. <code class="docutils literal"><span class="pre">-O*</span></code>: convenient “packages” of optimisation flags.<a class="headerlink" href="#o-convenient-packages-of-optimisation-flags" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>There are <em>many</em> options that affect the quality of code produced by
+GHC. Most people only have a general goal, something like &quot;Compile
+quickly&quot; or &quot;Make my program run like greased lightning.&quot; The following
+&quot;packages&quot; of optimisations (or lack thereof) should suffice.</p>
+<p>Note that higher optimisation levels cause more cross-module
+optimisation to be performed, which can have an impact on how much of
+your program needs to be recompiled when you change something. This is
+one reason to stick to no-optimisation when developing code.</p>
+<p><strong>No ``-O*``-type option specified:</strong> This is taken to mean “Please
+compile quickly; I'm not over-bothered about compiled-code quality.”
+So, for example, <code class="docutils literal"><span class="pre">ghc</span> <span class="pre">-c</span> <span class="pre">Foo.hs</span></code></p>
+<dl class="ghc-flag">
+<dt id="ghc-flag--O0">
+<code class="descname">-O0</code><a class="headerlink" href="#ghc-flag--O0" title="この定義へのパーマリンク">¶</a></dt>
+<dd><p>Means &quot;turn off all optimisation&quot;, reverting to the same settings as
+if no <code class="docutils literal"><span class="pre">-O</span></code> options had been specified. Saying <code class="docutils literal"><span class="pre">-O0</span></code> can be
+useful if e.g. <code class="docutils literal"><span class="pre">make</span></code> has inserted a <code class="docutils literal"><span class="pre">-O</span></code> on the command line
+already.</p>
+</dd></dl>
+
+<dl class="ghc-flag">
+<dt id="ghc-flag--O">
+<code class="descname">-O</code><a class="headerlink" href="#ghc-flag--O" title="この定義へのパーマリンク">¶</a></dt>
+<dt id="ghc-flag--O1">
+<code class="descname">-O1</code><a class="headerlink" href="#ghc-flag--O1" title="この定義へのパーマリンク">¶</a></dt>
+<dd><p id="index-1">Means: &quot;Generate good-quality code without taking too long about
+it.&quot; Thus, for example: <code class="docutils literal"><span class="pre">ghc</span> <span class="pre">-c</span> <span class="pre">-O</span> <span class="pre">Main.lhs</span></code></p>
+</dd></dl>
+
+<dl class="ghc-flag">
+<dt id="ghc-flag--O2">
+<code class="descname">-O2</code><a class="headerlink" href="#ghc-flag--O2" title="この定義へのパーマリンク">¶</a></dt>
+<dd><p id="index-2">Means: &quot;Apply every non-dangerous optimisation, even if it means
+significantly longer compile times.&quot;</p>
+<p>The avoided &quot;dangerous&quot; optimisations are those that can make
+runtime or space <em>worse</em> if you're unlucky. They are normally turned
+on or off individually.</p>
+</dd></dl>
+
+<dl class="ghc-flag">
+<dt id="ghc-flag--Odph">
+<code class="descname">-Odph</code><a class="headerlink" href="#ghc-flag--Odph" title="この定義へのパーマリンク">¶</a></dt>
+<dd><p id="index-3">Enables all <code class="docutils literal"><span class="pre">-O2</span></code> optimisation, sets
+<code class="docutils literal"><span class="pre">-fmax-simplifier-iterations=20</span></code> and <code class="docutils literal"><span class="pre">-fsimplifier-phases=3</span></code>.
+Designed for use with <a class="reference internal" href="parallel.html#dph"><span class="std std-ref">Data Parallel Haskell (DPH)</span></a>.</p>
+</dd></dl>
+
+<p>We don't use a <code class="docutils literal"><span class="pre">-O*</span></code> flag for day-to-day work. We use <code class="docutils literal"><span class="pre">-O</span></code> to get
+respectable speed; e.g., when we want to measure something. When we want
+to go for broke, we tend to use <code class="docutils literal"><span class="pre">-O2</span></code> (and we go for lots of coffee
+breaks).</p>
+<p>The easiest way to see what <code class="docutils literal"><span class="pre">-O</span></code> (etc.) “really mean” is to run with
+<a class="reference internal" href="using.html#ghc-flag--v"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-v</span></code></a>, then stand back in amazement.</p>
+</div>
+<div class="section" id="f-platform-independent-flags">
+<span id="options-f"></span><h2>7.3.2. <code class="docutils literal"><span class="pre">-f*</span></code>: platform-independent flags<a class="headerlink" href="#f-platform-independent-flags" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p id="index-4">These flags turn on and off individual optimisations. Flags marked as
+on by default are enabled by <code class="docutils literal"><span class="pre">-O</span></code>, and as such you shouldn't
+need to set any of them explicitly. A flag <code class="docutils literal"><span class="pre">-fwombat</span></code> can be negated
+by saying <code class="docutils literal"><span class="pre">-fno-wombat</span></code>.</p>
+<dl class="ghc-flag">
+<dt id="ghc-flag--fcase-merge">
+<code class="descname">-fcase-merge</code><a class="headerlink" href="#ghc-flag--fcase-merge" title="この定義へのパーマリンク">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Default:</th><td class="field-body">on</td>
+</tr>
+</tbody>
+</table>
+<p>Merge immediately-nested case expressions that scrutinise the same variable.
+For example,</p>
+<div class="highlight-haskell"><div class="highlight"><pre><span></span><span class="kr">case</span> <span class="n">x</span> <span class="kr">of</span>
+   <span class="kt">Red</span> <span class="ow">-&gt;</span> <span class="n">e1</span>
+   <span class="kr">_</span>   <span class="ow">-&gt;</span> <span class="kr">case</span> <span class="n">x</span> <span class="kr">of</span>
+            <span class="kt">Blue</span> <span class="ow">-&gt;</span> <span class="n">e2</span>
+            <span class="kt">Green</span> <span class="ow">-&gt;</span> <span class="n">e3</span>
+</pre></div>
+</div>
+<p>Is transformed to,</p>
+<div class="highlight-haskell"><div class="highlight"><pre><span></span><span class="kr">case</span> <span class="n">x</span> <span class="kr">of</span>
+   <span class="kt">Red</span> <span class="ow">-&gt;</span> <span class="n">e1</span>
+   <span class="kt">Blue</span> <span class="ow">-&gt;</span> <span class="n">e2</span>
+   <span class="kt">Green</span> <span class="ow">-&gt;</span> <span class="n">e2</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="ghc-flag">
+<dt id="ghc-flag--fcase-folding">
+<code class="descname">-fcase-folding</code><a class="headerlink" href="#ghc-flag--fcase-folding" title="この定義へのパーマリンク">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Default:</th><td class="field-body">on</td>
+</tr>
+</tbody>
+</table>
+<p>Allow constant folding in case expressions that scrutinise some primops:
+For example,</p>
+<div class="highlight-haskell"><div class="highlight"><pre><span></span><span class="kr">case</span> <span class="n">x</span> <span class="p">`</span><span class="n">minusWord</span><span class="o">#</span><span class="p">`</span> <span class="mi">10</span><span class="o">##</span> <span class="kr">of</span>
+   <span class="mi">10</span><span class="o">##</span> <span class="ow">-&gt;</span> <span class="n">e1</span>
+   <span class="mi">20</span><span class="o">##</span> <span class="ow">-&gt;</span> <span class="n">e2</span>
+   <span class="n">v</span>    <span class="ow">-&gt;</span> <span class="n">e3</span>
+</pre></div>
+</div>
+<p>Is transformed to,</p>
+<div class="highlight-haskell"><div class="highlight"><pre><span></span><span class="kr">case</span> <span class="n">x</span> <span class="kr">of</span>
+   <span class="mi">20</span><span class="o">##</span> <span class="ow">-&gt;</span> <span class="n">e1</span>
+   <span class="mi">30</span><span class="o">##</span> <span class="ow">-&gt;</span> <span class="n">e2</span>
+   <span class="kr">_</span>    <span class="ow">-&gt;</span> <span class="kr">let</span> <span class="n">v</span> <span class="ow">=</span> <span class="n">x</span> <span class="p">`</span><span class="n">minusWord</span><span class="o">#</span><span class="p">`</span> <span class="mi">10</span><span class="o">##</span> <span class="kr">in</span> <span class="n">e3</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="ghc-flag">
+<dt id="ghc-flag--fcall-arity">
+<code class="descname">-fcall-arity</code><a class="headerlink" href="#ghc-flag--fcall-arity" title="この定義へのパーマリンク">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Default:</th><td class="field-body">on</td>
+</tr>
+</tbody>
+</table>
+<p>Enable call-arity analysis.</p>
+</dd></dl>
+
+<dl class="ghc-flag">
+<dt id="ghc-flag--fexitification">
+<code class="descname">-fexitification</code><a class="headerlink" href="#ghc-flag--fexitification" title="この定義へのパーマリンク">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Default:</th><td class="field-body">on</td>
+</tr>
+</tbody>
+</table>
+<p>Enables the floating of exit paths out of recursive functions.</p>
+</dd></dl>
+
+<dl class="ghc-flag">
+<dt id="ghc-flag--fcmm-elim-common-blocks">
+<code class="descname">-fcmm-elim-common-blocks</code><a class="headerlink" href="#ghc-flag--fcmm-elim-common-blocks" title="この定義へのパーマリンク">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Default:</th><td class="field-body">on</td>
+</tr>
+</tbody>
+</table>
+<p>Enables the common block elimination optimisation
+in the code generator. This optimisation attempts to find identical
+Cmm blocks and eliminate the duplicates.</p>
+</dd></dl>
+
+<dl class="ghc-flag">
+<dt id="ghc-flag--fcmm-sink">
+<code class="descname">-fcmm-sink</code><a class="headerlink" href="#ghc-flag--fcmm-sink" title="この定義へのパーマリンク">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Default:</th><td class="field-body">on</td>
+</tr>
+</tbody>
+</table>
+<p>Enables the sinking pass in the code generator.
+This optimisation attempts to find identical Cmm blocks and
+eliminate the duplicates attempts to move variable bindings closer
+to their usage sites. It also inlines simple expressions like
+literals or registers.</p>
+</dd></dl>
+
+<dl class="ghc-flag">
+<dt id="ghc-flag--fcpr-anal">
+<code class="descname">-fcpr-anal</code><a class="headerlink" href="#ghc-flag--fcpr-anal" title="この定義へのパーマリンク">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Default:</th><td class="field-body">on</td>
+</tr>
+</tbody>
+</table>
+<p>Turn on CPR analysis in the demand analyser.</p>
+</dd></dl>
+
+<dl class="ghc-flag">
+<dt id="ghc-flag--fcse">
+<code class="descname">-fcse</code><a class="headerlink" href="#ghc-flag--fcse" title="この定義へのパーマリンク">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Default:</th><td class="field-body">on</td>
+</tr>
+</tbody>
+</table>
+<p>Enables the common-sub-expression elimination
+optimisation. Switching this off can be useful if you have some
+<code class="docutils literal"><span class="pre">unsafePerformIO</span></code> expressions that you don't want commoned-up.</p>
+</dd></dl>
+
+<dl class="ghc-flag">
+<dt id="ghc-flag--fstg-cse">
+<code class="descname">-fstg-cse</code><a class="headerlink" href="#ghc-flag--fstg-cse" title="この定義へのパーマリンク">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Default:</th><td class="field-body">on</td>
+</tr>
+</tbody>
+</table>
+<p>Enables the common-sub-expression elimination optimisation on the STG
+intermediate language, where it is able to common up some subexpressions
+that differ in their types, but not their represetation.</p>
+</dd></dl>
+
+<dl class="ghc-flag">
+<dt id="ghc-flag--fdicts-cheap">
+<code class="descname">-fdicts-cheap</code><a class="headerlink" href="#ghc-flag--fdicts-cheap" title="この定義へのパーマリンク">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Default:</th><td class="field-body">off</td>
+</tr>
+</tbody>
+</table>
+<p>A very experimental flag that makes dictionary-valued expressions
+seem cheap to the optimiser.</p>
+</dd></dl>
+
+<dl class="ghc-flag">
+<dt id="ghc-flag--fdicts-strict">
+<code class="descname">-fdicts-strict</code><a class="headerlink" href="#ghc-flag--fdicts-strict" title="この定義へのパーマリンク">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Default:</th><td class="field-body">off</td>
+</tr>
+</tbody>
+</table>
+<p>Make dictionaries strict.</p>
+</dd></dl>
+
+<dl class="ghc-flag">
+<dt id="ghc-flag--fdmd-tx-dict-sel">
+<code class="descname">-fdmd-tx-dict-sel</code><a class="headerlink" href="#ghc-flag--fdmd-tx-dict-sel" title="この定義へのパーマリンク">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Default:</th><td class="field-body">on</td>
+</tr>
+</tbody>
+</table>
+<p>Use a special demand transformer for dictionary selectors.</p>
+</dd></dl>
+
+<dl class="ghc-flag">
+<dt id="ghc-flag--fdo-eta-reduction">
+<code class="descname">-fdo-eta-reduction</code><a class="headerlink" href="#ghc-flag--fdo-eta-reduction" title="この定義へのパーマリンク">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Default:</th><td class="field-body">on</td>
+</tr>
+</tbody>
+</table>
+<p>Eta-reduce lambda expressions, if doing so gets rid of a whole group of
+lambdas.</p>
+</dd></dl>
+
+<dl class="ghc-flag">
+<dt id="ghc-flag--fdo-lambda-eta-expansion">
+<code class="descname">-fdo-lambda-eta-expansion</code><a class="headerlink" href="#ghc-flag--fdo-lambda-eta-expansion" title="この定義へのパーマリンク">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Default:</th><td class="field-body">on</td>
+</tr>
+</tbody>
+</table>
+<p>Eta-expand let-bindings to increase their arity.</p>
+</dd></dl>
+
+<dl class="ghc-flag">
+<dt id="ghc-flag--feager-blackholing">
+<code class="descname">-feager-blackholing</code><a class="headerlink" href="#ghc-flag--feager-blackholing" title="この定義へのパーマリンク">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Default:</th><td class="field-body">off</td>
+</tr>
+</tbody>
+</table>
+<p>Usually GHC black-holes a thunk only when it switches threads. This
+flag makes it do so as soon as the thunk is entered. See <a class="reference external" href="http://community.haskell.org/~simonmar/papers/multiproc.pdf">Haskell on
+a shared-memory
+multiprocessor</a>.</p>
+<p>See <a class="reference internal" href="using-concurrent.html#parallel-compile-options"><span class="std std-ref">Compile-time options for SMP parallelism</span></a> for a dicussion on its use.</p>
+</dd></dl>
+
+<dl class="ghc-flag">
+<dt id="ghc-flag--fexcess-precision">
+<code class="descname">-fexcess-precision</code><a class="headerlink" href="#ghc-flag--fexcess-precision" title="この定義へのパーマリンク">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Default:</th><td class="field-body">off</td>
+</tr>
+</tbody>
+</table>
+<p>When this option is given, intermediate floating point values can
+have a <em>greater</em> precision/range than the final type. Generally this
+is a good thing, but some programs may rely on the exact
+precision/range of <code class="docutils literal"><span class="pre">Float</span></code>/<code class="docutils literal"><span class="pre">Double</span></code> values and should not use
+this option for their compilation.</p>
+<p>Note that the 32-bit x86 native code generator only supports
+excess-precision mode, so neither <code class="docutils literal"><span class="pre">-fexcess-precision</span></code> nor
+<code class="docutils literal"><span class="pre">-fno-excess-precision</span></code> has any effect. This is a known bug, see
+<a class="reference internal" href="bugs.html#bugs-ghc"><span class="std std-ref">Bugs in GHC</span></a>.</p>
+</dd></dl>
+
+<dl class="ghc-flag">
+<dt id="ghc-flag--fexpose-all-unfoldings">
+<code class="descname">-fexpose-all-unfoldings</code><a class="headerlink" href="#ghc-flag--fexpose-all-unfoldings" title="この定義へのパーマリンク">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Default:</th><td class="field-body">off</td>
+</tr>
+</tbody>
+</table>
+<p>An experimental flag to expose all unfoldings, even for very large
+or recursive functions. This allows for all functions to be inlined
+while usually GHC would avoid inlining larger functions.</p>
+</dd></dl>
+
+<dl class="ghc-flag">
+<dt id="ghc-flag--ffloat-in">
+<code class="descname">-ffloat-in</code><a class="headerlink" href="#ghc-flag--ffloat-in" title="この定義へのパーマリンク">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Default:</th><td class="field-body">on</td>
+</tr>
+</tbody>
+</table>
+<p>Float let-bindings inwards, nearer their binding
+site. See <a class="reference external" href="http://research.microsoft.com/en-us/um/people/simonpj/papers/float.ps.gz">Let-floating: moving bindings to give faster programs
+(ICFP'96)</a>.</p>
+<p>This optimisation moves let bindings closer to their use site. The
+benefit here is that this may avoid unnecessary allocation if the
+branch the let is now on is never executed. It also enables other
+optimisation passes to work more effectively as they have more
+information locally.</p>
+<p>This optimisation isn't always beneficial though (so GHC applies
+some heuristics to decide when to apply it). The details get
+complicated but a simple example is that it is often beneficial to
+move let bindings outwards so that multiple let bindings can be
+grouped into a larger single let binding, effectively batching their
+allocation and helping the garbage collector and allocator.</p>
+</dd></dl>
+
+<dl class="ghc-flag">
+<dt id="ghc-flag--ffull-laziness">
+<code class="descname">-ffull-laziness</code><a class="headerlink" href="#ghc-flag--ffull-laziness" title="この定義へのパーマリンク">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Default:</th><td class="field-body">on</td>
+</tr>
+</tbody>
+</table>
+<p>Run the full laziness optimisation (also known as
+let-floating), which floats let-bindings outside enclosing lambdas,
+in the hope they will be thereby be computed less often. See
+<a class="reference external" href="http://research.microsoft.com/en-us/um/people/simonpj/papers/float.ps.gz">Let-floating: moving bindings to give faster programs
+(ICFP'96)</a>.
+Full laziness increases sharing, which can lead to increased memory
+residency.</p>
+<div class="admonition note">
+<p class="first admonition-title">注釈</p>
+<p class="last">GHC doesn't implement complete full-laziness. When
+optimisation in on, and <code class="docutils literal"><span class="pre">-fno-full-laziness</span></code> is not given, some
+transformations that increase sharing are performed, such as
+extracting repeated computations from a loop. These are the same
+transformations that a fully lazy implementation would do, the
+difference is that GHC doesn't consistently apply full-laziness, so
+don't rely on it.</p>
+</div>
+</dd></dl>
+
+<dl class="ghc-flag">
+<dt id="ghc-flag--ffun-to-thunk">
+<code class="descname">-ffun-to-thunk</code><a class="headerlink" href="#ghc-flag--ffun-to-thunk" title="この定義へのパーマリンク">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Default:</th><td class="field-body">off</td>
+</tr>
+</tbody>
+</table>
+<p>Worker-wrapper removes unused arguments, but usually we do not
+remove them all, lest it turn a function closure into a thunk,
+thereby perhaps creating a space leak and/or disrupting inlining.
+This flag allows worker/wrapper to remove <em>all</em> value lambdas.</p>
+</dd></dl>
+
+<dl class="ghc-flag">
+<dt id="ghc-flag--fignore-asserts">
+<code class="descname">-fignore-asserts</code><a class="headerlink" href="#ghc-flag--fignore-asserts" title="この定義へのパーマリンク">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Default:</th><td class="field-body">on</td>
+</tr>
+</tbody>
+</table>
+<p>Causes GHC to ignore uses of the function <code class="docutils literal"><span class="pre">Exception.assert</span></code> in source
+code (in other words, rewriting <code class="docutils literal"><span class="pre">Exception.assert</span> <span class="pre">p</span> <span class="pre">e</span></code> to <code class="docutils literal"><span class="pre">e</span></code> (see
+<a class="reference internal" href="glasgow_exts.html#assertions"><span class="std std-ref">Assertions</span></a>).</p>
+</dd></dl>
+
+<dl class="ghc-flag">
+<dt id="ghc-flag--fignore-interface-pragmas">
+<code class="descname">-fignore-interface-pragmas</code><a class="headerlink" href="#ghc-flag--fignore-interface-pragmas" title="この定義へのパーマリンク">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Default:</th><td class="field-body">off</td>
+</tr>
+</tbody>
+</table>
+<p>Tells GHC to ignore all inessential information when reading
+interface files. That is, even if <code class="file docutils literal"><span class="pre">M.hi</span></code> contains unfolding or
+strictness information for a function, GHC will ignore that
+information.</p>
+</dd></dl>
+
+<dl class="ghc-flag">
+<dt id="ghc-flag--flate-dmd-anal">
+<code class="descname">-flate-dmd-anal</code><a class="headerlink" href="#ghc-flag--flate-dmd-anal" title="この定義へのパーマリンク">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Default:</th><td class="field-body">off</td>
+</tr>
+</tbody>
+</table>
+<p>Run demand analysis again, at the end of the simplification
+pipeline. We found some opportunities for discovering strictness
+that were not visible earlier; and optimisations like
+<a class="reference internal" href="#ghc-flag--fspec-constr"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-fspec-constr</span></code></a> can create functions with unused arguments which
+are eliminated by late demand analysis. Improvements are modest, but
+so is the cost. See notes on the <a class="reference external" href="https://ghc.haskell.org/trac/ghc/wiki/LateDmd">Trac wiki page</a>.</p>
+</dd></dl>
+
+<dl class="ghc-flag">
+<dt id="ghc-flag--fliberate-case">
+<code class="descname">-fliberate-case</code><a class="headerlink" href="#ghc-flag--fliberate-case" title="この定義へのパーマリンク">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Default:</th><td class="field-body">off but enabled with <a class="reference internal" href="#ghc-flag--O2"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-O2</span></code></a>.</td>
+</tr>
+</tbody>
+</table>
+<p>Turn on the liberate-case transformation. This unrolls recursive function
+once in its own RHS, to avoid repeated case analysis of free variables. It's
+a bit like the call-pattern specialiser (<a class="reference internal" href="#ghc-flag--fspec-constr"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-fspec-constr</span></code></a>) but for
+free variables rather than arguments.</p>
+</dd></dl>
+
+<dl class="ghc-flag">
+<dt id="ghc-flag--fliberate-case-threshold=⟨n⟩">
+<code class="descname">-fliberate-case-threshold</code><code class="descclassname">=⟨n⟩</code><a class="headerlink" href="#ghc-flag--fliberate-case-threshold=⟨n⟩" title="この定義へのパーマリンク">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Default:</th><td class="field-body">2000</td>
+</tr>
+</tbody>
+</table>
+<p>Set the size threshold for the liberate-case transformation.</p>
+</dd></dl>
+
+<dl class="ghc-flag">
+<dt id="ghc-flag--floopification">
+<code class="descname">-floopification</code><a class="headerlink" href="#ghc-flag--floopification" title="この定義へのパーマリンク">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Default:</th><td class="field-body">on</td>
+</tr>
+</tbody>
+</table>
+<p>When this optimisation is enabled the code generator will turn all
+self-recursive saturated tail calls into local jumps rather than
+function calls.</p>
+</dd></dl>
+
+<dl class="ghc-flag">
+<dt id="ghc-flag--fllvm-pass-vectors-in-regs">
+<code class="descname">-fllvm-pass-vectors-in-regs</code><a class="headerlink" href="#ghc-flag--fllvm-pass-vectors-in-regs" title="この定義へのパーマリンク">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Default:</th><td class="field-body">on</td>
+</tr>
+</tbody>
+</table>
+<p>Instructs GHC to use the platform's native vector registers to pass vector
+arguments during function calls. As with all vector support, this requires
+<a class="reference internal" href="phases.html#ghc-flag--fllvm"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-fllvm</span></code></a>.</p>
+</dd></dl>
+
+<dl class="ghc-flag">
+<dt id="ghc-flag--fmax-inline-alloc-size=⟨n⟩">
+<code class="descname">-fmax-inline-alloc-size</code><code class="descclassname">=⟨n⟩</code><a class="headerlink" href="#ghc-flag--fmax-inline-alloc-size=⟨n⟩" title="この定義へのパーマリンク">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Default:</th><td class="field-body">128</td>
+</tr>
+</tbody>
+</table>
+<p>Set the maximum size of inline array allocations to n bytes.
+GHC will allocate non-pinned arrays of statically known size in the current
+nursery block if they're no bigger than n bytes, ignoring GC overheap. This
+value should be quite a bit smaller than the block size (typically: 4096).</p>
+</dd></dl>
+
+<dl class="ghc-flag">
+<dt id="ghc-flag--fmax-inline-memcpy-insns=⟨n⟩">
+<code class="descname">-fmax-inline-memcpy-insns</code><code class="descclassname">=⟨n⟩</code><a class="headerlink" href="#ghc-flag--fmax-inline-memcpy-insns=⟨n⟩" title="この定義へのパーマリンク">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Default:</th><td class="field-body">32</td>
+</tr>
+</tbody>
+</table>
+<p>Inline <code class="docutils literal"><span class="pre">memcpy</span></code> calls if they would generate no more than ⟨n⟩ pseudo-instructions.</p>
+</dd></dl>
+
+<dl class="ghc-flag">
+<dt id="ghc-flag--fmax-inline-memset-insns=⟨n⟩">
+<code class="descname">-fmax-inline-memset-insns</code><code class="descclassname">=⟨n⟩</code><a class="headerlink" href="#ghc-flag--fmax-inline-memset-insns=⟨n⟩" title="この定義へのパーマリンク">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Default:</th><td class="field-body">32</td>
+</tr>
+</tbody>
+</table>
+<p>Inline <code class="docutils literal"><span class="pre">memset</span></code> calls if they would generate no more than n pseudo
+instructions.</p>
+</dd></dl>
+
+<dl class="ghc-flag">
+<dt id="ghc-flag--fmax-relevant-binds=⟨n⟩">
+<code class="descname">-fmax-relevant-binds</code><code class="descclassname">=⟨n⟩</code><a class="headerlink" href="#ghc-flag--fmax-relevant-binds=⟨n⟩" title="この定義へのパーマリンク">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Default:</th><td class="field-body">6</td>
+</tr>
+</tbody>
+</table>
+<p>The type checker sometimes displays a fragment of the type
+environment in error messages, but only up to some maximum number,
+set by this flag. Turning it off with
+<code class="docutils literal"><span class="pre">-fno-max-relevant-bindings</span></code> gives an unlimited number.
+Syntactically top-level bindings are also usually excluded (since
+they may be numerous), but <code class="docutils literal"><span class="pre">-fno-max-relevant-bindings</span></code> includes
+them too.</p>
+</dd></dl>
+
+<dl class="ghc-flag">
+<dt id="ghc-flag--fmax-valid-substitutions=⟨n⟩">
+<code class="descname">-fmax-valid-substitutions</code><code class="descclassname">=⟨n⟩</code><a class="headerlink" href="#ghc-flag--fmax-valid-substitutions=⟨n⟩" title="この定義へのパーマリンク">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Default:</th><td class="field-body">6</td>
+</tr>
+</tbody>
+</table>
+<p>The type checker sometimes displays a list of valid substitutions
+for typed holes in error messages, but only up to some maximum number,
+set by this flag. Turning it off with
+<code class="docutils literal"><span class="pre">-fno-max-valid-substitutions</span></code> gives an unlimited number.</p>
+</dd></dl>
+
+<dl class="ghc-flag">
+<dt id="ghc-flag--fmax-uncovered-patterns=⟨n⟩">
+<code class="descname">-fmax-uncovered-patterns</code><code class="descclassname">=⟨n⟩</code><a class="headerlink" href="#ghc-flag--fmax-uncovered-patterns=⟨n⟩" title="この定義へのパーマリンク">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Default:</th><td class="field-body">4</td>
+</tr>
+</tbody>
+</table>
+<p>Maximum number of unmatched patterns to be shown in warnings generated by
+<a class="reference internal" href="using-warnings.html#ghc-flag--Wincomplete-patterns"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-Wincomplete-patterns</span></code></a> and <a class="reference internal" href="using-warnings.html#ghc-flag--Wincomplete-uni-patterns"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-Wincomplete-uni-patterns</span></code></a>.</p>
+</dd></dl>
+
+<dl class="ghc-flag">
+<dt id="ghc-flag--fmax-simplifier-iterations=⟨n⟩">
+<code class="descname">-fmax-simplifier-iterations</code><code class="descclassname">=⟨n⟩</code><a class="headerlink" href="#ghc-flag--fmax-simplifier-iterations=⟨n⟩" title="この定義へのパーマリンク">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Default:</th><td class="field-body">4</td>
+</tr>
+</tbody>
+</table>
+<p>Sets the maximal number of iterations for the simplifier.</p>
+</dd></dl>
+
+<dl class="ghc-flag">
+<dt id="ghc-flag--fmax-worker-args=⟨n⟩">
+<code class="descname">-fmax-worker-args</code><code class="descclassname">=⟨n⟩</code><a class="headerlink" href="#ghc-flag--fmax-worker-args=⟨n⟩" title="この定義へのパーマリンク">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Default:</th><td class="field-body">10</td>
+</tr>
+</tbody>
+</table>
+<p>If a worker has that many arguments, none will be unpacked anymore.</p>
+</dd></dl>
+
+<dl class="ghc-flag">
+<dt id="ghc-flag--fno-opt-coercion">
+<code class="descname">-fno-opt-coercion</code><a class="headerlink" href="#ghc-flag--fno-opt-coercion" title="この定義へのパーマリンク">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Default:</th><td class="field-body">coercion optimisation enabled.</td>
+</tr>
+</tbody>
+</table>
+<p>Turn off the coercion optimiser.</p>
+</dd></dl>
+
+<dl class="ghc-flag">
+<dt id="ghc-flag--fno-pre-inlining">
+<code class="descname">-fno-pre-inlining</code><a class="headerlink" href="#ghc-flag--fno-pre-inlining" title="この定義へのパーマリンク">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Default:</th><td class="field-body">pre-inlining enabled</td>
+</tr>
+</tbody>
+</table>
+<p>Turn off pre-inlining.</p>
+</dd></dl>
+
+<dl class="ghc-flag">
+<dt id="ghc-flag--fno-state-hack">
+<code class="descname">-fno-state-hack</code><a class="headerlink" href="#ghc-flag--fno-state-hack" title="この定義へのパーマリンク">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Default:</th><td class="field-body">state hack is enabled</td>
+</tr>
+</tbody>
+</table>
+<p>Turn off the &quot;state hack&quot; whereby any lambda with a <code class="docutils literal"><span class="pre">State#</span></code> token
+as argument is considered to be single-entry, hence it is considered
+okay to inline things inside it. This can improve performance of IO
+and ST monad code, but it runs the risk of reducing sharing.</p>
+</dd></dl>
+
+<dl class="ghc-flag">
+<dt id="ghc-flag--fomit-interface-pragmas">
+<code class="descname">-fomit-interface-pragmas</code><a class="headerlink" href="#ghc-flag--fomit-interface-pragmas" title="この定義へのパーマリンク">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Default:</th><td class="field-body">Implied by <a class="reference internal" href="#ghc-flag--O0"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-O0</span></code></a>, otherwise off.</td>
+</tr>
+</tbody>
+</table>
+<p>Tells GHC to omit all inessential information from the interface
+file generated for the module being compiled (say M). This means
+that a module importing M will see only the <em>types</em> of the functions
+that M exports, but not their unfoldings, strictness info, etc.
+Hence, for example, no function exported by M will be inlined into
+an importing module. The benefit is that modules that import M will
+need to be recompiled less often (only when M's exports change their
+type, not when they change their implementation).</p>
+</dd></dl>
+
+<dl class="ghc-flag">
+<dt id="ghc-flag--fomit-yields">
+<code class="descname">-fomit-yields</code><a class="headerlink" href="#ghc-flag--fomit-yields" title="この定義へのパーマリンク">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Default:</th><td class="field-body">yield points enabled</td>
+</tr>
+</tbody>
+</table>
+<p>Tells GHC to omit heap checks when no allocation is
+being performed. While this improves binary sizes by about 5%, it
+also means that threads run in tight non-allocating loops will not
+get preempted in a timely fashion. If it is important to always be
+able to interrupt such threads, you should turn this optimization
+off. Consider also recompiling all libraries with this optimization
+turned off, if you need to guarantee interruptibility.</p>
+</dd></dl>
+
+<dl class="ghc-flag">
+<dt id="ghc-flag--fpedantic-bottoms">
+<code class="descname">-fpedantic-bottoms</code><a class="headerlink" href="#ghc-flag--fpedantic-bottoms" title="この定義へのパーマリンク">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Default:</th><td class="field-body">off</td>
+</tr>
+</tbody>
+</table>
+<p>Make GHC be more precise about its treatment of bottom (but see also
+<a class="reference internal" href="#ghc-flag--fno-state-hack"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-fno-state-hack</span></code></a>). In particular, stop GHC eta-expanding through
+a case expression, which is good for performance, but bad if you are
+using <code class="docutils literal"><span class="pre">seq</span></code> on partial applications.</p>
+</dd></dl>
+
+<dl class="ghc-flag">
+<dt id="ghc-flag--fregs-graph">
+<code class="descname">-fregs-graph</code><a class="headerlink" href="#ghc-flag--fregs-graph" title="この定義へのパーマリンク">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Default:</th><td class="field-body">off due to a performance regression bug (<a class="reference external" href="https://ghc.haskell.org/trac/ghc/ticket/7679">Trac #7679</a>)</td>
+</tr>
+</tbody>
+</table>
+<p><em>Only applies in combination with the native code generator.</em> Use the graph
+colouring register allocator for register allocation in the native code
+generator. By default, GHC uses a simpler, faster linear register allocator.
+The downside being that the linear register allocator usually generates
+worse code.</p>
+<p>Note that the graph colouring allocator is a bit experimental and may fail
+when faced with code with high register pressure <a class="reference external" href="https://ghc.haskell.org/trac/ghc/ticket/8657">Trac #8657</a>.</p>
+</dd></dl>
+
+<dl class="ghc-flag">
+<dt id="ghc-flag--fregs-iterative">
+<code class="descname">-fregs-iterative</code><a class="headerlink" href="#ghc-flag--fregs-iterative" title="この定義へのパーマリンク">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Default:</th><td class="field-body">off</td>
+</tr>
+</tbody>
+</table>
+<p><em>Only applies in combination with the native code generator.</em> Use the
+iterative coalescing graph colouring register allocator for register
+allocation in the native code generator. This is the same register allocator
+as the <a class="reference internal" href="#ghc-flag--fregs-graph"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-fregs-graph</span></code></a> one but also enables iterative coalescing
+during register allocation.</p>
+</dd></dl>
+
+<dl class="ghc-flag">
+<dt id="ghc-flag--fsimplifier-phases=⟨n⟩">
+<code class="descname">-fsimplifier-phases</code><code class="descclassname">=⟨n⟩</code><a class="headerlink" href="#ghc-flag--fsimplifier-phases=⟨n⟩" title="この定義へのパーマリンク">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Default:</th><td class="field-body">2</td>
+</tr>
+</tbody>
+</table>
+<p>Set the number of phases for the simplifier. Ignored with <code class="docutils literal"><span class="pre">-O0</span></code>.</p>
+</dd></dl>
+
+<dl class="ghc-flag">
+<dt id="ghc-flag--fsimpl-tick-factor=⟨n⟩">
+<code class="descname">-fsimpl-tick-factor</code><code class="descclassname">=⟨n⟩</code><a class="headerlink" href="#ghc-flag--fsimpl-tick-factor=⟨n⟩" title="この定義へのパーマリンク">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Default:</th><td class="field-body">100</td>
+</tr>
+</tbody>
+</table>
+<p>GHC's optimiser can diverge if you write rewrite rules
+(<a class="reference internal" href="glasgow_exts.html#rewrite-rules"><span class="std std-ref">Rewrite rules</span></a>) that don't terminate, or (less satisfactorily)
+if you code up recursion through data types (<a class="reference internal" href="bugs.html#bugs-ghc"><span class="std std-ref">Bugs in GHC</span></a>). To
+avoid making the compiler fall into an infinite loop, the optimiser
+carries a &quot;tick count&quot; and stops inlining and applying rewrite rules
+when this count is exceeded. The limit is set as a multiple of the
+program size, so bigger programs get more ticks. The
+<code class="docutils literal"><span class="pre">-fsimpl-tick-factor</span></code> flag lets you change the multiplier. The
+default is 100; numbers larger than 100 give more ticks, and numbers
+smaller than 100 give fewer.</p>
+<p>If the tick-count expires, GHC summarises what simplifier steps it
+has done; you can use <code class="docutils literal"><span class="pre">-fddump-simpl-stats</span></code> to generate a much
+more detailed list. Usually that identifies the loop quite
+accurately, because some numbers are very large.</p>
+</dd></dl>
+
+<dl class="ghc-flag">
+<dt id="ghc-flag--fspec-constr">
+<code class="descname">-fspec-constr</code><a class="headerlink" href="#ghc-flag--fspec-constr" title="この定義へのパーマリンク">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Default:</th><td class="field-body">off but enabled by <a class="reference internal" href="#ghc-flag--O2"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-O2</span></code></a>.</td>
+</tr>
+</tbody>
+</table>
+<p>Turn on call-pattern specialisation; see <a class="reference external" href="https://www.microsoft.com/en-us/research/publication/system-f-with-type-equality-coercions-2/">Call-pattern specialisation for
+Haskell programs</a>.</p>
+<p>This optimisation specializes recursive functions according to their
+argument &quot;shapes&quot;. This is best explained by example so consider:</p>
+<div class="highlight-haskell"><div class="highlight"><pre><span></span><span class="nf">last</span> <span class="ow">::</span> <span class="p">[</span><span class="n">a</span><span class="p">]</span> <span class="ow">-&gt;</span> <span class="n">a</span>
+<span class="nf">last</span> <span class="kt">[]</span> <span class="ow">=</span> <span class="ne">error</span> <span class="s">&quot;last&quot;</span>
+<span class="nf">last</span> <span class="p">(</span><span class="n">x</span> <span class="kt">:</span> <span class="kt">[]</span><span class="p">)</span> <span class="ow">=</span> <span class="n">x</span>
+<span class="nf">last</span> <span class="p">(</span><span class="n">x</span> <span class="kt">:</span> <span class="n">xs</span><span class="p">)</span> <span class="ow">=</span> <span class="n">last</span> <span class="n">xs</span>
+</pre></div>
+</div>
+<p>In this code, once we pass the initial check for an empty list we
+know that in the recursive case this pattern match is redundant. As
+such <code class="docutils literal"><span class="pre">-fspec-constr</span></code> will transform the above code to:</p>
+<div class="highlight-haskell"><div class="highlight"><pre><span></span><span class="nf">last</span> <span class="ow">::</span> <span class="p">[</span><span class="n">a</span><span class="p">]</span> <span class="ow">-&gt;</span> <span class="n">a</span>
+<span class="nf">last</span> <span class="kt">[]</span>       <span class="ow">=</span> <span class="ne">error</span> <span class="s">&quot;last&quot;</span>
+<span class="nf">last</span> <span class="p">(</span><span class="n">x</span> <span class="kt">:</span> <span class="n">xs</span><span class="p">)</span> <span class="ow">=</span> <span class="n">last&#39;</span> <span class="n">x</span> <span class="n">xs</span>
+    <span class="kr">where</span>
+      <span class="n">last&#39;</span> <span class="n">x</span> <span class="kt">[]</span>       <span class="ow">=</span> <span class="n">x</span>
+      <span class="n">last&#39;</span> <span class="n">x</span> <span class="p">(</span><span class="n">y</span> <span class="kt">:</span> <span class="n">ys</span><span class="p">)</span> <span class="ow">=</span> <span class="n">last&#39;</span> <span class="n">y</span> <span class="n">ys</span>
+</pre></div>
+</div>
+<p>As well avoid unnecessary pattern matching it also helps avoid
+unnecessary allocation. This applies when a argument is strict in
+the recursive call to itself but not on the initial entry. As strict
+recursive branch of the function is created similar to the above
+example.</p>
+<p>It is also possible for library writers to instruct GHC to perform
+call-pattern specialisation extremely aggressively. This is
+necessary for some highly optimized libraries, where we may want to
+specialize regardless of the number of specialisations, or the size
+of the code. As an example, consider a simplified use-case from the
+<code class="docutils literal"><span class="pre">vector</span></code> library:</p>
+<div class="highlight-haskell"><div class="highlight"><pre><span></span><span class="kr">import</span> <span class="nn">GHC.Types</span> <span class="p">(</span><span class="kt">SPEC</span><span class="p">(</span><span class="o">..</span><span class="p">))</span>
+
+<span class="nf">foldl</span> <span class="ow">::</span> <span class="p">(</span><span class="n">a</span> <span class="ow">-&gt;</span> <span class="n">b</span> <span class="ow">-&gt;</span> <span class="n">a</span><span class="p">)</span> <span class="ow">-&gt;</span> <span class="n">a</span> <span class="ow">-&gt;</span> <span class="kt">Stream</span> <span class="n">b</span> <span class="ow">-&gt;</span> <span class="n">a</span>
+<span class="cm">{-# INLINE foldl #-}</span>
+<span class="nf">foldl</span> <span class="n">f</span> <span class="n">z</span> <span class="p">(</span><span class="kt">Stream</span> <span class="n">step</span> <span class="n">s</span> <span class="kr">_</span><span class="p">)</span> <span class="ow">=</span> <span class="n">foldl_loop</span> <span class="kt">SPEC</span> <span class="n">z</span> <span class="n">s</span>
+  <span class="kr">where</span>
+    <span class="n">foldl_loop</span> <span class="o">!</span><span class="n">sPEC</span> <span class="n">z</span> <span class="n">s</span> <span class="ow">=</span> <span class="kr">case</span> <span class="n">step</span> <span class="n">s</span> <span class="kr">of</span>
+                            <span class="kt">Yield</span> <span class="n">x</span> <span class="n">s&#39;</span> <span class="ow">-&gt;</span> <span class="n">foldl_loop</span> <span class="n">sPEC</span> <span class="p">(</span><span class="n">f</span> <span class="n">z</span> <span class="n">x</span><span class="p">)</span> <span class="n">s&#39;</span>
+                            <span class="kt">Skip</span>       <span class="ow">-&gt;</span> <span class="n">foldl_loop</span> <span class="n">sPEC</span> <span class="n">z</span> <span class="n">s&#39;</span>
+                            <span class="kt">Done</span>       <span class="ow">-&gt;</span> <span class="n">z</span>
+</pre></div>
+</div>
+<p>Here, after GHC inlines the body of <code class="docutils literal"><span class="pre">foldl</span></code> to a call site, it
+will perform call-pattern specialisation very aggressively on
+<code class="docutils literal"><span class="pre">foldl_loop</span></code> due to the use of <code class="docutils literal"><span class="pre">SPEC</span></code> in the argument of the
+loop body. <code class="docutils literal"><span class="pre">SPEC</span></code> from <code class="docutils literal"><span class="pre">GHC.Types</span></code> is specifically recognised by
+the compiler.</p>
+<p>(NB: it is extremely important you use <code class="docutils literal"><span class="pre">seq</span></code> or a bang pattern on
+the <code class="docutils literal"><span class="pre">SPEC</span></code> argument!)</p>
+<p>In particular, after inlining this will expose <code class="docutils literal"><span class="pre">f</span></code> to the loop
+body directly, allowing heavy specialisation over the recursive
+cases.</p>
+</dd></dl>
+
+<dl class="ghc-flag">
+<dt id="ghc-flag--fspec-constr-keen">
+<code class="descname">-fspec-constr-keen</code><a class="headerlink" href="#ghc-flag--fspec-constr-keen" title="この定義へのパーマリンク">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Default:</th><td class="field-body">off</td>
+</tr>
+</tbody>
+</table>
+<p>If this flag is on, call-pattern specialisation will specialise a call
+<code class="docutils literal"><span class="pre">(f</span> <span class="pre">(Just</span> <span class="pre">x))</span></code> with an explicit constructor argument, even if the argument
+is not scrutinised in the body of the function. This is sometimes
+beneficial; e.g. the argument might be given to some other function
+that can itself be specialised.</p>
+</dd></dl>
+
+<dl class="ghc-flag">
+<dt id="ghc-flag--fspec-constr-count=⟨n⟩">
+<code class="descname">-fspec-constr-count</code><code class="descclassname">=⟨n⟩</code><a class="headerlink" href="#ghc-flag--fspec-constr-count=⟨n⟩" title="この定義へのパーマリンク">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Default:</th><td class="field-body">3</td>
+</tr>
+</tbody>
+</table>
+<p>Set the maximum number of specialisations that will be created for
+any one function by the SpecConstr transformation.</p>
+</dd></dl>
+
+<dl class="ghc-flag">
+<dt id="ghc-flag--fspec-constr-threshold=⟨n⟩">
+<code class="descname">-fspec-constr-threshold</code><code class="descclassname">=⟨n⟩</code><a class="headerlink" href="#ghc-flag--fspec-constr-threshold=⟨n⟩" title="この定義へのパーマリンク">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Default:</th><td class="field-body">2000</td>
+</tr>
+</tbody>
+</table>
+<p>Set the size threshold for the SpecConstr transformation.</p>
+</dd></dl>
+
+<dl class="ghc-flag">
+<dt id="ghc-flag--fspecialise">
+<code class="descname">-fspecialise</code><a class="headerlink" href="#ghc-flag--fspecialise" title="この定義へのパーマリンク">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Default:</th><td class="field-body">on</td>
+</tr>
+</tbody>
+</table>
+<p>Specialise each type-class-overloaded function
+defined in this module for the types at which it is called in this
+module. If <a class="reference internal" href="#ghc-flag--fcross-module-specialise"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-fcross-module-specialise</span></code></a> is set imported functions
+that have an INLINABLE pragma (<a class="reference internal" href="glasgow_exts.html#inlinable-pragma"><span class="std std-ref">INLINABLE pragma</span></a>) will be
+specialised as well.</p>
+</dd></dl>
+
+<dl class="ghc-flag">
+<dt id="ghc-flag--fspecialise-aggressively">
+<code class="descname">-fspecialise-aggressively</code><a class="headerlink" href="#ghc-flag--fspecialise-aggressively" title="この定義へのパーマリンク">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Default:</th><td class="field-body">off</td>
+</tr>
+</tbody>
+</table>
+<p>By default only type class methods and methods marked <code class="docutils literal"><span class="pre">INLINABLE</span></code> or
+<code class="docutils literal"><span class="pre">INLINE</span></code> are specialised. This flag will specialise any overloaded function
+regardless of size if its unfolding is available. This flag is not
+included in any optimisation level as it can massively increase code
+size. It can be used in conjunction with <a class="reference internal" href="#ghc-flag--fexpose-all-unfoldings"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-fexpose-all-unfoldings</span></code></a>
+if you want to ensure all calls are specialised.</p>
+</dd></dl>
+
+<dl class="ghc-flag">
+<dt id="ghc-flag--fcross-module-specialise">
+<code class="descname">-fcross-module-specialise</code><a class="headerlink" href="#ghc-flag--fcross-module-specialise" title="この定義へのパーマリンク">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Default:</th><td class="field-body">on</td>
+</tr>
+</tbody>
+</table>
+<p>Specialise <code class="docutils literal"><span class="pre">INLINABLE</span></code> (<a class="reference internal" href="glasgow_exts.html#inlinable-pragma"><span class="std std-ref">INLINABLE pragma</span></a>)
+type-class-overloaded functions imported from other modules for the types at
+which they are called in this module. Note that specialisation must be
+enabled (by <code class="docutils literal"><span class="pre">-fspecialise</span></code>) for this to have any effect.</p>
+</dd></dl>
+
+<dl class="ghc-flag">
+<dt id="ghc-flag--fsolve-constant-dicts">
+<code class="descname">-fsolve-constant-dicts</code><a class="headerlink" href="#ghc-flag--fsolve-constant-dicts" title="この定義へのパーマリンク">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Default:</th><td class="field-body">on</td>
+</tr>
+</tbody>
+</table>
+<p>When solving constraints, try to eagerly solve
+super classes using available dictionaries.</p>
+<p>For example:</p>
+<div class="highlight-haskell"><div class="highlight"><pre><span></span><span class="kr">class</span> <span class="kt">M</span> <span class="n">a</span> <span class="n">b</span> <span class="kr">where</span> <span class="n">m</span> <span class="ow">::</span> <span class="n">a</span> <span class="ow">-&gt;</span> <span class="n">b</span>
+
+<span class="kr">type</span> <span class="kt">C</span> <span class="n">a</span> <span class="n">b</span> <span class="ow">=</span> <span class="p">(</span><span class="kt">Num</span> <span class="n">a</span><span class="p">,</span> <span class="kt">M</span> <span class="n">a</span> <span class="n">b</span><span class="p">)</span>
+
+<span class="nf">f</span> <span class="ow">::</span> <span class="kt">C</span> <span class="kt">Int</span> <span class="n">b</span> <span class="ow">=&gt;</span> <span class="n">b</span> <span class="ow">-&gt;</span> <span class="kt">Int</span> <span class="ow">-&gt;</span> <span class="kt">Int</span>
+<span class="nf">f</span> <span class="kr">_</span> <span class="n">x</span> <span class="ow">=</span> <span class="n">x</span> <span class="o">+</span> <span class="mi">1</span>
+</pre></div>
+</div>
+<p>The body of <cite>f</cite> requires a <cite>Num Int</cite> instance. We could solve this
+constraint from the context  because we have <cite>C Int b</cite> and that provides us
+a
+solution for <cite>Num Int</cite>. However, we can often produce much better code
+by directly solving for an available <cite>Num Int</cite> dictionary we might have at
+hand. This removes potentially many layers of indirection and crucially
+allows other optimisations to fire as the dictionary will be statically
+known and selector functions can be inlined.</p>
+<p>The optimisation also works for GADTs which bind dictionaries. If we
+statically know which class dictionary we need then we will solve it
+directly rather than indirectly using the one passed in at run time.</p>
+</dd></dl>
+
+<dl class="ghc-flag">
+<dt id="ghc-flag--fstatic-argument-transformation">
+<code class="descname">-fstatic-argument-transformation</code><a class="headerlink" href="#ghc-flag--fstatic-argument-transformation" title="この定義へのパーマリンク">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Default:</th><td class="field-body">off</td>
+</tr>
+</tbody>
+</table>
+<p>Turn on the static argument transformation, which turns a recursive
+function into a non-recursive one with a local recursive loop. See
+Chapter 7 of <a class="reference external" href="http://research.microsoft.com/en-us/um/people/simonpj/papers/santos-thesis.ps.gz">Andre Santos's PhD
+thesis</a></p>
+</dd></dl>
+
+<dl class="ghc-flag">
+<dt id="ghc-flag--fstrictness">
+<code class="descname">-fstrictness</code><a class="headerlink" href="#ghc-flag--fstrictness" title="この定義へのパーマリンク">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Default:</th><td class="field-body">on</td>
+</tr>
+</tbody>
+</table>
+<p>Switch on the strictness analyser. The
+implementation is described in the paper <a href="#id1"><span class="problematic" id="id2">`Theory and Practice of Demand Analysis in Haskell`&lt;https://www.microsoft.com/en-us/research/wp-content/uploads/2017/03/demand-jfp-draft.pdf&gt;`__</span></a>.</p>
+<p>The strictness analyser figures out when arguments and variables in
+a function can be treated 'strictly' (that is they are always
+evaluated in the function at some point). This allow GHC to apply
+certain optimisations such as unboxing that otherwise don't apply as
+they change the semantics of the program when applied to lazy
+arguments.</p>
+</dd></dl>
+
+<dl class="ghc-flag">
+<dt id="ghc-flag--fstrictness-before=⟨n⟩">
+<code class="descname">-fstrictness-before</code><code class="descclassname">=⟨n⟩</code><a class="headerlink" href="#ghc-flag--fstrictness-before=⟨n⟩" title="この定義へのパーマリンク">¶</a></dt>
+<dd><p>Run an additional strictness analysis before simplifier phase ⟨n⟩.</p>
+</dd></dl>
+
+<dl class="ghc-flag">
+<dt id="ghc-flag--funbox-small-strict-fields">
+<code class="descname">-funbox-small-strict-fields</code><a class="headerlink" href="#ghc-flag--funbox-small-strict-fields" title="この定義へのパーマリンク">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Default:</th><td class="field-body">on</td>
+</tr>
+</tbody>
+</table>
+<p id="index-5">This option causes all constructor fields which
+are marked strict (i.e. “!”) and which representation is smaller or
+equal to the size of a pointer to be unpacked, if possible. It is
+equivalent to adding an <code class="docutils literal"><span class="pre">UNPACK</span></code> pragma (see <a class="reference internal" href="glasgow_exts.html#unpack-pragma"><span class="std std-ref">UNPACK pragma</span></a>)
+to every strict constructor field that fulfils the size restriction.</p>
+<p>For example, the constructor fields in the following data types</p>
+<div class="highlight-haskell"><div class="highlight"><pre><span></span><span class="kr">data</span> <span class="kt">A</span> <span class="ow">=</span> <span class="kt">A</span> <span class="o">!</span><span class="kt">Int</span>
+<span class="kr">data</span> <span class="kt">B</span> <span class="ow">=</span> <span class="kt">B</span> <span class="o">!</span><span class="kt">A</span>
+<span class="kr">newtype</span> <span class="kt">C</span> <span class="ow">=</span> <span class="kt">C</span> <span class="kt">B</span>
+<span class="kr">data</span> <span class="kt">D</span> <span class="ow">=</span> <span class="kt">D</span> <span class="o">!</span><span class="kt">C</span>
+</pre></div>
+</div>
+<p>would all be represented by a single <code class="docutils literal"><span class="pre">Int#</span></code> (see
+<a class="reference internal" href="glasgow_exts.html#primitives"><span class="std std-ref">Unboxed types and primitive operations</span></a>) value with <code class="docutils literal"><span class="pre">-funbox-small-strict-fields</span></code>
+enabled.</p>
+<p>This option is less of a sledgehammer than
+<code class="docutils literal"><span class="pre">-funbox-strict-fields</span></code>: it should rarely make things worse. If
+you use <code class="docutils literal"><span class="pre">-funbox-small-strict-fields</span></code> to turn on unboxing by
+default you can disable it for certain constructor fields using the
+<code class="docutils literal"><span class="pre">NOUNPACK</span></code> pragma (see <a class="reference internal" href="glasgow_exts.html#nounpack-pragma"><span class="std std-ref">NOUNPACK pragma</span></a>).</p>
+<p>Note that for consistency <code class="docutils literal"><span class="pre">Double</span></code>, <code class="docutils literal"><span class="pre">Word64</span></code>, and <code class="docutils literal"><span class="pre">Int64</span></code>
+constructor fields are unpacked on 32-bit platforms, even though
+they are technically larger than a pointer on those platforms.</p>
+</dd></dl>
+
+<dl class="ghc-flag">
+<dt id="ghc-flag--funbox-strict-fields">
+<code class="descname">-funbox-strict-fields</code><a class="headerlink" href="#ghc-flag--funbox-strict-fields" title="この定義へのパーマリンク">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Default:</th><td class="field-body">off</td>
+</tr>
+</tbody>
+</table>
+<p id="index-6">This option causes all constructor fields which are marked strict
+(i.e. <code class="docutils literal"><span class="pre">!</span></code>) to be unpacked if possible. It is equivalent to adding an
+<code class="docutils literal"><span class="pre">UNPACK</span></code> pragma to every strict constructor field (see
+<a class="reference internal" href="glasgow_exts.html#unpack-pragma"><span class="std std-ref">UNPACK pragma</span></a>).</p>
+<p>This option is a bit of a sledgehammer: it might sometimes make
+things worse. Selectively unboxing fields by using <code class="docutils literal"><span class="pre">UNPACK</span></code>
+pragmas might be better. An alternative is to use
+<code class="docutils literal"><span class="pre">-funbox-strict-fields</span></code> to turn on unboxing by default but disable
+it for certain constructor fields using the <code class="docutils literal"><span class="pre">NOUNPACK</span></code> pragma (see
+<a class="reference internal" href="glasgow_exts.html#nounpack-pragma"><span class="std std-ref">NOUNPACK pragma</span></a>).</p>
+<p>Alternatively you can use <a class="reference internal" href="#ghc-flag--funbox-small-strict-fields"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-funbox-small-strict-fields</span></code></a> to only
+unbox strict fields which are &quot;small&quot;.</p>
+</dd></dl>
+
+<dl class="ghc-flag">
+<dt id="ghc-flag--funfolding-creation-threshold=⟨n⟩">
+<code class="descname">-funfolding-creation-threshold</code><code class="descclassname">=⟨n⟩</code><a class="headerlink" href="#ghc-flag--funfolding-creation-threshold=⟨n⟩" title="この定義へのパーマリンク">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Default:</th><td class="field-body">750</td>
+</tr>
+</tbody>
+</table>
+<p id="index-7">Governs the maximum size that GHC will allow a
+function unfolding to be. (An unfolding has a “size” that reflects
+the cost in terms of “code bloat” of expanding (aka inlining) that
+unfolding at a call site. A bigger function would be assigned a
+bigger cost.)</p>
+<p>Consequences:</p>
+<ol class="loweralpha simple">
+<li>nothing larger than this will be inlined (unless it has an <code class="docutils literal"><span class="pre">INLINE</span></code> pragma)</li>
+<li>nothing larger than this will be spewed into an interface file.</li>
+</ol>
+<p>Increasing this figure is more likely to result in longer compile times
+than faster code. The <a class="reference internal" href="#ghc-flag--funfolding-use-threshold=⟨n⟩"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-funfolding-use-threshold=⟨n⟩</span></code></a> is more
+useful.</p>
+</dd></dl>
+
+<dl class="ghc-flag">
+<dt id="ghc-flag--funfolding-dict-discount=⟨n⟩">
+<code class="descname">-funfolding-dict-discount</code><code class="descclassname">=⟨n⟩</code><a class="headerlink" href="#ghc-flag--funfolding-dict-discount=⟨n⟩" title="この定義へのパーマリンク">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Default:</th><td class="field-body">30</td>
+</tr>
+</tbody>
+</table>
+<p id="index-8">How eager should the compiler be to inline dictionaries?</p>
+</dd></dl>
+
+<dl class="ghc-flag">
+<dt id="ghc-flag--funfolding-fun-discount=⟨n⟩">
+<code class="descname">-funfolding-fun-discount</code><code class="descclassname">=⟨n⟩</code><a class="headerlink" href="#ghc-flag--funfolding-fun-discount=⟨n⟩" title="この定義へのパーマリンク">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Default:</th><td class="field-body">60</td>
+</tr>
+</tbody>
+</table>
+<p id="index-9">How eager should the compiler be to inline functions?</p>
+</dd></dl>
+
+<dl class="ghc-flag">
+<dt id="ghc-flag--funfolding-keeness-factor=⟨n⟩">
+<code class="descname">-funfolding-keeness-factor</code><code class="descclassname">=⟨n⟩</code><a class="headerlink" href="#ghc-flag--funfolding-keeness-factor=⟨n⟩" title="この定義へのパーマリンク">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Default:</th><td class="field-body">1.5</td>
+</tr>
+</tbody>
+</table>
+<p id="index-10">How eager should the compiler be to inline functions?</p>
+</dd></dl>
+
+<dl class="ghc-flag">
+<dt id="ghc-flag--funfolding-use-threshold=⟨n⟩">
+<code class="descname">-funfolding-use-threshold</code><code class="descclassname">=⟨n⟩</code><a class="headerlink" href="#ghc-flag--funfolding-use-threshold=⟨n⟩" title="この定義へのパーマリンク">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Default:</th><td class="field-body">60</td>
+</tr>
+</tbody>
+</table>
+<p id="index-11">This is the magic cut-off figure for unfolding (aka
+inlining): below this size, a function definition will be unfolded
+at the call-site, any bigger and it won't. The size computed for a
+function depends on two things: the actual size of the expression
+minus any discounts that apply depending on the context into which
+the expression is to be inlined.</p>
+<p>The difference between this and
+<a class="reference internal" href="#ghc-flag--funfolding-creation-threshold=⟨n⟩"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-funfolding-creation-threshold=⟨n⟩</span></code></a> is that this one determines
+if a function definition will be inlined <em>at a call site</em>. The other option
+determines if a function definition will be kept around at all for
+potential inlining.</p>
+</dd></dl>
+
+<dl class="ghc-flag">
+<dt id="ghc-flag--fvectorisation-avoidance">
+<code class="descname">-fvectorisation-avoidance</code><a class="headerlink" href="#ghc-flag--fvectorisation-avoidance" title="この定義へのパーマリンク">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Default:</th><td class="field-body">on</td>
+</tr>
+</tbody>
+</table>
+<p id="index-12">Part of <a class="reference internal" href="parallel.html#dph"><span class="std std-ref">Data Parallel Haskell (DPH)</span></a>.</p>
+<p>Enable the <em>vectorisation</em> avoidance optimisation.
+This optimisation only works when used in combination with the
+<code class="docutils literal"><span class="pre">-fvectorise</span></code> transformation.</p>
+<p>While vectorisation of code using DPH is often a big win, it can
+also produce worse results for some kinds of code. This optimisation
+modifies the vectorisation transformation to try to determine if a
+function would be better of unvectorised and if so, do just that.</p>
+</dd></dl>
+
+<dl class="ghc-flag">
+<dt id="ghc-flag--fvectorise">
+<code class="descname">-fvectorise</code><a class="headerlink" href="#ghc-flag--fvectorise" title="この定義へのパーマリンク">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Default:</th><td class="field-body">off</td>
+</tr>
+</tbody>
+</table>
+<p>Part of <a class="reference internal" href="parallel.html#dph"><span class="std std-ref">Data Parallel Haskell (DPH)</span></a>.</p>
+<p>Enable the <em>vectorisation</em> optimisation
+transformation. This optimisation transforms the nested data
+parallelism code of programs using DPH into flat data parallelism.
+Flat data parallel programs should have better load balancing,
+enable SIMD parallelism and friendlier cache behaviour.</p>
+</dd></dl>
+
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>ナビゲーション</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="総合索引"
+             >索引</a></li>
+        <li class="right" >
+          <a href="using-concurrent.html" title="7.4. Using Concurrent Haskell"
+             >次へ</a> |</li>
+        <li class="right" >
+          <a href="using-warnings.html" title="7.2. Warnings and sanity-checking"
+             >前へ</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">GHC 8.4.3 User&#39;s Guide</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="usage.html" >7. Using GHC</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2015, GHC Team.
+      このドキュメントは <a href="http://sphinx-doc.org/">Sphinx</a> 1.6.7 で生成しました。
+    </div>
+  </body>
+</html>

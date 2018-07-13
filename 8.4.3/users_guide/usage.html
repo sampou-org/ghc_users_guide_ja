@@ -1,0 +1,292 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="ja">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>7. Using GHC &#8212; Glasgow Haskell Compiler 8.4.3 User&#39;s Guide</title>
+    <link rel="stylesheet" href="_static/ghc-theme.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '8.4.3',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/translations.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js"></script>
+    <link rel="search" type="application/opensearchdescription+xml"
+          title="Glasgow Haskell Compiler 8.4.3 User&#39;s Guide 内を検索"
+          href="_static/opensearch.xml"/>
+    <link rel="index" title="索引" href="genindex.html" />
+    <link rel="search" title="検索" href="search.html" />
+    <link rel="next" title="7.1. Using GHC" href="using.html" />
+    <link rel="prev" title="6. Using runghc" href="runghc.html" /> 
+  </head>
+  <body>
+<div class="logo">
+    <h1><a href="index.html">Glasgow Haskell Compiler User's Guide</a></h1>
+</div>
+
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>ナビゲーション</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="総合索引"
+             accesskey="I">索引</a></li>
+        <li class="right" >
+          <a href="using.html" title="7.1. Using GHC"
+             accesskey="N">次へ</a> |</li>
+        <li class="right" >
+          <a href="runghc.html" title="6. Using runghc"
+             accesskey="P">前へ</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">GHC 8.4.3 User&#39;s Guide</a> &#187;</li> 
+      </ul>
+    </div>
+
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h4>前のトピックへ</h4>
+  <p class="topless"><a href="runghc.html"
+                        title="前の章へ">6. Using runghc</a></p>
+  <h4>次のトピックへ</h4>
+  <p class="topless"><a href="using.html"
+                        title="次の章へ">7.1. Using GHC</a></p>
+  <div role="note" aria-label="source link">
+    <h3>このページ</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/usage.rst.txt"
+            rel="nofollow">ソースコードを表示</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>クイック検索</h3>
+    <form class="search" action="search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="検索" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="using-ghc">
+<h1>7. Using GHC<a class="headerlink" href="#using-ghc" title="このヘッドラインへのパーマリンク">¶</a></h1>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="using.html">7.1. Using GHC</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="using.html#getting-started-compiling-programs">7.1.1. Getting started: compiling programs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="using.html#options-overview">7.1.2. Options overview</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="using.html#command-line-arguments">7.1.2.1. Command-line arguments</a></li>
+<li class="toctree-l3"><a class="reference internal" href="using.html#command-line-options-in-source-files">7.1.2.2. Command line options in source files</a></li>
+<li class="toctree-l3"><a class="reference internal" href="using.html#setting-options-in-ghci">7.1.2.3. Setting options in GHCi</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="using.html#static-dynamic-and-mode-options">7.1.3. Static, Dynamic, and Mode options</a></li>
+<li class="toctree-l2"><a class="reference internal" href="using.html#meaningful-file-suffixes">7.1.4. Meaningful file suffixes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="using.html#modes-of-operation">7.1.5. Modes of operation</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="using.html#using-ghc-make">7.1.5.1. Using <code class="docutils literal"><span class="pre">ghc</span></code> <code class="docutils literal"><span class="pre">--make</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="using.html#expression-evaluation-mode">7.1.5.2. Expression evaluation mode</a></li>
+<li class="toctree-l3"><a class="reference internal" href="using.html#batch-compiler-mode">7.1.5.3. Batch compiler mode</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="using.html#overriding-the-default-behaviour-for-a-file">7.1.5.3.1. Overriding the default behaviour for a file</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="using.html#verbosity-options">7.1.6. Verbosity options</a></li>
+<li class="toctree-l2"><a class="reference internal" href="using.html#platform-specific-flags">7.1.7. Platform-specific Flags</a></li>
+<li class="toctree-l2"><a class="reference internal" href="using.html#miscellaneous-flags">7.1.8. Miscellaneous flags</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="using-warnings.html">7.2. Warnings and sanity-checking</a></li>
+<li class="toctree-l1"><a class="reference internal" href="using-optimisation.html">7.3. Optimisation (code improvement)</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="using-optimisation.html#o-convenient-packages-of-optimisation-flags">7.3.1. <code class="docutils literal"><span class="pre">-O*</span></code>: convenient “packages” of optimisation flags.</a></li>
+<li class="toctree-l2"><a class="reference internal" href="using-optimisation.html#f-platform-independent-flags">7.3.2. <code class="docutils literal"><span class="pre">-f*</span></code>: platform-independent flags</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="using-concurrent.html">7.4. Using Concurrent Haskell</a></li>
+<li class="toctree-l1"><a class="reference internal" href="using-concurrent.html#using-smp-parallelism">7.5. Using SMP parallelism</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="using-concurrent.html#compile-time-options-for-smp-parallelism">7.5.1. Compile-time options for SMP parallelism</a></li>
+<li class="toctree-l2"><a class="reference internal" href="using-concurrent.html#rts-options-for-smp-parallelism">7.5.2. RTS options for SMP parallelism</a></li>
+<li class="toctree-l2"><a class="reference internal" href="using-concurrent.html#hints-for-using-smp-parallelism">7.5.3. Hints for using SMP parallelism</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="flags.html">7.6. Flag reference</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="flags.html#verbosity-options">7.6.1. Verbosity options</a></li>
+<li class="toctree-l2"><a class="reference internal" href="flags.html#alternative-modes-of-operation">7.6.2. Alternative modes of operation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="flags.html#which-phases-to-run">7.6.3. Which phases to run</a></li>
+<li class="toctree-l2"><a class="reference internal" href="flags.html#redirecting-output">7.6.4. Redirecting output</a></li>
+<li class="toctree-l2"><a class="reference internal" href="flags.html#keeping-intermediate-files">7.6.5. Keeping intermediate files</a></li>
+<li class="toctree-l2"><a class="reference internal" href="flags.html#temporary-files">7.6.6. Temporary files</a></li>
+<li class="toctree-l2"><a class="reference internal" href="flags.html#finding-imports">7.6.7. Finding imports</a></li>
+<li class="toctree-l2"><a class="reference internal" href="flags.html#interface-file-options">7.6.8. Interface file options</a></li>
+<li class="toctree-l2"><a class="reference internal" href="flags.html#recompilation-checking">7.6.9. Recompilation checking</a></li>
+<li class="toctree-l2"><a class="reference internal" href="flags.html#interactive-mode-options">7.6.10. Interactive-mode options</a></li>
+<li class="toctree-l2"><a class="reference internal" href="flags.html#packages">7.6.11. Packages</a></li>
+<li class="toctree-l2"><a class="reference internal" href="flags.html#language-options">7.6.12. Language options</a></li>
+<li class="toctree-l2"><a class="reference internal" href="flags.html#warnings">7.6.13. Warnings</a></li>
+<li class="toctree-l2"><a class="reference internal" href="flags.html#optimisation-levels">7.6.14. Optimisation levels</a></li>
+<li class="toctree-l2"><a class="reference internal" href="flags.html#individual-optimisations">7.6.15. Individual optimisations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="flags.html#profiling-options">7.6.16. Profiling options</a></li>
+<li class="toctree-l2"><a class="reference internal" href="flags.html#program-coverage-options">7.6.17. Program coverage options</a></li>
+<li class="toctree-l2"><a class="reference internal" href="flags.html#c-pre-processor-options">7.6.18. C pre-processor options</a></li>
+<li class="toctree-l2"><a class="reference internal" href="flags.html#code-generation-options">7.6.19. Code generation options</a></li>
+<li class="toctree-l2"><a class="reference internal" href="flags.html#linking-options">7.6.20. Linking options</a></li>
+<li class="toctree-l2"><a class="reference internal" href="flags.html#plugin-options">7.6.21. Plugin options</a></li>
+<li class="toctree-l2"><a class="reference internal" href="flags.html#replacing-phases">7.6.22. Replacing phases</a></li>
+<li class="toctree-l2"><a class="reference internal" href="flags.html#forcing-options-to-particular-phases">7.6.23. Forcing options to particular phases</a></li>
+<li class="toctree-l2"><a class="reference internal" href="flags.html#platform-specific-options">7.6.24. Platform-specific options</a></li>
+<li class="toctree-l2"><a class="reference internal" href="flags.html#compiler-debugging-options">7.6.25. Compiler debugging options</a></li>
+<li class="toctree-l2"><a class="reference internal" href="flags.html#miscellaneous-compiler-options">7.6.26. Miscellaneous compiler options</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="runtime_control.html">7.7. Running a compiled program</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="runtime_control.html#setting-rts-options">7.7.1. Setting RTS options</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="runtime_control.html#setting-rts-options-on-the-command-line">7.7.1.1. Setting RTS options on the command line</a></li>
+<li class="toctree-l3"><a class="reference internal" href="runtime_control.html#setting-rts-options-at-compile-time">7.7.1.2. Setting RTS options at compile time</a></li>
+<li class="toctree-l3"><a class="reference internal" href="runtime_control.html#setting-rts-options-with-the-ghcrts-environment-variable">7.7.1.3. Setting RTS options with the <code class="docutils literal"><span class="pre">GHCRTS</span></code> environment variable</a></li>
+<li class="toctree-l3"><a class="reference internal" href="runtime_control.html#hooks-to-change-rts-behaviour">7.7.1.4. &quot;Hooks&quot; to change RTS behaviour</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="runtime_control.html#runtime-events">7.7.1.4.1. Runtime events</a></li>
+<li class="toctree-l4"><a class="reference internal" href="runtime_control.html#event-log-output">7.7.1.4.2. Event log output</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="runtime_control.html#miscellaneous-rts-options">7.7.2. Miscellaneous RTS options</a></li>
+<li class="toctree-l2"><a class="reference internal" href="runtime_control.html#rts-options-to-control-the-garbage-collector">7.7.3. RTS options to control the garbage collector</a></li>
+<li class="toctree-l2"><a class="reference internal" href="runtime_control.html#rts-options-to-produce-runtime-statistics">7.7.4. RTS options to produce runtime statistics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="runtime_control.html#rts-options-for-concurrency-and-parallelism">7.7.5. RTS options for concurrency and parallelism</a></li>
+<li class="toctree-l2"><a class="reference internal" href="runtime_control.html#rts-options-for-profiling">7.7.6. RTS options for profiling</a></li>
+<li class="toctree-l2"><a class="reference internal" href="runtime_control.html#tracing">7.7.7. Tracing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="runtime_control.html#rts-options-for-hackers-debuggers-and-over-interested-souls">7.7.8. RTS options for hackers, debuggers, and over-interested souls</a></li>
+<li class="toctree-l2"><a class="reference internal" href="runtime_control.html#getting-information-about-the-rts">7.7.9. Getting information about the RTS</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="separate_compilation.html">7.8. Filenames and separate compilation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="separate_compilation.html#haskell-source-files">7.8.1. Haskell source files</a></li>
+<li class="toctree-l2"><a class="reference internal" href="separate_compilation.html#output-files">7.8.2. Output files</a></li>
+<li class="toctree-l2"><a class="reference internal" href="separate_compilation.html#the-search-path">7.8.3. The search path</a></li>
+<li class="toctree-l2"><a class="reference internal" href="separate_compilation.html#redirecting-the-compilation-output-s">7.8.4. Redirecting the compilation output(s)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="separate_compilation.html#keeping-intermediate-files">7.8.5. Keeping Intermediate Files</a></li>
+<li class="toctree-l2"><a class="reference internal" href="separate_compilation.html#redirecting-temporary-files">7.8.6. Redirecting temporary files</a></li>
+<li class="toctree-l2"><a class="reference internal" href="separate_compilation.html#other-options-related-to-interface-files">7.8.7. Other options related to interface files</a></li>
+<li class="toctree-l2"><a class="reference internal" href="separate_compilation.html#the-recompilation-checker">7.8.8. The recompilation checker</a></li>
+<li class="toctree-l2"><a class="reference internal" href="separate_compilation.html#how-to-compile-mutually-recursive-modules">7.8.9. How to compile mutually recursive modules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="separate_compilation.html#module-signatures">7.8.10. Module signatures</a></li>
+<li class="toctree-l2"><a class="reference internal" href="separate_compilation.html#using-make">7.8.11. Using <code class="docutils literal"><span class="pre">make</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="separate_compilation.html#dependency-generation">7.8.12. Dependency generation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="separate_compilation.html#orphan-modules-and-instance-declarations">7.8.13. Orphan modules and instance declarations</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="packages.html">7.9. Packages</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="packages.html#using-packages">7.9.1. Using Packages</a></li>
+<li class="toctree-l2"><a class="reference internal" href="packages.html#the-main-package">7.9.2. The <code class="docutils literal"><span class="pre">main</span></code> package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="packages.html#consequences-of-packages-for-the-haskell-language">7.9.3. Consequences of packages for the Haskell language</a></li>
+<li class="toctree-l2"><a class="reference internal" href="packages.html#thinning-and-renaming-modules">7.9.4. Thinning and renaming modules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="packages.html#package-databases">7.9.5. Package Databases</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="packages.html#the-ghc-package-path-environment-variable">7.9.5.1. The <code class="docutils literal"><span class="pre">GHC_PACKAGE_PATH</span></code> environment variable</a></li>
+<li class="toctree-l3"><a class="reference internal" href="packages.html#package-environments">7.9.5.2. Package environments</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="packages.html#installed-package-ids-dependencies-and-broken-packages">7.9.6. Installed package IDs, dependencies, and broken packages</a></li>
+<li class="toctree-l2"><a class="reference internal" href="packages.html#package-management-the-ghc-pkg-command">7.9.7. Package management (the <code class="docutils literal"><span class="pre">ghc-pkg</span></code> command)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="packages.html#building-a-package-from-haskell-source">7.9.8. Building a package from Haskell source</a></li>
+<li class="toctree-l2"><a class="reference internal" href="packages.html#installedpackageinfo-a-package-specification">7.9.9. <code class="docutils literal"><span class="pre">InstalledPackageInfo</span></code>: a package specification</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="codegens.html">7.10. GHC Backends</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="codegens.html#native-code-generator-fasm">7.10.1. Native Code Generator (<code class="docutils literal"><span class="pre">-fasm</span></code>)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="codegens.html#llvm-code-generator-fllvm">7.10.2. LLVM Code Generator (<code class="docutils literal"><span class="pre">-fllvm</span></code>)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="codegens.html#c-code-generator-fvia-c">7.10.3. C Code Generator (<code class="docutils literal"><span class="pre">-fvia-C</span></code>)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="codegens.html#unregisterised-compilation">7.10.4. Unregisterised compilation</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="phases.html">7.11. Options related to a particular phase</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="phases.html#replacing-the-program-for-one-or-more-phases">7.11.1. Replacing the program for one or more phases</a></li>
+<li class="toctree-l2"><a class="reference internal" href="phases.html#forcing-options-to-a-particular-phase">7.11.2. Forcing options to a particular phase</a></li>
+<li class="toctree-l2"><a class="reference internal" href="phases.html#options-affecting-the-c-pre-processor">7.11.3. Options affecting the C pre-processor</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="phases.html#standard-cpp-macros">7.11.3.1. Standard CPP macros</a></li>
+<li class="toctree-l3"><a class="reference internal" href="phases.html#cpp-and-string-gaps">7.11.3.2. CPP and string gaps</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="phases.html#options-affecting-a-haskell-pre-processor">7.11.4. Options affecting a Haskell pre-processor</a></li>
+<li class="toctree-l2"><a class="reference internal" href="phases.html#options-affecting-code-generation">7.11.5. Options affecting code generation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="phases.html#options-affecting-linking">7.11.6. Options affecting linking</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="shared_libs.html">7.12. Using shared libraries</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="shared_libs.html#building-programs-that-use-shared-libraries">7.12.1. Building programs that use shared libraries</a></li>
+<li class="toctree-l2"><a class="reference internal" href="shared_libs.html#shared-libraries-for-haskell-packages">7.12.2. Shared libraries for Haskell packages</a></li>
+<li class="toctree-l2"><a class="reference internal" href="shared_libs.html#shared-libraries-that-export-a-c-api">7.12.3. Shared libraries that export a C API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="shared_libs.html#finding-shared-libraries-at-runtime">7.12.4. Finding shared libraries at runtime</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="shared_libs.html#unix">7.12.4.1. Unix</a></li>
+<li class="toctree-l3"><a class="reference internal" href="shared_libs.html#mac-os-x">7.12.4.2. Mac OS X</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="debugging.html">7.13. Debugging the compiler</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="debugging.html#dumping-out-compiler-intermediate-structures">7.13.1. Dumping out compiler intermediate structures</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="debugging.html#front-end">7.13.1.1. Front-end</a></li>
+<li class="toctree-l3"><a class="reference internal" href="debugging.html#type-checking-and-renaming">7.13.1.2. Type-checking and renaming</a></li>
+<li class="toctree-l3"><a class="reference internal" href="debugging.html#core-representation-and-simplification">7.13.1.3. Core representation and simplification</a></li>
+<li class="toctree-l3"><a class="reference internal" href="debugging.html#stg-representation">7.13.1.4. STG representation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="debugging.html#c-representation">7.13.1.5. C-- representation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="debugging.html#llvm-code-generator">7.13.1.6. LLVM code generator</a></li>
+<li class="toctree-l3"><a class="reference internal" href="debugging.html#native-code-generator">7.13.1.7. Native code generator</a></li>
+<li class="toctree-l3"><a class="reference internal" href="debugging.html#miscellaneous-backend-dumps">7.13.1.8. Miscellaneous backend dumps</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="debugging.html#formatting-dumps">7.13.2. Formatting dumps</a></li>
+<li class="toctree-l2"><a class="reference internal" href="debugging.html#suppressing-unwanted-information">7.13.3. Suppressing unwanted information</a></li>
+<li class="toctree-l2"><a class="reference internal" href="debugging.html#checking-for-consistency">7.13.4. Checking for consistency</a></li>
+<li class="toctree-l2"><a class="reference internal" href="debugging.html#checking-for-determinism">7.13.5. Checking for determinism</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>ナビゲーション</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="総合索引"
+             >索引</a></li>
+        <li class="right" >
+          <a href="using.html" title="7.1. Using GHC"
+             >次へ</a> |</li>
+        <li class="right" >
+          <a href="runghc.html" title="6. Using runghc"
+             >前へ</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">GHC 8.4.3 User&#39;s Guide</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2015, GHC Team.
+      このドキュメントは <a href="http://sphinx-doc.org/">Sphinx</a> 1.6.7 で生成しました。
+    </div>
+  </body>
+</html>
