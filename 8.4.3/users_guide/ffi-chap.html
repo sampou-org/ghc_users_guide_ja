@@ -6,7 +6,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="ja">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>11. Foreign function interface (FFI) &#8212; Glasgow Haskell Compiler 8.4.3 User&#39;s Guide</title>
+    <title>12. Foreign function interface (FFI) &#8212; Glasgow Haskell Compiler 8.4.3 User&#39;s Guide</title>
     <link rel="stylesheet" href="_static/ghc-theme.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <script type="text/javascript">
@@ -29,8 +29,8 @@
           href="_static/opensearch.xml"/>
     <link rel="index" title="索引" href="genindex.html" />
     <link rel="search" title="検索" href="search.html" />
-    <link rel="next" title="12. Extending and using GHC as a Library" href="extending_ghc.html" />
-    <link rel="prev" title="10.39. Safe Haskell" href="safe_haskell.html" /> 
+    <link rel="next" title="13. Extending and using GHC as a Library" href="extending_ghc.html" />
+    <link rel="prev" title="11.39. Safe Haskell" href="safe_haskell.html" /> 
   </head>
   <body>
 <div class="logo">
@@ -44,10 +44,10 @@
           <a href="genindex.html" title="総合索引"
              accesskey="I">索引</a></li>
         <li class="right" >
-          <a href="extending_ghc.html" title="12. Extending and using GHC as a Library"
+          <a href="extending_ghc.html" title="13. Extending and using GHC as a Library"
              accesskey="N">次へ</a> |</li>
         <li class="right" >
-          <a href="safe_haskell.html" title="10.39. Safe Haskell"
+          <a href="safe_haskell.html" title="11.39. Safe Haskell"
              accesskey="P">前へ</a> |</li>
         <li class="nav-item nav-item-0"><a href="index.html">GHC 8.4.3 User&#39;s Guide</a> &#187;</li> 
       </ul>
@@ -57,37 +57,37 @@
         <div class="sphinxsidebarwrapper">
   <h3><a href="index.html">目次</a></h3>
   <ul>
-<li><a class="reference internal" href="#">11. Foreign function interface (FFI)</a><ul>
-<li><a class="reference internal" href="#ghc-differences-to-the-ffi-chapter">11.1. GHC differences to the FFI Chapter</a><ul>
-<li><a class="reference internal" href="#guaranteed-call-safety">11.1.1. Guaranteed call safety</a></li>
+<li><a class="reference internal" href="#">12. Foreign function interface (FFI)</a><ul>
+<li><a class="reference internal" href="#ghc-differences-to-the-ffi-chapter">12.1. GHC differences to the FFI Chapter</a><ul>
+<li><a class="reference internal" href="#guaranteed-call-safety">12.1.1. Guaranteed call safety</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#ghc-extensions-to-the-ffi-chapter">11.2. GHC extensions to the FFI Chapter</a><ul>
-<li><a class="reference internal" href="#unboxed-types">11.2.1. Unboxed types</a></li>
-<li><a class="reference internal" href="#newtype-wrapping-of-the-io-monad">11.2.2. Newtype wrapping of the IO monad</a></li>
-<li><a class="reference internal" href="#primitive-imports">11.2.3. Primitive imports</a></li>
-<li><a class="reference internal" href="#interruptible-foreign-calls">11.2.4. Interruptible foreign calls</a></li>
-<li><a class="reference internal" href="#the-capi-calling-convention">11.2.5. The CAPI calling convention</a></li>
-<li><a class="reference internal" href="#hs-thread-done">11.2.6. <code class="docutils literal"><span class="pre">hs_thread_done()</span></code></a></li>
+<li><a class="reference internal" href="#ghc-extensions-to-the-ffi-chapter">12.2. GHC extensions to the FFI Chapter</a><ul>
+<li><a class="reference internal" href="#unboxed-types">12.2.1. Unboxed types</a></li>
+<li><a class="reference internal" href="#newtype-wrapping-of-the-io-monad">12.2.2. Newtype wrapping of the IO monad</a></li>
+<li><a class="reference internal" href="#primitive-imports">12.2.3. Primitive imports</a></li>
+<li><a class="reference internal" href="#interruptible-foreign-calls">12.2.4. Interruptible foreign calls</a></li>
+<li><a class="reference internal" href="#the-capi-calling-convention">12.2.5. The CAPI calling convention</a></li>
+<li><a class="reference internal" href="#hs-thread-done">12.2.6. <code class="docutils literal"><span class="pre">hs_thread_done()</span></code></a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#using-the-ffi-with-ghc">11.3. Using the FFI with GHC</a><ul>
-<li><a class="reference internal" href="#using-foreign-export-and-foreign-import-ccall-wrapper-with-ghc">11.3.1. Using <code class="docutils literal"><span class="pre">foreign</span> <span class="pre">export</span></code> and <code class="docutils literal"><span class="pre">foreign</span> <span class="pre">import</span> <span class="pre">ccall</span> <span class="pre">&quot;wrapper&quot;</span></code> with GHC</a><ul>
-<li><a class="reference internal" href="#using-your-own-main">11.3.1.1. Using your own <code class="docutils literal"><span class="pre">main()</span></code></a></li>
-<li><a class="reference internal" href="#making-a-haskell-library-that-can-be-called-from-foreign-code">11.3.1.2. Making a Haskell library that can be called from foreign code</a></li>
+<li><a class="reference internal" href="#using-the-ffi-with-ghc">12.3. Using the FFI with GHC</a><ul>
+<li><a class="reference internal" href="#using-foreign-export-and-foreign-import-ccall-wrapper-with-ghc">12.3.1. Using <code class="docutils literal"><span class="pre">foreign</span> <span class="pre">export</span></code> and <code class="docutils literal"><span class="pre">foreign</span> <span class="pre">import</span> <span class="pre">ccall</span> <span class="pre">&quot;wrapper&quot;</span></code> with GHC</a><ul>
+<li><a class="reference internal" href="#using-your-own-main">12.3.1.1. Using your own <code class="docutils literal"><span class="pre">main()</span></code></a></li>
+<li><a class="reference internal" href="#making-a-haskell-library-that-can-be-called-from-foreign-code">12.3.1.2. Making a Haskell library that can be called from foreign code</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#using-header-files">11.3.2. Using header files</a></li>
-<li><a class="reference internal" href="#memory-allocation">11.3.3. Memory Allocation</a></li>
-<li><a class="reference internal" href="#multi-threading-and-the-ffi">11.3.4. Multi-threading and the FFI</a><ul>
-<li><a class="reference internal" href="#foreign-imports-and-multi-threading">11.3.4.1. Foreign imports and multi-threading</a></li>
-<li><a class="reference internal" href="#the-relationship-between-haskell-threads-and-os-threads">11.3.4.2. The relationship between Haskell threads and OS threads</a></li>
-<li><a class="reference internal" href="#foreign-exports-and-multi-threading">11.3.4.3. Foreign exports and multi-threading</a></li>
-<li><a class="reference internal" href="#on-the-use-of-hs-exit">11.3.4.4. On the use of <code class="docutils literal"><span class="pre">hs_exit()</span></code></a></li>
-<li><a class="reference internal" href="#waking-up-haskell-threads-from-c">11.3.4.5. Waking up Haskell threads from C</a></li>
+<li><a class="reference internal" href="#using-header-files">12.3.2. Using header files</a></li>
+<li><a class="reference internal" href="#memory-allocation">12.3.3. Memory Allocation</a></li>
+<li><a class="reference internal" href="#multi-threading-and-the-ffi">12.3.4. Multi-threading and the FFI</a><ul>
+<li><a class="reference internal" href="#foreign-imports-and-multi-threading">12.3.4.1. Foreign imports and multi-threading</a></li>
+<li><a class="reference internal" href="#the-relationship-between-haskell-threads-and-os-threads">12.3.4.2. The relationship between Haskell threads and OS threads</a></li>
+<li><a class="reference internal" href="#foreign-exports-and-multi-threading">12.3.4.3. Foreign exports and multi-threading</a></li>
+<li><a class="reference internal" href="#on-the-use-of-hs-exit">12.3.4.4. On the use of <code class="docutils literal"><span class="pre">hs_exit()</span></code></a></li>
+<li><a class="reference internal" href="#waking-up-haskell-threads-from-c">12.3.4.5. Waking up Haskell threads from C</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#floating-point-and-the-ffi">11.3.5. Floating point and the FFI</a></li>
+<li><a class="reference internal" href="#floating-point-and-the-ffi">12.3.5. Floating point and the FFI</a></li>
 </ul>
 </li>
 </ul>
@@ -96,10 +96,10 @@
 
   <h4>前のトピックへ</h4>
   <p class="topless"><a href="safe_haskell.html"
-                        title="前の章へ">10.39. Safe Haskell</a></p>
+                        title="前の章へ">11.39. Safe Haskell</a></p>
   <h4>次のトピックへ</h4>
   <p class="topless"><a href="extending_ghc.html"
-                        title="次の章へ">12. Extending and using GHC as a Library</a></p>
+                        title="次の章へ">13. Extending and using GHC as a Library</a></p>
   <div role="note" aria-label="source link">
     <h3>このページ</h3>
     <ul class="this-page-menu">
@@ -126,7 +126,7 @@
           <div class="body" role="main">
             
   <div class="section" id="foreign-function-interface-ffi">
-<span id="ffi"></span><h1>11. Foreign function interface (FFI)<a class="headerlink" href="#foreign-function-interface-ffi" title="このヘッドラインへのパーマリンク">¶</a></h1>
+<span id="ffi"></span><h1>12. Foreign function interface (FFI)<a class="headerlink" href="#foreign-function-interface-ffi" title="このヘッドラインへのパーマリンク">¶</a></h1>
 <span class="target" id="index-0"></span><dl class="extension">
 <dt id="extension-ForeignFunctionInterface">
 <span id="ghc-flag--XForeignFunctionInterface"></span><span id="extension-NoForeignFunctionInterface"></span><code class="descname">ForeignFunctionInterface</code><a class="headerlink" href="#extension-ForeignFunctionInterface" title="この定義へのパーマリンク">¶</a></dt>
@@ -153,9 +153,9 @@ features should be avoided where possible.</p>
 <p>The FFI libraries are documented in the accompanying  library
 documentation; see for example the <a class="reference external" href="../libraries/base-4.11.1.0/Foreign.html">Foreign</a> module.</p>
 <div class="section" id="ghc-differences-to-the-ffi-chapter">
-<h2>11.1. GHC differences to the FFI Chapter<a class="headerlink" href="#ghc-differences-to-the-ffi-chapter" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<h2>12.1. GHC differences to the FFI Chapter<a class="headerlink" href="#ghc-differences-to-the-ffi-chapter" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <div class="section" id="guaranteed-call-safety">
-<h3>11.1.1. Guaranteed call safety<a class="headerlink" href="#guaranteed-call-safety" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<h3>12.1.1. Guaranteed call safety<a class="headerlink" href="#guaranteed-call-safety" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <p>The FFI addendum stipulates that an implementation is free to implement an
 <code class="docutils literal"><span class="pre">unsafe</span></code> call by performing a <code class="docutils literal"><span class="pre">safe</span></code> call (and therefore may run in an
 arbitrary thread and may be subject to concurrent garbage collection). This
@@ -176,18 +176,18 @@ bytecode interpreter.</p>
 </div>
 </div>
 <div class="section" id="ghc-extensions-to-the-ffi-chapter">
-<span id="ffi-ghcexts"></span><h2>11.2. GHC extensions to the FFI Chapter<a class="headerlink" href="#ghc-extensions-to-the-ffi-chapter" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<span id="ffi-ghcexts"></span><h2>12.2. GHC extensions to the FFI Chapter<a class="headerlink" href="#ghc-extensions-to-the-ffi-chapter" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <p>The FFI features that are described in this section are specific to GHC.
 Your code will not be portable to other compilers if you use them.</p>
 <div class="section" id="unboxed-types">
-<h3>11.2.1. Unboxed types<a class="headerlink" href="#unboxed-types" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<h3>12.2.1. Unboxed types<a class="headerlink" href="#unboxed-types" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <p>The following unboxed types may be used as basic foreign types (see FFI
 Chapter, Section 8.6): <code class="docutils literal"><span class="pre">Int#</span></code>, <code class="docutils literal"><span class="pre">Word#</span></code>, <code class="docutils literal"><span class="pre">Char#</span></code>, <code class="docutils literal"><span class="pre">Float#</span></code>,
 <code class="docutils literal"><span class="pre">Double#</span></code>, <code class="docutils literal"><span class="pre">Addr#</span></code>, <code class="docutils literal"><span class="pre">StablePtr#</span> <span class="pre">a</span></code>, <code class="docutils literal"><span class="pre">MutableByteArray#</span></code>,
 <code class="docutils literal"><span class="pre">ForeignObj#</span></code>, and <code class="docutils literal"><span class="pre">ByteArray#</span></code>.</p>
 </div>
 <div class="section" id="newtype-wrapping-of-the-io-monad">
-<span id="ffi-newtype-io"></span><h3>11.2.2. Newtype wrapping of the IO monad<a class="headerlink" href="#newtype-wrapping-of-the-io-monad" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<span id="ffi-newtype-io"></span><h3>12.2.2. Newtype wrapping of the IO monad<a class="headerlink" href="#newtype-wrapping-of-the-io-monad" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <p>The FFI spec requires the IO monad to appear in various places, but it
 can sometimes be convenient to wrap the IO monad in a <code class="docutils literal"><span class="pre">newtype</span></code>, thus:</p>
 <div class="highlight-haskell"><div class="highlight"><pre><span></span><span class="kr">newtype</span> <span class="kt">MyIO</span> <span class="n">a</span> <span class="ow">=</span> <span class="kt">MIO</span> <span class="p">(</span><span class="kt">IO</span> <span class="n">a</span><span class="p">)</span>
@@ -208,7 +208,7 @@ OK:</p>
 </div>
 </div>
 <div class="section" id="primitive-imports">
-<span id="ffi-prim"></span><h3>11.2.3. Primitive imports<a class="headerlink" href="#primitive-imports" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<span id="ffi-prim"></span><h3>12.2.3. Primitive imports<a class="headerlink" href="#primitive-imports" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <p>GHC extends the FFI with an additional calling convention <code class="docutils literal"><span class="pre">prim</span></code>,
 e.g.:</p>
 <div class="highlight-haskell"><div class="highlight"><pre><span></span><span class="nf">foreign</span> <span class="kr">import</span> <span class="nn">prim</span> <span class="s">&quot;foo&quot;</span> <span class="n">foo</span> <span class="ow">::</span> <span class="kt">ByteArray</span><span class="o">#</span> <span class="ow">-&gt;</span> <span class="p">(</span><span class="o">#</span> <span class="kt">Int</span><span class="o">#</span><span class="p">,</span> <span class="kt">Int</span><span class="o">#</span> <span class="o">#</span><span class="p">)</span>
@@ -224,7 +224,7 @@ come with GHC. For more details see the
 <a class="reference external" href="https://ghc.haskell.org/trac/ghc/wiki/Commentary/PrimOps">GHC developer wiki</a>.</p>
 </div>
 <div class="section" id="interruptible-foreign-calls">
-<span id="ffi-interruptible"></span><h3>11.2.4. Interruptible foreign calls<a class="headerlink" href="#interruptible-foreign-calls" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<span id="ffi-interruptible"></span><h3>12.2.4. Interruptible foreign calls<a class="headerlink" href="#interruptible-foreign-calls" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <dl class="extension">
 <dt id="extension-InterruptibleFFI">
 <span id="ghc-flag--XInterruptibleFFI"></span><span id="extension-NoInterruptibleFFI"></span><code class="descname">InterruptibleFFI</code><a class="headerlink" href="#extension-InterruptibleFFI" title="この定義へのパーマリンク">¶</a></dt>
@@ -281,7 +281,7 @@ Unix it is good practice to check for <code class="docutils literal"><span class
 it is not typically necessary to handle <code class="docutils literal"><span class="pre">ERROR_OPERATION_ABORTED</span></code>.</p>
 </div>
 <div class="section" id="the-capi-calling-convention">
-<span id="ffi-capi"></span><h3>11.2.5. The CAPI calling convention<a class="headerlink" href="#the-capi-calling-convention" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<span id="ffi-capi"></span><h3>12.2.5. The CAPI calling convention<a class="headerlink" href="#the-capi-calling-convention" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <dl class="extension">
 <dt id="extension-CApiFFI">
 <span id="ghc-flag--XCApiFFI"></span><span id="extension-NoCApiFFI"></span><code class="descname">CApiFFI</code><a class="headerlink" href="#extension-CApiFFI" title="この定義へのパーマリンク">¶</a></dt>
@@ -327,7 +327,7 @@ specified. The syntax looks like:</p>
 </div>
 </div>
 <div class="section" id="hs-thread-done">
-<h3>11.2.6. <code class="docutils literal"><span class="pre">hs_thread_done()</span></code><a class="headerlink" href="#hs-thread-done" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<h3>12.2.6. <code class="docutils literal"><span class="pre">hs_thread_done()</span></code><a class="headerlink" href="#hs-thread-done" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <div class="highlight-c"><div class="highlight"><pre><span></span><span class="kt">void</span> <span class="nf">hs_thread_done</span><span class="p">(</span><span class="kt">void</span><span class="p">);</span>
 </pre></div>
 </div>
@@ -349,11 +349,11 @@ some extra overhead.</p>
 </div>
 </div>
 <div class="section" id="using-the-ffi-with-ghc">
-<span id="ffi-ghc"></span><h2>11.3. Using the FFI with GHC<a class="headerlink" href="#using-the-ffi-with-ghc" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<span id="ffi-ghc"></span><h2>12.3. Using the FFI with GHC<a class="headerlink" href="#using-the-ffi-with-ghc" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <p>The following sections also give some hints and tips on the use of the
 foreign function interface in GHC.</p>
 <div class="section" id="using-foreign-export-and-foreign-import-ccall-wrapper-with-ghc">
-<span id="foreign-export-ghc"></span><h3>11.3.1. Using <code class="docutils literal"><span class="pre">foreign</span> <span class="pre">export</span></code> and <code class="docutils literal"><span class="pre">foreign</span> <span class="pre">import</span> <span class="pre">ccall</span> <span class="pre">&quot;wrapper&quot;</span></code> with GHC<a class="headerlink" href="#using-foreign-export-and-foreign-import-ccall-wrapper-with-ghc" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<span id="foreign-export-ghc"></span><h3>12.3.1. Using <code class="docutils literal"><span class="pre">foreign</span> <span class="pre">export</span></code> and <code class="docutils literal"><span class="pre">foreign</span> <span class="pre">import</span> <span class="pre">ccall</span> <span class="pre">&quot;wrapper&quot;</span></code> with GHC<a class="headerlink" href="#using-foreign-export-and-foreign-import-ccall-wrapper-with-ghc" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <p id="index-1">When GHC compiles a module (say <code class="docutils literal"><span class="pre">M.hs</span></code>) which uses <code class="docutils literal"><span class="pre">foreign</span> <span class="pre">export</span></code>
 or <code class="docutils literal"><span class="pre">foreign</span> <span class="pre">import</span> <span class="pre">&quot;wrapper&quot;</span></code>, it generates a <code class="docutils literal"><span class="pre">M_stub.h</span></code> for use by
 C programs.</p>
@@ -382,7 +382,7 @@ the following module:</p>
 <p>The <code class="docutils literal"><span class="pre">Foo_stub.h</span></code> file can be redirected using the <code class="docutils literal"><span class="pre">-stubdir</span></code> option;
 see <a class="reference internal" href="separate_compilation.html#options-output"><span class="std std-ref">Redirecting the compilation output(s)</span></a>.</p>
 <div class="section" id="using-your-own-main">
-<span id="using-own-main"></span><h4>11.3.1.1. Using your own <code class="docutils literal"><span class="pre">main()</span></code><a class="headerlink" href="#using-your-own-main" title="このヘッドラインへのパーマリンク">¶</a></h4>
+<span id="using-own-main"></span><h4>12.3.1.1. Using your own <code class="docutils literal"><span class="pre">main()</span></code><a class="headerlink" href="#using-your-own-main" title="このヘッドラインへのパーマリンク">¶</a></h4>
 <p>Normally, GHC's runtime system provides a <code class="docutils literal"><span class="pre">main()</span></code>, which arranges to
 invoke <code class="docutils literal"><span class="pre">Main.main</span></code> in the Haskell program. However, you might want to
 link some Haskell code into a program which has a main function written
@@ -505,7 +505,7 @@ forwards-compatible it is best to initialise with <code class="docutils literal"
 and then modify the required fields, as in the code sample above.</p>
 </div>
 <div class="section" id="making-a-haskell-library-that-can-be-called-from-foreign-code">
-<span id="ffi-library"></span><h4>11.3.1.2. Making a Haskell library that can be called from foreign code<a class="headerlink" href="#making-a-haskell-library-that-can-be-called-from-foreign-code" title="このヘッドラインへのパーマリンク">¶</a></h4>
+<span id="ffi-library"></span><h4>12.3.1.2. Making a Haskell library that can be called from foreign code<a class="headerlink" href="#making-a-haskell-library-that-can-be-called-from-foreign-code" title="このヘッドラインへのパーマリンク">¶</a></h4>
 <p>The scenario here is much like in <a class="reference internal" href="#using-own-main"><span class="std std-ref">Using your own main()</span></a>, except that the
 aim is not to link a complete program, but to make a library from
 Haskell code that can be deployed in the same way that you would deploy
@@ -542,7 +542,7 @@ down the runtime.</p>
 </div>
 </div>
 <div class="section" id="using-header-files">
-<span id="glasgow-foreign-headers"></span><h3>11.3.2. Using header files<a class="headerlink" href="#using-header-files" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<span id="glasgow-foreign-headers"></span><h3>12.3.2. Using header files<a class="headerlink" href="#using-header-files" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <p id="index-2">C functions are normally declared using prototypes in a C header file.
 Earlier versions of GHC (6.8.3 and earlier) <code class="docutils literal"><span class="pre">#include</span></code>d the header
 file in the C source file generated from the Haskell code, and the C
@@ -561,7 +561,7 @@ compiler is free to inline foreign calls in any context.</p>
 field in a Cabal package specification is ignored.</p>
 </div>
 <div class="section" id="memory-allocation">
-<h3>11.3.3. Memory Allocation<a class="headerlink" href="#memory-allocation" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<h3>12.3.3. Memory Allocation<a class="headerlink" href="#memory-allocation" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <p>The FFI libraries provide several ways to allocate memory for use with
 the FFI, and it isn't always clear which way is the best. This decision
 may be affected by how efficient a particular kind of allocation is on a
@@ -604,11 +604,11 @@ implementation of Pools in the future, however.</dd>
 </dl>
 </div>
 <div class="section" id="multi-threading-and-the-ffi">
-<span id="ffi-threads"></span><h3>11.3.4. Multi-threading and the FFI<a class="headerlink" href="#multi-threading-and-the-ffi" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<span id="ffi-threads"></span><h3>12.3.4. Multi-threading and the FFI<a class="headerlink" href="#multi-threading-and-the-ffi" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <p>In order to use the FFI in a multi-threaded setting, you must use the
 <a class="reference internal" href="phases.html#ghc-flag--threaded"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-threaded</span></code></a> option (see <a class="reference internal" href="phases.html#options-linker"><span class="std std-ref">Options affecting linking</span></a>).</p>
 <div class="section" id="foreign-imports-and-multi-threading">
-<h4>11.3.4.1. Foreign imports and multi-threading<a class="headerlink" href="#foreign-imports-and-multi-threading" title="このヘッドラインへのパーマリンク">¶</a></h4>
+<h4>12.3.4.1. Foreign imports and multi-threading<a class="headerlink" href="#foreign-imports-and-multi-threading" title="このヘッドラインへのパーマリンク">¶</a></h4>
 <p>When you call a <code class="docutils literal"><span class="pre">foreign</span> <span class="pre">import</span></code>ed function that is annotated as
 <code class="docutils literal"><span class="pre">safe</span></code> (the default), and the program was linked using <a class="reference internal" href="phases.html#ghc-flag--threaded"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-threaded</span></code></a>,
 then the call will run concurrently with other running Haskell threads.
@@ -640,7 +640,7 @@ underlying operating system thread is not to be destroyed. See
 <a class="reference internal" href="#ffi-interruptible"><span class="std std-ref">Interruptible foreign calls</span></a> for more details.</p>
 </div>
 <div class="section" id="the-relationship-between-haskell-threads-and-os-threads">
-<span id="haskell-threads-and-os-threads"></span><h4>11.3.4.2. The relationship between Haskell threads and OS threads<a class="headerlink" href="#the-relationship-between-haskell-threads-and-os-threads" title="このヘッドラインへのパーマリンク">¶</a></h4>
+<span id="haskell-threads-and-os-threads"></span><h4>12.3.4.2. The relationship between Haskell threads and OS threads<a class="headerlink" href="#the-relationship-between-haskell-threads-and-os-threads" title="このヘッドラインへのパーマリンク">¶</a></h4>
 <p>Normally there is no fixed relationship between Haskell threads and OS
 threads. This means that when you make a foreign call, that call may
 take place in an unspecified OS thread. Furthermore, there is no
@@ -655,7 +655,7 @@ Haskell threads tied to a particular OS thread. For information on bound
 threads, see the documentation for the <a class="reference external" href="../libraries/base-4.11.1.0/Control-Concurrent.html">Control.Concurrent</a> module.</p>
 </div>
 <div class="section" id="foreign-exports-and-multi-threading">
-<h4>11.3.4.3. Foreign exports and multi-threading<a class="headerlink" href="#foreign-exports-and-multi-threading" title="このヘッドラインへのパーマリンク">¶</a></h4>
+<h4>12.3.4.3. Foreign exports and multi-threading<a class="headerlink" href="#foreign-exports-and-multi-threading" title="このヘッドラインへのパーマリンク">¶</a></h4>
 <p>When the program is linked with <a class="reference internal" href="phases.html#ghc-flag--threaded"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-threaded</span></code></a>, then you may invoke
 <code class="docutils literal"><span class="pre">foreign</span> <span class="pre">export</span></code>ed functions from multiple OS threads concurrently.
 The runtime system must be initialised as usual by calling
@@ -663,7 +663,7 @@ The runtime system must be initialised as usual by calling
 <code class="docutils literal"><span class="pre">foreign</span> <span class="pre">export</span></code>ed functions.</p>
 </div>
 <div class="section" id="on-the-use-of-hs-exit">
-<span id="hs-exit"></span><h4>11.3.4.4. On the use of <code class="docutils literal"><span class="pre">hs_exit()</span></code><a class="headerlink" href="#on-the-use-of-hs-exit" title="このヘッドラインへのパーマリンク">¶</a></h4>
+<span id="hs-exit"></span><h4>12.3.4.4. On the use of <code class="docutils literal"><span class="pre">hs_exit()</span></code><a class="headerlink" href="#on-the-use-of-hs-exit" title="このヘッドラインへのパーマリンク">¶</a></h4>
 <p><code class="docutils literal"><span class="pre">hs_exit()</span></code> normally causes the termination of any running Haskell
 threads in the system, and when <code class="docutils literal"><span class="pre">hs_exit()</span></code> returns, there will be no
 more Haskell threads running. The runtime will then shut down the system
@@ -701,7 +701,7 @@ a foreign call from Haskell that will never return, so <code class="docutils lit
 would deadlock.</p>
 </div>
 <div class="section" id="waking-up-haskell-threads-from-c">
-<span id="hs-try-putmvar"></span><h4>11.3.4.5. Waking up Haskell threads from C<a class="headerlink" href="#waking-up-haskell-threads-from-c" title="このヘッドラインへのパーマリンク">¶</a></h4>
+<span id="hs-try-putmvar"></span><h4>12.3.4.5. Waking up Haskell threads from C<a class="headerlink" href="#waking-up-haskell-threads-from-c" title="このヘッドラインへのパーマリンク">¶</a></h4>
 <p>Sometimes we want to be able to wake up a Haskell thread from some C
 code.  For example, when using a callback-based C API, we register a C
 callback and then we need to wait for the callback to run.</p>
@@ -811,7 +811,7 @@ GHC source tree.</p>
 </div>
 </div>
 <div class="section" id="floating-point-and-the-ffi">
-<span id="ffi-floating-point"></span><h3>11.3.5. Floating point and the FFI<a class="headerlink" href="#floating-point-and-the-ffi" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<span id="ffi-floating-point"></span><h3>12.3.5. Floating point and the FFI<a class="headerlink" href="#floating-point-and-the-ffi" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <p id="index-3">The standard C99 <code class="docutils literal"><span class="pre">fenv.h</span></code> header provides operations for inspecting
 and modifying the state of the floating point unit. In particular, the
 rounding mode used by floating point operations can be changed, and the
@@ -857,10 +857,10 @@ a foreign call, because foreign calls are never pre-empted by GHC.</li>
           <a href="genindex.html" title="総合索引"
              >索引</a></li>
         <li class="right" >
-          <a href="extending_ghc.html" title="12. Extending and using GHC as a Library"
+          <a href="extending_ghc.html" title="13. Extending and using GHC as a Library"
              >次へ</a> |</li>
         <li class="right" >
-          <a href="safe_haskell.html" title="10.39. Safe Haskell"
+          <a href="safe_haskell.html" title="11.39. Safe Haskell"
              >前へ</a> |</li>
         <li class="nav-item nav-item-0"><a href="index.html">GHC 8.4.3 User&#39;s Guide</a> &#187;</li> 
       </ul>

@@ -6,7 +6,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="ja">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>15. Other Haskell utility programs &#8212; Glasgow Haskell Compiler 8.4.3 User&#39;s Guide</title>
+    <title>16. Other Haskell utility programs &#8212; Glasgow Haskell Compiler 8.4.3 User&#39;s Guide</title>
     <link rel="stylesheet" href="_static/ghc-theme.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <script type="text/javascript">
@@ -29,8 +29,8 @@
           href="_static/opensearch.xml"/>
     <link rel="index" title="索引" href="genindex.html" />
     <link rel="search" title="検索" href="search.html" />
-    <link rel="next" title="16. Running GHC on Win32 systems" href="win32-dlls.html" />
-    <link rel="prev" title="14. Debugging compiled programs" href="debug-info.html" /> 
+    <link rel="next" title="17. Running GHC on Win32 systems" href="win32-dlls.html" />
+    <link rel="prev" title="15. Debugging compiled programs" href="debug-info.html" /> 
   </head>
   <body>
 <div class="logo">
@@ -44,10 +44,10 @@
           <a href="genindex.html" title="総合索引"
              accesskey="I">索引</a></li>
         <li class="right" >
-          <a href="win32-dlls.html" title="16. Running GHC on Win32 systems"
+          <a href="win32-dlls.html" title="17. Running GHC on Win32 systems"
              accesskey="N">次へ</a> |</li>
         <li class="right" >
-          <a href="debug-info.html" title="14. Debugging compiled programs"
+          <a href="debug-info.html" title="15. Debugging compiled programs"
              accesskey="P">前へ</a> |</li>
         <li class="nav-item nav-item-0"><a href="index.html">GHC 8.4.3 User&#39;s Guide</a> &#187;</li> 
       </ul>
@@ -57,13 +57,13 @@
         <div class="sphinxsidebarwrapper">
   <h3><a href="index.html">目次</a></h3>
   <ul>
-<li><a class="reference internal" href="#">15. Other Haskell utility programs</a><ul>
-<li><a class="reference internal" href="#yacc-for-haskell-happy">15.1. &quot;Yacc for Haskell&quot;: <code class="docutils literal"><span class="pre">happy</span></code></a></li>
-<li><a class="reference internal" href="#writing-haskell-interfaces-to-c-code-hsc2hs">15.2. Writing Haskell interfaces to C code: <code class="docutils literal"><span class="pre">hsc2hs</span></code></a><ul>
-<li><a class="reference internal" href="#command-line-syntax">15.2.1. command line syntax</a></li>
-<li><a class="reference internal" href="#input-syntax">15.2.2. Input syntax</a></li>
-<li><a class="reference internal" href="#custom-constructs">15.2.3. Custom constructs</a></li>
-<li><a class="reference internal" href="#cross-compilation">15.2.4. Cross-compilation</a></li>
+<li><a class="reference internal" href="#">16. Other Haskell utility programs</a><ul>
+<li><a class="reference internal" href="#yacc-for-haskell-happy">16.1. &quot;Yacc for Haskell&quot;: <code class="docutils literal"><span class="pre">happy</span></code></a></li>
+<li><a class="reference internal" href="#writing-haskell-interfaces-to-c-code-hsc2hs">16.2. Writing Haskell interfaces to C code: <code class="docutils literal"><span class="pre">hsc2hs</span></code></a><ul>
+<li><a class="reference internal" href="#command-line-syntax">16.2.1. command line syntax</a></li>
+<li><a class="reference internal" href="#input-syntax">16.2.2. Input syntax</a></li>
+<li><a class="reference internal" href="#custom-constructs">16.2.3. Custom constructs</a></li>
+<li><a class="reference internal" href="#cross-compilation">16.2.4. Cross-compilation</a></li>
 </ul>
 </li>
 </ul>
@@ -72,10 +72,10 @@
 
   <h4>前のトピックへ</h4>
   <p class="topless"><a href="debug-info.html"
-                        title="前の章へ">14. Debugging compiled programs</a></p>
+                        title="前の章へ">15. Debugging compiled programs</a></p>
   <h4>次のトピックへ</h4>
   <p class="topless"><a href="win32-dlls.html"
-                        title="次の章へ">16. Running GHC on Win32 systems</a></p>
+                        title="次の章へ">17. Running GHC on Win32 systems</a></p>
   <div role="note" aria-label="source link">
     <h3>このページ</h3>
     <ul class="this-page-menu">
@@ -102,11 +102,11 @@
           <div class="body" role="main">
             
   <div class="section" id="other-haskell-utility-programs">
-<span id="utils"></span><h1>15. Other Haskell utility programs<a class="headerlink" href="#other-haskell-utility-programs" title="このヘッドラインへのパーマリンク">¶</a></h1>
+<span id="utils"></span><h1>16. Other Haskell utility programs<a class="headerlink" href="#other-haskell-utility-programs" title="このヘッドラインへのパーマリンク">¶</a></h1>
 <p id="index-0">This section describes other program(s) which we distribute, that help
 with the Great Haskell Programming Task.</p>
 <div class="section" id="yacc-for-haskell-happy">
-<span id="happy"></span><h2>15.1. &quot;Yacc for Haskell&quot;: <code class="docutils literal"><span class="pre">happy</span></code><a class="headerlink" href="#yacc-for-haskell-happy" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<span id="happy"></span><h2>16.1. &quot;Yacc for Haskell&quot;: <code class="docutils literal"><span class="pre">happy</span></code><a class="headerlink" href="#yacc-for-haskell-happy" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <p id="index-1">Andy Gill and Simon Marlow have written a parser-generator for Haskell,
 called <code class="docutils literal"><span class="pre">happy</span></code>. <code class="docutils literal"><span class="pre">Happy</span></code> is to Haskell what <code class="docutils literal"><span class="pre">Yacc</span></code> is to C.</p>
 <p>You can get <code class="docutils literal"><span class="pre">happy</span></code> from <a class="reference external" href="http://www.haskell.org/happy/">the Happy
@@ -114,7 +114,7 @@ Homepage</a>.</p>
 <p><code class="docutils literal"><span class="pre">Happy</span></code> is at its shining best when compiled by GHC.</p>
 </div>
 <div class="section" id="writing-haskell-interfaces-to-c-code-hsc2hs">
-<span id="hsc2hs"></span><h2>15.2. Writing Haskell interfaces to C code: <code class="docutils literal"><span class="pre">hsc2hs</span></code><a class="headerlink" href="#writing-haskell-interfaces-to-c-code-hsc2hs" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<span id="hsc2hs"></span><h2>16.2. Writing Haskell interfaces to C code: <code class="docutils literal"><span class="pre">hsc2hs</span></code><a class="headerlink" href="#writing-haskell-interfaces-to-c-code-hsc2hs" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <p id="index-2">The <code class="docutils literal"><span class="pre">hsc2hs</span></code> command can be used to automate some parts of the process
 of writing Haskell bindings to C code. It reads an almost-Haskell source
 with embedded special constructs, and outputs a real Haskell file with
@@ -134,7 +134,7 @@ compiled it to C (i.e. a <code class="docutils literal"><span class="pre">.hc</s
 outputs the Haskell file, &quot;C file&quot; is the optionally generated C file,
 and &quot;C header&quot; is its header file.</p>
 <div class="section" id="command-line-syntax">
-<h3>15.2.1. command line syntax<a class="headerlink" href="#command-line-syntax" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<h3>16.2.1. command line syntax<a class="headerlink" href="#command-line-syntax" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <p><code class="docutils literal"><span class="pre">hsc2hs</span></code> takes input files as arguments, and flags that modify its
 behavior:</p>
 <dl class="docutils">
@@ -202,7 +202,7 @@ include path to <code class="docutils literal"><span class="pre">HsFFI.h</span><
 program.</p>
 </div>
 <div class="section" id="input-syntax">
-<h3>15.2.2. Input syntax<a class="headerlink" href="#input-syntax" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<h3>16.2.2. Input syntax<a class="headerlink" href="#input-syntax" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <p>All special processing is triggered by the <code class="docutils literal"><span class="pre">#</span></code> operator. To output a
 literal <code class="docutils literal"><span class="pre">#</span></code>, write it twice: <code class="docutils literal"><span class="pre">##</span></code>. Inside string literals and
 comments <code class="docutils literal"><span class="pre">#</span></code> characters are not processed.</p>
@@ -294,7 +294,7 @@ construct does not emit the type definition itself.</dd>
 </dl>
 </div>
 <div class="section" id="custom-constructs">
-<h3>15.2.3. Custom constructs<a class="headerlink" href="#custom-constructs" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<h3>16.2.3. Custom constructs<a class="headerlink" href="#custom-constructs" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <p><code class="docutils literal"><span class="pre">#const</span></code>, <code class="docutils literal"><span class="pre">#type</span></code>, <code class="docutils literal"><span class="pre">#peek</span></code>, <code class="docutils literal"><span class="pre">#poke</span></code> and <code class="docutils literal"><span class="pre">#ptr</span></code> are not
 hardwired into the <code class="docutils literal"><span class="pre">hsc2hs</span></code>, but are defined in a C template that is
 included in the C program: <code class="docutils literal"><span class="pre">template-hsc.h</span></code>. Custom constructs and
@@ -309,7 +309,7 @@ macros. Plain <code class="docutils literal"><span class="pre">#let</span></code
 definition in a <code class="docutils literal"><span class="pre">printf</span></code> call.</p>
 </div>
 <div class="section" id="cross-compilation">
-<span id="hsc2hs-cross"></span><h3>15.2.4. Cross-compilation<a class="headerlink" href="#cross-compilation" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<span id="hsc2hs-cross"></span><h3>16.2.4. Cross-compilation<a class="headerlink" href="#cross-compilation" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <p><code class="docutils literal"><span class="pre">hsc2hs</span></code> normally operates by creating, compiling, and running a C
 program. That approach doesn't work when cross-compiling — in this
 case, the C compiler's generates code for the target machine, not the
@@ -342,10 +342,10 @@ The following are unsupported:</p>
           <a href="genindex.html" title="総合索引"
              >索引</a></li>
         <li class="right" >
-          <a href="win32-dlls.html" title="16. Running GHC on Win32 systems"
+          <a href="win32-dlls.html" title="17. Running GHC on Win32 systems"
              >次へ</a> |</li>
         <li class="right" >
-          <a href="debug-info.html" title="14. Debugging compiled programs"
+          <a href="debug-info.html" title="15. Debugging compiled programs"
              >前へ</a> |</li>
         <li class="nav-item nav-item-0"><a href="index.html">GHC 8.4.3 User&#39;s Guide</a> &#187;</li> 
       </ul>

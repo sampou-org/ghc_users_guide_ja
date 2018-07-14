@@ -6,7 +6,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="ja">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>10.39. Safe Haskell &#8212; Glasgow Haskell Compiler 8.4.3 User&#39;s Guide</title>
+    <title>11.39. Safe Haskell &#8212; Glasgow Haskell Compiler 8.4.3 User&#39;s Guide</title>
     <link rel="stylesheet" href="_static/ghc-theme.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <script type="text/javascript">
@@ -29,8 +29,8 @@
           href="_static/opensearch.xml"/>
     <link rel="index" title="索引" href="genindex.html" />
     <link rel="search" title="検索" href="search.html" />
-    <link rel="next" title="11. Foreign function interface (FFI)" href="ffi-chap.html" />
-    <link rel="prev" title="10.38. Concurrent and Parallel Haskell" href="parallel.html" /> 
+    <link rel="next" title="12. Foreign function interface (FFI)" href="ffi-chap.html" />
+    <link rel="prev" title="11.38. Concurrent and Parallel Haskell" href="parallel.html" /> 
   </head>
   <body>
 <div class="logo">
@@ -44,13 +44,13 @@
           <a href="genindex.html" title="総合索引"
              accesskey="I">索引</a></li>
         <li class="right" >
-          <a href="ffi-chap.html" title="11. Foreign function interface (FFI)"
+          <a href="ffi-chap.html" title="12. Foreign function interface (FFI)"
              accesskey="N">次へ</a> |</li>
         <li class="right" >
-          <a href="parallel.html" title="10.38. Concurrent and Parallel Haskell"
+          <a href="parallel.html" title="11.38. Concurrent and Parallel Haskell"
              accesskey="P">前へ</a> |</li>
         <li class="nav-item nav-item-0"><a href="index.html">GHC 8.4.3 User&#39;s Guide</a> &#187;</li>
-          <li class="nav-item nav-item-1"><a href="lang.html" accesskey="U">10. GHC Language Features</a> &#187;</li> 
+          <li class="nav-item nav-item-1"><a href="lang.html" accesskey="U">11. GHC Language Features</a> &#187;</li> 
       </ul>
     </div>
 
@@ -58,38 +58,38 @@
         <div class="sphinxsidebarwrapper">
   <h3><a href="index.html">目次</a></h3>
   <ul>
-<li><a class="reference internal" href="#">10.39. Safe Haskell</a><ul>
-<li><a class="reference internal" href="#uses-of-safe-haskell">10.39.1. Uses of Safe Haskell</a><ul>
-<li><a class="reference internal" href="#strict-type-safety-good-style">10.39.1.1. Strict type-safety (good style)</a></li>
-<li><a class="reference internal" href="#building-secure-systems-restricted-io-monads">10.39.1.2. Building secure systems (restricted IO Monads)</a></li>
+<li><a class="reference internal" href="#">11.39. Safe Haskell</a><ul>
+<li><a class="reference internal" href="#uses-of-safe-haskell">11.39.1. Uses of Safe Haskell</a><ul>
+<li><a class="reference internal" href="#strict-type-safety-good-style">11.39.1.1. Strict type-safety (good style)</a></li>
+<li><a class="reference internal" href="#building-secure-systems-restricted-io-monads">11.39.1.2. Building secure systems (restricted IO Monads)</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#safe-language">10.39.2. Safe Language</a><ul>
-<li><a class="reference internal" href="#safe-overlapping-instances">10.39.2.1. Safe Overlapping Instances</a></li>
+<li><a class="reference internal" href="#safe-language">11.39.2. Safe Language</a><ul>
+<li><a class="reference internal" href="#safe-overlapping-instances">11.39.2.1. Safe Overlapping Instances</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#safe-imports">10.39.3. Safe Imports</a></li>
-<li><a class="reference internal" href="#trust-and-safe-haskell-modes">10.39.4. Trust and Safe Haskell Modes</a><ul>
-<li><a class="reference internal" href="#trust-check-fpackage-trust-disabled">10.39.4.1. Trust check (<code class="docutils literal"><span class="pre">-fpackage-trust</span></code> disabled)</a></li>
-<li><a class="reference internal" href="#trust-check-fpackage-trust-enabled">10.39.4.2. Trust check (<code class="docutils literal"><span class="pre">-fpackage-trust</span></code> enabled)</a></li>
-<li><a class="reference internal" href="#example">10.39.4.3. Example</a></li>
-<li><a class="reference internal" href="#trustworthy-requirements">10.39.4.4. Trustworthy Requirements</a></li>
-<li><a class="reference internal" href="#package-trust">10.39.4.5. Package Trust</a></li>
+<li><a class="reference internal" href="#safe-imports">11.39.3. Safe Imports</a></li>
+<li><a class="reference internal" href="#trust-and-safe-haskell-modes">11.39.4. Trust and Safe Haskell Modes</a><ul>
+<li><a class="reference internal" href="#trust-check-fpackage-trust-disabled">11.39.4.1. Trust check (<code class="docutils literal"><span class="pre">-fpackage-trust</span></code> disabled)</a></li>
+<li><a class="reference internal" href="#trust-check-fpackage-trust-enabled">11.39.4.2. Trust check (<code class="docutils literal"><span class="pre">-fpackage-trust</span></code> enabled)</a></li>
+<li><a class="reference internal" href="#example">11.39.4.3. Example</a></li>
+<li><a class="reference internal" href="#trustworthy-requirements">11.39.4.4. Trustworthy Requirements</a></li>
+<li><a class="reference internal" href="#package-trust">11.39.4.5. Package Trust</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#safe-haskell-inference">10.39.5. Safe Haskell Inference</a></li>
-<li><a class="reference internal" href="#safe-haskell-flag-summary">10.39.6. Safe Haskell Flag Summary</a></li>
-<li><a class="reference internal" href="#safe-compilation">10.39.7. Safe Compilation</a></li>
+<li><a class="reference internal" href="#safe-haskell-inference">11.39.5. Safe Haskell Inference</a></li>
+<li><a class="reference internal" href="#safe-haskell-flag-summary">11.39.6. Safe Haskell Flag Summary</a></li>
+<li><a class="reference internal" href="#safe-compilation">11.39.7. Safe Compilation</a></li>
 </ul>
 </li>
 </ul>
 
   <h4>前のトピックへ</h4>
   <p class="topless"><a href="parallel.html"
-                        title="前の章へ">10.38. Concurrent and Parallel Haskell</a></p>
+                        title="前の章へ">11.38. Concurrent and Parallel Haskell</a></p>
   <h4>次のトピックへ</h4>
   <p class="topless"><a href="ffi-chap.html"
-                        title="次の章へ">11. Foreign function interface (FFI)</a></p>
+                        title="次の章へ">12. Foreign function interface (FFI)</a></p>
   <div role="note" aria-label="source link">
     <h3>このページ</h3>
     <ul class="this-page-menu">
@@ -116,7 +116,7 @@
           <div class="body" role="main">
             
   <div class="section" id="safe-haskell">
-<span id="id1"></span><h1>10.39. Safe Haskell<a class="headerlink" href="#safe-haskell" title="このヘッドラインへのパーマリンク">¶</a></h1>
+<span id="id1"></span><h1>11.39. Safe Haskell<a class="headerlink" href="#safe-haskell" title="このヘッドラインへのパーマリンク">¶</a></h1>
 <p id="index-0">Safe Haskell is an extension to the Haskell language that is implemented
 in GHC as of version 7.2. It allows for unsafe code to be securely
 included in a trusted code base by restricting the features of GHC
@@ -151,14 +151,14 @@ compilation time, or to modify the source code just before compilation
 to try to alter Safe Haskell flags. This is discussed further in section
 <a class="reference internal" href="#safe-compilation"><span class="std std-ref">Safe Compilation</span></a>.</p>
 <div class="section" id="uses-of-safe-haskell">
-<span id="safe-use-cases"></span><h2>10.39.1. Uses of Safe Haskell<a class="headerlink" href="#uses-of-safe-haskell" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<span id="safe-use-cases"></span><h2>11.39.1. Uses of Safe Haskell<a class="headerlink" href="#uses-of-safe-haskell" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <p id="index-1">Safe Haskell has been designed with two use cases in mind:</p>
 <ul class="simple">
 <li>Enforcing strict type safety at compile time</li>
 <li>Compiling and executing untrusted code</li>
 </ul>
 <div class="section" id="strict-type-safety-good-style">
-<h3>10.39.1.1. Strict type-safety (good style)<a class="headerlink" href="#strict-type-safety-good-style" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<h3>11.39.1.1. Strict type-safety (good style)<a class="headerlink" href="#strict-type-safety-good-style" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <p>Haskell offers a powerful type system and separation of pure and effectual
 functions through the <code class="docutils literal"><span class="pre">IO</span></code> monad. However, there are several loop holes in the
 type system, the most obvious being the <code class="docutils literal"><span class="pre">unsafePerformIO</span> <span class="pre">::</span> <span class="pre">IO</span> <span class="pre">a</span> <span class="pre">-&gt;</span> <span class="pre">a</span></code>
@@ -170,7 +170,7 @@ such, using the safe language (through the <code class="docutils literal"><span 
 a way of enforcing good style, similar to the function of <code class="docutils literal"><span class="pre">-Wall</span></code>.</p>
 </div>
 <div class="section" id="building-secure-systems-restricted-io-monads">
-<h3>10.39.1.2. Building secure systems (restricted IO Monads)<a class="headerlink" href="#building-secure-systems-restricted-io-monads" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<h3>11.39.1.2. Building secure systems (restricted IO Monads)<a class="headerlink" href="#building-secure-systems-restricted-io-monads" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <p id="index-2">Systems such as information flow control security, capability based
 security systems and DSLs for working with encrypted data.. etc can be
 built in the Haskell language as a library. However they require
@@ -292,7 +292,7 @@ ensue will be to files whose paths were approved by the <code class="docutils li
 </div>
 </div>
 <div class="section" id="safe-language">
-<span id="id2"></span><h2>10.39.2. Safe Language<a class="headerlink" href="#safe-language" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<span id="id2"></span><h2>11.39.2. Safe Language<a class="headerlink" href="#safe-language" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <p id="index-3">The Safe Haskell <em>safe language</em> (enabled by <code class="docutils literal"><span class="pre">-XSafe</span></code>) guarantees the
 following properties:</p>
 <ul class="simple">
@@ -363,7 +363,7 @@ produce an instance that violates the invariant.</p>
 </li>
 </ul>
 <div class="section" id="safe-overlapping-instances">
-<span id="id3"></span><h3>10.39.2.1. Safe Overlapping Instances<a class="headerlink" href="#safe-overlapping-instances" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<span id="id3"></span><h3>11.39.2.1. Safe Overlapping Instances<a class="headerlink" href="#safe-overlapping-instances" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <p>Due to the semantic consistency guarantee of Safe Haskell, we must
 restrict the function of overlapping instances. We don't restrict their
 ability to be defined, as this is a global property and not something we
@@ -432,7 +432,7 @@ be inferred unsafe.</p>
 </div>
 </div>
 <div class="section" id="safe-imports">
-<span id="id4"></span><h2>10.39.3. Safe Imports<a class="headerlink" href="#safe-imports" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<span id="id4"></span><h2>11.39.3. Safe Imports<a class="headerlink" href="#safe-imports" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <p id="index-4">Safe Haskell enables a small extension to the usual import syntax of
 Haskell, adding a <code class="docutils literal"><span class="pre">safe</span></code> keyword:</p>
 <div class="highlight-none"><div class="highlight"><pre><span></span>impdecl -&gt; import [safe] [qualified] modid [as modid] [impspec]
@@ -445,7 +445,7 @@ import extension is enabled by either of the <code class="docutils literal"><spa
 allowed but meaningless, as every import is treated as a safe import.</p>
 </div>
 <div class="section" id="trust-and-safe-haskell-modes">
-<span id="safe-trust"></span><h2>10.39.4. Trust and Safe Haskell Modes<a class="headerlink" href="#trust-and-safe-haskell-modes" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<span id="safe-trust"></span><h2>11.39.4. Trust and Safe Haskell Modes<a class="headerlink" href="#trust-and-safe-haskell-modes" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <p id="index-5">Safe Haskell introduces the following three language flags:</p>
 <ul class="simple">
 <li><a class="reference internal" href="#extension-Safe"><code class="xref std std-extension docutils literal"><span class="pre">Safe</span></code></a> — Enables the safe language dialect, asking GHC to guarantee trust.
@@ -478,7 +478,7 @@ details.</p>
 with the <a class="reference internal" href="#ghc-flag--fpackage-trust"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-fpackage-trust</span></code></a> flag enabling an extra requirement for
 trustworthy modules to be regarded as trusted.</p>
 <div class="section" id="trust-check-fpackage-trust-disabled">
-<h3>10.39.4.1. Trust check (<code class="docutils literal"><span class="pre">-fpackage-trust</span></code> disabled)<a class="headerlink" href="#trust-check-fpackage-trust-disabled" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<h3>11.39.4.1. Trust check (<code class="docutils literal"><span class="pre">-fpackage-trust</span></code> disabled)<a class="headerlink" href="#trust-check-fpackage-trust-disabled" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <p id="index-6">A module <code class="docutils literal"><span class="pre">M</span></code> in a package <code class="docutils literal"><span class="pre">P</span></code> is trusted by a client C if and only if:</p>
 <ul>
 <li><p class="first">Both of these hold:</p>
@@ -507,7 +507,7 @@ trustworthy modules. Trustworthy packages are only trusted if they
 reside in a package trusted by C.</p>
 </div>
 <div class="section" id="trust-check-fpackage-trust-enabled">
-<h3>10.39.4.2. Trust check (<code class="docutils literal"><span class="pre">-fpackage-trust</span></code> enabled)<a class="headerlink" href="#trust-check-fpackage-trust-enabled" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<h3>11.39.4.2. Trust check (<code class="docutils literal"><span class="pre">-fpackage-trust</span></code> enabled)<a class="headerlink" href="#trust-check-fpackage-trust-enabled" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <p id="index-7">When the <a class="reference internal" href="#ghc-flag--fpackage-trust"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-fpackage-trust</span></code></a> flag is enabled, whether or not a module is
 trusted depends on if certain packages are trusted. Package trust is
 determined by the client C invoking GHC (i.e. you).</p>
@@ -553,7 +553,7 @@ of the guarantees provided by Safe Haskell. Disabling
 Haskell an opt-in extension rather than an always on feature.</p>
 </div>
 <div class="section" id="example">
-<span id="safe-trust-example"></span><h3>10.39.4.3. Example<a class="headerlink" href="#example" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<span id="safe-trust-example"></span><h3>11.39.4.3. Example<a class="headerlink" href="#example" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <div class="highlight-haskell"><div class="highlight"><pre><span></span><span class="kt">Package</span> <span class="kt">Wuggle:</span>
     <span class="cm">{-# LANGUAGE Safe #-}</span>
     <span class="kr">module</span> <span class="nn">Buggle</span> <span class="kr">where</span>
@@ -592,14 +592,14 @@ is enough. C only needs to trust packages that contain <a class="reference inter
 modules.</p>
 </div>
 <div class="section" id="trustworthy-requirements">
-<span id="trustworthy-guarantees"></span><h3>10.39.4.4. Trustworthy Requirements<a class="headerlink" href="#trustworthy-requirements" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<span id="trustworthy-guarantees"></span><h3>11.39.4.4. Trustworthy Requirements<a class="headerlink" href="#trustworthy-requirements" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <p id="index-8">Module authors using the <a class="reference internal" href="#extension-Trustworthy"><code class="xref std std-extension docutils literal"><span class="pre">Trustworthy</span></code></a> language extension for a
 module <code class="docutils literal"><span class="pre">M</span></code> should ensure that <code class="docutils literal"><span class="pre">M</span></code>'s public API (the symbols exposed by its
 export list) can't be used in an unsafe manner. This mean that symbols exported
 should respect type safety and referential transparency.</p>
 </div>
 <div class="section" id="package-trust">
-<span id="safe-package-trust"></span><h3>10.39.4.5. Package Trust<a class="headerlink" href="#package-trust" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<span id="safe-package-trust"></span><h3>11.39.4.5. Package Trust<a class="headerlink" href="#package-trust" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <p id="index-9">Safe Haskell gives packages a new Boolean property, that of trust.
 Several new options are available at the GHC command-line to specify the
 trust property of packages:</p>
@@ -629,7 +629,7 @@ to <a class="reference internal" href="packages.html#packages"><span class="std 
 </div>
 </div>
 <div class="section" id="safe-haskell-inference">
-<span id="safe-inference"></span><h2>10.39.5. Safe Haskell Inference<a class="headerlink" href="#safe-haskell-inference" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<span id="safe-inference"></span><h2>11.39.5. Safe Haskell Inference<a class="headerlink" href="#safe-haskell-inference" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <p id="index-10">In the case where a module is compiled without one of <a class="reference internal" href="#extension-Safe"><code class="xref std std-extension docutils literal"><span class="pre">Safe</span></code></a>,
 <a class="reference internal" href="#extension-Trustworthy"><code class="xref std std-extension docutils literal"><span class="pre">Trustworthy</span></code></a> or <a class="reference internal" href="#extension-Unsafe"><code class="xref std std-extension docutils literal"><span class="pre">Unsafe</span></code></a> being used, GHC will try to figure out
 itself if the module can be considered safe. This safety inference will
@@ -659,7 +659,7 @@ when your package dependencies change.</li>
 </ul>
 </div>
 <div class="section" id="safe-haskell-flag-summary">
-<span id="safe-flag-summary"></span><h2>10.39.6. Safe Haskell Flag Summary<a class="headerlink" href="#safe-haskell-flag-summary" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<span id="safe-flag-summary"></span><h2>11.39.6. Safe Haskell Flag Summary<a class="headerlink" href="#safe-haskell-flag-summary" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <p id="index-11">In summary, Safe Haskell consists of the following three language flags:</p>
 <dl class="extension">
 <dt id="extension-Safe">
@@ -774,7 +774,7 @@ bound can be improved as dependencies are updated.</p>
 
 </div>
 <div class="section" id="safe-compilation">
-<span id="id5"></span><h2>10.39.7. Safe Compilation<a class="headerlink" href="#safe-compilation" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<span id="id5"></span><h2>11.39.7. Safe Compilation<a class="headerlink" href="#safe-compilation" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <p id="index-12">GHC includes a variety of flags that allow arbitrary processes to be run
 at compilation time. One such example is the
 <a class="reference internal" href="phases.html#pre-processor"><span class="std std-ref">custom pre-processor</span></a> flag. Another is the ability of
@@ -819,13 +819,13 @@ for details.</p>
           <a href="genindex.html" title="総合索引"
              >索引</a></li>
         <li class="right" >
-          <a href="ffi-chap.html" title="11. Foreign function interface (FFI)"
+          <a href="ffi-chap.html" title="12. Foreign function interface (FFI)"
              >次へ</a> |</li>
         <li class="right" >
-          <a href="parallel.html" title="10.38. Concurrent and Parallel Haskell"
+          <a href="parallel.html" title="11.38. Concurrent and Parallel Haskell"
              >前へ</a> |</li>
         <li class="nav-item nav-item-0"><a href="index.html">GHC 8.4.3 User&#39;s Guide</a> &#187;</li>
-          <li class="nav-item nav-item-1"><a href="lang.html" >10. GHC Language Features</a> &#187;</li> 
+          <li class="nav-item nav-item-1"><a href="lang.html" >11. GHC Language Features</a> &#187;</li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">

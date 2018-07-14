@@ -6,7 +6,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="ja">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>17. Known bugs and infelicities &#8212; Glasgow Haskell Compiler 8.4.3 User&#39;s Guide</title>
+    <title>18. Known bugs and infelicities &#8212; Glasgow Haskell Compiler 8.4.3 User&#39;s Guide</title>
     <link rel="stylesheet" href="_static/ghc-theme.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <script type="text/javascript">
@@ -29,8 +29,8 @@
           href="_static/opensearch.xml"/>
     <link rel="index" title="索引" href="genindex.html" />
     <link rel="search" title="検索" href="search.html" />
-    <link rel="next" title="18. Eventlog encodings" href="eventlog-formats.html" />
-    <link rel="prev" title="16. Running GHC on Win32 systems" href="win32-dlls.html" /> 
+    <link rel="next" title="19. Eventlog encodings" href="eventlog-formats.html" />
+    <link rel="prev" title="17. Running GHC on Win32 systems" href="win32-dlls.html" /> 
   </head>
   <body>
 <div class="logo">
@@ -44,10 +44,10 @@
           <a href="genindex.html" title="総合索引"
              accesskey="I">索引</a></li>
         <li class="right" >
-          <a href="eventlog-formats.html" title="18. Eventlog encodings"
+          <a href="eventlog-formats.html" title="19. Eventlog encodings"
              accesskey="N">次へ</a> |</li>
         <li class="right" >
-          <a href="win32-dlls.html" title="16. Running GHC on Win32 systems"
+          <a href="win32-dlls.html" title="17. Running GHC on Win32 systems"
              accesskey="P">前へ</a> |</li>
         <li class="nav-item nav-item-0"><a href="index.html">GHC 8.4.3 User&#39;s Guide</a> &#187;</li> 
       </ul>
@@ -57,27 +57,27 @@
         <div class="sphinxsidebarwrapper">
   <h3><a href="index.html">目次</a></h3>
   <ul>
-<li><a class="reference internal" href="#">17. Known bugs and infelicities</a><ul>
-<li><a class="reference internal" href="#haskell-standards-vs-glasgow-haskell-language-non-compliance">17.1. Haskell&nbsp;standards vs.&nbsp;Glasgow Haskell: language non-compliance</a><ul>
-<li><a class="reference internal" href="#divergence-from-haskell-98-and-haskell-2010">17.1.1. Divergence from Haskell&nbsp;98 and Haskell&nbsp;2010</a><ul>
-<li><a class="reference internal" href="#lexical-syntax">17.1.1.1. Lexical syntax</a></li>
-<li><a class="reference internal" href="#context-free-syntax">17.1.1.2. Context-free syntax</a></li>
-<li><a class="reference internal" href="#expressions-and-patterns">17.1.1.3. Expressions and patterns</a></li>
-<li><a class="reference internal" href="#declarations-and-bindings">17.1.1.4. Declarations and bindings</a></li>
-<li><a class="reference internal" href="#typechecking-of-recursive-binding-groups">17.1.1.5. Typechecking of recursive binding groups</a></li>
-<li><a class="reference internal" href="#module-system-and-interface-files">17.1.1.6. Module system and interface files</a></li>
-<li><a class="reference internal" href="#numbers-basic-types-and-built-in-classes">17.1.1.7. Numbers, basic types, and built-in classes</a></li>
-<li><a class="reference internal" href="#in-prelude-support">17.1.1.8. In <code class="docutils literal"><span class="pre">Prelude</span></code> support</a></li>
-<li><a class="reference internal" href="#the-foreign-function-interface">17.1.1.9. The Foreign Function Interface</a></li>
-<li><a class="reference internal" href="#operator-sections">17.1.1.10. Operator sections</a></li>
+<li><a class="reference internal" href="#">18. Known bugs and infelicities</a><ul>
+<li><a class="reference internal" href="#haskell-standards-vs-glasgow-haskell-language-non-compliance">18.1. Haskell&nbsp;standards vs.&nbsp;Glasgow Haskell: language non-compliance</a><ul>
+<li><a class="reference internal" href="#divergence-from-haskell-98-and-haskell-2010">18.1.1. Divergence from Haskell&nbsp;98 and Haskell&nbsp;2010</a><ul>
+<li><a class="reference internal" href="#lexical-syntax">18.1.1.1. Lexical syntax</a></li>
+<li><a class="reference internal" href="#context-free-syntax">18.1.1.2. Context-free syntax</a></li>
+<li><a class="reference internal" href="#expressions-and-patterns">18.1.1.3. Expressions and patterns</a></li>
+<li><a class="reference internal" href="#declarations-and-bindings">18.1.1.4. Declarations and bindings</a></li>
+<li><a class="reference internal" href="#typechecking-of-recursive-binding-groups">18.1.1.5. Typechecking of recursive binding groups</a></li>
+<li><a class="reference internal" href="#module-system-and-interface-files">18.1.1.6. Module system and interface files</a></li>
+<li><a class="reference internal" href="#numbers-basic-types-and-built-in-classes">18.1.1.7. Numbers, basic types, and built-in classes</a></li>
+<li><a class="reference internal" href="#in-prelude-support">18.1.1.8. In <code class="docutils literal"><span class="pre">Prelude</span></code> support</a></li>
+<li><a class="reference internal" href="#the-foreign-function-interface">18.1.1.9. The Foreign Function Interface</a></li>
+<li><a class="reference internal" href="#operator-sections">18.1.1.10. Operator sections</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#ghc-s-interpretation-of-undefined-behaviour-in-haskell-98-and-haskell-2010">17.1.2. GHC's interpretation of undefined behaviour in Haskell&nbsp;98 and Haskell&nbsp;2010</a></li>
+<li><a class="reference internal" href="#ghc-s-interpretation-of-undefined-behaviour-in-haskell-98-and-haskell-2010">18.1.2. GHC's interpretation of undefined behaviour in Haskell&nbsp;98 and Haskell&nbsp;2010</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#known-bugs-or-infelicities">17.2. Known bugs or infelicities</a><ul>
-<li><a class="reference internal" href="#bugs-in-ghc">17.2.1. Bugs in GHC</a></li>
-<li><a class="reference internal" href="#bugs-in-ghci-the-interactive-ghc">17.2.2. Bugs in GHCi (the interactive GHC)</a></li>
+<li><a class="reference internal" href="#known-bugs-or-infelicities">18.2. Known bugs or infelicities</a><ul>
+<li><a class="reference internal" href="#bugs-in-ghc">18.2.1. Bugs in GHC</a></li>
+<li><a class="reference internal" href="#bugs-in-ghci-the-interactive-ghc">18.2.2. Bugs in GHCi (the interactive GHC)</a></li>
 </ul>
 </li>
 </ul>
@@ -86,10 +86,10 @@
 
   <h4>前のトピックへ</h4>
   <p class="topless"><a href="win32-dlls.html"
-                        title="前の章へ">16. Running GHC on Win32 systems</a></p>
+                        title="前の章へ">17. Running GHC on Win32 systems</a></p>
   <h4>次のトピックへ</h4>
   <p class="topless"><a href="eventlog-formats.html"
-                        title="次の章へ">18. Eventlog encodings</a></p>
+                        title="次の章へ">19. Eventlog encodings</a></p>
   <div role="note" aria-label="source link">
     <h3>このページ</h3>
     <ul class="this-page-menu">
@@ -116,16 +116,16 @@
           <div class="body" role="main">
             
   <div class="section" id="known-bugs-and-infelicities">
-<span id="bugs-and-infelicities"></span><h1>17. Known bugs and infelicities<a class="headerlink" href="#known-bugs-and-infelicities" title="このヘッドラインへのパーマリンク">¶</a></h1>
+<span id="bugs-and-infelicities"></span><h1>18. Known bugs and infelicities<a class="headerlink" href="#known-bugs-and-infelicities" title="このヘッドラインへのパーマリンク">¶</a></h1>
 <div class="section" id="haskell-standards-vs-glasgow-haskell-language-non-compliance">
-<span id="vs-haskell-defn"></span><h2>17.1. Haskell&nbsp;standards vs.&nbsp;Glasgow Haskell: language non-compliance<a class="headerlink" href="#haskell-standards-vs-glasgow-haskell-language-non-compliance" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<span id="vs-haskell-defn"></span><h2>18.1. Haskell&nbsp;standards vs.&nbsp;Glasgow Haskell: language non-compliance<a class="headerlink" href="#haskell-standards-vs-glasgow-haskell-language-non-compliance" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <p id="index-0">This section lists Glasgow Haskell infelicities in its implementation of
 Haskell&nbsp;98 and Haskell&nbsp;2010. See also the “when things go wrong” section
 (<a class="reference internal" href="gone_wrong.html#wrong"><span class="std std-ref">What to do when something goes wrong</span></a>) for information about crashes, space leaks, and other
 undesirable phenomena.</p>
 <p>The limitations here are listed in Haskell Report order (roughly).</p>
 <div class="section" id="divergence-from-haskell-98-and-haskell-2010">
-<span id="haskell-standards-divergence"></span><h3>17.1.1. Divergence from Haskell&nbsp;98 and Haskell&nbsp;2010<a class="headerlink" href="#divergence-from-haskell-98-and-haskell-2010" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<span id="haskell-standards-divergence"></span><h3>18.1.1. Divergence from Haskell&nbsp;98 and Haskell&nbsp;2010<a class="headerlink" href="#divergence-from-haskell-98-and-haskell-2010" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <p>By default, GHC mainly aims to behave (mostly) like a Haskell&nbsp;2010
 compiler, although you can tell it to try to behave like a particular
 version of the language with the <code class="xref std std-ghc-flag docutils literal"><span class="pre">-XHaskell98</span></code> and
@@ -133,7 +133,7 @@ version of the language with the <code class="xref std std-ghc-flag docutils lit
 described below. Unless otherwise stated, the deviation applies in Haskell&nbsp;98,
 Haskell&nbsp;2010 and the default modes.</p>
 <div class="section" id="lexical-syntax">
-<span id="infelicities-lexical"></span><h4>17.1.1.1. Lexical syntax<a class="headerlink" href="#lexical-syntax" title="このヘッドラインへのパーマリンク">¶</a></h4>
+<span id="infelicities-lexical"></span><h4>18.1.1.1. Lexical syntax<a class="headerlink" href="#lexical-syntax" title="このヘッドラインへのパーマリンク">¶</a></h4>
 <ul class="simple">
 <li>Certain lexical rules regarding qualified identifiers are slightly
 different in GHC compared to the Haskell report. When you have
@@ -143,7 +143,7 @@ as a single qualified operator rather than the two lexemes <code class="docutils
 </ul>
 </div>
 <div class="section" id="context-free-syntax">
-<span id="infelicities-syntax"></span><h4>17.1.1.2. Context-free syntax<a class="headerlink" href="#context-free-syntax" title="このヘッドラインへのパーマリンク">¶</a></h4>
+<span id="infelicities-syntax"></span><h4>18.1.1.2. Context-free syntax<a class="headerlink" href="#context-free-syntax" title="このヘッドラインへのパーマリンク">¶</a></h4>
 <ul>
 <li><p class="first">In Haskell&nbsp;98 mode and by default (but not in Haskell&nbsp;2010 mode), GHC
 is a little less strict about the layout rule when used in <code class="docutils literal"><span class="pre">do</span></code>
@@ -189,7 +189,7 @@ before only expressions that could potentially be applied as a function.</p>
 </ul>
 </div>
 <div class="section" id="expressions-and-patterns">
-<span id="infelicities-exprs-pats"></span><h4>17.1.1.3. Expressions and patterns<a class="headerlink" href="#expressions-and-patterns" title="このヘッドラインへのパーマリンク">¶</a></h4>
+<span id="infelicities-exprs-pats"></span><h4>18.1.1.3. Expressions and patterns<a class="headerlink" href="#expressions-and-patterns" title="このヘッドラインへのパーマリンク">¶</a></h4>
 <p>In its default mode, GHC makes some programs slightly more defined than
 they should be. For example, consider</p>
 <div class="highlight-haskell"><div class="highlight"><pre><span></span><span class="nf">f</span> <span class="ow">::</span> <span class="p">[</span><span class="n">a</span><span class="p">]</span> <span class="ow">-&gt;</span> <span class="n">b</span> <span class="ow">-&gt;</span> <span class="n">b</span>
@@ -211,14 +211,14 @@ and is bad for only a few. To suppress this bogus &quot;optimisation&quot; use
 <code class="docutils literal"><span class="pre">-fpedantic-bottoms</span></code>.</p>
 </div>
 <div class="section" id="declarations-and-bindings">
-<span id="infelicities-decls"></span><h4>17.1.1.4. Declarations and bindings<a class="headerlink" href="#declarations-and-bindings" title="このヘッドラインへのパーマリンク">¶</a></h4>
+<span id="infelicities-decls"></span><h4>18.1.1.4. Declarations and bindings<a class="headerlink" href="#declarations-and-bindings" title="このヘッドラインへのパーマリンク">¶</a></h4>
 <p>In its default mode, GHC does not accept datatype contexts, as it has
 been decided to remove them from the next version of the language
 standard. This behaviour can be controlled with the <code class="docutils literal"><span class="pre">DatatypeContexts</span></code>
 extension. See <a class="reference internal" href="glasgow_exts.html#datatype-contexts"><span class="std std-ref">Data type contexts</span></a>.</p>
 </div>
 <div class="section" id="typechecking-of-recursive-binding-groups">
-<span id="infelicities-recursive-groups"></span><h4>17.1.1.5. Typechecking of recursive binding groups<a class="headerlink" href="#typechecking-of-recursive-binding-groups" title="このヘッドラインへのパーマリンク">¶</a></h4>
+<span id="infelicities-recursive-groups"></span><h4>18.1.1.5. Typechecking of recursive binding groups<a class="headerlink" href="#typechecking-of-recursive-binding-groups" title="このヘッドラインへのパーマリンク">¶</a></h4>
 <p>The Haskell Report specifies that a group of bindings (at top level, or
 in a <code class="docutils literal"><span class="pre">let</span></code> or <code class="docutils literal"><span class="pre">where</span></code>) should be sorted into strongly-connected
 components, and then type-checked in dependency order
@@ -265,7 +265,7 @@ same context. For example, this is fine:</p>
 </div>
 </div>
 <div class="section" id="module-system-and-interface-files">
-<span id="infelicities-modules"></span><h4>17.1.1.6. Module system and interface files<a class="headerlink" href="#module-system-and-interface-files" title="このヘッドラインへのパーマリンク">¶</a></h4>
+<span id="infelicities-modules"></span><h4>18.1.1.6. Module system and interface files<a class="headerlink" href="#module-system-and-interface-files" title="このヘッドラインへのパーマリンク">¶</a></h4>
 <p>GHC requires the use of <code class="docutils literal"><span class="pre">hs-boot</span></code> files to cut the recursive loops
 among mutually recursive modules as described in
 <a class="reference internal" href="separate_compilation.html#mutual-recursion"><span class="std std-ref">How to compile mutually recursive modules</span></a>. This more of an infelicity than a bug: the
@@ -280,7 +280,7 @@ necessary to deal with mutual recursion. The precise details of separate
 compilation are not defined by this Report.&quot;</div></blockquote>
 </div>
 <div class="section" id="numbers-basic-types-and-built-in-classes">
-<span id="infelicities-numbers"></span><h4>17.1.1.7. Numbers, basic types, and built-in classes<a class="headerlink" href="#numbers-basic-types-and-built-in-classes" title="このヘッドラインへのパーマリンク">¶</a></h4>
+<span id="infelicities-numbers"></span><h4>18.1.1.7. Numbers, basic types, and built-in classes<a class="headerlink" href="#numbers-basic-types-and-built-in-classes" title="このヘッドラインへのパーマリンク">¶</a></h4>
 <dl class="docutils">
 <dt><code class="docutils literal"><span class="pre">Num</span></code> superclasses</dt>
 <dd><p class="first">The <code class="docutils literal"><span class="pre">Num</span></code> class does not have <code class="docutils literal"><span class="pre">Show</span></code> or <code class="docutils literal"><span class="pre">Eq</span></code> superclasses.</p>
@@ -357,7 +357,7 @@ for duplicates. The reason for this is efficiency, pure and simple.</p>
 </dl>
 </div>
 <div class="section" id="in-prelude-support">
-<span id="infelicities-prelude"></span><h4>17.1.1.8. In <code class="docutils literal"><span class="pre">Prelude</span></code> support<a class="headerlink" href="#in-prelude-support" title="このヘッドラインへのパーマリンク">¶</a></h4>
+<span id="infelicities-prelude"></span><h4>18.1.1.8. In <code class="docutils literal"><span class="pre">Prelude</span></code> support<a class="headerlink" href="#in-prelude-support" title="このヘッドラインへのパーマリンク">¶</a></h4>
 <dl class="docutils">
 <dt>Arbitrary-sized tuples</dt>
 <dd><p class="first">Tuples are currently limited to size 100. However, standard
@@ -428,7 +428,7 @@ operation was performed in the IO monad, and can be caught by
 </dl>
 </div>
 <div class="section" id="the-foreign-function-interface">
-<span id="infelicities-ffi"></span><h4>17.1.1.9. The Foreign Function Interface<a class="headerlink" href="#the-foreign-function-interface" title="このヘッドラインへのパーマリンク">¶</a></h4>
+<span id="infelicities-ffi"></span><h4>18.1.1.9. The Foreign Function Interface<a class="headerlink" href="#the-foreign-function-interface" title="このヘッドラインへのパーマリンク">¶</a></h4>
 <dl class="docutils">
 <dt><code class="docutils literal"><span class="pre">hs_init()</span></code>, <code class="docutils literal"><span class="pre">hs_exit()</span></code></dt>
 <dd>The FFI spec requires the implementation to support re-initialising
@@ -437,7 +437,7 @@ currently support that. See <a class="reference external" href="https://ghc.hask
 </dl>
 </div>
 <div class="section" id="operator-sections">
-<span id="infelicities-operator-sections"></span><span id="index-1"></span><h4>17.1.1.10. Operator sections<a class="headerlink" href="#operator-sections" title="このヘッドラインへのパーマリンク">¶</a></h4>
+<span id="infelicities-operator-sections"></span><span id="index-1"></span><h4>18.1.1.10. Operator sections<a class="headerlink" href="#operator-sections" title="このヘッドラインへのパーマリンク">¶</a></h4>
 <p>The Haskell Report demands that, for infix operators <code class="docutils literal"><span class="pre">%</span></code>, the following
 identities hold:</p>
 <dl class="docutils">
@@ -458,7 +458,7 @@ undefined function.</p>
 </div>
 </div>
 <div class="section" id="ghc-s-interpretation-of-undefined-behaviour-in-haskell-98-and-haskell-2010">
-<span id="haskell-98-2010-undefined"></span><h3>17.1.2. GHC's interpretation of undefined behaviour in Haskell&nbsp;98 and Haskell&nbsp;2010<a class="headerlink" href="#ghc-s-interpretation-of-undefined-behaviour-in-haskell-98-and-haskell-2010" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<span id="haskell-98-2010-undefined"></span><h3>18.1.2. GHC's interpretation of undefined behaviour in Haskell&nbsp;98 and Haskell&nbsp;2010<a class="headerlink" href="#ghc-s-interpretation-of-undefined-behaviour-in-haskell-98-and-haskell-2010" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <p>This section documents GHC's take on various issues that are left
 undefined or implementation specific in Haskell 98.</p>
 <dl class="docutils">
@@ -505,14 +505,14 @@ terminating the program)</dd>
 </div>
 </div>
 <div class="section" id="known-bugs-or-infelicities">
-<span id="bugs"></span><span id="index-4"></span><h2>17.2. Known bugs or infelicities<a class="headerlink" href="#known-bugs-or-infelicities" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<span id="bugs"></span><span id="index-4"></span><h2>18.2. Known bugs or infelicities<a class="headerlink" href="#known-bugs-or-infelicities" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <p>The bug tracker lists bugs that have been reported in GHC but not yet
 fixed: see the <a class="reference external" href="http://ghc.haskell.org/trac/ghc/">GHC Trac</a>. In
 addition to those, GHC also has the following known bugs or
 infelicities. These bugs are more permanent; it is unlikely that any of
 them will be fixed in the short term.</p>
 <div class="section" id="bugs-in-ghc">
-<span id="bugs-ghc"></span><h3>17.2.1. Bugs in GHC<a class="headerlink" href="#bugs-in-ghc" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<span id="bugs-ghc"></span><h3>18.2.1. Bugs in GHC<a class="headerlink" href="#bugs-in-ghc" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <ul>
 <li><p class="first">GHC's runtime system implements cooperative multitasking, with
 context switching potentially occurring only when a program
@@ -624,7 +624,7 @@ on Windows. On Windows we support up to Latin-1. See <a class="reference externa
 </ul>
 </div>
 <div class="section" id="bugs-in-ghci-the-interactive-ghc">
-<span id="bugs-ghci"></span><h3>17.2.2. Bugs in GHCi (the interactive GHC)<a class="headerlink" href="#bugs-in-ghci-the-interactive-ghc" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<span id="bugs-ghci"></span><h3>18.2.2. Bugs in GHCi (the interactive GHC)<a class="headerlink" href="#bugs-in-ghci-the-interactive-ghc" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <ul>
 <li><p class="first">GHCi does not respect the <code class="docutils literal"><span class="pre">default</span></code> declaration in the module whose
 scope you are in. Instead, for expressions typed at the command line,
@@ -665,10 +665,10 @@ it.</p>
           <a href="genindex.html" title="総合索引"
              >索引</a></li>
         <li class="right" >
-          <a href="eventlog-formats.html" title="18. Eventlog encodings"
+          <a href="eventlog-formats.html" title="19. Eventlog encodings"
              >次へ</a> |</li>
         <li class="right" >
-          <a href="win32-dlls.html" title="16. Running GHC on Win32 systems"
+          <a href="win32-dlls.html" title="17. Running GHC on Win32 systems"
              >前へ</a> |</li>
         <li class="nav-item nav-item-0"><a href="index.html">GHC 8.4.3 User&#39;s Guide</a> &#187;</li> 
       </ul>

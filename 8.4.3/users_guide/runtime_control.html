@@ -6,7 +6,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="ja">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>7.7. Running a compiled program &#8212; Glasgow Haskell Compiler 8.4.3 User&#39;s Guide</title>
+    <title>8.7. Running a compiled program &#8212; Glasgow Haskell Compiler 8.4.3 User&#39;s Guide</title>
     <link rel="stylesheet" href="_static/ghc-theme.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <script type="text/javascript">
@@ -29,8 +29,8 @@
           href="_static/opensearch.xml"/>
     <link rel="index" title="索引" href="genindex.html" />
     <link rel="search" title="検索" href="search.html" />
-    <link rel="next" title="7.8. Filenames and separate compilation" href="separate_compilation.html" />
-    <link rel="prev" title="7.6. Flag reference" href="flags.html" /> 
+    <link rel="next" title="8.8. Filenames and separate compilation" href="separate_compilation.html" />
+    <link rel="prev" title="8.6. Flag reference" href="flags.html" /> 
   </head>
   <body>
 <div class="logo">
@@ -44,13 +44,13 @@
           <a href="genindex.html" title="総合索引"
              accesskey="I">索引</a></li>
         <li class="right" >
-          <a href="separate_compilation.html" title="7.8. Filenames and separate compilation"
+          <a href="separate_compilation.html" title="8.8. Filenames and separate compilation"
              accesskey="N">次へ</a> |</li>
         <li class="right" >
-          <a href="flags.html" title="7.6. Flag reference"
+          <a href="flags.html" title="8.6. Flag reference"
              accesskey="P">前へ</a> |</li>
         <li class="nav-item nav-item-0"><a href="index.html">GHC 8.4.3 User&#39;s Guide</a> &#187;</li>
-          <li class="nav-item nav-item-1"><a href="usage.html" accesskey="U">7. Using GHC</a> &#187;</li> 
+          <li class="nav-item nav-item-1"><a href="usage.html" accesskey="U">8. Using GHC</a> &#187;</li> 
       </ul>
     </div>
 
@@ -58,36 +58,36 @@
         <div class="sphinxsidebarwrapper">
   <h3><a href="index.html">目次</a></h3>
   <ul>
-<li><a class="reference internal" href="#">7.7. Running a compiled program</a><ul>
-<li><a class="reference internal" href="#setting-rts-options">7.7.1. Setting RTS options</a><ul>
-<li><a class="reference internal" href="#setting-rts-options-on-the-command-line">7.7.1.1. Setting RTS options on the command line</a></li>
-<li><a class="reference internal" href="#setting-rts-options-at-compile-time">7.7.1.2. Setting RTS options at compile time</a></li>
-<li><a class="reference internal" href="#setting-rts-options-with-the-ghcrts-environment-variable">7.7.1.3. Setting RTS options with the <code class="docutils literal"><span class="pre">GHCRTS</span></code> environment variable</a></li>
-<li><a class="reference internal" href="#hooks-to-change-rts-behaviour">7.7.1.4. &quot;Hooks&quot; to change RTS behaviour</a><ul>
-<li><a class="reference internal" href="#runtime-events">7.7.1.4.1. Runtime events</a></li>
-<li><a class="reference internal" href="#event-log-output">7.7.1.4.2. Event log output</a></li>
+<li><a class="reference internal" href="#">8.7. Running a compiled program</a><ul>
+<li><a class="reference internal" href="#setting-rts-options">8.7.1. Setting RTS options</a><ul>
+<li><a class="reference internal" href="#setting-rts-options-on-the-command-line">8.7.1.1. Setting RTS options on the command line</a></li>
+<li><a class="reference internal" href="#setting-rts-options-at-compile-time">8.7.1.2. Setting RTS options at compile time</a></li>
+<li><a class="reference internal" href="#setting-rts-options-with-the-ghcrts-environment-variable">8.7.1.3. Setting RTS options with the <code class="docutils literal"><span class="pre">GHCRTS</span></code> environment variable</a></li>
+<li><a class="reference internal" href="#hooks-to-change-rts-behaviour">8.7.1.4. &quot;Hooks&quot; to change RTS behaviour</a><ul>
+<li><a class="reference internal" href="#runtime-events">8.7.1.4.1. Runtime events</a></li>
+<li><a class="reference internal" href="#event-log-output">8.7.1.4.2. Event log output</a></li>
 </ul>
 </li>
 </ul>
 </li>
-<li><a class="reference internal" href="#miscellaneous-rts-options">7.7.2. Miscellaneous RTS options</a></li>
-<li><a class="reference internal" href="#rts-options-to-control-the-garbage-collector">7.7.3. RTS options to control the garbage collector</a></li>
-<li><a class="reference internal" href="#rts-options-to-produce-runtime-statistics">7.7.4. RTS options to produce runtime statistics</a></li>
-<li><a class="reference internal" href="#rts-options-for-concurrency-and-parallelism">7.7.5. RTS options for concurrency and parallelism</a></li>
-<li><a class="reference internal" href="#rts-options-for-profiling">7.7.6. RTS options for profiling</a></li>
-<li><a class="reference internal" href="#tracing">7.7.7. Tracing</a></li>
-<li><a class="reference internal" href="#rts-options-for-hackers-debuggers-and-over-interested-souls">7.7.8. RTS options for hackers, debuggers, and over-interested souls</a></li>
-<li><a class="reference internal" href="#getting-information-about-the-rts">7.7.9. Getting information about the RTS</a></li>
+<li><a class="reference internal" href="#miscellaneous-rts-options">8.7.2. Miscellaneous RTS options</a></li>
+<li><a class="reference internal" href="#rts-options-to-control-the-garbage-collector">8.7.3. RTS options to control the garbage collector</a></li>
+<li><a class="reference internal" href="#rts-options-to-produce-runtime-statistics">8.7.4. RTS options to produce runtime statistics</a></li>
+<li><a class="reference internal" href="#rts-options-for-concurrency-and-parallelism">8.7.5. RTS options for concurrency and parallelism</a></li>
+<li><a class="reference internal" href="#rts-options-for-profiling">8.7.6. RTS options for profiling</a></li>
+<li><a class="reference internal" href="#tracing">8.7.7. Tracing</a></li>
+<li><a class="reference internal" href="#rts-options-for-hackers-debuggers-and-over-interested-souls">8.7.8. RTS options for hackers, debuggers, and over-interested souls</a></li>
+<li><a class="reference internal" href="#getting-information-about-the-rts">8.7.9. Getting information about the RTS</a></li>
 </ul>
 </li>
 </ul>
 
   <h4>前のトピックへ</h4>
   <p class="topless"><a href="flags.html"
-                        title="前の章へ">7.6. Flag reference</a></p>
+                        title="前の章へ">8.6. Flag reference</a></p>
   <h4>次のトピックへ</h4>
   <p class="topless"><a href="separate_compilation.html"
-                        title="次の章へ">7.8. Filenames and separate compilation</a></p>
+                        title="次の章へ">8.8. Filenames and separate compilation</a></p>
   <div role="note" aria-label="source link">
     <h3>このページ</h3>
     <ul class="this-page-menu">
@@ -114,7 +114,7 @@
           <div class="body" role="main">
             
   <div class="section" id="running-a-compiled-program">
-<span id="runtime-control"></span><h1>7.7. Running a compiled program<a class="headerlink" href="#running-a-compiled-program" title="このヘッドラインへのパーマリンク">¶</a></h1>
+<span id="runtime-control"></span><h1>8.7. Running a compiled program<a class="headerlink" href="#running-a-compiled-program" title="このヘッドラインへのパーマリンク">¶</a></h1>
 <p id="index-0">To make an executable program, the GHC system compiles your code and
 then links it with a non-trivial runtime system (RTS), which handles
 storage management, thread scheduling, profiling, and so on.</p>
@@ -125,7 +125,7 @@ system in a variety of different ways; the next section
 (<a class="reference internal" href="#setting-rts-options"><span class="std std-ref">Setting RTS options</span></a>) describes the various methods, and the
 following sections describe the RTS options themselves.</p>
 <div class="section" id="setting-rts-options">
-<span id="id1"></span><h2>7.7.1. Setting RTS options<a class="headerlink" href="#setting-rts-options" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<span id="id1"></span><h2>8.7.1. Setting RTS options<a class="headerlink" href="#setting-rts-options" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <p id="index-1">There are four ways to set RTS options:</p>
 <ul class="simple">
 <li>on the command line between <code class="docutils literal"><span class="pre">+RTS</span> <span class="pre">...</span> <span class="pre">-RTS</span></code>, when running the
@@ -137,7 +137,7 @@ program (<a class="reference internal" href="#rts-opts-cmdline"><span class="std
 <li>by overriding &quot;hooks&quot; in the runtime system (<a class="reference internal" href="#rts-hooks"><span class="std std-ref">&quot;Hooks&quot; to change RTS behaviour</span></a>)</li>
 </ul>
 <div class="section" id="setting-rts-options-on-the-command-line">
-<span id="rts-opts-cmdline"></span><h3>7.7.1.1. Setting RTS options on the command line<a class="headerlink" href="#setting-rts-options-on-the-command-line" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<span id="rts-opts-cmdline"></span><h3>8.7.1.1. Setting RTS options on the command line<a class="headerlink" href="#setting-rts-options-on-the-command-line" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <p id="index-3">If you set the <a class="reference internal" href="phases.html#ghc-flag--rtsopts[=⟨none|some|all⟩]"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-rtsopts[=⟨none|some|all⟩]</span></code></a> flag appropriately when
 linking (see <a class="reference internal" href="phases.html#options-linker"><span class="std std-ref">Options affecting linking</span></a>), you can give RTS options on the command
 line when running your program.</p>
@@ -176,7 +176,7 @@ the maximum heap size for a compilation to 128M, you would add
 </div>
 </div>
 <div class="section" id="setting-rts-options-at-compile-time">
-<span id="rts-opts-compile-time"></span><h3>7.7.1.2. Setting RTS options at compile time<a class="headerlink" href="#setting-rts-options-at-compile-time" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<span id="rts-opts-compile-time"></span><h3>8.7.1.2. Setting RTS options at compile time<a class="headerlink" href="#setting-rts-options-at-compile-time" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <p>GHC lets you change the default RTS options for a program at compile
 time, using the <code class="docutils literal"><span class="pre">-with-rtsopts</span></code> flag (<a class="reference internal" href="phases.html#options-linker"><span class="std std-ref">Options affecting linking</span></a>). A common
 use for this is to give your program a default heap and/or stack size
@@ -184,7 +184,7 @@ that is greater than the default. For example, to set <code class="docutils lite
 link with <code class="docutils literal"><span class="pre">-with-rtsopts=&quot;-H128m</span> <span class="pre">-K64m&quot;</span></code>.</p>
 </div>
 <div class="section" id="setting-rts-options-with-the-ghcrts-environment-variable">
-<span id="rts-options-environment"></span><h3>7.7.1.3. Setting RTS options with the <code class="docutils literal"><span class="pre">GHCRTS</span></code> environment variable<a class="headerlink" href="#setting-rts-options-with-the-ghcrts-environment-variable" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<span id="rts-options-environment"></span><h3>8.7.1.3. Setting RTS options with the <code class="docutils literal"><span class="pre">GHCRTS</span></code> environment variable<a class="headerlink" href="#setting-rts-options-with-the-ghcrts-environment-variable" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <span class="target" id="index-4"></span><dl class="envvar">
 <dt id="envvar-GHCRTS">
 <code class="descname">GHCRTS</code><a class="headerlink" href="#envvar-GHCRTS" title="この定義へのパーマリンク">¶</a></dt>
@@ -210,7 +210,7 @@ hope it kills the right one).</p>
 </div>
 </div>
 <div class="section" id="hooks-to-change-rts-behaviour">
-<span id="rts-hooks"></span><h3>7.7.1.4. &quot;Hooks&quot; to change RTS behaviour<a class="headerlink" href="#hooks-to-change-rts-behaviour" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<span id="rts-hooks"></span><h3>8.7.1.4. &quot;Hooks&quot; to change RTS behaviour<a class="headerlink" href="#hooks-to-change-rts-behaviour" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <p id="index-7">GHC lets you exercise rudimentary control over certain RTS settings for
 any given program, by compiling in a &quot;hook&quot; that is called by the
 run-time system. The RTS contains stub definitions for these hooks, but
@@ -219,7 +219,7 @@ can override the defaults.</p>
 <p>Owing to the vagaries of DLL linking, these hooks don't work under
 Windows when the program is built dynamically.</p>
 <div class="section" id="runtime-events">
-<h4>7.7.1.4.1. Runtime events<a class="headerlink" href="#runtime-events" title="このヘッドラインへのパーマリンク">¶</a></h4>
+<h4>8.7.1.4.1. Runtime events<a class="headerlink" href="#runtime-events" title="このヘッドラインへのパーマリンク">¶</a></h4>
 <p>You can change the messages printed when the runtime system &quot;blows up,&quot;
 e.g., on stack overflow. The hooks for these are as follows:</p>
 <dl class="function">
@@ -242,7 +242,7 @@ void <code class="descname">MallocFailHook</code><span class="sig-paren">(</span
 
 </div>
 <div class="section" id="event-log-output">
-<h4>7.7.1.4.2. Event log output<a class="headerlink" href="#event-log-output" title="このヘッドラインへのパーマリンク">¶</a></h4>
+<h4>8.7.1.4.2. Event log output<a class="headerlink" href="#event-log-output" title="このヘッドラインへのパーマリンク">¶</a></h4>
 <p>Furthermore GHC lets you specify the way event log data (see <a class="reference internal" href="profiling.html#rts-flag--l"><code class="xref std std-rts-flag docutils literal"><span class="pre">-l</span></code></a>) is
 written through a custom <a class="reference internal" href="#c.EventLogWriter" title="EventLogWriter"><code class="xref c c-type docutils literal"><span class="pre">EventLogWriter</span></code></a>:</p>
 <dl class="type">
@@ -281,7 +281,7 @@ void <code class="descname">stopEventLogWriter</code><span class="sig-paren">(</
 </div>
 </div>
 <div class="section" id="miscellaneous-rts-options">
-<span id="rts-options-misc"></span><h2>7.7.2. Miscellaneous RTS options<a class="headerlink" href="#miscellaneous-rts-options" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<span id="rts-options-misc"></span><h2>8.7.2. Miscellaneous RTS options<a class="headerlink" href="#miscellaneous-rts-options" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <dl class="rts-flag">
 <dt id="rts-flag---install-signal-handlers=⟨yes|no⟩">
 <code class="descname">--install-signal-handlers</code><code class="descclassname">=⟨yes|no⟩</code><a class="headerlink" href="#rts-flag---install-signal-handlers=⟨yes|no⟩" title="この定義へのパーマリンク">¶</a></dt>
@@ -366,7 +366,7 @@ size of this additional quota.</p>
 
 </div>
 <div class="section" id="rts-options-to-control-the-garbage-collector">
-<span id="rts-options-gc"></span><h2>7.7.3. RTS options to control the garbage collector<a class="headerlink" href="#rts-options-to-control-the-garbage-collector" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<span id="rts-options-gc"></span><h2>8.7.3. RTS options to control the garbage collector<a class="headerlink" href="#rts-options-to-control-the-garbage-collector" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <p id="index-9">There are several options to give you precise control over garbage
 collection. Hopefully, you won't need any of these in normal operation,
 but there are several things that can be tweaked for maximum
@@ -929,7 +929,7 @@ calling the <code class="docutils literal"><span class="pre">getRTSStats()</span
 
 </div>
 <div class="section" id="rts-options-to-produce-runtime-statistics">
-<span id="rts-options-statistics"></span><h2>7.7.4. RTS options to produce runtime statistics<a class="headerlink" href="#rts-options-to-produce-runtime-statistics" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<span id="rts-options-statistics"></span><h2>8.7.4. RTS options to produce runtime statistics<a class="headerlink" href="#rts-options-to-produce-runtime-statistics" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <dl class="rts-flag">
 <dt id="rts-flag--T">
 <code class="descname">-T</code><code class="descclassname"></code><a class="headerlink" href="#rts-flag--T" title="この定義へのパーマリンク">¶</a></dt>
@@ -1099,13 +1099,13 @@ collection.</li>
 
 </div>
 <div class="section" id="rts-options-for-concurrency-and-parallelism">
-<h2>7.7.5. RTS options for concurrency and parallelism<a class="headerlink" href="#rts-options-for-concurrency-and-parallelism" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<h2>8.7.5. RTS options for concurrency and parallelism<a class="headerlink" href="#rts-options-for-concurrency-and-parallelism" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <p>The RTS options related to concurrency are described in
 <a class="reference internal" href="using-concurrent.html#using-concurrent"><span class="std std-ref">Using Concurrent Haskell</span></a>, and those for parallelism in
 <a class="reference internal" href="using-concurrent.html#parallel-options"><span class="std std-ref">RTS options for SMP parallelism</span></a>.</p>
 </div>
 <div class="section" id="rts-options-for-profiling">
-<span id="rts-profiling"></span><h2>7.7.6. RTS options for profiling<a class="headerlink" href="#rts-options-for-profiling" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<span id="rts-profiling"></span><h2>8.7.6. RTS options for profiling<a class="headerlink" href="#rts-options-for-profiling" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <p>Most profiling runtime options are only available when you compile your
 program for profiling (see <a class="reference internal" href="profiling.html#prof-compiler-options"><span class="std std-ref">Compiler options for profiling</span></a>, and
 <a class="reference internal" href="profiling.html#rts-options-heap-prof"><span class="std std-ref">RTS options for heap profiling</span></a> for the runtime options). However, there is
@@ -1140,7 +1140,7 @@ profile is broken down by data constructor, with other types of closures
 
 </div>
 <div class="section" id="tracing">
-<span id="rts-eventlog"></span><h2>7.7.7. Tracing<a class="headerlink" href="#tracing" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<span id="rts-eventlog"></span><h2>8.7.7. Tracing<a class="headerlink" href="#tracing" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <p id="index-29">When the program is linked with the <a class="reference internal" href="phases.html#ghc-flag--eventlog"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-eventlog</span></code></a> option
 (<a class="reference internal" href="phases.html#options-linker"><span class="std std-ref">Options affecting linking</span></a>), runtime events can be logged in several ways:</p>
 <ul class="simple">
@@ -1216,7 +1216,7 @@ to stdout (<code class="docutils literal"><span class="pre">-Dx</span></code> im
 the binary eventlog file by using the <code class="docutils literal"><span class="pre">-l</span></code> option.</p>
 </div>
 <div class="section" id="rts-options-for-hackers-debuggers-and-over-interested-souls">
-<span id="rts-options-debugging"></span><h2>7.7.8. RTS options for hackers, debuggers, and over-interested souls<a class="headerlink" href="#rts-options-for-hackers-debuggers-and-over-interested-souls" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<span id="rts-options-debugging"></span><h2>8.7.8. RTS options for hackers, debuggers, and over-interested souls<a class="headerlink" href="#rts-options-for-hackers-debuggers-and-over-interested-souls" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <p id="index-30">These RTS options might be used (a)&nbsp;to avoid a GHC bug, (b)&nbsp;to see
 &quot;what's really happening&quot;, or (c)&nbsp;because you feel like it. Not
 recommended for everyday use!</p>
@@ -1312,7 +1312,7 @@ counts.)</p>
 
 </div>
 <div class="section" id="getting-information-about-the-rts">
-<span id="ghc-info"></span><h2>7.7.9. Getting information about the RTS<a class="headerlink" href="#getting-information-about-the-rts" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<span id="ghc-info"></span><h2>8.7.9. Getting information about the RTS<a class="headerlink" href="#getting-information-about-the-rts" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <span class="target" id="index-32"></span><dl class="rts-flag">
 <dt id="rts-flag---info">
 <code class="descname">--info</code><code class="descclassname"></code><a class="headerlink" href="#rts-flag---info" title="この定義へのパーマリンク">¶</a></dt>
@@ -1399,13 +1399,13 @@ optimisation. (Usually yes, except on unusual platforms.)</dd>
           <a href="genindex.html" title="総合索引"
              >索引</a></li>
         <li class="right" >
-          <a href="separate_compilation.html" title="7.8. Filenames and separate compilation"
+          <a href="separate_compilation.html" title="8.8. Filenames and separate compilation"
              >次へ</a> |</li>
         <li class="right" >
-          <a href="flags.html" title="7.6. Flag reference"
+          <a href="flags.html" title="8.6. Flag reference"
              >前へ</a> |</li>
         <li class="nav-item nav-item-0"><a href="index.html">GHC 8.4.3 User&#39;s Guide</a> &#187;</li>
-          <li class="nav-item nav-item-1"><a href="usage.html" >7. Using GHC</a> &#187;</li> 
+          <li class="nav-item nav-item-1"><a href="usage.html" >8. Using GHC</a> &#187;</li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">

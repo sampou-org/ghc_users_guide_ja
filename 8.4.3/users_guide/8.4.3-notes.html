@@ -6,7 +6,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="ja">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>Release notes for version 8.4.3 &#8212; Glasgow Haskell Compiler 8.4.3 User&#39;s Guide</title>
+    <title>5. Release notes for version 8.4.3 &#8212; Glasgow Haskell Compiler 8.4.3 User&#39;s Guide</title>
     <link rel="stylesheet" href="_static/ghc-theme.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <script type="text/javascript">
@@ -28,7 +28,9 @@
           title="Glasgow Haskell Compiler 8.4.3 User&#39;s Guide 内を検索"
           href="_static/opensearch.xml"/>
     <link rel="index" title="索引" href="genindex.html" />
-    <link rel="search" title="検索" href="search.html" /> 
+    <link rel="search" title="検索" href="search.html" />
+    <link rel="next" title="6. Using GHCi" href="ghci.html" />
+    <link rel="prev" title="4. Release notes for version 8.4.2" href="8.4.2-notes.html" /> 
   </head>
   <body>
 <div class="logo">
@@ -41,6 +43,12 @@
         <li class="right" style="margin-right: 10px">
           <a href="genindex.html" title="総合索引"
              accesskey="I">索引</a></li>
+        <li class="right" >
+          <a href="ghci.html" title="6. Using GHCi"
+             accesskey="N">次へ</a> |</li>
+        <li class="right" >
+          <a href="8.4.2-notes.html" title="4. Release notes for version 8.4.2"
+             accesskey="P">前へ</a> |</li>
         <li class="nav-item nav-item-0"><a href="index.html">GHC 8.4.3 User&#39;s Guide</a> &#187;</li> 
       </ul>
     </div>
@@ -49,23 +57,29 @@
         <div class="sphinxsidebarwrapper">
   <h3><a href="index.html">目次</a></h3>
   <ul>
-<li><a class="reference internal" href="#">Release notes for version 8.4.3</a><ul>
-<li><a class="reference internal" href="#highlights">Highlights</a></li>
-<li><a class="reference internal" href="#full-details">Full details</a><ul>
-<li><a class="reference internal" href="#compiler">Compiler</a></li>
-<li><a class="reference internal" href="#runtime-system">Runtime system</a></li>
-<li><a class="reference internal" href="#template-haskell">Template Haskell</a></li>
-<li><a class="reference internal" href="#ghc-library"><code class="docutils literal"><span class="pre">ghc</span></code> library</a></li>
-<li><a class="reference internal" href="#base-library"><code class="docutils literal"><span class="pre">base</span></code> library</a></li>
-<li><a class="reference internal" href="#integer-gmp-library"><code class="docutils literal"><span class="pre">integer-gmp</span></code> library</a></li>
-<li><a class="reference internal" href="#build-system">Build system</a></li>
+<li><a class="reference internal" href="#">5. Release notes for version 8.4.3</a><ul>
+<li><a class="reference internal" href="#highlights">5.1. Highlights</a></li>
+<li><a class="reference internal" href="#full-details">5.2. Full details</a><ul>
+<li><a class="reference internal" href="#compiler">5.2.1. Compiler</a></li>
+<li><a class="reference internal" href="#runtime-system">5.2.2. Runtime system</a></li>
+<li><a class="reference internal" href="#template-haskell">5.2.3. Template Haskell</a></li>
+<li><a class="reference internal" href="#ghc-library">5.2.4. <code class="docutils literal"><span class="pre">ghc</span></code> library</a></li>
+<li><a class="reference internal" href="#base-library">5.2.5. <code class="docutils literal"><span class="pre">base</span></code> library</a></li>
+<li><a class="reference internal" href="#integer-gmp-library">5.2.6. <code class="docutils literal"><span class="pre">integer-gmp</span></code> library</a></li>
+<li><a class="reference internal" href="#build-system">5.2.7. Build system</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#included-libraries">Included libraries</a></li>
+<li><a class="reference internal" href="#included-libraries">5.3. Included libraries</a></li>
 </ul>
 </li>
 </ul>
 
+  <h4>前のトピックへ</h4>
+  <p class="topless"><a href="8.4.2-notes.html"
+                        title="前の章へ">4. Release notes for version 8.4.2</a></p>
+  <h4>次のトピックへ</h4>
+  <p class="topless"><a href="ghci.html"
+                        title="次の章へ">6. Using GHCi</a></p>
   <div role="note" aria-label="source link">
     <h3>このページ</h3>
     <ul class="this-page-menu">
@@ -92,9 +106,9 @@
           <div class="body" role="main">
             
   <div class="section" id="release-notes-for-version-8-4-3">
-<span id="release-8-4-3"></span><h1>Release notes for version 8.4.3<a class="headerlink" href="#release-notes-for-version-8-4-3" title="このヘッドラインへのパーマリンク">¶</a></h1>
+<span id="release-8-4-3"></span><h1>5. Release notes for version 8.4.3<a class="headerlink" href="#release-notes-for-version-8-4-3" title="このヘッドラインへのパーマリンク">¶</a></h1>
 <div class="section" id="highlights">
-<h2>Highlights<a class="headerlink" href="#highlights" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<h2>5.1. Highlights<a class="headerlink" href="#highlights" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <p>This is a bug-fix release resolving several regressions introduced in 8.4.1.</p>
 <p>The highlights, since the 8.4.2 release, are:</p>
 <ul class="simple">
@@ -108,15 +122,15 @@ is loaded (<a class="reference external" href="https://ghc.haskell.org/trac/ghc/
 </ul>
 </div>
 <div class="section" id="full-details">
-<h2>Full details<a class="headerlink" href="#full-details" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<h2>5.2. Full details<a class="headerlink" href="#full-details" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <p>In addition to the highlights listed above, this release resolves a number of
 other issues, described below.</p>
 <div class="section" id="compiler">
-<h3>Compiler<a class="headerlink" href="#compiler" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<h3>5.2.1. Compiler<a class="headerlink" href="#compiler" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <p>No changes beyond those listed in Highlights.</p>
 </div>
 <div class="section" id="runtime-system">
-<h3>Runtime system<a class="headerlink" href="#runtime-system" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<h3>5.2.2. Runtime system<a class="headerlink" href="#runtime-system" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <ul class="simple">
 <li>A bug causing aggressive potentially resulting in crashes when
 (<a class="reference internal" href="runtime_control.html#rts-flag--n ⟨size⟩"><code class="xref std std-rts-flag docutils literal"><span class="pre">nursery</span> <span class="pre">chunks</span></code></a>) are used with a changing capability
@@ -124,15 +138,15 @@ count has been fixed.</li>
 </ul>
 </div>
 <div class="section" id="template-haskell">
-<h3>Template Haskell<a class="headerlink" href="#template-haskell" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<h3>5.2.3. Template Haskell<a class="headerlink" href="#template-haskell" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <p>No changes.</p>
 </div>
 <div class="section" id="ghc-library">
-<h3><code class="docutils literal"><span class="pre">ghc</span></code> library<a class="headerlink" href="#ghc-library" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<h3>5.2.4. <code class="docutils literal"><span class="pre">ghc</span></code> library<a class="headerlink" href="#ghc-library" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <p>No changes.</p>
 </div>
 <div class="section" id="base-library">
-<h3><code class="docutils literal"><span class="pre">base</span></code> library<a class="headerlink" href="#base-library" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<h3>5.2.5. <code class="docutils literal"><span class="pre">base</span></code> library<a class="headerlink" href="#base-library" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <ul class="simple">
 <li>Version bumped to 4.11.1.0 to account for the addition of
 <code class="docutils literal"><span class="pre">GHC.IO.FixIOException</span></code></li>
@@ -141,16 +155,16 @@ count has been fixed.</li>
 </ul>
 </div>
 <div class="section" id="integer-gmp-library">
-<h3><code class="docutils literal"><span class="pre">integer-gmp</span></code> library<a class="headerlink" href="#integer-gmp-library" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<h3>5.2.6. <code class="docutils literal"><span class="pre">integer-gmp</span></code> library<a class="headerlink" href="#integer-gmp-library" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <p>No changes.</p>
 </div>
 <div class="section" id="build-system">
-<h3>Build system<a class="headerlink" href="#build-system" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<h3>5.2.7. Build system<a class="headerlink" href="#build-system" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <p>No changes.</p>
 </div>
 </div>
 <div class="section" id="included-libraries">
-<h2>Included libraries<a class="headerlink" href="#included-libraries" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<h2>5.3. Included libraries<a class="headerlink" href="#included-libraries" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <p>The package database provided with this distribution also contains a number of
 packages other than GHC itself. See the changelogs provided with these packages
 for further change information.</p>
@@ -292,6 +306,12 @@ for further change information.</p>
         <li class="right" style="margin-right: 10px">
           <a href="genindex.html" title="総合索引"
              >索引</a></li>
+        <li class="right" >
+          <a href="ghci.html" title="6. Using GHCi"
+             >次へ</a> |</li>
+        <li class="right" >
+          <a href="8.4.2-notes.html" title="4. Release notes for version 8.4.2"
+             >前へ</a> |</li>
         <li class="nav-item nav-item-0"><a href="index.html">GHC 8.4.3 User&#39;s Guide</a> &#187;</li> 
       </ul>
     </div>

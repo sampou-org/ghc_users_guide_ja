@@ -6,7 +6,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="ja">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>7.8. Filenames and separate compilation &#8212; Glasgow Haskell Compiler 8.4.3 User&#39;s Guide</title>
+    <title>8.8. Filenames and separate compilation &#8212; Glasgow Haskell Compiler 8.4.3 User&#39;s Guide</title>
     <link rel="stylesheet" href="_static/ghc-theme.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <script type="text/javascript">
@@ -29,8 +29,8 @@
           href="_static/opensearch.xml"/>
     <link rel="index" title="索引" href="genindex.html" />
     <link rel="search" title="検索" href="search.html" />
-    <link rel="next" title="7.9. Packages" href="packages.html" />
-    <link rel="prev" title="7.7. Running a compiled program" href="runtime_control.html" /> 
+    <link rel="next" title="8.9. Packages" href="packages.html" />
+    <link rel="prev" title="8.7. Running a compiled program" href="runtime_control.html" /> 
   </head>
   <body>
 <div class="logo">
@@ -44,13 +44,13 @@
           <a href="genindex.html" title="総合索引"
              accesskey="I">索引</a></li>
         <li class="right" >
-          <a href="packages.html" title="7.9. Packages"
+          <a href="packages.html" title="8.9. Packages"
              accesskey="N">次へ</a> |</li>
         <li class="right" >
-          <a href="runtime_control.html" title="7.7. Running a compiled program"
+          <a href="runtime_control.html" title="8.7. Running a compiled program"
              accesskey="P">前へ</a> |</li>
         <li class="nav-item nav-item-0"><a href="index.html">GHC 8.4.3 User&#39;s Guide</a> &#187;</li>
-          <li class="nav-item nav-item-1"><a href="usage.html" accesskey="U">7. Using GHC</a> &#187;</li> 
+          <li class="nav-item nav-item-1"><a href="usage.html" accesskey="U">8. Using GHC</a> &#187;</li> 
       </ul>
     </div>
 
@@ -58,30 +58,30 @@
         <div class="sphinxsidebarwrapper">
   <h3><a href="index.html">目次</a></h3>
   <ul>
-<li><a class="reference internal" href="#">7.8. Filenames and separate compilation</a><ul>
-<li><a class="reference internal" href="#haskell-source-files">7.8.1. Haskell source files</a></li>
-<li><a class="reference internal" href="#output-files">7.8.2. Output files</a></li>
-<li><a class="reference internal" href="#the-search-path">7.8.3. The search path</a></li>
-<li><a class="reference internal" href="#redirecting-the-compilation-output-s">7.8.4. Redirecting the compilation output(s)</a></li>
-<li><a class="reference internal" href="#keeping-intermediate-files">7.8.5. Keeping Intermediate Files</a></li>
-<li><a class="reference internal" href="#redirecting-temporary-files">7.8.6. Redirecting temporary files</a></li>
-<li><a class="reference internal" href="#other-options-related-to-interface-files">7.8.7. Other options related to interface files</a></li>
-<li><a class="reference internal" href="#the-recompilation-checker">7.8.8. The recompilation checker</a></li>
-<li><a class="reference internal" href="#how-to-compile-mutually-recursive-modules">7.8.9. How to compile mutually recursive modules</a></li>
-<li><a class="reference internal" href="#module-signatures">7.8.10. Module signatures</a></li>
-<li><a class="reference internal" href="#using-make">7.8.11. Using <code class="docutils literal"><span class="pre">make</span></code></a></li>
-<li><a class="reference internal" href="#dependency-generation">7.8.12. Dependency generation</a></li>
-<li><a class="reference internal" href="#orphan-modules-and-instance-declarations">7.8.13. Orphan modules and instance declarations</a></li>
+<li><a class="reference internal" href="#">8.8. Filenames and separate compilation</a><ul>
+<li><a class="reference internal" href="#haskell-source-files">8.8.1. Haskell source files</a></li>
+<li><a class="reference internal" href="#output-files">8.8.2. Output files</a></li>
+<li><a class="reference internal" href="#the-search-path">8.8.3. The search path</a></li>
+<li><a class="reference internal" href="#redirecting-the-compilation-output-s">8.8.4. Redirecting the compilation output(s)</a></li>
+<li><a class="reference internal" href="#keeping-intermediate-files">8.8.5. Keeping Intermediate Files</a></li>
+<li><a class="reference internal" href="#redirecting-temporary-files">8.8.6. Redirecting temporary files</a></li>
+<li><a class="reference internal" href="#other-options-related-to-interface-files">8.8.7. Other options related to interface files</a></li>
+<li><a class="reference internal" href="#the-recompilation-checker">8.8.8. The recompilation checker</a></li>
+<li><a class="reference internal" href="#how-to-compile-mutually-recursive-modules">8.8.9. How to compile mutually recursive modules</a></li>
+<li><a class="reference internal" href="#module-signatures">8.8.10. Module signatures</a></li>
+<li><a class="reference internal" href="#using-make">8.8.11. Using <code class="docutils literal"><span class="pre">make</span></code></a></li>
+<li><a class="reference internal" href="#dependency-generation">8.8.12. Dependency generation</a></li>
+<li><a class="reference internal" href="#orphan-modules-and-instance-declarations">8.8.13. Orphan modules and instance declarations</a></li>
 </ul>
 </li>
 </ul>
 
   <h4>前のトピックへ</h4>
   <p class="topless"><a href="runtime_control.html"
-                        title="前の章へ">7.7. Running a compiled program</a></p>
+                        title="前の章へ">8.7. Running a compiled program</a></p>
   <h4>次のトピックへ</h4>
   <p class="topless"><a href="packages.html"
-                        title="次の章へ">7.9. Packages</a></p>
+                        title="次の章へ">8.9. Packages</a></p>
   <div role="note" aria-label="source link">
     <h3>このページ</h3>
     <ul class="this-page-menu">
@@ -108,7 +108,7 @@
           <div class="body" role="main">
             
   <div class="section" id="filenames-and-separate-compilation">
-<span id="separate-compilation"></span><h1>7.8. Filenames and separate compilation<a class="headerlink" href="#filenames-and-separate-compilation" title="このヘッドラインへのパーマリンク">¶</a></h1>
+<span id="separate-compilation"></span><h1>8.8. Filenames and separate compilation<a class="headerlink" href="#filenames-and-separate-compilation" title="このヘッドラインへのパーマリンク">¶</a></h1>
 <p id="index-0">This section describes what files GHC expects to find, what files it
 creates, where these files are stored, and what options affect this
 behaviour.</p>
@@ -118,7 +118,7 @@ Windows systems. In the sections that follow, we shall consistently use
 &quot;<code class="docutils literal"><span class="pre">/</span></code>&quot; as the directory separator; substitute this for the
 appropriate character for your system.</p>
 <div class="section" id="haskell-source-files">
-<span id="source-files"></span><h2>7.8.1. Haskell source files<a class="headerlink" href="#haskell-source-files" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<span id="source-files"></span><h2>8.8.1. Haskell source files<a class="headerlink" href="#haskell-source-files" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <p id="index-1">Each Haskell source module should be placed in a file on its own.</p>
 <p>Usually, the file should be named after the module name, replacing dots
 in the module name by directory separators. For example, on a Unix
@@ -133,7 +133,7 @@ such as Latin-1, as long as the non-comment source code is ASCII
 only.</p>
 </div>
 <div class="section" id="output-files">
-<span id="id1"></span><h2>7.8.2. Output files<a class="headerlink" href="#output-files" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<span id="id1"></span><h2>8.8.2. Output files<a class="headerlink" href="#output-files" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <p id="index-3">When asked to compile a source file, GHC normally generates two files:
 an object file, and an interface file.</p>
 <p>The object file, which normally ends in a <code class="docutils literal"><span class="pre">.o</span></code> suffix, contains the
@@ -189,7 +189,7 @@ using the <a class="reference internal" href="#ghc-flag--o ⟨file⟩"><code cla
 be specified directly using the <a class="reference internal" href="#ghc-flag--ohi ⟨file⟩"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-ohi</span> <span class="pre">⟨file⟩</span></code></a> option.</p>
 </div>
 <div class="section" id="the-search-path">
-<span id="search-path"></span><h2>7.8.3. The search path<a class="headerlink" href="#the-search-path" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<span id="search-path"></span><h2>8.8.3. The search path<a class="headerlink" href="#the-search-path" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <p id="index-4">In your program, you import a module <code class="docutils literal"><span class="pre">Foo</span></code> by saying <code class="docutils literal"><span class="pre">import</span> <span class="pre">Foo</span></code>.
 In <a class="reference internal" href="using.html#ghc-flag---make"><code class="xref std std-ghc-flag docutils literal"><span class="pre">--make</span></code></a> mode or GHCi, GHC will look for a source file for <code class="docutils literal"><span class="pre">Foo</span></code>
 and arrange to compile it first. Without <a class="reference internal" href="using.html#ghc-flag---make"><code class="xref std std-ghc-flag docutils literal"><span class="pre">--make</span></code></a>, GHC will look for
@@ -228,7 +228,7 @@ libraries, known as packages. See the section on packages
 (<a class="reference internal" href="packages.html#packages"><span class="std std-ref">Packages</span></a>) for details.</p>
 </div>
 <div class="section" id="redirecting-the-compilation-output-s">
-<span id="options-output"></span><h2>7.8.4. Redirecting the compilation output(s)<a class="headerlink" href="#redirecting-the-compilation-output-s" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<span id="options-output"></span><h2>8.8.4. Redirecting the compilation output(s)<a class="headerlink" href="#redirecting-the-compilation-output-s" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <span class="target" id="index-6"></span><dl class="ghc-flag">
 <dt id="ghc-flag--o ⟨file⟩">
 <code class="descname">-o</code><code class="descclassname"> ⟨file⟩</code><a class="headerlink" href="#ghc-flag--o ⟨file⟩" title="この定義へのパーマリンク">¶</a></dt>
@@ -374,7 +374,7 @@ suffix for compiler-generated intermediate C files.</p>
 
 </div>
 <div class="section" id="keeping-intermediate-files">
-<span id="keeping-intermediates"></span><h2>7.8.5. Keeping Intermediate Files<a class="headerlink" href="#keeping-intermediate-files" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<span id="keeping-intermediates"></span><h2>8.8.5. Keeping Intermediate Files<a class="headerlink" href="#keeping-intermediate-files" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <p id="index-7">The following options are useful for keeping (or not keeping) certain
 intermediate files around, when normally GHC would throw these away after
 compilation:</p>
@@ -440,7 +440,7 @@ temporary files were generated along the way.</p>
 
 </div>
 <div class="section" id="redirecting-temporary-files">
-<span id="temp-files"></span><h2>7.8.6. Redirecting temporary files<a class="headerlink" href="#redirecting-temporary-files" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<span id="temp-files"></span><h2>8.8.6. Redirecting temporary files<a class="headerlink" href="#redirecting-temporary-files" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <span class="target" id="index-11"></span><dl class="ghc-flag">
 <dt id="ghc-flag--tmpdir ⟨dir⟩">
 <code class="descname">-tmpdir</code><code class="descclassname"> ⟨dir⟩</code><a class="headerlink" href="#ghc-flag--tmpdir ⟨dir⟩" title="この定義へのパーマリンク">¶</a></dt>
@@ -456,7 +456,7 @@ programs will honour the <span class="target" id="index-14"></span><code class="
 
 </div>
 <div class="section" id="other-options-related-to-interface-files">
-<span id="hi-options"></span><h2>7.8.7. Other options related to interface files<a class="headerlink" href="#other-options-related-to-interface-files" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<span id="hi-options"></span><h2>8.8.7. Other options related to interface files<a class="headerlink" href="#other-options-related-to-interface-files" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <span class="target" id="index-15"></span><dl class="ghc-flag">
 <dt id="ghc-flag--ddump-hi">
 <code class="descname">-ddump-hi</code><a class="headerlink" href="#ghc-flag--ddump-hi" title="この定義へのパーマリンク">¶</a></dt>
@@ -497,7 +497,7 @@ that interface in a human-readable format. See <a class="reference internal" hre
 
 </div>
 <div class="section" id="the-recompilation-checker">
-<span id="recomp"></span><h2>7.8.8. The recompilation checker<a class="headerlink" href="#the-recompilation-checker" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<span id="recomp"></span><h2>8.8.8. The recompilation checker<a class="headerlink" href="#the-recompilation-checker" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <span class="target" id="index-16"></span><dl class="ghc-flag">
 <dt id="ghc-flag--fforce-recomp">
 <code class="descname">-fforce-recomp</code><a class="headerlink" href="#ghc-flag--fforce-recomp" title="この定義へのパーマリンク">¶</a></dt>
@@ -545,7 +545,7 @@ works</a>
 in the GHC commentary.</p>
 </div>
 <div class="section" id="how-to-compile-mutually-recursive-modules">
-<span id="mutual-recursion"></span><h2>7.8.9. How to compile mutually recursive modules<a class="headerlink" href="#how-to-compile-mutually-recursive-modules" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<span id="mutual-recursion"></span><h2>8.8.9. How to compile mutually recursive modules<a class="headerlink" href="#how-to-compile-mutually-recursive-modules" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <p id="index-17">GHC supports the compilation of mutually recursive modules. This section
 explains how.</p>
 <p>Every cycle in the module import graph must be broken by a <code class="docutils literal"><span class="pre">hs-boot</span></code>
@@ -702,7 +702,7 @@ listed.) To get another role, use a role annotation. (See
 </ul>
 </div>
 <div class="section" id="module-signatures">
-<span id="id2"></span><h2>7.8.10. Module signatures<a class="headerlink" href="#module-signatures" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<span id="id2"></span><h2>8.8.10. Module signatures<a class="headerlink" href="#module-signatures" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <p id="index-19">GHC 8.2 supports module signatures (<code class="docutils literal"><span class="pre">hsig</span></code> files), which allow you to
 write a signature in place of a module implementation, deferring the
 choice of implementation until a later point in time.  This feature is
@@ -1041,7 +1041,7 @@ pattern synonyms.  See <a class="reference external" href="https://ghc.haskell.o
 </ul>
 </div>
 <div class="section" id="using-make">
-<span id="id3"></span><h2>7.8.11. Using <code class="docutils literal"><span class="pre">make</span></code><a class="headerlink" href="#using-make" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<span id="id3"></span><h2>8.8.11. Using <code class="docutils literal"><span class="pre">make</span></code><a class="headerlink" href="#using-make" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <p id="index-20">It is reasonably straightforward to set up a <code class="docutils literal"><span class="pre">Makefile</span></code> to use with
 GHC, assuming you name your source files the same as your modules. Thus:</p>
 <div class="highlight-makefile"><div class="highlight"><pre><span></span><span class="nv">HC</span>      <span class="o">=</span> ghc
@@ -1110,7 +1110,7 @@ nicely. These dependencies can be generated automatically by <code class="docuti
 see <a class="reference internal" href="#makefile-dependencies"><span class="std std-ref">Dependency generation</span></a></p>
 </div>
 <div class="section" id="dependency-generation">
-<span id="makefile-dependencies"></span><h2>7.8.12. Dependency generation<a class="headerlink" href="#dependency-generation" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<span id="makefile-dependencies"></span><h2>8.8.12. Dependency generation<a class="headerlink" href="#dependency-generation" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <p id="index-21">Putting inter-dependencies of the form <code class="docutils literal"><span class="pre">Foo.o</span> <span class="pre">:</span> <span class="pre">Bar.hi</span></code> into your
 <code class="docutils literal"><span class="pre">Makefile</span></code> by hand is rather error-prone. Don't worry, GHC has support
 for automatically generating the required dependencies. Add the
@@ -1231,7 +1231,7 @@ used by the various system libraries.</p>
 
 </div>
 <div class="section" id="orphan-modules-and-instance-declarations">
-<span id="orphan-modules"></span><h2>7.8.13. Orphan modules and instance declarations<a class="headerlink" href="#orphan-modules-and-instance-declarations" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<span id="orphan-modules"></span><h2>8.8.13. Orphan modules and instance declarations<a class="headerlink" href="#orphan-modules-and-instance-declarations" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <p>Haskell specifies that when compiling module <code class="docutils literal"><span class="pre">M</span></code>, any instance declaration
 in any module &quot;below&quot; <code class="docutils literal"><span class="pre">M</span></code> is visible. (Module <code class="docutils literal"><span class="pre">A</span></code> is &quot;below&quot; <code class="docutils literal"><span class="pre">M</span></code> if <code class="docutils literal"><span class="pre">A</span></code> is
 imported directly by <code class="docutils literal"><span class="pre">M</span></code>, or if <code class="docutils literal"><span class="pre">A</span></code> is below a module that <code class="docutils literal"><span class="pre">M</span></code> imports
@@ -1331,13 +1331,13 @@ using the <a class="reference internal" href="using.html#ghc-flag---show-iface �
           <a href="genindex.html" title="総合索引"
              >索引</a></li>
         <li class="right" >
-          <a href="packages.html" title="7.9. Packages"
+          <a href="packages.html" title="8.9. Packages"
              >次へ</a> |</li>
         <li class="right" >
-          <a href="runtime_control.html" title="7.7. Running a compiled program"
+          <a href="runtime_control.html" title="8.7. Running a compiled program"
              >前へ</a> |</li>
         <li class="nav-item nav-item-0"><a href="index.html">GHC 8.4.3 User&#39;s Guide</a> &#187;</li>
-          <li class="nav-item nav-item-1"><a href="usage.html" >7. Using GHC</a> &#187;</li> 
+          <li class="nav-item nav-item-1"><a href="usage.html" >8. Using GHC</a> &#187;</li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">

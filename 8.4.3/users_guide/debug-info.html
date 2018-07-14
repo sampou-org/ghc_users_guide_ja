@@ -6,7 +6,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="ja">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>14. Debugging compiled programs &#8212; Glasgow Haskell Compiler 8.4.3 User&#39;s Guide</title>
+    <title>15. Debugging compiled programs &#8212; Glasgow Haskell Compiler 8.4.3 User&#39;s Guide</title>
     <link rel="stylesheet" href="_static/ghc-theme.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <script type="text/javascript">
@@ -29,8 +29,8 @@
           href="_static/opensearch.xml"/>
     <link rel="index" title="索引" href="genindex.html" />
     <link rel="search" title="検索" href="search.html" />
-    <link rel="next" title="15. Other Haskell utility programs" href="utils.html" />
-    <link rel="prev" title="13. What to do when something goes wrong" href="gone_wrong.html" /> 
+    <link rel="next" title="16. Other Haskell utility programs" href="utils.html" />
+    <link rel="prev" title="14. What to do when something goes wrong" href="gone_wrong.html" /> 
   </head>
   <body>
 <div class="logo">
@@ -44,10 +44,10 @@
           <a href="genindex.html" title="総合索引"
              accesskey="I">索引</a></li>
         <li class="right" >
-          <a href="utils.html" title="15. Other Haskell utility programs"
+          <a href="utils.html" title="16. Other Haskell utility programs"
              accesskey="N">次へ</a> |</li>
         <li class="right" >
-          <a href="gone_wrong.html" title="13. What to do when something goes wrong"
+          <a href="gone_wrong.html" title="14. What to do when something goes wrong"
              accesskey="P">前へ</a> |</li>
         <li class="nav-item nav-item-0"><a href="index.html">GHC 8.4.3 User&#39;s Guide</a> &#187;</li> 
       </ul>
@@ -57,28 +57,28 @@
         <div class="sphinxsidebarwrapper">
   <h3><a href="index.html">目次</a></h3>
   <ul>
-<li><a class="reference internal" href="#">14. Debugging compiled programs</a><ul>
-<li><a class="reference internal" href="#tutorial">14.1. Tutorial</a></li>
-<li><a class="reference internal" href="#requesting-a-stack-trace-from-haskell-code">14.2. Requesting a stack trace from Haskell code</a></li>
-<li><a class="reference internal" href="#requesting-a-stack-trace-with-sigquit">14.3. Requesting a stack trace with <code class="docutils literal"><span class="pre">SIGQUIT</span></code></a></li>
-<li><a class="reference internal" href="#implementor-s-notes-dwarf-annotations">14.4. Implementor's notes: DWARF annotations</a><ul>
-<li><a class="reference internal" href="#debugging-information-entities">14.4.1. Debugging information entities</a><ul>
-<li><a class="reference internal" href="#dw-tag-ghc-src-note">14.4.1.1. <code class="docutils literal"><span class="pre">DW_TAG_ghc_src_note</span></code></a></li>
+<li><a class="reference internal" href="#">15. Debugging compiled programs</a><ul>
+<li><a class="reference internal" href="#tutorial">15.1. Tutorial</a></li>
+<li><a class="reference internal" href="#requesting-a-stack-trace-from-haskell-code">15.2. Requesting a stack trace from Haskell code</a></li>
+<li><a class="reference internal" href="#requesting-a-stack-trace-with-sigquit">15.3. Requesting a stack trace with <code class="docutils literal"><span class="pre">SIGQUIT</span></code></a></li>
+<li><a class="reference internal" href="#implementor-s-notes-dwarf-annotations">15.4. Implementor's notes: DWARF annotations</a><ul>
+<li><a class="reference internal" href="#debugging-information-entities">15.4.1. Debugging information entities</a><ul>
+<li><a class="reference internal" href="#dw-tag-ghc-src-note">15.4.1.1. <code class="docutils literal"><span class="pre">DW_TAG_ghc_src_note</span></code></a></li>
 </ul>
 </li>
 </ul>
 </li>
-<li><a class="reference internal" href="#further-reading">14.5. Further Reading</a></li>
+<li><a class="reference internal" href="#further-reading">15.5. Further Reading</a></li>
 </ul>
 </li>
 </ul>
 
   <h4>前のトピックへ</h4>
   <p class="topless"><a href="gone_wrong.html"
-                        title="前の章へ">13. What to do when something goes wrong</a></p>
+                        title="前の章へ">14. What to do when something goes wrong</a></p>
   <h4>次のトピックへ</h4>
   <p class="topless"><a href="utils.html"
-                        title="次の章へ">15. Other Haskell utility programs</a></p>
+                        title="次の章へ">16. Other Haskell utility programs</a></p>
   <div role="note" aria-label="source link">
     <h3>このページ</h3>
     <ul class="this-page-menu">
@@ -105,7 +105,7 @@
           <div class="body" role="main">
             
   <div class="section" id="debugging-compiled-programs">
-<h1>14. Debugging compiled programs<a class="headerlink" href="#debugging-compiled-programs" title="このヘッドラインへのパーマリンク">¶</a></h1>
+<h1>15. Debugging compiled programs<a class="headerlink" href="#debugging-compiled-programs" title="このヘッドラインへのパーマリンク">¶</a></h1>
 <p>Since the 7.10 release GHC can emit a debugging information to help debugging
 tools understand the code that GHC produces. This debugging information is
 useable by most UNIX debugging tools.</p>
@@ -130,7 +130,7 @@ is assumed.</p>
 </dd></dl>
 
 <div class="section" id="tutorial">
-<h2>14.1. Tutorial<a class="headerlink" href="#tutorial" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<h2>15.1. Tutorial<a class="headerlink" href="#tutorial" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <p>Let's consider a simple example,</p>
 <div class="highlight-hs"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
 2
@@ -269,7 +269,7 @@ debugging experience of a Haskell program with DWARF support is still a bit
 impoverished compared to typical imperative debuggers.</p>
 </div>
 <div class="section" id="requesting-a-stack-trace-from-haskell-code">
-<h2>14.2. Requesting a stack trace from Haskell code<a class="headerlink" href="#requesting-a-stack-trace-from-haskell-code" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<h2>15.2. Requesting a stack trace from Haskell code<a class="headerlink" href="#requesting-a-stack-trace-from-haskell-code" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <p>GHC's runtime system has built-in support for collecting stack trace information
 from a running Haskell program. This currently requires that the <code class="docutils literal"><span class="pre">libdw</span></code>
 library from the <code class="docutils literal"><span class="pre">elfutils</span></code> package is available. Of course, the backtrace
@@ -280,7 +280,7 @@ and its dependent libraries.</p>
 documentation in this module for details regarding usage.</p>
 </div>
 <div class="section" id="requesting-a-stack-trace-with-sigquit">
-<span id="backtrace-signal"></span><h2>14.3. Requesting a stack trace with <code class="docutils literal"><span class="pre">SIGQUIT</span></code><a class="headerlink" href="#requesting-a-stack-trace-with-sigquit" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<span id="backtrace-signal"></span><h2>15.3. Requesting a stack trace with <code class="docutils literal"><span class="pre">SIGQUIT</span></code><a class="headerlink" href="#requesting-a-stack-trace-with-sigquit" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <p>On POSIX-compatible platforms GHC's runtime system (when built with <code class="docutils literal"><span class="pre">libdw</span></code>
 support) will produce a stack trace on <code class="docutils literal"><span class="pre">stderr</span></code> when a <code class="docutils literal"><span class="pre">SIGQUIT</span></code> signal is
 received (on many systems this signal can be sent using <code class="kbd docutils literal"><span class="pre">Ctrl-\</span></code>). For
@@ -312,7 +312,7 @@ Caught SIGQUIT<span class="p">;</span> Backtrace:
 </div>
 </div>
 <div class="section" id="implementor-s-notes-dwarf-annotations">
-<h2>14.4. Implementor's notes: DWARF annotations<a class="headerlink" href="#implementor-s-notes-dwarf-annotations" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<h2>15.4. Implementor's notes: DWARF annotations<a class="headerlink" href="#implementor-s-notes-dwarf-annotations" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <div class="admonition note">
 <p class="first admonition-title">注釈</p>
 <p class="last">Most users don't need to worry about the details described in this section.
@@ -343,7 +343,7 @@ stack trace.</dd>
 <dd>Address range information necessary for efficient lookup in debug information.</dd>
 </dl>
 <div class="section" id="debugging-information-entities">
-<h3>14.4.1. Debugging information entities<a class="headerlink" href="#debugging-information-entities" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<h3>15.4.1. Debugging information entities<a class="headerlink" href="#debugging-information-entities" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <p>GHC may produce the following standard DIEs in the <code class="docutils literal"><span class="pre">.debug_info</span></code> section,</p>
 <dl class="docutils">
 <dt><code class="docutils literal"><span class="pre">DW_TAG_compile_unit</span></code></dt>
@@ -369,7 +369,7 @@ information. See the <em>Profiling</em> section below.</p>
 produces a variety of others using the vendor-extensibility regions of
 the tag and attribute space.</p>
 <div class="section" id="dw-tag-ghc-src-note">
-<h4>14.4.1.1. <code class="docutils literal"><span class="pre">DW_TAG_ghc_src_note</span></code><a class="headerlink" href="#dw-tag-ghc-src-note" title="このヘッドラインへのパーマリンク">¶</a></h4>
+<h4>15.4.1.1. <code class="docutils literal"><span class="pre">DW_TAG_ghc_src_note</span></code><a class="headerlink" href="#dw-tag-ghc-src-note" title="このヘッドラインへのパーマリンク">¶</a></h4>
 <p><code class="docutils literal"><span class="pre">DW_TAG_ghc_src_note</span></code> DIEs (tag 0x5b01) are found as children of
 <code class="docutils literal"><span class="pre">DW_TAG_lexical_block</span></code> DIEs. They describe source spans which gave rise to the
 block; formally these spans are causally responsible for produced code: changes
@@ -392,7 +392,7 @@ changes outside the span are guaranteed not to affect the code in the block.</p>
 </div>
 </div>
 <div class="section" id="further-reading">
-<h2>14.5. Further Reading<a class="headerlink" href="#further-reading" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<h2>15.5. Further Reading<a class="headerlink" href="#further-reading" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <p>For more information about the debug information produced by GHC see
 Peter Wortmann's PhD thesis, <a class="reference external" href="http://etheses.whiterose.ac.uk/8321/">*Profiling Optimized Haskell: Causal
 Analysis and Implementation*</a>.</p>
@@ -412,10 +412,10 @@ Analysis and Implementation*</a>.</p>
           <a href="genindex.html" title="総合索引"
              >索引</a></li>
         <li class="right" >
-          <a href="utils.html" title="15. Other Haskell utility programs"
+          <a href="utils.html" title="16. Other Haskell utility programs"
              >次へ</a> |</li>
         <li class="right" >
-          <a href="gone_wrong.html" title="13. What to do when something goes wrong"
+          <a href="gone_wrong.html" title="14. What to do when something goes wrong"
              >前へ</a> |</li>
         <li class="nav-item nav-item-0"><a href="index.html">GHC 8.4.3 User&#39;s Guide</a> &#187;</li> 
       </ul>

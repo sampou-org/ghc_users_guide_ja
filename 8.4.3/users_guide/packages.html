@@ -6,7 +6,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="ja">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>7.9. Packages &#8212; Glasgow Haskell Compiler 8.4.3 User&#39;s Guide</title>
+    <title>8.9. Packages &#8212; Glasgow Haskell Compiler 8.4.3 User&#39;s Guide</title>
     <link rel="stylesheet" href="_static/ghc-theme.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <script type="text/javascript">
@@ -29,8 +29,8 @@
           href="_static/opensearch.xml"/>
     <link rel="index" title="索引" href="genindex.html" />
     <link rel="search" title="検索" href="search.html" />
-    <link rel="next" title="7.10. GHC Backends" href="codegens.html" />
-    <link rel="prev" title="7.8. Filenames and separate compilation" href="separate_compilation.html" /> 
+    <link rel="next" title="8.10. GHC Backends" href="codegens.html" />
+    <link rel="prev" title="8.8. Filenames and separate compilation" href="separate_compilation.html" /> 
   </head>
   <body>
 <div class="logo">
@@ -44,13 +44,13 @@
           <a href="genindex.html" title="総合索引"
              accesskey="I">索引</a></li>
         <li class="right" >
-          <a href="codegens.html" title="7.10. GHC Backends"
+          <a href="codegens.html" title="8.10. GHC Backends"
              accesskey="N">次へ</a> |</li>
         <li class="right" >
-          <a href="separate_compilation.html" title="7.8. Filenames and separate compilation"
+          <a href="separate_compilation.html" title="8.8. Filenames and separate compilation"
              accesskey="P">前へ</a> |</li>
         <li class="nav-item nav-item-0"><a href="index.html">GHC 8.4.3 User&#39;s Guide</a> &#187;</li>
-          <li class="nav-item nav-item-1"><a href="usage.html" accesskey="U">7. Using GHC</a> &#187;</li> 
+          <li class="nav-item nav-item-1"><a href="usage.html" accesskey="U">8. Using GHC</a> &#187;</li> 
       </ul>
     </div>
 
@@ -58,30 +58,30 @@
         <div class="sphinxsidebarwrapper">
   <h3><a href="index.html">目次</a></h3>
   <ul>
-<li><a class="reference internal" href="#">7.9. Packages</a><ul>
-<li><a class="reference internal" href="#using-packages">7.9.1. Using Packages</a></li>
-<li><a class="reference internal" href="#the-main-package">7.9.2. The <code class="docutils literal"><span class="pre">main</span></code> package</a></li>
-<li><a class="reference internal" href="#consequences-of-packages-for-the-haskell-language">7.9.3. Consequences of packages for the Haskell language</a></li>
-<li><a class="reference internal" href="#thinning-and-renaming-modules">7.9.4. Thinning and renaming modules</a></li>
-<li><a class="reference internal" href="#package-databases">7.9.5. Package Databases</a><ul>
-<li><a class="reference internal" href="#the-ghc-package-path-environment-variable">7.9.5.1. The <code class="docutils literal"><span class="pre">GHC_PACKAGE_PATH</span></code> environment variable</a></li>
-<li><a class="reference internal" href="#package-environments">7.9.5.2. Package environments</a></li>
+<li><a class="reference internal" href="#">8.9. Packages</a><ul>
+<li><a class="reference internal" href="#using-packages">8.9.1. Using Packages</a></li>
+<li><a class="reference internal" href="#the-main-package">8.9.2. The <code class="docutils literal"><span class="pre">main</span></code> package</a></li>
+<li><a class="reference internal" href="#consequences-of-packages-for-the-haskell-language">8.9.3. Consequences of packages for the Haskell language</a></li>
+<li><a class="reference internal" href="#thinning-and-renaming-modules">8.9.4. Thinning and renaming modules</a></li>
+<li><a class="reference internal" href="#package-databases">8.9.5. Package Databases</a><ul>
+<li><a class="reference internal" href="#the-ghc-package-path-environment-variable">8.9.5.1. The <code class="docutils literal"><span class="pre">GHC_PACKAGE_PATH</span></code> environment variable</a></li>
+<li><a class="reference internal" href="#package-environments">8.9.5.2. Package environments</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#installed-package-ids-dependencies-and-broken-packages">7.9.6. Installed package IDs, dependencies, and broken packages</a></li>
-<li><a class="reference internal" href="#package-management-the-ghc-pkg-command">7.9.7. Package management (the <code class="docutils literal"><span class="pre">ghc-pkg</span></code> command)</a></li>
-<li><a class="reference internal" href="#building-a-package-from-haskell-source">7.9.8. Building a package from Haskell source</a></li>
-<li><a class="reference internal" href="#installedpackageinfo-a-package-specification">7.9.9. <code class="docutils literal"><span class="pre">InstalledPackageInfo</span></code>: a package specification</a></li>
+<li><a class="reference internal" href="#installed-package-ids-dependencies-and-broken-packages">8.9.6. Installed package IDs, dependencies, and broken packages</a></li>
+<li><a class="reference internal" href="#package-management-the-ghc-pkg-command">8.9.7. Package management (the <code class="docutils literal"><span class="pre">ghc-pkg</span></code> command)</a></li>
+<li><a class="reference internal" href="#building-a-package-from-haskell-source">8.9.8. Building a package from Haskell source</a></li>
+<li><a class="reference internal" href="#installedpackageinfo-a-package-specification">8.9.9. <code class="docutils literal"><span class="pre">InstalledPackageInfo</span></code>: a package specification</a></li>
 </ul>
 </li>
 </ul>
 
   <h4>前のトピックへ</h4>
   <p class="topless"><a href="separate_compilation.html"
-                        title="前の章へ">7.8. Filenames and separate compilation</a></p>
+                        title="前の章へ">8.8. Filenames and separate compilation</a></p>
   <h4>次のトピックへ</h4>
   <p class="topless"><a href="codegens.html"
-                        title="次の章へ">7.10. GHC Backends</a></p>
+                        title="次の章へ">8.10. GHC Backends</a></p>
   <div role="note" aria-label="source link">
     <h3>このページ</h3>
     <ul class="this-page-menu">
@@ -108,7 +108,7 @@
           <div class="body" role="main">
             
   <div class="section" id="packages">
-<span id="id1"></span><h1>7.9. Packages<a class="headerlink" href="#packages" title="このヘッドラインへのパーマリンク">¶</a></h1>
+<span id="id1"></span><h1>8.9. Packages<a class="headerlink" href="#packages" title="このヘッドラインへのパーマリンク">¶</a></h1>
 <p id="index-0">A package is a library of Haskell modules known to the compiler. GHC
 comes with several packages: see the accompanying <a class="reference external" href="../libraries/index.html">library
 documentation</a>. More packages to install can
@@ -127,7 +127,7 @@ documentation</a> for
 details, and also the Cabal libraries
 (<a class="reference external" href="../libraries/Cabal-2.2.0.1/Distribution-Simple.html">Distribution.Simple</a>, for example).</p>
 <div class="section" id="using-packages">
-<span id="id2"></span><h2>7.9.1. Using Packages<a class="headerlink" href="#using-packages" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<span id="id2"></span><h2>8.9.1. Using Packages<a class="headerlink" href="#using-packages" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <p id="index-1">GHC only knows about packages that are <em>installed</em>. Installed packages live in
 package databases. For details on package databases and how to control which
 package databases or specific set of packages are visible to GHC, see
@@ -356,7 +356,7 @@ exposed/hidden status of a package, so it isn't equivalent to applying
 
 </div>
 <div class="section" id="the-main-package">
-<span id="package-main"></span><h2>7.9.2. The <code class="docutils literal"><span class="pre">main</span></code> package<a class="headerlink" href="#the-main-package" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<span id="package-main"></span><h2>8.9.2. The <code class="docutils literal"><span class="pre">main</span></code> package<a class="headerlink" href="#the-main-package" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <p>Every complete Haskell program must define <code class="docutils literal"><span class="pre">main</span></code> in module <code class="docutils literal"><span class="pre">Main</span></code> in
 package <code class="docutils literal"><span class="pre">main</span></code>. Omitting the <a class="reference internal" href="#ghc-flag--this-unit-id ⟨unit-id⟩"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-this-unit-id</span> <span class="pre">⟨unit-id⟩</span></code></a> flag
 compiles code for package <code class="docutils literal"><span class="pre">main</span></code>. Failure to do so leads to a somewhat
@@ -367,7 +367,7 @@ _ZCMain_main_closure
 </div>
 </div>
 <div class="section" id="consequences-of-packages-for-the-haskell-language">
-<span id="package-overlaps"></span><h2>7.9.3. Consequences of packages for the Haskell language<a class="headerlink" href="#consequences-of-packages-for-the-haskell-language" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<span id="package-overlaps"></span><h2>8.9.3. Consequences of packages for the Haskell language<a class="headerlink" href="#consequences-of-packages-for-the-haskell-language" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <p>It is possible that by using packages you might end up with a program
 that contains two modules with the same name: perhaps you used a package
 <code class="docutils literal"><span class="pre">P</span></code> that has a <em>hidden</em> module <code class="docutils literal"><span class="pre">M</span></code>, and there is also a module <code class="docutils literal"><span class="pre">M</span></code> in your
@@ -385,7 +385,7 @@ it is defined and its name. In GHC, an entity is uniquely defined by a
 triple: package, module, and name.</p>
 </div>
 <div class="section" id="thinning-and-renaming-modules">
-<span id="package-thinning-and-renaming"></span><h2>7.9.4. Thinning and renaming modules<a class="headerlink" href="#thinning-and-renaming-modules" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<span id="package-thinning-and-renaming"></span><h2>8.9.4. Thinning and renaming modules<a class="headerlink" href="#thinning-and-renaming-modules" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <p>When incorporating packages from multiple sources, you may end up in a
 situation where multiple packages publish modules with the same name.
 Previously, the only way to distinguish between these modules was to use
@@ -422,7 +422,7 @@ Hiding a package also clears all of its renamings.</p>
 in lieu of the <a class="reference internal" href="glasgow_exts.html#rebindable-syntax"><span class="std std-ref">Rebindable syntax and the implicit Prelude import</span></a> extension.</p>
 </div>
 <div class="section" id="package-databases">
-<span id="id4"></span><h2>7.9.5. Package Databases<a class="headerlink" href="#package-databases" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<span id="id4"></span><h2>8.9.5. Package Databases<a class="headerlink" href="#package-databases" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <p>A package database is where the details about installed packages are
 stored. It is a directory, usually called <code class="docutils literal"><span class="pre">package.conf.d</span></code>, that
 contains a file for each package, together with a binary cache of the
@@ -513,7 +513,7 @@ loaded.</p>
 </dd></dl>
 
 <div class="section" id="the-ghc-package-path-environment-variable">
-<span id="ghc-package-path"></span><h3>7.9.5.1. The <code class="docutils literal"><span class="pre">GHC_PACKAGE_PATH</span></code> environment variable<a class="headerlink" href="#the-ghc-package-path-environment-variable" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<span id="ghc-package-path"></span><h3>8.9.5.1. The <code class="docutils literal"><span class="pre">GHC_PACKAGE_PATH</span></code> environment variable<a class="headerlink" href="#the-ghc-package-path-environment-variable" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <dl class="envvar">
 <dt id="envvar-GHC_PACKAGE_PATH">
 <code class="descname">GHC_PACKAGE_PATH</code><a class="headerlink" href="#envvar-GHC_PACKAGE_PATH" title="この定義へのパーマリンク">¶</a></dt>
@@ -547,7 +547,7 @@ reverse order they are searched.</p>
 
 </div>
 <div class="section" id="package-environments">
-<span id="id5"></span><h3>7.9.5.2. Package environments<a class="headerlink" href="#package-environments" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<span id="id5"></span><h3>8.9.5.2. Package environments<a class="headerlink" href="#package-environments" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <p id="index-6">A <em>package environment file</em> is a file that tells <code class="docutils literal"><span class="pre">ghc</span></code> precisely which
 packages should be visible. It can be used to create environments for <code class="docutils literal"><span class="pre">ghc</span></code>
 or <code class="docutils literal"><span class="pre">ghci</span></code> that are local to a shell session or to some file system location.
@@ -616,7 +616,7 @@ active package environment.</p>
 </div>
 </div>
 <div class="section" id="installed-package-ids-dependencies-and-broken-packages">
-<span id="package-ids"></span><h2>7.9.6. Installed package IDs, dependencies, and broken packages<a class="headerlink" href="#installed-package-ids-dependencies-and-broken-packages" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<span id="package-ids"></span><h2>8.9.6. Installed package IDs, dependencies, and broken packages<a class="headerlink" href="#installed-package-ids-dependencies-and-broken-packages" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <p>Each installed package has a unique identifier (the &quot;installed package
 ID&quot;), which distinguishes it from all other installed packages on the
 system. To see the installed package IDs associated with each installed
@@ -707,7 +707,7 @@ simply recompiled. The only way to recover from this would be to
 re-install GHC.</p>
 </div>
 <div class="section" id="package-management-the-ghc-pkg-command">
-<span id="package-management"></span><h2>7.9.7. Package management (the <code class="docutils literal"><span class="pre">ghc-pkg</span></code> command)<a class="headerlink" href="#package-management-the-ghc-pkg-command" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<span id="package-management"></span><h2>8.9.7. Package management (the <code class="docutils literal"><span class="pre">ghc-pkg</span></code> command)<a class="headerlink" href="#package-management-the-ghc-pkg-command" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <p id="index-7">The <strong class="command">ghc-pkg</strong> tool is for querying and modifying package databases. To
 see what package databases are in use, use <code class="docutils literal"><span class="pre">ghc-pkg</span> <span class="pre">list</span></code>. The stack of
 databases that <strong class="command">ghc-pkg</strong> knows about can be modified using the
@@ -917,7 +917,7 @@ so if you need to figure out what package a symbol belongs to, use
 </dl>
 </div>
 <div class="section" id="building-a-package-from-haskell-source">
-<span id="building-packages"></span><h2>7.9.8. Building a package from Haskell source<a class="headerlink" href="#building-a-package-from-haskell-source" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<span id="building-packages"></span><h2>8.9.8. Building a package from Haskell source<a class="headerlink" href="#building-a-package-from-haskell-source" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <p id="index-19">We don't recommend building packages the hard way. Instead, use the
 <a class="reference external" href="http://www.haskell.org/cabal/users-guide/">Cabal</a> infrastructure if
 possible. If your package is particularly complicated or requires a lot
@@ -1002,7 +1002,7 @@ inter-package references. Of course, this applies to the <code class="docutils l
 package as well.</p>
 </div>
 <div class="section" id="installedpackageinfo-a-package-specification">
-<span id="installed-pkg-info"></span><h2>7.9.9. <code class="docutils literal"><span class="pre">InstalledPackageInfo</span></code>: a package specification<a class="headerlink" href="#installedpackageinfo-a-package-specification" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<span id="installed-pkg-info"></span><h2>8.9.9. <code class="docutils literal"><span class="pre">InstalledPackageInfo</span></code>: a package specification<a class="headerlink" href="#installedpackageinfo-a-package-specification" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <p>A package specification is a Haskell record; in particular, it is the
 record <a class="reference external" href="../libraries/Cabal-2.2.0.1/Distribution-InstalledPackageInfo.html#t:InstalledPackageInfo">Distribution.InstalledPackageInfo.InstalledPackageInfo</a>
 in the module Distribution.InstalledPackageInfo, which is part of the
@@ -1272,13 +1272,13 @@ HTML for this package.</p>
           <a href="genindex.html" title="総合索引"
              >索引</a></li>
         <li class="right" >
-          <a href="codegens.html" title="7.10. GHC Backends"
+          <a href="codegens.html" title="8.10. GHC Backends"
              >次へ</a> |</li>
         <li class="right" >
-          <a href="separate_compilation.html" title="7.8. Filenames and separate compilation"
+          <a href="separate_compilation.html" title="8.8. Filenames and separate compilation"
              >前へ</a> |</li>
         <li class="nav-item nav-item-0"><a href="index.html">GHC 8.4.3 User&#39;s Guide</a> &#187;</li>
-          <li class="nav-item nav-item-1"><a href="usage.html" >7. Using GHC</a> &#187;</li> 
+          <li class="nav-item nav-item-1"><a href="usage.html" >8. Using GHC</a> &#187;</li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">

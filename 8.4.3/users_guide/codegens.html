@@ -6,7 +6,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="ja">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>7.10. GHC Backends &#8212; Glasgow Haskell Compiler 8.4.3 User&#39;s Guide</title>
+    <title>8.10. GHC Backends &#8212; Glasgow Haskell Compiler 8.4.3 User&#39;s Guide</title>
     <link rel="stylesheet" href="_static/ghc-theme.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <script type="text/javascript">
@@ -29,8 +29,8 @@
           href="_static/opensearch.xml"/>
     <link rel="index" title="索引" href="genindex.html" />
     <link rel="search" title="検索" href="search.html" />
-    <link rel="next" title="7.11. Options related to a particular phase" href="phases.html" />
-    <link rel="prev" title="7.9. Packages" href="packages.html" /> 
+    <link rel="next" title="8.11. Options related to a particular phase" href="phases.html" />
+    <link rel="prev" title="8.9. Packages" href="packages.html" /> 
   </head>
   <body>
 <div class="logo">
@@ -44,13 +44,13 @@
           <a href="genindex.html" title="総合索引"
              accesskey="I">索引</a></li>
         <li class="right" >
-          <a href="phases.html" title="7.11. Options related to a particular phase"
+          <a href="phases.html" title="8.11. Options related to a particular phase"
              accesskey="N">次へ</a> |</li>
         <li class="right" >
-          <a href="packages.html" title="7.9. Packages"
+          <a href="packages.html" title="8.9. Packages"
              accesskey="P">前へ</a> |</li>
         <li class="nav-item nav-item-0"><a href="index.html">GHC 8.4.3 User&#39;s Guide</a> &#187;</li>
-          <li class="nav-item nav-item-1"><a href="usage.html" accesskey="U">7. Using GHC</a> &#187;</li> 
+          <li class="nav-item nav-item-1"><a href="usage.html" accesskey="U">8. Using GHC</a> &#187;</li> 
       </ul>
     </div>
 
@@ -58,21 +58,21 @@
         <div class="sphinxsidebarwrapper">
   <h3><a href="index.html">目次</a></h3>
   <ul>
-<li><a class="reference internal" href="#">7.10. GHC Backends</a><ul>
-<li><a class="reference internal" href="#native-code-generator-fasm">7.10.1. Native Code Generator (<code class="docutils literal"><span class="pre">-fasm</span></code>)</a></li>
-<li><a class="reference internal" href="#llvm-code-generator-fllvm">7.10.2. LLVM Code Generator (<code class="docutils literal"><span class="pre">-fllvm</span></code>)</a></li>
-<li><a class="reference internal" href="#c-code-generator-fvia-c">7.10.3. C Code Generator (<code class="docutils literal"><span class="pre">-fvia-C</span></code>)</a></li>
-<li><a class="reference internal" href="#unregisterised-compilation">7.10.4. Unregisterised compilation</a></li>
+<li><a class="reference internal" href="#">8.10. GHC Backends</a><ul>
+<li><a class="reference internal" href="#native-code-generator-fasm">8.10.1. Native Code Generator (<code class="docutils literal"><span class="pre">-fasm</span></code>)</a></li>
+<li><a class="reference internal" href="#llvm-code-generator-fllvm">8.10.2. LLVM Code Generator (<code class="docutils literal"><span class="pre">-fllvm</span></code>)</a></li>
+<li><a class="reference internal" href="#c-code-generator-fvia-c">8.10.3. C Code Generator (<code class="docutils literal"><span class="pre">-fvia-C</span></code>)</a></li>
+<li><a class="reference internal" href="#unregisterised-compilation">8.10.4. Unregisterised compilation</a></li>
 </ul>
 </li>
 </ul>
 
   <h4>前のトピックへ</h4>
   <p class="topless"><a href="packages.html"
-                        title="前の章へ">7.9. Packages</a></p>
+                        title="前の章へ">8.9. Packages</a></p>
   <h4>次のトピックへ</h4>
   <p class="topless"><a href="phases.html"
-                        title="次の章へ">7.11. Options related to a particular phase</a></p>
+                        title="次の章へ">8.11. Options related to a particular phase</a></p>
   <div role="note" aria-label="source link">
     <h3>このページ</h3>
     <ul class="this-page-menu">
@@ -99,21 +99,21 @@
           <div class="body" role="main">
             
   <div class="section" id="ghc-backends">
-<span id="code-generators"></span><h1>7.10. GHC Backends<a class="headerlink" href="#ghc-backends" title="このヘッドラインへのパーマリンク">¶</a></h1>
+<span id="code-generators"></span><h1>8.10. GHC Backends<a class="headerlink" href="#ghc-backends" title="このヘッドラインへのパーマリンク">¶</a></h1>
 <p id="index-0">GHC supports multiple backend code generators. This is the part of the
 compiler responsible for taking the last intermediate representation
 that GHC uses (a form called Cmm that is a simple, C like language) and
 compiling it to executable code. The backends that GHC support are
 described below.</p>
 <div class="section" id="native-code-generator-fasm">
-<span id="native-code-gen"></span><h2>7.10.1. Native Code Generator (<code class="docutils literal"><span class="pre">-fasm</span></code>)<a class="headerlink" href="#native-code-generator-fasm" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<span id="native-code-gen"></span><h2>8.10.1. Native Code Generator (<code class="docutils literal"><span class="pre">-fasm</span></code>)<a class="headerlink" href="#native-code-generator-fasm" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <p id="index-1">The default backend for GHC. It is a native code generator, compiling
 Cmm all the way to assembly code. It is the fastest backend and
 generally produces good performance code. It has the best support for
 compiling shared libraries. Select it with the <code class="docutils literal"><span class="pre">-fasm</span></code> flag.</p>
 </div>
 <div class="section" id="llvm-code-generator-fllvm">
-<span id="llvm-code-gen"></span><h2>7.10.2. LLVM Code Generator (<code class="docutils literal"><span class="pre">-fllvm</span></code>)<a class="headerlink" href="#llvm-code-generator-fllvm" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<span id="llvm-code-gen"></span><h2>8.10.2. LLVM Code Generator (<code class="docutils literal"><span class="pre">-fllvm</span></code>)<a class="headerlink" href="#llvm-code-generator-fllvm" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <p id="index-2">This is an alternative backend that uses the <a class="reference external" href="http://llvm.org">LLVM</a>
 compiler to produce executable code. It generally produces code as with
 performance as good as the native code generator but for some cases can
@@ -145,7 +145,7 @@ OS X. Alternatively you can download binaries for LLVM and Clang from
 </ul>
 </div>
 <div class="section" id="c-code-generator-fvia-c">
-<span id="c-code-gen"></span><h2>7.10.3. C Code Generator (<code class="docutils literal"><span class="pre">-fvia-C</span></code>)<a class="headerlink" href="#c-code-generator-fvia-c" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<span id="c-code-gen"></span><h2>8.10.3. C Code Generator (<code class="docutils literal"><span class="pre">-fvia-C</span></code>)<a class="headerlink" href="#c-code-generator-fvia-c" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <p id="index-3">This is the oldest code generator in GHC and is generally not included
 any more having been deprecated around GHC 7.0. Select it with the
 <code class="xref std std-ghc-flag docutils literal"><span class="pre">-fvia-C</span></code> flag.</p>
@@ -158,7 +158,7 @@ won't be available. You can check this information by calling
 <code class="docutils literal"><span class="pre">ghc</span> <span class="pre">--info</span></code> (see <a class="reference internal" href="using.html#ghc-flag---info"><code class="xref std std-ghc-flag docutils literal"><span class="pre">--info</span></code></a>).</p>
 </div>
 <div class="section" id="unregisterised-compilation">
-<span id="unreg"></span><h2>7.10.4. Unregisterised compilation<a class="headerlink" href="#unregisterised-compilation" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<span id="unreg"></span><h2>8.10.4. Unregisterised compilation<a class="headerlink" href="#unregisterised-compilation" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <p id="index-4">The term &quot;unregisterised&quot; really means &quot;compile via vanilla C&quot;,
 disabling some of the platform-specific tricks that GHC normally uses to
 make programs go faster. When compiling unregisterised, GHC simply
@@ -193,13 +193,13 @@ Guide for details.</p>
           <a href="genindex.html" title="総合索引"
              >索引</a></li>
         <li class="right" >
-          <a href="phases.html" title="7.11. Options related to a particular phase"
+          <a href="phases.html" title="8.11. Options related to a particular phase"
              >次へ</a> |</li>
         <li class="right" >
-          <a href="packages.html" title="7.9. Packages"
+          <a href="packages.html" title="8.9. Packages"
              >前へ</a> |</li>
         <li class="nav-item nav-item-0"><a href="index.html">GHC 8.4.3 User&#39;s Guide</a> &#187;</li>
-          <li class="nav-item nav-item-1"><a href="usage.html" >7. Using GHC</a> &#187;</li> 
+          <li class="nav-item nav-item-1"><a href="usage.html" >8. Using GHC</a> &#187;</li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">

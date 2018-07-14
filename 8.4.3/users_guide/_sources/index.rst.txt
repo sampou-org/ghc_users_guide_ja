@@ -18,6 +18,7 @@ GHC ユーザーズガイドにようこそ
    intro
    8.4.1-notes
    8.4.2-notes
+   8.4.3-notes
    ghci
    runghc
    usage

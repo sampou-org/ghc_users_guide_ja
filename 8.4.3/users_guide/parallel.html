@@ -6,7 +6,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="ja">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>10.38. Concurrent and Parallel Haskell &#8212; Glasgow Haskell Compiler 8.4.3 User&#39;s Guide</title>
+    <title>11.38. Concurrent and Parallel Haskell &#8212; Glasgow Haskell Compiler 8.4.3 User&#39;s Guide</title>
     <link rel="stylesheet" href="_static/ghc-theme.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <script type="text/javascript">
@@ -29,8 +29,8 @@
           href="_static/opensearch.xml"/>
     <link rel="index" title="索引" href="genindex.html" />
     <link rel="search" title="検索" href="search.html" />
-    <link rel="next" title="10.39. Safe Haskell" href="safe_haskell.html" />
-    <link rel="prev" title="10.1. Language options" href="glasgow_exts.html" /> 
+    <link rel="next" title="11.39. Safe Haskell" href="safe_haskell.html" />
+    <link rel="prev" title="11.1. Language options" href="glasgow_exts.html" /> 
   </head>
   <body>
 <div class="logo">
@@ -44,13 +44,13 @@
           <a href="genindex.html" title="総合索引"
              accesskey="I">索引</a></li>
         <li class="right" >
-          <a href="safe_haskell.html" title="10.39. Safe Haskell"
+          <a href="safe_haskell.html" title="11.39. Safe Haskell"
              accesskey="N">次へ</a> |</li>
         <li class="right" >
-          <a href="glasgow_exts.html" title="10.1. Language options"
+          <a href="glasgow_exts.html" title="11.1. Language options"
              accesskey="P">前へ</a> |</li>
         <li class="nav-item nav-item-0"><a href="index.html">GHC 8.4.3 User&#39;s Guide</a> &#187;</li>
-          <li class="nav-item nav-item-1"><a href="lang.html" accesskey="U">10. GHC Language Features</a> &#187;</li> 
+          <li class="nav-item nav-item-1"><a href="lang.html" accesskey="U">11. GHC Language Features</a> &#187;</li> 
       </ul>
     </div>
 
@@ -58,22 +58,22 @@
         <div class="sphinxsidebarwrapper">
   <h3><a href="index.html">目次</a></h3>
   <ul>
-<li><a class="reference internal" href="#">10.38. Concurrent and Parallel Haskell</a><ul>
-<li><a class="reference internal" href="#concurrent-haskell">10.38.1. Concurrent Haskell</a></li>
-<li><a class="reference internal" href="#software-transactional-memory">10.38.2. Software Transactional Memory</a></li>
-<li><a class="reference internal" href="#parallel-haskell">10.38.3. Parallel Haskell</a></li>
-<li><a class="reference internal" href="#annotating-pure-code-for-parallelism">10.38.4. Annotating pure code for parallelism</a></li>
-<li><a class="reference internal" href="#data-parallel-haskell">10.38.5. Data Parallel Haskell</a></li>
+<li><a class="reference internal" href="#">11.38. Concurrent and Parallel Haskell</a><ul>
+<li><a class="reference internal" href="#concurrent-haskell">11.38.1. Concurrent Haskell</a></li>
+<li><a class="reference internal" href="#software-transactional-memory">11.38.2. Software Transactional Memory</a></li>
+<li><a class="reference internal" href="#parallel-haskell">11.38.3. Parallel Haskell</a></li>
+<li><a class="reference internal" href="#annotating-pure-code-for-parallelism">11.38.4. Annotating pure code for parallelism</a></li>
+<li><a class="reference internal" href="#data-parallel-haskell">11.38.5. Data Parallel Haskell</a></li>
 </ul>
 </li>
 </ul>
 
   <h4>前のトピックへ</h4>
   <p class="topless"><a href="glasgow_exts.html"
-                        title="前の章へ">10.1. Language options</a></p>
+                        title="前の章へ">11.1. Language options</a></p>
   <h4>次のトピックへ</h4>
   <p class="topless"><a href="safe_haskell.html"
-                        title="次の章へ">10.39. Safe Haskell</a></p>
+                        title="次の章へ">11.39. Safe Haskell</a></p>
   <div role="note" aria-label="source link">
     <h3>このページ</h3>
     <ul class="this-page-menu">
@@ -100,7 +100,7 @@
           <div class="body" role="main">
             
   <div class="section" id="concurrent-and-parallel-haskell">
-<span id="lang-parallel"></span><h1>10.38. Concurrent and Parallel Haskell<a class="headerlink" href="#concurrent-and-parallel-haskell" title="このヘッドラインへのパーマリンク">¶</a></h1>
+<span id="lang-parallel"></span><h1>11.38. Concurrent and Parallel Haskell<a class="headerlink" href="#concurrent-and-parallel-haskell" title="このヘッドラインへのパーマリンク">¶</a></h1>
 <p id="index-0">GHC implements some major extensions to Haskell to support concurrent
 and parallel programming. Let us first establish terminology:</p>
 <ul class="simple">
@@ -116,7 +116,7 @@ semantics of the program is necessarily non-deterministic.</li>
 </ul>
 <p>GHC supports both concurrency and parallelism.</p>
 <div class="section" id="concurrent-haskell">
-<span id="id1"></span><h2>10.38.1. Concurrent Haskell<a class="headerlink" href="#concurrent-haskell" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<span id="id1"></span><h2>11.38.1. Concurrent Haskell<a class="headerlink" href="#concurrent-haskell" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <p>Concurrent Haskell is the name given to GHC's concurrency extension. It
 is enabled by default, so no special flags are required. The <a class="reference external" href="https://www.haskell.org/ghc/docs/papers/concurrent-haskell.ps.gz">Concurrent
 Haskell
@@ -135,7 +135,7 @@ concurrency</a>.</li>
 </ul>
 </div>
 <div class="section" id="software-transactional-memory">
-<h2>10.38.2. Software Transactional Memory<a class="headerlink" href="#software-transactional-memory" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<h2>11.38.2. Software Transactional Memory<a class="headerlink" href="#software-transactional-memory" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <p>GHC now supports a new way to coordinate the activities of Concurrent
 Haskell threads, called Software Transactional Memory (STM). The <a class="reference external" href="https://wiki.haskell.org/Research_papers/Parallelism_and_concurrency#Lock_free_data_structures_and_transactional_memory">STM
 papers</a>
@@ -152,7 +152,7 @@ supported are these:</p>
 <p>All these features are described in the papers mentioned earlier.</p>
 </div>
 <div class="section" id="parallel-haskell">
-<h2>10.38.3. Parallel Haskell<a class="headerlink" href="#parallel-haskell" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<h2>11.38.3. Parallel Haskell<a class="headerlink" href="#parallel-haskell" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <p id="index-1">GHC includes support for running Haskell programs in parallel on
 symmetric, shared-memory multi-processor (SMP). By default GHC runs
 your program on one processor; if you want it to run in parallel you
@@ -162,7 +162,7 @@ running Haskell threads among the available OS threads, running as many in
 parallel as you specified with the <a class="reference internal" href="using-concurrent.html#rts-flag--N ⟨x⟩"><code class="xref std std-rts-flag docutils literal"><span class="pre">-N</span> <span class="pre">⟨x⟩</span></code></a> RTS option.</p>
 </div>
 <div class="section" id="annotating-pure-code-for-parallelism">
-<h2>10.38.4. Annotating pure code for parallelism<a class="headerlink" href="#annotating-pure-code-for-parallelism" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<h2>11.38.4. Annotating pure code for parallelism<a class="headerlink" href="#annotating-pure-code-for-parallelism" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <p>Ordinary single-threaded Haskell programs will not benefit from enabling
 SMP parallelism alone: you must expose parallelism to the compiler. One
 way to do so is forking threads using Concurrent Haskell
@@ -225,7 +225,7 @@ builds functionality around <code class="docutils literal"><span class="pre">par
 of parallel computation, such as parallel <code class="docutils literal"><span class="pre">map</span></code>.</p>
 </div>
 <div class="section" id="data-parallel-haskell">
-<span id="dph"></span><h2>10.38.5. Data Parallel Haskell<a class="headerlink" href="#data-parallel-haskell" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<span id="dph"></span><h2>11.38.5. Data Parallel Haskell<a class="headerlink" href="#data-parallel-haskell" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <p>GHC includes experimental support for Data Parallel Haskell (DPH). This
 code is highly unstable and is only provided as a technology preview.
 More information can be found on the corresponding
@@ -246,13 +246,13 @@ More information can be found on the corresponding
           <a href="genindex.html" title="総合索引"
              >索引</a></li>
         <li class="right" >
-          <a href="safe_haskell.html" title="10.39. Safe Haskell"
+          <a href="safe_haskell.html" title="11.39. Safe Haskell"
              >次へ</a> |</li>
         <li class="right" >
-          <a href="glasgow_exts.html" title="10.1. Language options"
+          <a href="glasgow_exts.html" title="11.1. Language options"
              >前へ</a> |</li>
         <li class="nav-item nav-item-0"><a href="index.html">GHC 8.4.3 User&#39;s Guide</a> &#187;</li>
-          <li class="nav-item nav-item-1"><a href="lang.html" >10. GHC Language Features</a> &#187;</li> 
+          <li class="nav-item nav-item-1"><a href="lang.html" >11. GHC Language Features</a> &#187;</li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">

@@ -6,7 +6,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="ja">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>7.4. Using Concurrent Haskell &#8212; Glasgow Haskell Compiler 8.4.3 User&#39;s Guide</title>
+    <title>8.4. Using Concurrent Haskell &#8212; Glasgow Haskell Compiler 8.4.3 User&#39;s Guide</title>
     <link rel="stylesheet" href="_static/ghc-theme.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <script type="text/javascript">
@@ -29,8 +29,8 @@
           href="_static/opensearch.xml"/>
     <link rel="index" title="索引" href="genindex.html" />
     <link rel="search" title="検索" href="search.html" />
-    <link rel="next" title="7.6. Flag reference" href="flags.html" />
-    <link rel="prev" title="7.3. Optimisation (code improvement)" href="using-optimisation.html" /> 
+    <link rel="next" title="8.6. Flag reference" href="flags.html" />
+    <link rel="prev" title="8.3. Optimisation (code improvement)" href="using-optimisation.html" /> 
   </head>
   <body>
 <div class="logo">
@@ -44,13 +44,13 @@
           <a href="genindex.html" title="総合索引"
              accesskey="I">索引</a></li>
         <li class="right" >
-          <a href="flags.html" title="7.6. Flag reference"
+          <a href="flags.html" title="8.6. Flag reference"
              accesskey="N">次へ</a> |</li>
         <li class="right" >
-          <a href="using-optimisation.html" title="7.3. Optimisation (code improvement)"
+          <a href="using-optimisation.html" title="8.3. Optimisation (code improvement)"
              accesskey="P">前へ</a> |</li>
         <li class="nav-item nav-item-0"><a href="index.html">GHC 8.4.3 User&#39;s Guide</a> &#187;</li>
-          <li class="nav-item nav-item-1"><a href="usage.html" accesskey="U">7. Using GHC</a> &#187;</li> 
+          <li class="nav-item nav-item-1"><a href="usage.html" accesskey="U">8. Using GHC</a> &#187;</li> 
       </ul>
     </div>
 
@@ -58,21 +58,21 @@
         <div class="sphinxsidebarwrapper">
   <h3><a href="index.html">目次</a></h3>
   <ul>
-<li><a class="reference internal" href="#">7.4. Using Concurrent Haskell</a></li>
-<li><a class="reference internal" href="#using-smp-parallelism">7.5. Using SMP parallelism</a><ul>
-<li><a class="reference internal" href="#compile-time-options-for-smp-parallelism">7.5.1. Compile-time options for SMP parallelism</a></li>
-<li><a class="reference internal" href="#rts-options-for-smp-parallelism">7.5.2. RTS options for SMP parallelism</a></li>
-<li><a class="reference internal" href="#hints-for-using-smp-parallelism">7.5.3. Hints for using SMP parallelism</a></li>
+<li><a class="reference internal" href="#">8.4. Using Concurrent Haskell</a></li>
+<li><a class="reference internal" href="#using-smp-parallelism">8.5. Using SMP parallelism</a><ul>
+<li><a class="reference internal" href="#compile-time-options-for-smp-parallelism">8.5.1. Compile-time options for SMP parallelism</a></li>
+<li><a class="reference internal" href="#rts-options-for-smp-parallelism">8.5.2. RTS options for SMP parallelism</a></li>
+<li><a class="reference internal" href="#hints-for-using-smp-parallelism">8.5.3. Hints for using SMP parallelism</a></li>
 </ul>
 </li>
 </ul>
 
   <h4>前のトピックへ</h4>
   <p class="topless"><a href="using-optimisation.html"
-                        title="前の章へ">7.3. Optimisation (code improvement)</a></p>
+                        title="前の章へ">8.3. Optimisation (code improvement)</a></p>
   <h4>次のトピックへ</h4>
   <p class="topless"><a href="flags.html"
-                        title="次の章へ">7.6. Flag reference</a></p>
+                        title="次の章へ">8.6. Flag reference</a></p>
   <div role="note" aria-label="source link">
     <h3>このページ</h3>
     <ul class="this-page-menu">
@@ -99,7 +99,7 @@
           <div class="body" role="main">
             
   <div class="section" id="using-concurrent-haskell">
-<span id="using-concurrent"></span><h1>7.4. Using Concurrent Haskell<a class="headerlink" href="#using-concurrent-haskell" title="このヘッドラインへのパーマリンク">¶</a></h1>
+<span id="using-concurrent"></span><h1>8.4. Using Concurrent Haskell<a class="headerlink" href="#using-concurrent-haskell" title="このヘッドラインへのパーマリンク">¶</a></h1>
 <p id="index-0">GHC supports Concurrent Haskell by default, without requiring a special
 option or libraries compiled in a certain way. To get access to the
 support libraries for Concurrent Haskell, just import
@@ -138,7 +138,7 @@ often as possible (at every heap block allocation).</p>
 
 </div>
 <div class="section" id="using-smp-parallelism">
-<span id="using-smp"></span><h1>7.5. Using SMP parallelism<a class="headerlink" href="#using-smp-parallelism" title="このヘッドラインへのパーマリンク">¶</a></h1>
+<span id="using-smp"></span><h1>8.5. Using SMP parallelism<a class="headerlink" href="#using-smp-parallelism" title="このヘッドラインへのパーマリンク">¶</a></h1>
 <p id="index-2">GHC supports running Haskell programs in parallel on an SMP (symmetric
 multiprocessor).</p>
 <p>There's a fine distinction between <em>concurrency</em> and <em>parallelism</em>:
@@ -154,7 +154,7 @@ not use concurrency. This section describes how to use GHC to compile
 and run parallel programs, in <a class="reference internal" href="parallel.html#lang-parallel"><span class="std std-ref">Concurrent and Parallel Haskell</span></a> we describe the
 language features that affect parallelism.</p>
 <div class="section" id="compile-time-options-for-smp-parallelism">
-<span id="parallel-compile-options"></span><h2>7.5.1. Compile-time options for SMP parallelism<a class="headerlink" href="#compile-time-options-for-smp-parallelism" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<span id="parallel-compile-options"></span><h2>8.5.1. Compile-time options for SMP parallelism<a class="headerlink" href="#compile-time-options-for-smp-parallelism" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <p>In order to make use of multiple CPUs, your program must be linked with
 the <a class="reference internal" href="phases.html#ghc-flag--threaded"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-threaded</span></code></a> option (see <a class="reference internal" href="phases.html#options-linker"><span class="std std-ref">Options affecting linking</span></a>). Additionally, the
 following compiler options affect parallelism:</p>
@@ -182,7 +182,7 @@ parallel with the <a class="reference internal" href="using-optimisation.html#gh
 
 </div>
 <div class="section" id="rts-options-for-smp-parallelism">
-<span id="parallel-options"></span><h2>7.5.2. RTS options for SMP parallelism<a class="headerlink" href="#rts-options-for-smp-parallelism" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<span id="parallel-options"></span><h2>8.5.2. RTS options for SMP parallelism<a class="headerlink" href="#rts-options-for-smp-parallelism" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <p>There are two ways to run a program on multiple processors: call
 <a class="reference external" href="../libraries/base-4.11.1.0/Control-Concurrent.html#v:setNumCapabilities">Control.Concurrent.setNumCapabilities</a> from your program, or
 use the RTS <a class="reference internal" href="#rts-flag--N ⟨x⟩"><code class="xref std std-rts-flag docutils literal"><span class="pre">-N</span> <span class="pre">⟨x⟩</span></code></a> options.</p>
@@ -252,7 +252,7 @@ explicitly schedule threads onto CPUs with
 
 </div>
 <div class="section" id="hints-for-using-smp-parallelism">
-<h2>7.5.3. Hints for using SMP parallelism<a class="headerlink" href="#hints-for-using-smp-parallelism" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<h2>8.5.3. Hints for using SMP parallelism<a class="headerlink" href="#hints-for-using-smp-parallelism" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <p>Add the <a class="reference internal" href="runtime_control.html#rts-flag--s [⟨file⟩]"><code class="xref std std-rts-flag docutils literal"><span class="pre">-s</span> <span class="pre">[⟨file⟩]</span></code></a> RTS option when running the program to see
 timing stats, which will help to tell you whether your program got faster by
 using more CPUs or not. If the user time is greater than the elapsed time, then
@@ -290,13 +290,13 @@ find.</td></tr>
           <a href="genindex.html" title="総合索引"
              >索引</a></li>
         <li class="right" >
-          <a href="flags.html" title="7.6. Flag reference"
+          <a href="flags.html" title="8.6. Flag reference"
              >次へ</a> |</li>
         <li class="right" >
-          <a href="using-optimisation.html" title="7.3. Optimisation (code improvement)"
+          <a href="using-optimisation.html" title="8.3. Optimisation (code improvement)"
              >前へ</a> |</li>
         <li class="nav-item nav-item-0"><a href="index.html">GHC 8.4.3 User&#39;s Guide</a> &#187;</li>
-          <li class="nav-item nav-item-1"><a href="usage.html" >7. Using GHC</a> &#187;</li> 
+          <li class="nav-item nav-item-1"><a href="usage.html" >8. Using GHC</a> &#187;</li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">

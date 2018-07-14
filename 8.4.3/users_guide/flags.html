@@ -6,7 +6,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="ja">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>7.6. Flag reference &#8212; Glasgow Haskell Compiler 8.4.3 User&#39;s Guide</title>
+    <title>8.6. Flag reference &#8212; Glasgow Haskell Compiler 8.4.3 User&#39;s Guide</title>
     <link rel="stylesheet" href="_static/ghc-theme.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <script type="text/javascript">
@@ -29,8 +29,8 @@
           href="_static/opensearch.xml"/>
     <link rel="index" title="索引" href="genindex.html" />
     <link rel="search" title="検索" href="search.html" />
-    <link rel="next" title="7.7. Running a compiled program" href="runtime_control.html" />
-    <link rel="prev" title="7.4. Using Concurrent Haskell" href="using-concurrent.html" /> 
+    <link rel="next" title="8.7. Running a compiled program" href="runtime_control.html" />
+    <link rel="prev" title="8.4. Using Concurrent Haskell" href="using-concurrent.html" /> 
   </head>
   <body>
 <div class="logo">
@@ -44,13 +44,13 @@
           <a href="genindex.html" title="総合索引"
              accesskey="I">索引</a></li>
         <li class="right" >
-          <a href="runtime_control.html" title="7.7. Running a compiled program"
+          <a href="runtime_control.html" title="8.7. Running a compiled program"
              accesskey="N">次へ</a> |</li>
         <li class="right" >
-          <a href="using-concurrent.html" title="7.4. Using Concurrent Haskell"
+          <a href="using-concurrent.html" title="8.4. Using Concurrent Haskell"
              accesskey="P">前へ</a> |</li>
         <li class="nav-item nav-item-0"><a href="index.html">GHC 8.4.3 User&#39;s Guide</a> &#187;</li>
-          <li class="nav-item nav-item-1"><a href="usage.html" accesskey="U">7. Using GHC</a> &#187;</li> 
+          <li class="nav-item nav-item-1"><a href="usage.html" accesskey="U">8. Using GHC</a> &#187;</li> 
       </ul>
     </div>
 
@@ -58,43 +58,43 @@
         <div class="sphinxsidebarwrapper">
   <h3><a href="index.html">目次</a></h3>
   <ul>
-<li><a class="reference internal" href="#">7.6. Flag reference</a><ul>
-<li><a class="reference internal" href="#verbosity-options">7.6.1. Verbosity options</a></li>
-<li><a class="reference internal" href="#alternative-modes-of-operation">7.6.2. Alternative modes of operation</a></li>
-<li><a class="reference internal" href="#which-phases-to-run">7.6.3. Which phases to run</a></li>
-<li><a class="reference internal" href="#redirecting-output">7.6.4. Redirecting output</a></li>
-<li><a class="reference internal" href="#keeping-intermediate-files">7.6.5. Keeping intermediate files</a></li>
-<li><a class="reference internal" href="#temporary-files">7.6.6. Temporary files</a></li>
-<li><a class="reference internal" href="#finding-imports">7.6.7. Finding imports</a></li>
-<li><a class="reference internal" href="#interface-file-options">7.6.8. Interface file options</a></li>
-<li><a class="reference internal" href="#recompilation-checking">7.6.9. Recompilation checking</a></li>
-<li><a class="reference internal" href="#interactive-mode-options">7.6.10. Interactive-mode options</a></li>
-<li><a class="reference internal" href="#packages">7.6.11. Packages</a></li>
-<li><a class="reference internal" href="#language-options">7.6.12. Language options</a></li>
-<li><a class="reference internal" href="#warnings">7.6.13. Warnings</a></li>
-<li><a class="reference internal" href="#optimisation-levels">7.6.14. Optimisation levels</a></li>
-<li><a class="reference internal" href="#individual-optimisations">7.6.15. Individual optimisations</a></li>
-<li><a class="reference internal" href="#profiling-options">7.6.16. Profiling options</a></li>
-<li><a class="reference internal" href="#program-coverage-options">7.6.17. Program coverage options</a></li>
-<li><a class="reference internal" href="#c-pre-processor-options">7.6.18. C pre-processor options</a></li>
-<li><a class="reference internal" href="#code-generation-options">7.6.19. Code generation options</a></li>
-<li><a class="reference internal" href="#linking-options">7.6.20. Linking options</a></li>
-<li><a class="reference internal" href="#plugin-options">7.6.21. Plugin options</a></li>
-<li><a class="reference internal" href="#replacing-phases">7.6.22. Replacing phases</a></li>
-<li><a class="reference internal" href="#forcing-options-to-particular-phases">7.6.23. Forcing options to particular phases</a></li>
-<li><a class="reference internal" href="#platform-specific-options">7.6.24. Platform-specific options</a></li>
-<li><a class="reference internal" href="#compiler-debugging-options">7.6.25. Compiler debugging options</a></li>
-<li><a class="reference internal" href="#miscellaneous-compiler-options">7.6.26. Miscellaneous compiler options</a></li>
+<li><a class="reference internal" href="#">8.6. Flag reference</a><ul>
+<li><a class="reference internal" href="#verbosity-options">8.6.1. Verbosity options</a></li>
+<li><a class="reference internal" href="#alternative-modes-of-operation">8.6.2. Alternative modes of operation</a></li>
+<li><a class="reference internal" href="#which-phases-to-run">8.6.3. Which phases to run</a></li>
+<li><a class="reference internal" href="#redirecting-output">8.6.4. Redirecting output</a></li>
+<li><a class="reference internal" href="#keeping-intermediate-files">8.6.5. Keeping intermediate files</a></li>
+<li><a class="reference internal" href="#temporary-files">8.6.6. Temporary files</a></li>
+<li><a class="reference internal" href="#finding-imports">8.6.7. Finding imports</a></li>
+<li><a class="reference internal" href="#interface-file-options">8.6.8. Interface file options</a></li>
+<li><a class="reference internal" href="#recompilation-checking">8.6.9. Recompilation checking</a></li>
+<li><a class="reference internal" href="#interactive-mode-options">8.6.10. Interactive-mode options</a></li>
+<li><a class="reference internal" href="#packages">8.6.11. Packages</a></li>
+<li><a class="reference internal" href="#language-options">8.6.12. Language options</a></li>
+<li><a class="reference internal" href="#warnings">8.6.13. Warnings</a></li>
+<li><a class="reference internal" href="#optimisation-levels">8.6.14. Optimisation levels</a></li>
+<li><a class="reference internal" href="#individual-optimisations">8.6.15. Individual optimisations</a></li>
+<li><a class="reference internal" href="#profiling-options">8.6.16. Profiling options</a></li>
+<li><a class="reference internal" href="#program-coverage-options">8.6.17. Program coverage options</a></li>
+<li><a class="reference internal" href="#c-pre-processor-options">8.6.18. C pre-processor options</a></li>
+<li><a class="reference internal" href="#code-generation-options">8.6.19. Code generation options</a></li>
+<li><a class="reference internal" href="#linking-options">8.6.20. Linking options</a></li>
+<li><a class="reference internal" href="#plugin-options">8.6.21. Plugin options</a></li>
+<li><a class="reference internal" href="#replacing-phases">8.6.22. Replacing phases</a></li>
+<li><a class="reference internal" href="#forcing-options-to-particular-phases">8.6.23. Forcing options to particular phases</a></li>
+<li><a class="reference internal" href="#platform-specific-options">8.6.24. Platform-specific options</a></li>
+<li><a class="reference internal" href="#compiler-debugging-options">8.6.25. Compiler debugging options</a></li>
+<li><a class="reference internal" href="#miscellaneous-compiler-options">8.6.26. Miscellaneous compiler options</a></li>
 </ul>
 </li>
 </ul>
 
   <h4>前のトピックへ</h4>
   <p class="topless"><a href="using-concurrent.html"
-                        title="前の章へ">7.4. Using Concurrent Haskell</a></p>
+                        title="前の章へ">8.4. Using Concurrent Haskell</a></p>
   <h4>次のトピックへ</h4>
   <p class="topless"><a href="runtime_control.html"
-                        title="次の章へ">7.7. Running a compiled program</a></p>
+                        title="次の章へ">8.7. Running a compiled program</a></p>
   <div role="note" aria-label="source link">
     <h3>このページ</h3>
     <ul class="this-page-menu">
@@ -121,12 +121,12 @@
           <div class="body" role="main">
             
   <div class="section" id="flag-reference">
-<span id="id1"></span><h1>7.6. Flag reference<a class="headerlink" href="#flag-reference" title="このヘッドラインへのパーマリンク">¶</a></h1>
+<span id="id1"></span><h1>8.6. Flag reference<a class="headerlink" href="#flag-reference" title="このヘッドラインへのパーマリンク">¶</a></h1>
 <p>This section is a quick-reference for GHC's command-line flags. For each
 flag, we also list its static/dynamic status (see
 <a class="reference internal" href="using.html#static-dynamic-flags"><span class="std std-ref">Static, Dynamic, and Mode options</span></a>), and the flag's opposite (if available).</p>
 <div class="section" id="verbosity-options">
-<h2>7.6.1. Verbosity options<a class="headerlink" href="#verbosity-options" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<h2>8.6.1. Verbosity options<a class="headerlink" href="#verbosity-options" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <p>More details in <a class="reference internal" href="using.html#options-help"><span class="std std-ref">Verbosity options</span></a></p>
 <table border="1" class="longtable docutils">
 <colgroup>
@@ -242,7 +242,7 @@ See also <a class="reference internal" href="glasgow_exts.html#extension-Unicode
 </table>
 </div>
 <div class="section" id="alternative-modes-of-operation">
-<h2>7.6.2. Alternative modes of operation<a class="headerlink" href="#alternative-modes-of-operation" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<h2>8.6.2. Alternative modes of operation<a class="headerlink" href="#alternative-modes-of-operation" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <p>More details in <a class="reference internal" href="using.html#modes"><span class="std std-ref">Modes of operation</span></a></p>
 <table border="1" class="longtable docutils">
 <colgroup>
@@ -338,7 +338,7 @@ dependencies. Likely to be much easier, and faster, than using
 </table>
 </div>
 <div class="section" id="which-phases-to-run">
-<h2>7.6.3. Which phases to run<a class="headerlink" href="#which-phases-to-run" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<h2>8.6.3. Which phases to run<a class="headerlink" href="#which-phases-to-run" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <p>More details in <a class="reference internal" href="using.html#options-order"><span class="std std-ref">Batch compiler mode</span></a></p>
 <table border="1" class="longtable docutils">
 <colgroup>
@@ -390,7 +390,7 @@ dependencies. Likely to be much easier, and faster, than using
 </table>
 </div>
 <div class="section" id="redirecting-output">
-<h2>7.6.4. Redirecting output<a class="headerlink" href="#redirecting-output" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<h2>8.6.4. Redirecting output<a class="headerlink" href="#redirecting-output" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <p>More details in <a class="reference internal" href="separate_compilation.html#options-output"><span class="std std-ref">Redirecting the compilation output(s)</span></a></p>
 <table border="1" class="longtable docutils">
 <colgroup>
@@ -488,7 +488,7 @@ dependencies on it.</td>
 </table>
 </div>
 <div class="section" id="keeping-intermediate-files">
-<h2>7.6.5. Keeping intermediate files<a class="headerlink" href="#keeping-intermediate-files" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<h2>8.6.5. Keeping intermediate files<a class="headerlink" href="#keeping-intermediate-files" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <p>More details in <a class="reference internal" href="separate_compilation.html#keeping-intermediates"><span class="std std-ref">Keeping Intermediate Files</span></a></p>
 <table border="1" class="longtable docutils">
 <colgroup>
@@ -540,7 +540,7 @@ Implies <a class="reference internal" href="phases.html#ghc-flag--fllvm"><code c
 </table>
 </div>
 <div class="section" id="temporary-files">
-<h2>7.6.6. Temporary files<a class="headerlink" href="#temporary-files" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<h2>8.6.6. Temporary files<a class="headerlink" href="#temporary-files" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <p>More details in <a class="reference internal" href="separate_compilation.html#temp-files"><span class="std std-ref">Redirecting temporary files</span></a></p>
 <table border="1" class="longtable docutils">
 <colgroup>
@@ -566,7 +566,7 @@ Implies <a class="reference internal" href="phases.html#ghc-flag--fllvm"><code c
 </table>
 </div>
 <div class="section" id="finding-imports">
-<h2>7.6.7. Finding imports<a class="headerlink" href="#finding-imports" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<h2>8.6.7. Finding imports<a class="headerlink" href="#finding-imports" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <p>More details in <a class="reference internal" href="separate_compilation.html#search-path"><span class="std std-ref">The search path</span></a></p>
 <table border="1" class="longtable docutils">
 <colgroup>
@@ -597,7 +597,7 @@ Implies <a class="reference internal" href="phases.html#ghc-flag--fllvm"><code c
 </table>
 </div>
 <div class="section" id="interface-file-options">
-<h2>7.6.8. Interface file options<a class="headerlink" href="#interface-file-options" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<h2>8.6.8. Interface file options<a class="headerlink" href="#interface-file-options" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <p>More details in <a class="reference internal" href="separate_compilation.html#hi-options"><span class="std std-ref">Other options related to interface files</span></a></p>
 <table border="1" class="longtable docutils">
 <colgroup>
@@ -638,7 +638,7 @@ Implies <a class="reference internal" href="phases.html#ghc-flag--fllvm"><code c
 </table>
 </div>
 <div class="section" id="recompilation-checking">
-<h2>7.6.9. Recompilation checking<a class="headerlink" href="#recompilation-checking" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<h2>8.6.9. Recompilation checking<a class="headerlink" href="#recompilation-checking" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <p>More details in <a class="reference internal" href="separate_compilation.html#recomp"><span class="std std-ref">The recompilation checker</span></a></p>
 <table border="1" class="longtable docutils">
 <colgroup>
@@ -681,7 +681,7 @@ GHCi.</td>
 </table>
 </div>
 <div class="section" id="interactive-mode-options">
-<span id="id2"></span><h2>7.6.10. Interactive-mode options<a class="headerlink" href="#interactive-mode-options" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<span id="id2"></span><h2>8.6.10. Interactive-mode options<a class="headerlink" href="#interactive-mode-options" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <p>More details in <a class="reference internal" href="ghci.html#ghci-dot-files"><span class="std std-ref">The .ghci and .haskeline files</span></a></p>
 <table border="1" class="longtable docutils">
 <colgroup>
@@ -751,7 +751,7 @@ expressions in GHCi</span></a></td>
 </table>
 </div>
 <div class="section" id="packages">
-<h2>7.6.11. Packages<a class="headerlink" href="#packages" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<h2>8.6.11. Packages<a class="headerlink" href="#packages" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <p>More details in <a class="reference internal" href="packages.html#packages"><span class="std std-ref">Packages</span></a></p>
 <table border="1" class="longtable docutils">
 <colgroup>
@@ -866,13 +866,13 @@ requirement for trustworthy modules.</td>
 </table>
 </div>
 <div class="section" id="language-options">
-<h2>7.6.12. Language options<a class="headerlink" href="#language-options" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<h2>8.6.12. Language options<a class="headerlink" href="#language-options" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <p>Language options can be enabled either by a command-line option
 <code class="docutils literal"><span class="pre">-Xblah</span></code>, or by a <code class="docutils literal"><span class="pre">{-#</span> <span class="pre">LANGUAGE</span> <span class="pre">blah</span> <span class="pre">#-}</span></code> pragma in the file itself.
 See <a class="reference internal" href="glasgow_exts.html#options-language"><span class="std std-ref">Language options</span></a>.</p>
 </div>
 <div class="section" id="warnings">
-<h2>7.6.13. Warnings<a class="headerlink" href="#warnings" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<h2>8.6.13. Warnings<a class="headerlink" href="#warnings" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <p>More details in <a class="reference internal" href="using-warnings.html#options-sanity"><span class="std std-ref">Warnings and sanity-checking</span></a></p>
 <table border="1" class="longtable docutils">
 <colgroup>
@@ -1368,7 +1368,7 @@ that you should have bound instead</td>
 </table>
 </div>
 <div class="section" id="optimisation-levels">
-<h2>7.6.14. Optimisation levels<a class="headerlink" href="#optimisation-levels" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<h2>8.6.14. Optimisation levels<a class="headerlink" href="#optimisation-levels" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <p>These options are described in more detail in <a class="reference internal" href="using-optimisation.html#options-optimise"><span class="std std-ref">Optimisation (code improvement)</span></a>.</p>
 <p>See <a class="reference internal" href="#options-f-compact"><span class="std std-ref">Individual optimisations</span></a> for a list of optimisations enabled on
 level 1 and level 2.</p>
@@ -1413,7 +1413,7 @@ and <code class="docutils literal"><span class="pre">-fsimplifier-phases=3</span
 </table>
 </div>
 <div class="section" id="individual-optimisations">
-<span id="options-f-compact"></span><h2>7.6.15. Individual optimisations<a class="headerlink" href="#individual-optimisations" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<span id="options-f-compact"></span><h2>8.6.15. Individual optimisations<a class="headerlink" href="#individual-optimisations" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <p>These options are described in more detail in <a class="reference internal" href="using-optimisation.html#options-f"><span class="std std-ref">-f*: platform-independent flags</span></a>. If a
 flag is implied by <code class="docutils literal"><span class="pre">-O</span></code> then it is also implied by <code class="docutils literal"><span class="pre">-O2</span></code> (unless
 flag description explicitly says otherwise). If a flag is implied by
@@ -1804,7 +1804,7 @@ representation. Implied by <a class="reference internal" href="using-optimisatio
 </table>
 </div>
 <div class="section" id="profiling-options">
-<h2>7.6.16. Profiling options<a class="headerlink" href="#profiling-options" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<h2>8.6.16. Profiling options<a class="headerlink" href="#profiling-options" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <p>More details in <a class="reference internal" href="profiling.html#profiling"><span class="std std-ref">Profiling</span></a></p>
 <table border="1" class="longtable docutils">
 <colgroup>
@@ -1876,7 +1876,7 @@ representation. Implied by <a class="reference internal" href="using-optimisatio
 </table>
 </div>
 <div class="section" id="program-coverage-options">
-<h2>7.6.17. Program coverage options<a class="headerlink" href="#program-coverage-options" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<h2>8.6.17. Program coverage options<a class="headerlink" href="#program-coverage-options" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <p>More details in <a class="reference internal" href="profiling.html#hpc"><span class="std std-ref">Observing Code Coverage</span></a></p>
 <table border="1" class="longtable docutils">
 <colgroup>
@@ -1902,7 +1902,7 @@ representation. Implied by <a class="reference internal" href="using-optimisatio
 </table>
 </div>
 <div class="section" id="c-pre-processor-options">
-<h2>7.6.18. C pre-processor options<a class="headerlink" href="#c-pre-processor-options" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<h2>8.6.18. C pre-processor options<a class="headerlink" href="#c-pre-processor-options" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <p>More details in <a class="reference internal" href="phases.html#c-pre-processor"><span class="std std-ref">Options affecting the C pre-processor</span></a></p>
 <table border="1" class="longtable docutils">
 <colgroup>
@@ -1943,7 +1943,7 @@ representation. Implied by <a class="reference internal" href="using-optimisatio
 </table>
 </div>
 <div class="section" id="code-generation-options">
-<h2>7.6.19. Code generation options<a class="headerlink" href="#code-generation-options" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<h2>8.6.19. Code generation options<a class="headerlink" href="#code-generation-options" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <p>More details in <a class="reference internal" href="phases.html#options-codegen"><span class="std std-ref">Options affecting code generation</span></a></p>
 <table border="1" class="longtable docutils">
 <colgroup>
@@ -2010,7 +2010,7 @@ during compilation</td>
 </table>
 </div>
 <div class="section" id="linking-options">
-<h2>7.6.20. Linking options<a class="headerlink" href="#linking-options" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<h2>8.6.20. Linking options<a class="headerlink" href="#linking-options" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <p>More details in <a class="reference internal" href="phases.html#options-linker"><span class="std std-ref">Options affecting linking</span></a></p>
 <table border="1" class="longtable docutils">
 <colgroup>
@@ -2192,7 +2192,7 @@ single static library that can be linked against.</td>
 </table>
 </div>
 <div class="section" id="plugin-options">
-<h2>7.6.21. Plugin options<a class="headerlink" href="#plugin-options" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<h2>8.6.21. Plugin options<a class="headerlink" href="#plugin-options" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <p>More details in <a class="reference internal" href="extending_ghc.html#compiler-plugins"><span class="std std-ref">Compiler Plugins</span></a></p>
 <table border="1" class="longtable docutils">
 <colgroup>
@@ -2239,7 +2239,7 @@ single static library that can be linked against.</td>
 </table>
 </div>
 <div class="section" id="replacing-phases">
-<h2>7.6.22. Replacing phases<a class="headerlink" href="#replacing-phases" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<h2>8.6.22. Replacing phases<a class="headerlink" href="#replacing-phases" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <p>More details in <a class="reference internal" href="phases.html#replacing-phases"><span class="std std-ref">Replacing the program for one or more phases</span></a></p>
 <table border="1" class="longtable docutils">
 <colgroup>
@@ -2325,7 +2325,7 @@ single static library that can be linked against.</td>
 </table>
 </div>
 <div class="section" id="forcing-options-to-particular-phases">
-<h2>7.6.23. Forcing options to particular phases<a class="headerlink" href="#forcing-options-to-particular-phases" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<h2>8.6.23. Forcing options to particular phases<a class="headerlink" href="#forcing-options-to-particular-phases" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <p>More details in <a class="reference internal" href="phases.html#forcing-options-through"><span class="std std-ref">Forcing options to a particular phase</span></a></p>
 <table border="1" class="longtable docutils">
 <colgroup>
@@ -2401,7 +2401,7 @@ single static library that can be linked against.</td>
 </table>
 </div>
 <div class="section" id="platform-specific-options">
-<h2>7.6.24. Platform-specific options<a class="headerlink" href="#platform-specific-options" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<h2>8.6.24. Platform-specific options<a class="headerlink" href="#platform-specific-options" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <p>More details in <a class="reference internal" href="using.html#options-platform"><span class="std std-ref">Platform-specific Flags</span></a></p>
 <table border="1" class="longtable docutils">
 <colgroup>
@@ -2432,7 +2432,7 @@ single static library that can be linked against.</td>
 </table>
 </div>
 <div class="section" id="compiler-debugging-options">
-<h2>7.6.25. Compiler debugging options<a class="headerlink" href="#compiler-debugging-options" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<h2>8.6.25. Compiler debugging options<a class="headerlink" href="#compiler-debugging-options" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <p>More details in <a class="reference internal" href="debugging.html#options-debugging"><span class="std std-ref">Debugging the compiler</span></a></p>
 <table border="1" class="longtable docutils">
 <colgroup>
@@ -2923,7 +2923,7 @@ output. If ⟨n⟩ is omitted level 2 is assumed.</td>
 </table>
 </div>
 <div class="section" id="miscellaneous-compiler-options">
-<h2>7.6.26. Miscellaneous compiler options<a class="headerlink" href="#miscellaneous-compiler-options" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<h2>8.6.26. Miscellaneous compiler options<a class="headerlink" href="#miscellaneous-compiler-options" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <table border="1" class="longtable docutils">
 <colgroup>
 <col width="28%" />
@@ -2984,13 +2984,13 @@ in parallel.</td>
           <a href="genindex.html" title="総合索引"
              >索引</a></li>
         <li class="right" >
-          <a href="runtime_control.html" title="7.7. Running a compiled program"
+          <a href="runtime_control.html" title="8.7. Running a compiled program"
              >次へ</a> |</li>
         <li class="right" >
-          <a href="using-concurrent.html" title="7.4. Using Concurrent Haskell"
+          <a href="using-concurrent.html" title="8.4. Using Concurrent Haskell"
              >前へ</a> |</li>
         <li class="nav-item nav-item-0"><a href="index.html">GHC 8.4.3 User&#39;s Guide</a> &#187;</li>
-          <li class="nav-item nav-item-1"><a href="usage.html" >7. Using GHC</a> &#187;</li> 
+          <li class="nav-item nav-item-1"><a href="usage.html" >8. Using GHC</a> &#187;</li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">

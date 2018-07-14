@@ -6,7 +6,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="ja">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>7.1. Using GHC &#8212; Glasgow Haskell Compiler 8.4.3 User&#39;s Guide</title>
+    <title>8.1. Using GHC &#8212; Glasgow Haskell Compiler 8.4.3 User&#39;s Guide</title>
     <link rel="stylesheet" href="_static/ghc-theme.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <script type="text/javascript">
@@ -29,8 +29,8 @@
           href="_static/opensearch.xml"/>
     <link rel="index" title="索引" href="genindex.html" />
     <link rel="search" title="検索" href="search.html" />
-    <link rel="next" title="7.2. Warnings and sanity-checking" href="using-warnings.html" />
-    <link rel="prev" title="7. Using GHC" href="usage.html" /> 
+    <link rel="next" title="8.2. Warnings and sanity-checking" href="using-warnings.html" />
+    <link rel="prev" title="8. Using GHC" href="usage.html" /> 
   </head>
   <body>
 <div class="logo">
@@ -44,13 +44,13 @@
           <a href="genindex.html" title="総合索引"
              accesskey="I">索引</a></li>
         <li class="right" >
-          <a href="using-warnings.html" title="7.2. Warnings and sanity-checking"
+          <a href="using-warnings.html" title="8.2. Warnings and sanity-checking"
              accesskey="N">次へ</a> |</li>
         <li class="right" >
-          <a href="usage.html" title="7. Using GHC"
+          <a href="usage.html" title="8. Using GHC"
              accesskey="P">前へ</a> |</li>
         <li class="nav-item nav-item-0"><a href="index.html">GHC 8.4.3 User&#39;s Guide</a> &#187;</li>
-          <li class="nav-item nav-item-1"><a href="usage.html" accesskey="U">7. Using GHC</a> &#187;</li> 
+          <li class="nav-item nav-item-1"><a href="usage.html" accesskey="U">8. Using GHC</a> &#187;</li> 
       </ul>
     </div>
 
@@ -58,38 +58,38 @@
         <div class="sphinxsidebarwrapper">
   <h3><a href="index.html">目次</a></h3>
   <ul>
-<li><a class="reference internal" href="#">7.1. Using GHC</a><ul>
-<li><a class="reference internal" href="#getting-started-compiling-programs">7.1.1. Getting started: compiling programs</a></li>
-<li><a class="reference internal" href="#options-overview">7.1.2. Options overview</a><ul>
-<li><a class="reference internal" href="#command-line-arguments">7.1.2.1. Command-line arguments</a></li>
-<li><a class="reference internal" href="#command-line-options-in-source-files">7.1.2.2. Command line options in source files</a></li>
-<li><a class="reference internal" href="#setting-options-in-ghci">7.1.2.3. Setting options in GHCi</a></li>
+<li><a class="reference internal" href="#">8.1. Using GHC</a><ul>
+<li><a class="reference internal" href="#getting-started-compiling-programs">8.1.1. Getting started: compiling programs</a></li>
+<li><a class="reference internal" href="#options-overview">8.1.2. Options overview</a><ul>
+<li><a class="reference internal" href="#command-line-arguments">8.1.2.1. Command-line arguments</a></li>
+<li><a class="reference internal" href="#command-line-options-in-source-files">8.1.2.2. Command line options in source files</a></li>
+<li><a class="reference internal" href="#setting-options-in-ghci">8.1.2.3. Setting options in GHCi</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#static-dynamic-and-mode-options">7.1.3. Static, Dynamic, and Mode options</a></li>
-<li><a class="reference internal" href="#meaningful-file-suffixes">7.1.4. Meaningful file suffixes</a></li>
-<li><a class="reference internal" href="#modes-of-operation">7.1.5. Modes of operation</a><ul>
-<li><a class="reference internal" href="#using-ghc-make">7.1.5.1. Using <code class="docutils literal"><span class="pre">ghc</span></code> <code class="docutils literal"><span class="pre">--make</span></code></a></li>
-<li><a class="reference internal" href="#expression-evaluation-mode">7.1.5.2. Expression evaluation mode</a></li>
-<li><a class="reference internal" href="#batch-compiler-mode">7.1.5.3. Batch compiler mode</a><ul>
-<li><a class="reference internal" href="#overriding-the-default-behaviour-for-a-file">7.1.5.3.1. Overriding the default behaviour for a file</a></li>
+<li><a class="reference internal" href="#static-dynamic-and-mode-options">8.1.3. Static, Dynamic, and Mode options</a></li>
+<li><a class="reference internal" href="#meaningful-file-suffixes">8.1.4. Meaningful file suffixes</a></li>
+<li><a class="reference internal" href="#modes-of-operation">8.1.5. Modes of operation</a><ul>
+<li><a class="reference internal" href="#using-ghc-make">8.1.5.1. Using <code class="docutils literal"><span class="pre">ghc</span></code> <code class="docutils literal"><span class="pre">--make</span></code></a></li>
+<li><a class="reference internal" href="#expression-evaluation-mode">8.1.5.2. Expression evaluation mode</a></li>
+<li><a class="reference internal" href="#batch-compiler-mode">8.1.5.3. Batch compiler mode</a><ul>
+<li><a class="reference internal" href="#overriding-the-default-behaviour-for-a-file">8.1.5.3.1. Overriding the default behaviour for a file</a></li>
 </ul>
 </li>
 </ul>
 </li>
-<li><a class="reference internal" href="#verbosity-options">7.1.6. Verbosity options</a></li>
-<li><a class="reference internal" href="#platform-specific-flags">7.1.7. Platform-specific Flags</a></li>
-<li><a class="reference internal" href="#miscellaneous-flags">7.1.8. Miscellaneous flags</a></li>
+<li><a class="reference internal" href="#verbosity-options">8.1.6. Verbosity options</a></li>
+<li><a class="reference internal" href="#platform-specific-flags">8.1.7. Platform-specific Flags</a></li>
+<li><a class="reference internal" href="#miscellaneous-flags">8.1.8. Miscellaneous flags</a></li>
 </ul>
 </li>
 </ul>
 
   <h4>前のトピックへ</h4>
   <p class="topless"><a href="usage.html"
-                        title="前の章へ">7. Using GHC</a></p>
+                        title="前の章へ">8. Using GHC</a></p>
   <h4>次のトピックへ</h4>
   <p class="topless"><a href="using-warnings.html"
-                        title="次の章へ">7.2. Warnings and sanity-checking</a></p>
+                        title="次の章へ">8.2. Warnings and sanity-checking</a></p>
   <div role="note" aria-label="source link">
     <h3>このページ</h3>
     <ul class="this-page-menu">
@@ -116,9 +116,9 @@
           <div class="body" role="main">
             
   <div class="section" id="using-ghc">
-<span id="id1"></span><h1>7.1. Using GHC<a class="headerlink" href="#using-ghc" title="このヘッドラインへのパーマリンク">¶</a></h1>
+<span id="id1"></span><h1>8.1. Using GHC<a class="headerlink" href="#using-ghc" title="このヘッドラインへのパーマリンク">¶</a></h1>
 <div class="section" id="getting-started-compiling-programs">
-<span id="index-0"></span><h2>7.1.1. Getting started: compiling programs<a class="headerlink" href="#getting-started-compiling-programs" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<span id="index-0"></span><h2>8.1.1. Getting started: compiling programs<a class="headerlink" href="#getting-started-compiling-programs" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <p>In this chapter you'll find a complete reference to the GHC command-line
 syntax, including all 400+ flags. It's a large and complex system, and
 there are lots of details, so it can be quite hard to figure out how to
@@ -158,12 +158,12 @@ file <code class="docutils literal"><span class="pre">Data/Person.hs</span></cod
 Windows.</p>
 </div>
 <div class="section" id="options-overview">
-<h2>7.1.2. Options overview<a class="headerlink" href="#options-overview" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<h2>8.1.2. Options overview<a class="headerlink" href="#options-overview" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <p>GHC's behaviour is controlled by options, which for historical reasons
 are also sometimes referred to as command-line flags or arguments.
 Options can be specified in three ways:</p>
 <div class="section" id="command-line-arguments">
-<h3>7.1.2.1. Command-line arguments<a class="headerlink" href="#command-line-arguments" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<h3>8.1.2.1. Command-line arguments<a class="headerlink" href="#command-line-arguments" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <p id="index-1">An invocation of GHC takes the following form:</p>
 <div class="highlight-none"><div class="highlight"><pre><span></span>ghc [argument...]
 </pre></div>
@@ -194,7 +194,7 @@ overrides the <code class="docutils literal"><span class="pre">-fspecialise</spa
 </div>
 </div>
 <div class="section" id="command-line-options-in-source-files">
-<span id="source-file-options"></span><h3>7.1.2.2. Command line options in source files<a class="headerlink" href="#command-line-options-in-source-files" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<span id="source-file-options"></span><h3>8.1.2.2. Command line options in source files<a class="headerlink" href="#command-line-options-in-source-files" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <p id="index-3">Sometimes it is useful to make the connection between a source file and
 the command-line options it requires quite tight. For instance, if a
 Haskell source file deliberately uses name shadowing, it should be
@@ -226,13 +226,13 @@ is the Right Thing. (If you use <a class="reference internal" href="separate_com
 your module, the <code class="docutils literal"><span class="pre">OPTIONS_GHC</span></code> will get put into the generated <code class="docutils literal"><span class="pre">.hc</span></code> file).</p>
 </div>
 <div class="section" id="setting-options-in-ghci">
-<h3>7.1.2.3. Setting options in GHCi<a class="headerlink" href="#setting-options-in-ghci" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<h3>8.1.2.3. Setting options in GHCi<a class="headerlink" href="#setting-options-in-ghci" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <p>Options may also be modified from within GHCi, using the <a class="reference internal" href="ghci.html#ghci-cmd-:set"><code class="xref std std-ghci-cmd docutils literal"><span class="pre">:set</span></code></a>
 command.</p>
 </div>
 </div>
 <div class="section" id="static-dynamic-and-mode-options">
-<span id="static-dynamic-flags"></span><h2>7.1.3. Static, Dynamic, and Mode options<a class="headerlink" href="#static-dynamic-and-mode-options" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<span id="static-dynamic-flags"></span><h2>8.1.3. Static, Dynamic, and Mode options<a class="headerlink" href="#static-dynamic-and-mode-options" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <p id="index-4">Each of GHC's command line options is classified as static, dynamic or
 mode:</p>
 <blockquote>
@@ -252,7 +252,7 @@ with GHCi's <a class="reference internal" href="ghci.html#ghci-cmd-:set"><code c
 in the table.</p>
 </div>
 <div class="section" id="meaningful-file-suffixes">
-<span id="file-suffixes"></span><h2>7.1.4. Meaningful file suffixes<a class="headerlink" href="#meaningful-file-suffixes" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<span id="file-suffixes"></span><h2>8.1.4. Meaningful file suffixes<a class="headerlink" href="#meaningful-file-suffixes" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <p id="index-5">File names with &quot;meaningful&quot; suffixes (e.g., <code class="docutils literal"><span class="pre">.lhs</span></code> or <code class="docutils literal"><span class="pre">.o</span></code>) cause
 the &quot;right thing&quot; to happen to those files.</p>
 <dl class="docutils">
@@ -284,7 +284,7 @@ compiler.</dd>
 the linker.</p>
 </div>
 <div class="section" id="modes-of-operation">
-<span id="modes"></span><h2>7.1.5. Modes of operation<a class="headerlink" href="#modes-of-operation" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<span id="modes"></span><h2>8.1.5. Modes of operation<a class="headerlink" href="#modes-of-operation" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <p id="index-7">GHC's behaviour is firstly controlled by a mode flag. Only one of these
 flags may be given, but it does not necessarily need to be the first
 option on the command-line. For instance,</p>
@@ -435,7 +435,7 @@ configuration file (see <a class="reference internal" href="packages.html#packag
 </dd></dl>
 
 <div class="section" id="using-ghc-make">
-<span id="make-mode"></span><h3>7.1.5.1. Using <code class="docutils literal"><span class="pre">ghc</span></code> <code class="docutils literal"><span class="pre">--make</span></code><a class="headerlink" href="#using-ghc-make" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<span id="make-mode"></span><h3>8.1.5.1. Using <code class="docutils literal"><span class="pre">ghc</span></code> <code class="docutils literal"><span class="pre">--make</span></code><a class="headerlink" href="#using-ghc-make" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <p id="index-15">In this mode, GHC will build a multi-module Haskell program by following
 dependencies from one or more root modules (usually just <code class="docutils literal"><span class="pre">Main</span></code>). For
 example, if your <code class="docutils literal"><span class="pre">Main</span></code> module is in a file called <code class="file docutils literal"><span class="pre">Main.hs</span></code>, you
@@ -502,7 +502,7 @@ until its dependencies have been built.</p>
 
 </div>
 <div class="section" id="expression-evaluation-mode">
-<span id="eval-mode"></span><h3>7.1.5.2. Expression evaluation mode<a class="headerlink" href="#expression-evaluation-mode" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<span id="eval-mode"></span><h3>8.1.5.2. Expression evaluation mode<a class="headerlink" href="#expression-evaluation-mode" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <p>This mode is very similar to interactive mode, except that there is a
 single expression to evaluate which is specified on the command line as
 an argument to the <code class="docutils literal"><span class="pre">-e</span></code> option:</p>
@@ -526,7 +526,7 @@ olleh
 </div>
 </div>
 <div class="section" id="batch-compiler-mode">
-<span id="options-order"></span><h3>7.1.5.3. Batch compiler mode<a class="headerlink" href="#batch-compiler-mode" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<span id="options-order"></span><h3>8.1.5.3. Batch compiler mode<a class="headerlink" href="#batch-compiler-mode" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <p>In <em>batch mode</em>, GHC will compile one or more source files given on the
 command line.</p>
 <p>The first phase to run is determined by each input-file suffix, and the
@@ -606,7 +606,7 @@ the compiler, dumping the result in a file.</p>
 unregisterised mode. See <a class="reference internal" href="codegens.html#unreg"><span class="std std-ref">Unregisterised compilation</span></a> for more details.</p>
 </div>
 <div class="section" id="overriding-the-default-behaviour-for-a-file">
-<span id="overriding-suffixes"></span><h4>7.1.5.3.1. Overriding the default behaviour for a file<a class="headerlink" href="#overriding-the-default-behaviour-for-a-file" title="このヘッドラインへのパーマリンク">¶</a></h4>
+<span id="overriding-suffixes"></span><h4>8.1.5.3.1. Overriding the default behaviour for a file<a class="headerlink" href="#overriding-the-default-behaviour-for-a-file" title="このヘッドラインへのパーマリンク">¶</a></h4>
 <p>As described above, the way in which a file is processed by GHC depends on its
 suffix. This behaviour can be overridden using the <a class="reference internal" href="#ghc-flag--x ⟨suffix⟩"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-x</span> <span class="pre">⟨suffix⟩</span></code></a>
 option:</p>
@@ -623,7 +623,7 @@ compile a Haskell module in the file <code class="docutils literal"><span class=
 </div>
 </div>
 <div class="section" id="verbosity-options">
-<span id="options-help"></span><h2>7.1.6. Verbosity options<a class="headerlink" href="#verbosity-options" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<span id="options-help"></span><h2>8.1.6. Verbosity options<a class="headerlink" href="#verbosity-options" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <p id="index-18">See also the <code class="docutils literal"><span class="pre">--help</span></code>, <code class="docutils literal"><span class="pre">--version</span></code>, <code class="docutils literal"><span class="pre">--numeric-version</span></code>, and
 <code class="docutils literal"><span class="pre">--print-libdir</span></code> modes in <a class="reference internal" href="#modes"><span class="std std-ref">Modes of operation</span></a>.</p>
 <dl class="ghc-flag">
@@ -943,7 +943,7 @@ option is equivalent to <code class="docutils literal"><span class="pre">+RTS</s
 
 </div>
 <div class="section" id="platform-specific-flags">
-<span id="options-platform"></span><h2>7.1.7. Platform-specific Flags<a class="headerlink" href="#platform-specific-flags" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<span id="options-platform"></span><h2>8.1.7. Platform-specific Flags<a class="headerlink" href="#platform-specific-flags" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <p id="index-19">Some flags only make sense for particular target platforms.</p>
 <dl class="ghc-flag">
 <dt id="ghc-flag--msse2">
@@ -974,7 +974,7 @@ so no flag is required.</p>
 
 </div>
 <div class="section" id="miscellaneous-flags">
-<h2>7.1.8. Miscellaneous flags<a class="headerlink" href="#miscellaneous-flags" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<h2>8.1.8. Miscellaneous flags<a class="headerlink" href="#miscellaneous-flags" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <p id="index-20">Some flags only make sense for a particular use case.</p>
 <dl class="ghc-flag">
 <dt id="ghc-flag--ghcversion-file ⟨path to ghcversion.h⟩">
@@ -1005,13 +1005,13 @@ used by GHC's build system.</p>
           <a href="genindex.html" title="総合索引"
              >索引</a></li>
         <li class="right" >
-          <a href="using-warnings.html" title="7.2. Warnings and sanity-checking"
+          <a href="using-warnings.html" title="8.2. Warnings and sanity-checking"
              >次へ</a> |</li>
         <li class="right" >
-          <a href="usage.html" title="7. Using GHC"
+          <a href="usage.html" title="8. Using GHC"
              >前へ</a> |</li>
         <li class="nav-item nav-item-0"><a href="index.html">GHC 8.4.3 User&#39;s Guide</a> &#187;</li>
-          <li class="nav-item nav-item-1"><a href="usage.html" >7. Using GHC</a> &#187;</li> 
+          <li class="nav-item nav-item-1"><a href="usage.html" >8. Using GHC</a> &#187;</li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">

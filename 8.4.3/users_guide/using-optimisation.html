@@ -6,7 +6,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="ja">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>7.3. Optimisation (code improvement) &#8212; Glasgow Haskell Compiler 8.4.3 User&#39;s Guide</title>
+    <title>8.3. Optimisation (code improvement) &#8212; Glasgow Haskell Compiler 8.4.3 User&#39;s Guide</title>
     <link rel="stylesheet" href="_static/ghc-theme.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <script type="text/javascript">
@@ -29,8 +29,8 @@
           href="_static/opensearch.xml"/>
     <link rel="index" title="索引" href="genindex.html" />
     <link rel="search" title="検索" href="search.html" />
-    <link rel="next" title="7.4. Using Concurrent Haskell" href="using-concurrent.html" />
-    <link rel="prev" title="7.2. Warnings and sanity-checking" href="using-warnings.html" /> 
+    <link rel="next" title="8.4. Using Concurrent Haskell" href="using-concurrent.html" />
+    <link rel="prev" title="8.2. Warnings and sanity-checking" href="using-warnings.html" /> 
   </head>
   <body>
 <div class="logo">
@@ -44,13 +44,13 @@
           <a href="genindex.html" title="総合索引"
              accesskey="I">索引</a></li>
         <li class="right" >
-          <a href="using-concurrent.html" title="7.4. Using Concurrent Haskell"
+          <a href="using-concurrent.html" title="8.4. Using Concurrent Haskell"
              accesskey="N">次へ</a> |</li>
         <li class="right" >
-          <a href="using-warnings.html" title="7.2. Warnings and sanity-checking"
+          <a href="using-warnings.html" title="8.2. Warnings and sanity-checking"
              accesskey="P">前へ</a> |</li>
         <li class="nav-item nav-item-0"><a href="index.html">GHC 8.4.3 User&#39;s Guide</a> &#187;</li>
-          <li class="nav-item nav-item-1"><a href="usage.html" accesskey="U">7. Using GHC</a> &#187;</li> 
+          <li class="nav-item nav-item-1"><a href="usage.html" accesskey="U">8. Using GHC</a> &#187;</li> 
       </ul>
     </div>
 
@@ -58,19 +58,19 @@
         <div class="sphinxsidebarwrapper">
   <h3><a href="index.html">目次</a></h3>
   <ul>
-<li><a class="reference internal" href="#">7.3. Optimisation (code improvement)</a><ul>
-<li><a class="reference internal" href="#o-convenient-packages-of-optimisation-flags">7.3.1. <code class="docutils literal"><span class="pre">-O*</span></code>: convenient “packages” of optimisation flags.</a></li>
-<li><a class="reference internal" href="#f-platform-independent-flags">7.3.2. <code class="docutils literal"><span class="pre">-f*</span></code>: platform-independent flags</a></li>
+<li><a class="reference internal" href="#">8.3. Optimisation (code improvement)</a><ul>
+<li><a class="reference internal" href="#o-convenient-packages-of-optimisation-flags">8.3.1. <code class="docutils literal"><span class="pre">-O*</span></code>: convenient “packages” of optimisation flags.</a></li>
+<li><a class="reference internal" href="#f-platform-independent-flags">8.3.2. <code class="docutils literal"><span class="pre">-f*</span></code>: platform-independent flags</a></li>
 </ul>
 </li>
 </ul>
 
   <h4>前のトピックへ</h4>
   <p class="topless"><a href="using-warnings.html"
-                        title="前の章へ">7.2. Warnings and sanity-checking</a></p>
+                        title="前の章へ">8.2. Warnings and sanity-checking</a></p>
   <h4>次のトピックへ</h4>
   <p class="topless"><a href="using-concurrent.html"
-                        title="次の章へ">7.4. Using Concurrent Haskell</a></p>
+                        title="次の章へ">8.4. Using Concurrent Haskell</a></p>
   <div role="note" aria-label="source link">
     <h3>このページ</h3>
     <ul class="this-page-menu">
@@ -97,7 +97,7 @@
           <div class="body" role="main">
             
   <div class="section" id="optimisation-code-improvement">
-<span id="options-optimise"></span><h1>7.3. Optimisation (code improvement)<a class="headerlink" href="#optimisation-code-improvement" title="このヘッドラインへのパーマリンク">¶</a></h1>
+<span id="options-optimise"></span><h1>8.3. Optimisation (code improvement)<a class="headerlink" href="#optimisation-code-improvement" title="このヘッドラインへのパーマリンク">¶</a></h1>
 <p id="index-0">The <code class="docutils literal"><span class="pre">-O*</span></code> options specify convenient &quot;packages&quot; of optimisation flags;
 the <code class="docutils literal"><span class="pre">-f*</span></code> options described later on specify <em>individual</em>
 optimisations to be turned on/off; the <code class="docutils literal"><span class="pre">-m*</span></code> options specify
@@ -118,7 +118,7 @@ still be enabled. This is the case as <code class="docutils literal"><span class
 overriding the previous flag. By contrast, <code class="docutils literal"><span class="pre">-O1</span> <span class="pre">-fno-specialise</span></code> will
 compile without specialisation, as one would expect.</p>
 <div class="section" id="o-convenient-packages-of-optimisation-flags">
-<span id="optimise-pkgs"></span><h2>7.3.1. <code class="docutils literal"><span class="pre">-O*</span></code>: convenient “packages” of optimisation flags.<a class="headerlink" href="#o-convenient-packages-of-optimisation-flags" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<span id="optimise-pkgs"></span><h2>8.3.1. <code class="docutils literal"><span class="pre">-O*</span></code>: convenient “packages” of optimisation flags.<a class="headerlink" href="#o-convenient-packages-of-optimisation-flags" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <p>There are <em>many</em> options that affect the quality of code produced by
 GHC. Most people only have a general goal, something like &quot;Compile
 quickly&quot; or &quot;Make my program run like greased lightning.&quot; The following
@@ -174,7 +174,7 @@ breaks).</p>
 <a class="reference internal" href="using.html#ghc-flag--v"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-v</span></code></a>, then stand back in amazement.</p>
 </div>
 <div class="section" id="f-platform-independent-flags">
-<span id="options-f"></span><h2>7.3.2. <code class="docutils literal"><span class="pre">-f*</span></code>: platform-independent flags<a class="headerlink" href="#f-platform-independent-flags" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<span id="options-f"></span><h2>8.3.2. <code class="docutils literal"><span class="pre">-f*</span></code>: platform-independent flags<a class="headerlink" href="#f-platform-independent-flags" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <p id="index-4">These flags turn on and off individual optimisations. Flags marked as
 on by default are enabled by <code class="docutils literal"><span class="pre">-O</span></code>, and as such you shouldn't
 need to set any of them explicitly. A flag <code class="docutils literal"><span class="pre">-fwombat</span></code> can be negated
@@ -1425,13 +1425,13 @@ enable SIMD parallelism and friendlier cache behaviour.</p>
           <a href="genindex.html" title="総合索引"
              >索引</a></li>
         <li class="right" >
-          <a href="using-concurrent.html" title="7.4. Using Concurrent Haskell"
+          <a href="using-concurrent.html" title="8.4. Using Concurrent Haskell"
              >次へ</a> |</li>
         <li class="right" >
-          <a href="using-warnings.html" title="7.2. Warnings and sanity-checking"
+          <a href="using-warnings.html" title="8.2. Warnings and sanity-checking"
              >前へ</a> |</li>
         <li class="nav-item nav-item-0"><a href="index.html">GHC 8.4.3 User&#39;s Guide</a> &#187;</li>
-          <li class="nav-item nav-item-1"><a href="usage.html" >7. Using GHC</a> &#187;</li> 
+          <li class="nav-item nav-item-1"><a href="usage.html" >8. Using GHC</a> &#187;</li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">

@@ -6,7 +6,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="ja">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>7.11. Options related to a particular phase &#8212; Glasgow Haskell Compiler 8.4.3 User&#39;s Guide</title>
+    <title>8.11. Options related to a particular phase &#8212; Glasgow Haskell Compiler 8.4.3 User&#39;s Guide</title>
     <link rel="stylesheet" href="_static/ghc-theme.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <script type="text/javascript">
@@ -29,8 +29,8 @@
           href="_static/opensearch.xml"/>
     <link rel="index" title="索引" href="genindex.html" />
     <link rel="search" title="検索" href="search.html" />
-    <link rel="next" title="7.12. Using shared libraries" href="shared_libs.html" />
-    <link rel="prev" title="7.10. GHC Backends" href="codegens.html" /> 
+    <link rel="next" title="8.12. Using shared libraries" href="shared_libs.html" />
+    <link rel="prev" title="8.10. GHC Backends" href="codegens.html" /> 
   </head>
   <body>
 <div class="logo">
@@ -44,13 +44,13 @@
           <a href="genindex.html" title="総合索引"
              accesskey="I">索引</a></li>
         <li class="right" >
-          <a href="shared_libs.html" title="7.12. Using shared libraries"
+          <a href="shared_libs.html" title="8.12. Using shared libraries"
              accesskey="N">次へ</a> |</li>
         <li class="right" >
-          <a href="codegens.html" title="7.10. GHC Backends"
+          <a href="codegens.html" title="8.10. GHC Backends"
              accesskey="P">前へ</a> |</li>
         <li class="nav-item nav-item-0"><a href="index.html">GHC 8.4.3 User&#39;s Guide</a> &#187;</li>
-          <li class="nav-item nav-item-1"><a href="usage.html" accesskey="U">7. Using GHC</a> &#187;</li> 
+          <li class="nav-item nav-item-1"><a href="usage.html" accesskey="U">8. Using GHC</a> &#187;</li> 
       </ul>
     </div>
 
@@ -58,27 +58,27 @@
         <div class="sphinxsidebarwrapper">
   <h3><a href="index.html">目次</a></h3>
   <ul>
-<li><a class="reference internal" href="#">7.11. Options related to a particular phase</a><ul>
-<li><a class="reference internal" href="#replacing-the-program-for-one-or-more-phases">7.11.1. Replacing the program for one or more phases</a></li>
-<li><a class="reference internal" href="#forcing-options-to-a-particular-phase">7.11.2. Forcing options to a particular phase</a></li>
-<li><a class="reference internal" href="#options-affecting-the-c-pre-processor">7.11.3. Options affecting the C pre-processor</a><ul>
-<li><a class="reference internal" href="#standard-cpp-macros">7.11.3.1. Standard CPP macros</a></li>
-<li><a class="reference internal" href="#cpp-and-string-gaps">7.11.3.2. CPP and string gaps</a></li>
+<li><a class="reference internal" href="#">8.11. Options related to a particular phase</a><ul>
+<li><a class="reference internal" href="#replacing-the-program-for-one-or-more-phases">8.11.1. Replacing the program for one or more phases</a></li>
+<li><a class="reference internal" href="#forcing-options-to-a-particular-phase">8.11.2. Forcing options to a particular phase</a></li>
+<li><a class="reference internal" href="#options-affecting-the-c-pre-processor">8.11.3. Options affecting the C pre-processor</a><ul>
+<li><a class="reference internal" href="#standard-cpp-macros">8.11.3.1. Standard CPP macros</a></li>
+<li><a class="reference internal" href="#cpp-and-string-gaps">8.11.3.2. CPP and string gaps</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#options-affecting-a-haskell-pre-processor">7.11.4. Options affecting a Haskell pre-processor</a></li>
-<li><a class="reference internal" href="#options-affecting-code-generation">7.11.5. Options affecting code generation</a></li>
-<li><a class="reference internal" href="#options-affecting-linking">7.11.6. Options affecting linking</a></li>
+<li><a class="reference internal" href="#options-affecting-a-haskell-pre-processor">8.11.4. Options affecting a Haskell pre-processor</a></li>
+<li><a class="reference internal" href="#options-affecting-code-generation">8.11.5. Options affecting code generation</a></li>
+<li><a class="reference internal" href="#options-affecting-linking">8.11.6. Options affecting linking</a></li>
 </ul>
 </li>
 </ul>
 
   <h4>前のトピックへ</h4>
   <p class="topless"><a href="codegens.html"
-                        title="前の章へ">7.10. GHC Backends</a></p>
+                        title="前の章へ">8.10. GHC Backends</a></p>
   <h4>次のトピックへ</h4>
   <p class="topless"><a href="shared_libs.html"
-                        title="次の章へ">7.12. Using shared libraries</a></p>
+                        title="次の章へ">8.12. Using shared libraries</a></p>
   <div role="note" aria-label="source link">
     <h3>このページ</h3>
     <ul class="this-page-menu">
@@ -105,9 +105,9 @@
           <div class="body" role="main">
             
   <div class="section" id="options-related-to-a-particular-phase">
-<span id="options-phases"></span><h1>7.11. Options related to a particular phase<a class="headerlink" href="#options-related-to-a-particular-phase" title="このヘッドラインへのパーマリンク">¶</a></h1>
+<span id="options-phases"></span><h1>8.11. Options related to a particular phase<a class="headerlink" href="#options-related-to-a-particular-phase" title="このヘッドラインへのパーマリンク">¶</a></h1>
 <div class="section" id="replacing-the-program-for-one-or-more-phases">
-<span id="replacing-phases"></span><h2>7.11.1. Replacing the program for one or more phases<a class="headerlink" href="#replacing-the-program-for-one-or-more-phases" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<span id="replacing-phases"></span><h2>8.11.1. Replacing the program for one or more phases<a class="headerlink" href="#replacing-the-program-for-one-or-more-phases" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <p id="index-0">You may specify that a different program be used for one of the phases
 of the compilation system, in place of whatever the <code class="docutils literal"><span class="pre">ghc</span></code> has wired
 into it. For example, you might want to try a different assembler. The
@@ -199,7 +199,7 @@ enabled, or <code class="docutils literal"><span class="pre">ghc-iserv</span></c
 
 </div>
 <div class="section" id="forcing-options-to-a-particular-phase">
-<span id="forcing-options-through"></span><h2>7.11.2. Forcing options to a particular phase<a class="headerlink" href="#forcing-options-to-a-particular-phase" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<span id="forcing-options-through"></span><h2>8.11.2. Forcing options to a particular phase<a class="headerlink" href="#forcing-options-to-a-particular-phase" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <p id="index-1">Options can be forced through to a particular compilation phase, using
 the following flags:</p>
 <dl class="ghc-flag">
@@ -282,7 +282,7 @@ to GHC's runtime system you can enclose them in <code class="docutils literal"><
 <a class="reference internal" href="runtime_control.html#runtime-control"><span class="std std-ref">Running a compiled program</span></a>).</p>
 </div>
 <div class="section" id="options-affecting-the-c-pre-processor">
-<span id="c-pre-processor"></span><h2>7.11.3. Options affecting the C pre-processor<a class="headerlink" href="#options-affecting-the-c-pre-processor" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<span id="c-pre-processor"></span><h2>8.11.3. Options affecting the C pre-processor<a class="headerlink" href="#options-affecting-the-c-pre-processor" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <dl class="extension">
 <dt id="extension-CPP">
 <span id="ghc-flag--XCPP"></span><span id="extension-NoCPP"></span><code class="descname">CPP</code><a class="headerlink" href="#extension-CPP" title="この定義へのパーマリンク">¶</a></dt>
@@ -335,7 +335,7 @@ usual C way.</p>
 <p>The GHC driver pre-defines several macros when processing Haskell source
 code (<code class="docutils literal"><span class="pre">.hs</span></code> or <code class="docutils literal"><span class="pre">.lhs</span></code> files).</p>
 <div class="section" id="standard-cpp-macros">
-<span id="id1"></span><h3>7.11.3.1. Standard CPP macros<a class="headerlink" href="#standard-cpp-macros" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<span id="id1"></span><h3>8.11.3.1. Standard CPP macros<a class="headerlink" href="#standard-cpp-macros" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <p>The symbols defined by GHC are listed below. To check which symbols are
 defined by your local GHC installation, the following trick is useful:</p>
 <div class="highlight-sh"><div class="highlight"><pre><span></span>$ ghc -E -optP-dM -cpp foo.hs
@@ -349,7 +349,7 @@ $ cat foo.hspp
 is the integer ⟨xyy⟩ (if ⟨y⟩ is a single digit, then a leading zero
 is added, so for example in version 6.2 of GHC,
 <code class="docutils literal"><span class="pre">__GLASGOW_HASKELL__==602</span></code>). More information in
-<a class="reference internal" href="intro.html#version-numbering"><span class="std std-ref">GHC version numbering policy</span></a>.</p>
+<a class="reference internal" href="intro.html#version-numbering"><span class="std std-ref">GHCのバージョン番号付けの方針</span></a>.</p>
 <p>With any luck, <code class="docutils literal"><span class="pre">__GLASGOW_HASKELL__</span></code> will be undefined in all
 other implementations that support C-style pre-processing.</p>
 <div class="admonition note">
@@ -447,7 +447,7 @@ macros that Cabal defines.</dd>
 </dl>
 </div>
 <div class="section" id="cpp-and-string-gaps">
-<span id="cpp-string-gaps"></span><h3>7.11.3.2. CPP and string gaps<a class="headerlink" href="#cpp-and-string-gaps" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<span id="cpp-string-gaps"></span><h3>8.11.3.2. CPP and string gaps<a class="headerlink" href="#cpp-and-string-gaps" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <p id="index-10">A small word of warning: <a class="reference internal" href="#ghc-flag--cpp"><code class="xref std std-ghc-flag docutils literal"><span class="pre">-cpp</span></code></a> is not friendly to &quot;string gaps&quot;.
 In other words, strings such as the following:</p>
 <div class="highlight-haskell"><div class="highlight"><pre><span></span><span class="nf">strmod</span> <span class="ow">=</span> <span class="s">&quot;</span><span class="se">\</span>
@@ -463,7 +463,7 @@ backslash-space pairs alone and the string gap works as expected.</p>
 </div>
 </div>
 <div class="section" id="options-affecting-a-haskell-pre-processor">
-<span id="pre-processor"></span><h2>7.11.4. Options affecting a Haskell pre-processor<a class="headerlink" href="#options-affecting-a-haskell-pre-processor" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<span id="pre-processor"></span><h2>8.11.4. Options affecting a Haskell pre-processor<a class="headerlink" href="#options-affecting-a-haskell-pre-processor" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <span class="target" id="index-11"></span><dl class="ghc-flag">
 <dt id="ghc-flag--F">
 <code class="descname">-F</code><a class="headerlink" href="#ghc-flag--F" title="この定義へのパーマリンク">¶</a></dt>
@@ -505,7 +505,7 @@ positions are reported as in the original source file.</p>
 
 </div>
 <div class="section" id="options-affecting-code-generation">
-<span id="options-codegen"></span><h2>7.11.5. Options affecting code generation<a class="headerlink" href="#options-affecting-code-generation" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<span id="options-codegen"></span><h2>8.11.5. Options affecting code generation<a class="headerlink" href="#options-affecting-code-generation" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <dl class="ghc-flag">
 <dt id="ghc-flag--fasm">
 <code class="descname">-fasm</code><a class="headerlink" href="#ghc-flag--fasm" title="この定義へのパーマリンク">¶</a></dt>
@@ -610,7 +610,7 @@ and <code class="docutils literal"><span class="pre">-dynhisuf</span></code> are
 
 </div>
 <div class="section" id="options-affecting-linking">
-<span id="options-linker"></span><h2>7.11.6. Options affecting linking<a class="headerlink" href="#options-affecting-linking" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<span id="options-linker"></span><h2>8.11.6. Options affecting linking<a class="headerlink" href="#options-affecting-linking" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <p id="index-13">GHC has to link your code with various libraries, possibly including:
 user-supplied, GHC-supplied, and system-supplied (<code class="docutils literal"><span class="pre">-lm</span></code> math library,
 for example).</p>
@@ -1065,13 +1065,13 @@ that symbols are not dropped from your PIE objects.</p>
           <a href="genindex.html" title="総合索引"
              >索引</a></li>
         <li class="right" >
-          <a href="shared_libs.html" title="7.12. Using shared libraries"
+          <a href="shared_libs.html" title="8.12. Using shared libraries"
              >次へ</a> |</li>
         <li class="right" >
-          <a href="codegens.html" title="7.10. GHC Backends"
+          <a href="codegens.html" title="8.10. GHC Backends"
              >前へ</a> |</li>
         <li class="nav-item nav-item-0"><a href="index.html">GHC 8.4.3 User&#39;s Guide</a> &#187;</li>
-          <li class="nav-item nav-item-1"><a href="usage.html" >7. Using GHC</a> &#187;</li> 
+          <li class="nav-item nav-item-1"><a href="usage.html" >8. Using GHC</a> &#187;</li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">
